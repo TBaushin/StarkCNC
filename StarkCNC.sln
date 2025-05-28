@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36121.58 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarkCNC", "StarkCNC\StarkCNC.csproj", "{D467C43B-986D-4E2B-B08A-8F9D60F7D299}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculation", "Calculation\Calculation.csproj", "{8DED087D-1389-E38E-2451-B40305754FF1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D467C43B-986D-4E2B-B08A-8F9D60F7D299}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D467C43B-986D-4E2B-B08A-8F9D60F7D299}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D467C43B-986D-4E2B-B08A-8F9D60F7D299}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8DED087D-1389-E38E-2451-B40305754FF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8DED087D-1389-E38E-2451-B40305754FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8DED087D-1389-E38E-2451-B40305754FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8DED087D-1389-E38E-2451-B40305754FF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
