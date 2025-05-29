@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StarkCNC.ViewModels
 {
-    internal class IPage : ObservableObject
+    public class IPage : ObservableObject
     {
     }
 }

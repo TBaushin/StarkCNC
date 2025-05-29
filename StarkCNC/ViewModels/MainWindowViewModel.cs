@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace StarkCNC.ViewModels
 {
-    internal class MainWindowViewModel : IPage
+    public class MainWindowViewModel : IPage
     {
         public ObservableCollection<IPage> Pages { get; set; }
 
-        MainWindowViewModel() => Pages = [];
+        public MainWindowViewModel() => Pages = [];
     }
 }

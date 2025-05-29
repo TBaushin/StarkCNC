@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using StarkCNC.ViewModels;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -17,8 +18,9 @@ namespace StarkCNC
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public MainWindow(MainWindowViewModel viewModel)
         {
+            DataContext = viewModel;
             InitializeComponent();
 
             WindowChrome.SetWindowChrome(this,
