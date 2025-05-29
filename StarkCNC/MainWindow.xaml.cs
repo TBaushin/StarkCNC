@@ -18,9 +18,12 @@ namespace StarkCNC
     /// </summary>
     public partial class MainWindow : Window
     {
+        public MainWindowViewModel ViewModel { get; set; }
+
         public MainWindow(MainWindowViewModel viewModel)
         {
-            DataContext = viewModel;
+            ViewModel = viewModel;
+            DataContext = ViewModel;
             InitializeComponent();
 
             WindowChrome.SetWindowChrome(this,

@@ -3,20 +3,22 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:helpers="clr-namespace:StarkCNC.Helpers"
+		xmlns:vm="clr-namespace:StarkCNC.ViewModels"
+        xmlns:helpers="clr-namespace:StarkCNC.Helpers"
         xmlns:local="clr-namespace:StarkCNC"
+        d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="{Binding Title}" Height="450" Width="800">
     <Window.Resources>
 		<helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
         <Style x:Key="TitleBarDefaultButtonStyle" TargetType="Button">
-            <Setter Property="MinWidth" Value="48" />
-            <Setter Property="MinHeight" Value="32" />
-            <Setter Property="Background" Value="Transparent" />
-            <Setter Property="BorderBrush" Value="Transparent" />
-            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+            <Setter Property="MinWidth" Value="48"/>
+            <Setter Property="MinHeight" Value="32"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
             <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -30,22 +32,22 @@
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                             RecognizesAccessKey="True"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="{DynamicResource ControlAltFillColorQuarternaryBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource ControlAltFillColorQuarternaryBrush}"/>
                 </Trigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=(SystemParameters.HighContrast)}" Value="True" />
-                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                        <Condition Binding="{Binding Path=(SystemParameters.HighContrast)}" Value="True"/>
+                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
                     </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource SystemColorHighlightColorBrush}" />
-                    <Setter Property="Foreground" Value="{DynamicResource SystemColorHighlightTextColorBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource SystemColorHighlightColorBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource SystemColorHighlightTextColorBrush}"/>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
@@ -53,16 +55,16 @@
         <Style x:Key="TitleBarDefaultCloseButtonStyle" BasedOn="{StaticResource TitleBarDefaultButtonStyle}" TargetType="Button">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#C42B1C" />
-                    <Setter Property="Foreground" Value="White" />
+                    <Setter Property="Background" Value="#C42B1C"/>
+                    <Setter Property="Foreground" Value="White"/>
                 </Trigger>
                 <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding Path=(SystemParameters.HighContrast)}" Value="True" />
-                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="True" />
+                        <Condition Binding="{Binding Path=(SystemParameters.HighContrast)}" Value="True"/>
+                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Mode=Self}}" Value="True"/>
                     </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="{DynamicResource SystemColorHighlightColorBrush}" />
-                    <Setter Property="Foreground" Value="{DynamicResource SystemColorHighlightTextColorBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource SystemColorHighlightColorBrush}"/>
+                    <Setter Property="Foreground" Value="{DynamicResource SystemColorHighlightTextColorBrush}"/>
                 </MultiDataTrigger>
             </Style.Triggers>
         </Style>
@@ -79,11 +81,11 @@
                 Grid.ColumnSpan="2"
                 Height="44">
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="*" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
-					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 
 				<Button
@@ -99,8 +101,8 @@
                     WindowChrome.IsHitTestVisibleInChrome="True"
                     ToolTipService.ToolTip="Back">
 					<Button.Resources>
-						<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
-						<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
+						<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
+						<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent"/>
 					</Button.Resources>
 					<TextBlock
                         VerticalAlignment="Center"
@@ -111,9 +113,8 @@
 							<Style TargetType="TextBlock">
 								<Style.Triggers>
 									<Trigger Property="IsEnabled" Value="False">
-										<Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}">
-										</Setter>
-									</Trigger>
+                                        <Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}"/>
+                                    </Trigger>
 								</Style.Triggers>
 							</Style>
 						</TextBlock.Style>
@@ -129,9 +130,108 @@
                         VerticalAlignment="Center"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         AutomationProperties.HeadingLevel="Level1"
-                        Text="StarkCNC" />
+                        Text="StarkCNC"/>
 				</StackPanel>
 			</Grid>
-		</Grid>
+
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBox
+                        x:Name="SearchBox"
+                        Width="250"
+                        Margin="10"/>
+
+
+                    <TreeView
+                        x:Name="ControlsList"
+                        Grid.Row="1"
+                        Margin="8,8,0,0"
+                        AutomationProperties.Name="Navigation Pane"
+                        ItemsSource="{Binding Pages}">
+                        <TreeView.ItemTemplate>
+                            <HierarchicalDataTemplate>
+                                <Grid MinHeight="30">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="16"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock
+                                        MaxWidth="16"
+                                        VerticalAlignment="Center"
+                                        Focusable="False"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        FontSize="16"
+                                        Text="{Binding IconGlyph}"
+                                        Visibility="{Binding IconGlyph, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                                    <TextBlock
+                                        Grid.Column="2"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding Title}"/>
+                                </Grid>
+                            </HierarchicalDataTemplate>
+                        </TreeView.ItemTemplate>
+                    </TreeView>
+
+                    <StackPanel Grid.Row="2" Orientation="Horizontal">
+                        <Button
+                            x:Name="SettingsButton"
+                            Width="40"
+                            Height="40"
+                            Margin="10"
+                            HorizontalContentAlignment="Left"
+                            AutomationProperties.Name="Settings"
+                            DockPanel.Dock="Bottom">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock 
+                                    x:Name="SettingsIcon" 
+                                    Margin="0,4,0,0" 
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    FontSize="15"
+                                    Text="&#xE713;"/>
+                            </StackPanel>
+                        </Button>
+                        <Button
+                            x:Name="UserButton"
+                            Width="210"
+                            Height="40"
+                            Margin="10"
+                            HorizontalContentAlignment="Left"
+                            AutomationProperties.Name="Settings"
+                            DockPanel.Dock="Bottom">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock 
+                                    x:Name="UserIcon" 
+                                    Margin="0,4,0,0" 
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    FontSize="15"
+                                    Text="&#xE77B;"/>
+                                <TextBlock x:Name="UserName" Margin="8,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <!--<Border
+                    Grid.Column="1"
+                    Margin="4,0,0,0"
+                    Padding="24,16,24,0"
+                    Background="{DynamicResource LayerFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8,0,0,0">
+                    <Frame x:Name="RootContentFrame" Navigated="RootContentFrame_Navigated" NavigationUIVisibility="Hidden"/>
+                </Border>-->
+            </Grid>
+        </Grid>
 	</Border>
 </Window>
