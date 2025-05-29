@@ -1,7 +1,7 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:helpers="clr-namespace:WPFGallery.Helpers"
+    xmlns:helpers="clr-namespace:StarkCNC.Helpers"
     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <ItemsPanelTemplate x:Key="WrapPanelTemplate">
