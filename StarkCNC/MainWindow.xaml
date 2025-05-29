@@ -67,7 +67,71 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-    <StackPanel>
-		<Button Content="Hi! Everyone"/>
-    </StackPanel>
+	<Border x:Name="HighContrastBorder" BorderBrush="Transparent" BorderThickness="8 1 8 8">
+		<Grid x:Name="MainGrid">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="44"/>
+				<RowDefinition Height="*"/>
+			</Grid.RowDefinitions>
+
+			<Grid
+                Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Height="44">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
+
+				<Button
+                    x:Name="BackButton"
+                    Grid.Column="0"
+                    Height="32"
+                    Width="40"
+                    Margin="4,0"
+                    VerticalAlignment="Center"
+                    AutomationProperties.Name="Back"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    WindowChrome.IsHitTestVisibleInChrome="True"
+                    ToolTipService.ToolTip="Back">
+					<Button.Resources>
+						<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent" />
+						<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent" />
+					</Button.Resources>
+					<TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="12"
+                        Text="&#xE72B;">
+						<TextBlock.Style>
+							<Style TargetType="TextBlock">
+								<Style.Triggers>
+									<Trigger Property="IsEnabled" Value="False">
+										<Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}">
+										</Setter>
+									</Trigger>
+								</Style.Triggers>
+							</Style>
+						</TextBlock.Style>
+					</TextBlock>
+				</Button>
+
+				<StackPanel
+                    Grid.Column="1"
+                    Margin="4,0,0,0"
+                    Orientation="Horizontal">
+					<TextBlock
+                        Margin="16,0,0,0"
+                        VerticalAlignment="Center"
+                        Style="{StaticResource CaptionTextBlockStyle}"
+                        AutomationProperties.HeadingLevel="Level1"
+                        Text="StarkCNC" />
+				</StackPanel>
+			</Grid>
+		</Grid>
+	</Border>
 </Window>
