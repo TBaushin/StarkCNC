@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:helix="http://helix-toolkit.org/wpf"
+      xmlns:lang="clr-namespace:StarkCNC.Resources.Localization"
       xmlns:local="clr-namespace:StarkCNC.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -22,11 +23,15 @@
                 <Button 
                     x:Name="CreateButton" 
                     Margin="10">
-                    <TextBlock 
-                        VerticalAlignment="Center"
-                        FontSize="10"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Text="&#xE710;"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            Margin="0,4,0,0"
+                            FontSize="10"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE710;"/>
+                        <TextBlock Text="{x:Static lang:Language.Create}"/>
+                    </StackPanel>
                 </Button>
                 <Button 
                     x:Name="OpenButton" 
