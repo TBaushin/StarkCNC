@@ -117,13 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CreateButton" xml:space="preserve">
-    <value>Создать</value>
-  </data>
   <data name="OpenButton" xml:space="preserve">
     <value>Открыть</value>
   </data>
+  <data name="ProgramPageTitle" xml:space="preserve">
+    <value>Программа</value>
+  </data>
   <data name="SaveButton" xml:space="preserve">
     <value>Сохранить</value>
+  </data>
+  <data name="VisualizationPageTitle" xml:space="preserve">
+    <value>Визуализация</value>
+  </data>
+  <data name="CreateButton" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="AdjustmentPageTitle" xml:space="preserve">
+    <value>Оснастка</value>
+  </data>
+  <data name="ManualPageTitle" xml:space="preserve">
+    <value>Ручной режим</value>
   </data>
 </root>

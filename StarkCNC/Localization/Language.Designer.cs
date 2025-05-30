@@ -61,11 +61,29 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjustment.
+        /// </summary>
+        public static string AdjustmentPageTitle {
+            get {
+                return ResourceManager.GetString("AdjustmentPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string CreateButton {
             get {
                 return ResourceManager.GetString("CreateButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manual.
+        /// </summary>
+        public static string ManualPageTitle {
+            get {
+                return ResourceManager.GetString("ManualPageTitle", resourceCulture);
             }
         }
         
@@ -79,11 +97,29 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Program.
+        /// </summary>
+        public static string ProgramPageTitle {
+            get {
+                return ResourceManager.GetString("ProgramPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string SaveButton {
             get {
                 return ResourceManager.GetString("SaveButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Vizualization.
+        /// </summary>
+        public static string VisualizationPageTitle {
+            get {
+                return ResourceManager.GetString("VisualizationPageTitle", resourceCulture);
             }
         }
     }
