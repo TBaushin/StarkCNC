@@ -117,7 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Create" xml:space="preserve">
-    <value>Create</value>
+  <data name="CreateButton" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="OpenButton" xml:space="preserve">
+    <value>Открыть</value>
+  </data>
+  <data name="SaveButton" xml:space="preserve">
+    <value>Сохранить</value>
   </data>
 </root>
