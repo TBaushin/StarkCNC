@@ -153,13 +153,13 @@
 
 
                     <TreeView
-                        x:Name="ControlsList"
+                        x:Name="PageList"
                         Grid.Row="1"
                         Margin="8,8,0,0"
                         AutomationProperties.Name="Navigation Pane"
                         ItemsSource="{Binding Pages}">
                         <TreeView.ItemTemplate>
-                            <HierarchicalDataTemplate>
+                            <HierarchicalDataTemplate ItemsSource="{Binding Items}">
                                 <Grid MinHeight="30">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto"/>
@@ -169,6 +169,7 @@
                                     <TextBlock
                                         MaxWidth="16"
                                         VerticalAlignment="Center"
+                                        AutomationProperties.Name="{Binding Title, StringFormat='{}{0}'}"
                                         Focusable="False"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                                         FontSize="16"
@@ -221,7 +222,7 @@
                         </Button>
                     </StackPanel>
                 </Grid>
-                <!--<Border
+                <Border
                     Grid.Column="1"
                     Margin="4,0,0,0"
                     Padding="24,16,24,0"
@@ -229,8 +230,8 @@
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
                     CornerRadius="8,0,0,0">
-                    <Frame x:Name="RootContentFrame" Navigated="RootContentFrame_Navigated" NavigationUIVisibility="Hidden"/>
-                </Border>-->
+                    <!--<Frame x:Name="RootContentFrame" Navigated="RootContentFrame_Navigated" NavigationUIVisibility="Hidden"/>-->
+                </Border>
             </Grid>
         </Grid>
 	</Border>

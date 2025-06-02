@@ -14,6 +14,9 @@ namespace StarkCNC.ViewModels
         [ObservableProperty]
         private string _title = "StarkCNC";
 
+        [ObservableProperty]
+        private Page? _selectedPage;
+
         public ObservableCollection<Page> Pages { get; set; }
 
         public MainWindowViewModel() => Pages = [];
