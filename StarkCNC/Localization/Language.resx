@@ -138,4 +138,16 @@
   <data name="ManualPageTitle" xml:space="preserve">
     <value>Manual</value>
   </data>
+  <data name="StraightLength" xml:space="preserve">
+    <value>Straight section length</value>
+  </data>
+  <data name="BendingRadius" xml:space="preserve">
+    <value>Bending radius</value>
+  </data>
+  <data name="BendingAngle" xml:space="preserve">
+    <value>Bending angle</value>
+  </data>
+  <data name="RotationAngle" xml:space="preserve">
+    <value>Rotation angle</value>
+  </data>
 </root>

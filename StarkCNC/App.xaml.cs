@@ -17,6 +17,7 @@ namespace StarkCNC
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
+                services.AddSingleton<ProgramViewModel>();
             })
             .Build();
 

@@ -138,4 +138,16 @@
   <data name="ManualPageTitle" xml:space="preserve">
     <value>Ручной режим</value>
   </data>
+  <data name="StraightLength" xml:space="preserve">
+    <value>Длина прямого участка</value>
+  </data>
+  <data name="BendingRadius" xml:space="preserve">
+    <value>Радиус гиба</value>
+  </data>
+  <data name="BendingAngle" xml:space="preserve">
+    <value>Угол гиба</value>
+  </data>
+  <data name="RotationAngle" xml:space="preserve">
+    <value>Угол поворота</value>
+  </data>
 </root>

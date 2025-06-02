@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.DependencyInjection;
 using StarkCNC.Services;
 using StarkCNC.Views;
 using System.Collections.ObjectModel;
@@ -17,17 +18,21 @@ namespace StarkCNC.ViewModels
 
         private readonly INavigationService _navigationService;
 
+        private readonly IServiceProvider _serviceProvider;
+
         [ObservableProperty]
         private bool _canNavigateBack;
 
         public ObservableCollection<Page> Pages { get; set; }
 
-        public MainWindowViewModel(INavigationService navigationService) {
+        public MainWindowViewModel(IServiceProvider serviceProvider ,INavigationService navigationService) 
+        {
+            _serviceProvider = serviceProvider;
             _navigationService = navigationService;
 
             Pages = [
                 new ManualView(),
-                new ProgramView(),
+                new ProgramView(_serviceProvider.GetRequiredService(typeof(ProgramViewModel)) as ProgramViewModel),
                 new VisualizationView(),
                 new AdjustmentView()
             ];

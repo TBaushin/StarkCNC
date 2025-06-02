@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using StarkCNC.ViewModels;
+using System.Windows.Controls;
 
 namespace StarkCNC.Views
 {
@@ -7,8 +8,12 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class ProgramView : Page
     {
-        public ProgramView()
+        ProgramViewModel ViewModel;
+
+        public ProgramView(ProgramViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = ViewModel;
             InitializeComponent();
         }
     }

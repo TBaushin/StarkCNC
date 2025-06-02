@@ -70,6 +70,24 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bending angle.
+        /// </summary>
+        public static string BendingAngle {
+            get {
+                return ResourceManager.GetString("BendingAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bending radius.
+        /// </summary>
+        public static string BendingRadius {
+            get {
+                return ResourceManager.GetString("BendingRadius", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string CreateButton {
@@ -106,11 +124,29 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rotation angle.
+        /// </summary>
+        public static string RotationAngle {
+            get {
+                return ResourceManager.GetString("RotationAngle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string SaveButton {
             get {
                 return ResourceManager.GetString("SaveButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Straight section length.
+        /// </summary>
+        public static string StraightLength {
+            get {
+                return ResourceManager.GetString("StraightLength", resourceCulture);
             }
         }
         
