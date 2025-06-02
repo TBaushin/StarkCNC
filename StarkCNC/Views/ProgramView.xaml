@@ -1,0 +1,80 @@
+﻿<Page x:Class="StarkCNC.Views.ProgramView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:helix="http://helix-toolkit.org/wpf"
+      xmlns:lang="clr-namespace:StarkCNC.Localization"
+      xmlns:local="clr-namespace:StarkCNC.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="{x:Static lang:Language.ProgramPageTitle}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <StackPanel 
+                Orientation="Horizontal"
+                HorizontalAlignment="Stretch"
+                Margin="10">
+                <Button 
+                    x:Name="CreateButton" 
+                    Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            Margin="0,4,0,0"
+                            FontSize="10"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE710;"/>
+                        <TextBlock 
+                            Margin="8,0,0,0" 
+                            Text="{x:Static lang:Language.CreateButton}"/>
+                    </StackPanel>
+                </Button>
+                <Button 
+                    x:Name="OpenButton" 
+                    Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            FontSize="10"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE8E5;"/>
+                        <TextBlock 
+                            Margin="8,0,0,0"
+                            Text="{x:Static lang:Language.OpenButton}"/>
+                    </StackPanel>
+                </Button>
+                <Button 
+                    x:Name="SaveButton" 
+                    Margin="10">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            FontSize="10"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE74E;"/>
+                        <TextBlock 
+                            Margin="8,0,0,0"
+                            Text="{x:Static lang:Language.SaveButton}"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <DataGrid/>
+        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <helix:HelixViewport3D Grid.Row="0">
+                <helix:DefaultLights/>
+            </helix:HelixViewport3D>
+            <TextBlock Grid.Row="1"/>
+        </Grid>
+    </Grid>
+</Page>
