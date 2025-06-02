@@ -1,10 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using System;
-using System.Collections.Generic;
+using CommunityToolkit.Mvvm.Input;
+using StarkCNC.Services;
+using StarkCNC.Views;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace StarkCNC.ViewModels
@@ -17,8 +15,50 @@ namespace StarkCNC.ViewModels
         [ObservableProperty]
         private Page? _selectedPage;
 
+        private readonly INavigationService _navigationService;
+
+        [ObservableProperty]
+        private bool _canNavigateBack;
+
         public ObservableCollection<Page> Pages { get; set; }
 
-        public MainWindowViewModel() => Pages = [];
+        public MainWindowViewModel(INavigationService navigationService) {
+            _navigationService = navigationService;
+
+            Pages = [
+                new ManualView(),
+                new ProgramView(),
+                new VisualizationView(),
+                new AdjustmentView()
+            ];
+        }
+
+        [RelayCommand]
+        public void Back()
+        {
+            _navigationService.GoBack();
+        }
+
+        [RelayCommand]
+        public void Forward()
+        {
+            _navigationService.GoForward();
+        }
+
+        public void UpdateCanNavigateBack()
+        {
+            CanNavigateBack = _navigationService.CanGoBack;
+        }
+
+        public IEnumerable<Page> GetNavigationItem()
+        {
+            IEnumerable<Page> items = new List<Page>();
+            foreach (var item in Pages)
+            {
+                items.Append(item);
+            }
+
+            return items;
+        }
     }
 }
