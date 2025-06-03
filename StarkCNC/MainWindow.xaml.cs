@@ -21,13 +21,17 @@ namespace StarkCNC
         public MainWindow(MainWindowViewModel viewModel, IServiceProvider serviceProvider, INavigationService navigationService)
         {
             _serviceProvider = serviceProvider;
-            ViewModel = viewModel;
-            DataContext = ViewModel;
-            InitializeComponent();
-
             _navigationService = navigationService;
             _navigationService.Navigation += OnNavigation;
+
+            ViewModel = viewModel;
+            DataContext = ViewModel;
+
+            InitializeComponent();
+
             _navigationService.SetFrame(RootContentFrame);
+
+            PageList.SelectedItemChanged += SetSelectedItem;
 
             WindowChrome.SetWindowChrome(this,
                 new WindowChrome
@@ -49,57 +53,38 @@ namespace StarkCNC
 
         public void OnNavigation(object? sender, NavigationEventArgs e)
         {
-            IEnumerable<Page> list = ViewModel.GetNavigationItem();
+            RootContentFrame.UpdateLayout();
+            PageTitleTextBlock.Text = $"{Localization.Language.Tab}: {e.PageTitle}";
 
-            if (list.Count() <= 0) return;
-
-            TreeViewItem selectedTreeViewItem = null;
-            ItemsControl itemsControl = PageList;
-            foreach (var item in list)
+            var page = ViewModel.GetNavigationItem(e.PageTitle);
+            if (page is null)
             {
-                var tvi = itemsControl.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
-                if (tvi is null) continue;
+                foreach (var item in PageList.Items)
+                {
+                    TreeViewItem treeViewItem = PageList.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+                    if (treeViewItem is null)
+                        continue;
 
-                tvi.IsEnabled = true;
-                tvi.UpdateLayout();
-                itemsControl = tvi;
-                selectedTreeViewItem = tvi;
+                    treeViewItem.IsSelected = false;
+                }
+
+                return;
             }
 
-            if (selectedTreeViewItem is not null)
-            {
-                selectedTreeViewItem.IsEnabled = true;
-                SetSelectedItem();
-            }
+            var treeViewItemFromPage = PageList.ItemContainerGenerator.ContainerFromItem(page) as TreeViewItem;
+            if (treeViewItemFromPage is null)
+                return;
+
+            treeViewItemFromPage.IsSelected = true;
         }
 
-        private void PageList_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void SetSelectedItem(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (e.Key == Key.Enter)
-            {
-                SetSelectedItem();
-            }
-        }
+            var navItem = PageList.SelectedItem as Page;
+            if (navItem is null) 
+                return;
 
-        private void PageList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            //if(e.OriginalSource is ToggleButton)
-            //{
-            //    return;
-            //}
-            SetSelectedItem();
-        }
-
-        private void SetSelectedItem()
-        {
-            if (PageList.SelectedItem is Page navItem)
-            {
-                _navigationService.Navigate(navItem);
-                var tvi = PageList.ItemContainerGenerator.ContainerFromItem(navItem) as TreeViewItem;
-                if (tvi is null) return;
-
-                tvi.BringIntoView();
-            }
+            _navigationService.Navigate(navItem);
         }
 
         private void RootContentFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)

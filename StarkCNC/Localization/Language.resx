@@ -150,4 +150,7 @@
   <data name="RotationAngle" xml:space="preserve">
     <value>Rotation angle</value>
   </data>
+  <data name="Tab" xml:space="preserve">
+    <value>Tab</value>
+  </data>
 </root>

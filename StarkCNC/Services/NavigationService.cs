@@ -21,9 +21,29 @@ namespace StarkCNC.Services
             } 
         }
 
-        public bool CanGoBack => _history.Count > 0;
+        public bool CanGoBack
+        {
+            get
+            {
+                if (_history.Count <= 0) return false;
+                var content = _history.Peek();
+                if (content is null)
+                    return false;
+                return true;
+            }
+        }
 
-        public bool CanGoForward => _future.Count > 0;
+        public bool CanGoForward
+        {
+            get
+            {
+                if (_future.Count <= 0) return false;
+                var content = _future.Peek();
+                if (content is null)
+                    return false;
+                return true;
+            }
+        }
 
         public event EventHandler<NavigationEventArgs>? Navigation;
 
@@ -49,6 +69,9 @@ namespace StarkCNC.Services
 
         public void Navigate(object content)
         {
+            _future.Clear();
+            if (_currentContent is not null)
+                _history.Push(_currentContent);
             CurrentContent = content;
             _frame.Navigate(_currentContent);
         }

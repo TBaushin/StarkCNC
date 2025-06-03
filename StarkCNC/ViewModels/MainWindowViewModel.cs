@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using StarkCNC.Services;
 using StarkCNC.Views;
-using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
 namespace StarkCNC.ViewModels
@@ -23,14 +22,15 @@ namespace StarkCNC.ViewModels
         [ObservableProperty]
         private bool _canNavigateBack;
 
-        public ObservableCollection<Page> Pages { get; set; }
+        [ObservableProperty]
+        private ICollection<Page> _pages;
 
         public MainWindowViewModel(IServiceProvider serviceProvider ,INavigationService navigationService) 
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
 
-            Pages = [
+            _pages = [
                 new ManualView(),
                 new ProgramView(_serviceProvider.GetRequiredService(typeof(ProgramViewModel)) as ProgramViewModel),
                 new VisualizationView(),
@@ -50,6 +50,12 @@ namespace StarkCNC.ViewModels
             _navigationService.GoForward();
         }
 
+        [RelayCommand]
+        public void GoSettings()
+        {
+            _navigationService.Navigate(new SettingsView());
+        }
+
         public void UpdateCanNavigateBack()
         {
             CanNavigateBack = _navigationService.CanGoBack;
@@ -64,6 +70,17 @@ namespace StarkCNC.ViewModels
             }
 
             return items;
+        }
+
+        public Page? GetNavigationItem(string title)
+        {
+            foreach (var item in Pages)
+            {
+                if (item.Title == title)
+                    return item;
+            }
+
+            return null;
         }
     }
 }

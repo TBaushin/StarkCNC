@@ -159,9 +159,7 @@
                         Grid.Row="1"
                         Margin="8,8,0,0"
                         AutomationProperties.Name="Navigation Pane"
-                        ItemsSource="{Binding Pages}"
-                        PreviewKeyDown="PageList_PreviewKeyDown"
-                        PreviewMouseLeftButtonDown="PageList_PreviewMouseLeftButtonDown">
+                        ItemsSource="{Binding Pages}">
                         <TreeView.ItemTemplate>
                             <HierarchicalDataTemplate ItemsSource="{Binding Items}">
                                 <Grid MinHeight="30">
@@ -196,7 +194,8 @@
                             Margin="10"
                             HorizontalContentAlignment="Left"
                             AutomationProperties.Name="Settings"
-                            DockPanel.Dock="Bottom">
+                            DockPanel.Dock="Bottom"
+                            Command="{Binding GoSettingsCommand}">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock 
                                     x:Name="SettingsIcon" 
@@ -234,11 +233,20 @@
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
                     CornerRadius="8,0,0,0">
-                    <Frame 
-                        x:Name="RootContentFrame" 
-                        Navigated="RootContentFrame_Navigated" 
-                        NavigationUIVisibility="Hidden"
-                        Content="{Binding SelectedPage}"/>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock 
+                            x:Name="PageTitleTextBlock"
+                            Grid.Row="0"/>
+                        <Frame 
+                            Grid.Row="1"
+                            x:Name="RootContentFrame" 
+                            Navigated="RootContentFrame_Navigated" 
+                            NavigationUIVisibility="Hidden"/>
+                    </Grid>
                 </Border>
             </Grid>
         </Grid>
