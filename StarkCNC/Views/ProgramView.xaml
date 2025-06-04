@@ -93,7 +93,15 @@
                 BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                 BorderThickness="1"
                 CornerRadius="8,0,0,0">
-                <helix:HelixViewport3D>
+                <helix:HelixViewport3D 
+                    x:Name="BendingView"
+                    ViewCubeHeight="100"
+                    ViewCubeWidth="100"
+                    ViewCubeVerticalPosition="Bottom"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderOptions.EdgeMode="Unspecified"
+                    IsManipulationEnabled="True"
+                    IsViewCubeEdgeClicksEnabled="True">
                     <helix:DefaultLights/>
                 </helix:HelixViewport3D>
             </Border>
