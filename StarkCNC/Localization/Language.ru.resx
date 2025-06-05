@@ -153,4 +153,22 @@
   <data name="Tab" xml:space="preserve">
     <value>Вкладка</value>
   </data>
+  <data name="ProgramHeightSlider" xml:space="preserve">
+    <value>Высота</value>
+  </data>
+  <data name="ProgramConsoleSlider" xml:space="preserve">
+    <value>Консоль</value>
+  </data>
+  <data name="ProgramBendSlider" xml:space="preserve">
+    <value>Гиб</value>
+  </data>
+  <data name="ProgramSupplySlider" xml:space="preserve">
+    <value>Подача</value>
+  </data>
+  <data name="ProgramClampSlider" xml:space="preserve">
+    <value>Зажим</value>
+  </data>
+  <data name="ProgramPressSlider" xml:space="preserve">
+    <value>Прижим</value>
+  </data>
 </root>

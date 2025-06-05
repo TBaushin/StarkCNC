@@ -1,5 +1,4 @@
-﻿using StarkCNC.Services;
-using StarkCNC.ViewModels;
+﻿using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views
@@ -11,17 +10,13 @@ namespace StarkCNC.Views
     {
         ProgramViewModel ViewModel;
 
-        IBendingModelsLoadingService _bendingModelsLoadingService;
-
-        public ProgramView(ProgramViewModel viewModel, IBendingModelsLoadingService bendingModelsLoadingService)
+        public ProgramView(ProgramViewModel viewModel)
         {
-            _bendingModelsLoadingService = bendingModelsLoadingService;
             ViewModel = viewModel;
             DataContext = ViewModel;
             InitializeComponent();
 
-            _bendingModelsLoadingService.Load();
-            BendingView.Children.Add(_bendingModelsLoadingService.GetModelVisual3D());
+            BendingView.Children.Add(ViewModel.GetModels());
         }
     }
 }

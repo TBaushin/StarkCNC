@@ -80,21 +80,23 @@
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Border 
-                Grid.Row="0"
-                Margin="4,0,0,0"
-                Padding="5,5,5,5"
-                Background="{DynamicResource LayerFillColorDefaultBrush}"
-                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-                BorderThickness="1"
-                CornerRadius="8,0,0,0">
+
+        <Border 
+            Grid.Column="1"
+            Margin="4,0,0,0"
+            Padding="5,5,5,5"
+            Background="{DynamicResource LayerFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="8,0,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                 <helix:HelixViewport3D 
                     x:Name="BendingView"
+                    Grid.Row="0"
                     ViewCubeHeight="100"
                     ViewCubeWidth="100"
                     ViewCubeVerticalPosition="Bottom"
@@ -102,10 +104,66 @@
                     RenderOptions.EdgeMode="Unspecified"
                     IsManipulationEnabled="True"
                     IsViewCubeEdgeClicksEnabled="True">
+                    <helix:HelixViewport3D.Camera>
+                        <PerspectiveCamera
+                        Position="-1571,4801,3774"
+                        LookDirection="2038,-5200,-2930"
+                        UpDirection="-0.145,0.372,0.917"/>
+                    </helix:HelixViewport3D.Camera>
+                    <helix:HelixViewport3D.Background>
+                        <LinearGradientBrush 
+                        StartPoint="0.5,0"
+                        EndPoint="0.5,1">
+                            <GradientStop Color="#FF060A13" Offset="0"/>
+                            <GradientStop Color="#FF1D64FF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </helix:HelixViewport3D.Background>
                     <helix:DefaultLights/>
                 </helix:HelixViewport3D>
-            </Border>
-            <TextBlock Grid.Row="1"/>
-        </Grid>
+                <StackPanel Grid.Row="1">
+                    <Label Content="{x:Static lang:Language.ProgramConsoleSlider}"/>
+                    <Slider
+                        x:Name="ConsoleSlider"
+                        Maximum="300"
+                        LargeChange="0.1"
+                        TickFrequency="0.1"/>
+                    <Separator/>
+                    <Label Content="{x:Static lang:Language.ProgramBendSlider}"/>
+                    <Slider
+                        x:Name="BendSlider"
+                        Maximum="195"
+                        LargeChange="0.1"
+                        TickFrequency="0.1"/>
+                    <Separator/>
+                    <Label Content="{x:Static lang:Language.ProgramSupplySlider}"/>
+                    <Slider
+                        x:Name="SupplySlider"
+                        Maximum="3000"
+                        LargeChange="0.1"
+                        TickFrequency="0.1"/>
+                    <Separator/>
+                    <Label Content="{x:Static lang:Language.ProgramHeightSlider}"/>
+                    <Slider
+                        x:Name="HeightSlider"
+                        Maximum="180"
+                        LargeChange="0.1"
+                        TickFrequency="0.1"/>
+                    <Separator/>
+                    <Label Content="{x:Static lang:Language.ProgramClampSlider}"/>
+                    <Slider
+                        x:Name="ClampSlider"
+                        Maximum="100"
+                        LargeChange="0.1"
+                        TickFrequency="0.1"/>
+                    <Separator/>
+                    <Label Content="{x:Static lang:Language.ProgramPressSlider}"/>
+                    <Slider
+                        x:Name="PressSlider"
+                        Maximum="100"
+                        LargeChange="0.1"
+                        TickFrequency="0.1"/>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

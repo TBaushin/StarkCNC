@@ -115,11 +115,65 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bend.
+        /// </summary>
+        public static string ProgramBendSlider {
+            get {
+                return ResourceManager.GetString("ProgramBendSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clamp.
+        /// </summary>
+        public static string ProgramClampSlider {
+            get {
+                return ResourceManager.GetString("ProgramClampSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Console.
+        /// </summary>
+        public static string ProgramConsoleSlider {
+            get {
+                return ResourceManager.GetString("ProgramConsoleSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Height.
+        /// </summary>
+        public static string ProgramHeightSlider {
+            get {
+                return ResourceManager.GetString("ProgramHeightSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Program.
         /// </summary>
         public static string ProgramPageTitle {
             get {
                 return ResourceManager.GetString("ProgramPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press.
+        /// </summary>
+        public static string ProgramPressSlider {
+            get {
+                return ResourceManager.GetString("ProgramPressSlider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supply.
+        /// </summary>
+        public static string ProgramSupplySlider {
+            get {
+                return ResourceManager.GetString("ProgramSupplySlider", resourceCulture);
             }
         }
         
