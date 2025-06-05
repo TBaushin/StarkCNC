@@ -153,22 +153,4 @@
   <data name="Tab" xml:space="preserve">
     <value>Tab</value>
   </data>
-  <data name="ProgramHeightSlider" xml:space="preserve">
-    <value>Height</value>
-  </data>
-  <data name="ProgramConsoleSlider" xml:space="preserve">
-    <value>Console</value>
-  </data>
-  <data name="ProgramBendSlider" xml:space="preserve">
-    <value>Bend</value>
-  </data>
-  <data name="ProgramSupplySlider" xml:space="preserve">
-    <value>Supply</value>
-  </data>
-  <data name="ProgramClampSlider" xml:space="preserve">
-    <value>Clamp</value>
-  </data>
-  <data name="ProgramPressSlider" xml:space="preserve">
-    <value>Press</value>
-  </data>
 </root>

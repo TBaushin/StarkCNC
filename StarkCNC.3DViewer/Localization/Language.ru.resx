@@ -117,40 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="OpenButton" xml:space="preserve">
-    <value>Открыть</value>
+  <data name="Bend" xml:space="preserve">
+    <value>Гиб</value>
   </data>
-  <data name="ProgramPageTitle" xml:space="preserve">
-    <value>Программа</value>
+  <data name="Clamp" xml:space="preserve">
+    <value>Зажим</value>
   </data>
-  <data name="SaveButton" xml:space="preserve">
-    <value>Сохранить</value>
+  <data name="Console" xml:space="preserve">
+    <value>Консоль</value>
   </data>
-  <data name="VisualizationPageTitle" xml:space="preserve">
-    <value>Визуализация</value>
+  <data name="Height" xml:space="preserve">
+    <value>Высота</value>
   </data>
-  <data name="CreateButton" xml:space="preserve">
-    <value>Создать</value>
+  <data name="Press" xml:space="preserve">
+    <value>Прижим</value>
   </data>
-  <data name="AdjustmentPageTitle" xml:space="preserve">
-    <value>Оснастка</value>
-  </data>
-  <data name="ManualPageTitle" xml:space="preserve">
-    <value>Ручной режим</value>
-  </data>
-  <data name="StraightLength" xml:space="preserve">
-    <value>Длина прямого участка</value>
-  </data>
-  <data name="BendingRadius" xml:space="preserve">
-    <value>Радиус гиба</value>
-  </data>
-  <data name="BendingAngle" xml:space="preserve">
-    <value>Угол гиба</value>
-  </data>
-  <data name="RotationAngle" xml:space="preserve">
-    <value>Угол поворота</value>
-  </data>
-  <data name="Tab" xml:space="preserve">
-    <value>Вкладка</value>
+  <data name="Supply" xml:space="preserve">
+    <value>Подача</value>
   </data>
 </root>

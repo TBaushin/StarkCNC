@@ -10,17 +10,6 @@ namespace StarkCNC.ViewModels
     {
         public ObservableCollection<BendingData> bendingDatas { get; set; } = new ObservableCollection<BendingData>();
 
-        private IBendingModelsLoadingService _bendingModelsLoadingService;
-
-        public ProgramViewModel(IBendingModelsLoadingService bendingModelsLoadingService)
-        {
-            _bendingModelsLoadingService = bendingModelsLoadingService;
-            _bendingModelsLoadingService.Load();
-        }
-
-        public ModelVisual3D GetModels()
-        {
-            return _bendingModelsLoadingService.GetModelVisual3D();
-        }
+        public ProgramViewModel() { }
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using StarkCNC._3DViewer.Services;
+using StarkCNC._3DViewer.ViewModels;
+using StarkCNC._3DViewer.Views;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.IO;
@@ -13,17 +16,6 @@ namespace StarkCNC
     /// </summary>
     public partial class App : Application
     {
-        private static IHost _host = Host.CreateDefaultBuilder()
-            .ConfigureServices((context, services) =>
-            {
-                services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<MainWindow>();
-                services.AddSingleton<MainWindowViewModel>();
-                services.AddSingleton<ProgramViewModel>();
-                services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
-            })
-            .Build();
-
         public static IConfiguration Configuration { get; private set; } = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -31,10 +23,23 @@ namespace StarkCNC
 
         public App()
         {
-            _host.Start();
+            IHost host = Host.CreateDefaultBuilder()
+            .ConfigureServices((context, services) =>
+            {
+                services.AddSingleton<IConfiguration>(App.Configuration);
+                services.AddSingleton<INavigationService, NavigationService>();
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<MainWindowViewModel>();
+                services.AddSingleton<ProgramViewModel>();
+                services.AddSingleton<ProgramControllerView>();
+                services.AddSingleton<ProgramControllerViewModel>();
+                services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
+            })
+            .Build();
+            host.Start();
 
             InitializeComponent();
-            MainWindow = _host.Services.GetRequiredService<MainWindow>();
+            MainWindow = host.Services.GetRequiredService<MainWindow>();
             MainWindow.Visibility = Visibility.Visible;
             Run();
         }

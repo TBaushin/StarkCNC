@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarkCNC", "StarkCNC\StarkC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Calculation", "Calculation\Calculation.csproj", "{8DED087D-1389-E38E-2451-B40305754FF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarkCNC.3DViewer", "StarkCNC.3DViewer\StarkCNC.3DViewer.csproj", "{D9CF1069-1037-48AD-9D60-BA029D31BAB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8DED087D-1389-E38E-2451-B40305754FF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DED087D-1389-E38E-2451-B40305754FF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DED087D-1389-E38E-2451-B40305754FF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9CF1069-1037-48AD-9D60-BA029D31BAB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9CF1069-1037-48AD-9D60-BA029D31BAB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9CF1069-1037-48AD-9D60-BA029D31BAB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9CF1069-1037-48AD-9D60-BA029D31BAB9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

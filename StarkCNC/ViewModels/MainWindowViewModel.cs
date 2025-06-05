@@ -32,7 +32,7 @@ namespace StarkCNC.ViewModels
 
             _pages = [
                 new ManualView(),
-                new ProgramView(_serviceProvider.GetRequiredService(typeof(ProgramViewModel)) as ProgramViewModel),
+                new ProgramView(_serviceProvider.GetRequiredService(typeof(ProgramViewModel)) as ProgramViewModel, _serviceProvider.GetRequiredService<IServiceProvider>()),
                 new VisualizationView(),
                 new AdjustmentView()
             ];

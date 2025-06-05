@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace StarkCNC.Localization {
+namespace StarkCNC._3DViewer.Localization {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace StarkCNC.Localization {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StarkCNC.Localization.Language", typeof(Language).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StarkCNC._3DViewer.Localization.Language", typeof(Language).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,110 +61,56 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adjustment.
+        ///   Looks up a localized string similar to Bend.
         /// </summary>
-        public static string AdjustmentPageTitle {
+        public static string Bend {
             get {
-                return ResourceManager.GetString("AdjustmentPageTitle", resourceCulture);
+                return ResourceManager.GetString("Bend", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bending angle.
+        ///   Looks up a localized string similar to Clamp.
         /// </summary>
-        public static string BendingAngle {
+        public static string Clamp {
             get {
-                return ResourceManager.GetString("BendingAngle", resourceCulture);
+                return ResourceManager.GetString("Clamp", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Bending radius.
+        ///   Looks up a localized string similar to Console.
         /// </summary>
-        public static string BendingRadius {
+        public static string Console {
             get {
-                return ResourceManager.GetString("BendingRadius", resourceCulture);
+                return ResourceManager.GetString("Console", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create.
+        ///   Looks up a localized string similar to Height.
         /// </summary>
-        public static string CreateButton {
+        public static string Height {
             get {
-                return ResourceManager.GetString("CreateButton", resourceCulture);
+                return ResourceManager.GetString("Height", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manual.
+        ///   Looks up a localized string similar to Press.
         /// </summary>
-        public static string ManualPageTitle {
+        public static string Press {
             get {
-                return ResourceManager.GetString("ManualPageTitle", resourceCulture);
+                return ResourceManager.GetString("Press", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open.
+        ///   Looks up a localized string similar to Supply.
         /// </summary>
-        public static string OpenButton {
+        public static string Supply {
             get {
-                return ResourceManager.GetString("OpenButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Program.
-        /// </summary>
-        public static string ProgramPageTitle {
-            get {
-                return ResourceManager.GetString("ProgramPageTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Rotation angle.
-        /// </summary>
-        public static string RotationAngle {
-            get {
-                return ResourceManager.GetString("RotationAngle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string SaveButton {
-            get {
-                return ResourceManager.GetString("SaveButton", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Straight section length.
-        /// </summary>
-        public static string StraightLength {
-            get {
-                return ResourceManager.GetString("StraightLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Tab.
-        /// </summary>
-        public static string Tab {
-            get {
-                return ResourceManager.GetString("Tab", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Vizualization.
-        /// </summary>
-        public static string VisualizationPageTitle {
-            get {
-                return ResourceManager.GetString("VisualizationPageTitle", resourceCulture);
+                return ResourceManager.GetString("Supply", resourceCulture);
             }
         }
     }

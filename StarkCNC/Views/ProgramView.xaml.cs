@@ -1,4 +1,6 @@
-﻿using StarkCNC.ViewModels;
+﻿using Microsoft.Extensions.DependencyInjection;
+using StarkCNC._3DViewer.Views;
+using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views
@@ -10,13 +12,13 @@ namespace StarkCNC.Views
     {
         ProgramViewModel ViewModel;
 
-        public ProgramView(ProgramViewModel viewModel)
+        public ProgramView(ProgramViewModel viewModel, IServiceProvider serviceProvider)
         {
             ViewModel = viewModel;
             DataContext = ViewModel;
             InitializeComponent();
 
-            BendingView.Children.Add(ViewModel.GetModels());
+            ProgramControllerBorder.Child = serviceProvider.GetRequiredService<ProgramControllerView>();
         }
     }
 }
