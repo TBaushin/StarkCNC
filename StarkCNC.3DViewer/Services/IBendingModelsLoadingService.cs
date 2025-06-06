@@ -4,15 +4,15 @@ namespace StarkCNC._3DViewer.Services
 {
     public interface IBendingModelsLoadingService
     {
-        GeometryModel3D? Bend { get; }
+        Model3DGroup? Bend { get; }
 
-        GeometryModel3D? Carriage { get; }
+        Model3DGroup? Carriage { get; }
 
-        GeometryModel3D? Clamp { get; }
+        Model3DGroup? Clamp { get; }
 
-        GeometryModel3D? Console { get; }
+        Model3DGroup? Console { get; }
 
-        GeometryModel3D? Press { get; }
+        Model3DGroup? Press { get; }
 
         void Load(string path);
 

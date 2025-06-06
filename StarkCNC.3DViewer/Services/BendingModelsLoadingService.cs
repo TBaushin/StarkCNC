@@ -11,17 +11,17 @@ namespace StarkCNC._3DViewer.Services
 
         public Model3DGroup ModelsGroup { get; private set; }
 
-        public GeometryModel3D? Bend { get; private set; }
+        public Model3DGroup? Bend { get; private set; }
 
-        public GeometryModel3D? Carriage { get; private set; }
+        public Model3DGroup? Carriage { get; private set; }
 
-        public GeometryModel3D? Clamp { get; private set; }
+        public Model3DGroup? Clamp { get; private set; }
 
-        public GeometryModel3D? Console { get; private set; }
+        public Model3DGroup? Console { get; private set; }
 
-        public GeometryModel3D? Press { get; private set; }
+        public Model3DGroup? Press { get; private set; }
 
-        public GeometryModel3D? Roller { get; private set; }
+        public Model3DGroup? Roller { get; private set; }
 
         public BendingModelsLoadingService()
         {
@@ -58,11 +58,6 @@ namespace StarkCNC._3DViewer.Services
 
             var link = modelImporter.Load(path);
             GeometryModel3D? model = link.Children[0] as GeometryModel3D;
-            if (model is not null && model.Bounds.IsEmpty)
-            {
-                model = link.Children[1] as GeometryModel3D;
-            }
-
             if (model is null)
                 return;
 
@@ -73,32 +68,32 @@ namespace StarkCNC._3DViewer.Services
             switch (type)
             {
                 case ModelType.Bend:
-                    Bend = model;
+                    Bend = link;
                     ModelsGroup.Children.Add(Bend);
                     SetBendDefaultPosition(Bend);
                     break;
                 case ModelType.Carriage:
-                    Carriage = model;
+                    Carriage = link;
                     ModelsGroup.Children.Add(Carriage);
                     SetCarriageDefaultPosition(Carriage);
                     break;
                 case ModelType.Clamp:
-                    Clamp = model;
+                    Clamp = link;
                     ModelsGroup.Children.Add(Clamp);
                     SetClampDefaultPosition(Clamp);
                     break;
                 case ModelType.Console:
-                    Console = model;
+                    Console = link;
                     ModelsGroup.Children.Add(Console);
                     SetConsoleDefaultPosition(Console);
                     break;
                 case ModelType.Press:
-                    Press = model;
+                    Press = link;
                     ModelsGroup.Children.Add(Press);
                     SetPressDefaultPosition(Press);
                     break;
                 case ModelType.Roller:
-                    Roller = model;
+                    Roller = link;
                     ModelsGroup.Children.Add(Roller);
                     SetRollerDefaultPosition(Roller);
                     break;
@@ -124,7 +119,7 @@ namespace StarkCNC._3DViewer.Services
             materialGroup.Children.Add(specularMaterial);
         }
 
-        private void SetBendDefaultPosition(GeometryModel3D bend)
+        private void SetBendDefaultPosition(Model3DGroup bend)
         {
             Transform3DGroup transformGroup = new Transform3DGroup();
             TranslateTransform3D translateTransform = new TranslateTransform3D(0, 0, 0);
@@ -154,7 +149,7 @@ namespace StarkCNC._3DViewer.Services
             }
         }
 
-        private void SetCarriageDefaultPosition(GeometryModel3D carriage)
+        private void SetCarriageDefaultPosition(Model3DGroup carriage)
         {
             Transform3DGroup transformGroup = new Transform3DGroup();
             TranslateTransform3D translateTransform = new TranslateTransform3D(0, -1000, 450);
@@ -167,7 +162,7 @@ namespace StarkCNC._3DViewer.Services
             carriage.Transform = transformGroup;
         }
 
-        private void SetClampDefaultPosition(GeometryModel3D clamp)
+        private void SetClampDefaultPosition(Model3DGroup clamp)
         {
             Transform3DGroup transformGroup = new Transform3DGroup();
             TranslateTransform3D translateTransform = new TranslateTransform3D(-180, 0, 380);
@@ -184,7 +179,7 @@ namespace StarkCNC._3DViewer.Services
             clamp.Transform = transformGroup;
         }
 
-        private void SetConsoleDefaultPosition(GeometryModel3D console)
+        private void SetConsoleDefaultPosition(Model3DGroup console)
         {
             Transform3DGroup transformGroup = new Transform3DGroup();
             TranslateTransform3D translateTransform = new TranslateTransform3D(90, 0, 25);
@@ -198,7 +193,7 @@ namespace StarkCNC._3DViewer.Services
             }
         }
 
-        private void SetPressDefaultPosition(GeometryModel3D press)
+        private void SetPressDefaultPosition(Model3DGroup press)
         {
             Transform3DGroup transformGroup = new Transform3DGroup();
             TranslateTransform3D translateTransform = new TranslateTransform3D(-180, 0, 395);
@@ -207,15 +202,15 @@ namespace StarkCNC._3DViewer.Services
 
             transformGroup.Children.Add(translateTransform);
             transformGroup.Children.Add(rotateTransform);
-            if (Bend is not null)
+            if (Console is not null)
             {
-                transformGroup.Children.Add(Bend.Transform);
+                transformGroup.Children.Add(Console.Transform);
             }
 
             press.Transform = transformGroup;
         }
 
-        private void SetRollerDefaultPosition(GeometryModel3D carriage)
+        private void SetRollerDefaultPosition(Model3DGroup carriage)
         {
             Transform3DGroup transformGroup = new Transform3DGroup();
             TranslateTransform3D translateTransform = new TranslateTransform3D(0, 0, 350);
