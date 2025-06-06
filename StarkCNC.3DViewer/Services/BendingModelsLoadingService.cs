@@ -1,6 +1,5 @@
 ﻿using HelixToolkit.Wpf;
 using System.IO;
-using System.Security.Claims;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 

@@ -2,9 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using StarkCNC._3DViewer.Views;
 using StarkCNC.Models;
-using StarkCNC.Services;
 using System.Collections.ObjectModel;
-using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels
 {

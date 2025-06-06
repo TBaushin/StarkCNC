@@ -25,7 +25,7 @@ namespace StarkCNC.ViewModels
         [ObservableProperty]
         private ICollection<Page> _pages;
 
-        public MainWindowViewModel(IServiceProvider serviceProvider ,INavigationService navigationService) 
+        public MainWindowViewModel(IServiceProvider serviceProvider, INavigationService navigationService) 
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
@@ -39,19 +39,19 @@ namespace StarkCNC.ViewModels
         }
 
         [RelayCommand]
-        public void Back()
+        private void Back()
         {
             _navigationService.GoBack();
         }
 
         [RelayCommand]
-        public void Forward()
+        private void Forward()
         {
             _navigationService.GoForward();
         }
 
         [RelayCommand]
-        public void GoSettings()
+        private void GoSettings()
         {
             _navigationService.Navigate(new SettingsView());
         }

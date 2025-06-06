@@ -13,14 +13,12 @@ namespace StarkCNC
     /// </summary>
     public partial class MainWindow : Window
     {
-        private IServiceProvider _serviceProvider;
         private INavigationService _navigationService;
 
         public MainWindowViewModel ViewModel { get; set; }
 
-        public MainWindow(MainWindowViewModel viewModel, IServiceProvider serviceProvider, INavigationService navigationService)
+        public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService)
         {
-            _serviceProvider = serviceProvider;
             _navigationService = navigationService;
             _navigationService.Navigation += OnNavigation;
 
