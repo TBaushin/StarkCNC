@@ -6,6 +6,7 @@
         Carriage,
         Clamp,
         Console,
-        Press
+        Press,
+        Roller
     }
 }

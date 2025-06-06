@@ -12,13 +12,13 @@ namespace StarkCNC.Views
     {
         ProgramViewModel ViewModel;
 
-        public ProgramView(ProgramViewModel viewModel, IServiceProvider serviceProvider)
+        public ProgramView(ProgramViewModel viewModel)
         {
             ViewModel = viewModel;
             DataContext = ViewModel;
             InitializeComponent();
 
-            ProgramControllerBorder.Child = serviceProvider.GetRequiredService<ProgramControllerView>();
+            ProgramControllerBorder.Child = ViewModel.GetProgramControllerView();
         }
     }
 }
