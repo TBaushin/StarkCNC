@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:vm="clr-namespace:StarkCNC.ViewModels"
         xmlns:helpers="clr-namespace:StarkCNC.Helpers"
+        xmlns:lang="clr-namespace:StarkCNC.Localization"
         xmlns:local="clr-namespace:StarkCNC"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="{Binding Title}" MinHeight="650" MinWidth="1200">
     <Window.Resources>
-		<helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
+        <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
         <Style x:Key="TitleBarDefaultButtonStyle" TargetType="Button">
             <Setter Property="MinWidth" Value="48"/>
             <Setter Property="MinHeight" Value="32"/>
@@ -69,26 +70,26 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
-	<Border x:Name="HighContrastBorder" BorderBrush="Transparent" BorderThickness="8 1 8 8">
-		<Grid x:Name="MainGrid">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="44"/>
-				<RowDefinition Height="*"/>
-			</Grid.RowDefinitions>
+    <Border x:Name="HighContrastBorder" BorderBrush="Transparent" BorderThickness="8 1 8 8">
+        <Grid x:Name="MainGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="44"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-			<Grid
+            <Grid
                 Grid.Row="0"
                 Grid.ColumnSpan="2"
                 Height="44">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="Auto"/>
-				</Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-				<Button
+                <Button
                     x:Name="BackButton"
                     Grid.Column="0"
                     Height="32"
@@ -102,57 +103,77 @@
                     IsEnabled="{Binding CanNavigateBack}"
                     WindowChrome.IsHitTestVisibleInChrome="True"
                     ToolTipService.ToolTip="Back">
-					<Button.Resources>
-						<SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-						<SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent"/>
-					</Button.Resources>
-					<TextBlock
+                    <Button.Resources>
+                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
+                        <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent"/>
+                    </Button.Resources>
+                    <TextBlock
                         VerticalAlignment="Center"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         FontSize="12"
                         Text="&#xE72B;">
-						<TextBlock.Style>
-							<Style TargetType="TextBlock">
-								<Style.Triggers>
-									<Trigger Property="IsEnabled" Value="False">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
                                         <Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}"/>
                                     </Trigger>
-								</Style.Triggers>
-							</Style>
-						</TextBlock.Style>
-					</TextBlock>
-				</Button>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </Button>
 
-				<StackPanel
+                <StackPanel
                     Grid.Column="1"
                     Margin="4,0,0,0"
                     Orientation="Horizontal">
-					<TextBlock
+                    <TextBlock
                         Margin="16,0,0,0"
                         VerticalAlignment="Center"
                         Style="{StaticResource CaptionTextBlockStyle}"
                         AutomationProperties.HeadingLevel="Level1"
                         Text="StarkCNC"/>
-				</StackPanel>
-			</Grid>
+                </StackPanel>
+            </Grid>
 
             <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
+                <Grid Grid.Column="0"> <!--ЭТУ СТРОКУ НАДО ИЗМЕНЯТЬ ДЛЯ ДВИГАЮЩЕГОСЯ МЕНЮ-->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBox
-                        x:Name="SearchBox"
-                        Width="250"
-                        Margin="10"/>
-
+                    <StackPanel Grid.Row="0">
+                        <Button 
+                            x:Name="MenuButton"
+                            Width="253"
+                            Margin="18">
+                            <StackPanel 
+                                Orientation="Horizontal"
+                                Width="230">
+                                <TextBlock 
+                                    x:Name="MenuIcon" 
+                                    Margin="0,4,0,0" 
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    FontSize="15"
+                                    Text="&#xE700;"/>
+                                <TextBlock 
+                                    x:Name="Menu"
+                                    Margin="8,0,0,0"
+                                    Text="{x:Static lang:Language.MenuButton}"/>
+                            </StackPanel>
+                        </Button>
+                        <TextBox
+                            x:Name="SearchBox"
+                            Width="250"
+                            Margin="10"/>
+                    </StackPanel>
 
                     <TreeView
                         x:Name="PageList"
@@ -250,5 +271,5 @@
                 </Border>
             </Grid>
         </Grid>
-	</Border>
+    </Border>
 </Window>

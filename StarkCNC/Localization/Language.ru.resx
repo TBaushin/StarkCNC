@@ -153,4 +153,7 @@
   <data name="Tab" xml:space="preserve">
     <value>Вкладка</value>
   </data>
+  <data name="MenuButton" xml:space="preserve">
+    <value>Меню</value>
+  </data>
 </root>
