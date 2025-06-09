@@ -259,8 +259,8 @@ namespace StarkCNC._3DViewer.Services
         {
             Vector3D axis = new Vector3D(1, 0, 0);
             ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(-180, 0, 395)
-                .CalculateRotation(pressPosX, 0, 2125, axis, 0);
+                .CalculateTransform(-180 - pressPosX, 0, 395)
+                .CalculateRotation(2008, 0, 2125, axis, 0);
 
             if (Console is not null)
             {
