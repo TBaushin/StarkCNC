@@ -20,6 +20,19 @@ namespace StarkCNC._3DViewer.Views
             BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
 
             BendingView.Children.Add(ViewModel.GetModels());
+
+            SetDefaultValue();
+        }
+
+        private void SetDefaultValue()
+        {
+            Dictionary<string, double> positions = ViewModel.GetDefaults();
+            ConsoleSlider.Value = positions["console"];
+            BendSlider.Value = positions["bend"];
+            SupplySlider.Value = positions["carriage"];
+            HeightSlider.Value = positions["height"];
+            ClampSlider.Value = positions["clamp"];
+            PressSlider.Value = positions["press"];
         }
 
         private void Sliders_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)

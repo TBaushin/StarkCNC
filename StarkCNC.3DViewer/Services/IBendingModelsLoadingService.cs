@@ -21,5 +21,7 @@ namespace StarkCNC._3DViewer.Services
         ModelVisual3D GetModelVisual3D();
 
         void UpdatePositions(double consolePosX, double bendRotationZ, double carriagePosY, double height, double clampPosX, double pressPosX);
+
+        Dictionary<string, double> GetDefault();
     }
 }
