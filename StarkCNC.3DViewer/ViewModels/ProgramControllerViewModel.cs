@@ -24,7 +24,7 @@ namespace StarkCNC._3DViewer.ViewModels
 
         public void UpdatePositions(double consolePosX, double bendRotationX, double carriagePosY, double height, double clampPosX, double pressPosX)
         {
-            _bendingModelsLoadingService.UpdatePositions(consolePosX, bendRotationX, consolePosX, height, clampPosX, pressPosX);
+            _bendingModelsLoadingService.UpdatePositions(consolePosX, bendRotationX, carriagePosY, height, clampPosX, pressPosX);
         }
 
         private void LoadModels() 

@@ -182,7 +182,7 @@ namespace StarkCNC._3DViewer.Services
         {
             Vector3D axis = new Vector3D(0, 1, 0);
             Carriage.Transform = new ModelsTransformCalculation()
-                .CalculateTransform(carriagePosX, -1000, 450)
+                .CalculateTransform(0, carriagePosX - 3000, 450)
                 .CalculateRotation(0, 0, 0, axis, 0)
                 .GetResult();
         }
