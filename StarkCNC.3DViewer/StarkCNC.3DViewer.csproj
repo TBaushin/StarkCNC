@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Calculation\Calculation.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Localization\Language.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

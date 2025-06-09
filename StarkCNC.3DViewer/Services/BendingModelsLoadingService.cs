@@ -1,4 +1,5 @@
-﻿using HelixToolkit.Wpf;
+﻿using Calculation;
+using HelixToolkit.Wpf;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -106,6 +107,16 @@ namespace StarkCNC._3DViewer.Services
             return ModelVisual3D;
         }
 
+        public void UpdatePositions(double consolePosX, double bendRotationZ, double carriagePosY, double height, double clampPosX, double pressPosX)
+        {
+            UpdateConsolePosition(consolePosX, height);
+            UpdatePressPosition(pressPosX);
+            UpdateBendPosition(bendRotationZ);
+            UpdateClampPosition(clampPosX, bendRotationZ);
+            UpdateRollerPosition(bendRotationZ);
+            UpdateCarriagePosition(carriagePosY);
+        }
+
         private void SetMaterial(MaterialGroup materialGroup)
         { 
             Color mainColor = Colors.White;
@@ -121,27 +132,21 @@ namespace StarkCNC._3DViewer.Services
 
         private void SetBendDefaultPosition(Model3DGroup bend)
         {
-            Transform3DGroup transformGroup = new Transform3DGroup();
-            TranslateTransform3D translateTransform = new TranslateTransform3D(0, 0, 0);
-            AxisAngleRotation3D angleRotation = new AxisAngleRotation3D(new Vector3D(0, 0, 1), -90);
-            RotateTransform3D rotateTransform = new RotateTransform3D(angleRotation, new Point3D(0, 0, 0));
+            Vector3D axis = new Vector3D(0, 0, 1);
+            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
+                .CalculateTransform(0, 0, 0)
+                .CalculateRotation(0, 0, 0, axis, -90);
 
-            transformGroup.Children.Add(translateTransform);
-            transformGroup.Children.Add(rotateTransform);
             if (Console is not null)
             {
-                transformGroup.Children.Add(Console.Transform);
+                calculations.SetObjectTransformAround(Console.Transform);
             }
 
-            bend.Transform = transformGroup;
+            bend.Transform = calculations.GetResult();
 
             if (Clamp is not null)
             {
                 SetClampDefaultPosition(Clamp);
-            }
-            if (Press is not null)
-            {
-                SetRollerDefaultPosition(Press);
             }
             if (Roller is not null)
             {
@@ -149,82 +154,150 @@ namespace StarkCNC._3DViewer.Services
             }
         }
 
+        private void UpdateBendPosition(double bendRotationZ)
+        {
+            Vector3D axis = new Vector3D(0, 0, 1);
+            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
+                .CalculateTransform(0, 0, 0)
+                .CalculateRotation(0, 0, 0, axis, -bendRotationZ);
+
+            if (Console is not null)
+            {
+                calculations.SetObjectTransformAround(Console.Transform);
+            }
+
+            Bend.Transform = calculations.GetResult();
+        }
+
         private void SetCarriageDefaultPosition(Model3DGroup carriage)
         {
-            Transform3DGroup transformGroup = new Transform3DGroup();
-            TranslateTransform3D translateTransform = new TranslateTransform3D(0, -1000, 450);
-            AxisAngleRotation3D axisAngleRotation = new AxisAngleRotation3D(new Vector3D(0, 1, 0), 0);
-            RotateTransform3D rotateTransform = new RotateTransform3D(axisAngleRotation, 0, 0, 0);
+            Vector3D axis = new Vector3D(0, 1, 0);
+            carriage.Transform = new ModelsTransformCalculation()
+                .CalculateTransform(0, -1000, 450)
+                .CalculateRotation(0, 0, 0, axis, 0)
+                .GetResult();
+        }
 
-            transformGroup.Children.Add(translateTransform);
-            transformGroup.Children.Add(rotateTransform);
-
-            carriage.Transform = transformGroup;
+        private void UpdateCarriagePosition(double carriagePosX)
+        {
+            Vector3D axis = new Vector3D(0, 1, 0);
+            Carriage.Transform = new ModelsTransformCalculation()
+                .CalculateTransform(carriagePosX, -1000, 450)
+                .CalculateRotation(0, 0, 0, axis, 0)
+                .GetResult();
         }
 
         private void SetClampDefaultPosition(Model3DGroup clamp)
         {
-            Transform3DGroup transformGroup = new Transform3DGroup();
-            TranslateTransform3D translateTransform = new TranslateTransform3D(-180, 0, 380);
-            AxisAngleRotation3D axisAngleRotation = new AxisAngleRotation3D(new Vector3D(0, 1, 0), 0);
-            RotateTransform3D rotateTransform = new RotateTransform3D(axisAngleRotation, 1815, 0, 2125);
+            Vector3D axis = new Vector3D(0, 1, 0);
+            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
+                .CalculateTransform(-180, 0, 380)
+                .CalculateRotation(1815, 0, 2125, axis, 0);
 
-            transformGroup.Children.Add(translateTransform);
-            transformGroup.Children.Add(rotateTransform);
             if (Bend is not null)
             {
-                transformGroup.Children.Add(Bend.Transform);
+                calculations.SetObjectTransformAround(Bend.Transform);
             }
 
-            clamp.Transform = transformGroup;
+            clamp.Transform = calculations.GetResult();
+        }
+
+        private void UpdateClampPosition(double clampPosX, double rotationClampZ)
+        {
+            Vector3D axis = new Vector3D(0, 1, 0);
+            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
+                .CalculateTransform(-180, 0, 380)
+                .CalculateRotation(1815, 0, 2125, axis, rotationClampZ);
+
+            if (Bend is not null)
+            {
+                calculations.SetObjectTransformAround(Bend.Transform);
+            }
+
+            Clamp.Transform = calculations.GetResult();
         }
 
         private void SetConsoleDefaultPosition(Model3DGroup console)
         {
-            Transform3DGroup transformGroup = new Transform3DGroup();
-            TranslateTransform3D translateTransform = new TranslateTransform3D(90, 0, 25);
-            transformGroup.Children.Add(translateTransform);
-
-            console.Transform = transformGroup;
+            console.Transform = new ModelsTransformCalculation()
+                .CalculateTransform(90, 0, 25)
+                .GetResult();
 
             if (Bend is not null)
             {
                 SetBendDefaultPosition(Bend);
             }
+            if (Press is not null)
+            {
+                SetRollerDefaultPosition(Press);
+            }
+        }
+
+        private void UpdateConsolePosition(double consolePosX, double heigth)
+        {
+            Console.Transform = new ModelsTransformCalculation()
+                .CalculateTransform(consolePosX, 0, heigth)
+                .GetResult();
         }
 
         private void SetPressDefaultPosition(Model3DGroup press)
         {
-            Transform3DGroup transformGroup = new Transform3DGroup();
-            TranslateTransform3D translateTransform = new TranslateTransform3D(-180, 0, 395);
-            AxisAngleRotation3D axisAngleRotation = new AxisAngleRotation3D(new Vector3D(1, 0, 0), 0);
-            RotateTransform3D rotateTransform = new RotateTransform3D(axisAngleRotation, 2008, 0, 2125);
+            Vector3D axis = new Vector3D(1, 0, 0);
+            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
+                .CalculateTransform(-180, 0, 395)
+                .CalculateRotation(2008, 0, 2125, axis, 0);
 
-            transformGroup.Children.Add(translateTransform);
-            transformGroup.Children.Add(rotateTransform);
             if (Console is not null)
             {
-                transformGroup.Children.Add(Console.Transform);
+                calculations.SetObjectTransformAround(Console.Transform);
             }
 
-            press.Transform = transformGroup;
+            press.Transform = calculations.GetResult();
         }
 
-        private void SetRollerDefaultPosition(Model3DGroup carriage)
+        private void UpdatePressPosition(double pressPosX)
         {
-            Transform3DGroup transformGroup = new Transform3DGroup();
-            TranslateTransform3D translateTransform = new TranslateTransform3D(0, 0, 350);
-            AxisAngleRotation3D axisAngleRotation = new AxisAngleRotation3D(new Vector3D(1, 0, 0), 0);
-            RotateTransform3D rotateTransform = new RotateTransform3D(axisAngleRotation, 60, 0, 2125);
+            Vector3D axis = new Vector3D(1, 0, 0);
+            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
+                .CalculateTransform(-180, 0, 395)
+                .CalculateRotation(pressPosX, 0, 2125, axis, 0);
 
-            transformGroup.Children.Add(translateTransform);
-            transformGroup.Children.Add(rotateTransform);
-            if (Bend is not null)
+            if (Console is not null)
             {
-                transformGroup.Children.Add(Bend.Transform);
+                calculations.SetObjectTransformAround(Console.Transform);
             }
 
-            carriage.Transform = transformGroup;
+            Press.Transform = calculations.GetResult();
+        }
+
+        private void SetRollerDefaultPosition(Model3DGroup roller)
+        {
+            Vector3D axis = new Vector3D(1, 0, 0);
+            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
+                .CalculateTransform(0, 0, 350)
+                .CalculateRotation(60, 0, 2125, axis, 0);
+
+            if (Bend is not null)
+            {
+                calculations.SetObjectTransformAround(Bend.Transform);
+            }
+
+            roller.Transform = calculations.GetResult();
+        }
+
+        private void UpdateRollerPosition(double rollerRotationZ) 
+        {
+            Vector3D axis = new Vector3D(1, 0, 0);
+            ModelsTransformCalculation calculation = new ModelsTransformCalculation()
+                .CalculateTransform(0, 0, 350)
+                .CalculateRotation(0, 0, 0, axis, rollerRotationZ);
+
+            if (Bend is not null)
+            {
+                calculation.SetObjectTransformAround(Bend.Transform);
+            }
+
+            Roller.Transform = calculation.GetResult();
         }
     }
 }

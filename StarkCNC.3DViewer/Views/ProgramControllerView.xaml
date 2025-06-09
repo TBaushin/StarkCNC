@@ -19,7 +19,7 @@
             ViewCubeHeight="100"
             ViewCubeWidth="100"
             ViewCubeVerticalPosition="Bottom"
-            RenderOptions.BitmapScalingMode="HighQuality"
+            RenderOptions.BitmapScalingMode="LowQuality"
             RenderOptions.EdgeMode="Unspecified"
             IsManipulationEnabled="True"
             IsViewCubeEdgeClicksEnabled="True">
@@ -45,42 +45,48 @@
                 x:Name="ConsoleSlider"
                 Maximum="300"
                 LargeChange="0.1"
-                TickFrequency="0.1"/>
+                TickFrequency="0.1"
+                ValueChanged="Sliders_ValueChanged"/>
             <Separator/>
             <Label Content="{x:Static lang:Language.Bend}"/>
             <Slider
                 x:Name="BendSlider"
                 Maximum="195"
                 LargeChange="0.1"
-                TickFrequency="0.1"/>
+                TickFrequency="0.1"
+                ValueChanged="Sliders_ValueChanged"/>
             <Separator/>
             <Label Content="{x:Static lang:Language.Supply}"/>
             <Slider
                 x:Name="SupplySlider"
                 Maximum="3000"
                 LargeChange="0.1"
-                TickFrequency="0.1"/>
+                TickFrequency="0.1"
+                ValueChanged="Sliders_ValueChanged"/>
             <Separator/>
             <Label Content="{x:Static lang:Language.Height}"/>
             <Slider
                 x:Name="HeightSlider"
                 Maximum="180"
                 LargeChange="0.1"
-                TickFrequency="0.1"/>
+                TickFrequency="0.1"
+                ValueChanged="Sliders_ValueChanged"/>
             <Separator/>
             <Label Content="{x:Static lang:Language.Clamp}"/>
             <Slider
                 x:Name="ClampSlider"
                 Maximum="100"
                 LargeChange="0.1"
-                TickFrequency="0.1"/>
+                TickFrequency="0.1"
+                ValueChanged="Sliders_ValueChanged"/>
             <Separator/>
             <Label Content="{x:Static lang:Language.Press}"/>
             <Slider
                 x:Name="PressSlider"
                 Maximum="100"
                 LargeChange="0.1"
-                TickFrequency="0.1"/>
+                TickFrequency="0.1"
+                ValueChanged="Sliders_ValueChanged"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -21,5 +21,17 @@ namespace StarkCNC._3DViewer.Views
 
             BendingView.Children.Add(ViewModel.GetModels());
         }
+
+        private void Sliders_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+        {
+            ViewModel.UpdatePositions(
+                ConsoleSlider.Value,
+                BendSlider.Value,
+                SupplySlider.Value,
+                HeightSlider.Value,
+                ClampSlider.Value,
+                PressSlider.Value
+            );
+        }
     }
 }
