@@ -112,8 +112,8 @@ namespace StarkCNC._3DViewer.Services
             UpdateConsolePosition(consolePosX, height);
             UpdatePressPosition(pressPosX);
             UpdateBendPosition(bendRotationZ);
-            UpdateClampPosition(clampPosX, bendRotationZ);
-            UpdateRollerPosition(bendRotationZ);
+            UpdateClampPosition(clampPosX);
+            UpdateRollerPosition();
             UpdateCarriagePosition(carriagePosY);
         }
 
@@ -202,12 +202,12 @@ namespace StarkCNC._3DViewer.Services
             clamp.Transform = calculations.GetResult();
         }
 
-        private void UpdateClampPosition(double clampPosX, double rotationClampZ)
+        private void UpdateClampPosition(double clampPosX)
         {
             Vector3D axis = new Vector3D(0, 0, 1);
             ModelsTransformCalculation calculations = new ModelsTransformCalculation()
                 .CalculateTransform(-180 - clampPosX, 0, 380)
-                .CalculateRotation(1815, 0, 2125, axis, -rotationClampZ);
+                .CalculateRotation(1815, 0, 2125, axis, 0);
 
             if (Bend is not null)
             {
@@ -285,12 +285,12 @@ namespace StarkCNC._3DViewer.Services
             roller.Transform = calculations.GetResult();
         }
 
-        private void UpdateRollerPosition(double rollerRotationZ) 
+        private void UpdateRollerPosition() 
         {
-            Vector3D axis = new Vector3D(1, 0, 0);
+            Vector3D axis = new Vector3D(0, 0, 1);
             ModelsTransformCalculation calculation = new ModelsTransformCalculation()
                 .CalculateTransform(0, 0, 350)
-                .CalculateRotation(0, 0, 0, axis, rollerRotationZ);
+                .CalculateRotation(0, 0, 0, axis, 0);
 
             if (Bend is not null)
             {
