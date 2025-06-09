@@ -107,6 +107,18 @@ namespace StarkCNC._3DViewer.Services
             return ModelVisual3D;
         }
 
+        public Dictionary<string, double> GetDefault()
+        {
+            var posDefault = new Dictionary<string, double>();
+            posDefault.Add("console", 90);
+            posDefault.Add("height", 25);
+            posDefault.Add("bend", 90);
+            posDefault.Add("carriage", 1000);
+            posDefault.Add("clamp", 0);
+            posDefault.Add("press", 0);
+            return posDefault;
+        }
+
         public void UpdatePositions(double consolePosX, double bendRotationZ, double carriagePosY, double height, double clampPosX, double pressPosX)
         {
             UpdateConsolePosition(consolePosX, height);

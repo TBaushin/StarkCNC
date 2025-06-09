@@ -27,6 +27,11 @@ namespace StarkCNC._3DViewer.ViewModels
             _bendingModelsLoadingService.UpdatePositions(consolePosX, bendRotationX, carriagePosY, height, clampPosX, pressPosX);
         }
 
+        public Dictionary<string, double> GetDefaults()
+        {
+            return _bendingModelsLoadingService.GetDefault();
+        }
+
         private void LoadModels() 
         {
             ICollection<LoadingModel>? loadingModels = _configuration.GetSection("ModelsPath").Get<ICollection<LoadingModel>>();
