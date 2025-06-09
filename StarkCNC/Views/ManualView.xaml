@@ -9,7 +9,66 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.ManualPageTitle}">
 
-    <Grid>
-        
-    </Grid>
+    <StackPanel>
+        <Grid x:Name="LabledTextBox1" Margin="8, 3, 0, 3">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Test1" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity="0.7"/>
+            <TextBox 
+                Grid.Row="1"
+                Text="" 
+                AutomationProperties.HelpText="Some Value" 
+                PreviewTextInput="TextBox_PreviewTextInput"/>
+        </Grid>
+        <Grid x:Name="LabledTextBox2" Margin="8, 3, 0, 3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Test2" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity="0.7"/>
+            <TextBox 
+                Grid.Row="1"
+                Text="" 
+                AutomationProperties.HelpText="Some Value" 
+                PreviewTextInput="TextBox_PreviewTextInput"/>
+        </Grid>
+        <Grid x:Name="LabledTextBox3" Margin="8, 3, 0, 3">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Test3" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity="0.7"/>
+            <TextBox 
+                Grid.Row="1"
+                Text="" 
+                AutomationProperties.HelpText="Some Value" 
+                PreviewTextInput="TextBox_PreviewTextInput"/>
+        </Grid>
+        <Grid x:Name="LabledTextBox4" Margin="8, 3, 0, 3">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Test4" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity="0.7"/>
+            <TextBox 
+                Grid.Row="1"
+                Text="" 
+                AutomationProperties.HelpText="Some Value" 
+                PreviewTextInput="TextBox_PreviewTextInput"/>
+        </Grid>
+        <Button Margin="8, 3, 0, 3" HorizontalAlignment="Right">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Text="&#xE724;"/>
+                <TextBlock 
+                    Margin="8,0,0,0"
+                    Text="SEND"/>
+            </StackPanel>
+        </Button>
+    </StackPanel>
 </Page>
