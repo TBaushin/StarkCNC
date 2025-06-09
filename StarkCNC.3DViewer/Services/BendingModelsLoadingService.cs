@@ -204,10 +204,10 @@ namespace StarkCNC._3DViewer.Services
 
         private void UpdateClampPosition(double clampPosX, double rotationClampZ)
         {
-            Vector3D axis = new Vector3D(0, 1, 0);
+            Vector3D axis = new Vector3D(0, 0, 1);
             ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(-180, 0, 380)
-                .CalculateRotation(1815, 0, 2125, axis, rotationClampZ);
+                .CalculateTransform(-180 - clampPosX, 0, 380)
+                .CalculateRotation(1815, 0, 2125, axis, -rotationClampZ);
 
             if (Bend is not null)
             {
