@@ -1,9 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using StarkCNC.Models;
 using StarkCNC.Services;
 using StarkCNC.Views;
-using System.Windows.Controls;
 
 namespace StarkCNC.ViewModels
 {
@@ -13,7 +13,7 @@ namespace StarkCNC.ViewModels
         private string _title = "StarkCNC";
 
         [ObservableProperty]
-        private Page? _selectedPage;
+        private ViewData? _selectedPage;
 
         private readonly INavigationService _navigationService;
 
@@ -23,7 +23,7 @@ namespace StarkCNC.ViewModels
         private bool _canNavigateBack;
 
         [ObservableProperty]
-        private ICollection<Page> _pages;
+        private ICollection<ViewData> _pages;
 
         public MainWindowViewModel(IServiceProvider serviceProvider, INavigationService navigationService) 
         {
@@ -31,10 +31,10 @@ namespace StarkCNC.ViewModels
             _navigationService = navigationService;
 
             _pages = [
-                new ManualView(),
-                new ProgramView(_serviceProvider.GetRequiredService(typeof(ProgramViewModel)) as ProgramViewModel),
-                new VisualizationView(),
-                new AdjustmentView()
+                new ViewData(new ManualView()) { IconGlyph = "\uE726" },
+                new ViewData(new ProgramView(_serviceProvider.GetRequiredService(typeof(ProgramViewModel)) as ProgramViewModel)) { IconGlyph = "\uE726" },
+                new ViewData(new VisualizationView()) { IconGlyph = "\uE726" },
+                new ViewData (new AdjustmentView()) { IconGlyph = "\uE726" }
             ];
         }
 
@@ -61,9 +61,9 @@ namespace StarkCNC.ViewModels
             CanNavigateBack = _navigationService.CanGoBack;
         }
 
-        public IEnumerable<Page> GetNavigationItem()
+        public IEnumerable<ViewData> GetNavigationItem()
         {
-            IEnumerable<Page> items = new List<Page>();
+            IEnumerable<ViewData> items = new List<ViewData>();
             foreach (var item in Pages)
             {
                 items.Append(item);
@@ -72,7 +72,7 @@ namespace StarkCNC.ViewModels
             return items;
         }
 
-        public Page? GetNavigationItem(string title)
+        public ViewData? GetNavigationItem(string title)
         {
             foreach (var item in Pages)
             {

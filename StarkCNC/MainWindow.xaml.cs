@@ -1,9 +1,8 @@
-﻿using StarkCNC.Services;
+﻿using StarkCNC.Models;
+using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
-using System.Windows.Input;
 using System.Windows.Shell;
 
 namespace StarkCNC
@@ -78,11 +77,11 @@ namespace StarkCNC
 
         private void SetSelectedItem(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            var navItem = PageList.SelectedItem as Page;
+            var navItem = PageList.SelectedItem as ViewData;
             if (navItem is null) 
                 return;
 
-            _navigationService.Navigate(navItem);
+            _navigationService.Navigate(navItem.Page);
         }
 
         private void RootContentFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
