@@ -145,10 +145,6 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <controls:FlyoutMenuControl
-                    x:Name="PageList"
-                    Grid.Column="0"
-                    Pages="{Binding Pages}"/>
                 <Border
                     Grid.Column="1"
                     Margin="4,0,0,0"

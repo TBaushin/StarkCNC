@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using StarkCNC._3DViewer.Services;
 using StarkCNC._3DViewer.ViewModels;
 using StarkCNC._3DViewer.Views;
+using StarkCNC.Controls;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.IO;
@@ -33,6 +34,7 @@ namespace StarkCNC
                 services.AddSingleton<ProgramViewModel>();
                 services.AddSingleton<ProgramControllerView>();
                 services.AddSingleton<ProgramControllerViewModel>();
+                services.AddSingleton<FlyoutMenuControl>();
                 services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
             })
             .Build();

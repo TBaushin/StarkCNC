@@ -1,8 +1,8 @@
-﻿using StarkCNC.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
+using StarkCNC.Controls;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Shell;
 
 namespace StarkCNC
@@ -14,21 +14,29 @@ namespace StarkCNC
     {
         private INavigationService _navigationService;
 
+        private IServiceProvider _serviceProvider;
+
         public MainWindowViewModel ViewModel { get; set; }
 
-        public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService)
+        public FlyoutMenuControl PageList { get; set; }
+
+        public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService, IServiceProvider serviceProvider)
         {
             _navigationService = navigationService;
             _navigationService.Navigation += OnNavigation;
+
+            _serviceProvider = serviceProvider;
 
             ViewModel = viewModel;
             DataContext = ViewModel;
 
             InitializeComponent();
 
-            _navigationService.SetFrame(RootContentFrame);
+            PageList = _serviceProvider.GetRequiredService<FlyoutMenuControl>();
+            PageList.Pages = ViewModel.Pages;
+            PageGrid.Children.Add(PageList);
 
-            PageList.SelectedItemChanged += SetSelectedItem;
+            _navigationService.SetFrame(RootContentFrame);
 
             WindowChrome.SetWindowChrome(this,
                 new WindowChrome
@@ -55,15 +63,6 @@ namespace StarkCNC
 
             var page = ViewModel.GetNavigationItem(e.PageTitle);
             PageList.UpdateSelected(page);
-        }
-
-        private void SetSelectedItem(object sender, RoutedPropertyChangedEventArgs<object> e)
-        {
-            var navItem = PageList.SelectedItem as ViewData;
-            if (navItem is null) 
-                return;
-
-            _navigationService.Navigate(navItem.Page);
         }
 
         private void RootContentFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)

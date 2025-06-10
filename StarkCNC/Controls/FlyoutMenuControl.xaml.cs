@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Models;
+using StarkCNC.Services;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -11,15 +12,13 @@ namespace StarkCNC.Controls
     /// </summary>
     public partial class FlyoutMenuControl : UserControl
     {
+        private INavigationService _navigationService;
+
+        private bool _menuOpen = true;
+
         public static readonly DependencyProperty PagesProperty = DependencyProperty.Register(
             nameof(Pages), 
             typeof(IEnumerable<ViewData>), 
-            typeof(FlyoutMenuControl)
-        );
-
-        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
-            nameof(SelectedItem),
-            typeof(object),
             typeof(FlyoutMenuControl)
         );
 
@@ -27,19 +26,6 @@ namespace StarkCNC.Controls
         { 
             get => (IEnumerable<ViewData>)GetValue(PagesProperty); 
             set => SetValue(PagesProperty, value); 
-        }
-
-        public object SelectedItem
-        {
-            get
-            {
-                return (object)GetValue(SelectedItemProperty);
-            }
-            set
-            {
-                SelectedItemChanged.Invoke(this, new RoutedPropertyChangedEventArgs<object>(SelectedItem, value));
-                SetValue(SelectedItemProperty, value);
-            }
         }
 
         public event RoutedPropertyChangedEventHandler<object> SelectedItemChanged;
@@ -56,10 +42,10 @@ namespace StarkCNC.Controls
 
         public TreeView PageList { get; set; }
 
-        private bool _menuOpen = true;
-
-        public FlyoutMenuControl()
+        public FlyoutMenuControl(INavigationService navigationService)
         {
+            _navigationService = navigationService;
+
             InitializeComponent();
 
             GenerateOpenPage();
@@ -357,7 +343,11 @@ namespace StarkCNC.Controls
 
         private void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            SelectedItem = PageList.SelectedItem;
+            var navItem = PageList.SelectedItem as ViewData;
+            if (navItem is null)
+                return;
+
+            _navigationService.Navigate(navItem.Page);
         }
 
         private void MenuButton_Click(object sender, RoutedEventArgs e)
