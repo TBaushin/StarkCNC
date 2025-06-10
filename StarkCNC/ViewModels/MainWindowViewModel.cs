@@ -61,17 +61,6 @@ namespace StarkCNC.ViewModels
             CanNavigateBack = _navigationService.CanGoBack;
         }
 
-        public IEnumerable<ViewData> GetNavigationItem()
-        {
-            IEnumerable<ViewData> items = new List<ViewData>();
-            foreach (var item in Pages)
-            {
-                items.Append(item);
-            }
-
-            return items;
-        }
-
         public ViewData? GetNavigationItem(string title)
         {
             foreach (var item in Pages)
