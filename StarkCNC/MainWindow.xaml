@@ -105,7 +105,7 @@
                     Command="{Binding BackCommand}"
                     IsEnabled="{Binding CanNavigateBack}"
                     WindowChrome.IsHitTestVisibleInChrome="True"
-                    ToolTipService.ToolTip="Back">
+                    ToolTipService.ToolTip="{x:Static lang:Language.BackButton}">
                     <Button.Resources>
                         <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
                         <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent"/>
@@ -147,6 +147,7 @@
                 </Grid.ColumnDefinitions>
                 <controls:FlyoutMenuControl
                     x:Name="PageList"
+                    Grid.Column="0"
                     Pages="{Binding Pages}"/>
                 <Border
                     Grid.Column="1"

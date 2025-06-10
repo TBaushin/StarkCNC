@@ -70,6 +70,15 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string BackButton {
+            get {
+                return ResourceManager.GetString("BackButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bending angle.
         /// </summary>
         public static string BendingAngle {

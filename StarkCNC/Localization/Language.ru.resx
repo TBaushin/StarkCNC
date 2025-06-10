@@ -156,4 +156,7 @@
   <data name="MenuButton" xml:space="preserve">
     <value>Меню</value>
   </data>
+  <data name="BackButton" xml:space="preserve">
+    <value>Назад</value>
+  </data>
 </root>
