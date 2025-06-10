@@ -58,7 +58,7 @@ namespace StarkCNC
             {
                 foreach (var item in PageList.Items)
                 {
-                    TreeViewItem treeViewItem = PageList.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+                    TreeViewItem treeViewItem = PageList.GetContainerFromItem(item) as TreeViewItem;
                     if (treeViewItem is null)
                         continue;
 
@@ -68,7 +68,7 @@ namespace StarkCNC
                 return;
             }
 
-            var treeViewItemFromPage = PageList.ItemContainerGenerator.ContainerFromItem(page) as TreeViewItem;
+            var treeViewItemFromPage = PageList.GetContainerFromItem(page) as TreeViewItem;
             if (treeViewItemFromPage is null)
                 return;
 
