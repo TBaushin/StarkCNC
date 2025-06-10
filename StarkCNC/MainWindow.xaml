@@ -10,7 +10,9 @@
         xmlns:local="clr-namespace:StarkCNC"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         mc:Ignorable="d"
-        Title="{Binding Title}" MinHeight="650" MinWidth="1200">
+        Title="{Binding Title}" 
+        MinHeight="650" 
+        MinWidth="1200">
     <Window.Resources>
         <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
         <Style x:Key="TitleBarDefaultButtonStyle" TargetType="Button">
@@ -138,14 +140,14 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="1" x:Name="PageGrid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <controls:FlyoutMenuControl
                     x:Name="PageList"
-                    Items="{Binding Pages}"/>
+                    Pages="{Binding Pages}"/>
                 <Border
                     Grid.Column="1"
                     Margin="4,0,0,0"

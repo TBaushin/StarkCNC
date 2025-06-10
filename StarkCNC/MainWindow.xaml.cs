@@ -56,7 +56,7 @@ namespace StarkCNC
             var page = ViewModel.GetNavigationItem(e.PageTitle);
             if (page is null)
             {
-                foreach (var item in PageList.Items)
+                foreach (var item in PageList.Pages)
                 {
                     TreeViewItem treeViewItem = PageList.GetContainerFromItem(item) as TreeViewItem;
                     if (treeViewItem is null)
