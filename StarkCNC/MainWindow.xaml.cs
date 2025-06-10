@@ -54,25 +54,7 @@ namespace StarkCNC
             PageTitleTextBlock.Text = $"{Localization.Language.Tab}: {e.PageTitle}";
 
             var page = ViewModel.GetNavigationItem(e.PageTitle);
-            if (page is null)
-            {
-                foreach (var item in PageList.Pages)
-                {
-                    TreeViewItem treeViewItem = PageList.GetContainerFromItem(item) as TreeViewItem;
-                    if (treeViewItem is null)
-                        continue;
-
-                    treeViewItem.IsSelected = false;
-                }
-
-                return;
-            }
-
-            var treeViewItemFromPage = PageList.GetContainerFromItem(page) as TreeViewItem;
-            if (treeViewItemFromPage is null)
-                return;
-
-            treeViewItemFromPage.IsSelected = true;
+            PageList.UpdateSelected(page);
         }
 
         private void SetSelectedItem(object sender, RoutedPropertyChangedEventArgs<object> e)

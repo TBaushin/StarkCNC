@@ -52,7 +52,11 @@ namespace StarkCNC.Controls
 
         public TextBox SearchBox { get; set; }
 
+        public Button SearchButton { get; set; }
+
         public TreeView PageList { get; set; }
+
+        private bool _menuOpen = true;
 
         public FlyoutMenuControl()
         {
@@ -61,25 +65,53 @@ namespace StarkCNC.Controls
             GenerateOpenPage();
 
             PageList.SelectedItemChanged += PageList_SelectedItemChanged;
+            MenuButton.Click += MenuButton_Click;
         }
 
-        public object GetContainerFromItem(object item)
+        public void UpdateSelected(ViewData? viewData)
         {
-            return PageList.ItemContainerGenerator.ContainerFromItem(item);
+            var page = viewData;
+            if (page is null)
+            {
+                foreach (var item in PageList.Items)
+                {
+                    TreeViewItem treeViewItem = PageList.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+                    if (treeViewItem is null)
+                        continue;
+
+                    treeViewItem.IsSelected = false;
+                }
+
+                return;
+            }
+
+            var treeViewItemFromPage = PageList.ItemContainerGenerator.ContainerFromItem(page) as TreeViewItem;
+            if (treeViewItemFromPage is null)
+                return;
+
+            treeViewItemFromPage.IsSelected = true;
         }
 
         private void GenerateOpenPage()
         {
-            var gridMenu = FlyoutMenu as Grid;
-            if (gridMenu is null)
-                return;
-            gridMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-            gridMenu.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-            gridMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+            FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-            gridMenu.Children.Add(GenerateOpenHeader());
-            gridMenu.Children.Add(GenerateOpenBody());
-            gridMenu.Children.Add(GenerateOpenFooter());
+            FlyoutMenu.Children.Add(GenerateOpenHeader());
+            FlyoutMenu.Children.Add(GenerateOpenBody());
+            FlyoutMenu.Children.Add(GenerateOpenFooter());
+        }
+
+        private void GenerateClosedPage()
+        {
+            FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+            FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
+            FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+
+            FlyoutMenu.Children.Add(GenerateClosedHeader());
+            FlyoutMenu.Children.Add(GenerateClosedBody());
+            FlyoutMenu.Children.Add(GenerateClosedFooter());
         }
 
         private StackPanel GenerateOpenHeader()
@@ -89,23 +121,71 @@ namespace StarkCNC.Controls
 
             var buttonContent = new StackPanel() { Orientation = Orientation.Horizontal, Width = 230 };
             buttonContent.Children.Add(new TextBlock() 
-            { 
-                Margin = new Thickness(0, 4, 0, 0), 
-                FontFamily = Application.Current.Resources["SymbolThemeFontFamily"] as FontFamily,
-                FontSize = 15,
-                Text = "\uE700"
-            });
+                { 
+                    Margin = new Thickness(0, 4, 0, 0), 
+                    FontFamily = Application.Current.Resources["SymbolThemeFontFamily"] as FontFamily,
+                    FontSize = 15,
+                    Text = "\uE700"
+                }
+            );
             buttonContent.Children.Add(new TextBlock()
-            {
-                Margin = new Thickness(8, 0, 0, 0),
-                Text = Localization.Language.MenuButton
-            });
+                {
+                    Margin = new Thickness(8, 0, 0, 0),
+                    Text = Localization.Language.MenuButton
+                }
+            );
             MenuButton.Content = buttonContent;
 
             sp.Children.Add(MenuButton);
 
             SearchBox = new TextBox() { Width = 250, Margin = new Thickness(10) };
             sp.Children.Add(SearchBox);
+
+            Grid.SetRow(sp, 0);
+            return sp;
+        }
+
+        private StackPanel GenerateClosedHeader()
+        {
+            var sp = new StackPanel();
+            MenuButton = new Button()
+            {
+                Margin = new Thickness(18, 5, 18, 5),
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+
+            var buttonContent = new StackPanel() { Orientation = Orientation.Horizontal };
+            buttonContent.Children.Add(new TextBlock()
+                {
+                    Margin = new Thickness(0, 4, 0, 0),
+                    FontFamily = Application.Current.Resources["SymbolThemeFontFamily"] as FontFamily,
+                    FontSize = 15,
+                    Text = "\uE700"
+                }
+            );
+            MenuButton.Content = buttonContent;
+
+            sp.Children.Add(MenuButton);
+
+            SearchButton = new Button()
+            {
+                Margin = new Thickness(18, 5, 18, 5),
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            var searchButtonContent = new StackPanel() { Orientation = Orientation.Horizontal };
+            searchButtonContent.Children.Add(
+                new TextBlock()
+                {
+                    Margin = new Thickness(0, 4, 0, 0),
+                    FontFamily = Application.Current.Resources["SymbolThemeFontFamily"] as FontFamily,
+                    FontSize = 15,
+                    Text = "\uE721"
+                }
+            );
+            SearchButton.Content = searchButtonContent;
+            sp.Children.Add(SearchButton);
+
+            sp.Children.Add(new Separator());
 
             Grid.SetRow(sp, 0);
             return sp;
@@ -153,6 +233,29 @@ namespace StarkCNC.Controls
             return PageList;
         }
 
+        private TreeView GenerateClosedBody()
+        {
+            PageList = new TreeView() { Margin = new Thickness(8), HorizontalContentAlignment = HorizontalAlignment.Left };
+            PageList.SetBinding(TreeView.ItemsSourceProperty, new Binding("Pages"));
+
+            var iconTb = new FrameworkElementFactory(typeof(TextBlock));
+            iconTb.SetValue(TextBlock.MarginProperty, new Thickness(0, 4, 0, 0));
+            iconTb.SetValue(TextBlock.VerticalAlignmentProperty, VerticalAlignment.Center);
+            iconTb.SetValue(TextBlock.HorizontalAlignmentProperty, HorizontalAlignment.Left);
+            iconTb.SetBinding(TextBlock.FontFamilyProperty, new Binding() { Source = Application.Current.Resources["SymbolThemeFontFamily"] });
+            iconTb.SetValue(TextBlock.FontSizeProperty, 15.0);
+            iconTb.SetBinding(TextBlock.TextProperty, new Binding("IconGlyph"));
+            iconTb.SetBinding(TextBlock.VisibilityProperty, new Binding("IconGlyph") { Converter = (IValueConverter)Resources["EmptyToVisibilityConverter"] });
+
+            var hdt = new HierarchicalDataTemplate();
+            hdt.ItemsSource = new Binding("Items");
+            hdt.VisualTree = iconTb;
+            PageList.ItemTemplate = hdt;
+
+            Grid.SetRow(PageList, 1);
+            return PageList;
+        }
+
         private StackPanel GenerateOpenFooter()
         {
             SettingsButton = new Button()
@@ -160,7 +263,7 @@ namespace StarkCNC.Controls
                 Width = 40,
                 Height = 40,
                 Margin = new Thickness(10),
-                HorizontalContentAlignment = HorizontalAlignment.Left,
+                HorizontalContentAlignment = HorizontalAlignment.Left
             };
             DockPanel.SetDock(SettingsButton, Dock.Bottom);
             SettingsButton.SetBinding(Button.CommandProperty, new Binding("GoSettingsCommand"));
@@ -181,7 +284,7 @@ namespace StarkCNC.Controls
                 Width = 210,
                 Height = 40,
                 Margin = new Thickness(10),
-                HorizontalContentAlignment = HorizontalAlignment.Left,
+                HorizontalContentAlignment = HorizontalAlignment.Left
             };
             DockPanel.SetDock(UserButton, Dock.Bottom);
             var spUser = new StackPanel() { Orientation = Orientation.Horizontal };
@@ -204,9 +307,81 @@ namespace StarkCNC.Controls
             return resultSp;
         }
 
+        private StackPanel GenerateClosedFooter()
+        {
+            SettingsButton = new Button()
+            {
+                Margin = new Thickness(18, 5, 18, 5),
+                HorizontalContentAlignment = HorizontalAlignment.Left
+            };
+            DockPanel.SetDock(SettingsButton, Dock.Bottom);
+            SettingsButton.SetBinding(Button.CommandProperty, new Binding("GoSettingsCommand"));
+            var spSettings = new StackPanel() { Orientation = Orientation.Horizontal };
+            spSettings.Children.Add(
+                new TextBlock()
+                {
+                    Margin = new Thickness(0, 4, 0, 0),
+                    FontFamily = Application.Current.Resources["SymbolThemeFontFamily"] as FontFamily,
+                    FontSize = 15,
+                    Text = "\uE713"
+                }
+            );
+            SettingsButton.Content = spSettings;
+
+            UserButton = new Button()
+            {
+                Margin = new Thickness(18, 5, 18, 5),
+                HorizontalAlignment = HorizontalAlignment.Left
+            };
+            DockPanel.SetDock(UserButton, Dock.Bottom);
+            var spUser = new StackPanel() { Orientation = Orientation.Horizontal };
+            spUser.Children.Add(
+                new TextBlock()
+                {
+                    Margin = new Thickness(0, 4, 0, 0),
+                    FontFamily = Application.Current.Resources["SymbolThemeFontFamily"] as FontFamily,
+                    FontSize = 15,
+                    Text = "\uE77B"
+                }
+            );
+            UserButton.Content = spUser;
+
+            var resultSp = new StackPanel() { Orientation = Orientation.Vertical };
+            resultSp.Children.Add(new Separator());
+            resultSp.Children.Add(UserButton);
+            resultSp.Children.Add(SettingsButton);
+
+            Grid.SetRow(resultSp, 2);
+            return resultSp;
+        }
+
         private void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            SelectedItem = e.NewValue;
+            SelectedItem = PageList.SelectedItem;
+        }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_menuOpen)
+            {
+                _menuOpen = false;
+                FlyoutMenu.Children.Clear();
+                FlyoutMenu.RowDefinitions.Clear();
+                GenerateClosedPage();
+
+                MenuButton.Click += MenuButton_Click;
+                PageList.SelectedItemChanged += PageList_SelectedItemChanged;
+            }
+            else
+            {
+                _menuOpen = true;
+                FlyoutMenu.Children.Clear();
+                FlyoutMenu.RowDefinitions.Clear();
+                GenerateOpenPage();
+
+                MenuButton.Click += MenuButton_Click;
+                PageList.SelectedItemChanged += PageList_SelectedItemChanged;
+            }
         }
     }
 }
