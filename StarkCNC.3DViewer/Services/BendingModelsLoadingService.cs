@@ -10,8 +10,6 @@ namespace StarkCNC._3DViewer.Services
 {
     public class BendingModelsLoadingService : IBendingModelsLoadingService
     {
-        private Model3DGroup _pipes = new Model3DGroup();
-
         public ModelVisual3D Pipe { get; private set; } = new ModelVisual3D();
 
         public ModelVisual3D ModelVisual3D { get; private set; } = new ModelVisual3D();
