@@ -23,6 +23,7 @@
                 Margin="10">
                 <Button 
                     x:Name="CreateButton" 
+                    Command="{Binding CreateNewFileCommand}"
                     Margin="10">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock 
@@ -38,6 +39,7 @@
                 </Button>
                 <Button 
                     x:Name="OpenButton" 
+                    Command="{Binding OpenFileCommand}"
                     Margin="10">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock 
@@ -52,6 +54,7 @@
                 </Button>
                 <Button 
                     x:Name="SaveButton" 
+                    Command="{Binding SaveFileCommand}"
                     Margin="10">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock 
@@ -70,7 +73,7 @@
                 CanUserAddRows="True"
                 CanUserSortColumns="False"
                 ColumnWidth="*"
-                ItemsSource="{Binding bendingDatas, Mode=TwoWay}">
+                ItemsSource="{Binding BendingDatas, Mode=TwoWay}">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static lang:Language.StraightLength}" Binding="{Binding StraightLength}"/>
                     <DataGridTextColumn Header="{x:Static lang:Language.BendingAngle}" Binding="{Binding BendingAngle}"/>

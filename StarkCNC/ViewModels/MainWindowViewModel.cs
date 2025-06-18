@@ -63,13 +63,7 @@ namespace StarkCNC.ViewModels
 
         public ViewData? GetNavigationItem(string title)
         {
-            foreach (var item in Pages)
-            {
-                if (item.Title == title)
-                    return item;
-            }
-
-            return null;
+            return Pages.FirstOrDefault(e => e.Title == title);
         }
     }
 }

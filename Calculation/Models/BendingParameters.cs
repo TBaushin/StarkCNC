@@ -1,6 +1,6 @@
-﻿namespace StarkCNC.Models
+﻿namespace Calculation.Models
 {
-    public class BendingData
+    public class BendingParameters
     {
         /// <summary>
         /// Длина прямого участка

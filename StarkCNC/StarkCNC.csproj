@@ -8,6 +8,14 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="HelixToolkit" Version="2.27.0" />
@@ -18,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StarkCNC.3DViewer\StarkCNC.3DViewer.csproj" />
+    <ProjectReference Include="..\StarkCNC.Core\StarkCNC.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

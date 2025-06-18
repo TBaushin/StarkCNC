@@ -1,4 +1,4 @@
-﻿namespace StarkCNC.Calculation
+﻿namespace Calculation
 {
     public class Calculation
     {

@@ -5,6 +5,7 @@ using StarkCNC._3DViewer.Services;
 using StarkCNC._3DViewer.ViewModels;
 using StarkCNC._3DViewer.Views;
 using StarkCNC.Controls;
+using StarkCNC.Core.Services;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.IO;
@@ -25,19 +26,20 @@ namespace StarkCNC
         public App()
         {
             IHost host = Host.CreateDefaultBuilder()
-            .ConfigureServices((context, services) =>
-            {
-                services.AddSingleton<IConfiguration>(App.Configuration);
-                services.AddSingleton<INavigationService, NavigationService>();
-                services.AddSingleton<MainWindow>();
-                services.AddSingleton<MainWindowViewModel>();
-                services.AddSingleton<ProgramViewModel>();
-                services.AddSingleton<ProgramControllerView>();
-                services.AddSingleton<ProgramControllerViewModel>();
-                services.AddSingleton<FlyoutMenuControl>();
-                services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
-            })
-            .Build();
+                .ConfigureServices((context, services) =>
+                {
+                    services.AddSingleton<IConfiguration>(App.Configuration);
+                    services.AddSingleton<INavigationService, NavigationService>();
+                    services.AddSingleton<IGCodeService, GCodeService>();
+                    services.AddSingleton<MainWindow>();
+                    services.AddSingleton<MainWindowViewModel>();
+                    services.AddSingleton<ProgramViewModel>();
+                    services.AddSingleton<ProgramControllerView>();
+                    services.AddSingleton<ProgramControllerViewModel>();
+                    services.AddSingleton<FlyoutMenuControl>();
+                    services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
+                })
+                .Build();
             host.Start();
 
             InitializeComponent();

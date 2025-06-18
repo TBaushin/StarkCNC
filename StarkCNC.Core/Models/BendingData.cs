@@ -1,4 +1,4 @@
-﻿namespace StarkCNC.Models
+﻿namespace StarkCNC.Core.Models
 {
     public class BendingData
     {
