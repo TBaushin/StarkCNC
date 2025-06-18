@@ -69,11 +69,13 @@
                 </Button>
             </StackPanel>
             <DataGrid 
+                x:Name="PipeBendParametersDataGrid"
                 AutoGenerateColumns="False"
                 CanUserAddRows="True"
                 CanUserSortColumns="False"
                 ColumnWidth="*"
-                ItemsSource="{Binding BendingDatas, Mode=TwoWay}">
+                ItemsSource="{Binding BendingDatas, Mode=TwoWay}" 
+                RowEditEnding="PipeBendParametersDataGrid_RowEditEnding">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="{x:Static lang:Language.StraightLength}" Binding="{Binding StraightLength}"/>
                     <DataGridTextColumn Header="{x:Static lang:Language.BendingAngle}" Binding="{Binding BendingAngle}"/>

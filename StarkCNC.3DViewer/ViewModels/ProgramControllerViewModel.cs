@@ -22,6 +22,11 @@ namespace StarkCNC._3DViewer.ViewModels
             return _bendingModelsLoadingService.GetModelVisual3D();
         }
 
+        public ModelVisual3D GetPipe()
+        {
+            return _bendingModelsLoadingService.Pipe;
+        }
+
         public void UpdatePositions(double consolePosX, double bendRotationX, double carriagePosY, double height, double clampPosX, double pressPosX)
         {
             _bendingModelsLoadingService.UpdatePositions(consolePosX, bendRotationX, carriagePosY, height, clampPosX, pressPosX);

@@ -1,5 +1,7 @@
 ﻿using Calculation;
 using HelixToolkit.Wpf;
+using StarkCNC._3DViewer.Models;
+using System.ComponentModel;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -8,6 +10,10 @@ namespace StarkCNC._3DViewer.Services
 {
     public class BendingModelsLoadingService : IBendingModelsLoadingService
     {
+        private Model3DGroup _pipes = new Model3DGroup();
+
+        public ModelVisual3D Pipe { get; private set; } = new ModelVisual3D();
+
         public ModelVisual3D ModelVisual3D { get; private set; } = new ModelVisual3D();
 
         public Model3DGroup ModelsGroup { get; private set; }
@@ -28,6 +34,8 @@ namespace StarkCNC._3DViewer.Services
         {
             ModelsGroup = new Model3DGroup();
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void Load(string path)
         {
@@ -129,6 +137,17 @@ namespace StarkCNC._3DViewer.Services
             UpdateCarriagePosition(carriagePosY);
         }
 
+        public void UpdatePipeBend(ICollection<BendPositions> positions)
+        {
+            var builder = new MeshBuilder(true, true);
+            foreach (var pos in positions)
+            {
+                builder.AddCylinder(pos.StartPosition, pos.EndPosition, 60, 60);
+
+                Pipe.Content = new GeometryModel3D(builder.ToMesh(), Materials.White);
+            }
+        }
+
         private void SetMaterial(MaterialGroup materialGroup)
         { 
             Color mainColor = Colors.White;
@@ -168,6 +187,9 @@ namespace StarkCNC._3DViewer.Services
 
         private void UpdateBendPosition(double bendRotationZ)
         {
+            if (Bend is null)
+                return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
+
             Vector3D axis = new Vector3D(0, 0, 1);
             ModelsTransformCalculation calculations = new ModelsTransformCalculation()
                 .CalculateTransform(0, 0, 0)
@@ -192,6 +214,9 @@ namespace StarkCNC._3DViewer.Services
 
         private void UpdateCarriagePosition(double carriagePosX)
         {
+            if (Carriage is null)
+                return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
+
             Vector3D axis = new Vector3D(0, 1, 0);
             Carriage.Transform = new ModelsTransformCalculation()
                 .CalculateTransform(0, carriagePosX - 3000, 450)
@@ -216,6 +241,9 @@ namespace StarkCNC._3DViewer.Services
 
         private void UpdateClampPosition(double clampPosX)
         {
+            if (Clamp is null)
+                return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
+
             Vector3D axis = new Vector3D(0, 0, 1);
             ModelsTransformCalculation calculations = new ModelsTransformCalculation()
                 .CalculateTransform(-180 - clampPosX, 0, 380)
@@ -247,6 +275,9 @@ namespace StarkCNC._3DViewer.Services
 
         private void UpdateConsolePosition(double consolePosX, double heigth)
         {
+            if (Console is null)
+                return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
+
             Console.Transform = new ModelsTransformCalculation()
                 .CalculateTransform(consolePosX, 0, heigth)
                 .GetResult();
@@ -269,6 +300,9 @@ namespace StarkCNC._3DViewer.Services
 
         private void UpdatePressPosition(double pressPosX)
         {
+            if (Press is null)
+                return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
+
             Vector3D axis = new Vector3D(1, 0, 0);
             ModelsTransformCalculation calculations = new ModelsTransformCalculation()
                 .CalculateTransform(-180 - pressPosX, 0, 395)
@@ -297,8 +331,11 @@ namespace StarkCNC._3DViewer.Services
             roller.Transform = calculations.GetResult();
         }
 
-        private void UpdateRollerPosition() 
+        private void UpdateRollerPosition()
         {
+            if (Roller is null)
+                return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
+
             Vector3D axis = new Vector3D(0, 0, 1);
             ModelsTransformCalculation calculation = new ModelsTransformCalculation()
                 .CalculateTransform(0, 0, 350)
@@ -310,6 +347,11 @@ namespace StarkCNC._3DViewer.Services
             }
 
             Roller.Transform = calculation.GetResult();
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

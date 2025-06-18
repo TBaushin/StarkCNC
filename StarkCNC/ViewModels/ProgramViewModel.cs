@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
+using StarkCNC._3DViewer.Services;
 using StarkCNC._3DViewer.Views;
 using StarkCNC.Core.Services;
 using StarkCNC.Helpers;
@@ -16,6 +17,7 @@ namespace StarkCNC.ViewModels
         private IServiceProvider _serviceProvider;
         private IGCodeService _gCodeService;
         private BendingDataConverter _bendingConverter = new BendingDataConverter();
+        private PositionConverter _positionConverter = new PositionConverter();
 
         private string _gcodeExtension = ".gcode";
         private string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
@@ -113,6 +115,37 @@ namespace StarkCNC.ViewModels
             }
 
             await _gCodeService.SaveAsync(CurrentFilePath, data);
+        }
+
+        [RelayCommand]
+        public void UpdateBend()
+        {
+            foreach (var bendingData in BendingDatas)
+            {
+                var data = _bendingConverter.Convert(bendingData, typeof(Calculation.Models.BendingParameters), null, CultureInfo.CurrentCulture) as Calculation.Models.BendingParameters;
+                
+                if (data is null)
+                    continue;
+
+                var modelsLoadingService = _serviceProvider.GetRequiredService<IBendingModelsLoadingService>();
+
+                var bendCalculation = new Calculation.BendCalculation(data);
+                var positions = bendCalculation.CalculateBend(50, 1000); // TODO: Сделать привязку к Adjustment (Оснастке) и изменению позиции в 3DViewer
+
+                var resultPositions = new List<StarkCNC._3DViewer.Models.BendPositions>();
+                foreach (var item in positions)
+                {
+                    var value = _positionConverter
+                        .Convert(item, typeof(StarkCNC._3DViewer.Models.BendPositions), null, CultureInfo.CurrentCulture) as StarkCNC._3DViewer.Models.BendPositions;
+                    
+                    if (value is null)
+                        continue;
+
+                    resultPositions.Add(value);
+                }
+
+                modelsLoadingService.UpdatePipeBend(resultPositions);
+            }
         }
     }
 }
