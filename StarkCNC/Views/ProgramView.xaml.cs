@@ -19,9 +19,15 @@ namespace StarkCNC.Views
             ProgramControllerBorder.Child = ViewModel.GetProgramControllerView();
         }
 
-        private void PipeBendParametersDataGrid_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        private void PipeBendParametersDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+            Apply.IsEnabled = true;
+        }
+
+        private void Apply_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ViewModel.UpdateBend();
+            Apply.IsEnabled = false;
         }
     }
 }

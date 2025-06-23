@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media.Media3D;
 
-namespace Calculation.Models
+namespace StarkCNC.Core.Models
 {
     public class BendPositions
     {

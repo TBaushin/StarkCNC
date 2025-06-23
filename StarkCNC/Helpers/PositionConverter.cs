@@ -7,7 +7,7 @@ namespace StarkCNC.Helpers
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is Calculation.Models.BendPositions calcPosition && targetType == typeof(StarkCNC._3DViewer.Models.BendPositions))
+            if (value is StarkCNC.Core.Models.BendPositions calcPosition && targetType == typeof(StarkCNC._3DViewer.Models.BendPositions))
             {
                 return new StarkCNC._3DViewer.Models.BendPositions()
                 {
@@ -16,9 +16,9 @@ namespace StarkCNC.Helpers
                 };
             }
 
-            if (value is StarkCNC._3DViewer.Models.BendPositions viewerPositios && targetType == typeof(Calculation.Models.BendPositions))
+            if (value is StarkCNC._3DViewer.Models.BendPositions viewerPositios && targetType == typeof(StarkCNC.Core.Models.BendPositions))
             {
-                return new Calculation.Models.BendPositions()
+                return new StarkCNC.Core.Models.BendPositions()
                 {
                     StartPosition = viewerPositios.StartPosition,
                     EndPosition = viewerPositios.EndPosition,

@@ -1,6 +1,6 @@
 ﻿using StarkCNC._3DViewer.Services;
 
-namespace StarkCNC._3DViewer
+namespace StarkCNC._3DViewer.Models
 {
     internal class LoadingModel
     {

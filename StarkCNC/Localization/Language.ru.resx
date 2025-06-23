@@ -159,4 +159,7 @@
   <data name="BackButton" xml:space="preserve">
     <value>Назад</value>
   </data>
+  <data name="ApplyButton" xml:space="preserve">
+    <value>Применить</value>
+  </data>
 </root>

@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Calculation\Calculation.csproj" />
+    <ProjectReference Include="..\StarkCNC.Core\StarkCNC.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

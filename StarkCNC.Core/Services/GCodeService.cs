@@ -1,6 +1,7 @@
 ﻿using Gcode.Utils;
 using Gcode.Utils.Entity;
 using StarkCNC.Core.Models;
+using System.IO;
 using System.Text;
 
 namespace StarkCNC.Core.Services
@@ -46,14 +47,17 @@ namespace StarkCNC.Core.Services
             List<string> rawContent = content.Split([Environment.NewLine], StringSplitOptions.None).ToList();
             rawContent.ForEach(c =>
             {
-                var gcodeConverted = c.ToGcodeCommandFrame();
-                data.Add(new BendingData()
+                if (!string.IsNullOrEmpty(c))
                 {
-                    StraightLength = (double)gcodeConverted.Y,
-                    BendingAngle = (double)gcodeConverted.C,
-                    BendingRadius = (double)gcodeConverted.R,
-                    RotationAngle = (double)gcodeConverted.B
-                });
+                    var gcodeConverted = c.ToGcodeCommandFrame();
+                    data.Add(new BendingData()
+                    {
+                        StraightLength = (double)gcodeConverted.Y,
+                        BendingAngle = (double)gcodeConverted.C,
+                        BendingRadius = (double)gcodeConverted.R,
+                        RotationAngle = (double)gcodeConverted.B
+                    });
+                }
             });
 
             reader.Close();

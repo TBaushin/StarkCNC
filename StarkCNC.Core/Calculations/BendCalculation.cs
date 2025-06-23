@@ -1,15 +1,15 @@
-﻿using Calculation.Models;
+﻿using StarkCNC.Core.Models;
 using System.Windows.Media.Media3D;
 
-namespace Calculation
+namespace StarkCNC.Core.Calculations
 {
-    public class BendCalculation
+    public class BendCalculation : IBendCalculation
     {
         private readonly int _slices = 100;
 
-        public BendingParameters BendParameters { get; set; }
+        public BendingData BendParameters { get; set; }
 
-        public BendCalculation(BendingParameters bendParameters)
+        public BendCalculation(BendingData bendParameters)
         {
             BendParameters = bendParameters;
         }

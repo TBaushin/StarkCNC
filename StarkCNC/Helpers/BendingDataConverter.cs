@@ -1,5 +1,4 @@
-﻿using Calculation.Models;
-using StarkCNC.Models;
+﻿using StarkCNC.Models;
 using System.Globalization;
 using System.Windows.Data;
 
@@ -9,17 +8,6 @@ namespace StarkCNC.Helpers
     {
         public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is BendingData data && targetType == typeof(BendingParameters))
-            {
-                return new BendingParameters()
-                {
-                    StraightLength = data.StraightLength,
-                    BendingAngle = data.BendingAngle,
-                    BendingRadius = data.BendingRadius,
-                    RotationAngle = data.RotationAngle,
-                };
-            }
-
             if (value is BendingData bendingData && targetType == typeof(StarkCNC.Core.Models.BendingData))
             {
                 return new StarkCNC.Core.Models.BendingData()
@@ -28,17 +16,6 @@ namespace StarkCNC.Helpers
                     BendingAngle = bendingData.BendingAngle,
                     BendingRadius = bendingData.BendingRadius,
                     RotationAngle = bendingData.RotationAngle
-                };
-            }
-
-            if (value is BendingParameters parameters && targetType == typeof(BendingData))
-            {
-                return new BendingData()
-                {
-                    StraightLength = parameters.StraightLength,
-                    BendingAngle = parameters.BendingAngle,
-                    BendingRadius = parameters.BendingRadius,
-                    RotationAngle = parameters.RotationAngle,
                 };
             }
 

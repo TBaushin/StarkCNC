@@ -67,6 +67,20 @@
                             Text="{x:Static lang:Language.SaveButton}"/>
                     </StackPanel>
                 </Button>
+                <Button
+                    x:Name="Apply"
+                    IsEnabled="False" Click="Apply_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            VerticalAlignment="Center"
+                            FontSize="10"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE73E;"/>
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            Text="{x:Static lang:Language.ApplyButton}"/>
+                    </StackPanel>
+                </Button>
             </StackPanel>
             <DataGrid 
                 x:Name="PipeBendParametersDataGrid"
@@ -74,13 +88,21 @@
                 CanUserAddRows="True"
                 CanUserSortColumns="False"
                 ColumnWidth="*"
-                ItemsSource="{Binding BendingDatas, Mode=TwoWay}" 
-                RowEditEnding="PipeBendParametersDataGrid_RowEditEnding">
+                ItemsSource="{Binding BendingDatas, Mode=TwoWay}"
+                CellEditEnding="PipeBendParametersDataGrid_CellEditEnding">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="{x:Static lang:Language.StraightLength}" Binding="{Binding StraightLength}"/>
-                    <DataGridTextColumn Header="{x:Static lang:Language.BendingAngle}" Binding="{Binding BendingAngle}"/>
-                    <DataGridTextColumn Header="{x:Static lang:Language.BendingRadius}" Binding="{Binding BendingRadius}"/>
-                    <DataGridTextColumn Header="{x:Static lang:Language.RotationAngle}" Binding="{Binding RotationAngle}"/>
+                    <DataGridTextColumn
+                        Header="{x:Static lang:Language.StraightLength}"
+                        Binding="{Binding StraightLength}"/>
+                    <DataGridTextColumn
+                        Header="{x:Static lang:Language.BendingAngle}"
+                        Binding="{Binding BendingAngle}"/>
+                    <DataGridTextColumn
+                        Header="{x:Static lang:Language.BendingRadius}"
+                        Binding="{Binding BendingRadius}"/>
+                    <DataGridTextColumn
+                        Header="{x:Static lang:Language.RotationAngle}"
+                        Binding="{Binding RotationAngle}"/>
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>

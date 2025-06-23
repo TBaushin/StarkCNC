@@ -27,10 +27,18 @@ namespace StarkCNC.ViewModels
 
         public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
 
+        public IAsyncRelayCommand CreateNewFileCommand { get; }
+        public IAsyncRelayCommand OpenFileCommand { get; }
+        public IAsyncRelayCommand SaveFileCommand { get; }
+
         public ProgramViewModel(IServiceProvider serviceProvider, IGCodeService gCodeService)
         {
             _serviceProvider = serviceProvider;
             _gCodeService = gCodeService;
+
+            CreateNewFileCommand = new AsyncRelayCommand(CreateNewFile);
+            OpenFileCommand = new AsyncRelayCommand(OpenFile);
+            SaveFileCommand = new AsyncRelayCommand(SaveFile);
         }
 
         public ProgramControllerView GetProgramControllerView()
@@ -38,10 +46,10 @@ namespace StarkCNC.ViewModels
             return _serviceProvider.GetRequiredService<ProgramControllerView>();
         }
 
-        [RelayCommand]
-        public async Task CreateNewFile()
+        private async Task CreateNewFile()
         {
-            await SaveFile();
+            if(!await SaveFile())
+                return;
 
             var dialog = new SaveFileDialog();
             dialog.DefaultExt = _gcodeExtension;
@@ -55,10 +63,10 @@ namespace StarkCNC.ViewModels
                 return;
 
             BendingDatas.Clear();
+            UpdateBend();
         }
 
-        [RelayCommand]
-        public async Task OpenFile()
+        private async Task OpenFile()
         {
             var dialog = new OpenFileDialog();
             dialog.DefaultExt = _gcodeExtension;
@@ -83,10 +91,11 @@ namespace StarkCNC.ViewModels
 
                 BendingDatas.Add(bendingData);
             }
+
+            UpdateBend();
         }
 
-        [RelayCommand]
-        public async Task SaveFile()
+        private async Task<bool> SaveFile()
         {
             if (CurrentFilePath is null)
             {
@@ -99,7 +108,7 @@ namespace StarkCNC.ViewModels
                 if (result == true)
                     CurrentFilePath = dialog.FileName;
                 else
-                    return;
+                    return false;
             }
 
             var data = new List<StarkCNC.Core.Models.BendingData>();
@@ -115,22 +124,30 @@ namespace StarkCNC.ViewModels
             }
 
             await _gCodeService.SaveAsync(CurrentFilePath, data);
+            return true;
         }
 
-        [RelayCommand]
         public void UpdateBend()
         {
             foreach (var bendingData in BendingDatas)
             {
-                var data = _bendingConverter.Convert(bendingData, typeof(Calculation.Models.BendingParameters), null, CultureInfo.CurrentCulture) as Calculation.Models.BendingParameters;
+                var data = _bendingConverter.Convert(bendingData, typeof(StarkCNC.Core.Models.BendingData), null, CultureInfo.CurrentCulture) as StarkCNC.Core.Models.BendingData;
                 
                 if (data is null)
                     continue;
 
                 var modelsLoadingService = _serviceProvider.GetRequiredService<IBendingModelsLoadingService>();
 
-                var bendCalculation = new Calculation.BendCalculation(data);
-                var positions = bendCalculation.CalculateBend(50, 1000); // TODO: Сделать привязку к Adjustment (Оснастке) и изменению позиции в 3DViewer
+                var bendCalculation = new StarkCNC.Core.Calculations.BendCalculation(data);
+
+                double carriagePosition = 1000;
+                var carriageCoordinates = modelsLoadingService.GetModelPosition(ModelType.Carriage);
+                if (carriageCoordinates is not null)
+                {
+                    carriagePosition = carriageCoordinates.PositionY;
+                }
+
+                var positions = bendCalculation.CalculateBend(50, carriagePosition); // TODO: Сделать привязку к Adjustment (Оснастке) и изменению позиции в 3DViewer
 
                 var resultPositions = new List<StarkCNC._3DViewer.Models.BendPositions>();
                 foreach (var item in positions)

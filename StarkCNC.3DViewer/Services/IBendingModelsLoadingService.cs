@@ -7,15 +7,15 @@ namespace StarkCNC._3DViewer.Services
     {
         ModelVisual3D Pipe { get; }
 
-        Model3DGroup? Bend { get; }
+        Model? Bend { get; }
 
-        Model3DGroup? Carriage { get; }
+        Model? Carriage { get; }
 
-        Model3DGroup? Clamp { get; }
+        Model? Clamp { get; }
 
-        Model3DGroup? Console { get; }
+        Model? Console { get; }
 
-        Model3DGroup? Press { get; }
+        Model? Press { get; }
 
         void Load(string path);
 
@@ -26,6 +26,8 @@ namespace StarkCNC._3DViewer.Services
         void UpdatePipeBend(ICollection<BendPositions> positions);
 
         void UpdatePositions(double consolePosX, double bendRotationZ, double carriagePosY, double height, double clampPosX, double pressPosX);
+
+        public Coordinates? GetModelPosition(ModelType modelType);
 
         Dictionary<string, double> GetDefault();
     }

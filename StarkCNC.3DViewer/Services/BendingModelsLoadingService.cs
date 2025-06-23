@@ -1,6 +1,6 @@
-﻿using Calculation;
-using HelixToolkit.Wpf;
+﻿using HelixToolkit.Wpf;
 using StarkCNC._3DViewer.Models;
+using StarkCNC.Core.Calculations;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Media;
@@ -16,17 +16,17 @@ namespace StarkCNC._3DViewer.Services
 
         public Model3DGroup ModelsGroup { get; private set; }
 
-        public Model3DGroup? Bend { get; private set; }
+        public Model? Bend { get; private set; }
 
-        public Model3DGroup? Carriage { get; private set; }
+        public Model? Carriage { get; private set; }
 
-        public Model3DGroup? Clamp { get; private set; }
+        public Model? Clamp { get; private set; }
 
-        public Model3DGroup? Console { get; private set; }
+        public Model? Console { get; private set; }
 
-        public Model3DGroup? Press { get; private set; }
+        public Model? Press { get; private set; }
 
-        public Model3DGroup? Roller { get; private set; }
+        public Model? Roller { get; private set; }
 
         public BendingModelsLoadingService()
         {
@@ -75,33 +75,39 @@ namespace StarkCNC._3DViewer.Services
             switch (type)
             {
                 case ModelType.Bend:
-                    Bend = link;
-                    ModelsGroup.Children.Add(Bend);
+                    Bend = new Model();
+                    Bend.Figure = link;
+                    ModelsGroup.Children.Add(Bend.Figure);
                     SetBendDefaultPosition(Bend);
                     break;
                 case ModelType.Carriage:
-                    Carriage = link;
-                    ModelsGroup.Children.Add(Carriage);
+                    Carriage = new Model();
+                    Carriage.Figure = link;
+                    ModelsGroup.Children.Add(Carriage.Figure);
                     SetCarriageDefaultPosition(Carriage);
                     break;
                 case ModelType.Clamp:
-                    Clamp = link;
-                    ModelsGroup.Children.Add(Clamp);
+                    Clamp = new Model();
+                    Clamp.Figure = link;
+                    ModelsGroup.Children.Add(Clamp.Figure);
                     SetClampDefaultPosition(Clamp);
                     break;
                 case ModelType.Console:
-                    Console = link;
-                    ModelsGroup.Children.Add(Console);
+                    Console = new Model();
+                    Console.Figure = link;
+                    ModelsGroup.Children.Add(Console.Figure);
                     SetConsoleDefaultPosition(Console);
                     break;
                 case ModelType.Press:
-                    Press = link;
-                    ModelsGroup.Children.Add(Press);
+                    Press = new Model();
+                    Press.Figure = link;
+                    ModelsGroup.Children.Add(Press.Figure);
                     SetPressDefaultPosition(Press);
                     break;
                 case ModelType.Roller:
-                    Roller = link;
-                    ModelsGroup.Children.Add(Roller);
+                    Roller = new Model();
+                    Roller.Figure = link;
+                    ModelsGroup.Children.Add(Roller.Figure);
                     SetRollerDefaultPosition(Roller);
                     break;
             }
@@ -146,6 +152,39 @@ namespace StarkCNC._3DViewer.Services
             }
         }
 
+        public Coordinates? GetModelPosition(ModelType modelType)
+        {
+            switch (modelType)
+            {
+                case ModelType.Bend:
+                    if (Bend is null)
+                        return null;
+                    return Bend.Coordinates;
+                case ModelType.Carriage:
+                    if (Carriage is null) 
+                        return null;
+                    return Carriage.Coordinates;
+                case ModelType.Clamp:
+                    if (Clamp is null) 
+                        return null;
+                    return Clamp.Coordinates;
+                case ModelType.Console:
+                    if (Console is null) 
+                        return null;
+                    return Console.Coordinates;
+                case ModelType.Press:
+                    if (Press is null) 
+                        return null;
+                    return Press.Coordinates;
+                case ModelType.Roller:
+                    if (Roller is null)
+                        return null;
+                    return Roller.Coordinates;
+                default:
+                    return null;
+            }
+        }
+
         private void SetMaterial(MaterialGroup materialGroup)
         { 
             Color mainColor = Colors.White;
@@ -159,19 +198,12 @@ namespace StarkCNC._3DViewer.Services
             materialGroup.Children.Add(specularMaterial);
         }
 
-        private void SetBendDefaultPosition(Model3DGroup bend)
+        private void SetBendDefaultPosition(Model bend)
         {
-            Vector3D axis = new Vector3D(0, 0, 1);
-            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(0, 0, 0)
-                .CalculateRotation(0, 0, 0, axis, -90);
-
-            if (Console is not null)
-            {
-                calculations.SetObjectTransformAround(Console.Transform);
-            }
-
-            bend.Transform = calculations.GetResult();
+            Bend.Coordinates.SetPosition(0, 0, 0);
+            Bend.Coordinates.SetRotation(0, 0, 0);
+            Bend.Axis = new Vector3D(0, 0, 1);
+            Bend.UpdateTransform(-90, Console);
 
             if (Clamp is not null)
             {
@@ -188,53 +220,38 @@ namespace StarkCNC._3DViewer.Services
             if (Bend is null)
                 return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
 
-            Vector3D axis = new Vector3D(0, 0, 1);
-            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(0, 0, 0)
-                .CalculateRotation(0, 0, 0, axis, -bendRotationZ);
-
-            if (Console is not null)
-            {
-                calculations.SetObjectTransformAround(Console.Transform);
-            }
-
-            Bend.Transform = calculations.GetResult();
+            Bend.Coordinates.SetPosition(0, 0, 0);
+            Bend.Coordinates.SetRotation(0, 0, 0);
+            Bend.Axis = new Vector3D(0, 0, 1);
+            Bend.UpdateTransform(-bendRotationZ, Console);
+            Bend.Coordinates.RotationZ = -bendRotationZ;
         }
 
-        private void SetCarriageDefaultPosition(Model3DGroup carriage)
+        private void SetCarriageDefaultPosition(Model carriage)
         {
-            Vector3D axis = new Vector3D(0, 1, 0);
-            carriage.Transform = new ModelsTransformCalculation()
-                .CalculateTransform(0, -1000, 450)
-                .CalculateRotation(0, 0, 0, axis, 0)
-                .GetResult();
+            Carriage.Coordinates.SetPosition(0, -1000, 450);
+            Carriage.Coordinates.SetRotation(0, 0, 0);
+            Carriage.Axis = new Vector3D(0, 1, 0);
+            Carriage.UpdateTransform();
         }
 
-        private void UpdateCarriagePosition(double carriagePosX)
+        private void UpdateCarriagePosition(double carriagePosY)
         {
             if (Carriage is null)
                 return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
 
-            Vector3D axis = new Vector3D(0, 1, 0);
-            Carriage.Transform = new ModelsTransformCalculation()
-                .CalculateTransform(0, carriagePosX - 3000, 450)
-                .CalculateRotation(0, 0, 0, axis, 0)
-                .GetResult();
+            Carriage.Coordinates.SetPosition(0, carriagePosY - 3000, 450);
+            Carriage.Coordinates.SetRotation(0, 0, 0);
+            Carriage.Axis = new Vector3D(0, 1, 0);
+            Carriage.UpdateTransform();
         }
 
-        private void SetClampDefaultPosition(Model3DGroup clamp)
+        private void SetClampDefaultPosition(Model clamp)
         {
-            Vector3D axis = new Vector3D(0, 1, 0);
-            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(-180, 0, 380)
-                .CalculateRotation(1815, 0, 2125, axis, 0);
-
-            if (Bend is not null)
-            {
-                calculations.SetObjectTransformAround(Bend.Transform);
-            }
-
-            clamp.Transform = calculations.GetResult();
+            Clamp.Coordinates.SetPosition(-180, 0, 380);
+            Clamp.Coordinates.SetRotation(1815, 0, 2125);
+            Clamp.Axis = new Vector3D(0, 1, 0);
+            Carriage.UpdateTransform(arountTransform: Bend);
         }
 
         private void UpdateClampPosition(double clampPosX)
@@ -242,24 +259,18 @@ namespace StarkCNC._3DViewer.Services
             if (Clamp is null)
                 return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
 
-            Vector3D axis = new Vector3D(0, 0, 1);
-            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(-180 - clampPosX, 0, 380)
-                .CalculateRotation(1815, 0, 2125, axis, 0);
-
-            if (Bend is not null)
-            {
-                calculations.SetObjectTransformAround(Bend.Transform);
-            }
-
-            Clamp.Transform = calculations.GetResult();
+            Clamp.Coordinates.SetPosition(-180 - clampPosX, 0, 380);
+            Clamp.Coordinates.SetRotation(1815, 0, 2125);
+            Clamp.Axis = new Vector3D(0, 0, 1);
+            Clamp.UpdateTransform(arountTransform: Bend);
         }
 
-        private void SetConsoleDefaultPosition(Model3DGroup console)
+        private void SetConsoleDefaultPosition(Model console)
         {
-            console.Transform = new ModelsTransformCalculation()
-                .CalculateTransform(90, 0, 25)
-                .GetResult();
+            Console.Coordinates.SetPosition(90, 0, 25);
+            Console.Coordinates.SetRotation(0, 0, 0);
+            Console.Axis = new Vector3D();
+            Console.UpdateTransform();
 
             if (Bend is not null)
             {
@@ -276,24 +287,16 @@ namespace StarkCNC._3DViewer.Services
             if (Console is null)
                 return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
 
-            Console.Transform = new ModelsTransformCalculation()
-                .CalculateTransform(consolePosX, 0, heigth)
-                .GetResult();
+            Console.Coordinates.SetPosition(consolePosX, 0, heigth);
+            Console.UpdateTransform();
         }
 
-        private void SetPressDefaultPosition(Model3DGroup press)
+        private void SetPressDefaultPosition(Model press)
         {
-            Vector3D axis = new Vector3D(1, 0, 0);
-            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(-180, 0, 395)
-                .CalculateRotation(2008, 0, 2125, axis, 0);
-
-            if (Console is not null)
-            {
-                calculations.SetObjectTransformAround(Console.Transform);
-            }
-
-            press.Transform = calculations.GetResult();
+            Press.Coordinates.SetPosition(-180, 0, 395);
+            Press.Coordinates.SetRotation(2008, 0, 2125);
+            Press.Axis = new Vector3D(1, 0, 0);
+            Press.UpdateTransform(arountTransform: Console);
         }
 
         private void UpdatePressPosition(double pressPosX)
@@ -301,32 +304,18 @@ namespace StarkCNC._3DViewer.Services
             if (Press is null)
                 return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
 
-            Vector3D axis = new Vector3D(1, 0, 0);
-            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(-180 - pressPosX, 0, 395)
-                .CalculateRotation(2008, 0, 2125, axis, 0);
-
-            if (Console is not null)
-            {
-                calculations.SetObjectTransformAround(Console.Transform);
-            }
-
-            Press.Transform = calculations.GetResult();
+            Press.Coordinates.SetPosition(-180 - pressPosX, 0, 395);
+            Press.Coordinates.SetRotation(2008, 0, 2125);
+            Press.Axis = new Vector3D(1, 0, 0);
+            Press.UpdateTransform(arountTransform: Console);
         }
 
-        private void SetRollerDefaultPosition(Model3DGroup roller)
+        private void SetRollerDefaultPosition(Model roller)
         {
-            Vector3D axis = new Vector3D(1, 0, 0);
-            ModelsTransformCalculation calculations = new ModelsTransformCalculation()
-                .CalculateTransform(0, 0, 350)
-                .CalculateRotation(60, 0, 2125, axis, 0);
-
-            if (Bend is not null)
-            {
-                calculations.SetObjectTransformAround(Bend.Transform);
-            }
-
-            roller.Transform = calculations.GetResult();
+            Roller.Coordinates.SetPosition(0, 0, 350);
+            Roller.Coordinates.SetRotation(60, 0, 2125);
+            Roller.Axis = new Vector3D(1, 0, 0);
+            Roller.UpdateTransform(arountTransform: Bend);
         }
 
         private void UpdateRollerPosition()
@@ -334,22 +323,10 @@ namespace StarkCNC._3DViewer.Services
             if (Roller is null)
                 return; // TODO: Когда будет логирование или глобальная обработка ошибок с выводом информации пользователю
 
-            Vector3D axis = new Vector3D(0, 0, 1);
-            ModelsTransformCalculation calculation = new ModelsTransformCalculation()
-                .CalculateTransform(0, 0, 350)
-                .CalculateRotation(0, 0, 0, axis, 0);
-
-            if (Bend is not null)
-            {
-                calculation.SetObjectTransformAround(Bend.Transform);
-            }
-
-            Roller.Transform = calculation.GetResult();
-        }
-
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Roller.Coordinates.SetPosition(0, 0, 350);
+            Roller.Coordinates.SetRotation(0, 0, 0);
+            Roller.Axis = new Vector3D(0, 0, 1);
+            Roller.UpdateTransform(arountTransform: Bend);
         }
     }
 }
