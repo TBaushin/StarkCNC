@@ -162,4 +162,7 @@
   <data name="ApplyButton" xml:space="preserve">
     <value>Apply</value>
   </data>
+  <data name="PipeDiameter" xml:space="preserve">
+    <value>Pipe diameter</value>
+  </data>
 </root>

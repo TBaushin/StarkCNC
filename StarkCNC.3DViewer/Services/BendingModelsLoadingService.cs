@@ -1,6 +1,5 @@
 ﻿using HelixToolkit.Wpf;
 using StarkCNC._3DViewer.Models;
-using StarkCNC.Core.Calculations;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Media;
@@ -8,7 +7,7 @@ using System.Windows.Media.Media3D;
 
 namespace StarkCNC._3DViewer.Services
 {
-    public class BendingModelsLoadingService : IBendingModelsLoadingService
+    public class BendingModelsLoadingService : IBendingModelsLoadingService, INotifyPropertyChanged
     {
         public ModelVisual3D Pipe { get; private set; } = new ModelVisual3D();
 
@@ -150,6 +149,7 @@ namespace StarkCNC._3DViewer.Services
 
                 Pipe.Content = new GeometryModel3D(builder.ToMesh(), Materials.White);
             }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Pipe)));
         }
 
         public Coordinates? GetModelPosition(ModelType modelType)
@@ -213,6 +213,8 @@ namespace StarkCNC._3DViewer.Services
             {
                 SetRollerDefaultPosition(Roller);
             }
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Bend)));
         }
 
         private void UpdateBendPosition(double bendRotationZ)
@@ -225,6 +227,8 @@ namespace StarkCNC._3DViewer.Services
             Bend.Axis = new Vector3D(0, 0, 1);
             Bend.UpdateTransform(-bendRotationZ, Console);
             Bend.Coordinates.RotationZ = -bendRotationZ;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Bend)));
         }
 
         private void SetCarriageDefaultPosition(Model carriage)
@@ -233,6 +237,8 @@ namespace StarkCNC._3DViewer.Services
             Carriage.Coordinates.SetRotation(0, 0, 0);
             Carriage.Axis = new Vector3D(0, 1, 0);
             Carriage.UpdateTransform();
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Carriage)));
         }
 
         private void UpdateCarriagePosition(double carriagePosY)
@@ -244,6 +250,8 @@ namespace StarkCNC._3DViewer.Services
             Carriage.Coordinates.SetRotation(0, 0, 0);
             Carriage.Axis = new Vector3D(0, 1, 0);
             Carriage.UpdateTransform();
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Carriage)));
         }
 
         private void SetClampDefaultPosition(Model clamp)
@@ -252,6 +260,8 @@ namespace StarkCNC._3DViewer.Services
             Clamp.Coordinates.SetRotation(1815, 0, 2125);
             Clamp.Axis = new Vector3D(0, 1, 0);
             Carriage.UpdateTransform(arountTransform: Bend);
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Clamp)));
         }
 
         private void UpdateClampPosition(double clampPosX)
@@ -263,6 +273,8 @@ namespace StarkCNC._3DViewer.Services
             Clamp.Coordinates.SetRotation(1815, 0, 2125);
             Clamp.Axis = new Vector3D(0, 0, 1);
             Clamp.UpdateTransform(arountTransform: Bend);
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Clamp)));
         }
 
         private void SetConsoleDefaultPosition(Model console)
@@ -280,6 +292,8 @@ namespace StarkCNC._3DViewer.Services
             {
                 SetRollerDefaultPosition(Press);
             }
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Console)));
         }
 
         private void UpdateConsolePosition(double consolePosX, double heigth)
@@ -289,6 +303,8 @@ namespace StarkCNC._3DViewer.Services
 
             Console.Coordinates.SetPosition(consolePosX, 0, heigth);
             Console.UpdateTransform();
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Console)));
         }
 
         private void SetPressDefaultPosition(Model press)
@@ -297,6 +313,8 @@ namespace StarkCNC._3DViewer.Services
             Press.Coordinates.SetRotation(2008, 0, 2125);
             Press.Axis = new Vector3D(1, 0, 0);
             Press.UpdateTransform(arountTransform: Console);
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Press)));
         }
 
         private void UpdatePressPosition(double pressPosX)
@@ -308,6 +326,8 @@ namespace StarkCNC._3DViewer.Services
             Press.Coordinates.SetRotation(2008, 0, 2125);
             Press.Axis = new Vector3D(1, 0, 0);
             Press.UpdateTransform(arountTransform: Console);
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Press)));
         }
 
         private void SetRollerDefaultPosition(Model roller)
@@ -316,6 +336,8 @@ namespace StarkCNC._3DViewer.Services
             Roller.Coordinates.SetRotation(60, 0, 2125);
             Roller.Axis = new Vector3D(1, 0, 0);
             Roller.UpdateTransform(arountTransform: Bend);
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Roller)));
         }
 
         private void UpdateRollerPosition()
@@ -327,6 +349,8 @@ namespace StarkCNC._3DViewer.Services
             Roller.Coordinates.SetRotation(0, 0, 0);
             Roller.Axis = new Vector3D(0, 0, 1);
             Roller.UpdateTransform(arountTransform: Bend);
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Roller)));
         }
     }
 }

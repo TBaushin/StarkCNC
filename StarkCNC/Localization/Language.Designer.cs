@@ -142,6 +142,15 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pipe diameter.
+        /// </summary>
+        public static string PipeDiameter {
+            get {
+                return ResourceManager.GetString("PipeDiameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Program.
         /// </summary>
         public static string ProgramPageTitle {

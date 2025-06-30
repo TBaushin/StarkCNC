@@ -28,24 +28,27 @@ namespace StarkCNC.Core.Calculations
                 double firstVector = Convert.ToDouble(i) / Convert.ToDouble(_slices);
                 double secondVector = Convert.ToDouble(i + 1) / Convert.ToDouble(_slices);
 
-                double firstAngle = bendAngleStart + (bendAngleEnd - bendAngleStart) * firstVector;
-                double secondAngle = bendAngleStart + (bendAngleEnd - bendAngleStart) * secondVector;
+                double firstAngle = bendAngleEnd + (bendAngleStart - bendAngleEnd) * firstVector;
+                double secondAngle = bendAngleEnd + (bendAngleStart - bendAngleEnd) * secondVector;
 
-                double circumferenceLength = 2 * 3.14 / 180;
-                var x = Convert.ToSingle(pipeDiameter * Math.Cos(circumferenceLength) + BendParameters.BendingRadius);
-                var z = Convert.ToSingle(pipeDiameter * Math.Sin(circumferenceLength));
+                for (int j = 0; j <= 1; j++)
+                {
+                    double circumferenceLength = 2 * Math.PI * j / 180;
+                    var x = Convert.ToSingle(pipeDiameter * Math.Cos(circumferenceLength) + BendParameters.BendingRadius);
+                    var z = Convert.ToSingle(pipeDiameter * Math.Sin(circumferenceLength));
 
-                var xb = Convert.ToSingle(Math.Sin(firstAngle) * x + carriagePos);
-                var yb = Convert.ToSingle(Math.Cos(firstAngle) * x - BendParameters.BendingRadius);
-                var zb = z;
-                bend.StartPosition = new Point3D(xb, yb, zb);
+                    var xb = Convert.ToSingle(Math.Sin(firstAngle) * x + carriagePos + 2000);
+                    var yb = Convert.ToSingle(Math.Cos(firstAngle) * x - BendParameters.BendingRadius);
+                    var zb = z;
+                    bend.StartPosition = new Point3D(xb, yb, zb);
 
-                xb = Convert.ToSingle(Math.Sin(secondAngle) * x + carriagePos);
-                yb = Convert.ToSingle(Math.Cos(secondAngle) * x - BendParameters.BendingRadius);
-                zb = z;
-                bend.EndPosition = new Point3D(xb, yb, zb);
+                    xb = Convert.ToSingle(Math.Sin(secondAngle) * x + carriagePos + 2000);
+                    yb = Convert.ToSingle(Math.Cos(secondAngle) * x - BendParameters.BendingRadius);
+                    zb = z;
+                    bend.EndPosition = new Point3D(xb, yb, zb);
 
-                data.Add(bend);
+                    data.Add(bend);
+                }
             }
 
             return data;

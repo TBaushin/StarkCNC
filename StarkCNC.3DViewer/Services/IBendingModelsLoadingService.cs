@@ -1,9 +1,10 @@
 ﻿using StarkCNC._3DViewer.Models;
+using System.ComponentModel;
 using System.Windows.Media.Media3D;
 
 namespace StarkCNC._3DViewer.Services
 {
-    public interface IBendingModelsLoadingService
+    public interface IBendingModelsLoadingService : INotifyPropertyChanged
     {
         ModelVisual3D Pipe { get; }
 
@@ -16,6 +17,8 @@ namespace StarkCNC._3DViewer.Services
         Model? Console { get; }
 
         Model? Press { get; }
+
+        event PropertyChangedEventHandler? PropertyChanged;
 
         void Load(string path);
 

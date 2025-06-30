@@ -8,6 +8,7 @@ using StarkCNC.Core.Services;
 using StarkCNC.Helpers;
 using StarkCNC.Models;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Globalization;
 
 namespace StarkCNC.ViewModels
@@ -35,6 +36,15 @@ namespace StarkCNC.ViewModels
         {
             _serviceProvider = serviceProvider;
             _gCodeService = gCodeService;
+
+            _serviceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
+            _serviceProvider.GetRequiredService<IBendingModelsLoadingService>().PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == nameof(IBendingModelsLoadingService.Carriage))
+                {
+                    UpdateBend();
+                }
+            };
 
             CreateNewFileCommand = new AsyncRelayCommand(CreateNewFile);
             OpenFileCommand = new AsyncRelayCommand(OpenFile);
@@ -147,7 +157,9 @@ namespace StarkCNC.ViewModels
                     carriagePosition = carriageCoordinates.PositionY;
                 }
 
-                var positions = bendCalculation.CalculateBend(50, carriagePosition); // TODO: Сделать привязку к Adjustment (Оснастке) и изменению позиции в 3DViewer
+                var pipeDiameter = _serviceProvider.GetRequiredService<AdjustmentViewModel>().Parameters.PipeDiameter;
+
+                var positions = bendCalculation.CalculateBend(pipeDiameter, carriagePosition);
 
                 var resultPositions = new List<StarkCNC._3DViewer.Models.BendPositions>();
                 foreach (var item in positions)
