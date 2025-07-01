@@ -273,6 +273,7 @@ namespace StarkCNC.Controls
                 HorizontalContentAlignment = HorizontalAlignment.Left
             };
             DockPanel.SetDock(UserButton, Dock.Bottom);
+            UserButton.SetBinding(Button.CommandProperty, new Binding("GoUsersCommand"));
             var spUser = new StackPanel() { Orientation = Orientation.Horizontal };
             spUser.Children.Add(
                 new TextBlock()
@@ -320,6 +321,7 @@ namespace StarkCNC.Controls
                 HorizontalAlignment = HorizontalAlignment.Left
             };
             DockPanel.SetDock(UserButton, Dock.Bottom);
+            UserButton.SetBinding(Button.CommandProperty, new Binding("GoUsersCommand"));
             var spUser = new StackPanel() { Orientation = Orientation.Horizontal };
             spUser.Children.Add(
                 new TextBlock()

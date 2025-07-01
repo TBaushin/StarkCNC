@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using StarkCNC.Models;
 using StarkCNC.Services;
 using StarkCNC.Views;
+using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels
 {
@@ -23,7 +24,7 @@ namespace StarkCNC.ViewModels
         private bool _canNavigateBack;
 
         [ObservableProperty]
-        private ICollection<ViewData> _pages;
+        private ObservableCollection<ViewData> _pages;
 
         public MainWindowViewModel(IServiceProvider serviceProvider, INavigationService navigationService) 
         {
@@ -54,6 +55,12 @@ namespace StarkCNC.ViewModels
         private void GoSettings()
         {
             _navigationService.Navigate(new SettingsView());
+        }
+
+        [RelayCommand]
+        private void GoUsers()
+        {
+            _navigationService.Navigate(new UserView(_serviceProvider.GetRequiredService<UserViewModel>()));
         }
 
         public void UpdateCanNavigateBack()

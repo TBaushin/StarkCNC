@@ -165,4 +165,31 @@
   <data name="PipeDiameter" xml:space="preserve">
     <value>Pipe diameter</value>
   </data>
+  <data name="UploadImage" xml:space="preserve">
+    <value>Upload profile image</value>
+  </data>
+  <data name="AddNewUserButton" xml:space="preserve">
+    <value>Add New User</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>Deleted</value>
+  </data>
+  <data name="CancelButton" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="EditButton" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="DeleteButton" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
 </root>

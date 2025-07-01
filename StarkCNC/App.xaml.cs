@@ -37,6 +37,7 @@ namespace StarkCNC
                     services.AddSingleton<ProgramControllerView>();
                     services.AddSingleton<ProgramControllerViewModel>();
                     services.AddSingleton<AdjustmentViewModel>();
+                    services.AddSingleton<UserViewModel>();
                     services.AddSingleton<FlyoutMenuControl>();
                     services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
                 })
