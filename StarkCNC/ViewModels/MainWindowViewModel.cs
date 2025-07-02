@@ -33,7 +33,7 @@ namespace StarkCNC.ViewModels
 
             _pages = [
                 new ViewData(new ManualView()) { IconGlyph = "\uE726" },
-                new ViewData(new VisualizationView()) { IconGlyph = "\uE726" },
+                new ViewData(new VisualizationView(_serviceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },
                 new ViewData(new ProgramView(_serviceProvider.GetRequiredService<ProgramViewModel>())) { IconGlyph = "\uE726" },
                 new ViewData (new AdjustmentView(_serviceProvider.GetRequiredService<AdjustmentViewModel>())) { IconGlyph = "\uE726" }
             ];

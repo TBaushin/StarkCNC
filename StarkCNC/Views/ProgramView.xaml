@@ -11,111 +11,94 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.ProgramPageTitle}">
 
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0">
-            <StackPanel 
-                Orientation="Horizontal"
-                HorizontalAlignment="Stretch"
+    <StackPanel Grid.Column="0">
+        <StackPanel 
+            Orientation="Horizontal"
+            HorizontalAlignment="Stretch"
+            Margin="10">
+            <Button 
+                x:Name="CreateButton" 
+                Command="{Binding CreateNewFileCommand}"
                 Margin="10">
-                <Button 
-                    x:Name="CreateButton" 
-                    Command="{Binding CreateNewFileCommand}"
-                    Margin="10">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock 
-                            VerticalAlignment="Center"
-                            Margin="0,4,0,0"
-                            FontSize="10"
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Text="&#xE710;"/>
-                        <TextBlock 
-                            Margin="8,0,0,0" 
-                            Text="{x:Static lang:Language.CreateButton}"/>
-                    </StackPanel>
-                </Button>
-                <Button 
-                    x:Name="OpenButton" 
-                    Command="{Binding OpenFileCommand}"
-                    Margin="10">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock 
-                            VerticalAlignment="Center"
-                            FontSize="10"
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Text="&#xE8E5;"/>
-                        <TextBlock 
-                            Margin="8,0,0,0"
-                            Text="{x:Static lang:Language.OpenButton}"/>
-                    </StackPanel>
-                </Button>
-                <Button 
-                    x:Name="SaveButton" 
-                    Command="{Binding SaveFileCommand}"
-                    Margin="10">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock 
-                            VerticalAlignment="Center"
-                            FontSize="10"
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Text="&#xE74E;"/>
-                        <TextBlock 
-                            Margin="8,0,0,0"
-                            Text="{x:Static lang:Language.SaveButton}"/>
-                    </StackPanel>
-                </Button>
-                <Button
-                    x:Name="Apply"
-                    IsEnabled="False" Click="Apply_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            FontSize="10"
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Text="&#xE73E;"/>
-                        <TextBlock
-                            Margin="8,0,0,0"
-                            Text="{x:Static lang:Language.ApplyButton}"/>
-                    </StackPanel>
-                </Button>
-            </StackPanel>
-            <DataGrid 
-                x:Name="PipeBendParametersDataGrid"
-                AutoGenerateColumns="False"
-                CanUserAddRows="True"
-                CanUserSortColumns="False"
-                ColumnWidth="*"
-                ItemsSource="{Binding BendingDatas, Mode=TwoWay}"
-                CellEditEnding="PipeBendParametersDataGrid_CellEditEnding">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Header="{x:Static lang:Language.StraightLength}"
-                        Binding="{Binding StraightLength}"/>
-                    <DataGridTextColumn
-                        Header="{x:Static lang:Language.BendingAngle}"
-                        Binding="{Binding BendingAngle}"/>
-                    <DataGridTextColumn
-                        Header="{x:Static lang:Language.BendingRadius}"
-                        Binding="{Binding BendingRadius}"/>
-                    <DataGridTextColumn
-                        Header="{x:Static lang:Language.RotationAngle}"
-                        Binding="{Binding RotationAngle}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        Margin="0,4,0,0"
+                        FontSize="10"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE710;"/>
+                    <TextBlock 
+                        Margin="8,0,0,0" 
+                        Text="{x:Static lang:Language.CreateButton}"/>
+                </StackPanel>
+            </Button>
+            <Button 
+                x:Name="OpenButton" 
+                Command="{Binding OpenFileCommand}"
+                Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE8E5;"/>
+                    <TextBlock 
+                        Margin="8,0,0,0"
+                        Text="{x:Static lang:Language.OpenButton}"/>
+                </StackPanel>
+            </Button>
+            <Button 
+                x:Name="SaveButton" 
+                Command="{Binding SaveFileCommand}"
+                Margin="10">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE74E;"/>
+                    <TextBlock 
+                        Margin="8,0,0,0"
+                        Text="{x:Static lang:Language.SaveButton}"/>
+                </StackPanel>
+            </Button>
+            <Button
+                x:Name="Apply"
+                IsEnabled="False" Click="Apply_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE73E;"/>
+                    <TextBlock
+                        Margin="8,0,0,0"
+                        Text="{x:Static lang:Language.ApplyButton}"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
-
-        <Border 
-            x:Name="ProgramControllerBorder"
-            Grid.Column="1"
-            Margin="4,0,0,0"
-            Padding="5,5,5,5"
-            Background="{DynamicResource LayerFillColorDefaultBrush}"
-            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-            BorderThickness="1"
-            CornerRadius="8,0,0,0">
-        </Border>
-    </Grid>
+        <DataGrid 
+            x:Name="PipeBendParametersDataGrid"
+            AutoGenerateColumns="False"
+            CanUserAddRows="True"
+            CanUserSortColumns="False"
+            ColumnWidth="*"
+            ItemsSource="{Binding BendingDatas, Mode=TwoWay}"
+            CellEditEnding="PipeBendParametersDataGrid_CellEditEnding">
+            <DataGrid.Columns>
+                <DataGridTextColumn
+                    Header="{x:Static lang:Language.StraightLength}"
+                    Binding="{Binding StraightLength}"/>
+                <DataGridTextColumn
+                    Header="{x:Static lang:Language.BendingAngle}"
+                    Binding="{Binding BendingAngle}"/>
+                <DataGridTextColumn
+                    Header="{x:Static lang:Language.BendingRadius}"
+                    Binding="{Binding BendingRadius}"/>
+                <DataGridTextColumn
+                    Header="{x:Static lang:Language.RotationAngle}"
+                    Binding="{Binding RotationAngle}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </StackPanel>
 </Page>

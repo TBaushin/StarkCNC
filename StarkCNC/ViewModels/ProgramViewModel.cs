@@ -3,12 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using StarkCNC._3DViewer.Services;
-using StarkCNC._3DViewer.Views;
 using StarkCNC.Core.Services;
 using StarkCNC.Helpers;
 using StarkCNC.Models;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 
 namespace StarkCNC.ViewModels
@@ -49,11 +47,6 @@ namespace StarkCNC.ViewModels
             CreateNewFileCommand = new AsyncRelayCommand(CreateNewFile);
             OpenFileCommand = new AsyncRelayCommand(OpenFile);
             SaveFileCommand = new AsyncRelayCommand(SaveFile);
-        }
-
-        public ProgramControllerView GetProgramControllerView()
-        {
-            return _serviceProvider.GetRequiredService<ProgramControllerView>();
         }
 
         private async Task CreateNewFile()

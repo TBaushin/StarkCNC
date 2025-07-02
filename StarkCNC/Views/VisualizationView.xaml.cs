@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using StarkCNC.ViewModels;
+using System.Windows.Controls;
 
 namespace StarkCNC.Views
 {
@@ -7,9 +8,15 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class VisualizationView : Page
     {
-        public VisualizationView()
+        private readonly VisualizationViewModel ViewModel;
+
+        public VisualizationView(VisualizationViewModel viewModel)
         {
+            ViewModel = viewModel;
+
             InitializeComponent();
+
+            VisualizationPage.Content = ViewModel.GetProgramControllerView();
         }
     }
 }
