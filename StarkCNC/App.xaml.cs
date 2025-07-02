@@ -47,7 +47,6 @@ namespace StarkCNC
             InitializeComponent();
             MainWindow = host.Services.GetRequiredService<MainWindow>();
             MainWindow.Visibility = Visibility.Visible;
-            Run();
         }
     }
 }
