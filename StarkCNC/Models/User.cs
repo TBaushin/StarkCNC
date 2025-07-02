@@ -6,10 +6,10 @@
 
         public byte[] Image { get; set; }
 
-        public User()
+        public User(string name, byte[] image)
         {
-            Name = string.Empty;
-            Image = Array.Empty<byte>();
+            Name = name;
+            Image = image;
         }
 
         public User(User? user)

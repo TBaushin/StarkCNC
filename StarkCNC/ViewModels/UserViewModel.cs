@@ -41,7 +41,7 @@ namespace StarkCNC.ViewModels
         [RelayCommand]
         private void AddUser()
         {
-            Users.Add(new User());
+            Users.Add(new User(Localization.Language.NewUser, Array.Empty<byte>()));
             SelectedUser = Users.Last();
 
             IsReadOnly = false;

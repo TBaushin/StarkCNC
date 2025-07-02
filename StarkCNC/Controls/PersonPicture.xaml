@@ -24,7 +24,7 @@
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Stretch="Uniform"
-            Stroke="AliceBlue"
+            Stroke="Black"
             StrokeThickness="1"
             ToolTip="{Binding DisplayName, RelativeSource={RelativeSource TemplatedParent}}">
             <Ellipse.Fill>

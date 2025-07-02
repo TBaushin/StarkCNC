@@ -192,4 +192,7 @@
   <data name="User" xml:space="preserve">
     <value>Пользователь</value>
   </data>
+  <data name="NewUser" xml:space="preserve">
+    <value>Новый пользователь</value>
+  </data>
 </root>
