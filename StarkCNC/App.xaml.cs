@@ -33,6 +33,7 @@ namespace StarkCNC
                     services.AddSingleton<IGCodeService, GCodeService>();
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<MainWindowViewModel>();
+                    services.AddSingleton<VisualizationViewModel>();
                     services.AddSingleton<ProgramViewModel>();
                     services.AddSingleton<ProgramControllerView>();
                     services.AddSingleton<ProgramControllerViewModel>();
