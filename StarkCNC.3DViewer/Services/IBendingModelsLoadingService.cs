@@ -18,7 +18,7 @@ namespace StarkCNC._3DViewer.Services
 
         Model? Press { get; }
 
-        event PropertyChangedEventHandler? PropertyChanged;
+        new event PropertyChangedEventHandler? PropertyChanged;
 
         void Load(string path);
 
