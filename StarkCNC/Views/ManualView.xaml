@@ -20,7 +20,8 @@
                 Grid.Row="1"
                 Text="" 
                 AutomationProperties.HelpText="Some Value" 
-                PreviewTextInput="TextBox_PreviewTextInput"/>
+               
+                />
         </Grid>
         <Grid x:Name="LabledTextBox2" Margin="8, 3, 0, 3">
             <Grid.RowDefinitions>
@@ -58,7 +59,7 @@
                 AutomationProperties.HelpText="Some Value" 
                 PreviewTextInput="TextBox_PreviewTextInput"/>
         </Grid>
-        <Button Margin="8, 3, 0, 3" HorizontalAlignment="Right">
+        <Button Margin="8, 3, 0, 3" HorizontalAlignment="Right" Click = "btnReadSingleNode_Click">
             <StackPanel Orientation="Horizontal">
                 <TextBlock 
                     VerticalAlignment="Center"
@@ -67,7 +68,51 @@
                     Text="&#xE724;"/>
                 <TextBlock 
                     Margin="8,0,0,0"
-                    Text="SEND"/>
+                    Text="SEND"
+                    />
+                
+            </StackPanel>
+        </Button>
+        <Button Margin="25, 3, 0, 3" HorizontalAlignment="Right" Click = "Connect">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+             VerticalAlignment="Center"
+             FontSize="10"
+             FontFamily="{StaticResource SymbolThemeFontFamily}"
+             Text="&#xE724;"/>
+                <TextBlock 
+             Margin="8,0,0,0"
+             Text="Connect"
+             />
+
+            </StackPanel>
+        </Button>
+        <Button Margin="0, -90, 0, 3" HorizontalAlignment="Left" Click = "ZazhimR">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+      VerticalAlignment="Center"
+      FontSize="10"
+      FontFamily="{StaticResource SymbolThemeFontFamily}"
+     />
+                <TextBlock 
+      Margin="8,0,0,0"
+      Text="Зажим назад"
+      />
+
+            </StackPanel>
+        </Button>
+        <Button Margin="120, -90, 0, 3" HorizontalAlignment="Left" Click = "ZazhimFR">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock 
+ VerticalAlignment="Center"
+ FontSize="10"
+ FontFamily="{StaticResource SymbolThemeFontFamily}"
+/>
+                <TextBlock 
+ Margin="8,0,0,0"
+ Text="Зажим вперед"
+ />
+
             </StackPanel>
         </Button>
     </StackPanel>
