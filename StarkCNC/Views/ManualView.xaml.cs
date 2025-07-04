@@ -9,7 +9,7 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class ManualView : Page
     {
-        const string plc = "ns=4;s=|var|HCQ0-1200D-1.04.00.04.Application.";
+        const string plc = "ns=4;s=|var|HCQ0-1200D-1.04.00.04.Application.";// Могут отличаться от станка к станку
         public ManualView()
         {
             InitializeComponent();
@@ -31,7 +31,7 @@ namespace StarkCNC.Views
             try
             {
                 //Подключение к серверу
-                await opcUaClient.ConnectServer("opc.tcp://192.168.88.100:4840");
+                await opcUaClient.ConnectServer("opc.tcp://192.168.88.100:4840"); // Могут отличаться от станка к станку
             }
             catch (Exception ex)
             {
