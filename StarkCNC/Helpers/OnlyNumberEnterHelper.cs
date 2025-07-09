@@ -4,12 +4,7 @@
     {
         public static bool IsTextAllowed(string text)
         {
-            return text.All(IsCharAllowed);
-        }
-
-        public static bool IsCharAllowed(char ch)
-        {
-            return char.IsDigit(ch) || ch == '.' || ch == ',';
+            return text.All(c => char.IsNumber(c) || c == '.' || c == ',');
         }
     }
 }

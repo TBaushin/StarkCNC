@@ -1,5 +1,5 @@
 ﻿using OpcUaHelper;
-using System.Windows;
+using StarkCNC.Helpers;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views
@@ -17,7 +17,8 @@ namespace StarkCNC.Views
 
         private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            e.Handled = !e.Text.All(c => Char.IsNumber(c) || c == '.' || c == ','); // Only digit and point for float
+            e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
+
             base.OnPreviewTextInput(e);
         }
         private OpcUaClient opcUaClient = new OpcUaClient();
