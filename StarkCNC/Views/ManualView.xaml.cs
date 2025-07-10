@@ -170,10 +170,10 @@ namespace StarkCNC.Views
 
         public ManualView(Grid labledTextBox1, Grid labledTextBox2, Grid labledTextBox3, Grid labledTextBox4, bool contentLoaded)
         {
-            LabledTextBox1 = labledTextBox1;
-            LabledTextBox2 = labledTextBox2;
-            LabledTextBox3 = labledTextBox3;
-            LabledTextBox4 = labledTextBox4;
+            //LabledTextBox1 = labledTextBox1;
+            //LabledTextBox2 = labledTextBox2;
+            //LabledTextBox3 = labledTextBox3;
+            //LabledTextBox4 = labledTextBox4;
             _contentLoaded = contentLoaded;
         }
     }

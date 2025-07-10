@@ -4,116 +4,147 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:lang="clr-namespace:StarkCNC.Localization"
+      xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:local="clr-namespace:StarkCNC.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.ManualPageTitle}">
+    <Page.Resources>
+        <Style TargetType="controls:RepeatButtonWithIndicator">
+            <Setter Property="Margin" Value="0,5,0,5"/>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <StackPanel>
-        <Grid x:Name="LabledTextBox1" Margin="8, 3, 0, 3">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Test1" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity="0.7"/>
-            <TextBox 
-                Grid.Row="1"
-                Text="" 
-                AutomationProperties.HelpText="Some Value" 
-               
-                />
-        </Grid>
-        <Grid x:Name="LabledTextBox2" Margin="8, 3, 0, 3">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Test2" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity="0.7"/>
-            <TextBox 
-                Grid.Row="1"
-                Text="" 
-                AutomationProperties.HelpText="Some Value" 
-                PreviewTextInput="TextBox_PreviewTextInput"/>
-        </Grid>
-        <Grid x:Name="LabledTextBox3" Margin="8, 3, 0, 3">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Test3" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity="0.7"/>
-            <TextBox 
-                Grid.Row="1"
-                Text="" 
-                AutomationProperties.HelpText="Some Value" 
-                PreviewTextInput="TextBox_PreviewTextInput"/>
-        </Grid>
-        <Grid x:Name="LabledTextBox4" Margin="8, 3, 0, 3">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Test4" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Opacity="0.7"/>
-            <TextBox 
-                Grid.Row="1"
-                Text="" 
-                AutomationProperties.HelpText="Some Value" 
-                PreviewTextInput="TextBox_PreviewTextInput"/>
-        </Grid>
-        <Button Margin="8, 3, 0, 3" HorizontalAlignment="Right" Click = "btnReadSingleNode_Click">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock 
-                    VerticalAlignment="Center"
-                    FontSize="10"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                    Text="&#xE724;"/>
-                <TextBlock 
-                    Margin="8,0,0,0"
-                    Text="SEND"
-                    />
-                
+        <StackPanel
+            Grid.Column="0"
+            Grid.Row="0"
+            Grid.RowSpan="2"
+            HorizontalAlignment="Stretch">
+            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5" Content="Ручной режим"/>
+            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5">
+                <Button.Content>
+                    <StackPanel>
+                        <Label HorizontalAlignment="Center" Content="Гидравлика 1"/>
+                        <Label HorizontalAlignment="Center" Content="Включить"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5">
+                <Button.Content>
+                    <StackPanel>
+                        <Label HorizontalAlignment="Center" Content="Гидравлика 2"/>
+                        <Label HorizontalAlignment="Center" Content="Включить"/>
+                    </StackPanel>
+                </Button.Content>
+            </Button>
+            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5" Content="Поддержка вверх"/>
+            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5">
+                <StackPanel>
+                    <Label HorizontalAlignment="Center" Content="Смазку дорна"/>
+                    <Label HorizontalAlignment="Center" Content="Включить"/>
+                </StackPanel>
+            </Button>
+            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5">
+                <StackPanel>
+                    <Label HorizontalAlignment="Center" Content="Гиб вперёд"/>
+                    <Label HorizontalAlignment="Center" Content="Дожим вперёд"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <Separator
+            Grid.Column="1"
+            Margin="5,0,5,0"
+            VerticalAlignment="Stretch"/>
+        <Grid Grid.Column="2" Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <StackPanel
+                Grid.Column="0"
+                Orientation="Vertical"
+                VerticalAlignment="Stretch">
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Зажим назад"
+                    Interval="100"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Прижим назад"
+                    Interval="100"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Дожим 1 назад"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Гиб назад"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Цанга разжим"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Дорн назад"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Оснастка вниз"/>
+                <controls:RepeatButtonWithIndicator
+                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                    ButtonContent="Пробивка назад"/>
             </StackPanel>
-        </Button>
-        <Button Margin="25, 3, 0, 3" HorizontalAlignment="Right" Click = "Connect">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock 
-             VerticalAlignment="Center"
-             FontSize="10"
-             FontFamily="{StaticResource SymbolThemeFontFamily}"
-             Text="&#xE724;"/>
-                <TextBlock 
-             Margin="8,0,0,0"
-             Text="Connect"
-             />
-
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Vertical"
+                VerticalAlignment="Stretch">
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Зажим вперёд"
+                    Interval="100"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Прижим вперёд"
+                    Interval="100"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Дожим 1 вперёд"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Гиб вперёд"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Цанга зажим"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Дорн вперёд"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Оснастка вверх"/>
+                <controls:RepeatButtonWithIndicator
+                    ButtonContent="Пробивка вперёд"/>
             </StackPanel>
-        </Button>
-        <Button Margin="0, -90, 0, 3" HorizontalAlignment="Left" Click = "ZazhimR">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock 
-      VerticalAlignment="Center"
-      FontSize="10"
-      FontFamily="{StaticResource SymbolThemeFontFamily}"
-     />
-                <TextBlock 
-      Margin="8,0,0,0"
-      Text="Зажим назад"
-      />
-
-            </StackPanel>
-        </Button>
-        <Button Margin="120, -90, 0, 3" HorizontalAlignment="Left" Click = "ZazhimFR">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock 
- VerticalAlignment="Center"
- FontSize="10"
- FontFamily="{StaticResource SymbolThemeFontFamily}"
-/>
-                <TextBlock 
- Margin="8,0,0,0"
- Text="Зажим вперед"
- />
-
-            </StackPanel>
-        </Button>
-    </StackPanel>
+        </Grid>
+        <StackPanel
+            Grid.Column="2"
+            Grid.Row="1"
+            Orientation="Horizontal"
+            Margin="0,5,0,5"
+            HorizontalAlignment="Center">
+            <TextBlock Margin="5,5,5,0" Text="Угол гиба, градусы"/>
+            <TextBox Margin="5,0,5,0" Text="0.0" IsReadOnly="True"/>
+            <Button Margin="5,0,5,0" Content="Обнуление"/>
+        </StackPanel>
+        
+        <Separator
+            Grid.Column="3"
+            Margin="5,0,5,0"
+            VerticalAlignment="Stretch"/>
+        
+        <StackPanel Grid.Column="4" Grid.Row="0">
+            
+        </StackPanel>
+        <StackPanel
+            Grid.Column="4"
+            Grid.Row="1"
+            Margin="0,5,0,5"
+            HorizontalAlignment="Center">
+            <Button Content="Сброс ошибок сервопривода"/>
+        </StackPanel>
+    </Grid>
 </Page>
