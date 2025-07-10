@@ -26,29 +26,29 @@
             Stretch="Uniform"
             Stroke="Black"
             StrokeThickness="1"
-            ToolTip="{Binding DisplayName, RelativeSource={RelativeSource TemplatedParent}}">
+            ToolTip="{Binding DisplayName, RelativeSource={RelativeSource AncestorType=UserControl}}">
             <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding PictureSource, RelativeSource={RelativeSource TemplatedParent}}"/>
+                <ImageBrush ImageSource="{Binding PictureSource, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             </Ellipse.Fill>
         </Ellipse>
         <Ellipse
             Grid.RowSpan="3"
             Grid.ColumnSpan="3"
             Panel.ZIndex="-1"
-            Fill="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
-            Stroke="{Binding BorderBrush, RelativeSource={RelativeSource TemplatedParent}}"
-            StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource TemplatedParent}}"
-            ToolTip="{Binding DisplayName, RelativeSource={RelativeSource TemplatedParent}}"/>
+            Fill="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Stroke="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            StrokeThickness="{Binding StrokeThickness, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            ToolTip="{Binding DisplayName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <TextBlock
             x:Name="InitialsTextBlock"
             Grid.RowSpan="3"
             Grid.ColumnSpan="3"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            FontFamily="{Binding FontFamily, RelativeSource={RelativeSource TemplatedParent}}"
+            FontFamily="{Binding FontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"
             FontSize="36"
-            Foreground="{Binding Foreground, RelativeSource={RelativeSource TemplatedParent}}"
-            Text="{Binding DisplayName, RelativeSource={RelativeSource TemplatedParent}}"
+            Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Text="{Binding DisplayName, RelativeSource={RelativeSource AncestorType=UserControl}}"
             Visibility="Collapsed"/>
         <Ellipse
             x:Name="StatusEllipse"
@@ -59,9 +59,9 @@
             Margin="0,0,3,3"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            ToolTip="{Binding StatusText, RelativeSource={RelativeSource TemplatedParent}}">
+            ToolTip="{Binding StatusText, RelativeSource={RelativeSource AncestorType=UserControl}}">
             <Ellipse.Fill>
-                <ImageBrush ImageSource="{Binding StatusPictureSource, RelativeSource={RelativeSource TemplatedParent}}"/>
+                <ImageBrush ImageSource="{Binding StatusPictureSource, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             </Ellipse.Fill>
         </Ellipse>
     </Grid>
