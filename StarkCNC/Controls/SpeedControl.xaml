@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:gauge ="clr-namespace:Syncfusion.UI.Xaml.Gauges;assembly=Syncfusion.SfGauge.Wpf"
              xmlns:lang="clr-namespace:StarkCNC.Localization"
              xmlns:local="clr-namespace:StarkCNC.Controls"
              mc:Ignorable="d" 
@@ -24,6 +23,7 @@
                 Content="Обнуление"/> <!--TODO: Перевести-->
             <TextBlock
                 Text="{Binding ControlName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <!--TODO: Добавить Gauge Live Charts-->
         </StackPanel>
         <StackPanel
             Grid.Row="1"
