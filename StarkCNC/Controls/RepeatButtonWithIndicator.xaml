@@ -13,19 +13,20 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <RepeatButton
+            x:Name="IndicatorButton"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
             Content="{Binding ButtonContent, RelativeSource={RelativeSource AncestorType=UserControl}}"
             Interval="{Binding Interval, RelativeSource={RelativeSource AncestorType=UserControl}}"
-            
-            MouseDown="RepeatButton_MouseDown"
-            MouseUp="RepeatButton_MouseUp"/>
+            PreviewMouseDown="RepeatButton_MouseDown"
+            PreviewMouseUp="RepeatButton_MouseUp"/>
         <Border Grid.Column="1" Margin="5" CornerRadius="5">
-            <Canvas
-                x:Name="Indicator"
-                Grid.Column="1"
-                Background="DarkRed"/>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <SolidColorBrush x:Name="Indicator" Color="DarkRed"/>
+                </Rectangle.Fill>
+            </Rectangle>
         </Border>
     </Grid>
 </UserControl>

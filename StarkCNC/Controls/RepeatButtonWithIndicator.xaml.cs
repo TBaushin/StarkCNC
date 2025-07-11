@@ -39,12 +39,12 @@ namespace StarkCNC.Controls
 
         private void RepeatButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Indicator.Background = Brushes.Green;
+            Indicator.Color = Colors.Green;
         }
 
         private void RepeatButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Indicator.Background = Brushes.DarkRed;
+            Indicator.Color = Colors.DarkRed;
         }
     }
 }
