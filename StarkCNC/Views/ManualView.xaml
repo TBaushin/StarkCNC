@@ -136,8 +136,10 @@
             Margin="5,0,5,0"
             VerticalAlignment="Stretch"/>
         
-        <StackPanel Grid.Column="4" Grid.Row="0">
-            
+        <StackPanel Grid.Column="4" Grid.Row="0" HorizontalAlignment="Stretch">
+            <controls:SpeedControl/>
+            <controls:SpeedControl/>
+            <controls:SpeedControl/>
         </StackPanel>
         <StackPanel
             Grid.Column="4"

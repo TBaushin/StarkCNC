@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="StarkCNC.Controls.SpeedControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:gauge ="clr-namespace:Syncfusion.UI.Xaml.Gauges;assembly=Syncfusion.SfGauge.Wpf"
+             xmlns:lang="clr-namespace:StarkCNC.Localization"
+             xmlns:local="clr-namespace:StarkCNC.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center">
+            <Button
+                x:Name="Reset"
+                Content="Обнуление"/> <!--TODO: Перевести-->
+            <TextBlock
+                Text="{Binding ControlName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="1"
+            Orientation="Horizontal"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center">
+            <Button
+                x:Name="Back"
+                Content="Назад"/> <!--TODO: Перевести-->
+            <TextBox
+                x:Name="SpeedTb"/>
+            <Button
+                x:Name="Forward"
+                Content="Вперёд"/> <!--TODO: Перевести-->
+        </StackPanel>
+        <StackPanel
+            Grid.Row="2"
+            Orientation="Horizontal"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center">
+            <TextBox
+                x:Name="CoordinateTB"
+                IsReadOnly="True"/>
+            <TextBox
+                x:Name="RelativeDisplacementTB"
+                IsReadOnly="True"/>
+            <local:RepeatButtonWithIndicator
+                x:Name="RelativeDisplacementButton"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
