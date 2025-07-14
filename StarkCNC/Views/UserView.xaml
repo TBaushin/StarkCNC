@@ -87,7 +87,7 @@
                 HorizontalAlignment="Center"
                 Command="{Binding AddUserCommand}"
                 Content="{x:Static lang:Language.AddNewUserButton}"
-                Style="{DynamicResource AccentButtonStyle}"/>
+                Style="{DynamicResource AccentButtonStyle}"/> <!--TODO: Добавить иконки-->
         </Grid>
 
         <Grid x:Name="UserDetailsGrid" Grid.Column="1" Grid.RowSpan="2">
@@ -201,26 +201,26 @@
                                 Command="{Binding EditUserStartCommand}"
                                 Visibility="{Binding IsReadOnly, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Click="EditButton_Click"
-                                Content="{x:Static lang:Language.EditButton}"/>
+                                Content="{x:Static lang:Language.EditButton}"/> <!--TODO: Добавить иконки-->
                             <Button
                                 Margin="10"
                                 Command="{Binding RemoveUserCommand}"
                                 CommandParameter="{Binding SelectedUser}"
                                 Visibility="{Binding IsReadOnly, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Content="{x:Static lang:Language.DeleteButton}"/>
+                                Content="{x:Static lang:Language.DeleteButton}"/> <!--TODO: Добавить иконки-->
                             <Button
                                 x:Name="SaveButton"
                                 Margin="10"
                                 Command="{Binding EditUserCommitCommand}"
                                 Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Click="SaveButton_Click"
-                                Content="{x:Static lang:Language.SaveButton}"/>
+                                Content="{x:Static lang:Language.SaveButton}"/> <!--TODO: Добавить иконки-->
                             <Button
                                 Margin="10"
                                 Command="{Binding EditUserCancelCommand}"
                                 Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
                                 Click="CancelButton_Click"
-                                Content="{x:Static lang:Language.CancelButton}"/>
+                                Content="{x:Static lang:Language.CancelButton}"/> <!--TODO: Добавить иконки-->
                         </StackPanel>
                     </Grid>
                 </ScrollViewer>
