@@ -32,17 +32,23 @@ namespace StarkCNC.Controls
             set => SetValue(CommandProperty, value);
         }
 
+        public event RoutedEventHandler Click;
+
+        public new event MouseButtonEventHandler MouseUp;
+
+        public new event MouseButtonEventHandler MouseDown;
+
         public RepeatButtonWithIndicator()
         {
             InitializeComponent();
         }
 
-        private void RepeatButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void RepeatButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
             Indicator.Color = Colors.Green;
         }
 
-        private void RepeatButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void RepeatButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
             Indicator.Color = Colors.DarkRed;
         }
