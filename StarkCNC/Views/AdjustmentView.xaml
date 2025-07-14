@@ -4,16 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:lang="clr-namespace:StarkCNC.Localization"
+      xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:local="clr-namespace:StarkCNC.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.AdjustmentPageTitle}">
 
     <ListView>
-        <Label Content="{x:Static lang:Language.PipeDiameter}"/>
-        <TextBox 
-            x:Name="PipeDiameterInput" 
-            PreviewTextInput="PipeDiameterInput_PreviewTextInput"
-            Text="{Binding Parameters.PipeDiameter, Mode=TwoWay}"/>
+        <controls:LabeledTextBoxControl
+            LabelText="{x:Static lang:Language.PipeDiameter}"
+            TextBoxText="{Binding Parameters.PipeDiameter, Mode=TwoWay}"/>
     </ListView>
 </Page>
