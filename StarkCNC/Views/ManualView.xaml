@@ -27,42 +27,76 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <StackPanel
+        <Grid
             Grid.Column="0"
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch">
-            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5" Content="Ручной режим"/>
-            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5">
-                <Button.Content>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Button
+                Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="0,5,0,5"
+                Content="Ручной режим"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Row="1"
+                HorizontalAlignment="Stretch"
+                Margin="0,5,0,5">
+                <controls:RepeatButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 1"/>
                         <Label HorizontalAlignment="Center" Content="Включить"/>
                     </StackPanel>
-                </Button.Content>
-            </Button>
-            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5">
-                <Button.Content>
+                </controls:RepeatButtonWithIndicator.ButtonContent>
+            </controls:RepeatButtonWithIndicator>
+            <controls:RepeatButtonWithIndicator
+                Grid.Row="2"
+                HorizontalAlignment="Stretch"
+                Margin="0,5,0,5">
+                <controls:RepeatButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 2"/>
                         <Label HorizontalAlignment="Center" Content="Включить"/>
                     </StackPanel>
-                </Button.Content>
-            </Button>
-            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5" Content="Поддержка вверх"/>
-            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5">
+                </controls:RepeatButtonWithIndicator.ButtonContent>
+            </controls:RepeatButtonWithIndicator>
+            <Button
+                Grid.Row="3"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="0,5,0,5"
+                Content="Поддержка вверх"/>
+            <Button
+                Grid.Row="4"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="0,5,0,5">
                 <StackPanel>
                     <Label HorizontalAlignment="Center" Content="Смазку дорна"/>
                     <Label HorizontalAlignment="Center" Content="Включить"/>
                 </StackPanel>
             </Button>
-            <Button HorizontalAlignment="Stretch" Margin="0,5,0,5">
+            <Button
+                Grid.Row="5"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Margin="0,5,0,5">
                 <StackPanel>
                     <Label HorizontalAlignment="Center" Content="Гиб вперёд"/>
                     <Label HorizontalAlignment="Center" Content="Дожим вперёд"/>
                 </StackPanel>
             </Button>
-        </StackPanel>
+        </Grid>
         <Separator
             Grid.Column="1"
             Margin="5,0,5,0"
