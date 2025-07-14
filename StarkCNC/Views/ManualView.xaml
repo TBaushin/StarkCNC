@@ -233,13 +233,30 @@
 
         <Grid Grid.Column="4" Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <controls:SpeedControl Grid.Row="0"/>
-            <controls:SpeedControl Grid.Row="1"/>
-            <controls:SpeedControl Grid.Row="2"/>
+            <controls:SpeedControl
+                Grid.Row="0"
+                ControlName="Подача"/>
+            <Separator
+                Grid.Row="1"
+                Margin="0,5,0,5"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"/>
+            <controls:SpeedControl
+                Grid.Row="2"
+                ControlName="Поворот"/>
+            <Separator
+                Grid.Row="3"
+                Margin="0,5,0,5"
+                HorizontalAlignment="Stretch"/>
+            <controls:SpeedControl
+                Grid.Row="4"
+                ControlName="Консоль"/>
         </Grid>
         <StackPanel
             Grid.Column="4"
