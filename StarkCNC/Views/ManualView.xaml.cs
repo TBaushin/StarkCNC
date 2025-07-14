@@ -1,6 +1,7 @@
 ﻿using OpcUaHelper;
 using StarkCNC.Helpers;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace StarkCNC.Views
 {
@@ -53,6 +54,7 @@ namespace StarkCNC.Views
                 // Получить адрес сервера, которым нужно управлять
             }
         }
+
         /// <summary>
         /// Операция чтения узла
         /// </summary>
@@ -77,6 +79,7 @@ namespace StarkCNC.Views
                
             }
         }
+
         private void ZazhimFR(object sender, EventArgs e)
         {
             try
@@ -121,6 +124,7 @@ namespace StarkCNC.Views
 
             }
         }
+
         private void ZazhimR(object sender, EventArgs e)
         {
             try
@@ -164,10 +168,6 @@ namespace StarkCNC.Views
             }
         }
 
-
-
-
-
         public ManualView(Grid labledTextBox1, Grid labledTextBox2, Grid labledTextBox3, Grid labledTextBox4, bool contentLoaded)
         {
             //LabledTextBox1 = labledTextBox1;
@@ -175,6 +175,30 @@ namespace StarkCNC.Views
             //LabledTextBox3 = labledTextBox3;
             //LabledTextBox4 = labledTextBox4;
             _contentLoaded = contentLoaded;
+        }
+
+        private void PressureBackButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            PressureBackIndicatorFirst.Color = Colors.Green;
+            PressureBackIndicatorSecond.Color = Colors.Green;
+        }
+
+        private void PressureBackButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            PressureBackIndicatorFirst.Color = Colors.DarkRed;
+            PressureBackIndicatorSecond.Color = Colors.DarkRed;
+        }
+
+        private void PressureForwardButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            PressureForwardIndicatorFirst.Color = Colors.Green;
+            PressureForwardIndicatorSecond.Color = Colors.Green;
+        }
+
+        private void PressureForwardButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            PressureForwardIndicatorFirst.Color = Colors.DarkRed;
+            PressureForwardIndicatorSecond.Color = Colors.DarkRed;
         }
     }
 }
