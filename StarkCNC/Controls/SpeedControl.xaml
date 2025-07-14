@@ -14,26 +14,33 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <StackPanel
-            Grid.Row="0"
-            Orientation="Horizontal"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center">
+        <Grid
+            Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
             <Button
                 x:Name="Reset"
+                Grid.Column="0"
                 HorizontalAlignment="Stretch"
-                Content="Обнуление"/> <!--TODO: Перевести-->
+                VerticalAlignment="Center"
+                Content="Обнуление"/>
+            <!--TODO: Перевести-->
             <TextBlock
-                HorizontalAlignment="Stretch"
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 Text="{Binding ControlName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             <lvc:PieChart
                 x:Name="Gauge"
-                HorizontalAlignment="Stretch"
+                Grid.Column="2"
                 InitialRotation="225"
                 MaxAngle="270"
                 MinValue="0"
                 MaxValue="100"/>
-        </StackPanel>
+        </Grid>
         <Grid
             Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -43,9 +50,10 @@
             </Grid.ColumnDefinitions>
             <Button
                 x:Name="BackButton"
-                Grid.Column="0">
-                <StackPanel
-                    Orientation="Horizontal">
+                Grid.Column="0"
+                HorizontalAlignment="Stretch"
+                Margin="5,23,5,0">
+                <StackPanel Orientation="Horizontal">
                     <TextBlock 
                         VerticalAlignment="Center"
                         Margin="0,4,0,0"
@@ -57,23 +65,23 @@
                         Text="{x:Static lang:Language.BackButton}"/>
                 </StackPanel>
             </Button>
-            <StackPanel
+            <local:LabeledTextBoxControl
+                x:Name="SpeedTb"
                 Grid.Column="1"
-                Orientation="Vertical">
-                <Label HorizontalAlignment="Center" Content="Скорость, %"/> <!--TODO: Перевести-->
-                <TextBox
-                    x:Name="SpeedTb"
-                    HorizontalAlignment="Stretch"
-                    Grid.Column="1"/>
-            </StackPanel>
-            
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Margin="5,0,5,0"
+                LabelText="Скорость, %"
+                TextBoxText=""/>
             <Button
                 x:Name="ForwardButton"
-                Grid.Column="2">
+                Grid.Column="2"
+                HorizontalAlignment="Stretch"
+                Margin="5,23,5,0">
                 <StackPanel
                     Orientation="Horizontal">
                     <TextBlock 
-                        Margin="8,0,0,0" 
+                        Margin="0,0,8,0" 
                         Text="{x:Static lang:Language.ForwardButton}"/>
                     <TextBlock 
                         VerticalAlignment="Center"
@@ -84,26 +92,43 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <StackPanel
-            Grid.Row="2"
-            Orientation="Horizontal"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center">
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <local:LabeledTextBoxControl
                 x:Name="CoordinateTB"
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Margin="5,0,5,0"
                 LabelText="Координата, мм"
                 IsReadOnly="True"/>
             <local:LabeledTextBoxControl
                 x:Name="RelativeDisplacementTB"
+                Grid.Column="1"
+                VerticalAlignment="Center"
+                Margin="5,0,5,0"
                 LabelText="Отн. перемещ., мм"
                 IsReadOnly="True"/>
             <Button
-                x:Name="RelativeDisplacementButton">
+                x:Name="RelativeDisplacementButton"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                Margin="5,0,5,0">
                 <StackPanel>
-                    <TextBlock Text="Относительное"/> <!--TODO: Перевести-->
-                    <TextBlock Text="перемещение"/> <!--TODO: Перевести-->
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Text="Относительное"/>
+                    <!--TODO: Перевести-->
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        Text="перемещение"/>
+                    <!--TODO: Перевести-->
                 </StackPanel>
             </Button>
-        </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>
