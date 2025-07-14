@@ -16,11 +16,11 @@
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="1.5*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -72,53 +72,84 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <StackPanel
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <controls:RepeatButtonWithIndicator
                 Grid.Column="0"
-                Orientation="Vertical"
-                VerticalAlignment="Stretch">
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Зажим назад"
-                    Interval="100"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Прижим назад"
-                    Interval="100"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Дожим 1 назад"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Гиб назад"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Цанга разжим"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Дорн назад"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Оснастка вниз"/>
-                <controls:RepeatButtonWithIndicator
-                    VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
-                    ButtonContent="Пробивка назад"/>
-            </StackPanel>
-            <StackPanel
+                Grid.Row="0"
+                ButtonContent="Зажим назад"
+                Interval="100"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="0"
+                Grid.Row="1"
+                ButtonContent="Прижим назад"
+                Interval="100"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="0"
+                Grid.Row="2"
+                ButtonContent="Дожим 1 назад"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="0"
+                Grid.Row="3"
+                ButtonContent="Гиб назад"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="0"
+                Grid.Row="4"
+                ButtonContent="Цанга разжим"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="0"
+                Grid.Row="5"
+                ButtonContent="Дорн назад"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="0"
+                Grid.Row="6"
+                ButtonContent="Оснастка вниз"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="0"
+                Grid.Row="7"
+                ButtonContent="Пробивка назад"/>
+            <controls:RepeatButtonWithIndicator
                 Grid.Column="1"
-                Orientation="Vertical"
-                VerticalAlignment="Stretch">
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Зажим вперёд"
-                    Interval="100"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Прижим вперёд"
-                    Interval="100"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Дожим 1 вперёд"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Гиб вперёд"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Цанга зажим"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Дорн вперёд"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Оснастка вверх"/>
-                <controls:RepeatButtonWithIndicator
-                    ButtonContent="Пробивка вперёд"/>
-            </StackPanel>
+                Grid.Row="0"
+                ButtonContent="Зажим вперёд"
+                Interval="100"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="1"
+                Grid.Row="1"
+                ButtonContent="Прижим вперёд"
+                Interval="100"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="1"
+                Grid.Row="2"
+                ButtonContent="Дожим 1 вперёд"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="1"
+                Grid.Row="3"
+                ButtonContent="Гиб вперёд"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="1"
+                Grid.Row="4"
+                ButtonContent="Цанга зажим"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="1"
+                Grid.Row="5"
+                ButtonContent="Дорн вперёд"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="1"
+                Grid.Row="6"
+                ButtonContent="Оснастка вверх"/>
+            <controls:RepeatButtonWithIndicator
+                Grid.Column="1"
+                Grid.Row="7"
+                ButtonContent="Пробивка вперёд"/>
         </Grid>
         <StackPanel
             Grid.Column="2"
@@ -135,12 +166,17 @@
             Grid.Column="3"
             Margin="5,0,5,0"
             VerticalAlignment="Stretch"/>
-        
-        <StackPanel Grid.Column="4" Grid.Row="0" HorizontalAlignment="Stretch">
-            <controls:SpeedControl/>
-            <controls:SpeedControl/>
-            <controls:SpeedControl/>
-        </StackPanel>
+
+        <Grid Grid.Column="4" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <controls:SpeedControl Grid.Row="0"/>
+            <controls:SpeedControl Grid.Row="1"/>
+            <controls:SpeedControl Grid.Row="2"/>
+        </Grid>
         <StackPanel
             Grid.Column="4"
             Grid.Row="1"
