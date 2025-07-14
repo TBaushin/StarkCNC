@@ -195,4 +195,7 @@
   <data name="NewUser" xml:space="preserve">
     <value>Новый пользователь</value>
   </data>
+  <data name="ForwardButton" xml:space="preserve">
+    <value>Вперёд</value>
+  </data>
 </root>
