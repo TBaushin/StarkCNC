@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:lang="clr-namespace:StarkCNC.Localization"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
              xmlns:local="clr-namespace:StarkCNC.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
@@ -20,38 +21,89 @@
             VerticalAlignment="Center">
             <Button
                 x:Name="Reset"
+                HorizontalAlignment="Stretch"
                 Content="Обнуление"/> <!--TODO: Перевести-->
             <TextBlock
+                HorizontalAlignment="Stretch"
                 Text="{Binding ControlName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            <!--TODO: Добавить Gauge Live Charts-->
+            <lvc:PieChart
+                x:Name="Gauge"
+                HorizontalAlignment="Stretch"
+                InitialRotation="225"
+                MaxAngle="270"
+                MinValue="0"
+                MaxValue="100"/>
         </StackPanel>
-        <StackPanel
-            Grid.Row="1"
-            Orientation="Horizontal"
-            HorizontalAlignment="Stretch"
-            VerticalAlignment="Center">
+        <Grid
+            Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Button
-                x:Name="Back"
-                Content="Назад"/> <!--TODO: Перевести-->
-            <TextBox
-                x:Name="SpeedTb"/>
+                x:Name="BackButton"
+                Grid.Column="0">
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        Margin="0,4,0,0"
+                        FontSize="10"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE72B;"/>
+                    <TextBlock 
+                        Margin="8,0,0,0" 
+                        Text="{x:Static lang:Language.BackButton}"/>
+                </StackPanel>
+            </Button>
+            <StackPanel
+                Grid.Column="1"
+                Orientation="Vertical">
+                <Label HorizontalAlignment="Center" Content="Скорость, %"/> <!--TODO: Перевести-->
+                <TextBox
+                    x:Name="SpeedTb"
+                    HorizontalAlignment="Stretch"
+                    Grid.Column="1"/>
+            </StackPanel>
+            
             <Button
-                x:Name="Forward"
-                Content="Вперёд"/> <!--TODO: Перевести-->
-        </StackPanel>
+                x:Name="ForwardButton"
+                Grid.Column="2">
+                <StackPanel
+                    Orientation="Horizontal">
+                    <TextBlock 
+                        Margin="8,0,0,0" 
+                        Text="{x:Static lang:Language.ForwardButton}"/>
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        Margin="0,4,0,0"
+                        FontSize="10"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE72A;"/>
+                </StackPanel>
+            </Button>
+        </Grid>
         <StackPanel
             Grid.Row="2"
             Orientation="Horizontal"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center">
-            <TextBox
+            <local:LabeledTextBoxControl
                 x:Name="CoordinateTB"
+                LabelText="Координата, мм"
                 IsReadOnly="True"/>
-            <TextBox
+            <local:LabeledTextBoxControl
                 x:Name="RelativeDisplacementTB"
+                LabelText="Отн. перемещ., мм"
                 IsReadOnly="True"/>
-            <local:RepeatButtonWithIndicator
-                x:Name="RelativeDisplacementButton"/>
+            <Button
+                x:Name="RelativeDisplacementButton">
+                <StackPanel>
+                    <TextBlock Text="Относительное"/> <!--TODO: Перевести-->
+                    <TextBlock Text="перемещение"/> <!--TODO: Перевести-->
+                </StackPanel>
+            </Button>
         </StackPanel>
     </Grid>
 </UserControl>
