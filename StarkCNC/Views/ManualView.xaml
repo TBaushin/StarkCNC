@@ -96,6 +96,7 @@
                     <Label HorizontalAlignment="Center" Content="Дожим вперёд"/>
                 </StackPanel>
             </Button>
+            <!--TODO: Добавить кнопки лифта, у которых Grid.RowSpan="2"-->
         </Grid>
         <Separator
             Grid.Column="1"
