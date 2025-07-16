@@ -9,19 +9,22 @@ namespace StarkCNC.MachineCommunication.Services
         private readonly string _requestString;
         private readonly OpcUaClient _client;
 
+        public bool CanConnect => !string.IsNullOrEmpty(_server) && !string.IsNullOrEmpty(_requestString);
+
         public ManualConfigurationService(IConfiguration configuration,string configurationString, string ipAddress)
         {
             var section = configuration.GetSection("MachineController");
 
-            _requestString = section.GetSection("RequestString").Get<string>();
-            _server = section.GetSection("Server").Get<string>();
+            _requestString = section.GetSection("RequestString").Get<string>() ?? string.Empty;
+            _server = section.GetSection("Server").Get<string>() ?? string.Empty;
 
             _client = new OpcUaClient();
         }
 
         public async Task ConnectAsync()
         {
-            await _client.ConnectServer(_server);
+            if (CanConnect)
+                await _client.ConnectServer(_server);
         }
 
         public async Task WriteAsync<T>(T value, string to)

@@ -2,6 +2,8 @@
 {
     public interface IManualConfigurationService
     {
+        public bool CanConnect { get; };
+
         public Task ConnectAsync();
 
         public Task WriteAsync<T>(T value, string to);
