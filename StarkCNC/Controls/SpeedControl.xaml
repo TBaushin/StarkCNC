@@ -10,9 +10,9 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="1.5*"/>
+            <RowDefinition Height="1.5*"/>
         </Grid.RowDefinitions>
         <Grid
             Grid.Row="0">
@@ -36,7 +36,9 @@
             <lvc:PieChart
                 x:Name="Gauge"
                 Grid.Column="2"
-                InitialRotation="225"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                InitialRotation="-225"
                 MaxAngle="270"
                 MinValue="0"
                 MaxValue="100"/>

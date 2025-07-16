@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using LiveChartsCore;
+using LiveChartsCore.SkiaSharpView;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StarkCNC._3DViewer.Services;
@@ -44,6 +46,11 @@ namespace StarkCNC
                 })
                 .Build();
             host.Start();
+
+            LiveCharts.Configure(c =>
+            {
+                c.AddDarkTheme();
+            });
 
             InitializeComponent();
             MainWindow = host.Services.GetRequiredService<MainWindow>();
