@@ -3,5 +3,9 @@
     public interface IManualConfigurationService
     {
         public Task ConnectAsync();
+
+        public Task WriteAsync<T>(T value, string to);
+
+        public Task<T> ReadAsync<T>(string from);
     }
 }
