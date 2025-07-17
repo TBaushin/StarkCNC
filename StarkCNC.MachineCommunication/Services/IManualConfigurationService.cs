@@ -2,7 +2,7 @@
 {
     public interface IManualConfigurationService
     {
-        public bool CanConnect { get; };
+        public bool Connected { get; }
 
         public Task ConnectAsync();
 
