@@ -10,7 +10,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.ManualPageTitle}">
     <Page.Resources>
-        <Style TargetType="controls:RepeatButtonWithIndicator">
+        <Style TargetType="controls:ButtonWithIndicator">
             <Setter Property="Margin" Value="0,5,0,5"/>
         </Style>
     </Page.Resources>
@@ -48,28 +48,28 @@
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
                 Content="Ручной режим"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 Margin="0,5,0,5">
-                <controls:RepeatButtonWithIndicator.ButtonContent>
+                <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 1"/>
                         <Label HorizontalAlignment="Center" Content="Включить"/>
                     </StackPanel>
-                </controls:RepeatButtonWithIndicator.ButtonContent>
-            </controls:RepeatButtonWithIndicator>
-            <controls:RepeatButtonWithIndicator
+                </controls:ButtonWithIndicator.ButtonContent>
+            </controls:ButtonWithIndicator>
+            <controls:ButtonWithIndicator
                 Grid.Row="2"
                 HorizontalAlignment="Stretch"
                 Margin="0,5,0,5">
-                <controls:RepeatButtonWithIndicator.ButtonContent>
+                <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 2"/>
                         <Label HorizontalAlignment="Center" Content="Включить"/>
                     </StackPanel>
-                </controls:RepeatButtonWithIndicator.ButtonContent>
-            </controls:RepeatButtonWithIndicator>
+                </controls:ButtonWithIndicator.ButtonContent>
+            </controls:ButtonWithIndicator>
             <Button
                 Grid.Row="3"
                 HorizontalAlignment="Stretch"
@@ -117,16 +117,14 @@
                 <RowDefinition/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="0"
-                ButtonContent="Зажим назад"
-                Interval="100"/>
-            <controls:RepeatButtonWithIndicator
+                ButtonContent="Зажим назад"/>
+            <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="1"
-                ButtonContent="Прижим назад"
-                Interval="100"/>
+                ButtonContent="Прижим назад"/>
             <Grid
                 Grid.Column="0"
                 Grid.Row="2">
@@ -138,14 +136,13 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <RepeatButton
+                <Button
                     x:Name="PressureBackButton"
                     Grid.Column="0"
                     Grid.RowSpan="2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Content="Дожим 1 назад"
-                    Interval="100"
                     PreviewMouseDown="PressureBackButton_PreviewMouseDown"
                     PreviewMouseUp="PressureBackButton_PreviewMouseUp"/>
                 <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
@@ -163,36 +160,34 @@
                     </Rectangle>
                 </Border>
             </Grid>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="3"
                 ButtonContent="Гиб назад"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="4"
                 ButtonContent="Цанга разжим"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="5"
                 ButtonContent="Дорн назад"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="6"
                 ButtonContent="Оснастка вниз"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="7"
                 ButtonContent="Пробивка назад"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="0"
-                ButtonContent="Зажим вперёд"
-                Interval="100"/>
-            <controls:RepeatButtonWithIndicator
+                ButtonContent="Зажим вперёд"/>
+            <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="1"
-                ButtonContent="Прижим вперёд"
-                Interval="100"/>
+                ButtonContent="Прижим вперёд"/>
             <Grid
                 Grid.Column="1"
                 Grid.Row="2">
@@ -204,14 +199,13 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <RepeatButton
+                <Button
                     x:Name="PressureForwardButton"
                     Grid.Column="0"
                     Grid.RowSpan="2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Content="Дожим 1 назад"
-                    Interval="100"
                     PreviewMouseDown="PressureForwardButton_PreviewMouseDown"
                     PreviewMouseUp="PressureForwardButton_PreviewMouseUp"/>
                 <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
@@ -229,23 +223,23 @@
                     </Rectangle>
                 </Border>
             </Grid>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="3"
                 ButtonContent="Гиб вперёд"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="4"
                 ButtonContent="Цанга зажим"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="5"
                 ButtonContent="Дорн вперёд"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="6"
                 ButtonContent="Оснастка вверх"/>
-            <controls:RepeatButtonWithIndicator
+            <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="7"
                 ButtonContent="Пробивка вперёд"/>
