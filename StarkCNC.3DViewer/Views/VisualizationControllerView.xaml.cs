@@ -20,7 +20,7 @@ namespace StarkCNC._3DViewer.Views
             BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
 
             BendingView.Children.Add(ViewModel.GetModels());
-            BendingView.Children.Add(ViewModel.GetPipe());
+            //BendingView.Children.Add(ViewModel.GetPipe());
 
             SetDefaultValue();
         }

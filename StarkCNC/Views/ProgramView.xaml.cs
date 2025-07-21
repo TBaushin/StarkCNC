@@ -17,6 +17,11 @@ namespace StarkCNC.Views
             ViewModel = viewModel;
             DataContext = ViewModel;
             InitializeComponent();
+
+            var programControllerView = ViewModel.GetProgramControllerView();
+            Grid.SetColumn(programControllerView, 1);
+
+            MainGrid.Children.Add(programControllerView);
         }
 
         private void PipeBendParametersDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)

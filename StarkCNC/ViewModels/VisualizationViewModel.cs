@@ -13,7 +13,7 @@ namespace StarkCNC.ViewModels
             _serviceProvider = serviceProvider;
         }
 
-        public VisualizationControllerView GetProgramControllerView()
+        public VisualizationControllerView GetVisualizationControllerView()
         {
             return _serviceProvider.GetRequiredService<VisualizationControllerView>();
         }

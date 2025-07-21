@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using StarkCNC._3DViewer.ViewModels;
+using System.Windows.Controls;
 
 namespace StarkCNC._3DViewer.Views
 {
@@ -7,9 +8,18 @@ namespace StarkCNC._3DViewer.Views
     /// </summary>
     public partial class ProgramControlView : UserControl
     {
-        public ProgramControlView()
+        ProgramControllerViewModel ViewModel;
+
+        public ProgramControlView(ProgramControllerViewModel viewModel)
         {
+            ViewModel = viewModel;
+
             InitializeComponent();
+
+            BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
+            BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
+
+            BendingView.Children.Add(ViewModel.GetPipe());
         }
     }
 }

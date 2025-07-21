@@ -16,7 +16,7 @@ namespace StarkCNC.Views
 
             InitializeComponent();
 
-            VisualizationPage.Content = ViewModel.GetProgramControllerView();
+            VisualizationPage.Content = ViewModel.GetVisualizationControllerView();
         }
     }
 }
