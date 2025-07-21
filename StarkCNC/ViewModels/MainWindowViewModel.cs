@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
+using StarkCNC.Core.Services;
 using StarkCNC.Models;
 using StarkCNC.Services;
 using StarkCNC.Views;
@@ -26,10 +27,15 @@ namespace StarkCNC.ViewModels
         [ObservableProperty]
         private ObservableCollection<ViewData> _pages;
 
-        public MainWindowViewModel(IServiceProvider serviceProvider, INavigationService navigationService) 
+        [ObservableProperty]
+        private string _status;
+
+        public MainWindowViewModel(IServiceProvider serviceProvider, INavigationService navigationService, IStatusService statusService) 
         {
             _serviceProvider = serviceProvider;
             _navigationService = navigationService;
+
+            statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
             _pages = [
                 new ViewData(new ManualView()) { IconGlyph = "\uE726" },

@@ -145,8 +145,18 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    Content="{Binding Status}"/>
                 <Border
                     Grid.Column="1"
+                    Grid.Row="1"
                     Margin="4,0,0,0"
                     Padding="24,16,24,0"
                     Background="{DynamicResource LayerFillColorDefaultBrush}"
