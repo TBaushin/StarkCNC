@@ -38,8 +38,8 @@ namespace StarkCNC
                     services.AddSingleton<MainWindowViewModel>();
                     services.AddSingleton<VisualizationViewModel>();
                     services.AddSingleton<ProgramViewModel>();
-                    services.AddSingleton<ProgramControllerView>();
-                    services.AddSingleton<ProgramControllerViewModel>();
+                    services.AddSingleton<VisualizationControllerView>();
+                    services.AddSingleton<VisualizationControllerViewModel>();
                     services.AddSingleton<AdjustmentViewModel>();
                     services.AddSingleton<UserViewModel>();
                     services.AddSingleton<FlyoutMenuControl>();

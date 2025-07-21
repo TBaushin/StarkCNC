@@ -5,12 +5,12 @@ using System.Windows.Media.Media3D;
 
 namespace StarkCNC._3DViewer.ViewModels
 {
-    public class ProgramControllerViewModel
+    public class VisualizationControllerViewModel
     {
         private IBendingModelsLoadingService _bendingModelsLoadingService;
         private IConfiguration _configuration;
 
-        public ProgramControllerViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IConfiguration configuration)
+        public VisualizationControllerViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IConfiguration configuration)
         {
             _bendingModelsLoadingService = bendingModelsLoadingService;
             _configuration = configuration;

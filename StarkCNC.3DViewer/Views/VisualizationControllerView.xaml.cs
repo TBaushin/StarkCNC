@@ -4,13 +4,13 @@ using System.Windows.Controls;
 namespace StarkCNC._3DViewer.Views
 {
     /// <summary>
-    /// Interaction logic for ProgramControllerView.xaml
+    /// Interaction logic for VisualizationControllerView.xaml
     /// </summary>
-    public partial class ProgramControllerView : UserControl
+    public partial class VisualizationControllerView : UserControl
     {
-        ProgramControllerViewModel ViewModel;
+        VisualizationControllerViewModel ViewModel;
 
-        public ProgramControllerView(ProgramControllerViewModel viewModel)
+        public VisualizationControllerView(VisualizationControllerViewModel viewModel)
         {
             ViewModel = viewModel;
 
