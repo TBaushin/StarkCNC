@@ -26,7 +26,7 @@ namespace StarkCNC.Models
 
         public string ResetRequestString { get; private set; } = string.Empty;
 
-        public string SpeedRequestString { get; private set } = string.Empty;
+        public string SpeedRequestString { get; private set; } = string.Empty;
 
         public DriveParameters(IConfigurationSection configuration, string sectionName)
         {

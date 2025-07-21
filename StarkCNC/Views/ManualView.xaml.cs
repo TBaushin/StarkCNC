@@ -65,14 +65,34 @@ namespace StarkCNC.Views
                //float value = opcUaClient.ReadNode<float>("ns=4;s=|var|HCQ0-1200D-1.04.00.04.Application.GVL.Zadanie_Speed");
                 //string value = opcUaClient.ReadNode<string>("ns=4;|var|HCQ0-1200D-1.04.00.04.Application.GVL.bg");
                 float val = 15F;
-                opcUaClient.WriteNode<float>(plc+"GVL.Zadanie_Speed",val);
+                bool tr = true;
+               // opcUaClient.WriteNode<float>(plc+"GVL.Zadanie_Speed",val);
                 opcUaClient.WriteNode<float>(plc + "Privoda.ConsolSpeed", val);
                 opcUaClient.WriteNode<float>(plc + "Privoda.PodachaSpeed", val);
                 opcUaClient.WriteNode<float>(plc + "Privoda.PovorotSpeed", val);
+            
                 double koordPodacha = opcUaClient.ReadNode<double>(plc + "IoConfig_Globals.PodachaNUM.fActPosition");
                 double koordConsol = opcUaClient.ReadNode<double>(plc + "IoConfig_Globals.ConsolNUM.fActPosition");
                 double koordPovorot = opcUaClient.ReadNode<double>(plc + "IoConfig_Globals.PovorotNUM.fActPosition");
+                double koordGib = opcUaClient.ReadNode<double>(plc + "GVL.PokazanieGiba");
                 // MessageBox.Show($"Скорость {value} %");
+
+                opcUaClient.WriteNode<float>(plc + "Privoda.Distance_Povorot_naladka", val);
+                opcUaClient.WriteNode<float>(plc + "Privoda.Distance_Podacha_naladka", val);
+                opcUaClient.WriteNode<float>(plc + "Privoda.Distance_Consol_naladka", val);
+                opcUaClient.WriteNode<float>(plc + "Privoda.PodachaRelative", val);
+                opcUaClient.WriteNode<float>(plc + "Privoda.PovorotRelative", val);
+                opcUaClient.WriteNode<float>(plc + "Privoda.ConsolRelative", val);
+               // opcUaClient.WriteNode<float>(plc + "Privoda.GibRelative", val);
+                opcUaClient.WriteNode<bool>(plc + "Privoda.SbosErrorPrivod", tr); 
+                    opcUaClient.WriteNode<bool>(plc + "Privoda.Obnulenie_gib", tr);
+                opcUaClient.WriteNode<bool>(plc + "Privoda.Obnulenie_gib_Done", tr);
+                opcUaClient.WriteNode<bool>(plc + "Privoda.Obnulenie_povorot", tr);
+                opcUaClient.WriteNode<bool>(plc + "Privoda.Obnulenie_povorot_Done", tr);
+                opcUaClient.WriteNode<bool>(plc + "Privoda.Obnulenie_podacha", tr);
+                opcUaClient.WriteNode<bool>(plc + "Privoda.Obnulenie_podacha_Done", tr);
+                opcUaClient.WriteNode<bool>(plc + "Privoda.Obnulenie_consol", tr);
+                opcUaClient.WriteNode<bool>(plc + "Privoda.Obnulenie_consol_Done", tr);
             }
             catch (Exception ex)
             {
