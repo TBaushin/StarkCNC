@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OpcUaHelper;
 using StarkCNC.Core.Services;
-using System.Runtime.Intrinsics.X86;
 
 namespace StarkCNC.MachineCommunication.Services
 {
     public class ManualConfigurationService : IManualConfigurationService
     {
-        private IStatusService _statusService;
+        private readonly IStatusService _statusService;
 
         private readonly string _server;
         private readonly string _requestString;

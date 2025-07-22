@@ -8,7 +8,7 @@ namespace StarkCNC._3DViewer.Views
     /// </summary>
     public partial class VisualizationControllerView : UserControl
     {
-        VisualizationControllerViewModel ViewModel;
+        private readonly VisualizationControllerViewModel ViewModel;
 
         public VisualizationControllerView(VisualizationControllerViewModel viewModel)
         {

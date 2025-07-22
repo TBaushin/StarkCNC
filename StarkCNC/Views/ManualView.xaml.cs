@@ -10,7 +10,7 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class ManualView : Page
     {
-        private ManualViewModel ViewModel;
+        private readonly ManualViewModel ViewModel;
 
         public ManualView(ManualViewModel viewModel)
         {

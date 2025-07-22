@@ -14,10 +14,10 @@ namespace StarkCNC.ViewModels
 {
     public partial class ProgramViewModel : ObservableObject
     {
-        private IServiceProvider _serviceProvider;
-        private IGCodeService _gCodeService;
-        private BendingDataConverter _bendingConverter = new BendingDataConverter();
-        private PositionConverter _positionConverter = new PositionConverter();
+        private readonly IServiceProvider _serviceProvider;
+        private readonly IGCodeService _gCodeService;
+        private readonly BendingDataConverter _bendingConverter = new BendingDataConverter();
+        private readonly PositionConverter _positionConverter = new PositionConverter();
 
         private string _gcodeExtension = ".gcode";
         private string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";

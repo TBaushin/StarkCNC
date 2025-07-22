@@ -7,8 +7,8 @@ namespace StarkCNC._3DViewer.ViewModels
 {
     public class VisualizationControllerViewModel
     {
-        private IBendingModelsLoadingService _bendingModelsLoadingService;
-        private IConfiguration _configuration;
+        private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
+        private readonly IConfiguration _configuration;
 
         public VisualizationControllerViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IConfiguration configuration)
         {

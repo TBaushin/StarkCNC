@@ -5,7 +5,7 @@ namespace StarkCNC._3DViewer.ViewModels
 {
     public class ProgramControllerViewModel
     {
-        private IBendingModelsLoadingService _bendingModelsLoadingService;
+        private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
 
         public ProgramControllerViewModel(IBendingModelsLoadingService bendingModelsLoadingService)
         {

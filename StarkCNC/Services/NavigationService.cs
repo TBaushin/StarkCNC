@@ -12,6 +12,7 @@ namespace StarkCNC.Services
         private readonly Stack<object> _future = new Stack<object>();
 
         private object _currentContent = null;
+
         public object CurrentContent 
         { 
             get => _currentContent; 

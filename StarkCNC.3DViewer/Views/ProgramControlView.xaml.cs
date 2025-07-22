@@ -8,7 +8,7 @@ namespace StarkCNC._3DViewer.Views
     /// </summary>
     public partial class ProgramControlView : UserControl
     {
-        ProgramControllerViewModel ViewModel;
+        private readonly ProgramControllerViewModel ViewModel;
 
         public ProgramControlView(ProgramControllerViewModel viewModel)
         {

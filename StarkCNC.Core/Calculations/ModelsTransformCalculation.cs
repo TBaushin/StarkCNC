@@ -4,7 +4,7 @@ namespace StarkCNC.Core.Calculations
 {
     public class ModelsTransformCalculation : IModelsTransformCalculation
     {
-        private Transform3DGroup _transformGroup = new Transform3DGroup();
+        private readonly Transform3DGroup _transformGroup = new Transform3DGroup();
 
         public IModelsTransformCalculation CalculateTransform(double angleX, double angleY, double angleZ)
         {

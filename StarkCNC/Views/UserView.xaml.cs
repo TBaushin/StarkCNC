@@ -9,7 +9,7 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class UserView : Page
     {
-        private UserViewModel ViewModel;
+        private readonly UserViewModel ViewModel;
 
         public UserView(UserViewModel viewModel)
         {

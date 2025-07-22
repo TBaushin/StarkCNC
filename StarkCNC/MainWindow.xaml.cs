@@ -58,12 +58,16 @@ namespace StarkCNC
                         NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left;
         }
 
-        public void OnNavigation(object? sender, NavigationEventArgs e)
+        private void OnNavigation(object? sender, NavigationEventArgs e)
         {
             RootContentFrame.UpdateLayout();
             PageTitleTextBlock.Text = $"{Localization.Language.Tab}: {e.PageTitle}";
 
-            var page = ViewModel.GetNavigationItem(e.PageTitle);
+            string pageTitle = string.Empty;
+            if (e.PageTitle is not null)
+                pageTitle = e.PageTitle;
+
+            var page = ViewModel.GetNavigationItem(pageTitle);
             PageList.UpdateSelected(page);
         }
 
