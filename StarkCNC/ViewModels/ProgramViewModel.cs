@@ -19,11 +19,11 @@ namespace StarkCNC.ViewModels
         private readonly BendingDataConverter _bendingConverter = new BendingDataConverter();
         private readonly PositionConverter _positionConverter = new PositionConverter();
 
-        private string _gcodeExtension = ".gcode";
-        private string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
+        private readonly string _gcodeExtension = ".gcode";
+        private readonly string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
 
         [ObservableProperty]
-        private string _currentFilePath;
+        private string _currentFilePath = string.Empty;
 
         public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
 

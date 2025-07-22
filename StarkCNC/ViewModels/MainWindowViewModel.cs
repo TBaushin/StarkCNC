@@ -28,7 +28,7 @@ namespace StarkCNC.ViewModels
         private ObservableCollection<ViewData> _pages;
 
         [ObservableProperty]
-        private string _status;
+        private string _status = string.Empty;
 
         public MainWindowViewModel(IServiceProvider serviceProvider, INavigationService navigationService, IStatusService statusService) 
         {
