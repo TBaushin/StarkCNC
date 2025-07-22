@@ -15,6 +15,7 @@ namespace StarkCNC.Views
         public ManualView(ManualViewModel viewModel)
         {
             ViewModel = viewModel;
+            DataContext = ViewModel;
 
             InitializeComponent();
         }

@@ -1,10 +1,14 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OpcUaHelper;
+using StarkCNC.Core.Services;
+using System.Runtime.Intrinsics.X86;
 
 namespace StarkCNC.MachineCommunication.Services
 {
     public class ManualConfigurationService : IManualConfigurationService
     {
+        private IStatusService _statusService;
+
         private readonly string _server;
         private readonly string _requestString;
         private readonly OpcUaClient _client;
@@ -15,8 +19,9 @@ namespace StarkCNC.MachineCommunication.Services
 
         private bool CanConnect => !string.IsNullOrEmpty(_server) && !string.IsNullOrEmpty(_requestString);
 
-        public ManualConfigurationService(IConfiguration configuration,string configurationString, string ipAddress)
+        public ManualConfigurationService(IConfiguration configuration, IStatusService statusService)
         {
+            _statusService = statusService;
             var section = configuration.GetSection("MachineController");
 
             _requestString = section.GetSection("RequestString").Get<string>() ?? string.Empty;
@@ -28,7 +33,14 @@ namespace StarkCNC.MachineCommunication.Services
         public async Task ConnectAsync()
         {
             if (CanConnect)
-                await _client.ConnectServer(_server);
+                try
+                {
+                    await _client.ConnectServer(_server);
+                }
+                catch (Opc.Ua.ServiceResultException ex)
+                {
+                    _statusService.Status = Localization.Language.ConnectionErrorMessage + $" ({ex.Message})";
+                }
 
             RunUpdateTask();
         }
@@ -37,14 +49,32 @@ namespace StarkCNC.MachineCommunication.Services
         {
             if (!Connected)
                 await ConnectAsync();
-            await _client.WriteNodeAsync<T>(_requestString + to, value);
+
+            try
+            {
+                await _client.WriteNodeAsync<T>(_requestString + to, value);
+            }
+            catch
+            {
+                _statusService.Status = Localization.Language.SendRequestErrorMessage;
+            }
         }
 
         public async Task<T> ReadAsync<T>(string from)
         {
             if (!Connected)
                 await ConnectAsync();
-            return await _client.ReadNodeAsync<T>(from);
+
+            try
+            {
+                return await _client.ReadNodeAsync<T>(from);
+            }
+            catch
+            {
+                _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
+            }
+
+            throw new InvalidOperationException();
         }
 
         private void RunUpdateTask()
@@ -57,7 +87,7 @@ namespace StarkCNC.MachineCommunication.Services
                 while (true)
                 {
                     if (!_client.Connected)
-                        await _client.ConnectServer(_server);
+                        await ConnectAsync();
 
                     Thread.Sleep(5000);
                 }
