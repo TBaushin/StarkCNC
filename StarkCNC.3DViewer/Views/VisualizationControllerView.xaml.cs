@@ -4,13 +4,13 @@ using System.Windows.Controls;
 namespace StarkCNC._3DViewer.Views
 {
     /// <summary>
-    /// Interaction logic for ProgramControllerView.xaml
+    /// Interaction logic for VisualizationControllerView.xaml
     /// </summary>
-    public partial class ProgramControllerView : UserControl
+    public partial class VisualizationControllerView : UserControl
     {
-        ProgramControllerViewModel ViewModel;
+        VisualizationControllerViewModel ViewModel;
 
-        public ProgramControllerView(ProgramControllerViewModel viewModel)
+        public VisualizationControllerView(VisualizationControllerViewModel viewModel)
         {
             ViewModel = viewModel;
 
@@ -20,7 +20,7 @@ namespace StarkCNC._3DViewer.Views
             BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
 
             BendingView.Children.Add(ViewModel.GetModels());
-            BendingView.Children.Add(ViewModel.GetPipe());
+            //BendingView.Children.Add(ViewModel.GetPipe());
 
             SetDefaultValue();
         }

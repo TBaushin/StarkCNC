@@ -32,12 +32,15 @@ namespace StarkCNC
                 {
                     services.AddSingleton<IConfiguration>(App.Configuration);
                     services.AddSingleton<INavigationService, NavigationService>();
+                    services.AddSingleton<IStatusService, StatusService>();
                     services.AddSingleton<IGCodeService, GCodeService>();
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<MainWindowViewModel>();
                     services.AddSingleton<VisualizationViewModel>();
                     services.AddSingleton<ProgramViewModel>();
-                    services.AddSingleton<ProgramControllerView>();
+                    services.AddSingleton<VisualizationControllerView>();
+                    services.AddSingleton<VisualizationControllerViewModel>();
+                    services.AddSingleton<ProgramControlView>();
                     services.AddSingleton<ProgramControllerViewModel>();
                     services.AddSingleton<AdjustmentViewModel>();
                     services.AddSingleton<UserViewModel>();

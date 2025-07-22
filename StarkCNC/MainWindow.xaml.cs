@@ -3,6 +3,7 @@ using StarkCNC.Controls;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shell;
 
 namespace StarkCNC
@@ -34,6 +35,7 @@ namespace StarkCNC
 
             PageList = _serviceProvider.GetRequiredService<FlyoutMenuControl>();
             PageList.Pages = ViewModel.Pages;
+            Grid.SetRowSpan(PageList, 2);
             PageGrid.Children.Add(PageList);
 
             _navigationService.SetFrame(RootContentFrame);
