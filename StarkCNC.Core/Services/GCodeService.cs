@@ -38,6 +38,7 @@ namespace StarkCNC.Core.Services
             await writer.WriteAsync(gcodeSB.ToString());
             writer.Close();
         }
+
         public async Task<ICollection<BendingData>> ReadAsync(string path)
         {
             var data = new List<BendingData>();
@@ -50,18 +51,31 @@ namespace StarkCNC.Core.Services
                 if (!string.IsNullOrEmpty(c))
                 {
                     var gcodeConverted = c.ToGcodeCommandFrame();
+
                     data.Add(new BendingData()
                     {
-                        StraightLength = (double)gcodeConverted.Y,
-                        BendingAngle = (double)gcodeConverted.C,
-                        BendingRadius = (double)gcodeConverted.R,
-                        RotationAngle = (double)gcodeConverted.B
+                        StraightLength = GetValueOrDefault(gcodeConverted, g => g.Y),
+                        BendingAngle = GetValueOrDefault(gcodeConverted, g => g.C),
+                        BendingRadius = GetValueOrDefault(gcodeConverted, g => g.R),
+                        RotationAngle = GetValueOrDefault(gcodeConverted, g => g.B)
                     });
                 }
             });
 
             reader.Close();
             return data;
+        }
+
+        private static double GetValueOrDefault(GcodeCommandFrame frame, Func<GcodeCommandFrame, double?> selector)
+        {
+            if (frame is null)
+                return 0;
+
+            var value = selector(frame);
+            if (value is null)
+                return 0;
+
+            return (double)value;
         }
     }
 }
