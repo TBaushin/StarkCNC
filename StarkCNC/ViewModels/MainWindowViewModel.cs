@@ -27,6 +27,9 @@ namespace StarkCNC.ViewModels
         [ObservableProperty]
         private ObservableCollection<ViewData> _pages;
 
+        private readonly SettingsView _settingsPage;
+        private readonly UserView _userPage;
+
         [ObservableProperty]
         private string _status = string.Empty;
 
@@ -38,11 +41,14 @@ namespace StarkCNC.ViewModels
             statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
             _pages = [
-               new ViewData(new ManualView(_serviceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE726" },
+                new ViewData(new ManualView(_serviceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE726" },
                 new ViewData(new VisualizationView(_serviceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },
                 new ViewData(new ProgramView(_serviceProvider.GetRequiredService<ProgramViewModel>())) { IconGlyph = "\uE726" },
                 new ViewData (new AdjustmentView(_serviceProvider.GetRequiredService<AdjustmentViewModel>())) { IconGlyph = "\uE726" }
             ];
+
+            _settingsPage = new SettingsView();
+            _userPage = new UserView(_serviceProvider.GetRequiredService<UserViewModel>());
         }
 
         [RelayCommand]
@@ -60,13 +66,13 @@ namespace StarkCNC.ViewModels
         [RelayCommand]
         private void GoSettings()
         {
-            _navigationService.Navigate(new SettingsView());
+            _navigationService.Navigate(_settingsPage);
         }
 
         [RelayCommand]
         private void GoUsers()
         {
-            _navigationService.Navigate(new UserView(_serviceProvider.GetRequiredService<UserViewModel>()));
+            _navigationService.Navigate(_userPage);
         }
 
         public void UpdateCanNavigateBack()
