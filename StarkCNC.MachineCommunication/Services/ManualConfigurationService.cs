@@ -74,7 +74,7 @@ namespace StarkCNC.MachineCommunication.Services
                 _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
             }
 
-            throw new InvalidOperationException();
+            throw new Opc.Ua.ServiceResultException();
         }
 
         private void RunUpdateTask()
