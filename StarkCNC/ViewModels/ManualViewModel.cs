@@ -6,7 +6,7 @@ using StarkCNC.Models;
 
 namespace StarkCNC.ViewModels
 {
-    internal partial class ManualViewModel : ObservableObject
+    public partial class ManualViewModel : ObservableObject
     {
         private readonly IConfiguration _configuration;
         private readonly IManualConfigurationService _configurationService;

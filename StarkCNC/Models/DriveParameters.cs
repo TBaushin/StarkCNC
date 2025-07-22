@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace StarkCNC.Models
 {
-    internal partial class DriveParameters : ObservableObject
+    public partial class DriveParameters : ObservableObject
     {
         [ObservableProperty]
         private double speed = 0;

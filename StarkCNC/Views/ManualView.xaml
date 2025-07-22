@@ -53,7 +53,9 @@
             <controls:ButtonWithIndicator
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
-                Margin="0,5,0,5">
+                Margin="0,5,0,5"
+                Command="{Binding HydraulicsFirstTurnOnCommand}"
+                CommandCancel="{Binding HydraulicsFirstTurnOffCommand}">
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 1"/>
@@ -64,7 +66,9 @@
             <controls:ButtonWithIndicator
                 Grid.Row="2"
                 HorizontalAlignment="Stretch"
-                Margin="0,5,0,5">
+                Margin="0,5,0,5"
+                Command="{Binding HydraulicsSecondTurnOnCommand}"
+                CommandCancel="{Binding HydraulicsSecondTurnOffCommand}">
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 2"/>
@@ -73,26 +77,35 @@
                 </controls:ButtonWithIndicator.ButtonContent>
             </controls:ButtonWithIndicator>
             <Button
+                x:Name="SupportButton"
                 Grid.Row="3"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
-                Content="Поддержка вверх"/>
+                Content="Поддержка вверх"
+                MouseDown="SupportButton_MouseDown"
+                MouseUp="SupportButton_MouseUp"/>
             <Button
+                x:Name="DornLubricantButton"
                 Grid.Row="4"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Margin="0,5,0,5">
+                Margin="0,5,0,5"
+                MouseDown="DornLubricantButton_MouseDown"
+                MouseUp="DornLubricantButton_MouseUp">
                 <StackPanel>
                     <Label HorizontalAlignment="Center" Content="Смазку дорна"/>
                     <Label HorizontalAlignment="Center" Content="Включить"/>
                 </StackPanel>
             </Button>
             <Button
+                x:Name="BendAndSqueezeButton"
                 Grid.Row="5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
-                Margin="0,5,0,5">
+                Margin="0,5,0,5"
+                MouseDown="BendAndSqueezeButton_MouseDown"
+                MouseUp="BendAndSqueezeButton_MouseUp">
                 <StackPanel>
                     <Label HorizontalAlignment="Center" Content="Гиб вперёд"/>
                     <Label HorizontalAlignment="Center" Content="Дожим вперёд"/>
@@ -122,11 +135,15 @@
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="0"
-                ButtonContent="Зажим назад"/>
+                ButtonContent="Зажим назад"
+                Command="{Binding ClampBackwardStartCommand}"
+                CommandCancel="{Binding ClampBackwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="1"
-                ButtonContent="Прижим назад"/>
+                ButtonContent="Прижим назад"
+                Command="{Binding PressBackwardStartCommand}"
+                CommandCancel="{Binding PressBackwardStopCommand}"/>
             <Grid
                 Grid.Column="0"
                 Grid.Row="2">
@@ -165,31 +182,45 @@
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="3"
-                ButtonContent="Гиб назад"/>
+                ButtonContent="Гиб назад"
+                Command="{Binding BendBackwardStartCommand}"
+                CommandCancel="{Binding BendBackwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="4"
-                ButtonContent="Цанга разжим"/>
+                ButtonContent="Цанга разжим"
+                Command="{Binding ColletBackwardStartCommand}"
+                CommandCancel="{Binding ColletBackwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="5"
-                ButtonContent="Дорн назад"/>
+                ButtonContent="Дорн назад"
+                Command="{Binding DornBackwardStartCommand}"
+                CommandCancel="{Binding DornBackwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="6"
-                ButtonContent="Оснастка вниз"/>
+                ButtonContent="Оснастка вниз"
+                Command="{Binding AdjustmentBackwardStartCommand}"
+                CommandCancel="{Binding AdjustmentBackwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="7"
-                ButtonContent="Пробивка назад"/>
+                ButtonContent="Пробивка назад"
+                Command="{Binding PunchingBackwardStartCommand}"
+                CommandCancel="{Binding PunchingBackwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="0"
-                ButtonContent="Зажим вперёд"/>
+                ButtonContent="Зажим вперёд"
+                Command="{Binding ClampForwardStartCommand}"
+                CommandCancel="{Binding ClampForwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="1"
-                ButtonContent="Прижим вперёд"/>
+                ButtonContent="Прижим вперёд"
+                Command="{Binding PressForwardStartCommand}"
+                CommandCancel="{Binding PressForwardStopCommand}"/>
             <Grid
                 Grid.Column="1"
                 Grid.Row="2">
@@ -232,23 +263,33 @@
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="3"
-                ButtonContent="Гиб вперёд"/>
+                ButtonContent="Гиб вперёд"
+                Command="{Binding BendForwardStartCommand}"
+                CommandCancel="{Binding BendForwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="4"
-                ButtonContent="Цанга зажим"/>
+                ButtonContent="Цанга зажим"
+                Command="{Binding ColletForwardStartCommand}"
+                CommandCancel="{Binding ColletForwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="5"
-                ButtonContent="Дорн вперёд"/>
+                ButtonContent="Дорн вперёд"
+                Command="{Binding DornForwardStartCommand}"
+                CommandCancel="{Binding DornForwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="6"
-                ButtonContent="Оснастка вверх"/>
+                ButtonContent="Оснастка вверх"
+                Command="{Binding AdjustmentForwardStartCommand}"
+                CommandCancel="{Binding AdjustmentForwardStopCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="7"
-                ButtonContent="Пробивка вперёд"/>
+                ButtonContent="Пробивка вперёд"
+                Command="{Binding PunchingForwardStartCommand}"
+                CommandCancel="{Binding PunchingForwardStopCommand}"/>
         </Grid>
         <StackPanel
             Grid.Column="2"

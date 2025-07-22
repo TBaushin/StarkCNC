@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Helpers;
+using StarkCNC.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -9,8 +10,12 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class ManualView : Page
     {
-        public ManualView()
+        private ManualViewModel ViewModel;
+
+        public ManualView(ManualViewModel viewModel)
         {
+            ViewModel = viewModel;
+
             InitializeComponent();
         }
 
@@ -43,6 +48,36 @@ namespace StarkCNC.Views
         {
             PressureForwardIndicatorFirst.Color = Colors.DarkRed;
             PressureForwardIndicatorSecond.Color = Colors.DarkRed;
+        }
+
+        private void SupportButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel.SupportUpCommand.Execute(this);
+        }
+
+        private void SupportButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel.SupportUpStopCommand.Execute(this);
+        }
+
+        private void DornLubricantButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel.DornLubricantTurnOnCommand.Execute(this);
+        }
+
+        private void DornLubricantButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel.DornLubricantTurnOffCommand.Execute(this);
+        }
+
+        private void BendAndSqueezeButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel.BendAndSqueezeForwardStartCommand.Execute(this);
+        }
+
+        private void BendAndSqueezeButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel.BendAndSqueezeForwardStopCommand.Execute(this);
         }
     }
 }

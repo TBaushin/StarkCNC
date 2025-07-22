@@ -2,7 +2,7 @@
 
 namespace StarkCNC.Models
 {
-    internal class OutputsParametersSwitch
+    public class OutputsParametersSwitch
     {
         public string RequestString { get; private set; } = string.Empty;
 
