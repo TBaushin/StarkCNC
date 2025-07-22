@@ -26,13 +26,14 @@
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                Command="{Binding ResetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 Content="Обнуление"/>
             <!--TODO: Перевести-->
-            <TextBlock
+            <Label
                 Grid.Column="1"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Text="{Binding ControlName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                Content="{Binding ControlName, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             <lvc:PieChart
                 x:Name="Gauge"
                 Grid.Column="2"
@@ -54,7 +55,9 @@
                 x:Name="BackButton"
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
-                Margin="5,23,5,0">
+                Margin="5,23,5,0"
+                MouseDown="BackButton_MouseDown"
+                MouseUp="BackButton_MouseUp">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock 
                         VerticalAlignment="Center"
@@ -79,7 +82,9 @@
                 x:Name="ForwardButton"
                 Grid.Column="2"
                 HorizontalAlignment="Stretch"
-                Margin="5,23,5,0">
+                Margin="5,23,5,0"
+                MouseDown="ForwardButton_MouseDown"
+                MouseUp="ForwardButton_MouseUp">
                 <StackPanel
                     Orientation="Horizontal">
                     <TextBlock 
@@ -119,7 +124,9 @@
                 Grid.Column="2"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
-                Margin="5,0,5,0">
+                Margin="5,0,5,0"
+                MouseDown="RelativeDisplacementButton_MouseDown"
+                MouseUp="RelativeDisplacementButton_MouseUp">
                 <StackPanel>
                     <TextBlock
                         HorizontalAlignment="Center"

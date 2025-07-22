@@ -6,6 +6,7 @@ using LiveChartsCore.SkiaSharpView.VisualElements;
 using SkiaSharp;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StarkCNC.Controls
 {
@@ -16,6 +17,12 @@ namespace StarkCNC.Controls
     {
         public static readonly DependencyProperty ControlNameProperty = DependencyProperty.Register("ControlName", typeof(string), typeof(SpeedControl), new PropertyMetadata());
         public static readonly DependencyProperty SpeedProperty = DependencyProperty.Register("Speed", typeof(double), typeof(SpeedControl), new PropertyMetadata(0.0, OnSpeedChanged));
+        public static readonly DependencyProperty ResetCommandProperty = DependencyProperty.Register("ResetCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty ForwardCommandProperty = DependencyProperty.Register("ForwardCommand", typeof(ICommand), typeof (SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty ForwardCancelCommandProperty = DependencyProperty.Register("ForwardCancelCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty BackwardCommandProperty = DependencyProperty.Register("BackwardCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty BackwardCancelCommandProperty = DependencyProperty.Register("BackwardCancelCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty RelativeDispositionCommandProperty = DependencyProperty.Register("RelativeDispositionCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
 
         public string? ControlName
         {
@@ -27,6 +34,42 @@ namespace StarkCNC.Controls
         {
             get => (double)GetValue(SpeedProperty);
             set => SetValue(SpeedProperty, value);
+        }
+
+        public ICommand ResetCommand
+        {
+            get => (ICommand)GetValue(ResetCommandProperty);
+            set => SetValue(ResetCommandProperty, value);
+        }
+
+        public ICommand ForwardCommand
+        {
+            get => (ICommand)GetValue(ForwardCommandProperty);
+            set => SetValue(ForwardCommandProperty, value);
+        }
+
+        public ICommand ForwardCancelCommand
+        {
+            get => (ICommand)GetValue(ForwardCancelCommandProperty);
+            set => SetValue(ForwardCancelCommandProperty, value);
+        }
+
+        public ICommand BackwardCommand
+        {
+            get => (ICommand)GetValue(BackwardCommandProperty);
+            set => SetValue(BackwardCommandProperty, value);
+        }
+
+        public ICommand BackwardCancelCommand
+        {
+            get => (ICommand)(GetValue(BackwardCancelCommandProperty));
+            set => SetValue(BackwardCancelCommandProperty, value);
+        }
+
+        public ICommand RelativeDispositionCommand
+        {
+            get => (ICommand)GetValue(RelativeDispositionCommandProperty);
+            set => SetValue(RelativeDispositionCommandProperty, value);
         }
 
         private NeedleVisual _needle;
@@ -71,6 +114,35 @@ namespace StarkCNC.Controls
             series.MaxRadialColumnWidth = sectionWidth;
             series.CornerRadius = 0;
             series.Fill = color;
+        }
+
+        private void BackButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            BackwardCommand.Execute(this);
+        }
+
+        private void BackButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            BackwardCancelCommand.Execute(this);
+        }
+
+        private void ForwardButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ForwardCommand.Execute(this);
+        }
+        private void ForwardButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            ForwardCancelCommand.Execute(this);
+        }
+
+        private void RelativeDisplacementButton_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void RelativeDisplacementButton_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+
         }
     }
 }

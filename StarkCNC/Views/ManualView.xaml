@@ -3,11 +3,13 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:local="clr-namespace:StarkCNC.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      d:DataContext="{d:DesignInstance vm:ManualViewModel}"
       Title="{x:Static lang:Language.ManualPageTitle}">
     <Page.Resources>
         <Style TargetType="controls:ButtonWithIndicator">
@@ -205,20 +207,24 @@
                     Grid.RowSpan="2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
-                    Content="Дожим 1 назад"
+                    Content="Дожим 1 вперёд"
                     PreviewMouseDown="PressureForwardButton_PreviewMouseDown"
                     PreviewMouseUp="PressureForwardButton_PreviewMouseUp"/>
                 <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
                     <Rectangle>
                         <Rectangle.Fill>
-                            <SolidColorBrush x:Name="PressureForwardIndicatorFirst" Color="DarkRed"/>
+                            <SolidColorBrush
+                                x:Name="PressureForwardIndicatorFirst"
+                                Color="DarkRed"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Border>
                 <Border Grid.Column="1" Grid.Row="1" Margin="5" CornerRadius="5">
                     <Rectangle>
                         <Rectangle.Fill>
-                            <SolidColorBrush x:Name="PressureForwardIndicatorSecond" Color="DarkRed"/>
+                            <SolidColorBrush
+                                x:Name="PressureForwardIndicatorSecond"
+                                Color="DarkRed"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Border>
@@ -250,7 +256,9 @@
             Orientation="Horizontal"
             Margin="0,5,0,5"
             HorizontalAlignment="Center">
-            <TextBlock Margin="5,5,5,0" Text="Угол гиба, градусы"/>
+            <Label
+                Margin="5,5,5,0"
+                Content="Угол гиба, градусы"/>
             <TextBox Margin="5,0,5,0" Text="0.0" IsReadOnly="True"/>
             <Button Margin="5,0,5,0" Content="Обнуление"/>
         </StackPanel>
@@ -270,7 +278,11 @@
             </Grid.RowDefinitions>
             <controls:SpeedControl
                 Grid.Row="0"
-                ControlName="Подача"/>
+                ControlName="Подача"
+                ForwardCommand="{Binding FeedForwardStartCommand}"
+                ForwardCancelCommand="{Binding FeedForwardStopCommand}"
+                BackwardCommand="{Binding FeedBackwardStartCommand}"
+                BackwardCancelCommand="{Binding FeedBackwardStopCommand}"/>
             <Separator
                 Grid.Row="1"
                 Margin="0,5,0,5"
@@ -278,14 +290,22 @@
                 VerticalAlignment="Center"/>
             <controls:SpeedControl
                 Grid.Row="2"
-                ControlName="Поворот"/>
+                ControlName="Поворот"
+                ForwardCommand="{Binding TurnForwardStartCommand}"
+                ForwardCancelCommand="{Binding TurnForwardStopCommand}"
+                BackwardCommand="{Binding TurnBackwardStartCommand}"
+                BackwardCancelCommand="{Binding TurnBackwardStopCommand}"/>
             <Separator
                 Grid.Row="3"
                 Margin="0,5,0,5"
                 HorizontalAlignment="Stretch"/>
             <controls:SpeedControl
                 Grid.Row="4"
-                ControlName="Консоль"/>
+                ControlName="Консоль"
+                ForwardCommand="{Binding ConsoleForwardStartCommand}"
+                ForwardCancelCommand="{Binding ConsoleForwardStopCommand}"
+                BackwardCommand="{Binding ConsoleBackwardStartCommand}"
+                BackwardCancelCommand="{Binding ConsoleBackwardStopCommand}"/>
         </Grid>
         <StackPanel
             Grid.Column="4"

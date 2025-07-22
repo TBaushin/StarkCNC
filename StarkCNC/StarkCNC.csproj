@@ -21,14 +21,16 @@
     <PackageReference Include="HelixToolkit" Version="2.27.0" />
     <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.27.0" />
     <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc5.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.5" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.5" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.135" />
     <PackageReference Include="OpcUaHelper" Version="2.2.1" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\StarkCNC.3DViewer\StarkCNC.3DViewer.csproj" />
     <ProjectReference Include="..\StarkCNC.Core\StarkCNC.Core.csproj" />
+    <ProjectReference Include="..\StarkCNC.MachineCommunication\StarkCNC.MachineCommunication.csproj" />
   </ItemGroup>
 
   <ItemGroup>
