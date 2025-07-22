@@ -8,6 +8,9 @@ namespace StarkCNC.MachineCommunication.Services
         private readonly string _server;
         private readonly string _requestString;
         private readonly OpcUaClient _client;
+
+        private Task _connectStatusTask;
+
         public bool Connected => _client.Connected;
 
         private bool CanConnect => !string.IsNullOrEmpty(_server) && !string.IsNullOrEmpty(_requestString);
@@ -26,6 +29,8 @@ namespace StarkCNC.MachineCommunication.Services
         {
             if (CanConnect)
                 await _client.ConnectServer(_server);
+
+            RunUpdateTask();
         }
 
         public async Task WriteAsync<T>(T value, string to)
@@ -40,6 +45,25 @@ namespace StarkCNC.MachineCommunication.Services
             if (!Connected)
                 await ConnectAsync();
             return await _client.ReadNodeAsync<T>(from);
+        }
+
+        private void RunUpdateTask()
+        {
+            if (_connectStatusTask is not null)
+                return;
+
+            _connectStatusTask = new Task(async () =>
+            {
+                while (true)
+                {
+                    if (!_client.Connected)
+                        await _client.ConnectServer(_server);
+
+                    Thread.Sleep(5000);
+                }
+            });
+
+            _connectStatusTask.Start();
         }
     }
 }
