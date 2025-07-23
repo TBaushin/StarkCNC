@@ -54,8 +54,8 @@
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 Margin="0,5,0,5"
-                Command="{Binding HydraulicsFirstTurnOnCommand}"
-                CommandCancel="{Binding HydraulicsFirstTurnOffCommand}">
+                Command="{Binding FirstHydraulics.RunCommand}"
+                CommandCancel="{Binding FirstHydraulics.CancelCommand}">
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 1"/>
@@ -67,8 +67,8 @@
                 Grid.Row="2"
                 HorizontalAlignment="Stretch"
                 Margin="0,5,0,5"
-                Command="{Binding HydraulicsSecondTurnOnCommand}"
-                CommandCancel="{Binding HydraulicsSecondTurnOffCommand}">
+                Command="{Binding SecondHydraulics.RunCommand}"
+                CommandCancel="{Binding SecondHydraulics.CancelCommand}">
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 2"/>
@@ -136,14 +136,16 @@
                 Grid.Column="0"
                 Grid.Row="0"
                 ButtonContent="Зажим назад"
-                Command="{Binding ClampBackwardStartCommand}"
-                CommandCancel="{Binding ClampBackwardStopCommand}"/>
+                IndicatorActivated="{Binding Clamp.RearPosition}"
+                Command="{Binding Clamp.BackwardStartCommand}"
+                CommandCancel="{Binding Clamp.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="1"
                 ButtonContent="Прижим назад"
-                Command="{Binding PressBackwardStartCommand}"
-                CommandCancel="{Binding PressBackwardStopCommand}"/>
+                IndicatorActivated="{Binding Press.RearPosition}"
+                Command="{Binding Press.BackwardStartCommand}"
+                CommandCancel="{Binding Press.BackwardCancelCommand}"/>
             <Grid
                 Grid.Column="0"
                 Grid.Row="2">
@@ -156,25 +158,25 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Button
-                    x:Name="PressureBackButton"
+                    x:Name="SqueezeBackButton"
                     Grid.Column="0"
                     Grid.RowSpan="2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Content="Дожим 1 назад"
-                    PreviewMouseDown="PressureBackButton_PreviewMouseDown"
-                    PreviewMouseUp="PressureBackButton_PreviewMouseUp"/>
+                    PreviewMouseDown="SqueezeBackButton_PreviewMouseDown"
+                    PreviewMouseUp="SqueezeBackButton_PreviewMouseUp"/>
                 <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
                     <Rectangle>
                         <Rectangle.Fill>
-                            <SolidColorBrush x:Name="PressureBackIndicatorFirst" Color="DarkRed"/>
+                            <SolidColorBrush x:Name="SqueezeBackIndicatorFirst" Color="DarkRed"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Border>
                 <Border Grid.Column="1" Grid.Row="1" Margin="5" CornerRadius="5">
                     <Rectangle>
                         <Rectangle.Fill>
-                            <SolidColorBrush x:Name="PressureBackIndicatorSecond" Color="DarkRed"/>
+                            <SolidColorBrush x:Name="SqueezeBackIndicatorSecond" Color="DarkRed"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Border>
@@ -183,44 +185,51 @@
                 Grid.Column="0"
                 Grid.Row="3"
                 ButtonContent="Гиб назад"
-                Command="{Binding BendBackwardStartCommand}"
-                CommandCancel="{Binding BendBackwardStopCommand}"/>
+                IndicatorActivated="{Binding Bend.RearPosition}"
+                Command="{Binding Bend.BackwardStartCommand}"
+                CommandCancel="{Binding Bend.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="4"
                 ButtonContent="Цанга разжим"
-                Command="{Binding ColletBackwardStartCommand}"
-                CommandCancel="{Binding ColletBackwardStopCommand}"/>
+                IndicatorActivated="{Binding Collet.RearPosition}"
+                Command="{Binding Collet.BackwardStartCommand}"
+                CommandCancel="{Binding Collet.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="5"
                 ButtonContent="Дорн назад"
-                Command="{Binding DornBackwardStartCommand}"
-                CommandCancel="{Binding DornBackwardStopCommand}"/>
+                IndicatorActivated="{Binding Dorn.RearPosition}"
+                Command="{Binding Dorn.BackwardStartCommand}"
+                CommandCancel="{Binding Dorn.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="6"
                 ButtonContent="Оснастка вниз"
-                Command="{Binding AdjustmentBackwardStartCommand}"
-                CommandCancel="{Binding AdjustmentBackwardStopCommand}"/>
+                IndicatorActivated="{Binding Adjustment.RearPosition}"
+                Command="{Binding Adjustment.BackwardStartCommand}"
+                CommandCancel="{Binding Adjustment.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="7"
                 ButtonContent="Пробивка назад"
-                Command="{Binding PunchingBackwardStartCommand}"
-                CommandCancel="{Binding PunchingBackwardStopCommand}"/>
+                IndicatorActivated="{Binding Punching.RearPosition}"
+                Command="{Binding Punching.BackwardStartCommand}"
+                CommandCancel="{Binding Punching.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="0"
                 ButtonContent="Зажим вперёд"
-                Command="{Binding ClampForwardStartCommand}"
-                CommandCancel="{Binding ClampForwardStopCommand}"/>
+                IndicatorActivated="{Binding Clamp.FrontPosition}"
+                Command="{Binding Clamp.ForwardStartCommand}"
+                CommandCancel="{Binding Clamp.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="1"
                 ButtonContent="Прижим вперёд"
-                Command="{Binding PressForwardStartCommand}"
-                CommandCancel="{Binding PressForwardStopCommand}"/>
+                IndicatorActivated="{Binding Press.FrontPosition}"
+                Command="{Binding Press.ForwardStartCommand}"
+                CommandCancel="{Binding Press.ForwardCancelCommand}"/>
             <Grid
                 Grid.Column="1"
                 Grid.Row="2">
@@ -233,19 +242,19 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Button
-                    x:Name="PressureForwardButton"
+                    x:Name="SqueezeForwardButton"
                     Grid.Column="0"
                     Grid.RowSpan="2"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Stretch"
                     Content="Дожим 1 вперёд"
-                    PreviewMouseDown="PressureForwardButton_PreviewMouseDown"
-                    PreviewMouseUp="PressureForwardButton_PreviewMouseUp"/>
+                    PreviewMouseDown="SqueezeForwardButton_PreviewMouseDown"
+                    PreviewMouseUp="SqueezeForwardButton_PreviewMouseUp"/>
                 <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
                     <Rectangle>
                         <Rectangle.Fill>
                             <SolidColorBrush
-                                x:Name="PressureForwardIndicatorFirst"
+                                x:Name="SqueezeForwardIndicatorFirst"
                                 Color="DarkRed"/>
                         </Rectangle.Fill>
                     </Rectangle>
@@ -254,7 +263,7 @@
                     <Rectangle>
                         <Rectangle.Fill>
                             <SolidColorBrush
-                                x:Name="PressureForwardIndicatorSecond"
+                                x:Name="SqueezeForwardIndicatorSecond"
                                 Color="DarkRed"/>
                         </Rectangle.Fill>
                     </Rectangle>
@@ -264,32 +273,36 @@
                 Grid.Column="1"
                 Grid.Row="3"
                 ButtonContent="Гиб вперёд"
-                Command="{Binding BendForwardStartCommand}"
-                CommandCancel="{Binding BendForwardStopCommand}"/>
+                IndicatorActivated="{Binding Bend.FrontPosition}"
+                Command="{Binding Bend.ForwardStartCommand}"
+                CommandCancel="{Binding Bend.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="4"
                 ButtonContent="Цанга зажим"
-                Command="{Binding ColletForwardStartCommand}"
-                CommandCancel="{Binding ColletForwardStopCommand}"/>
+                IndicatorActivated="{Binding Collet.FrontPosition}"
+                Command="{Binding Collet.ForwardStartCommand}"
+                CommandCancel="{Binding Collet.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="5"
                 ButtonContent="Дорн вперёд"
-                Command="{Binding DornForwardStartCommand}"
-                CommandCancel="{Binding DornForwardStopCommand}"/>
+                IndicatorActivated="{Binding Dorn.FrontPosition}"
+                Command="{Binding Dorn.ForwardStartCommand}"
+                CommandCancel="{Binding Dorn.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="6"
                 ButtonContent="Оснастка вверх"
-                Command="{Binding AdjustmentForwardStartCommand}"
-                CommandCancel="{Binding AdjustmentForwardStopCommand}"/>
+                IndicatorActivated="{Binding Adjustment.FrontPosition}"
+                Command="{Binding Adjustment.ForwardStartCommand}"
+                CommandCancel="{Binding Adjustment.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="7"
                 ButtonContent="Пробивка вперёд"
-                Command="{Binding PunchingForwardStartCommand}"
-                CommandCancel="{Binding PunchingForwardStopCommand}"/>
+                Command="{Binding Punching.ForwardStartCommand}"
+                CommandCancel="{Binding Punching.ForwardCancelCommand}"/>
         </Grid>
         <StackPanel
             Grid.Column="2"
@@ -320,10 +333,11 @@
             <controls:SpeedControl
                 Grid.Row="0"
                 ControlName="Подача"
-                ForwardCommand="{Binding FeedForwardStartCommand}"
-                ForwardCancelCommand="{Binding FeedForwardStopCommand}"
-                BackwardCommand="{Binding FeedBackwardStartCommand}"
-                BackwardCancelCommand="{Binding FeedBackwardStopCommand}"/>
+                Speed="{Binding FeedDrive.Speed}"
+                ForwardCommand="{Binding FeedDrive.ForwardStartCommand}"
+                ForwardCancelCommand="{Binding FeedDrive.ForwardCancelCommand}"
+                BackwardCommand="{Binding FeedDrive.BackwardStartCommand}"
+                BackwardCancelCommand="{Binding FeedDrive.BackwardCancelCommand}"/>
             <Separator
                 Grid.Row="1"
                 Margin="0,5,0,5"
@@ -332,10 +346,11 @@
             <controls:SpeedControl
                 Grid.Row="2"
                 ControlName="Поворот"
-                ForwardCommand="{Binding TurnForwardStartCommand}"
-                ForwardCancelCommand="{Binding TurnForwardStopCommand}"
-                BackwardCommand="{Binding TurnBackwardStartCommand}"
-                BackwardCancelCommand="{Binding TurnBackwardStopCommand}"/>
+                Speed="{Binding TurnDrive.Speed}"
+                ForwardCommand="{Binding TurnDrive.ForwardStartCommand}"
+                ForwardCancelCommand="{Binding TurnDrive.ForwardCancelCommand}"
+                BackwardCommand="{Binding TurnDrive.BackwardStartCommand}"
+                BackwardCancelCommand="{Binding TurnDrive.BackwardCancelCommand}"/>
             <Separator
                 Grid.Row="3"
                 Margin="0,5,0,5"
@@ -343,10 +358,11 @@
             <controls:SpeedControl
                 Grid.Row="4"
                 ControlName="Консоль"
-                ForwardCommand="{Binding ConsoleForwardStartCommand}"
-                ForwardCancelCommand="{Binding ConsoleForwardStopCommand}"
-                BackwardCommand="{Binding ConsoleBackwardStartCommand}"
-                BackwardCancelCommand="{Binding ConsoleBackwardStopCommand}"/>
+                Speed="{Binding ConsoleDrive.Speed}"
+                ForwardCommand="{Binding ConsoleDrive.ForwardStartCommand}"
+                ForwardCancelCommand="{Binding ConsoleDrive.ForwardCancelCommand}"
+                BackwardCommand="{Binding ConsoleDrive.BackwardStartCommand}"
+                BackwardCancelCommand="{Binding ConsoleDrive.BackwardCancelCommand}"/>
         </Grid>
         <StackPanel
             Grid.Column="4"
