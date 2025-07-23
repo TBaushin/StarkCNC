@@ -34,7 +34,7 @@ namespace StarkCNC.MachineCommunication.Services
             if (CanConnect)
                 try
                 {
-                    await _client.ConnectServer(_server);
+                    await Task.Run(async () => await _client.ConnectServer(_server)).ConfigureAwait(false);
                 }
                 catch (Opc.Ua.ServiceResultException ex)
                 {
@@ -51,9 +51,9 @@ namespace StarkCNC.MachineCommunication.Services
 
             try
             {
-                await _client.WriteNodeAsync<T>(_requestString + to, value);
+                await Task.Run(async () => await _client.WriteNodeAsync<T>(_requestString + to, value)).ConfigureAwait(false);
             }
-            catch
+            catch (Exception)
             {
                 _statusService.Status = Localization.Language.SendRequestErrorMessage;
             }
@@ -68,7 +68,7 @@ namespace StarkCNC.MachineCommunication.Services
             {
                 return await _client.ReadNodeAsync<T>(from);
             }
-            catch
+            catch (Exception)
             {
                 _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
             }
@@ -81,18 +81,23 @@ namespace StarkCNC.MachineCommunication.Services
             if (_connectStatusTask is not null)
                 return;
 
-            _connectStatusTask = new Task(async () =>
+            _connectStatusTask = Task.Run(async () =>
             {
                 while (true)
                 {
-                    if (!_client.Connected)
+                    if (_client.Connected)
+                    {
+                        if (_statusService.Status == Localization.Language.ConnectionErrorMessage)
+                            _statusService.Status = "";
+                    }
+                    else
+                    {
                         await ConnectAsync();
+                    }
 
                     await Task.Delay(5000);
                 }
             });
-
-            _connectStatusTask.Start();
         }
     }
 }
