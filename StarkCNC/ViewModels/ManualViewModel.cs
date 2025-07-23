@@ -20,7 +20,7 @@ namespace StarkCNC.ViewModels
         
         public OutputsParametersTwoButtons Press { get; set; }
 
-        public OutputsParametersTwoButtons Squeeze { get; set; }
+        public SqueezeParameters FirstSqueeze { get; set; }
 
         public OutputsParametersTwoButtons Bend { get; set; }
 
