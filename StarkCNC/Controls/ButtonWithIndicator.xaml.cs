@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -11,8 +12,9 @@ namespace StarkCNC.Controls
     public partial class ButtonWithIndicator : UserControl
     {
         public static readonly DependencyProperty ButtonContentProperty = DependencyProperty.Register("ButtonContent", typeof(object), typeof(ButtonWithIndicator), new PropertyMetadata());
-        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ButtonWithIndicator), new PropertyMetadata());
-        public static readonly DependencyProperty CommandCancelProperty = DependencyProperty.Register("CommandCancel", typeof(ICommand), typeof(ButtonWithIndicator), new PropertyMetadata());
+        public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(IAsyncRelayCommand), typeof(ButtonWithIndicator), new PropertyMetadata());
+        public static readonly DependencyProperty CommandCancelProperty = DependencyProperty.Register("CommandCancel", typeof(IAsyncRelayCommand), typeof(ButtonWithIndicator), new PropertyMetadata());
+        public static readonly DependencyProperty IndicatorActivatedProperty = DependencyProperty.Register("IndicatorActivated", typeof(bool), typeof(ButtonWithIndicator), new PropertyMetadata());
 
         public object? ButtonContent
         {
@@ -20,16 +22,26 @@ namespace StarkCNC.Controls
             set => SetValue(ContentProperty, value);
         }
 
-        public ICommand Command
+        public IAsyncRelayCommand Command
         {
-            get => (ICommand)GetValue(CommandProperty);
+            get => (IAsyncRelayCommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
         }
 
-        public ICommand CommandCancel
+        public IAsyncRelayCommand CommandCancel
         {
-            get => (ICommand)GetValue(CommandCancelProperty);
+            get => (IAsyncRelayCommand)GetValue(CommandCancelProperty);
             set => SetValue(CommandCancelProperty, value);
+        }
+
+        public bool IndicatorActivated
+        {
+            get => (bool)GetValue(IndicatorActivatedProperty);
+            set
+            {
+                SetValue(IndicatorActivatedProperty, value);
+                SetColor(value);
+            }
         }
 
         public event RoutedEventHandler Click;
@@ -43,16 +55,26 @@ namespace StarkCNC.Controls
             InitializeComponent();
         }
 
-        private void Button_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void Button_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Indicator.Color = Colors.Green;
-            Command.Execute(this);
+            await Command.ExecuteAsync(null);
         }
 
-        private void Button_MouseUp(object sender, MouseButtonEventArgs e)
+        private async void Button_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            Indicator.Color = Colors.DarkRed;
-            CommandCancel.Execute(this);
+            await CommandCancel.ExecuteAsync(null);
+        }
+
+        private void SetColor(object? value)
+        {
+            if (value is null || value is not bool)
+                return;
+
+            var booleanValue = (bool)value;
+            if (booleanValue)
+                Indicator.Color = Colors.Green;
+            else
+                Indicator.Color = Colors.DarkRed;
         }
     }
 }
