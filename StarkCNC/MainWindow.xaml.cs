@@ -13,13 +13,19 @@ namespace StarkCNC
     /// </summary>
     public partial class MainWindow : Window
     {
-        private INavigationService _navigationService;
+        private readonly INavigationService _navigationService;
 
-        private IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;
 
         public MainWindowViewModel ViewModel { get; set; }
 
         public FlyoutMenuControl PageList { get; set; }
+
+        private double _windowHeight;
+        private double _windowWidth;
+        private double _windowLeft;
+        private double _windowTop;
+        private bool _maximized = false;
 
         public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService, IServiceProvider serviceProvider)
         {
@@ -56,6 +62,9 @@ namespace StarkCNC
             WindowChrome ws = WindowChrome.GetWindowChrome(this);
             ws.NonClientFrameEdges = SystemParameters.HighContrast ? NonClientFrameEdges.None :
                         NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left;
+
+            _windowHeight = Height;
+            _windowWidth = Width;
         }
 
         private void OnNavigation(object? sender, NavigationEventArgs e)
@@ -74,6 +83,51 @@ namespace StarkCNC
         private void RootContentFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             ViewModel.UpdateCanNavigateBack();
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key != System.Windows.Input.Key.F12 && e.Key != System.Windows.Input.Key.Escape)
+                return;
+
+            if (WindowState == WindowState.Maximized)
+                WindowState = WindowState.Normal;
+
+            if (e.Key == System.Windows.Input.Key.Escape && _maximized)
+                MinimizeWindow();
+
+            if (e.Key == System.Windows.Input.Key.F12 && !_maximized)
+                MaximizeWindow();
+            else
+                MinimizeWindow();
+        }
+
+        private void MaximizeWindow()
+        {
+            _windowHeight = Height;
+            _windowWidth = Width;
+            _windowLeft = Left;
+            _windowTop = Top;
+            Height = SystemParameters.PrimaryScreenHeight;
+            Width = SystemParameters.PrimaryScreenWidth;
+            Left = 0;
+            Top = 0;
+            ResizeMode = ResizeMode.NoResize;
+            Topmost = true;
+            _maximized = true;
+
+        }
+
+        private void MinimizeWindow()
+        {
+            WindowState = WindowState.Normal;
+            Height = _windowHeight;
+            Width = _windowWidth;
+            Left = _windowLeft;
+            Top = _windowTop;
+            ResizeMode = ResizeMode.CanResize;
+            Topmost = false;
+            _maximized = false;
         }
     }
 }
