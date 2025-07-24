@@ -29,54 +29,54 @@ namespace StarkCNC.Views
             base.OnPreviewTextInput(e);
         }
 
-        private async void SqueezeBackButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SqueezeBackButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.FirstSqueeze.BackwardStartCommand.ExecuteAsync(null);
+            ViewModel.FirstSqueeze.BackwardStartCommand.Execute(null);
         }
 
-        private async void SqueezeBackButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SqueezeBackButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.FirstSqueeze.BackwardCancelCommand.ExecuteAsync(null);
+            ViewModel.FirstSqueeze.BackwardCancelCommand.Execute(null);
         }
 
-        private async void SqueezeForwardButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SqueezeForwardButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.FirstSqueeze.ForwardStartCommand.ExecuteAsync(null);
+            ViewModel.FirstSqueeze.ForwardStartCommand.Execute(null);
         }
 
-        private async void SqueezeForwardButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SqueezeForwardButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.FirstSqueeze.ForwardCancelCommand.ExecuteAsync(null);
+            ViewModel.FirstSqueeze.ForwardCancelCommand.Execute(null);
         }
 
-        private async void SupportButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SupportButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.Support.RunCommand.ExecuteAsync(null);
+            ViewModel.Support.RunCommand.Execute(null);
         }
 
-        private async void SupportButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SupportButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.Support.CancelCommand.ExecuteAsync(null);
+            ViewModel.Support.CancelCommand.Execute(null);
         }
 
-        private async void DornLubricantButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DornLubricantButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.DornLubricant.RunCommand.ExecuteAsync(null);
+            ViewModel.DornLubricant.RunCommand.Execute(null);
         }
 
-        private async void DornLubricantButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void DornLubricantButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.DornLubricant.CancelCommand.ExecuteAsync(null);
+            ViewModel.DornLubricant.CancelCommand.Execute(null);
         }
 
-        private async void BendAndSqueezeButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void BendAndSqueezeButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.BendAndSqueeze.RunCommand.ExecuteAsync(null);
+            ViewModel.BendAndSqueeze.RunCommand.Execute(null);
         }
 
-        private async void BendAndSqueezeButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void BendAndSqueezeButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            await ViewModel.BendAndSqueeze.CancelCommand.ExecuteAsync(null);
+            ViewModel.BendAndSqueeze.CancelCommand.Execute(null);
         }
 
         private void FirstSqueeze_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
