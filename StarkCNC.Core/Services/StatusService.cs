@@ -20,7 +20,7 @@ namespace StarkCNC.Core.Services
 
         private void OnPropertyChanged(string propertyName)
         {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
