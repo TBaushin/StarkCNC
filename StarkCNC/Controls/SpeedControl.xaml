@@ -77,7 +77,8 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Скорость, %"
-                TextBoxText=""/>
+                TextBoxText="{Binding Speed, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                MouseDown="SpeedTb_MouseDown"/>
             <Button
                 x:Name="ForwardButton"
                 Grid.Column="2"

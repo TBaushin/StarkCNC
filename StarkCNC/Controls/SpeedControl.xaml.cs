@@ -4,6 +4,7 @@ using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using SkiaSharp;
+using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -143,6 +144,13 @@ namespace StarkCNC.Controls
         private void RelativeDisplacementButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
 
+        }
+
+        private void SpeedTb_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var value = NumberInputViewModel.ShowDialog();
+            SpeedTb.TextBoxText = value.ToString();
+            Speed = value;
         }
     }
 }
