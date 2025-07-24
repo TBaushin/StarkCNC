@@ -53,10 +53,30 @@ namespace StarkCNC.Models
         private async Task BackwardCancel() => await _manualConfigurationService.WriteAsync(false, BackwardRequestString);
 
         [RelayCommand]
-        private async Task GetRearPosition() => RearPosition = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+        private async Task GetRearPosition()
+        {
+            try
+            {
+                RearPosition = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+            }
+            catch (Opc.Ua.ServiceResultException)
+            {
+                return;
+            }
+        }
 
         [RelayCommand]
-        private async Task GetFrontPosition() => FrontPosition = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+        private async Task GetFrontPosition()
+        {
+            try
+            {
+                FrontPosition = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+            }
+            catch (Opc.Ua.ServiceResultException)
+            {
+                return;
+            }
+        }
 
         public static OutputsParametersTwoButtons InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName)
         {

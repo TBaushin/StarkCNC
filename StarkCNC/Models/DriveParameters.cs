@@ -96,22 +96,82 @@ namespace StarkCNC.Models
         }
 
         [RelayCommand]
-        private async Task GetSpeed() => Speed = await _manualConfigurationService.ReadAsync<double>(SpeedRequestString);
+        private async Task GetSpeed()
+        {
+            try
+            {
+                Speed = await _manualConfigurationService.ReadAsync<double>(SpeedRequestString);
+            }
+            catch (Opc.Ua.ServiceResultException)
+            {
+                return;
+            }
+        }
 
         [RelayCommand]
-        private async Task GetCoordinate() => Coordinate = await _manualConfigurationService.ReadAsync<double>(ActualCoordinateRequestString);
+        private async Task GetCoordinate()
+        {
+            try
+            {
+                Coordinate = await _manualConfigurationService.ReadAsync<double>(ActualCoordinateRequestString);
+            }
+            catch (Opc.Ua.ServiceResultException)
+            {
+                return;
+            }
+        }
 
         [RelayCommand]
-        private async Task GetRelativeDisplacement() => RelativeDisplacement = await _manualConfigurationService.ReadAsync<double>(ActualRelativeDisplacementRequestString);
+        private async Task GetRelativeDisplacement()
+        {
+            try
+            {
+                RelativeDisplacement = await _manualConfigurationService.ReadAsync<double>(ActualRelativeDisplacementRequestString);
+            }
+            catch (Opc.Ua.ServiceResultException)
+            {
+                return;
+            }
+        }
 
         [RelayCommand]
-        private async Task GetTorque() => Torque = await _manualConfigurationService.ReadAsync<double>(TorqueRequestString);
+        private async Task GetTorque()
+        {
+            try
+            {
+                Torque = await _manualConfigurationService.ReadAsync<double>(TorqueRequestString);
+            }
+            catch (Opc.Ua.ServiceResultException)
+            {
+                return;
+            }
+        }
 
         [RelayCommand]
-        private async Task GetRearPosition() => RearPosition = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+        private async Task GetRearPosition()
+        {
+            try
+            {
+                RearPosition = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+            }
+            catch (Opc.Ua.ServiceResultException)
+            {
+                return;
+            }
+        }
 
         [RelayCommand]
-        private async Task GetFrontPosition() => FrontPosition = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+        private async Task GetFrontPosition()
+        {
+            try
+            {
+                FrontPosition = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+            }
+            catch (Opc.Ua.ServiceResultException)
+            {
+                return;
+            }
+        }
 
         public static DriveParameters InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName)
         {
