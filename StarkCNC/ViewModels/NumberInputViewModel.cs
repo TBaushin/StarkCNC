@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using System.ComponentModel;
 
 namespace StarkCNC.ViewModels
 {
-    public partial class NumberInputViewModel
+    public partial class NumberInputViewModel : INotifyPropertyChanged
     {
         private bool _needAddPoint;
         private string _outputValue = string.Empty;
@@ -16,7 +17,19 @@ namespace StarkCNC.ViewModels
             {
                 _outputValue = value;
                 TryConvertToDouble();
+                OnPropertyChanged(nameof(OutputValue));
             }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void AddNumber(string number)
+        {
+            var success = Int32.TryParse(number, out var result);
+            if (!success)
+                return;
+
+            OutputValue += result;
         }
 
         [RelayCommand]
@@ -47,19 +60,23 @@ namespace StarkCNC.ViewModels
             _needAddPoint = true;
         }
 
-        public void AddNumber(string number)
-        {
-            var success = Int32.TryParse(number, out var result);
-            if (!success)
-                return;
-
-            OutputValue += result;
-        }
-
         private void TryConvertToDouble()
         {
             Double.TryParse(OutputValue, out var result);
             ResultValue = result;
+        }
+
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public static double ShowDialog()
+        {
+            var viewModel = new NumberInputViewModel();
+            var window = new NumberInputBlockWindow(viewModel);
+            window.ShowDialog();
+            return viewModel.ResultValue;
         }
     }
 }
