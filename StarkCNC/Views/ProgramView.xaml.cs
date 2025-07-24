@@ -24,6 +24,31 @@ namespace StarkCNC.Views
             MainGrid.Children.Add(programControllerView);
         }
 
+        private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            var item = PipeBendParametersDataGrid.CurrentItem;
+            if (item is not StarkCNC.Models.BendingData data)
+                return;
+
+            var value = NumberInputViewModel.ShowDialog();
+
+            switch (PipeBendParametersDataGrid.CurrentColumn.DisplayIndex)
+            {
+                case 0:
+                    data.StraightLength = value;
+                    break;
+                case 1:
+                    data.BendingAngle = value;
+                    break;
+                case 2:
+                    data.BendingRadius = value;
+                    break;
+                case 3:
+                    data.RotationAngle = value;
+                    break;
+            }
+        }
+
         private void PipeBendParametersDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
             Apply.IsEnabled = true;

@@ -89,6 +89,7 @@
                 CanUserSortColumns="False"
                 ColumnWidth="*"
                 ItemsSource="{Binding BendingDatas, Mode=TwoWay}"
+                BeginningEdit="PipeBendParametersDataGrid_BeginningEdit"
                 CellEditEnding="PipeBendParametersDataGrid_CellEditEnding">
                 <DataGrid.Columns>
                     <DataGridTextColumn
