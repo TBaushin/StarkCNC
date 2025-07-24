@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel;
+using System.Globalization;
 
 namespace StarkCNC.ViewModels
 {
@@ -62,7 +63,7 @@ namespace StarkCNC.ViewModels
 
         private void TryConvertToDouble()
         {
-            Double.TryParse(OutputValue, out var result);
+            Double.TryParse(OutputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var result);
             ResultValue = result;
         }
 
