@@ -106,7 +106,7 @@ namespace StarkCNC.ViewModels
 
         private async Task<bool> SaveFile()
         {
-            if (CurrentFilePath is null)
+            if (string.IsNullOrEmpty(CurrentFilePath))
             {
                 var dialog = new SaveFileDialog();
                 dialog.DefaultExt = _gcodeExtension;
