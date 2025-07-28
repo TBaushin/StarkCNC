@@ -10,9 +10,44 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.AdjustmentPageTitle}">
 
-    <ListView>
-        <controls:LabeledTextBoxControl
-            LabelText="{x:Static lang:Language.PipeDiameter}"
-            TextBoxText="{Binding Parameters.PipeDiameter, Mode=TwoWay}"/>
-    </ListView>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Stretch"
+            Orientation="Horizontal">
+            <Label
+                Content="Выбор оснастки"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"/>
+        </StackPanel>
+        <StackPanel
+            Grid.Row="0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Stretch"
+            Orientation="Horizontal">
+            <Button HorizontalAlignment="Right">
+                <TextBlock
+                    Margin="0,4,0,4"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    FontSize="15"
+                    Text="&#xE90F;"/>
+            </Button>
+        </StackPanel>
+        <controls:FloorControl
+            Grid.Row="1"
+            FloorText="Этаж 3"/>
+        <controls:FloorControl
+            Grid.Row="2"
+            FloorText="Этаж 2"/>
+        <controls:FloorControl
+            Grid.Row="3"
+            FloorText="Этаж 1"/>
+    </Grid>
 </Page>
