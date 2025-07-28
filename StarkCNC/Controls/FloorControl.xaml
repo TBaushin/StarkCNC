@@ -38,11 +38,15 @@
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
+                Margin="0,0,15,0"
                 SearchItemPath="{Binding SearchItemPath, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 AutoCompleteMode="Suggest"
                 AutoCompleteSource="{Binding AutoCompleteSource, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             <local:LabeledTextBoxControl
                 Grid.Column="1"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                Margin="0,0,0,25"
                 LabelText="Диаметр трубы"
                 TextBoxText="{Binding PipeDiameter, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </Grid>
