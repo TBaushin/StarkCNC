@@ -47,6 +47,7 @@ namespace StarkCNC.Controls
             InitializeComponent();
 
             RollerImage.Source = TurnOffImage;
+            GridAdjustment.Visibility = Visibility.Hidden;
         }
 
         private void FloorCheckBox_Click(object sender, RoutedEventArgs e)
@@ -59,9 +60,15 @@ namespace StarkCNC.Controls
                 return;
 
             if ((bool)check)
+            {
                 RollerImage.Source = TurnOnImage;
+                GridAdjustment.Visibility = Visibility.Visible;
+            }
             else
+            {
                 RollerImage.Source = TurnOffImage;
+                GridAdjustment.Visibility = Visibility.Hidden;
+            }
 
         }
     }

@@ -18,7 +18,7 @@
             x:Name="FloorCheckBox"
             Grid.Column="0"
             HorizontalAlignment="Stretch"
-            VerticalAlignment="Stretch"
+            VerticalAlignment="Center"
             Content="{Binding FloorText, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="30"
             Click="FloorCheckBox_Click"/>
 
@@ -28,7 +28,8 @@
             VerticalAlignment="Stretch"
             Grid.Column="1"/>
 
-        <Grid Grid.Column="2">
+        <Grid Grid.Column="2"
+              x:Name="GridAdjustment">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -36,7 +37,7 @@
             <syncfusion:SfTextBoxExt
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
+                VerticalAlignment="Center"
                 SearchItemPath="{Binding SearchItemPath, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 AutoCompleteMode="Suggest"
                 AutoCompleteSource="{Binding AutoCompleteSource, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
