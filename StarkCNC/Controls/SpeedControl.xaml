@@ -78,7 +78,7 @@
                 Margin="5,0,5,0"
                 LabelText="Скорость, %"
                 TextBoxText="{Binding Speed, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                MouseDown="SpeedTb_MouseDown"/>
+                NeedCallNumberInput="True"/>
             <Button
                 x:Name="ForwardButton"
                 Grid.Column="2"

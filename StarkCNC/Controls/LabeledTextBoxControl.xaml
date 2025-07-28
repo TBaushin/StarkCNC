@@ -15,8 +15,10 @@
             Grid.Row="0"
             Content="{Binding LabelText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <TextBox
+            x:Name="InputTextBox"
             Grid.Row="1"
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            MouseLeftButtonDown="InputTextBox_MouseDown"
             Text="{Binding TextBoxText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
     </Grid>
 </UserControl>

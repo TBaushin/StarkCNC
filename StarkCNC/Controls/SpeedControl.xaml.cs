@@ -146,7 +146,7 @@ namespace StarkCNC.Controls
 
         }
 
-        private void SpeedTb_MouseDown(object sender, MouseButtonEventArgs e)
+        private void SpeedTb_Click(object sender, RoutedEventArgs e)
         {
             var value = NumberInputViewModel.ShowDialog();
             SpeedTb.TextBoxText = value.ToString();
