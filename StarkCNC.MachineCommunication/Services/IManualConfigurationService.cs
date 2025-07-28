@@ -14,7 +14,6 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="from"></param>
         /// <returns></returns>
-        /// <exception cref="Opc.Ua.ServiceResultException">Не удалось выполнить запрос</exception>
-        public Task<T> ReadAsync<T>(string from);
+        public Task<T?> ReadAsync<T>(string from);
     }
 }

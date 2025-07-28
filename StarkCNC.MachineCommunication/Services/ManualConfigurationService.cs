@@ -49,9 +49,6 @@ namespace StarkCNC.MachineCommunication.Services
         public async Task WriteAsync<T>(T value, string to)
         {
             if (!Connected)
-                await ConnectAsync();
-
-            if (!Connected)
                 return;
 
             try
@@ -64,10 +61,10 @@ namespace StarkCNC.MachineCommunication.Services
             }
         }
 
-        public async Task<T> ReadAsync<T>(string from)
+        public async Task<T?> ReadAsync<T>(string from)
         {
             if (!Connected)
-                await ConnectAsync();
+                return default;
 
             if (Connected)
             {
@@ -81,7 +78,7 @@ namespace StarkCNC.MachineCommunication.Services
                 }
             }
 
-            throw new Opc.Ua.ServiceResultException();
+            return default;
         }
 
         private void RunUpdateTask()
