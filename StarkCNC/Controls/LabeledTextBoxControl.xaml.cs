@@ -1,4 +1,5 @@
-﻿using StarkCNC.ViewModels;
+﻿using StarkCNC.Helpers;
+using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,10 +10,11 @@ namespace StarkCNC.Controls
     /// </summary>
     public partial class LabeledTextBoxControl : UserControl
     {
-        public static readonly DependencyProperty LabelTextProperty = DependencyProperty.Register("LabelText", typeof(object), typeof(LabeledTextBoxControl), new PropertyMetadata());
-        public static readonly DependencyProperty TextBoxTextProperty = DependencyProperty.Register("TextBoxText", typeof(string), typeof(LabeledTextBoxControl), new PropertyMetadata());
-        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register("IsReadOnly", typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata());
-        public static readonly DependencyProperty NeedCallNumberInputProperty = DependencyProperty.Register("NeedCallNumberInput", typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty LabelTextProperty = DependencyProperty.Register(nameof(LabelText), typeof(object), typeof(LabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty TextBoxTextProperty = DependencyProperty.Register(nameof(TextBoxText), typeof(string), typeof(LabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty NeedCallNumberInputProperty = DependencyProperty.Register(nameof(NeedCallNumberInput), typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty.Register(nameof(IsNumericOnly), typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata(false));
 
         public object? LabelText
         {
@@ -38,6 +40,12 @@ namespace StarkCNC.Controls
             set => SetValue(NeedCallNumberInputProperty, value);
         }
 
+        public bool IsNumericOnly
+        {
+            get => (bool)GetValue(IsNumericOnlyProperty);
+            set => SetValue(NeedCallNumberInputProperty, value);
+        }
+
         public LabeledTextBoxControl()
         {
             InitializeComponent();
@@ -50,6 +58,12 @@ namespace StarkCNC.Controls
                 var value = NumberInputViewModel.ShowDialog();
                 InputTextBox.Text = value.ToString();
             }
+        }
+
+        private void InputTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            if (IsNumericOnly)
+                e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
         }
     }
 }
