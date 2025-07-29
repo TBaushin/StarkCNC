@@ -3,8 +3,10 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:local="clr-namespace:StarkCNC.Views"
+      d:DataContext="{d:DesignInstance vm:AdjustmentViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdjustmentListView">
@@ -16,7 +18,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <Button x:Name="AddAdjustment">
+            <Button
+                x:Name="AddAdjustment"
+                Command="{Binding CreateAdjustmentCommand}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock 
                         VerticalAlignment="Center"
@@ -39,8 +43,12 @@
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label Grid.Column="0"/>
-                        <Button Grid.Column="1">
+                        <Label
+                            Grid.Column="0"
+                            Content="{Binding Name}"/>
+                        <Button
+                            Grid.Column="1"
+                            Command="{Binding DataContext.EditAdjustmentCommand, RelativeSource={RelativeSource AncestorType=Page}}">
                             <TextBlock 
                                 VerticalAlignment="Center"
                                 Margin="0,4,0,0"
@@ -48,7 +56,9 @@
                                 FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 Text="&#xE70F;"/>
                         </Button>
-                        <Button Grid.Column="2">
+                        <Button
+                            Grid.Column="2"
+                            Command="{Binding DataContext.DeleteAdjustmentCommand, RelativeSource={RelativeSource AncestorType=Page}}">
                             <TextBlock 
                                 VerticalAlignment="Center"
                                 Margin="0,4,0,0"

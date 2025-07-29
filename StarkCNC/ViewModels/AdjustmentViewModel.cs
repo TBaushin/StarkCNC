@@ -10,8 +10,8 @@ namespace StarkCNC.ViewModels
 {
     public partial class AdjustmentViewModel : ObservableObject
     {
-        private static readonly AdjustmentListView _adjustmentListPage = new AdjustmentListView();
-        private static readonly AdjustmentSettingsView _adjustmentSettingsView = new AdjustmentSettingsView();
+        private readonly AdjustmentListView _adjustmentListPage;
+        private readonly AdjustmentSettingsView _adjustmentSettingsView;
 
         private readonly INavigationService _navigationService;
         private readonly IAdjustmentRepository _repository;
@@ -31,6 +31,9 @@ namespace StarkCNC.ViewModels
 
         public AdjustmentViewModel(INavigationService navigationService, IAdjustmentRepository adjustmentRepository) 
         {
+            _adjustmentListPage = new AdjustmentListView(this);
+            _adjustmentSettingsView = new AdjustmentSettingsView(this);
+
             _navigationService = navigationService;
             _repository = adjustmentRepository;
 
