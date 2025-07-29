@@ -69,7 +69,8 @@
                 </Button>
                 <Button
                     x:Name="Apply"
-                    IsEnabled="False" Click="Apply_Click">
+                    IsEnabled="False"
+                    Click="Apply_Click">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
                             VerticalAlignment="Center"
