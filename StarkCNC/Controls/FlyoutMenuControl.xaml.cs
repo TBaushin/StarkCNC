@@ -40,7 +40,7 @@ namespace StarkCNC.Controls
 
         public Button SearchButton { get; set; }
 
-        public TreeView PageList { get; set; }
+        public ListView PageList { get; set; }
 
         public FlyoutMenuControl(INavigationService navigationService)
         {
@@ -50,7 +50,7 @@ namespace StarkCNC.Controls
 
             GenerateOpenPage();
 
-            PageList.SelectedItemChanged += PageList_SelectedItemChanged;
+            PageList.SelectionChanged += PageList_SelectionChanged; ;
             MenuButton.Click += MenuButton_Click;
         }
 
@@ -61,21 +61,21 @@ namespace StarkCNC.Controls
             {
                 foreach (var item in PageList.Items)
                 {
-                    TreeViewItem treeViewItem = PageList.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
-                    if (treeViewItem is null)
+                    ListViewItem? listViewItem = PageList.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+                    if (listViewItem is null)
                         continue;
 
-                    treeViewItem.IsSelected = false;
+                    listViewItem.IsSelected = false;
                 }
 
                 return;
             }
 
-            var treeViewItemFromPage = PageList.ItemContainerGenerator.ContainerFromItem(page) as TreeViewItem;
-            if (treeViewItemFromPage is null)
+            var listViewItemFromPage = PageList.ItemContainerGenerator.ContainerFromItem(page) as ListViewItem;
+            if (listViewItemFromPage is null)
                 return;
 
-            treeViewItemFromPage.IsSelected = true;
+            listViewItemFromPage.IsSelected = true;
         }
 
         private void GenerateOpenPage()
@@ -177,10 +177,10 @@ namespace StarkCNC.Controls
             return sp;
         }
 
-        private TreeView GenerateOpenBody()
+        private ListView GenerateOpenBody()
         {
-            PageList = new TreeView() { Margin = new Thickness(8, 8, 0, 0) };
-            PageList.SetBinding(TreeView.ItemsSourceProperty, new Binding("Pages"));
+            PageList = new ListView() { Margin = new Thickness(8, 8, 0, 0) };
+            PageList.SetBinding(ListView.ItemsSourceProperty, new Binding("Pages"));
 
             var itemsGridFactory = new FrameworkElementFactory(typeof(Grid));
             itemsGridFactory.SetValue(Grid.MinHeightProperty, 30.0);
@@ -219,10 +219,10 @@ namespace StarkCNC.Controls
             return PageList;
         }
 
-        private TreeView GenerateClosedBody()
+        private ListView GenerateClosedBody()
         {
-            PageList = new TreeView() { Margin = new Thickness(8), HorizontalContentAlignment = HorizontalAlignment.Left };
-            PageList.SetBinding(TreeView.ItemsSourceProperty, new Binding("Pages"));
+            PageList = new ListView() { Margin = new Thickness(8), HorizontalContentAlignment = HorizontalAlignment.Left };
+            PageList.SetBinding(ListView.ItemsSourceProperty, new Binding("Pages"));
 
             var iconTb = new FrameworkElementFactory(typeof(TextBlock));
             iconTb.SetValue(TextBlock.MarginProperty, new Thickness(0, 4, 0, 0));
@@ -343,6 +343,15 @@ namespace StarkCNC.Controls
             return resultSp;
         }
 
+        private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var navItem = PageList.SelectedItem as ViewData;
+            if (navItem is null)
+                return;
+
+            _navigationService.Navigate(navItem.Page);
+        }
+
         private void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             var navItem = PageList.SelectedItem as ViewData;
@@ -362,7 +371,7 @@ namespace StarkCNC.Controls
                 GenerateClosedPage();
 
                 MenuButton.Click += MenuButton_Click;
-                PageList.SelectedItemChanged += PageList_SelectedItemChanged;
+                PageList.SelectionChanged += PageList_SelectionChanged;
             }
             else
             {
@@ -372,7 +381,7 @@ namespace StarkCNC.Controls
                 GenerateOpenPage();
 
                 MenuButton.Click += MenuButton_Click;
-                PageList.SelectedItemChanged += PageList_SelectedItemChanged;
+                PageList.SelectionChanged += PageList_SelectionChanged;
             }
         }
     }
