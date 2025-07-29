@@ -73,6 +73,13 @@ namespace StarkCNC.ViewModels
         }
 
         [RelayCommand]
+        private void SaveAdjustment()
+        {
+            SelectedAdjustment = null;
+            _navigationService.Navigate(_adjustmentListPage);
+        }
+
+        [RelayCommand]
         private void GoNextPage()
         {
             _skiped += 10;
