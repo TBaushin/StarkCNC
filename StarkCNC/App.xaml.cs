@@ -7,6 +7,7 @@ using StarkCNC._3DViewer.Services;
 using StarkCNC._3DViewer.ViewModels;
 using StarkCNC._3DViewer.Views;
 using StarkCNC.Controls;
+using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Services;
@@ -49,6 +50,7 @@ namespace StarkCNC
                     services.AddSingleton<FlyoutMenuControl>();
                     services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
                     services.AddSingleton<IManualConfigurationService, ManualConfigurationService>();
+                    services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
                 })
                 .Build();
             host.Start();

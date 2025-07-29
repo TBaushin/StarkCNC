@@ -1,7 +1,48 @@
-﻿namespace StarkCNC.Models
+﻿using System.ComponentModel;
+
+namespace StarkCNC.Models
 {
-    public class AdjustmentParameters
+    public class AdjustmentParameters : INotifyPropertyChanged
     {
-        public double PipeDiameter { get; set; } = 50;
+        private StarkCNC.Core.Models.AdjustmentParameters _adjustment;
+
+        public string Name
+        {
+            get => _adjustment.Name;
+            set
+            {
+                _adjustment.Name = value;
+                OnPropertyChanged(nameof(Name));
+            }
+        }
+
+        public double PipeDiameter
+        {
+            get => _adjustment.PipeDiameter;
+            set
+            {
+                _adjustment.PipeDiameter = value;
+                OnPropertyChanged(nameof(PipeDiameter));
+            }
+        }
+
+        public AdjustmentParameters(StarkCNC.Core.Models.AdjustmentParameters adjustment)
+        {
+            _adjustment = adjustment;
+        }
+
+        public AdjustmentParameters(string name)
+        {
+            _adjustment = new StarkCNC.Core.Models.AdjustmentParameters(name);
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public StarkCNC.Core.Models.AdjustmentParameters Cast() => _adjustment;
     }
 }

@@ -156,7 +156,10 @@ namespace StarkCNC.ViewModels
                     carriagePosition = carriageCoordinates.PositionY;
                 }
 
-                var pipeDiameter = _serviceProvider.GetRequiredService<AdjustmentViewModel>().Parameters.PipeDiameter;
+                var adjustment = _serviceProvider.GetRequiredService<AdjustmentViewModel>().SelectedAdjustment;
+                double pipeDiameter = 50;
+                if (adjustment is not null)
+                    pipeDiameter = adjustment.PipeDiameter;
 
                 var positions = bendCalculation.CalculateBend(pipeDiameter, carriagePosition);
 

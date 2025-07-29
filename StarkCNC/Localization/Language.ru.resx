@@ -198,4 +198,7 @@
   <data name="ForwardButton" xml:space="preserve">
     <value>Вперёд</value>
   </data>
+  <data name="AddButton" xml:space="preserve">
+    <value>Добавить</value>
+  </data>
 </root>
