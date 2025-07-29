@@ -27,10 +27,6 @@ namespace StarkCNC.ViewModels
 
         public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
 
-        public IAsyncRelayCommand CreateNewFileCommand { get; }
-        public IAsyncRelayCommand OpenFileCommand { get; }
-        public IAsyncRelayCommand SaveFileCommand { get; }
-
         public ProgramViewModel(IServiceProvider serviceProvider, IGCodeService gCodeService)
         {
             _serviceProvider = serviceProvider;
@@ -44,10 +40,6 @@ namespace StarkCNC.ViewModels
                     UpdateBend();
                 }
             };
-
-            CreateNewFileCommand = new AsyncRelayCommand(CreateNewFile);
-            OpenFileCommand = new AsyncRelayCommand(OpenFile);
-            SaveFileCommand = new AsyncRelayCommand(SaveFile);
         }
 
         public ProgramControlView GetProgramControllerView()
@@ -55,6 +47,7 @@ namespace StarkCNC.ViewModels
             return _serviceProvider.GetRequiredService<ProgramControlView>();
         }
 
+        [RelayCommand]
         private async Task CreateNewFile()
         {
             if(!await SaveFile())
@@ -75,6 +68,7 @@ namespace StarkCNC.ViewModels
             UpdateBend();
         }
 
+        [RelayCommand]
         private async Task OpenFile()
         {
             var dialog = new OpenFileDialog();
@@ -104,6 +98,7 @@ namespace StarkCNC.ViewModels
             UpdateBend();
         }
 
+        [RelayCommand]
         private async Task<bool> SaveFile()
         {
             if (string.IsNullOrEmpty(CurrentFilePath))
