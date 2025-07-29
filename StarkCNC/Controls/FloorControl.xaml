@@ -19,7 +19,8 @@
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            Content="{Binding FloorText, RelativeSource={RelativeSource AncestorType=UserControl}}" Width="30"
+            Content="{Binding FloorText, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Width="30"
             Click="FloorCheckBox_Click"/>
 
         <Image
