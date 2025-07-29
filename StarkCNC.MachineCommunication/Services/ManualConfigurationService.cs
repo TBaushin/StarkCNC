@@ -53,7 +53,7 @@ namespace StarkCNC.MachineCommunication.Services
 
             try
             {
-                await Task.Run(async () => await _client.WriteNodeAsync<T>(_requestString + to, value)).ConfigureAwait(false);
+                await _client.WriteNodeAsync<T>(_requestString + to, value);
             }
             catch (Exception)
             {
