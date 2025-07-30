@@ -47,7 +47,7 @@ namespace StarkCNC.ViewModels
                 new ViewData (new AdjustmentView(_serviceProvider.GetRequiredService<AdjustmentViewModel>())) { IconGlyph = "\uE726" }
             ];
 
-            _settingsPage = new SettingsView();
+            _settingsPage = new SettingsView(_serviceProvider.GetRequiredService<SettingsViewModel>());
             _userPage = new UserView(_serviceProvider.GetRequiredService<UserViewModel>());
         }
 

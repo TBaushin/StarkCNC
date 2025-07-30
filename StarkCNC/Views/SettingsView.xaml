@@ -3,12 +3,32 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       xmlns:local="clr-namespace:StarkCNC.Views"
+      d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsView">
 
-    <Grid>
-        
-    </Grid>
+    <StackPanel>
+        <CheckBox
+            Content="Электрический привод гиба"
+            IsChecked="{Binding IsElectricBendingDrive}"/>
+        <CheckBox
+            Content="С пробивочным цилиндром"
+            IsChecked="{Binding IsPunchingCylinder}"/>
+        <CheckBox
+            Content="Полностью электрический станок"
+            IsChecked="{Binding IsElectricMachine}"/>
+
+        <ComboBox
+            ItemsSource="{Binding Floors}"
+            SelectedItem="{Binding SelectedFloorType}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Label Content="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </StackPanel>
 </Page>

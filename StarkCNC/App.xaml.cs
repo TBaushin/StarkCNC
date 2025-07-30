@@ -35,6 +35,7 @@ namespace StarkCNC
                     services.AddSingleton<IConfiguration>(App.Configuration);
                     services.AddSingleton<INavigationService, NavigationService>();
                     services.AddSingleton<IStatusService, StatusService>();
+                    services.AddSingleton<ISettingsService, SettingsService>();
                     services.AddSingleton<IGCodeService, GCodeService>();
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<MainWindowViewModel>();
@@ -48,6 +49,7 @@ namespace StarkCNC
                     services.AddSingleton<AdjustmentViewModel>();
                     services.AddSingleton<UserViewModel>();
                     services.AddSingleton<FlyoutMenuControl>();
+                    services.AddSingleton<SettingsViewModel>();
                     services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
                     services.AddSingleton<IManualConfigurationService, ManualConfigurationService>();
                     services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();

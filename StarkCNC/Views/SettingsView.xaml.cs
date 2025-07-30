@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using StarkCNC.ViewModels;
+using System.Windows.Controls;
 
 namespace StarkCNC.Views
 {
@@ -7,8 +8,13 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class SettingsView : Page
     {
-        public SettingsView()
+        private SettingsViewModel ViewModel;
+
+        public SettingsView(SettingsViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = ViewModel;
+
             InitializeComponent();
         }
     }
