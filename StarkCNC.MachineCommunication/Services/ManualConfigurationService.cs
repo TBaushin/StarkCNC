@@ -90,7 +90,7 @@ namespace StarkCNC.MachineCommunication.Services
                     if (_client.Connected)
                     {
                         if (_statusService.Status == Localization.Language.ConnectionErrorMessage)
-                            _statusService.Status = "";
+                            _statusService.Status = string.Empty;
                     }
                     else
                     {
