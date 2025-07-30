@@ -136,14 +136,14 @@
                 Grid.Column="0"
                 Grid.Row="0"
                 ButtonContent="Зажим назад"
-                IndicatorActivated="{Binding Clamp.RearPosition}"
+                IndicatorColor="{Binding Clamp.RearPosition}"
                 Command="{Binding Clamp.BackwardStartCommand}"
                 CommandCancel="{Binding Clamp.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="1"
                 ButtonContent="Прижим назад"
-                IndicatorActivated="{Binding Press.RearPosition}"
+                IndicatorColor="{Binding Press.RearPosition}"
                 Command="{Binding Press.BackwardStartCommand}"
                 CommandCancel="{Binding Press.BackwardCancelCommand}"/>
             <Grid
@@ -185,49 +185,49 @@
                 Grid.Column="0"
                 Grid.Row="3"
                 ButtonContent="Гиб назад"
-                IndicatorActivated="{Binding Bend.RearPosition}"
+                IndicatorColor="{Binding Bend.RearPosition}"
                 Command="{Binding Bend.BackwardStartCommand}"
                 CommandCancel="{Binding Bend.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="4"
                 ButtonContent="Цанга разжим"
-                IndicatorActivated="{Binding Collet.RearPosition}"
+                IndicatorColor="{Binding Collet.RearPosition}"
                 Command="{Binding Collet.BackwardStartCommand}"
                 CommandCancel="{Binding Collet.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="5"
                 ButtonContent="Дорн назад"
-                IndicatorActivated="{Binding Dorn.RearPosition}"
+                IndicatorColor="{Binding Dorn.RearPosition}"
                 Command="{Binding Dorn.BackwardStartCommand}"
                 CommandCancel="{Binding Dorn.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="6"
                 ButtonContent="Оснастка вниз"
-                IndicatorActivated="{Binding Adjustment.RearPosition}"
+                IndicatorColor="{Binding Adjustment.RearPosition}"
                 Command="{Binding Adjustment.BackwardStartCommand}"
                 CommandCancel="{Binding Adjustment.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="7"
                 ButtonContent="Пробивка назад"
-                IndicatorActivated="{Binding Punching.RearPosition}"
+                IndicatorColor="{Binding Punching.RearPosition}"
                 Command="{Binding Punching.BackwardStartCommand}"
                 CommandCancel="{Binding Punching.BackwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="0"
                 ButtonContent="Зажим вперёд"
-                IndicatorActivated="{Binding Clamp.FrontPosition}"
+                IndicatorColor="{Binding Clamp.FrontPosition}"
                 Command="{Binding Clamp.ForwardStartCommand}"
                 CommandCancel="{Binding Clamp.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="1"
                 ButtonContent="Прижим вперёд"
-                IndicatorActivated="{Binding Press.FrontPosition}"
+                IndicatorColor="{Binding Press.FrontPosition}"
                 Command="{Binding Press.ForwardStartCommand}"
                 CommandCancel="{Binding Press.ForwardCancelCommand}"/>
             <Grid
@@ -273,34 +273,35 @@
                 Grid.Column="1"
                 Grid.Row="3"
                 ButtonContent="Гиб вперёд"
-                IndicatorActivated="{Binding Bend.FrontPosition}"
+                IndicatorColor="{Binding Bend.FrontPosition}"
                 Command="{Binding Bend.ForwardStartCommand}"
                 CommandCancel="{Binding Bend.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="4"
                 ButtonContent="Цанга зажим"
-                IndicatorActivated="{Binding Collet.FrontPosition}"
+                IndicatorColor="{Binding Collet.FrontPosition}"
                 Command="{Binding Collet.ForwardStartCommand}"
                 CommandCancel="{Binding Collet.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="5"
                 ButtonContent="Дорн вперёд"
-                IndicatorActivated="{Binding Dorn.FrontPosition}"
+                IndicatorColor="{Binding Dorn.FrontPosition}"
                 Command="{Binding Dorn.ForwardStartCommand}"
                 CommandCancel="{Binding Dorn.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="6"
                 ButtonContent="Оснастка вверх"
-                IndicatorActivated="{Binding Adjustment.FrontPosition}"
+                IndicatorColor="{Binding Adjustment.FrontPosition}"
                 Command="{Binding Adjustment.ForwardStartCommand}"
                 CommandCancel="{Binding Adjustment.ForwardCancelCommand}"/>
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="7"
                 ButtonContent="Пробивка вперёд"
+                IndicatorColor="{Binding Punching.FrontPosition}"
                 Command="{Binding Punching.ForwardStartCommand}"
                 CommandCancel="{Binding Punching.ForwardCancelCommand}"/>
         </Grid>
@@ -333,7 +334,7 @@
             <controls:SpeedControl
                 Grid.Row="0"
                 ControlName="Подача"
-                Speed="{Binding FeedDrive.Speed}"
+                Speed="{Binding FeedDrive.Speed, Mode=TwoWay}"
                 ForwardCommand="{Binding FeedDrive.ForwardStartCommand}"
                 ForwardCancelCommand="{Binding FeedDrive.ForwardCancelCommand}"
                 BackwardCommand="{Binding FeedDrive.BackwardStartCommand}"
@@ -346,7 +347,7 @@
             <controls:SpeedControl
                 Grid.Row="2"
                 ControlName="Поворот"
-                Speed="{Binding TurnDrive.Speed}"
+                Speed="{Binding TurnDrive.Speed, Mode=TwoWay}"
                 ForwardCommand="{Binding TurnDrive.ForwardStartCommand}"
                 ForwardCancelCommand="{Binding TurnDrive.ForwardCancelCommand}"
                 BackwardCommand="{Binding TurnDrive.BackwardStartCommand}"
@@ -358,7 +359,7 @@
             <controls:SpeedControl
                 Grid.Row="4"
                 ControlName="Консоль"
-                Speed="{Binding ConsoleDrive.Speed}"
+                Speed="{Binding ConsoleDrive.Speed, Mode=TwoWay}"
                 ForwardCommand="{Binding ConsoleDrive.ForwardStartCommand}"
                 ForwardCancelCommand="{Binding ConsoleDrive.ForwardCancelCommand}"
                 BackwardCommand="{Binding ConsoleDrive.BackwardStartCommand}"

@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using System.Windows.Media;
 
 namespace StarkCNC.Models
 {
@@ -10,10 +11,10 @@ namespace StarkCNC.Models
         private readonly IManualConfigurationService _manualConfigurationService;
 
         [ObservableProperty]
-        private bool _rearPosition = false;
+        private Color _rearPosition = Colors.DarkRed;
 
         [ObservableProperty]
-        private bool _frontPosition = false;
+        private Color _frontPosition = Colors.DarkRed;
 
         public string ForwardRequestString { get; private set; } = string.Empty;
 
@@ -57,8 +58,11 @@ namespace StarkCNC.Models
         {
             try
             {
-                var a = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
-                RearPosition = a;
+                var result = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+                if (result)
+                    RearPosition = Colors.Green;
+                else
+                    RearPosition = Colors.DarkRed;
             }
             catch (Opc.Ua.ServiceResultException)
             {
@@ -71,7 +75,11 @@ namespace StarkCNC.Models
         {
             try
             {
-                FrontPosition = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+                var result = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+                if (result)
+                    FrontPosition = Colors.Green;
+                else
+                    FrontPosition = Colors.DarkRed;
             }
             catch (Opc.Ua.ServiceResultException)
             {

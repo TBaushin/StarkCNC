@@ -13,7 +13,7 @@ namespace StarkCNC.Controls
         public static readonly DependencyProperty ButtonContentProperty = DependencyProperty.Register("ButtonContent", typeof(object), typeof(ButtonWithIndicator), new PropertyMetadata());
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(ButtonWithIndicator), new PropertyMetadata());
         public static readonly DependencyProperty CommandCancelProperty = DependencyProperty.Register("CommandCancel", typeof(ICommand), typeof(ButtonWithIndicator), new PropertyMetadata());
-        public static readonly DependencyProperty IndicatorActivatedProperty = DependencyProperty.Register("IndicatorActivated", typeof(bool), typeof(ButtonWithIndicator), new PropertyMetadata());
+        public static readonly DependencyProperty IndicatorColorProperty = DependencyProperty.Register(nameof(IndicatorColor), typeof(Color), typeof(ButtonWithIndicator), new PropertyMetadata(Colors.DarkRed));
 
         public object? ButtonContent
         {
@@ -33,14 +33,10 @@ namespace StarkCNC.Controls
             set => SetValue(CommandCancelProperty, value);
         }
 
-        public bool IndicatorActivated
+        public Color IndicatorColor
         {
-            get => (bool)GetValue(IndicatorActivatedProperty);
-            set
-            {
-                SetValue(IndicatorActivatedProperty, value);
-                SetColor(value);
-            }
+            get => (Color)GetValue(IndicatorColorProperty);
+            set => SetValue(IndicatorColorProperty, value);
         }
 
         public event RoutedEventHandler Click;

@@ -23,7 +23,9 @@
         <Border Grid.Column="1" Margin="5" CornerRadius="5">
             <Rectangle>
                 <Rectangle.Fill>
-                    <SolidColorBrush x:Name="Indicator" Color="DarkRed"/>
+                    <SolidColorBrush
+                        x:Name="Indicator"
+                        Color="{Binding IndicatorColor, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                 </Rectangle.Fill>
             </Rectangle>
         </Border>
