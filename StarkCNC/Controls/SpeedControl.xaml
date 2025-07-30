@@ -56,8 +56,8 @@
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 Margin="5,23,5,0"
-                MouseDown="BackButton_MouseDown"
-                MouseUp="BackButton_MouseUp">
+                PreviewMouseDown="BackButton_MouseDown"
+                PreviewMouseUp="BackButton_MouseUp">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock 
                         VerticalAlignment="Center"
@@ -84,8 +84,8 @@
                 Grid.Column="2"
                 HorizontalAlignment="Stretch"
                 Margin="5,23,5,0"
-                MouseDown="ForwardButton_MouseDown"
-                MouseUp="ForwardButton_MouseUp">
+                PreviewMouseDown="ForwardButton_MouseDown"
+                PreviewMouseUp="ForwardButton_MouseUp">
                 <StackPanel
                     Orientation="Horizontal">
                     <TextBlock 
@@ -126,8 +126,8 @@
                 VerticalAlignment="Center"
                 HorizontalAlignment="Stretch"
                 Margin="5,0,5,0"
-                MouseDown="RelativeDisplacementButton_MouseDown"
-                MouseUp="RelativeDisplacementButton_MouseUp">
+                PreviewMouseDown="RelativeDisplacementButton_MouseDown"
+                PreviewMouseUp="RelativeDisplacementButton_MouseUp">
                 <StackPanel>
                     <TextBlock
                         HorizontalAlignment="Center"

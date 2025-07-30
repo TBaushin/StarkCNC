@@ -76,7 +76,7 @@ namespace StarkCNC.Models
         private async Task ForwardCancel() => await _manualConfigurationService.WriteAsync<bool>(false, ForwardRequestString);
 
         [RelayCommand]
-        private async Task BackwardStart() => await _manualConfigurationService.WriteAsync<bool>(false, BackwardRequestString);
+        private async Task BackwardStart() => await _manualConfigurationService.WriteAsync<bool>(true, BackwardRequestString);
 
         [RelayCommand]
         private async Task BackwardCancel() => await _manualConfigurationService.WriteAsync<bool>(false, BackwardRequestString);
