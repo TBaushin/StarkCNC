@@ -49,11 +49,14 @@ namespace StarkCNC.MachineCommunication.Services
         public async Task WriteAsync<T>(T value, string to)
         {
             if (!Connected)
+                await ConnectAsync();
+
+            if (!Connected)
                 return;
 
             try
             {
-                await _client.WriteNodeAsync<T>(_requestString + to, value);
+                await Task.Run(async () => await _client.WriteNodeAsync<T>(_requestString + to, value)).ConfigureAwait(false);
             }
             catch (Exception)
             {
@@ -61,21 +64,24 @@ namespace StarkCNC.MachineCommunication.Services
             }
         }
 
-        public async Task<T?> ReadAsync<T>(string from)
+        public async Task<T> ReadAsync<T>(string from)
         {
-            if (!Connected)
-                return default;
+            //if (!Connected)
+              //  await ConnectAsync();
 
-            try
-            {
-                return await _client.ReadNodeAsync<T>(_requestString + from);
-            }
-            catch (Exception)
-            {
-                _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
-            }
+            if (Connected)
+             {
+                 try
+                 {
+                    return await _client.ReadNodeAsync<T>(from);
+                 }
+                 catch (Exception)
+                 {
+                     _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
+                 }
+             }
 
-            return default;
+             return default(T);
         }
 
         private void RunUpdateTask()
@@ -90,7 +96,7 @@ namespace StarkCNC.MachineCommunication.Services
                     if (_client.Connected)
                     {
                         if (_statusService.Status == Localization.Language.ConnectionErrorMessage)
-                            _statusService.Status = string.Empty;
+                            _statusService.Status = "";
                     }
                     else
                     {
