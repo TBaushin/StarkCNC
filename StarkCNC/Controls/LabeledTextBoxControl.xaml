@@ -18,7 +18,7 @@
             x:Name="InputTextBox"
             Grid.Row="1"
             IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
-            MouseLeftButtonDown="InputTextBox_MouseDown"
+            PreviewMouseLeftButtonDown="InputTextBox_MouseDown"
             PreviewTextInput="InputTextBox_PreviewTextInput"
             Text="{Binding TextBoxText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
     </Grid>

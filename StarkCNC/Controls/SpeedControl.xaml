@@ -77,7 +77,7 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Скорость, %"
-                TextBoxText="{Binding Speed, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                TextBoxText="{Binding Speed, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 NeedCallNumberInput="True"/>
             <Button
                 x:Name="ForwardButton"

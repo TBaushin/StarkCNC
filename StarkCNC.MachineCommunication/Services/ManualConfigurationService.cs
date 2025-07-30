@@ -33,13 +33,13 @@ namespace StarkCNC.MachineCommunication.Services
         {
             if (CanConnect)
             {
-                //try
+                try
                 {
                     await Task.Run(async () => await _client.ConnectServer(_server)).ConfigureAwait(false);
                 }
-                //catch (Opc.Ua.ServiceResultException ex)
+                catch (Opc.Ua.ServiceResultException ex)
                 {
-                    //_statusService.Status = Localization.Language.ConnectionErrorMessage + $" ({ex.Message})";
+                    _statusService.Status = Localization.Language.ConnectionErrorMessage + $" ({ex.Message})";
                 }
             }
 
@@ -48,9 +48,6 @@ namespace StarkCNC.MachineCommunication.Services
 
         public async Task WriteAsync<T>(T value, string to)
         {
-            if (!Connected)
-                await ConnectAsync();
-
             if (!Connected)
                 return;
 
@@ -64,26 +61,22 @@ namespace StarkCNC.MachineCommunication.Services
             }
         }
 
-        public async Task<T> ReadAsync<T>(string from)
+        public async Task<T?> ReadAsync<T>(string from)
         {
-            //if (!Connected)
-              //  await ConnectAsync();
+            if (!Connected)
+                return default;
 
-            if (Connected)
-             {
-                 //try
-                 {
-                    
-                    var a = await  _client.ReadNodeAsync<T>(_requestString + from);
-                    return a;
-                }
-                 //catch (Exception)
-                 {
-                     _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
-                 }
-             }
+            try
+            {
+                var a = await  _client.ReadNodeAsync<T>(_requestString + from);
+                return a;
+            }
+            catch (Exception)
+            {
+                _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
+            }
 
-             return default(T);
+             return default;
         }
       
         private void RunUpdateTask()
@@ -98,7 +91,7 @@ namespace StarkCNC.MachineCommunication.Services
                     if (_client.Connected)
                     {
                         if (_statusService.Status == Localization.Language.ConnectionErrorMessage)
-                            _statusService.Status = "";
+                            _statusService.Status = string.Empty;
                     }
                     else
                     {

@@ -119,21 +119,21 @@ namespace StarkCNC.Controls
 
         private void BackButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            BackwardCommand.Execute(this);
+            BackwardCommand.Execute(null);
         }
 
         private void BackButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            BackwardCancelCommand.Execute(this);
+            BackwardCancelCommand.Execute(null);
         }
 
         private void ForwardButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            ForwardCommand.Execute(this);
+            ForwardCommand.Execute(null);
         }
         private void ForwardButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            ForwardCancelCommand.Execute(this);
+            ForwardCancelCommand.Execute(null);
         }
 
         private void RelativeDisplacementButton_MouseDown(object sender, MouseButtonEventArgs e)

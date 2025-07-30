@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using System.Windows.Media;
 
 namespace StarkCNC.Models
 {
@@ -9,23 +10,25 @@ namespace StarkCNC.Models
     {
         private readonly IManualConfigurationService _manualConfigurationService;
 
-        [ObservableProperty]
-        private double _speed = 0;
+        private Task _updateTask;
 
         [ObservableProperty]
-        private double _coordinate = 0;
+        private double? _speed = 0;
 
         [ObservableProperty]
-        private double _relativeDisplacement = 0;
+        private double? _coordinate = 0;
 
         [ObservableProperty]
-        private double _torque = 0;
+        private double? _relativeDisplacement = 0;
 
         [ObservableProperty]
-        private bool _rearPosition = false;
+        private double? _torque = 0;
 
         [ObservableProperty]
-        private bool _frontPosition = false;
+        private Color _rearPosition = Colors.DarkRed;
+
+        [ObservableProperty]
+        private Color _frontPosition = Colors.DarkRed;
 
         public string ForwardRequestString { get; private set; } = string.Empty;
         
@@ -54,24 +57,16 @@ namespace StarkCNC.Models
                 while (true)
                 {
                     await GetSpeed();
-                    await Task.Delay(150);
-
                     await GetCoordinate();
-                    await Task.Delay(150);
-
                     await GetRelativeDisplacement();
-                    await Task.Delay(150);
-
                     await GetTorque();
-                    await Task.Delay(150);
-
                     await GetRearPosition();
-                    await Task.Delay(150);
-
                     await GetFrontPosition();
                     await Task.Delay(150);
                 }
             });
+
+            PropertyChanged += DriveParameters_PropertyChanged;
         }
 
         [RelayCommand]
@@ -100,7 +95,9 @@ namespace StarkCNC.Models
         {
             try
             {
-                Speed = await _manualConfigurationService.ReadAsync<double>(SpeedRequestString);
+                var value = await _manualConfigurationService.ReadAsync<float>(SpeedRequestString);
+                Double.TryParse(value.ToString(), out var result);
+                Speed = result;
             }
             catch (Opc.Ua.ServiceResultException)
             {
@@ -126,7 +123,9 @@ namespace StarkCNC.Models
         {
             try
             {
-                RelativeDisplacement = await _manualConfigurationService.ReadAsync<double>(ActualRelativeDisplacementRequestString);
+                var value = await _manualConfigurationService.ReadAsync<float>(ActualRelativeDisplacementRequestString);
+                Double.TryParse(value.ToString(), out var result);
+                RelativeDisplacement = result;
             }
             catch (Opc.Ua.ServiceResultException)
             {
@@ -139,7 +138,9 @@ namespace StarkCNC.Models
         {
             try
             {
-                Torque = await _manualConfigurationService.ReadAsync<double>(TorqueRequestString);
+                var value = await _manualConfigurationService.ReadAsync<float>(TorqueRequestString);
+                Double.TryParse(value.ToString(), out var result);
+                Torque = result;
             }
             catch (Opc.Ua.ServiceResultException)
             {
@@ -152,7 +153,11 @@ namespace StarkCNC.Models
         {
             try
             {
-                RearPosition = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+                var result = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+                if (result)
+                    RearPosition = Colors.Green;
+                else
+                    RearPosition = Colors.DarkRed;
             }
             catch (Opc.Ua.ServiceResultException)
             {
@@ -165,11 +170,27 @@ namespace StarkCNC.Models
         {
             try
             {
-                FrontPosition = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+                var result = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+                if (result)
+                    FrontPosition = Colors.Green;
+                else
+                    FrontPosition = Colors.DarkRed;
             }
             catch (Opc.Ua.ServiceResultException)
             {
                 return;
+            }
+        }
+
+        private async void DriveParameters_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == nameof(Speed))
+            {
+                double value = 0;
+                if (Speed is not null)
+                    value = (double)Speed;
+
+                await _manualConfigurationService.WriteAsync<float>(Convert.ToSingle(value), SpeedRequestString);
             }
         }
 

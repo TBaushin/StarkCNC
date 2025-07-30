@@ -43,7 +43,7 @@ namespace StarkCNC.Controls
         public bool IsNumericOnly
         {
             get => (bool)GetValue(IsNumericOnlyProperty);
-            set => SetValue(NeedCallNumberInputProperty, value);
+            set => SetValue(IsNumericOnlyProperty, value);
         }
 
         public LabeledTextBoxControl()
@@ -56,7 +56,7 @@ namespace StarkCNC.Controls
             if (NeedCallNumberInput)
             {
                 var value = NumberInputViewModel.ShowDialog();
-                InputTextBox.Text = value.ToString();
+                TextBoxText = value.ToString();
             }
         }
 
