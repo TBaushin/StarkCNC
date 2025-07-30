@@ -201,4 +201,10 @@
   <data name="AddButton" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="Winding" xml:space="preserve">
+    <value>Winding</value>
+  </data>
+  <data name="Rolling" xml:space="preserve">
+    <value>Rolling</value>
+  </data>
 </root>

@@ -201,4 +201,10 @@
   <data name="AddButton" xml:space="preserve">
     <value>Добавить</value>
   </data>
+  <data name="Winding" xml:space="preserve">
+    <value>Намоткой</value>
+  </data>
+  <data name="Rolling" xml:space="preserve">
+    <value>Прокатная</value>
+  </data>
 </root>

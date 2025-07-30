@@ -232,6 +232,15 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rolling.
+        /// </summary>
+        public static string Rolling {
+            get {
+                return ResourceManager.GetString("Rolling", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rotation angle.
         /// </summary>
         public static string RotationAngle {
@@ -309,6 +318,15 @@ namespace StarkCNC.Localization {
         public static string VisualizationPageTitle {
             get {
                 return ResourceManager.GetString("VisualizationPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Winding.
+        /// </summary>
+        public static string Winding {
+            get {
+                return ResourceManager.GetString("Winding", resourceCulture);
             }
         }
     }

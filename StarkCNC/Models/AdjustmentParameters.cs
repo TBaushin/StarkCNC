@@ -4,7 +4,7 @@ namespace StarkCNC.Models
 {
     public class AdjustmentParameters : INotifyPropertyChanged
     {
-        private StarkCNC.Core.Models.AdjustmentParameters _adjustment;
+        private readonly StarkCNC.Core.Models.AdjustmentParameters _adjustment;
 
         public string Name
         {
@@ -23,6 +23,16 @@ namespace StarkCNC.Models
             {
                 _adjustment.PipeDiameter = value;
                 OnPropertyChanged(nameof(PipeDiameter));
+            }
+        }
+
+        public string Type
+        {
+            get => _adjustment.Type;
+            set
+            {
+                _adjustment.Type = value;
+                OnPropertyChanged(nameof(Type));
             }
         }
 

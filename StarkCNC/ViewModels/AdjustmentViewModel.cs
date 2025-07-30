@@ -20,6 +20,8 @@ namespace StarkCNC.ViewModels
 
         public ObservableCollection<AdjustmentParameters> Adjustments { get; set; } = new ObservableCollection<AdjustmentParameters>();
 
+        public List<string> AdjustmentsString { get; } = new List<string> { Localization.Language.Winding, Localization.Language.Rolling };
+
         [ObservableProperty]
         private AdjustmentParameters? _selectedAdjustment;
 

@@ -6,6 +6,8 @@
 
         public double PipeDiameter { get; set; } = 50;
 
+        public string Type = string.Empty;
+
         public AdjustmentParameters(string name)
         {
             Name = name;
