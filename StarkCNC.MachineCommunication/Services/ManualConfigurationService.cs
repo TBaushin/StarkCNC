@@ -66,16 +66,13 @@ namespace StarkCNC.MachineCommunication.Services
             if (!Connected)
                 return default;
 
-            if (Connected)
+            try
             {
-                try
-                {
-                    return await _client.ReadNodeAsync<T>(from);
-                }
-                catch (Exception)
-                {
-                    _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
-                }
+                return await _client.ReadNodeAsync<T>(_requestString + from);
+            }
+            catch (Exception)
+            {
+                _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
             }
 
             return default;
