@@ -33,13 +33,13 @@ namespace StarkCNC.MachineCommunication.Services
         {
             if (CanConnect)
             {
-                try
+                //try
                 {
                     await Task.Run(async () => await _client.ConnectServer(_server)).ConfigureAwait(false);
                 }
-                catch (Opc.Ua.ServiceResultException ex)
+                //catch (Opc.Ua.ServiceResultException ex)
                 {
-                    _statusService.Status = Localization.Language.ConnectionErrorMessage + $" ({ex.Message})";
+                    //_statusService.Status = Localization.Language.ConnectionErrorMessage + $" ({ex.Message})";
                 }
             }
 
@@ -71,11 +71,13 @@ namespace StarkCNC.MachineCommunication.Services
 
             if (Connected)
              {
-                 try
+                 //try
                  {
-                    return await _client.ReadNodeAsync<T>(from);
-                 }
-                 catch (Exception)
+                    
+                    var a = await  _client.ReadNodeAsync<T>(_requestString + from);
+                    return a;
+                }
+                 //catch (Exception)
                  {
                      _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
                  }
@@ -83,7 +85,7 @@ namespace StarkCNC.MachineCommunication.Services
 
              return default(T);
         }
-
+      
         private void RunUpdateTask()
         {
             if (_connectStatusTask is not null)

@@ -57,7 +57,8 @@ namespace StarkCNC.Models
         {
             try
             {
-                RearPosition = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+                var a = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+                RearPosition = a;
             }
             catch (Opc.Ua.ServiceResultException)
             {
