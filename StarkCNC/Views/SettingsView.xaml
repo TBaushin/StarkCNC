@@ -21,14 +21,24 @@
             Content="Полностью электрический станок"
             IsChecked="{Binding IsElectricMachine}"/>
 
-        <ComboBox
-            ItemsSource="{Binding Floors}"
-            SelectedItem="{Binding SelectedFloorType}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <Label Content="{Binding Name}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label
+                Grid.Row="0"
+                Content="Количество этажей"/>
+            <ComboBox
+                Grid.Row="1"
+                ItemsSource="{Binding Floors}"
+                SelectedItem="{Binding SelectedFloorType}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <Label Content="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
     </StackPanel>
 </Page>
