@@ -20,7 +20,7 @@
             Grid.Column="0"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Center"
-            Content="{Binding FloorText, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Content="{Binding FloorText, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
             Width="30"
             Click="FloorCheckBox_Click"/>
 
@@ -49,8 +49,9 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Margin="0,0,0,25"
+                NeedCallNumberInput="True"
                 LabelText="{x:Static lang:Language.PipeDiameter}"
-                TextBoxText="{Binding PipeDiameter, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                TextBoxText="{Binding PipeDiameter, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </Grid>
     </Grid>
 </UserControl>
