@@ -18,6 +18,8 @@ namespace StarkCNC.Controls
     {
         public static readonly DependencyProperty ControlNameProperty = DependencyProperty.Register(nameof(ControlName), typeof(string), typeof(SpeedControl), new PropertyMetadata());
         public static readonly DependencyProperty SpeedProperty = DependencyProperty.Register(nameof(Speed), typeof(double), typeof(SpeedControl), new PropertyMetadata(0.0, OnSpeedChanged));
+        public static readonly DependencyProperty CoordinateProperty = DependencyProperty.Register(nameof(Coordinate), typeof(double), typeof(SpeedControl), new PropertyMetadata(0.0));
+        public static readonly DependencyProperty RelativeDisplacementProperty = DependencyProperty.Register(nameof(RelativeDisplacement), typeof(double), typeof(SpeedControl), new PropertyMetadata(0.0));
         public static readonly DependencyProperty ResetCommandProperty = DependencyProperty.Register(nameof(ResetCommand), typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
         public static readonly DependencyProperty ForwardCommandProperty = DependencyProperty.Register(nameof(ForwardCommand), typeof(ICommand), typeof (SpeedControl), new PropertyMetadata());
         public static readonly DependencyProperty ForwardCancelCommandProperty = DependencyProperty.Register(nameof(ForwardCancelCommand), typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
@@ -36,6 +38,18 @@ namespace StarkCNC.Controls
         {
             get => (double)GetValue(SpeedProperty);
             set => SetValue(SpeedProperty, value);
+        }
+
+        public double? Coordinate
+        {
+            get => (double)GetValue(CoordinateProperty);
+            set => SetValue(CoordinateProperty, value);
+        }
+
+        public double? RelativeDisplacement
+        {
+            get => (double)GetValue(RelativeDisplacementProperty);
+            set => SetValue(RelativeDisplacementProperty, value);
         }
 
         public ICommand ResetCommand

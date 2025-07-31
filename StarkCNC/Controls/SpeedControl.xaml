@@ -109,6 +109,7 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Координата, мм"
+                TextBoxText="{Binding Coordinate, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 IsReadOnly="True"/> <!--TODO: Перевести-->
             <local:LabeledTextBoxControl
                 x:Name="RelativeDisplacementTB"
@@ -116,6 +117,7 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Отн. перемещ., мм"
+                TextBoxText="{Binding RelativeDisplacement, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 IsReadOnly="True"/> <!--TODO: Перевести-->
             <Button
                 x:Name="RelativeDisplacementButton"
