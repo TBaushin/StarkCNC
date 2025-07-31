@@ -59,6 +59,7 @@
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 1"/> <!--TODO: Перевести-->
+                        <Label HorizontalAlignment="Center" Content="{x:Static lang:Language.TurnOn}"/>
                     </StackPanel>
                 </controls:ButtonWithIndicator.ButtonContent>
             </controls:ButtonWithIndicator>
@@ -94,6 +95,7 @@
                 PreviewMouseUp="DornLubricantButton_MouseUp">
                 <StackPanel>
                     <Label HorizontalAlignment="Center" Content="Смазку дорна"/> <!--TODO: Перевести-->
+                    <Label HorizontalAlignment="Center" Content="{x:Static lang:Language.TurnOn}"/>
                 </StackPanel>
             </Button>
             <Button

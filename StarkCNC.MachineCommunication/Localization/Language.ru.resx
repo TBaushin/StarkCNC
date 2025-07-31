@@ -121,7 +121,7 @@
     <value>Произошла ошибка подключения</value>
   </data>
   <data name="GetDataRequestErrorMessage" xml:space="preserve">
-    <value>Не удалось получить данные</value>
+    <value>Не удалось получить данные для запроса</value>
   </data>
   <data name="SendRequestErrorMessage" xml:space="preserve">
     <value>Не удалось отправить запрос</value>

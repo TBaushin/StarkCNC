@@ -3,6 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:lang="clr-namespace:StarkCNC.Localization"
     xmlns:local="clr-namespace:StarkCNC.Controls"
     xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
     x:Class="StarkCNC.Controls.FloorControl"
@@ -48,7 +49,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Margin="0,0,0,25"
-                LabelText="Диаметр трубы"
+                LabelText="{x:Static lang:Language.PipeDiameter}"
                 TextBoxText="{Binding PipeDiameter, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </Grid>
     </Grid>

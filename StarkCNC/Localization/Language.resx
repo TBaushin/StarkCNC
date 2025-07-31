@@ -207,4 +207,28 @@
   <data name="Rolling" xml:space="preserve">
     <value>Rolling</value>
   </data>
+  <data name="EnterButton" xml:space="preserve">
+    <value>Enter</value>
+  </data>
+  <data name="ResetButton" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="SpeedPercent" xml:space="preserve">
+    <value>Speed, %</value>
+  </data>
+  <data name="RelativePart" xml:space="preserve">
+    <value>Relative</value>
+  </data>
+  <data name="DisplacementPart" xml:space="preserve">
+    <value>Displacement</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="LevelsCount" xml:space="preserve">
+    <value>Levels count</value>
+  </data>
+  <data name="TurnOn" xml:space="preserve">
+    <value>Turn On</value>
+  </data>
 </root>

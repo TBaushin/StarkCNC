@@ -28,7 +28,7 @@
                 Grid.Column="0"
                 HorizontalAlignment="Center"
                 Width="250"
-                LabelText="Имя"
+                LabelText="{x:Static lang:Language.Name}"
                 TextBoxText="{Binding SelectedAdjustment.Name, Mode=TwoWay}"/>
             <controls:LabeledTextBoxControl
                 Grid.Column="1"
@@ -36,7 +36,7 @@
                 Width="250"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
-                LabelText="Диаметр трубы"
+                LabelText="{x:Static lang:Language.PipeDiameter}"
                 TextBoxText="{Binding SelectedAdjustment.PipeDiameter}"/>
 
             <Grid
@@ -49,7 +49,7 @@
                 </Grid.RowDefinitions>
                 <Label
                     Grid.Row="0"
-                    Content="Количество этажей"/>
+                    Content="{x:Static lang:Language.LevelsCount}"/>
                 <ComboBox
                     Grid.Row="1"
                     ItemsSource="{Binding AdjustmentsString}"

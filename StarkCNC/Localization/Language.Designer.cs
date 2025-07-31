@@ -160,6 +160,15 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Displacement.
+        /// </summary>
+        public static string DisplacementPart {
+            get {
+                return ResourceManager.GetString("DisplacementPart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string EditButton {
@@ -169,11 +178,29 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter.
+        /// </summary>
+        public static string EnterButton {
+            get {
+                return ResourceManager.GetString("EnterButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forward.
         /// </summary>
         public static string ForwardButton {
             get {
                 return ResourceManager.GetString("ForwardButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Levels count.
+        /// </summary>
+        public static string LevelsCount {
+            get {
+                return ResourceManager.GetString("LevelsCount", resourceCulture);
             }
         }
         
@@ -192,6 +219,15 @@ namespace StarkCNC.Localization {
         public static string MenuButton {
             get {
                 return ResourceManager.GetString("MenuButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
             }
         }
         
@@ -232,6 +268,24 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relative.
+        /// </summary>
+        public static string RelativePart {
+            get {
+                return ResourceManager.GetString("RelativePart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset.
+        /// </summary>
+        public static string ResetButton {
+            get {
+                return ResourceManager.GetString("ResetButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rolling.
         /// </summary>
         public static string Rolling {
@@ -268,6 +322,15 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Speed, %.
+        /// </summary>
+        public static string SpeedPercent {
+            get {
+                return ResourceManager.GetString("SpeedPercent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Straight section length.
         /// </summary>
         public static string StraightLength {
@@ -282,6 +345,15 @@ namespace StarkCNC.Localization {
         public static string Tab {
             get {
                 return ResourceManager.GetString("Tab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turn On.
+        /// </summary>
+        public static string TurnOn {
+            get {
+                return ResourceManager.GetString("TurnOn", resourceCulture);
             }
         }
         

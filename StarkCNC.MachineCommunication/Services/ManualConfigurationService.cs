@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OpcUaHelper;
 using StarkCNC.Core.Services;
+using System.Diagnostics;
 
 namespace StarkCNC.MachineCommunication.Services
 {
@@ -39,6 +40,9 @@ namespace StarkCNC.MachineCommunication.Services
                 }
                 catch (Opc.Ua.ServiceResultException ex)
                 {
+#if DEBUG
+                    Debug.WriteLine(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})");
+#endif
                     _statusService.Status = Localization.Language.ConnectionErrorMessage + $" ({ex.Message})";
                 }
             }
@@ -57,6 +61,9 @@ namespace StarkCNC.MachineCommunication.Services
             }
             catch (Exception)
             {
+#if DEBUG
+                Debug.WriteLine(Localization.Language.SendRequestErrorMessage);
+#endif
                 _statusService.Status = Localization.Language.SendRequestErrorMessage;
             }
         }
@@ -73,7 +80,10 @@ namespace StarkCNC.MachineCommunication.Services
             }
             catch (Exception)
             {
-                _statusService.Status = Localization.Language.GetDataRequestErrorMessage;
+#if DEBUG
+                Debug.WriteLine(Localization.Language.GetDataRequestErrorMessage + $" {from}");
+#endif
+                _statusService.Status = Localization.Language.GetDataRequestErrorMessage + $" {from}";
             }
 
              return default;

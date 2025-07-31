@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
+      xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:local="clr-namespace:StarkCNC.Views"
       d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
       mc:Ignorable="d" 
@@ -28,7 +29,7 @@
             </Grid.RowDefinitions>
             <Label
                 Grid.Row="0"
-                Content="Количество этажей"/>
+                Content="{x:Static lang:Language.FloorsCount}"/>
             <ComboBox
                 Grid.Row="1"
                 ItemsSource="{Binding Floors}"

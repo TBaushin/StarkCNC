@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:StarkCNC.ViewModels"
+        xmlns:lang="clr-namespace:StarkCNC.Localization"
         xmlns:local="clr-namespace:StarkCNC"
         d:DataContext="{d:DesignInstance vm:NumberInputViewModel}"
         mc:Ignorable="d"
@@ -166,7 +167,7 @@
                     <TextBlock
                         Margin="0,0,10,0"
                         FontSize="25"
-                        Text="Enter"/> <!--TODO: Вынести в Localization-->
+                        Text="{x:Static lang:Language.EnterButton}"/>
                     <TextBlock 
                         VerticalAlignment="Center"
                         FontSize="25"

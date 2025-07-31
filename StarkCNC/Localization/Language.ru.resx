@@ -207,4 +207,28 @@
   <data name="Rolling" xml:space="preserve">
     <value>Прокатная</value>
   </data>
+  <data name="EnterButton" xml:space="preserve">
+    <value>Ввод</value>
+  </data>
+  <data name="ResetButton" xml:space="preserve">
+    <value>Обнуление</value>
+  </data>
+  <data name="SpeedPercent" xml:space="preserve">
+    <value>Скорость, %</value>
+  </data>
+  <data name="RelativePart" xml:space="preserve">
+    <value>Относительное</value>
+  </data>
+  <data name="DisplacementPart" xml:space="preserve">
+    <value>перемещение</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="LevelsCount" xml:space="preserve">
+    <value>Количество этажей</value>
+  </data>
+  <data name="TurnOn" xml:space="preserve">
+    <value>Включить</value>
+  </data>
 </root>

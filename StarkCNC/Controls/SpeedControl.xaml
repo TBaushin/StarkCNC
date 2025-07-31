@@ -27,8 +27,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Command="{Binding ResetCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                Content="Обнуление"/>
-            <!--TODO: Перевести-->
+                Content="{x:Static lang:Language.ResetButton}"/>
             <Label
                 Grid.Column="1"
                 HorizontalAlignment="Center"
@@ -76,7 +75,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
-                LabelText="Скорость, %"
+                LabelText="{x:Static lang:Language.SpeedPercent}"
                 TextBoxText="{Binding Speed, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 NeedCallNumberInput="True"/>
             <Button
@@ -131,12 +130,10 @@
                 <StackPanel>
                     <TextBlock
                         HorizontalAlignment="Center"
-                        Text="Относительное"/>
-                    <!--TODO: Перевести-->
+                        Text="{x:Static lang:Language.RelativePart}"/>
                     <TextBlock
                         HorizontalAlignment="Center"
-                        Text="перемещение"/>
-                    <!--TODO: Перевести-->
+                        Text="{x:Static lang:Language.DisplacementPart}"/>
                 </StackPanel>
             </Button>
         </Grid>
