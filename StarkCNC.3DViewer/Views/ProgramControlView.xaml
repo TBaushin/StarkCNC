@@ -17,8 +17,8 @@
     CornerRadius="8,0,0,0">
         <helix:HelixViewport3D 
         x:Name="BendingView"
-        ViewCubeHeight="100"
-        ViewCubeWidth="100"
+        ViewCubeHeight="200"
+        ViewCubeWidth="200"
         ViewCubeVerticalPosition="Bottom"
         RenderOptions.BitmapScalingMode="LowQuality"
         RenderOptions.EdgeMode="Unspecified"
