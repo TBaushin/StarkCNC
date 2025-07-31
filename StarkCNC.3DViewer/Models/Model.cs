@@ -37,5 +37,7 @@ namespace StarkCNC._3DViewer.Models
 
             Figure.Transform = calculations.GetResult();
         }
+
+        // TODO: Добавить чтение из Config, вынести настройки дефолтных позиций туда
     }
 }

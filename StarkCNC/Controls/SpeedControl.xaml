@@ -112,14 +112,14 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Координата, мм"
-                IsReadOnly="True"/>
+                IsReadOnly="True"/> <!--TODO: Перевести-->
             <local:LabeledTextBoxControl
                 x:Name="RelativeDisplacementTB"
                 Grid.Column="1"
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Отн. перемещ., мм"
-                IsReadOnly="True"/>
+                IsReadOnly="True"/> <!--TODO: Перевести-->
             <Button
                 x:Name="RelativeDisplacementButton"
                 Grid.Column="2"

@@ -27,7 +27,7 @@
             <Label
                 Content="Выбор оснастки"
                 HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/>
+                VerticalContentAlignment="Center"/> <!--TODO: Перевести-->
         </StackPanel>
         <StackPanel
             Grid.Row="0"
@@ -46,12 +46,12 @@
         </StackPanel>
         <controls:FloorControl
             Grid.Row="1"
-            FloorText="Этаж 3"/>
+            FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
         <controls:FloorControl
             Grid.Row="2"
-            FloorText="Этаж 2"/>
+            FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
         <controls:FloorControl
             Grid.Row="3"
-            FloorText="Этаж 1"/>
+            FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
     </Grid>
 </Page>

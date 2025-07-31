@@ -49,7 +49,7 @@
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
-                Content="Ручной режим"/>
+                Content="Ручной режим"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
@@ -58,8 +58,7 @@
                 CommandCancel="{Binding FirstHydraulics.CancelCommand}">
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
-                        <Label HorizontalAlignment="Center" Content="Гидравлика 1"/>
-                        <Label HorizontalAlignment="Center" Content="Включить"/>
+                        <Label HorizontalAlignment="Center" Content="Гидравлика 1"/> <!--TODO: Перевести-->
                     </StackPanel>
                 </controls:ButtonWithIndicator.ButtonContent>
             </controls:ButtonWithIndicator>
@@ -71,8 +70,8 @@
                 CommandCancel="{Binding SecondHydraulics.CancelCommand}">
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
-                        <Label HorizontalAlignment="Center" Content="Гидравлика 2"/>
-                        <Label HorizontalAlignment="Center" Content="Включить"/>
+                        <Label HorizontalAlignment="Center" Content="Гидравлика 2"/> <!--TODO: Перевести-->
+                        <Label HorizontalAlignment="Center" Content="{x:Static lang:Language.TurnOn}"/>
                     </StackPanel>
                 </controls:ButtonWithIndicator.ButtonContent>
             </controls:ButtonWithIndicator>
@@ -84,7 +83,7 @@
                 Margin="0,5,0,5"
                 Content="Поддержка вверх"
                 PreviewMouseDown="SupportButton_MouseDown"
-                PreviewMouseUp="SupportButton_MouseUp"/>
+                PreviewMouseUp="SupportButton_MouseUp"/> <!--TODO: Перевести-->
             <Button
                 x:Name="DornLubricantButton"
                 Grid.Row="4"
@@ -94,8 +93,7 @@
                 PreviewMouseDown="DornLubricantButton_MouseDown"
                 PreviewMouseUp="DornLubricantButton_MouseUp">
                 <StackPanel>
-                    <Label HorizontalAlignment="Center" Content="Смазку дорна"/>
-                    <Label HorizontalAlignment="Center" Content="Включить"/>
+                    <Label HorizontalAlignment="Center" Content="Смазку дорна"/> <!--TODO: Перевести-->
                 </StackPanel>
             </Button>
             <Button
@@ -107,8 +105,8 @@
                 PreviewMouseDown="BendAndSqueezeButton_MouseDown"
                 PreviewMouseUp="BendAndSqueezeButton_MouseUp">
                 <StackPanel>
-                    <Label HorizontalAlignment="Center" Content="Гиб вперёд"/>
-                    <Label HorizontalAlignment="Center" Content="Дожим вперёд"/>
+                    <Label HorizontalAlignment="Center" Content="Гиб вперёд"/> <!--TODO: Перевести-->
+                    <Label HorizontalAlignment="Center" Content="Дожим вперёд"/> <!--TODO: Перевести-->
                 </StackPanel>
             </Button>
             <!--TODO: Добавить кнопки лифта, у которых Grid.RowSpan="2"-->
@@ -138,14 +136,14 @@
                 ButtonContent="Зажим назад"
                 IndicatorColor="{Binding Clamp.RearPosition}"
                 Command="{Binding Clamp.BackwardStartCommand}"
-                CommandCancel="{Binding Clamp.BackwardCancelCommand}"/>
+                CommandCancel="{Binding Clamp.BackwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="1"
                 ButtonContent="Прижим назад"
                 IndicatorColor="{Binding Press.RearPosition}"
                 Command="{Binding Press.BackwardStartCommand}"
-                CommandCancel="{Binding Press.BackwardCancelCommand}"/>
+                CommandCancel="{Binding Press.BackwardCancelCommand}"/> <!--TODO: Перевести-->
             <Grid
                 Grid.Column="0"
                 Grid.Row="2">
@@ -165,7 +163,7 @@
                     VerticalAlignment="Stretch"
                     Content="Дожим 1 назад"
                     PreviewMouseDown="SqueezeBackButton_PreviewMouseDown"
-                    PreviewMouseUp="SqueezeBackButton_PreviewMouseUp"/>
+                    PreviewMouseUp="SqueezeBackButton_PreviewMouseUp"/> <!--TODO: Перевести-->
                 <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
                     <Rectangle>
                         <Rectangle.Fill>
@@ -187,49 +185,49 @@
                 ButtonContent="Гиб назад"
                 IndicatorColor="{Binding Bend.RearPosition}"
                 Command="{Binding Bend.BackwardStartCommand}"
-                CommandCancel="{Binding Bend.BackwardCancelCommand}"/>
+                CommandCancel="{Binding Bend.BackwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="4"
                 ButtonContent="Цанга разжим"
                 IndicatorColor="{Binding Collet.RearPosition}"
                 Command="{Binding Collet.BackwardStartCommand}"
-                CommandCancel="{Binding Collet.BackwardCancelCommand}"/>
+                CommandCancel="{Binding Collet.BackwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="5"
                 ButtonContent="Дорн назад"
                 IndicatorColor="{Binding Dorn.RearPosition}"
                 Command="{Binding Dorn.BackwardStartCommand}"
-                CommandCancel="{Binding Dorn.BackwardCancelCommand}"/>
+                CommandCancel="{Binding Dorn.BackwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="6"
                 ButtonContent="Оснастка вниз"
                 IndicatorColor="{Binding Adjustment.RearPosition}"
                 Command="{Binding Adjustment.BackwardStartCommand}"
-                CommandCancel="{Binding Adjustment.BackwardCancelCommand}"/>
+                CommandCancel="{Binding Adjustment.BackwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="0"
                 Grid.Row="7"
                 ButtonContent="Пробивка назад"
                 IndicatorColor="{Binding Punching.RearPosition}"
                 Command="{Binding Punching.BackwardStartCommand}"
-                CommandCancel="{Binding Punching.BackwardCancelCommand}"/>
+                CommandCancel="{Binding Punching.BackwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="0"
                 ButtonContent="Зажим вперёд"
                 IndicatorColor="{Binding Clamp.FrontPosition}"
                 Command="{Binding Clamp.ForwardStartCommand}"
-                CommandCancel="{Binding Clamp.ForwardCancelCommand}"/>
+                CommandCancel="{Binding Clamp.ForwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="1"
                 ButtonContent="Прижим вперёд"
                 IndicatorColor="{Binding Press.FrontPosition}"
                 Command="{Binding Press.ForwardStartCommand}"
-                CommandCancel="{Binding Press.ForwardCancelCommand}"/>
+                CommandCancel="{Binding Press.ForwardCancelCommand}"/> <!--TODO: Перевести-->
             <Grid
                 Grid.Column="1"
                 Grid.Row="2">
@@ -250,7 +248,7 @@
                     Content="Дожим 1 вперёд"
                     PreviewMouseDown="SqueezeForwardButton_PreviewMouseDown"
                     PreviewMouseUp="SqueezeForwardButton_PreviewMouseUp"/>
-                <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
+                <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5"> <!--TODO: Перевести-->
                     <Rectangle>
                         <Rectangle.Fill>
                             <SolidColorBrush
@@ -275,35 +273,35 @@
                 ButtonContent="Гиб вперёд"
                 IndicatorColor="{Binding Bend.FrontPosition}"
                 Command="{Binding Bend.ForwardStartCommand}"
-                CommandCancel="{Binding Bend.ForwardCancelCommand}"/>
+                CommandCancel="{Binding Bend.ForwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="4"
                 ButtonContent="Цанга зажим"
                 IndicatorColor="{Binding Collet.FrontPosition}"
                 Command="{Binding Collet.ForwardStartCommand}"
-                CommandCancel="{Binding Collet.ForwardCancelCommand}"/>
+                CommandCancel="{Binding Collet.ForwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="5"
                 ButtonContent="Дорн вперёд"
                 IndicatorColor="{Binding Dorn.FrontPosition}"
                 Command="{Binding Dorn.ForwardStartCommand}"
-                CommandCancel="{Binding Dorn.ForwardCancelCommand}"/>
+                CommandCancel="{Binding Dorn.ForwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="6"
                 ButtonContent="Оснастка вверх"
                 IndicatorColor="{Binding Adjustment.FrontPosition}"
                 Command="{Binding Adjustment.ForwardStartCommand}"
-                CommandCancel="{Binding Adjustment.ForwardCancelCommand}"/>
+                CommandCancel="{Binding Adjustment.ForwardCancelCommand}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="7"
                 ButtonContent="Пробивка вперёд"
                 IndicatorColor="{Binding Punching.FrontPosition}"
                 Command="{Binding Punching.ForwardStartCommand}"
-                CommandCancel="{Binding Punching.ForwardCancelCommand}"/>
+                CommandCancel="{Binding Punching.ForwardCancelCommand}"/> <!--TODO: Перевести-->
         </Grid>
         <StackPanel
             Grid.Column="2"
@@ -313,9 +311,9 @@
             HorizontalAlignment="Center">
             <Label
                 Margin="5,5,5,0"
-                Content="Угол гиба, градусы"/>
+                Content="Угол гиба, градусы"/> <!--TODO: Перевести-->
             <TextBox Margin="5,0,5,0" Text="0.0" IsReadOnly="True"/>
-            <Button Margin="5,0,5,0" Content="Обнуление"/>
+            <Button Margin="5,0,5,0" Content="Обнуление"/> <!--TODO: Перевести-->
         </StackPanel>
         
         <Separator
@@ -338,7 +336,10 @@
                 ForwardCommand="{Binding FeedDrive.ForwardStartCommand}"
                 ForwardCancelCommand="{Binding FeedDrive.ForwardCancelCommand}"
                 BackwardCommand="{Binding FeedDrive.BackwardStartCommand}"
-                BackwardCancelCommand="{Binding FeedDrive.BackwardCancelCommand}"/>
+                BackwardCancelCommand="{Binding FeedDrive.BackwardCancelCommand}"
+                RelativeDispositionCommand="{Binding FeedDrive.RelativeDispositionCommand}"
+                RelativeDispositionCancelCommand="{Binding FeedDrive.RelativeDispositionCancelCommand}"/>
+            <!--TODO: Перевести-->
             <Separator
                 Grid.Row="1"
                 Margin="0,5,0,5"
@@ -352,6 +353,7 @@
                 ForwardCancelCommand="{Binding TurnDrive.ForwardCancelCommand}"
                 BackwardCommand="{Binding TurnDrive.BackwardStartCommand}"
                 BackwardCancelCommand="{Binding TurnDrive.BackwardCancelCommand}"/>
+            <!--TODO: Перевести-->
             <Separator
                 Grid.Row="3"
                 Margin="0,5,0,5"
@@ -364,13 +366,14 @@
                 ForwardCancelCommand="{Binding ConsoleDrive.ForwardCancelCommand}"
                 BackwardCommand="{Binding ConsoleDrive.BackwardStartCommand}"
                 BackwardCancelCommand="{Binding ConsoleDrive.BackwardCancelCommand}"/>
+            <!--TODO: Перевести-->
         </Grid>
         <StackPanel
             Grid.Column="4"
             Grid.Row="1"
             Margin="0,5,0,5"
             HorizontalAlignment="Center">
-            <Button Content="Сброс ошибок сервопривода"/>
+            <Button Content="Сброс ошибок сервопривода"/> <!--TODO: Перевести-->
         </StackPanel>
     </Grid>
 </Page>

@@ -26,9 +26,9 @@ namespace StarkCNC.Core.Services
             if (floors is null)
                 floors = new List<FloorType>()
                 {
-                    new FloorType("Одноуровневый", 1),
-                    new FloorType("Двухуровневый", 2),
-                    new FloorType("Трёхуровневый", 3)
+                    new FloorType("Одноуровневый", 1), // TODO: Вынести в Localization
+                    new FloorType("Двухуровневый", 2), // TODO: Вынести в Localization
+                    new FloorType("Трёхуровневый", 3) // TODO: Вынести в Localization
                 };
 
             return floors;

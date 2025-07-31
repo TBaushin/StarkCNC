@@ -13,13 +13,13 @@
     <StackPanel>
         <CheckBox
             Content="Электрический привод гиба"
-            IsChecked="{Binding IsElectricBendingDrive}"/>
+            IsChecked="{Binding IsElectricBendingDrive}"/> <!--TODO: Перевести-->
         <CheckBox
             Content="С пробивочным цилиндром"
-            IsChecked="{Binding IsPunchingCylinder}"/>
+            IsChecked="{Binding IsPunchingCylinder}"/> <!--TODO: Перевести-->
         <CheckBox
             Content="Полностью электрический станок"
-            IsChecked="{Binding IsElectricMachine}"/>
+            IsChecked="{Binding IsElectricMachine}"/> <!--TODO: Перевести-->
 
         <Grid>
             <Grid.RowDefinitions>
