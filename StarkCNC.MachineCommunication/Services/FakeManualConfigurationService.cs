@@ -1,4 +1,6 @@
-﻿namespace StarkCNC.MachineCommunication.Services
+﻿using System.Diagnostics;
+
+namespace StarkCNC.MachineCommunication.Services
 {
     public class FakeManualConfigurationService : IManualConfigurationService
     {
@@ -19,7 +21,11 @@
             return Task.FromResult((T?)result);
         }
 
-        public async Task WriteAsync<T>(T value, string to) => await Task.Delay(100);
+        public async Task WriteAsync<T>(T value, string to)
+        {
+            Debug.WriteLine($"Запрос {to} со значением {value} принят");
+            await Task.Delay(100);
+        }
 
         private static bool GetRandomBool()
         {
