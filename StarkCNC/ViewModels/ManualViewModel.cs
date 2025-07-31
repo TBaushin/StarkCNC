@@ -1,14 +1,17 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
 
 namespace StarkCNC.ViewModels
 {
-    public class ManualViewModel : ObservableObject
+    public partial class ManualViewModel : ObservableObject
     {
         private readonly IConfiguration _configuration;
         private readonly IManualConfigurationService _configurationService;
+
+        public string ManualModeRequestString { get; set; } = string.Empty;
 
         public DriveParameters FeedDrive { get; set; }
 
@@ -49,6 +52,7 @@ namespace StarkCNC.ViewModels
 
             Connect();
 
+            ManualModeRequestString = _configuration.GetSection("MachineController").GetSection(nameof(ManualModeRequestString)).Get<string>() ?? string.Empty;
             FeedDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), configurationService, nameof(FeedDrive));
             TurnDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), configurationService, nameof(TurnDrive));
             ConsoleDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), configurationService, nameof(ConsoleDrive));
@@ -74,5 +78,11 @@ namespace StarkCNC.ViewModels
             if (!_configurationService.Connected)
                 await _configurationService.ConnectAsync();
         }
+
+        [RelayCommand]
+        private async Task ManualModeTurnOn() => await _configurationService.WriteAsync<bool>(true, ManualModeRequestString);
+
+        [RelayCommand]
+        private async Task ManualModeTurnOff() => await _configurationService.WriteAsync<bool>(false, ManualModeRequestString);
     }
 }

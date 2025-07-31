@@ -19,6 +19,7 @@ namespace StarkCNC.Views
 
             InitializeComponent();
 
+            IsVisibleChanged += ManualView_IsVisibleChanged;
             ViewModel.FirstSqueeze.PropertyChanged += FirstSqueeze_PropertyChanged;
         }
 
@@ -100,6 +101,17 @@ namespace StarkCNC.Views
                 SqueezeForwardIndicatorFirst.Color = Colors.Green;
             else
                 SqueezeForwardIndicatorFirst.Color = Colors.DarkRed;
+        }
+
+        private void ManualView_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is not bool value)
+                return;
+
+            if (value)
+                ViewModel.ManualModeTurnOnCommand.Execute(null);
+            else
+                ViewModel.ManualModeTurnOffCommand.Execute(null);
         }
     }
 }
