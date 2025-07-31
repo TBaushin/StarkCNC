@@ -12,6 +12,7 @@ using StarkCNC.Core.Services;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
+using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
@@ -51,7 +52,13 @@ namespace StarkCNC
                     services.AddSingleton<FlyoutMenuControl>();
                     services.AddSingleton<SettingsViewModel>();
                     services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
+#if DEBUG
+                    Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");
+                    services.AddSingleton<IManualConfigurationService, FakeManualConfigurationService>();
+#else
+                    Debug.WriteLine($"Подставился {nameof(ManualConfigurationService)}");
                     services.AddSingleton<IManualConfigurationService, ManualConfigurationService>();
+#endif
                     services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
                 })
                 .Build();
