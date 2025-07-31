@@ -49,7 +49,7 @@
                 </Grid.RowDefinitions>
                 <Label
                     Grid.Row="0"
-                    Content="{x:Static lang:Language.LevelsCount}"/>
+                    Content="Тип оснастки"/> <!--TODO: Перевести-->
                 <ComboBox
                     Grid.Row="1"
                     ItemsSource="{Binding AdjustmentsString}"
