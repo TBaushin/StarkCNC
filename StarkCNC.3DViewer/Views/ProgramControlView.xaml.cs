@@ -21,5 +21,15 @@ namespace StarkCNC._3DViewer.Views
 
             BendingView.Children.Add(ViewModel.GetPipe());
         }
+
+        private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            BendingView.CameraController.Zoom(-0.1); // Не знаю, но отрицательное число приближает, а положительное отодвигает
+        }
+
+        private void ZoomOut_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            BendingView.CameraController.Zoom(0.1);
+        }
     }
 }
