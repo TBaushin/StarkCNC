@@ -354,7 +354,9 @@
                 ForwardCommand="{Binding TurnDrive.ForwardStartCommand}"
                 ForwardCancelCommand="{Binding TurnDrive.ForwardCancelCommand}"
                 BackwardCommand="{Binding TurnDrive.BackwardStartCommand}"
-                BackwardCancelCommand="{Binding TurnDrive.BackwardCancelCommand}"/>
+                BackwardCancelCommand="{Binding TurnDrive.BackwardCancelCommand}"
+                RelativeDispositionCommand="{Binding TurnDrive.RelativeDispositionCommand}"
+                RelativeDispositionCancelCommand="{Binding TurnDrive.RelativeDispositionCancelCommand}"/>
             <!--TODO: Перевести-->
             <Separator
                 Grid.Row="3"
@@ -367,7 +369,9 @@
                 ForwardCommand="{Binding ConsoleDrive.ForwardStartCommand}"
                 ForwardCancelCommand="{Binding ConsoleDrive.ForwardCancelCommand}"
                 BackwardCommand="{Binding ConsoleDrive.BackwardStartCommand}"
-                BackwardCancelCommand="{Binding ConsoleDrive.BackwardCancelCommand}"/>
+                BackwardCancelCommand="{Binding ConsoleDrive.BackwardCancelCommand}"
+                RelativeDispositionCommand="{Binding ConsoleDrive.RelativeDispositionCommand}"
+                RelativeDispositionCancelCommand="{Binding ConsoleDrive.RelativeDispositionCancelCommand}"/>
             <!--TODO: Перевести-->
         </Grid>
         <StackPanel

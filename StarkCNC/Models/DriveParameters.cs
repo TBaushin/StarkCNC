@@ -10,8 +10,6 @@ namespace StarkCNC.Models
     {
         private readonly IManualConfigurationService _manualConfigurationService;
 
-        private Task _updateTask;
-
         [ObservableProperty]
         private double? _speed = 0;
 
@@ -48,6 +46,8 @@ namespace StarkCNC.Models
 
         public string FrontPositionRequestString { get; private set; } = string.Empty;
 
+        public string RelativeDispositionRequestString { get; private set; } = string.Empty;
+
         public DriveParameters(IManualConfigurationService manualConfigurationService)
         {
             _manualConfigurationService = manualConfigurationService;
@@ -82,6 +82,12 @@ namespace StarkCNC.Models
         private async Task BackwardCancel() => await _manualConfigurationService.WriteAsync<bool>(false, BackwardRequestString);
 
         [RelayCommand]
+        private async Task RelativeDisposition() => await _manualConfigurationService.WriteAsync<bool>(true, RelativeDispositionRequestString);
+
+        [RelayCommand]
+        private async Task RelativeDispositionCancel() => await _manualConfigurationService.WriteAsync<bool>(false, RelativeDispositionRequestString);
+
+        [RelayCommand]
         private async Task Reset()
         {
             // await _manualConfigurationService.WriteAsync<bool>(true, ResetRequestString);
@@ -96,7 +102,7 @@ namespace StarkCNC.Models
             try
             {
                 var value = await _manualConfigurationService.ReadAsync<float>(SpeedRequestString);
-                Double.TryParse(value.ToString(), out var result);
+                double.TryParse(value.ToString(), out var result);
                 Speed = result;
             }
             catch (Opc.Ua.ServiceResultException)
@@ -124,7 +130,7 @@ namespace StarkCNC.Models
             try
             {
                 var value = await _manualConfigurationService.ReadAsync<float>(ActualRelativeDisplacementRequestString);
-                Double.TryParse(value.ToString(), out var result);
+                double.TryParse(value.ToString(), out var result);
                 RelativeDisplacement = result;
             }
             catch (Opc.Ua.ServiceResultException)
@@ -139,7 +145,7 @@ namespace StarkCNC.Models
             try
             {
                 var value = await _manualConfigurationService.ReadAsync<float>(TorqueRequestString);
-                Double.TryParse(value.ToString(), out var result);
+                double.TryParse(value.ToString(), out var result);
                 Torque = result;
             }
             catch (Opc.Ua.ServiceResultException)
@@ -208,7 +214,8 @@ namespace StarkCNC.Models
                 SpeedRequestString = section.GetValue<string>(nameof(SpeedRequestString)) ?? string.Empty,
                 TorqueRequestString = section.GetValue<string>(nameof(TorqueRequestString)) ?? string.Empty,
                 RearPositionRequestString = section.GetValue<string>(nameof(RearPositionRequestString)) ?? string.Empty,
-                FrontPositionRequestString = section.GetValue<string>(nameof(FrontPositionRequestString)) ?? string.Empty
+                FrontPositionRequestString = section.GetValue<string>(nameof(FrontPositionRequestString)) ?? string.Empty,
+                RelativeDispositionRequestString = section.GetValue<string>(nameof(RelativeDispositionRequestString)) ?? string.Empty
             };
         }
     }

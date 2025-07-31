@@ -33,8 +33,6 @@ namespace StarkCNC.Models
                 while (true)
                 {
                     await GetRearPosition();
-                    await Task.Delay(150);
-
                     await GetFrontPosition();
                     await Task.Delay(150);
                 }

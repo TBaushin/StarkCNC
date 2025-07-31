@@ -16,14 +16,15 @@ namespace StarkCNC.Controls
     /// </summary>
     public partial class SpeedControl : UserControl
     {
-        public static readonly DependencyProperty ControlNameProperty = DependencyProperty.Register("ControlName", typeof(string), typeof(SpeedControl), new PropertyMetadata());
-        public static readonly DependencyProperty SpeedProperty = DependencyProperty.Register("Speed", typeof(double), typeof(SpeedControl), new PropertyMetadata(0.0, OnSpeedChanged));
-        public static readonly DependencyProperty ResetCommandProperty = DependencyProperty.Register("ResetCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
-        public static readonly DependencyProperty ForwardCommandProperty = DependencyProperty.Register("ForwardCommand", typeof(ICommand), typeof (SpeedControl), new PropertyMetadata());
-        public static readonly DependencyProperty ForwardCancelCommandProperty = DependencyProperty.Register("ForwardCancelCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
-        public static readonly DependencyProperty BackwardCommandProperty = DependencyProperty.Register("BackwardCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
-        public static readonly DependencyProperty BackwardCancelCommandProperty = DependencyProperty.Register("BackwardCancelCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
-        public static readonly DependencyProperty RelativeDispositionCommandProperty = DependencyProperty.Register("RelativeDispositionCommand", typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty ControlNameProperty = DependencyProperty.Register(nameof(ControlName), typeof(string), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty SpeedProperty = DependencyProperty.Register(nameof(Speed), typeof(double), typeof(SpeedControl), new PropertyMetadata(0.0, OnSpeedChanged));
+        public static readonly DependencyProperty ResetCommandProperty = DependencyProperty.Register(nameof(ResetCommand), typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty ForwardCommandProperty = DependencyProperty.Register(nameof(ForwardCommand), typeof(ICommand), typeof (SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty ForwardCancelCommandProperty = DependencyProperty.Register(nameof(ForwardCancelCommand), typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty BackwardCommandProperty = DependencyProperty.Register(nameof(BackwardCommand), typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty BackwardCancelCommandProperty = DependencyProperty.Register(nameof(BackwardCancelCommand), typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty RelativeDispositionCommandProperty = DependencyProperty.Register(nameof(RelativeDispositionCommand), typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
+        public static readonly DependencyProperty RelativeDispositionCancelCommandProperty = DependencyProperty.Register(nameof(RelativeDispositionCancelCommand), typeof(ICommand), typeof(SpeedControl), new PropertyMetadata());
 
         public string? ControlName
         {
@@ -71,6 +72,12 @@ namespace StarkCNC.Controls
         {
             get => (ICommand)GetValue(RelativeDispositionCommandProperty);
             set => SetValue(RelativeDispositionCommandProperty, value);
+        }
+
+        public ICommand RelativeDispositionCancelCommand
+        {
+            get => (ICommand)GetValue(RelativeDispositionCancelCommandProperty);
+            set => SetValue(RelativeDispositionCancelCommandProperty, value);
         }
 
         private NeedleVisual _needle;
@@ -138,12 +145,12 @@ namespace StarkCNC.Controls
 
         private void RelativeDisplacementButton_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            RelativeDispositionCommand.Execute(null);
         }
 
         private void RelativeDisplacementButton_MouseUp(object sender, MouseButtonEventArgs e)
         {
-
+            RelativeDispositionCancelCommand.Execute(null);
         }
 
         private void SpeedTb_Click(object sender, RoutedEventArgs e)
