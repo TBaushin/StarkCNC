@@ -8,27 +8,27 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border 
-    Grid.Row="0" 
-    Margin="10"
-    Padding="5,5,5,5"
-    Background="{DynamicResource LayerFillColorDefaultBrush}"
-    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-    BorderThickness="1"
-    CornerRadius="8,0,0,0">
+        Grid.Row="0" 
+        Margin="10"
+        Padding="5,5,5,5"
+        Background="{DynamicResource LayerFillColorDefaultBrush}"
+        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+        BorderThickness="1"
+        CornerRadius="8,0,0,0">
         <helix:HelixViewport3D 
-        x:Name="BendingView"
-        ViewCubeHeight="200"
-        ViewCubeWidth="200"
-        ViewCubeVerticalPosition="Bottom"
-        RenderOptions.BitmapScalingMode="LowQuality"
-        RenderOptions.EdgeMode="Unspecified"
-        IsManipulationEnabled="True"
-        IsViewCubeEdgeClicksEnabled="True">
+            x:Name="BendingView"
+            ViewCubeHeight="200"
+            ViewCubeWidth="200"
+            ViewCubeVerticalPosition="Bottom"
+            RenderOptions.BitmapScalingMode="LowQuality"
+            RenderOptions.EdgeMode="Unspecified"
+            IsManipulationEnabled="True"
+            IsViewCubeEdgeClicksEnabled="True">
             <helix:HelixViewport3D.Camera>
                 <PerspectiveCamera
-                Position="-1571,4801,3774"
-                LookDirection="2038,-5200,-2930"
-                UpDirection="-0.145,0.372,0.917"/>
+                    Position="-1571,4801,3774"
+                    LookDirection="2038,-5200,-2930"
+                    UpDirection="-0.145,0.372,0.917"/>
             </helix:HelixViewport3D.Camera>
             <helix:HelixViewport3D.Background>
                 <LinearGradientBrush 
