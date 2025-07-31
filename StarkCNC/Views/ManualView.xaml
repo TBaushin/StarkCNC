@@ -169,14 +169,18 @@
                 <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
                     <Rectangle>
                         <Rectangle.Fill>
-                            <SolidColorBrush x:Name="SqueezeBackIndicatorFirst" Color="DarkRed"/>
+                            <SolidColorBrush
+                                x:Name="SqueezeBackIndicatorFirst"
+                                Color="{Binding FirstSqueeze.FrontPosition}"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Border>
                 <Border Grid.Column="1" Grid.Row="1" Margin="5" CornerRadius="5">
                     <Rectangle>
                         <Rectangle.Fill>
-                            <SolidColorBrush x:Name="SqueezeBackIndicatorSecond" Color="DarkRed"/>
+                            <SolidColorBrush
+                                x:Name="SqueezeBackIndicatorSecond"
+                                Color="{Binding FirstSqueeze.FrontSecondPosition}"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Border>
@@ -255,7 +259,7 @@
                         <Rectangle.Fill>
                             <SolidColorBrush
                                 x:Name="SqueezeForwardIndicatorFirst"
-                                Color="DarkRed"/>
+                                Color="{Binding FirstSqueeze.FrontPosition}"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Border>
@@ -264,7 +268,7 @@
                         <Rectangle.Fill>
                             <SolidColorBrush
                                 x:Name="SqueezeForwardIndicatorSecond"
-                                Color="DarkRed"/>
+                                Color="{Binding FirstSqueeze.FrontSecondPosition}"/>
                         </Rectangle.Fill>
                     </Rectangle>
                 </Border>

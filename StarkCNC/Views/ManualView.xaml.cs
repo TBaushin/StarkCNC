@@ -20,7 +20,6 @@ namespace StarkCNC.Views
             InitializeComponent();
 
             IsVisibleChanged += ManualView_IsVisibleChanged;
-            ViewModel.FirstSqueeze.PropertyChanged += FirstSqueeze_PropertyChanged;
         }
 
         private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -78,29 +77,6 @@ namespace StarkCNC.Views
         private void BendAndSqueezeButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ViewModel.BendAndSqueeze.CancelCommand.Execute(null);
-        }
-
-        private void FirstSqueeze_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            SetSqueezeBackIndicatorFirst();
-
-            SetSqueezeFrontIndicatorFirst();
-        }
-
-        private void SetSqueezeBackIndicatorFirst()
-        {
-            if (ViewModel.FirstSqueeze.RearPosition)
-                SqueezeBackIndicatorFirst.Color = Colors.Green;
-            else
-                SqueezeBackIndicatorFirst.Color = Colors.DarkRed;
-        }
-
-        private void SetSqueezeFrontIndicatorFirst()
-        {
-            if (ViewModel.FirstSqueeze.FrontPosition)
-                SqueezeForwardIndicatorFirst.Color = Colors.Green;
-            else
-                SqueezeForwardIndicatorFirst.Color = Colors.DarkRed;
         }
 
         private void ManualView_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)

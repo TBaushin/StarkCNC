@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using System.Windows.Media;
 
 namespace StarkCNC.Models
 {
@@ -10,16 +11,16 @@ namespace StarkCNC.Models
         private readonly IManualConfigurationService _manualConfigurationService;
 
         [ObservableProperty]
-        private bool _rearPosition = false;
+        private Color _rearPosition = Colors.DarkRed;
 
         [ObservableProperty]
-        private bool _rearSecondPosition = false;
+        private Color _rearSecondPosition = Colors.DarkRed;
         
         [ObservableProperty]
-        private bool _frontPosition = false;
+        private Color _frontPosition = Colors.DarkRed;
 
         [ObservableProperty]
-        private bool _frontSecondPosition = false;
+        private Color _frontSecondPosition = Colors.DarkRed;
 
         public string ForwardRequestString { get; private set; } = string.Empty;
 
@@ -67,32 +68,40 @@ namespace StarkCNC.Models
         private async Task GetRearPosition() 
         { 
             var value = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
-            if (RearPosition != value)
-                RearPosition = value;
+            if (value)
+                RearPosition = Colors.Green;
+            else
+                RearPosition = Colors.DarkRed;
         }
 
         [RelayCommand]
         private async Task GetRearSecondPosition()
         {
             var value = await _manualConfigurationService.ReadAsync<bool>(RearSecondPositionRequestString);
-            if (RearSecondPosition != value)
-                RearSecondPosition = value;
+            if (value)
+                RearSecondPosition = Colors.Green;
+            else
+                RearSecondPosition = Colors.DarkRed;
         }
 
         [RelayCommand]
         private async Task GetFrontPosition()
         {
             var value = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
-            if (FrontPosition != value)
-                FrontPosition = value;
+            if (value)
+                FrontPosition = Colors.Green;
+            else
+                FrontPosition = Colors.DarkRed;
         }
 
         [RelayCommand]
         private async Task GetFrontSecondPosition()
         {
             var value = await _manualConfigurationService.ReadAsync<bool>(FrontSecondPositionRequestString);
-            if (FrontSecondPosition != value)
-                FrontSecondPosition = value;
+            if (value)
+                FrontSecondPosition = Colors.Green;
+            else
+                FrontSecondPosition = Colors.DarkRed;
         }
 
         public static SqueezeParameters InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName)
