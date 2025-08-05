@@ -1,7 +1,7 @@
 ﻿using StarkCNC.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Media;
-
+using StarkCNC._3DViewer.Views;
 namespace StarkCNC.Views
 {
     /// <summary>
@@ -9,11 +9,14 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class ProgramView : Page
     {
+        
+        
         private readonly ProgramViewModel ViewModel;
         private Brush? _applyColor; 
 
         public ProgramView(ProgramViewModel viewModel)
         {
+            
             ViewModel = viewModel;
             DataContext = ViewModel;
             InitializeComponent();
@@ -22,6 +25,7 @@ namespace StarkCNC.Views
             Grid.SetColumn(programControllerView, 1);
 
             MainGrid.Children.Add(programControllerView);
+
         }
 
         private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
@@ -62,7 +66,7 @@ namespace StarkCNC.Views
         private void Apply_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ViewModel.UpdateBend();
-            Apply.IsEnabled = false;
+            Apply.IsEnabled = true;
             Apply.Background = _applyColor;
         }
     }

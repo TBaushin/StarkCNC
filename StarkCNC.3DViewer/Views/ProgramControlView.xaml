@@ -73,6 +73,17 @@
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                         Text="&#xE71F;"/>
                 </Button>
+                <Button
+    x:Name="update"
+    Margin="0,0,0,10"
+    Click="Apply_">
+                    <TextBlock 
+        VerticalAlignment="Center"
+        Margin="0,4,0,0"
+        FontSize="20"
+        FontFamily="{StaticResource SymbolThemeFontFamily}"
+        Text="&#xE75F;"/>
+                </Button>
             </StackPanel>
         </Grid>
     </Border>

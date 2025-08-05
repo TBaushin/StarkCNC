@@ -1,9 +1,89 @@
 ﻿using StarkCNC.Core.Models;
+using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
+using System.Collections.Generic;
 namespace StarkCNC.Core.Calculations
 {
-    public class BendCalculation : IBendCalculation
+    public class WireSegment
+    {
+        public double Diameter;        // Диаметр провода
+        public double BendingRadius;      // Радиус гиба
+        public double StraightLength;  // Длина прямого участка между гибами
+        public double BendingAngle;       // Угол гиба в градусах
+        public double RotationAngle;        // Проворот гиба относительно оси, градусов
+    }
+    public static class QuaternionExtensions
+    {
+        public static Vector3D Rotate(this Quaternion q, Vector3D v)
+        {
+            var m = new Matrix3D();
+            m.Rotate(q);
+            return m.Transform(v);
+        }
+    }
+    public static class WireBuilder
+    {
+        // Возвращает список 3D-точек маршрута провода по списку сегментов
+        public static IList<Point3D> BuildWirePath(List<BendingData> segments, int bendSteps = 16)
+        {
+            var points = new List<Point3D>();
+            var currentPoint = new Point3D(0, 0, 0);
+            var currentDirection = new Vector3D(1, 0, 0); // Стартовое направление по X
+            var currentUp = new Vector3D(0, 0, 1);        // Стартовое «вверх»
+            points.Add(currentPoint);
+
+            foreach (var seg in segments)
+            {
+                // Прямой участок
+                if (seg.StraightLength > 0)
+                {
+                    currentPoint += currentDirection * seg.StraightLength;
+                    points.Add(currentPoint);
+                }
+
+                if (Math.Abs(seg.BendingAngle) < 1e-6) continue; // Без дуги — следующий сегмент
+
+                // Проворот up-вектора
+                if (Math.Abs(seg.RotationAngle) > 1e-6)
+                {
+                    var rotationQuat = new Quaternion(currentDirection, seg.RotationAngle);
+                    currentUp = rotationQuat.Rotate(currentUp);
+                }
+
+                // Ось напряжения дуги
+                var bendAxis = currentUp;
+
+                // Нормаль радиуса — из продукта векторного произведения
+                var radiusDir = Vector3D.CrossProduct(bendAxis, currentDirection);
+                radiusDir.Normalize();
+
+                // Центр дуги
+                var bendCenter = currentPoint + radiusDir * seg.BendingRadius;
+
+                double bendRad = seg.BendingAngle * Math.PI / 180.0;
+                for (int i = 1; i <= bendSteps; i++)
+                {
+                    double angle = i * bendRad / bendSteps;
+                    var quat = new Quaternion(bendAxis, angle * 180.0 / Math.PI);
+                    Vector3D offset = quat.Rotate(-radiusDir * seg.BendingRadius);
+                    Point3D pt = bendCenter + offset;
+                    points.Add(pt);
+                }
+
+                // Обновить направление для следующего отрезка
+                var finalQuat = new Quaternion(bendAxis, seg.BendingAngle);
+                currentDirection = finalQuat.Rotate(currentDirection);
+                currentDirection.Normalize();
+
+                // Новый старт для следующего участка
+                currentPoint = points[points.Count - 1];
+            }
+
+            return points;
+        }
+    }
+    /*public class BendCalculation : IBendCalculation
     {
         private readonly int _slices = 100;
 
@@ -37,12 +117,12 @@ namespace StarkCNC.Core.Calculations
                     var x = Convert.ToSingle(pipeDiameter * Math.Cos(circumferenceLength) + BendParameters.BendingRadius);
                     var z = Convert.ToSingle(pipeDiameter * Math.Sin(circumferenceLength));
 
-                    var xb = Convert.ToSingle(Math.Sin(firstAngle) * x + carriagePos + 2000);
+                    var xb = Convert.ToSingle(Math.Sin(firstAngle) * x + carriagePos + BendParameters.StraightLength);
                     var yb = Convert.ToSingle(Math.Cos(firstAngle) * x - BendParameters.BendingRadius);
                     var zb = z;
                     bend.StartPosition = new Point3D(xb, yb, zb);
 
-                    xb = Convert.ToSingle(Math.Sin(secondAngle) * x + carriagePos + 2000);
+                    xb = Convert.ToSingle(Math.Sin(secondAngle) * x + carriagePos + BendParameters.StraightLength);
                     yb = Convert.ToSingle(Math.Cos(secondAngle) * x - BendParameters.BendingRadius);
                     zb = z;
                     bend.EndPosition = new Point3D(xb, yb, zb);
@@ -53,5 +133,5 @@ namespace StarkCNC.Core.Calculations
 
             return data;
         }
-    }
+    }*/
 }

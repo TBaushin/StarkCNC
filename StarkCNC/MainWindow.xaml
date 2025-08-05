@@ -8,6 +8,8 @@
         xmlns:lang="clr-namespace:StarkCNC.Localization"
         xmlns:controls="clr-namespace:StarkCNC.Controls"
         xmlns:local="clr-namespace:StarkCNC"
+       
+        WindowState="Maximized"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         mc:Ignorable="d"
         Title="{Binding Title}" 

@@ -38,7 +38,7 @@ namespace StarkCNC
             DataContext = ViewModel;
 
             InitializeComponent();
-
+            
             PageList = _serviceProvider.GetRequiredService<FlyoutMenuControl>();
             PageList.Pages = ViewModel.Pages;
             Grid.SetRowSpan(PageList, 2);

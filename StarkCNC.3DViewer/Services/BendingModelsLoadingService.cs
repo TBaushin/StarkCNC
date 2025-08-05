@@ -147,7 +147,7 @@ namespace StarkCNC._3DViewer.Services
             {
                 builder.AddCylinder(pos.StartPosition, pos.EndPosition, 60, 60);
 
-                Pipe.Content = new GeometryModel3D(builder.ToMesh(), Materials.White);
+                Pipe.Content = new GeometryModel3D(builder.ToMesh(), Materials.Red);
             }
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Pipe)));
         }
