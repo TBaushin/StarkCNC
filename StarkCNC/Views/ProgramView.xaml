@@ -67,7 +67,7 @@
                             Text="{x:Static lang:Language.SaveButton}"/>
                     </StackPanel>
                 </Button>
-                <Button
+                <!--<Button
                     x:Name="Apply"
                     IsEnabled="False"
                     Click="Apply_Click">
@@ -81,7 +81,7 @@
                             Margin="8,0,0,0"
                             Text="{x:Static lang:Language.ApplyButton}"/>
                     </StackPanel>
-                </Button>
+                </Button>-->
             </StackPanel>
             <DataGrid 
                 x:Name="PipeBendParametersDataGrid"
