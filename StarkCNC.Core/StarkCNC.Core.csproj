@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Gcode.Utils" Version="0.2.21" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.7" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.8" />
   </ItemGroup>
 
 </Project>

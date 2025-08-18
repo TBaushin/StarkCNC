@@ -2,14 +2,9 @@
 using StarkCNC._3DViewer.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Media.Media3D;
-using System.Collections.Generic;
 using System.Windows.Threading;
-using StarkCNC.Core.Calculations;
 using System.Windows.Media;
 using System.Windows;
-using System.Printing;
-using System.Drawing.Drawing2D;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 
 namespace StarkCNC._3DViewer.Views
 {
@@ -38,6 +33,7 @@ namespace StarkCNC._3DViewer.Views
             public Vector3D UpVector { get; set; }
             public double DistanceFromBack { get; set; }
             public bool IsFixed { get; set; }
+
             public TubePoint(Point3D position, Vector3D direction, Vector3D upVector, double distance)
             {
                 Position = position;
@@ -47,6 +43,7 @@ namespace StarkCNC._3DViewer.Views
                 DistanceFromBack = distance;
                 IsFixed = false;
             }
+
             public void UpdateBasePosition()
             {
                 BasePosition = Position;
@@ -123,7 +120,7 @@ namespace StarkCNC._3DViewer.Views
 
         public void StartBendingAnimation(List<BendingSegment> program)
         {
-            if (program == null || program.Count == 0)
+            if (program is null || program.Count == 0)
                 throw new ArgumentException("Программа гибки не может быть пустой.", nameof(program));
             bendingProgram = new List<BendingSegment>(program);
             currentSegmentIndex = 0;
@@ -315,7 +312,7 @@ namespace StarkCNC._3DViewer.Views
                 return;
 
             var pathPoints = new Point3DCollection(tubePoints.Select(pt => pt.Position));
-            if (Application.Current?.Dispatcher != null)
+            if (Application.Current?.Dispatcher is not null)
             {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
@@ -339,18 +336,18 @@ namespace StarkCNC._3DViewer.Views
                 cos + x * x * oneMinusCos, x * y * oneMinusCos - z * sin, x * z * oneMinusCos + y * sin, 0,
                 y * x * oneMinusCos + z * sin, cos + y * y * oneMinusCos, y * z * oneMinusCos - x * sin, 0,
                 z * x * oneMinusCos - y * sin, z * y * oneMinusCos + x * sin, cos + z * z * oneMinusCos, 0,
-                0, 0, 0, 1);
+                0, 0, 0, 1); // TODO: Откуда эти формулы? Где их можно посмотреть, почитать о них?
         }
 
         public static List<BendingSegment> CreateSampleProgram()
         {
             return new List<BendingSegment>
-        {
-            new BendingSegment(300, 100, 90, 0),
-            new BendingSegment(200, 80, -45, 90),
-            new BendingSegment(250, 120, 60, -45),
-            new BendingSegment(150, 0, 0, 180),
-        };
+            {
+                new BendingSegment(300, 100, 90, 0),
+                new BendingSegment(200, 80, -45, 90),
+                new BendingSegment(250, 120, 60, -45),
+                new BendingSegment(150, 0, 0, 180),
+            };
         }
 
         public void Dispose()
@@ -361,13 +358,11 @@ namespace StarkCNC._3DViewer.Views
             tubePoints.Clear();
         }
     }
+
     public partial class VisualizationControllerView : UserControl
     {
         private readonly VisualizationControllerViewModel ViewModel;
-
-
         private TubeBendingAnimator _animator;
-
 
         public VisualizationControllerView(VisualizationControllerViewModel viewModel)
         {
@@ -378,14 +373,12 @@ namespace StarkCNC._3DViewer.Views
             BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
             BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
             BendingView.Children.Add(ViewModel.GetModels());
-                  
-           
+            
             SetDefaultValue();
-
-           
 
             //BendingView.Children.Add(ViewModel.GetPipe());
         }
+
         private void InitializeAnimation()
         {
             // Инициализируем аниматор с viewport
@@ -399,10 +392,11 @@ namespace StarkCNC._3DViewer.Views
 
             _animator.AnimationCompleted += (sender, e) =>
             {
-              //  StatusTextBlock.Text = "Анимация завершена";
-           //     StartButton.IsEnabled = true;
+                //StatusTextBlock.Text = "Анимация завершена";
+                //StartButton.IsEnabled = true;
             };
         }
+
         private void StartAnimation_Click(object sender, RoutedEventArgs e)
         {
             var program = TubeBendingAnimator.CreateSampleProgram();
@@ -420,7 +414,7 @@ namespace StarkCNC._3DViewer.Views
 
         private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            if (_animator != null)
+            if (_animator is not null)
             {
                 _animator.AnimationSpeed = e.NewValue;
             }
@@ -431,6 +425,7 @@ namespace StarkCNC._3DViewer.Views
             _animator?.Dispose();
             base.OnClosed(e);
         }*/
+
         private void SetDefaultValue()
         {
             Dictionary<string, double> positions = ViewModel.GetDefaults();
@@ -441,7 +436,7 @@ namespace StarkCNC._3DViewer.Views
             ClampSlider.Value = positions["clamp"];
             PressSlider.Value = positions["press"];
         }
-          
+
         private void Sliders_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
         {
             ViewModel.UpdatePositions(
@@ -453,6 +448,7 @@ namespace StarkCNC._3DViewer.Views
                 PressSlider.Value
             );
         }
+
         private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             BendingView.CameraController.Zoom(-0.1); // Не знаю, но отрицательное число приближает, а положительное отодвигает
@@ -462,9 +458,6 @@ namespace StarkCNC._3DViewer.Views
         {
             BendingView.CameraController.Zoom(0.1);
         }
-       
-
-
     }
 }
 

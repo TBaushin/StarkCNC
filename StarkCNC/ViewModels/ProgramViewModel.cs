@@ -1,18 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HelixToolkit.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using StarkCNC._3DViewer.Services;
 using StarkCNC._3DViewer.Views;
-using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Services;
 using StarkCNC.Helpers;
 using StarkCNC.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Windows.Media.Media3D;
-using System.Windows.Media;
 
 namespace StarkCNC.ViewModels
 {
@@ -138,10 +134,8 @@ namespace StarkCNC.ViewModels
 
         public void UpdateBend()
         {
-           
-
-             foreach (var bendingData in BendingDatas)
-              {
+            foreach (var bendingData in BendingDatas)
+            {
                 /*   var data = _bendingConverter.Convert(bendingData, typeof(StarkCNC.Core.Models.BendingData), null, CultureInfo.CurrentCulture) as StarkCNC.Core.Models.BendingData;
 
                   if (data is null)
@@ -181,5 +175,5 @@ namespace StarkCNC.ViewModels
                 modelsLoadingService.UpdatePipeBend(resultPositions);  */
             }
         }
-        }
+    }
 }

@@ -3,7 +3,6 @@ using StarkCNC._3DViewer.ViewModels;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
 using System.Collections.ObjectModel;
-using System.Drawing;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
@@ -17,7 +16,9 @@ namespace StarkCNC._3DViewer.Views
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ProgramControllerViewModel ViewModel;
+
         public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
+
         public ProgramControlView(ProgramControllerViewModel viewModel)
         {
             ViewModel = viewModel;
@@ -30,16 +31,16 @@ namespace StarkCNC._3DViewer.Views
         }
         public void UpdateBend()
         {
-           var segments = new List<BendingData>
-    {
-        new BendingData {  BendingRadius = 800, StraightLength = 400, BendingAngle = 90, RotationAngle = 0},
-        new BendingData {  BendingRadius = 200, StraightLength = 700,  BendingAngle = 45, RotationAngle = -45},
-        new BendingData {  BendingRadius = 300, StraightLength = 700,  BendingAngle = 20, RotationAngle = 90},
-        new BendingData {  BendingRadius = 150, StraightLength = 400,  BendingAngle = 180, RotationAngle = 180},
-         new BendingData {  BendingRadius = 500, StraightLength = 400,  BendingAngle = 45, RotationAngle = 45},
-        // Заполните по вашей таблице
-        // Заполните по вашей таблице
-    };
+            var segments = new List<BendingData>
+            {
+                new BendingData { BendingRadius = 800, StraightLength = 400, BendingAngle = 90, RotationAngle = 0 },
+                new BendingData { BendingRadius = 200, StraightLength = 700,  BendingAngle = 45, RotationAngle = -45 },
+                new BendingData { BendingRadius = 300, StraightLength = 700,  BendingAngle = 20, RotationAngle = 90 },
+                new BendingData { BendingRadius = 150, StraightLength = 400,  BendingAngle = 180, RotationAngle = 180 },
+                new BendingData { BendingRadius = 500, StraightLength = 400,  BendingAngle = 45, RotationAngle = 45 },
+                // Заполните по вашей таблице
+                // Заполните по вашей таблице
+            };
             var path = WireBuilder.BuildWirePath(segments);
             var mediaColor = System.Windows.Media.Color.FromArgb(255, 0, 255, 0); 
             var brush = new SolidColorBrush(mediaColor);
@@ -63,6 +64,7 @@ namespace StarkCNC._3DViewer.Views
 
             BendingView.Children.Add(tube);
         }
+
         private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             BendingView.CameraController.Zoom(-0.1); // Не знаю, но отрицательное число приближает, а положительное отодвигает
@@ -72,10 +74,9 @@ namespace StarkCNC._3DViewer.Views
         {
             BendingView.CameraController.Zoom(0.1);
         }
-        private void Apply_(object sender, System.Windows.RoutedEventArgs e)
+        private void ApplyButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             UpdateBend();
-           
         }
     }
 }
