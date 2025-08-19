@@ -4,7 +4,33 @@ namespace StarkCNC.Core.Repository
 {
     public class AdjustmentRepository : IAdjustmentRepository
     {
-        private readonly List<AdjustmentParameters> _adjustments = new List<AdjustmentParameters>();
+        private readonly List<AdjustmentParameters> _adjustments = new List<AdjustmentParameters>()
+#if DEBUG
+        {
+            new AdjustmentParameters("D25"),
+            new AdjustmentParameters("D11"),
+            new AdjustmentParameters("D50"),
+            new AdjustmentParameters("Test"),
+            new AdjustmentParameters("TestTest"),
+            new AdjustmentParameters("Program"),
+            new AdjustmentParameters("Abcde"),
+            new AdjustmentParameters("StarkCNC"),
+            new AdjustmentParameters("ListView"),
+            new AdjustmentParameters("ListViewItem"),
+            new AdjustmentParameters("AdjustmentParameters"),
+            new AdjustmentParameters("D25"),
+            new AdjustmentParameters("D11"),
+            new AdjustmentParameters("D50"),
+            new AdjustmentParameters("Test"),
+            new AdjustmentParameters("TestTest"),
+            new AdjustmentParameters("Program"),
+            new AdjustmentParameters("Abcde"),
+            new AdjustmentParameters("StarkCNC"),
+            new AdjustmentParameters("ListView"),
+            new AdjustmentParameters("ListViewItem"),
+            new AdjustmentParameters("AdjustmentParameters")
+        };
+#endif
 
         public AdjustmentParameters AddElement(string name)
         {

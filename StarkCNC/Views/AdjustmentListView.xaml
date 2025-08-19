@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
+      xmlns:sys="clr-namespace:System;assembly=System.Runtime"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:local="clr-namespace:StarkCNC.Views"
       d:DataContext="{d:DesignInstance vm:AdjustmentViewModel}"
@@ -34,82 +35,70 @@
                 </StackPanel>
             </Button>
         </Grid>
-        <ListView Grid.Row="1" ItemsSource="{Binding Adjustments}">
+        <ListView
+            Grid.Row="1"
+            ItemsSource="{Binding Adjustments}"
+            SelectionChanged="ListView_SelectionChanged">
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <Grid>
+                    <Grid Margin="8,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            Content="{Binding Name}"/>
-                        <Button
+                        <TextBlock             
+					        Grid.Row="0"             
+					        Grid.Column="0"             
+					        Margin="12,6,0,0"             
+					        FontWeight="Bold"             
+					        Text="{Binding Name, Mode=OneWay}"/>
+                        <StackPanel
+                            Grid.Row="1"
                             Grid.Column="1"
-                            Command="{Binding DataContext.EditAdjustmentCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                            CommandParameter="{Binding}">
-                            <TextBlock 
-                                VerticalAlignment="Center"
-                                Margin="0,4,0,0"
-                                FontSize="10"
-                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                Text="&#xE70F;"/>
-                        </Button>
-                        <Button
-                            Grid.Column="2"
-                            Command="{Binding DataContext.DeleteAdjustmentCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                            CommandParameter="{Binding}">
-                            <TextBlock 
-                                VerticalAlignment="Center"
-                                Margin="0,4,0,0"
-                                FontSize="10"
-                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                Text="&#xE74D;"/>
-                        </Button>
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                            <Button
+                                Margin="10,0,10,0"
+                                Visibility="Collapsed"
+                                Command="{Binding DataContext.EditAdjustmentCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock 
+                                        VerticalAlignment="Center"
+                                        Margin="0,4,0,0"
+                                        FontSize="10"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        Text="&#xE70F;"/>
+                                    <TextBlock 
+                                        Margin="8,0,0,0" 
+                                        Text="{x:Static lang:Language.EditButton}"/>
+                                </StackPanel>
+                            </Button>
+                            <Button
+                                Margin="10,0,10,0"
+                                Visibility="Collapsed"
+                                Command="{Binding DataContext.DeleteAdjustmentCommand, RelativeSource={RelativeSource AncestorType=Page}}"
+                                CommandParameter="{Binding}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock 
+                                        VerticalAlignment="Center"
+                                        Margin="0,4,0,0"
+                                        FontSize="10"
+                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                        Text="&#xE74D;"/>
+                                    <TextBlock 
+                                        Margin="8,0,0,0" 
+                                        Text="{x:Static lang:Language.DeleteButton}"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <StackPanel
-            Grid.Row="2"
-            Margin="0, 0, 0, 10"
-            Orientation="Horizontal"
-            VerticalAlignment="Stretch"
-            HorizontalAlignment="Center">
-            <Button
-                Margin="20, 0, 20, 0"
-                IsEnabled="{Binding CanBackward}"
-                Command="{Binding GoPreviusPageCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock 
-                        VerticalAlignment="Center"
-                        Margin="0,4,0,0"
-                        FontSize="10"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Text="&#xE72B;"/>
-                    <TextBlock 
-                        Margin="8,0,0,0" 
-                        Text="{x:Static lang:Language.BackButton}"/>
-                </StackPanel>
-            </Button>
-            <Button
-                Margin="20, 0, 20, 0"
-                IsEnabled="{Binding CanForward}"
-                Command="{Binding GoNextPageCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock 
-                        Margin="0,0,8,0" 
-                        Text="{x:Static lang:Language.ForwardButton}"/>
-                    <TextBlock 
-                        VerticalAlignment="Center"
-                        Margin="0,4,0,0"
-                        FontSize="10"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Text="&#xE72A;"/>
-                </StackPanel>
-            </Button>
-        </StackPanel>
     </Grid>
 </Page>
