@@ -51,11 +51,11 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock             
-					        Grid.Row="0"             
-					        Grid.Column="0"             
-					        Margin="12,6,0,0"             
-					        FontWeight="Bold"             
-					        Text="{Binding Name, Mode=OneWay}"/>
+                            Grid.Row="0"             
+                            Grid.Column="0"             
+                            Margin="12,6,0,0"             
+                            FontWeight="Bold"             
+                            Text="{Binding Name, Mode=OneWay}"/>
                         <StackPanel
                             Grid.Row="1"
                             Grid.Column="1"
