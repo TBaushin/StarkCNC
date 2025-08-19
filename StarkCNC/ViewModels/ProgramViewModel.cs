@@ -1,8 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using HelixToolkit.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
+using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
 using StarkCNC.Services;
@@ -107,10 +107,10 @@ namespace StarkCNC.ViewModels
 
         public Visual3D GetPipe()
         {
-            return new TubeVisual3D();
+            return _serviceProvider.GetRequiredService<IBendingModelsLoadingService>().Pipe;
         }
 
-        public void UpdateBend()
+        /*public void UpdateBend()
         {
             foreach (var bendingData in BendingDatas)
             {
@@ -134,6 +134,15 @@ namespace StarkCNC.ViewModels
                 
                 modelsLoadingService.UpdatePipeBend(positions);
             }
+        }*/
+
+        public void UpdateBend()
+        {
+            var modelsLoadingService = _serviceProvider.GetRequiredService<IBendingModelsLoadingService>();
+
+            double pipeDiameter = 50;
+
+            modelsLoadingService.UpdatePipeBend(WireBuilder.BuildWirePath(BendingDatas), BendingDatas.Count > 0 ? pipeDiameter : 5);
         }
     }
 }

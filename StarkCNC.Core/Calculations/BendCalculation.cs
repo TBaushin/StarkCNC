@@ -25,7 +25,7 @@ namespace StarkCNC.Core.Calculations
     public static class WireBuilder
     {
         // Возвращает список 3D-точек маршрута провода по списку сегментов
-        public static IList<Point3D> BuildWirePath(List<BendingData> segments, int bendSteps = 16)
+        public static ICollection<Point3D> BuildWirePath(ICollection<BendingData> segments, int bendSteps = 16)
         {
             var points = new List<Point3D>();
             var currentPoint = new Point3D(0, 0, 0);

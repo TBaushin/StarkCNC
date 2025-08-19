@@ -24,8 +24,8 @@ namespace StarkCNC.Views
             BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
             BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
 
-            //BendingView.Children.Add(ViewModel.GetPipe());
-            UpdateBend();
+            BendingView.Children.Add(ViewModel.GetPipe());
+            //UpdateBend();
         }
 
         public void UpdateBend()

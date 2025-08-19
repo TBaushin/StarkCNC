@@ -29,6 +29,8 @@ namespace StarkCNC.Services
 
         void UpdatePipeBend(ICollection<BendPositions> positions);
 
+        void UpdatePipeBend(ICollection<Point3D> positions, double diameter);
+
         void UpdatePositions(double consolePosX, double bendRotationZ, double carriagePosY, double height, double clampPosX, double pressPosX);
 
         public Coordinates? GetModelPosition(ModelType modelType);

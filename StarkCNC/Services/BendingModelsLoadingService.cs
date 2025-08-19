@@ -154,6 +154,25 @@ namespace StarkCNC.Services
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Pipe)));
         }
 
+        public void UpdatePipeBend(ICollection<Point3D> positions, double diameter)
+        {
+            var tube = new TubeVisual3D
+            {
+                Path = new Point3DCollection(positions),
+                Diameter = diameter,
+                Fill = new SolidColorBrush(Color.FromArgb(255,0,255,0)),
+                ThetaDiv = 32,
+                IsPathClosed = false
+            };
+
+            //var builder = new MeshBuilder(true, true);
+            //builder.AddTube(positions.ToList(), diameter, 32, false);
+            //Pipe.Content = new GeometryModel3D(builder.ToMesh(), Materials.Green)); - Аналог
+            Pipe.Content = tube.Content;
+
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Pipe)));
+        }
+
         public Coordinates? GetModelPosition(ModelType modelType)
         {
             switch (modelType)
@@ -261,7 +280,6 @@ namespace StarkCNC.Services
             clamp.Coordinates.SetPosition(-180, 0, 380);
             clamp.Coordinates.SetRotation(1815, 0, 2125);
             clamp.Axis = new Vector3D(0, 1, 0);
-            //Carriage.UpdateTransform(arountTransform: Bend);
             clamp.UpdateTransform(arountTransform: Bend);
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Clamp)));
