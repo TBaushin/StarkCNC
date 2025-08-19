@@ -29,6 +29,7 @@ namespace StarkCNC._3DViewer.Views
             BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
             UpdateBend();
         }
+
         public void UpdateBend()
         {
             var segments = new List<BendingData>
@@ -46,8 +47,8 @@ namespace StarkCNC._3DViewer.Views
             var brush = new SolidColorBrush(mediaColor);
             //var adjustment = _serviceProvider.GetRequiredService<AdjustmentViewModel>().SelectedAdjustment;
             double pipeDiameter = 50;
-           // if (adjustment is not null)
-               // pipeDiameter = adjustment.PipeDiameter;
+            //if (adjustment is not null)
+               //pipeDiameter = adjustment.PipeDiameter;
             var tube = new TubeVisual3D
             {
                 Path = new Point3DCollection(path),
@@ -73,10 +74,6 @@ namespace StarkCNC._3DViewer.Views
         private void ZoomOut_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             BendingView.CameraController.Zoom(0.1);
-        }
-        private void ApplyButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            UpdateBend();
         }
     }
 }
