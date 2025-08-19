@@ -1,21 +1,53 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
-using StarkCNC._3DViewer.Views;
+using Microsoft.Extensions.Configuration;
+using StarkCNC.Models;
+using StarkCNC.Services;
+using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels
 {
     public class VisualizationViewModel : ObservableObject
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
+        private readonly IConfiguration _configuration;
 
-        public VisualizationViewModel(IServiceProvider serviceProvider)
+        public VisualizationViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IConfiguration configuration)
         {
-            _serviceProvider = serviceProvider;
+            _bendingModelsLoadingService = bendingModelsLoadingService;
+            _configuration = configuration;
+
+            LoadModels();
         }
 
-        public VisualizationControllerView GetVisualizationControllerView()
+        public ModelVisual3D GetModels()
         {
-            return _serviceProvider.GetRequiredService<VisualizationControllerView>();
+            return _bendingModelsLoadingService.GetModelVisual3D();
+        }
+
+        public ModelVisual3D GetPipe()
+        {
+            return _bendingModelsLoadingService.Pipe;
+        }
+
+        public void UpdatePositions(double consolePosX, double bendRotationX, double carriagePosY, double height, double clampPosX, double pressPosX)
+        {
+            _bendingModelsLoadingService.UpdatePositions(consolePosX, bendRotationX, carriagePosY, height, clampPosX, pressPosX);
+        }
+
+        public Dictionary<string, double> GetDefaults()
+        {
+            return _bendingModelsLoadingService.GetDefault();
+        }
+
+        private void LoadModels()
+        {
+            ICollection<LoadingModel>? loadingModels = _configuration.GetSection("ModelsPath").Get<ICollection<LoadingModel>>();
+            if (loadingModels is null)
+                return;
+            foreach (var item in loadingModels)
+            {
+                _bendingModelsLoadingService.Load(item.Path, item.Type);
+            }
         }
     }
 }

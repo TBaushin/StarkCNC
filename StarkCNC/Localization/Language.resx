@@ -231,4 +231,22 @@
   <data name="TurnOn" xml:space="preserve">
     <value>Turn On</value>
   </data>
+  <data name="Bend" xml:space="preserve">
+    <value>Bend</value>
+  </data>
+  <data name="Clamp" xml:space="preserve">
+    <value>Clamp</value>
+  </data>
+  <data name="Console" xml:space="preserve">
+    <value>Console</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Press" xml:space="preserve">
+    <value>Press</value>
+  </data>
+  <data name="Supply" xml:space="preserve">
+    <value>Supply</value>
+  </data>
 </root>

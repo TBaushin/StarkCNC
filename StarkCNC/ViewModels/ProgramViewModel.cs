@@ -1,14 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HelixToolkit.Wpf;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
-using StarkCNC._3DViewer.Services;
-using StarkCNC._3DViewer.Views;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
-using StarkCNC.Helpers;
-using StarkCNC.Models;
+using StarkCNC.Services;
 using System.Collections.ObjectModel;
-using System.Globalization;
+using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels
 {
@@ -16,8 +15,6 @@ namespace StarkCNC.ViewModels
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IGCodeService _gCodeService;
-        private readonly BendingDataConverter _bendingConverter = new BendingDataConverter();
-        private readonly PositionConverter _positionConverter = new PositionConverter();
        
         private readonly string _gcodeExtension = ".gcode";
         private readonly string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
@@ -41,11 +38,6 @@ namespace StarkCNC.ViewModels
                     UpdateBend();
                 }
             };
-        }
-
-        public ProgramControlView GetProgramControllerView()
-        {
-            return _serviceProvider.GetRequiredService<ProgramControlView>();
         }
 
         [RelayCommand]
@@ -87,14 +79,7 @@ namespace StarkCNC.ViewModels
 
             var data = await _gCodeService.ReadAsync(CurrentFilePath);
             foreach (var item in data)
-            {
-                var bendingData = _bendingConverter.Convert(item, typeof(BendingData), null, CultureInfo.CurrentCulture) as BendingData;
-
-                if (bendingData is null)
-                    continue;
-
-                BendingDatas.Add(bendingData);
-            }
+                BendingDatas.Add(item);
 
             UpdateBend();
         }
@@ -116,63 +101,38 @@ namespace StarkCNC.ViewModels
                     return false;
             }
 
-            var data = new List<StarkCNC.Core.Models.BendingData>();
-            foreach (var item in BendingDatas)
-            {
-                var bendingData = _bendingConverter
-                    .Convert(item, typeof(StarkCNC.Core.Models.BendingData), null, CultureInfo.CurrentCulture) as StarkCNC.Core.Models.BendingData;
-
-                if (bendingData is null)
-                    continue;
-                
-                data.Add(bendingData);
-            }
-
-            await _gCodeService.SaveAsync(CurrentFilePath, data);
+            await _gCodeService.SaveAsync(CurrentFilePath, BendingDatas);
             return true;
+        }
+
+        public Visual3D GetPipe()
+        {
+            return new TubeVisual3D();
         }
 
         public void UpdateBend()
         {
             foreach (var bendingData in BendingDatas)
             {
-                /*   var data = _bendingConverter.Convert(bendingData, typeof(StarkCNC.Core.Models.BendingData), null, CultureInfo.CurrentCulture) as StarkCNC.Core.Models.BendingData;
+                var modelsLoadingService = _serviceProvider.GetRequiredService<IBendingModelsLoadingService>();
 
-                  if (data is null)
-                      continue;
+                var bendCalculation = new StarkCNC.Core.Calculations.BendCalculation(bendingData);
 
-                  var modelsLoadingService = _serviceProvider.GetRequiredService<IBendingModelsLoadingService>();
+                double carriagePosition = 1000;
+                var carriageCoordinates = modelsLoadingService.GetModelPosition(ModelType.Carriage);
+                if (carriageCoordinates is not null)
+                {
+                    carriagePosition = carriageCoordinates.PositionY;
+                }
 
-                  var bendCalculation = new StarkCNC.Core.Calculations.WireBuilder(data);
+                var adjustment = _serviceProvider.GetRequiredService<AdjustmentViewModel>().SelectedAdjustment;
+                double pipeDiameter = 50;
+                if (adjustment is not null)
+                    pipeDiameter = adjustment.PipeDiameter;
 
-                  double carriagePosition = 1000;
-                  var carriageCoordinates = modelsLoadingService.GetModelPosition(ModelType.Carriage);
-                  if (carriageCoordinates is not null)
-                  {
-                      carriagePosition = carriageCoordinates.PositionY;
-                  }
-
-                  var adjustment = _serviceProvider.GetRequiredService<AdjustmentViewModel>().SelectedAdjustment;
-                  double pipeDiameter = 50;
-                  if (adjustment is not null)
-                      pipeDiameter = adjustment.PipeDiameter;
-
-                  var positions = bendCalculation.CalculateBend(pipeDiameter, carriagePosition);
-
-                  var resultPositions = new List<StarkCNC._3DViewer.Models.BendPositions>();
-                  foreach (var item in positions)
-                  {
-                      var value = _positionConverter
-                          .Convert(item, typeof(StarkCNC._3DViewer.Models.BendPositions), null, CultureInfo.CurrentCulture) as StarkCNC._3DViewer.Models.BendPositions;
-
-                      if (value is null)
-                          continue;
-
-                      resultPositions.Add(value);
-                  }
-
+                var positions = bendCalculation.CalculateBend(pipeDiameter, carriagePosition);
                 
-                modelsLoadingService.UpdatePipeBend(resultPositions);  */
+                modelsLoadingService.UpdatePipeBend(positions);
             }
         }
     }

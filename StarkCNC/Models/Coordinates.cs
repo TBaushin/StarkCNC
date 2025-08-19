@@ -1,4 +1,4 @@
-﻿namespace StarkCNC._3DViewer.Models
+﻿namespace StarkCNC.Models
 {
     public class Coordinates
     {

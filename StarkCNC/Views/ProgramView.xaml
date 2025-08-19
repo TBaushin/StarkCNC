@@ -5,6 +5,7 @@
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:lang="clr-namespace:StarkCNC.Localization"
+      xmlns:helix="http://helix-toolkit.org/wpf"
       xmlns:local="clr-namespace:StarkCNC.Views"
       d:DataContext="{d:DesignInstance vm:ProgramViewModel}"
       mc:Ignorable="d" 
@@ -67,21 +68,6 @@
                             Text="{x:Static lang:Language.SaveButton}"/>
                     </StackPanel>
                 </Button>
-                <!--<Button
-                    x:Name="Apply"
-                    IsEnabled="False"
-                    Click="Apply_Click">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            FontSize="10"
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Text="&#xE73E;"/>
-                        <TextBlock
-                            Margin="8,0,0,0"
-                            Text="{x:Static lang:Language.ApplyButton}"/>
-                    </StackPanel>
-                </Button>-->
             </StackPanel>
             <DataGrid 
                 x:Name="PipeBendParametersDataGrid"
@@ -108,5 +94,74 @@
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
+        <Border 
+            Grid.Column="1" 
+            Margin="10"
+            Padding="5,5,5,5"
+            Background="{DynamicResource LayerFillColorDefaultBrush}"
+            BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+            BorderThickness="1"
+            CornerRadius="8,0,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <helix:HelixViewport3D 
+                    x:Name="BendingView"
+                    Grid.Column="0"
+                    ViewCubeHeight="200"
+                    ViewCubeWidth="200"
+                    ViewCubeVerticalPosition="Bottom"
+                    RenderOptions.BitmapScalingMode="LowQuality"
+                    RenderOptions.EdgeMode="Unspecified"
+                    IsManipulationEnabled="True"
+                    IsViewCubeEdgeClicksEnabled="True">
+                    <helix:HelixViewport3D.Camera>
+                        <PerspectiveCamera
+                            Position="-1571,4801,3774"
+                            LookDirection="2038,-5200,-2930"
+                            UpDirection="-0.145,0.372,0.917"/>
+                    </helix:HelixViewport3D.Camera>
+                    <helix:HelixViewport3D.Background>
+                        <LinearGradientBrush 
+                            StartPoint="0.5,0"
+                            EndPoint="0.5,1">
+                            <GradientStop Color="#FF060A13" Offset="0"/>
+                            <GradientStop Color="#FF1D64FF" Offset="1"/>
+                        </LinearGradientBrush>
+                    </helix:HelixViewport3D.Background>
+                    <helix:DefaultLights/>
+                </helix:HelixViewport3D>
+                <StackPanel
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Margin="10,0,10,0"
+                    Orientation="Vertical">
+                    <Button
+                        x:Name="ZoomIn"
+                        Margin="0,0,0,10"
+                        Click="ZoomIn_Click">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            Margin="0,4,0,0"
+                            FontSize="20"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE8A3;"/>
+                    </Button>
+                    <Button
+                        x:Name="ZoomOut"
+                        Margin="0,0,0,10"
+                        Click="ZoomOut_Click">
+                        <TextBlock 
+                            VerticalAlignment="Center"
+                            Margin="0,4,0,0"
+                            FontSize="20"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE71F;"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Page>

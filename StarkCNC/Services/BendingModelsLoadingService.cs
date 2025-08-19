@@ -1,11 +1,12 @@
 ﻿using HelixToolkit.Wpf;
-using StarkCNC._3DViewer.Models;
+using StarkCNC.Core.Models;
+using StarkCNC.Models;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
-namespace StarkCNC._3DViewer.Services
+namespace StarkCNC.Services
 {
     public class BendingModelsLoadingService : IBendingModelsLoadingService, INotifyPropertyChanged
     {
@@ -149,6 +150,7 @@ namespace StarkCNC._3DViewer.Services
 
                 Pipe.Content = new GeometryModel3D(builder.ToMesh(), Materials.Red);
             }
+
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Pipe)));
         }
 
@@ -200,10 +202,10 @@ namespace StarkCNC._3DViewer.Services
 
         private void SetBendDefaultPosition(Model bend)
         {
-            Bend.Coordinates.SetPosition(0, 0, 0);
-            Bend.Coordinates.SetRotation(0, 0, 0);
-            Bend.Axis = new Vector3D(0, 0, 1);
-            Bend.UpdateTransform(-90, Console);
+            bend.Coordinates.SetPosition(0, 0, 0);
+            bend.Coordinates.SetRotation(0, 0, 0);
+            bend.Axis = new Vector3D(0, 0, 1);
+            bend.UpdateTransform(-90, Console);
 
             if (Clamp is not null)
             {
@@ -233,10 +235,10 @@ namespace StarkCNC._3DViewer.Services
 
         private void SetCarriageDefaultPosition(Model carriage)
         {
-            Carriage.Coordinates.SetPosition(0, -1000, 450);
-            Carriage.Coordinates.SetRotation(0, 0, 0);
-            Carriage.Axis = new Vector3D(0, 1, 0);
-            Carriage.UpdateTransform();
+            carriage.Coordinates.SetPosition(0, -1000, 450);
+            carriage.Coordinates.SetRotation(0, 0, 0);
+            carriage.Axis = new Vector3D(0, 1, 0);
+            carriage.UpdateTransform();
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Carriage)));
         }
@@ -256,10 +258,11 @@ namespace StarkCNC._3DViewer.Services
 
         private void SetClampDefaultPosition(Model clamp)
         {
-            Clamp.Coordinates.SetPosition(-180, 0, 380);
-            Clamp.Coordinates.SetRotation(1815, 0, 2125);
-            Clamp.Axis = new Vector3D(0, 1, 0);
-            Carriage.UpdateTransform(arountTransform: Bend);
+            clamp.Coordinates.SetPosition(-180, 0, 380);
+            clamp.Coordinates.SetRotation(1815, 0, 2125);
+            clamp.Axis = new Vector3D(0, 1, 0);
+            //Carriage.UpdateTransform(arountTransform: Bend);
+            clamp.UpdateTransform(arountTransform: Bend);
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Clamp)));
         }
@@ -279,10 +282,10 @@ namespace StarkCNC._3DViewer.Services
 
         private void SetConsoleDefaultPosition(Model console)
         {
-            Console.Coordinates.SetPosition(90, 0, 25);
-            Console.Coordinates.SetRotation(0, 0, 0);
-            Console.Axis = new Vector3D();
-            Console.UpdateTransform();
+            console.Coordinates.SetPosition(90, 0, 25);
+            console.Coordinates.SetRotation(0, 0, 0);
+            console.Axis = new Vector3D();
+            console.UpdateTransform();
 
             if (Bend is not null)
             {
@@ -309,10 +312,10 @@ namespace StarkCNC._3DViewer.Services
 
         private void SetPressDefaultPosition(Model press)
         {
-            Press.Coordinates.SetPosition(-180, 0, 395);
-            Press.Coordinates.SetRotation(2008, 0, 2125);
-            Press.Axis = new Vector3D(1, 0, 0);
-            Press.UpdateTransform(arountTransform: Console);
+            press.Coordinates.SetPosition(-180, 0, 395);
+            press.Coordinates.SetRotation(2008, 0, 2125);
+            press.Axis = new Vector3D(1, 0, 0);
+            press.UpdateTransform(arountTransform: Console);
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Press)));
         }
@@ -332,10 +335,10 @@ namespace StarkCNC._3DViewer.Services
 
         private void SetRollerDefaultPosition(Model roller)
         {
-            Roller.Coordinates.SetPosition(0, 0, 350);
-            Roller.Coordinates.SetRotation(60, 0, 2125);
-            Roller.Axis = new Vector3D(1, 0, 0);
-            Roller.UpdateTransform(arountTransform: Bend);
+            roller.Coordinates.SetPosition(0, 0, 350);
+            roller.Coordinates.SetRotation(60, 0, 2125);
+            roller.Axis = new Vector3D(1, 0, 0);
+            roller.UpdateTransform(arountTransform: Bend);
 
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Roller)));
         }

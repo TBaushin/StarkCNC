@@ -17,10 +17,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="3d_models\Gib.stl" />
+    <None Remove="3d_models\Karetka.stl" />
+    <None Remove="3d_models\Konsol.stl" />
+    <None Remove="3d_models\Prigim.stl" />
+    <None Remove="3d_models\rolik inv.stl" />
+    <None Remove="3d_models\rolik.stl" />
+    <None Remove="3d_models\Zagim.stl" />
     <None Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="3d_models\Gib.stl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3d_models\Karetka.stl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3d_models\Konsol.stl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3d_models\Prigim.stl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3d_models\rolik inv.stl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3d_models\rolik.stl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="3d_models\Zagim.stl">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -38,7 +66,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\StarkCNC.3DViewer\StarkCNC.3DViewer.csproj" />
     <ProjectReference Include="..\StarkCNC.Core\StarkCNC.Core.csproj" />
     <ProjectReference Include="..\StarkCNC.MachineCommunication\StarkCNC.MachineCommunication.csproj" />
   </ItemGroup>

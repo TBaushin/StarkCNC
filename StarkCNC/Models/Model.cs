@@ -1,8 +1,8 @@
-﻿using StarkCNC._3DViewer.Services;
+﻿using StarkCNC.Services;
 using StarkCNC.Core.Calculations;
 using System.Windows.Media.Media3D;
 
-namespace StarkCNC._3DViewer.Models
+namespace StarkCNC.Models
 {
     /// <summary>
     /// Класс 3D модели

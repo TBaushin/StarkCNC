@@ -1,18 +1,17 @@
 ﻿using StarkCNC.Core.Models;
-using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
-using System.Collections.Generic;
 namespace StarkCNC.Core.Calculations
 {
     public class WireSegment
     {
-        public double Diameter;        // Диаметр провода
-        public double BendingRadius;      // Радиус гиба
-        public double StraightLength;  // Длина прямого участка между гибами
-        public double BendingAngle;       // Угол гиба в градусах
-        public double RotationAngle;        // Проворот гиба относительно оси, градусов
+        public double Diameter; // Диаметр провода
+        public double BendingRadius; // Радиус гиба
+        public double StraightLength; // Длина прямого участка между гибами
+        public double BendingAngle; // Угол гиба в градусах
+        public double RotationAngle; // Проворот гиба относительно оси, градусов
     }
+
     public static class QuaternionExtensions
     {
         public static Vector3D Rotate(this Quaternion q, Vector3D v)
@@ -22,6 +21,7 @@ namespace StarkCNC.Core.Calculations
             return m.Transform(v);
         }
     }
+
     public static class WireBuilder
     {
         // Возвращает список 3D-точек маршрута провода по списку сегментов
@@ -83,7 +83,8 @@ namespace StarkCNC.Core.Calculations
             return points;
         }
     }
-    /*public class BendCalculation : IBendCalculation
+    
+    public class BendCalculation : IBendCalculation
     {
         private readonly int _slices = 100;
 
@@ -133,5 +134,5 @@ namespace StarkCNC.Core.Calculations
 
             return data;
         }
-    }*/
+    }
 }

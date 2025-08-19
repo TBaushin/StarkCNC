@@ -106,6 +106,15 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bend.
+        /// </summary>
+        public static string Bend {
+            get {
+                return ResourceManager.GetString("Bend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bending angle.
         /// </summary>
         public static string BendingAngle {
@@ -129,6 +138,24 @@ namespace StarkCNC.Localization {
         public static string CancelButton {
             get {
                 return ResourceManager.GetString("CancelButton", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clamp.
+        /// </summary>
+        public static string Clamp {
+            get {
+                return ResourceManager.GetString("Clamp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Console.
+        /// </summary>
+        public static string Console {
+            get {
+                return ResourceManager.GetString("Console", resourceCulture);
             }
         }
         
@@ -196,6 +223,15 @@ namespace StarkCNC.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Height.
+        /// </summary>
+        public static string Height {
+            get {
+                return ResourceManager.GetString("Height", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Levels count.
         /// </summary>
         public static string LevelsCount {
@@ -255,6 +291,15 @@ namespace StarkCNC.Localization {
         public static string PipeDiameter {
             get {
                 return ResourceManager.GetString("PipeDiameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Press.
+        /// </summary>
+        public static string Press {
+            get {
+                return ResourceManager.GetString("Press", resourceCulture);
             }
         }
         
@@ -336,6 +381,15 @@ namespace StarkCNC.Localization {
         public static string StraightLength {
             get {
                 return ResourceManager.GetString("StraightLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Supply.
+        /// </summary>
+        public static string Supply {
+            get {
+                return ResourceManager.GetString("Supply", resourceCulture);
             }
         }
         

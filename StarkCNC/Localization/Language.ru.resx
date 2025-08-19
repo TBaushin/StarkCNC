@@ -231,4 +231,22 @@
   <data name="TurnOn" xml:space="preserve">
     <value>Включить</value>
   </data>
+  <data name="Bend" xml:space="preserve">
+    <value>Гиб</value>
+  </data>
+  <data name="Clamp" xml:space="preserve">
+    <value>Зажим</value>
+  </data>
+  <data name="Console" xml:space="preserve">
+    <value>Консоль</value>
+  </data>
+  <data name="Height" xml:space="preserve">
+    <value>Высота</value>
+  </data>
+  <data name="Press" xml:space="preserve">
+    <value>Прижим</value>
+  </data>
+  <data name="Supply" xml:space="preserve">
+    <value>Подача</value>
+  </data>
 </root>

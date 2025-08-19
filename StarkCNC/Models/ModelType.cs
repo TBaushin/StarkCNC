@@ -1,4 +1,4 @@
-﻿namespace StarkCNC._3DViewer.Services
+﻿namespace StarkCNC.Services
 {
     public enum ModelType
     {

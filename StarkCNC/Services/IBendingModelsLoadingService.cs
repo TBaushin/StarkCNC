@@ -1,8 +1,9 @@
-﻿using StarkCNC._3DViewer.Models;
+﻿using StarkCNC.Core.Models;
+using StarkCNC.Models;
 using System.ComponentModel;
 using System.Windows.Media.Media3D;
 
-namespace StarkCNC._3DViewer.Services
+namespace StarkCNC.Services
 {
     public interface IBendingModelsLoadingService : INotifyPropertyChanged
     {
