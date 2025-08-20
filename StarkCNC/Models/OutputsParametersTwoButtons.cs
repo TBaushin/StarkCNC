@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using System.Threading;
 using System.Windows.Media;
 
 namespace StarkCNC.Models
@@ -24,19 +25,57 @@ namespace StarkCNC.Models
 
         public string FrontPositionRequestString { get; private set; } = string.Empty;
 
-        public OutputsParametersTwoButtons(IManualConfigurationService manualConfigurationService) 
+        private Task _updateTask;
+        private CancellationTokenSource? _cancellationTokenSource;
+
+        public OutputsParametersTwoButtons(IManualConfigurationService manualConfigurationService, bool autoRunUpdate) 
         {
             _manualConfigurationService = manualConfigurationService;
 
-            Task.Run(async () =>
+            if (autoRunUpdate)
+                StartUpdateTask();
+        }
+
+        public void StartUpdateTask()
+        {
+            if (_updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted)
             {
-                while (true)
+                return;
+            }
+
+            _cancellationTokenSource?.Dispose();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            var token = _cancellationTokenSource.Token;
+
+            _updateTask = Task.Run(async () =>
+            {
+                try
                 {
-                    await GetRearPosition();
-                    await GetFrontPosition();
-                    await Task.Delay(150);
+                    while (!token.IsCancellationRequested)
+                    {
+                        await GetRearPosition();
+                        await GetFrontPosition();
+                        await Task.Delay(150, token);
+                    }
                 }
-            });
+                catch (TaskCanceledException)
+                {
+                    // Нормально: задача отменена
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"UpdateTask error: {ex}");
+                }
+            }, token);
+        }
+
+        public void StopUpdateTask()
+        {
+            if (_updateTask == null)
+                return;
+
+            _cancellationTokenSource?.Cancel();
         }
 
         [RelayCommand]
@@ -85,11 +124,11 @@ namespace StarkCNC.Models
             }
         }
 
-        public static OutputsParametersTwoButtons InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName)
+        public static OutputsParametersTwoButtons InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate)
         {
             var section = configurationSection.GetSection(sectionName);
 
-            return new OutputsParametersTwoButtons(manualConfigurationService)
+            return new OutputsParametersTwoButtons(manualConfigurationService, autoRunUpdate)
             {
                 ForwardRequestString = section.GetValue<string>(nameof(ForwardRequestString)) ?? string.Empty,
                 BackwardRequestString = section.GetValue<string>(nameof(BackwardRequestString)) ?? string.Empty,

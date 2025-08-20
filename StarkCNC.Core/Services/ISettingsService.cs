@@ -1,8 +1,9 @@
 ﻿using StarkCNC.Core.Models;
+using System.ComponentModel;
 
 namespace StarkCNC.Core.Services
 {
-    public interface ISettingsService
+    public interface ISettingsService : INotifyPropertyChanged
     {
         IReadOnlyCollection<FloorType> FloorTypes { get; }
 
@@ -13,5 +14,7 @@ namespace StarkCNC.Core.Services
         bool IsPunchingCylinder { get; set; }
 
         bool IsElectricMachine { get; set; }
+
+        new event PropertyChangedEventHandler? PropertyChanged;
     }
 }

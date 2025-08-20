@@ -1,18 +1,70 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using System.Windows.Media;
 
 namespace StarkCNC.Models
 {
-    public partial class OutputsParametersSwitch
+    public partial class OutputsParametersSwitch : ObservableObject
     {
         private readonly IManualConfigurationService _manualConfigurationService;
 
         public string RequestString { get; private set; } = string.Empty;
 
-        public OutputsParametersSwitch(IManualConfigurationService manualConfigurationService)
+        [ObservableProperty]
+        private Color _statusColor;
+
+        private Task _updateTask;
+        private CancellationTokenSource? _cancellationTokenSource;
+
+        public OutputsParametersSwitch(IManualConfigurationService manualConfigurationService, bool autoRunUpdate = false)
         {
             _manualConfigurationService = manualConfigurationService;
+
+            if (autoRunUpdate)
+                StartUpdateTask();
+        }
+
+        public void StartUpdateTask()
+        {
+            if (_updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted)
+            {
+                return;
+            }
+
+            _cancellationTokenSource?.Dispose();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            var token = _cancellationTokenSource.Token;
+
+            _updateTask = Task.Run(async () =>
+            {
+                try
+                {
+                    while (!token.IsCancellationRequested)
+                    {
+                        await GetStatus();
+                        await Task.Delay(150, token);
+                    }
+                }
+                catch (TaskCanceledException)
+                {
+                    // Нормально: задача отменена
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"UpdateTask error: {ex}");
+                }
+            }, token);
+        }
+
+        public void StopUpdateTask()
+        {
+            if (_updateTask == null)
+                return;
+
+            _cancellationTokenSource?.Cancel();
         }
 
         [RelayCommand]
@@ -21,7 +73,16 @@ namespace StarkCNC.Models
         [RelayCommand]
         private async Task Cancel() => await _manualConfigurationService.WriteAsync<bool>(false, RequestString);
 
-        public static OutputsParametersSwitch InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName)
+        private async Task GetStatus()
+        {
+            var value = await _manualConfigurationService.ReadAsync<bool>(RequestString);
+            if (value)
+                StatusColor = Colors.Green;
+            else
+                StatusColor = Colors.DarkRed;
+        }
+
+        public static OutputsParametersSwitch InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate = false)
         {
             var section = configurationSection.GetSection(sectionName);
 

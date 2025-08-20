@@ -34,22 +34,59 @@ namespace StarkCNC.Models
 
         public string FrontSecondPositionRequestString { get; private set; } = string.Empty;
 
-        public SqueezeParameters(IManualConfigurationService manualConfigurationService)
+        private Task _updateTask;
+        private CancellationTokenSource? _cancellationTokenSource;
+
+        public SqueezeParameters(IManualConfigurationService manualConfigurationService, bool autoRunUpdate)
         {
             _manualConfigurationService = manualConfigurationService;
 
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    await GetRearPosition();
-                    await GetRearSecondPosition();
-                    await GetFrontPosition();
-                    await GetFrontSecondPosition();
+            if (autoRunUpdate)
+                StartUpdateTask();
+        }
 
-                    await Task.Delay(150);
+        public void StartUpdateTask()
+        {
+            if (_updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted)
+            {
+                return;
+            }
+
+            _cancellationTokenSource?.Dispose();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            var token = _cancellationTokenSource.Token;
+
+            _updateTask = Task.Run(async () =>
+            {
+                try
+                {
+                    while (!token.IsCancellationRequested)
+                    {
+                        await GetRearPosition();
+                        await GetRearSecondPosition();
+                        await GetFrontPosition();
+                        await GetFrontSecondPosition();
+                        await Task.Delay(150, token);
+                    }
                 }
-            });
+                catch (TaskCanceledException)
+                {
+                    // Нормально: задача отменена
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"UpdateTask error: {ex}");
+                }
+            }, token);
+        }
+
+        public void StopUpdateTask()
+        {
+            if (_updateTask == null)
+                return;
+
+            _cancellationTokenSource?.Cancel();
         }
 
         [RelayCommand]
@@ -104,11 +141,11 @@ namespace StarkCNC.Models
                 FrontSecondPosition = Colors.DarkRed;
         }
 
-        public static SqueezeParameters InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName)
+        public static SqueezeParameters InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate)
         {
             var section = configurationSection.GetSection(sectionName);
 
-            return new SqueezeParameters(manualConfigurationService)
+            return new SqueezeParameters(manualConfigurationService, autoRunUpdate)
             {
                 ForwardRequestString = section.GetValue<string>(nameof(ForwardRequestString)) ?? string.Empty,
                 BackwardRequestString = section.GetValue<string>(nameof(BackwardRequestString)) ?? string.Empty,

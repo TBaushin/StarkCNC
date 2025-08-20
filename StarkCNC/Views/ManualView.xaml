@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
+      xmlns:helpers="clr-namespace:StarkCNC.Helpers"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:local="clr-namespace:StarkCNC.Views"
@@ -15,6 +16,7 @@
         <Style TargetType="controls:ButtonWithIndicator">
             <Setter Property="Margin" Value="0,5,0,5"/>
         </Style>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
@@ -51,11 +53,14 @@
                 Margin="0,5,0,5"
                 Content="Ручной режим"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
+                x:Name="FirstHydraulics"
                 Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 Margin="0,5,0,5"
+                IndicatorColor="{Binding FirstHydraulics.StatusColor}"
                 Command="{Binding FirstHydraulics.RunCommand}"
-                CommandCancel="{Binding FirstHydraulics.CancelCommand}">
+                CommandCancel="{Binding FirstHydraulics.CancelCommand}"
+                Visibility="{Binding FirstHydraulicsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 1"/> <!--TODO: Перевести-->
@@ -64,11 +69,14 @@
                 </controls:ButtonWithIndicator.ButtonContent>
             </controls:ButtonWithIndicator>
             <controls:ButtonWithIndicator
+                x:Name="SecondHydraulics"
                 Grid.Row="2"
                 HorizontalAlignment="Stretch"
                 Margin="0,5,0,5"
+                IndicatorColor="{Binding SecondHydraulics.StatusColor}"
                 Command="{Binding SecondHydraulics.RunCommand}"
-                CommandCancel="{Binding SecondHydraulics.CancelCommand}">
+                CommandCancel="{Binding SecondHydraulics.CancelCommand}"
+                Visibility="{Binding SecondHydraulicsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
                 <controls:ButtonWithIndicator.ButtonContent>
                     <StackPanel>
                         <Label HorizontalAlignment="Center" Content="Гидравлика 2"/> <!--TODO: Перевести-->
@@ -212,14 +220,17 @@
                 ButtonContent="Оснастка вниз"
                 IndicatorColor="{Binding Adjustment.RearPosition}"
                 Command="{Binding Adjustment.BackwardStartCommand}"
-                CommandCancel="{Binding Adjustment.BackwardCancelCommand}"/> <!--TODO: Перевести-->
+                CommandCancel="{Binding Adjustment.BackwardCancelCommand}"
+                Visibility="{Binding MoreThenOneLevel, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
+                x:Name="PunchingBackward"
                 Grid.Column="0"
                 Grid.Row="7"
                 ButtonContent="Пробивка назад"
                 IndicatorColor="{Binding Punching.RearPosition}"
                 Command="{Binding Punching.BackwardStartCommand}"
-                CommandCancel="{Binding Punching.BackwardCancelCommand}"/> <!--TODO: Перевести-->
+                CommandCancel="{Binding Punching.BackwardCancelCommand}"
+                Visibility="{Binding PunchingEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 Grid.Column="1"
                 Grid.Row="0"
@@ -300,14 +311,17 @@
                 ButtonContent="Оснастка вверх"
                 IndicatorColor="{Binding Adjustment.FrontPosition}"
                 Command="{Binding Adjustment.ForwardStartCommand}"
-                CommandCancel="{Binding Adjustment.ForwardCancelCommand}"/> <!--TODO: Перевести-->
+                CommandCancel="{Binding Adjustment.ForwardCancelCommand}"
+                Visibility="{Binding MoreThenOneLevel, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
+                x:Name="PunchingForward"
                 Grid.Column="1"
                 Grid.Row="7"
                 ButtonContent="Пробивка вперёд"
                 IndicatorColor="{Binding Punching.FrontPosition}"
                 Command="{Binding Punching.ForwardStartCommand}"
-                CommandCancel="{Binding Punching.ForwardCancelCommand}"/> <!--TODO: Перевести-->
+                CommandCancel="{Binding Punching.ForwardCancelCommand}"
+                Visibility="{Binding PunchingEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
         </Grid>
         <StackPanel
             Grid.Column="2"
