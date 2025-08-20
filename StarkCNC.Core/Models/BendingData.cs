@@ -21,5 +21,16 @@
         /// Угол поворота
         /// </summary>
         public double RotationAngle { get; set; }
+
+        public BendingData Copy()
+        {
+            return new BendingData
+            {
+                StraightLength = StraightLength,
+                BendingAngle = BendingAngle,
+                BendingRadius = BendingRadius,
+                RotationAngle = RotationAngle
+            };
+        }
     }
 }

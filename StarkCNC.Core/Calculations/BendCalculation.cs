@@ -25,8 +25,14 @@ namespace StarkCNC.Core.Calculations
     public static class WireBuilder
     {
         // Возвращает список 3D-точек маршрута провода по списку сегментов
-        public static ICollection<Point3D> BuildWirePath(ICollection<BendingData> segments, int bendSteps = 16)
+        public static ICollection<Point3D> BuildWirePath(ICollection<BendingData> bendingDatas, double diameter, int bendSteps = 16)
         {
+            List<BendingData> segments = new List<BendingData>();
+            foreach (var data in bendingDatas)
+            {
+                segments.Add(data.Copy());
+            }
+
             var points = new List<Point3D>();
             var currentPoint = new Point3D(0, 0, 0);
             var currentDirection = new Vector3D(1, 0, 0); // Стартовое направление по X
@@ -43,6 +49,9 @@ namespace StarkCNC.Core.Calculations
                 }
 
                 if (Math.Abs(seg.BendingAngle) < 1e-6) continue; // Без дуги — следующий сегмент
+
+                if (seg.BendingRadius == 0 && seg.BendingAngle > 0)
+                    seg.BendingRadius = diameter;
 
                 // Проворот up-вектора
                 if (Math.Abs(seg.RotationAngle) > 1e-6)

@@ -13,25 +13,25 @@ namespace StarkCNC.ViewModels
 {
     public partial class ProgramViewModel : ObservableObject
     {
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
         private readonly IGCodeService _gCodeService;
        
-        private readonly string _gcodeExtension = ".gcode";
-        private readonly string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
+        private const string _gcodeExtension = ".gcode";
+        private const string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
 
         [ObservableProperty]
         private string _currentFilePath = string.Empty;
 
         public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
 
-        public ProgramViewModel(IServiceProvider serviceProvider, IGCodeService gCodeService)
+        public ProgramViewModel(IServiceProvider serviceProvider, IBendingModelsLoadingService bendingModelsLoadingService, IGCodeService gCodeService)
         {
-            
-            _serviceProvider = serviceProvider;
+
+            _bendingModelsLoadingService = bendingModelsLoadingService;
             _gCodeService = gCodeService;
 
-            _serviceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
-            _serviceProvider.GetRequiredService<IBendingModelsLoadingService>().PropertyChanged += (sender, args) =>
+            serviceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
+            _bendingModelsLoadingService.PropertyChanged += (sender, args) =>
             {
                 if (args.PropertyName == nameof(IBendingModelsLoadingService.Carriage))
                 {
@@ -107,42 +107,15 @@ namespace StarkCNC.ViewModels
 
         public Visual3D GetPipe()
         {
-            return _serviceProvider.GetRequiredService<IBendingModelsLoadingService>().Pipe;
+            return _bendingModelsLoadingService.Pipe;
         }
-
-        /*public void UpdateBend()
-        {
-            foreach (var bendingData in BendingDatas)
-            {
-                var modelsLoadingService = _serviceProvider.GetRequiredService<IBendingModelsLoadingService>();
-
-                var bendCalculation = new StarkCNC.Core.Calculations.BendCalculation(bendingData);
-
-                double carriagePosition = 1000;
-                var carriageCoordinates = modelsLoadingService.GetModelPosition(ModelType.Carriage);
-                if (carriageCoordinates is not null)
-                {
-                    carriagePosition = carriageCoordinates.PositionY;
-                }
-
-                var adjustment = _serviceProvider.GetRequiredService<AdjustmentViewModel>().SelectedAdjustment;
-                double pipeDiameter = 50;
-                if (adjustment is not null)
-                    pipeDiameter = adjustment.PipeDiameter;
-
-                var positions = bendCalculation.CalculateBend(pipeDiameter, carriagePosition);
-                
-                modelsLoadingService.UpdatePipeBend(positions);
-            }
-        }*/
 
         public void UpdateBend()
         {
-            var modelsLoadingService = _serviceProvider.GetRequiredService<IBendingModelsLoadingService>();
-
             double pipeDiameter = 50;
+            pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
-            modelsLoadingService.UpdatePipeBend(WireBuilder.BuildWirePath(BendingDatas), BendingDatas.Count > 0 ? pipeDiameter : 5);
+            _bendingModelsLoadingService.UpdatePipeBend(WireBuilder.BuildWirePath(BendingDatas, pipeDiameter), pipeDiameter);
         }
     }
 }
