@@ -1,12 +1,24 @@
-﻿using System.Diagnostics;
+﻿using StarkCNC.Core.Services;
+using System.Diagnostics;
 
 namespace StarkCNC.MachineCommunication.Services
 {
     public class FakeManualConfigurationService : IManualConfigurationService
     {
+        private readonly IStatusService _statusService;
+
         public bool Connected => GetRandomBool();
 
-        public async Task ConnectAsync() => await Task.Delay(1000);
+        public FakeManualConfigurationService(IStatusService statusService)
+        {
+            _statusService = statusService;
+        }
+
+        public async Task ConnectAsync()
+        {
+            await Task.Delay(1000);
+            _statusService.Status = "Подключение успешно";
+        }
 
         public Task<T?> ReadAsync<T>(string from)
         {

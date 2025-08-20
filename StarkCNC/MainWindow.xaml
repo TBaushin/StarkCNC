@@ -149,23 +149,32 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="56"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label
+                <Border
+                    Margin="10,16,10,5"
                     Grid.Column="1"
                     Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    Content="{Binding Status}"/>
+                    Background="{DynamicResource LayerFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <Label
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{Binding Status}"/>
+                </Border>
+                
                 <Border
                     Grid.Column="1"
                     Grid.Row="1"
-                    Margin="4,0,0,0"
+                    Margin="10,5,10,6"
                     Padding="24,16,24,0"
                     Background="{DynamicResource LayerFillColorDefaultBrush}"
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
-                    CornerRadius="8,0,0,0">
+                    CornerRadius="8">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>

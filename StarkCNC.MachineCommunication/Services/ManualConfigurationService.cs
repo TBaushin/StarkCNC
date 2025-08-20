@@ -37,6 +37,7 @@ namespace StarkCNC.MachineCommunication.Services
                 try
                 {
                     await Task.Run(async () => await _client.ConnectServer(_server)).ConfigureAwait(false);
+                    _statusService.Status = "Подключение успешно";
                 }
                 catch (Opc.Ua.ServiceResultException ex)
                 {
