@@ -50,7 +50,7 @@ namespace StarkCNC.Controls
 
             GenerateOpenPage();
 
-            PageList.SelectionChanged += PageList_SelectionChanged; ;
+            PageList.SelectionChanged += PageList_SelectionChanged;
             MenuButton.Click += MenuButton_Click;
         }
 

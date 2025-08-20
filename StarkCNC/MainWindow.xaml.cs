@@ -65,6 +65,8 @@ namespace StarkCNC
 
             _windowHeight = Height;
             _windowWidth = Width;
+
+            _navigationService.Navigate(ViewModel.Pages[0].Page);
         }
 
         private void OnNavigation(object? sender, NavigationEventArgs e)
