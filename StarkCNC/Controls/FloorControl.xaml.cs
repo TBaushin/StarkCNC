@@ -69,7 +69,6 @@ namespace StarkCNC.Controls
                 RollerImage.Source = TurnOffImage;
                 GridAdjustment.Visibility = Visibility.Hidden;
             }
-
         }
     }
 }
