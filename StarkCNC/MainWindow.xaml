@@ -10,6 +10,7 @@
         xmlns:local="clr-namespace:StarkCNC"
         d:DataContext="{d:DesignInstance vm:MainWindowViewModel}"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="{Binding Title}" 
         MinHeight="650" 
         MinWidth="1200"
@@ -139,6 +140,43 @@
                         AutomationProperties.HeadingLevel="Level1"
                         Text="StarkCNC"/>
                 </StackPanel>
+
+                <Button
+                    x:Name="MinimizeButton"
+                    Grid.Column="2"
+                    Click="MinimizeWindow"
+                    Style="{StaticResource TitleBarDefaultButtonStyle}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="10"
+                        Text="&#xE921;"/>
+                </Button>
+
+                <Button
+                    x:Name="MaximizeButton"
+                    Grid.Column="3"
+                    Click="MaximizeWindow"
+                    Style="{StaticResource TitleBarDefaultButtonStyle}">
+                    <TextBlock
+                        x:Name="MaximizeIcon"
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="10"
+                        Text="&#xE922;"/>
+                </Button>
+
+                <Button
+                    x:Name="CloseButton"
+                    Grid.Column="4"
+                    Click="CloseWindow"
+                    Style="{StaticResource TitleBarDefaultCloseButtonStyle}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="16"
+                        Text="&#xE711;"/>
+                </Button>
             </Grid>
 
             <Grid Grid.Row="1" x:Name="PageGrid">

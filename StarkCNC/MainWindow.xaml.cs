@@ -1,9 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
 using StarkCNC.Controls;
+using StarkCNC.Helpers;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shell;
 
 namespace StarkCNC
@@ -38,6 +41,9 @@ namespace StarkCNC
             DataContext = ViewModel;
 
             InitializeComponent();
+
+            UpdateWindowBackground();
+            UpdateMainWindowVisuals();
             
             PageList = _serviceProvider.GetRequiredService<FlyoutMenuControl>();
             PageList.Pages = ViewModel.Pages;
@@ -59,16 +65,83 @@ namespace StarkCNC
                 }
             );
 
-            WindowChrome ws = WindowChrome.GetWindowChrome(this);
-            ws.NonClientFrameEdges = SystemParameters.HighContrast ? NonClientFrameEdges.None :
-                        NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left;
-
             _windowHeight = Height;
             _windowWidth = Width;
 
             _navigationService.Navigate(ViewModel.Pages[0].Page);
-            WindowState = WindowState.Maximized;
+
             MaximizeWindow();
+            MaximizeIcon.Text = "\uE923";
+
+            SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+            StateChanged += (_, _) => UpdateMainWindowVisuals();
+            Activated += (_, _) => UpdateMainWindowVisuals();
+            Deactivated += (_, _) => UpdateMainWindowVisuals();
+        }
+
+        private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+        {
+            Dispatcher.Invoke(() => UpdateMainWindowVisuals());
+        }
+
+        private void UpdateWindowBackground()
+        {
+            if ((!Utility.IsBackdropDisabled() && !Utility.IsBackdropSupported()))
+            {
+                this.SetResourceReference(BackgroundProperty, "WindowBackground");
+            }
+        }
+
+        private void UpdateMainWindowVisuals()
+        {
+            MainGrid.Margin = default;
+            if (WindowState == WindowState.Maximized)
+            {
+                MainGrid.Margin = SystemParameters.HighContrast ? new Thickness(0, 8, 0, 0) : new Thickness(8);
+            }
+
+            UpdateTitleBarButtonsVisibility();
+
+            if (SystemParameters.HighContrast == true)
+            {
+                HighContrastBorder.SetResourceReference(BorderBrushProperty, IsActive ? SystemColors.ActiveCaptionBrushKey :
+                                                                                        SystemColors.InactiveCaptionBrushKey);
+                HighContrastBorder.BorderThickness = new Thickness(8, 1, 8, 8);
+
+                WindowChrome wc = WindowChrome.GetWindowChrome(this);
+                if (wc is not null)
+                {
+                    wc.NonClientFrameEdges = NonClientFrameEdges.None;
+                }
+            }
+            else
+            {
+                HighContrastBorder.BorderBrush = Brushes.Transparent;
+                HighContrastBorder.BorderThickness = new Thickness(0);
+
+                var wc = WindowChrome.GetWindowChrome(this);
+                if (wc is not null)
+                {
+                    wc.NonClientFrameEdges = NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left;
+                }
+            }
+        }
+
+        private void UpdateTitleBarButtonsVisibility()
+        {
+            if (Utility.IsBackdropDisabled() || !Utility.IsBackdropSupported() ||
+                    SystemParameters.HighContrast == true)
+            {
+                MinimizeButton.Visibility = Visibility.Visible;
+                MaximizeButton.Visibility = Visibility.Visible;
+                CloseButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MinimizeButton.Visibility = Visibility.Collapsed;
+                MaximizeButton.Visibility = Visibility.Collapsed;
+                CloseButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void OnNavigation(object? sender, NavigationEventArgs e)
@@ -108,30 +181,42 @@ namespace StarkCNC
 
         private void MaximizeWindow()
         {
-            _windowHeight = Height;
-            _windowWidth = Width;
-            _windowLeft = Left;
-            _windowTop = Top;
-            Height = SystemParameters.PrimaryScreenHeight;
-            Width = SystemParameters.PrimaryScreenWidth;
-            Left = 0;
-            Top = 0;
+            WindowState = WindowState.Maximized;
             ResizeMode = ResizeMode.NoResize;
             Topmost = true;
             _maximized = true;
-
         }
 
         private void MinimizeWindow()
         {
             WindowState = WindowState.Normal;
-            Height = _windowHeight;
-            Width = _windowWidth;
-            Left = _windowLeft;
-            Top = _windowTop;
             ResizeMode = ResizeMode.CanResize;
             Topmost = false;
             _maximized = false;
+        }
+
+        private void MinimizeWindow(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeWindow(object sender, RoutedEventArgs e)
+        {
+            if (this.WindowState == WindowState.Maximized)
+            {
+                MinimizeWindow();
+                MaximizeIcon.Text = "\uE922";
+            }
+            else
+            {
+                MaximizeWindow();
+                MaximizeIcon.Text = "\uE923";
+            }
+        }
+
+        private void CloseWindow(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

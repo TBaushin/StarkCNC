@@ -17,6 +17,8 @@ namespace StarkCNC
             DataContext = ViewModel;
 
             InitializeComponent();
+
+            Topmost = true;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
