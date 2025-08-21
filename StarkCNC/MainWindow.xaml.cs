@@ -71,7 +71,6 @@ namespace StarkCNC
             _navigationService.Navigate(ViewModel.Pages[0].Page);
 
             MaximizeWindow();
-            MaximizeIcon.Text = "\uE923";
 
             SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
             StateChanged += (_, _) => UpdateMainWindowVisuals();
@@ -185,6 +184,7 @@ namespace StarkCNC
             ResizeMode = ResizeMode.NoResize;
             Topmost = true;
             _maximized = true;
+            MaximizeIcon.Text = "\uE923";
         }
 
         private void MinimizeWindow()
@@ -193,6 +193,7 @@ namespace StarkCNC
             ResizeMode = ResizeMode.CanResize;
             Topmost = false;
             _maximized = false;
+            MaximizeIcon.Text = "\uE922";
         }
 
         private void MinimizeWindow(object sender, RoutedEventArgs e)
@@ -205,12 +206,10 @@ namespace StarkCNC
             if (this.WindowState == WindowState.Maximized)
             {
                 MinimizeWindow();
-                MaximizeIcon.Text = "\uE922";
             }
             else
             {
                 MaximizeWindow();
-                MaximizeIcon.Text = "\uE923";
             }
         }
 
