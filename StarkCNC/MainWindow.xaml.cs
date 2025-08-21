@@ -67,6 +67,8 @@ namespace StarkCNC
             _windowWidth = Width;
 
             _navigationService.Navigate(ViewModel.Pages[0].Page);
+            WindowState = WindowState.Maximized;
+            MaximizeWindow();
         }
 
         private void OnNavigation(object? sender, NavigationEventArgs e)
