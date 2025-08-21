@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
+      xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:local="clr-namespace:StarkCNC.Views"
       d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
@@ -11,35 +12,122 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsView">
 
-    <StackPanel>
-        <CheckBox
-            Content="Электрический привод гиба"
-            IsChecked="{Binding IsElectricBendingDrive}"/> <!--TODO: Перевести-->
-        <CheckBox
-            Content="С пробивочным цилиндром"
-            IsChecked="{Binding IsPunchingCylinder}"/> <!--TODO: Перевести-->
-        <CheckBox
-            Content="Полностью электрический станок"
-            IsChecked="{Binding IsElectricMachine}"/> <!--TODO: Перевести-->
+    <ScrollViewer>
+        <StackPanel>
+            <CheckBox
+                Content="Электрический привод гиба"
+                IsChecked="{Binding IsElectricBendingDrive}"/> <!--TODO: Перевести-->
+            <CheckBox
+                Content="С пробивочным цилиндром"
+                IsChecked="{Binding IsPunchingCylinder}"/> <!--TODO: Перевести-->
+            <CheckBox
+                Content="Полностью электрический станок"
+                IsChecked="{Binding IsElectricMachine}"/> <!--TODO: Перевести-->
 
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Label
-                Grid.Row="0"
-                Content="{x:Static lang:Language.LevelsCount}"/>
-            <ComboBox
-                Grid.Row="1"
-                ItemsSource="{Binding Floors}"
-                SelectedItem="{Binding SelectedFloorType}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Label Content="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </Grid>
-    </StackPanel>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Row="0"
+                    Content="{x:Static lang:Language.LevelsCount}"/>
+                <ComboBox
+                    Grid.Row="1"
+                    ItemsSource="{Binding Floors}"
+                    SelectedItem="{Binding SelectedFloorType}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+            </Grid>
+
+            <controls:LabeledTextBoxControl
+                x:Name="ResetRotationOffsetLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Смещение поворота"/>
+            <StackPanel Orientation="Vertical">
+                <Label Content="Скорость в автоматическом режиме"/>
+                <Slider
+                    x:Name="AutomaticModeSpeedSlider"
+                    Minimum="0"
+                    Maximum="100"/>
+            </StackPanel>
+            <controls:LabeledTextBoxControl
+                x:Name="ResetSupplyOffsetLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Смещение подачи после обнуления"/>
+            <controls:LabeledTextBoxControl
+                x:Name="PipeOutletCCoordinateLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Координата выхода трубы"/>
+            <controls:LabeledTextBoxControl
+                x:Name="FrontSupportLiftBanLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Запрет подъёма передней поддержки"/>
+            <controls:LabeledTextBoxControl
+                x:Name="MiddleSupportLiftBanLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Запрет подъёма средней поддержки"/>
+            <controls:LabeledTextBoxControl
+                x:Name="BackSupportLiftBanLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Запрет подъёма задней поддержки"/>
+            <controls:LabeledTextBoxControl
+                x:Name="StartRollingSupplySpeedLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Скорость подачи при начале прокатки"/>
+            <controls:LabeledTextBoxControl
+                x:Name="DornLeadWithdrawalBeforeBendLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Опережение отвода дорна перед гибом"/>
+            <controls:LabeledTextBoxControl
+                x:Name="SupplyCoefficientLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Коэффициент подачи"/>
+            <controls:LabeledTextBoxControl
+                x:Name="RotationCoefficientLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Коэффициент поворота"/>
+            <controls:LabeledTextBoxControl
+                x:Name="ConsoleCoefficientLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Коэффициент консоли"/>
+            <controls:LabeledTextBoxControl
+                x:Name="BendCoefficientLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Коэффициент гиба"/>
+            <CheckBox
+                x:Name="BendSynchronizationCB"
+                Content="Синхронизация гиба по моменту/координатам"/>
+            <controls:LabeledTextBoxControl
+                x:Name="SynchronizationCoefficientLTB"
+                NeedCallNumberInput="True"
+                IsNumericOnly="True"
+                LabelText="Коэффициент синхронизации"/>
+            <CheckBox
+                    x:Name="AutomaticModeDornOperationCB"
+                    Content="Работа дорна в автоматическом режиме"/>
+            <CheckBox
+                    x:Name="DornLubricantCB"
+                    Content="Смазка дорна"/>
+            <CheckBox
+                x:Name="InterceptionModeCB"
+                Content="Режим перехвата"/>
+        </StackPanel>
+    </ScrollViewer>
 </Page>
