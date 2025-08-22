@@ -13,7 +13,7 @@ namespace StarkCNC.MachineCommunication.Services
         private readonly string _requestString;
         private readonly OpcUaClient _client;
 
-        private Task _connectStatusTask;
+        private Task? _connectStatusTask;
 
         public bool Connected => _client.Connected;
 
