@@ -15,6 +15,7 @@
     <Page.Resources>
         <Style TargetType="controls:ButtonWithIndicator">
             <Setter Property="Margin" Value="0,5,0,5"/>
+            <Setter Property="MinHeight" Value="50"/>
         </Style>
         <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
@@ -31,30 +32,19 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Grid
+        <StackPanel
             Grid.Column="0"
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
             <Button
-                Grid.Row="0"
+                MinHeight="50"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
                 Content="Ручной режим"/> <!--TODO: Перевести-->
             <controls:ButtonWithIndicator
                 x:Name="FirstHydraulics"
-                Grid.Row="1"
                 HorizontalAlignment="Stretch"
                 Margin="0,5,0,5"
                 IndicatorColor="{Binding FirstHydraulics.StatusColor}"
@@ -70,7 +60,6 @@
             </controls:ButtonWithIndicator>
             <controls:ButtonWithIndicator
                 x:Name="SecondHydraulics"
-                Grid.Row="2"
                 HorizontalAlignment="Stretch"
                 Margin="0,5,0,5"
                 IndicatorColor="{Binding SecondHydraulics.StatusColor}"
@@ -86,7 +75,7 @@
             </controls:ButtonWithIndicator>
             <Button
                 x:Name="SupportButton"
-                Grid.Row="3"
+                MinHeight="50"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
@@ -95,7 +84,6 @@
                 PreviewMouseUp="SupportButton_MouseUp"/> <!--TODO: Перевести-->
             <Button
                 x:Name="DornLubricantButton"
-                Grid.Row="4"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
@@ -108,7 +96,6 @@
             </Button>
             <Button
                 x:Name="BendAndSqueezeButton"
-                Grid.Row="5"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
@@ -120,7 +107,7 @@
                 </StackPanel>
             </Button>
             <!--TODO: Добавить кнопки лифта, у которых Grid.RowSpan="2"-->
-        </Grid>
+        </StackPanel>
         <Separator
             Grid.Column="1"
             Margin="5,0,5,0"
@@ -130,198 +117,165 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <controls:ButtonWithIndicator
+            <StackPanel
                 Grid.Column="0"
-                Grid.Row="0"
-                ButtonContent="Зажим назад"
-                IndicatorColor="{Binding Clamp.RearPosition}"
-                Command="{Binding Clamp.BackwardStartCommand}"
-                CommandCancel="{Binding Clamp.BackwardCancelCommand}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="0"
-                Grid.Row="1"
-                ButtonContent="Прижим назад"
-                IndicatorColor="{Binding Press.RearPosition}"
-                Command="{Binding Press.BackwardStartCommand}"
-                CommandCancel="{Binding Press.BackwardCancelCommand}"/> <!--TODO: Перевести-->
-            <Grid
-                Grid.Column="0"
-                Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Button
-                    x:Name="SqueezeBackButton"
-                    Grid.Column="0"
-                    Grid.RowSpan="2"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Content="Дожим 1 назад"
-                    PreviewMouseDown="SqueezeBackButton_PreviewMouseDown"
-                    PreviewMouseUp="SqueezeBackButton_PreviewMouseUp"/> <!--TODO: Перевести-->
-                <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
-                    <Rectangle>
-                        <Rectangle.Fill>
-                            <SolidColorBrush
-                                x:Name="SqueezeBackIndicatorFirst"
-                                Color="{Binding FirstSqueeze.FrontPosition}"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Border>
-                <Border Grid.Column="1" Grid.Row="1" Margin="5" CornerRadius="5">
-                    <Rectangle>
-                        <Rectangle.Fill>
-                            <SolidColorBrush
-                                x:Name="SqueezeBackIndicatorSecond"
-                                Color="{Binding FirstSqueeze.FrontSecondPosition}"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Border>
-            </Grid>
-            <controls:ButtonWithIndicator
-                Grid.Column="0"
-                Grid.Row="3"
-                ButtonContent="Гиб назад"
-                IndicatorColor="{Binding Bend.RearPosition}"
-                Command="{Binding Bend.BackwardStartCommand}"
-                CommandCancel="{Binding Bend.BackwardCancelCommand}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="0"
-                Grid.Row="4"
-                ButtonContent="Цанга разжим"
-                IndicatorColor="{Binding Collet.RearPosition}"
-                Command="{Binding Collet.BackwardStartCommand}"
-                CommandCancel="{Binding Collet.BackwardCancelCommand}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="0"
-                Grid.Row="5"
-                ButtonContent="Дорн назад"
-                IndicatorColor="{Binding Dorn.RearPosition}"
-                Command="{Binding Dorn.BackwardStartCommand}"
-                CommandCancel="{Binding Dorn.BackwardCancelCommand}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="0"
-                Grid.Row="6"
-                ButtonContent="Оснастка вниз"
-                IndicatorColor="{Binding Adjustment.RearPosition}"
-                Command="{Binding Adjustment.BackwardStartCommand}"
-                CommandCancel="{Binding Adjustment.BackwardCancelCommand}"
-                Visibility="{Binding MoreThenOneLevel, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                x:Name="PunchingBackward"
-                Grid.Column="0"
-                Grid.Row="7"
-                ButtonContent="Пробивка назад"
-                IndicatorColor="{Binding Punching.RearPosition}"
-                Command="{Binding Punching.BackwardStartCommand}"
-                CommandCancel="{Binding Punching.BackwardCancelCommand}"
-                Visibility="{Binding PunchingEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="1"
-                Grid.Row="0"
-                ButtonContent="Зажим вперёд"
-                IndicatorColor="{Binding Clamp.FrontPosition}"
-                Command="{Binding Clamp.ForwardStartCommand}"
-                CommandCancel="{Binding Clamp.ForwardCancelCommand}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="1"
-                Grid.Row="1"
-                ButtonContent="Прижим вперёд"
-                IndicatorColor="{Binding Press.FrontPosition}"
-                Command="{Binding Press.ForwardStartCommand}"
-                CommandCancel="{Binding Press.ForwardCancelCommand}"/> <!--TODO: Перевести-->
-            <Grid
-                Grid.Column="1"
-                Grid.Row="2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Button
-                    x:Name="SqueezeForwardButton"
-                    Grid.Column="0"
-                    Grid.RowSpan="2"
-                    HorizontalAlignment="Stretch"
-                    VerticalAlignment="Stretch"
-                    Content="Дожим 1 вперёд"
-                    PreviewMouseDown="SqueezeForwardButton_PreviewMouseDown"
-                    PreviewMouseUp="SqueezeForwardButton_PreviewMouseUp"/>
-                <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5"> <!--TODO: Перевести-->
-                    <Rectangle>
-                        <Rectangle.Fill>
-                            <SolidColorBrush
-                                x:Name="SqueezeForwardIndicatorFirst"
-                                Color="{Binding FirstSqueeze.FrontPosition}"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Border>
-                <Border Grid.Column="1" Grid.Row="1" Margin="5" CornerRadius="5">
-                    <Rectangle>
-                        <Rectangle.Fill>
-                            <SolidColorBrush
-                                x:Name="SqueezeForwardIndicatorSecond"
-                                Color="{Binding FirstSqueeze.FrontSecondPosition}"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Border>
-            </Grid>
-            <controls:ButtonWithIndicator
-                Grid.Column="1"
-                Grid.Row="3"
-                ButtonContent="Гиб вперёд"
-                IndicatorColor="{Binding Bend.FrontPosition}"
-                Command="{Binding Bend.ForwardStartCommand}"
-                CommandCancel="{Binding Bend.ForwardCancelCommand}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="1"
-                Grid.Row="4"
-                ButtonContent="Цанга зажим"
-                IndicatorColor="{Binding Collet.FrontPosition}"
-                Command="{Binding Collet.ForwardStartCommand}"
-                CommandCancel="{Binding Collet.ForwardCancelCommand}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="1"
-                Grid.Row="5"
-                ButtonContent="Дорн вперёд"
-                IndicatorColor="{Binding Dorn.FrontPosition}"
-                Command="{Binding Dorn.ForwardStartCommand}"
-                CommandCancel="{Binding Dorn.ForwardCancelCommand}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                Grid.Column="1"
-                Grid.Row="6"
-                ButtonContent="Оснастка вверх"
-                IndicatorColor="{Binding Adjustment.FrontPosition}"
-                Command="{Binding Adjustment.ForwardStartCommand}"
-                CommandCancel="{Binding Adjustment.ForwardCancelCommand}"
-                Visibility="{Binding MoreThenOneLevel, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                x:Name="PunchingForward"
-                Grid.Column="1"
-                Grid.Row="7"
-                ButtonContent="Пробивка вперёд"
-                IndicatorColor="{Binding Punching.FrontPosition}"
-                Command="{Binding Punching.ForwardStartCommand}"
-                CommandCancel="{Binding Punching.ForwardCancelCommand}"
-                Visibility="{Binding PunchingEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
+                Orientation="Vertical"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+                <controls:ButtonWithIndicator
+                    ButtonContent="Зажим назад"
+                    IndicatorColor="{Binding Clamp.RearPosition}"
+                    Command="{Binding Clamp.BackwardStartCommand}"
+                    CommandCancel="{Binding Clamp.BackwardCancelCommand}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    ButtonContent="Прижим назад"
+                    IndicatorColor="{Binding Press.RearPosition}"
+                    Command="{Binding Press.BackwardStartCommand}"
+                    CommandCancel="{Binding Press.BackwardCancelCommand}"/> <!--TODO: Перевести-->
+                <Grid MinHeight="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button
+                        x:Name="SqueezeBackButton"
+                        Grid.Column="0"
+                        Grid.RowSpan="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Content="Дожим 1 назад"
+                        PreviewMouseDown="SqueezeBackButton_PreviewMouseDown"
+                        PreviewMouseUp="SqueezeBackButton_PreviewMouseUp"/> <!--TODO: Перевести-->
+                    <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5">
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <SolidColorBrush
+                                    x:Name="SqueezeBackIndicatorFirst"
+                                    Color="{Binding FirstSqueeze.FrontPosition}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Border>
+                    <Border Grid.Column="1" Grid.Row="1" Margin="5" CornerRadius="5">
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <SolidColorBrush
+                                    x:Name="SqueezeBackIndicatorSecond"
+                                    Color="{Binding FirstSqueeze.FrontSecondPosition}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Border>
+                </Grid>
+                <controls:ButtonWithIndicator
+                    ButtonContent="Гиб назад"
+                    IndicatorColor="{Binding Bend.RearPosition}"
+                    Command="{Binding Bend.BackwardStartCommand}"
+                    CommandCancel="{Binding Bend.BackwardCancelCommand}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    ButtonContent="Цанга разжим"
+                    IndicatorColor="{Binding Collet.RearPosition}"
+                    Command="{Binding Collet.BackwardStartCommand}"
+                    CommandCancel="{Binding Collet.BackwardCancelCommand}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    ButtonContent="Дорн назад"
+                    IndicatorColor="{Binding Dorn.RearPosition}"
+                    Command="{Binding Dorn.BackwardStartCommand}"
+                    CommandCancel="{Binding Dorn.BackwardCancelCommand}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    ButtonContent="Оснастка вниз"
+                    IndicatorColor="{Binding Adjustment.RearPosition}"
+                    Command="{Binding Adjustment.BackwardStartCommand}"
+                    CommandCancel="{Binding Adjustment.BackwardCancelCommand}"
+                    Visibility="{Binding MoreThenOneLevel, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    MinHeight="50"
+                    x:Name="PunchingBackward"
+                    ButtonContent="Пробивка назад"
+                    IndicatorColor="{Binding Punching.RearPosition}"
+                    Command="{Binding Punching.BackwardStartCommand}"
+                    CommandCancel="{Binding Punching.BackwardCancelCommand}"
+                    Visibility="{Binding PunchingEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <controls:ButtonWithIndicator
+                    ButtonContent="Зажим вперёд"
+                    IndicatorColor="{Binding Clamp.FrontPosition}"
+                    Command="{Binding Clamp.ForwardStartCommand}"
+                    CommandCancel="{Binding Clamp.ForwardCancelCommand}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    ButtonContent="Прижим вперёд"
+                    IndicatorColor="{Binding Press.FrontPosition}"
+                    Command="{Binding Press.ForwardStartCommand}"
+                    CommandCancel="{Binding Press.ForwardCancelCommand}"/> <!--TODO: Перевести-->
+                <Grid MinHeight="100">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Button
+                        x:Name="SqueezeForwardButton"
+                        Grid.Column="0"
+                        Grid.RowSpan="2"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        Content="Дожим 1 вперёд"
+                        PreviewMouseDown="SqueezeForwardButton_PreviewMouseDown"
+                        PreviewMouseUp="SqueezeForwardButton_PreviewMouseUp"/>
+                    <Border Grid.Column="1" Grid.Row="0" Margin="5" CornerRadius="5"> <!--TODO: Перевести-->
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <SolidColorBrush
+                                    x:Name="SqueezeForwardIndicatorFirst"
+                                    Color="{Binding FirstSqueeze.FrontPosition}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Border>
+                    <Border Grid.Column="1" Grid.Row="1" Margin="5" CornerRadius="5">
+                        <Rectangle>
+                            <Rectangle.Fill>
+                                <SolidColorBrush
+                                    x:Name="SqueezeForwardIndicatorSecond"
+                                    Color="{Binding FirstSqueeze.FrontSecondPosition}"/>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                    </Border>
+                </Grid>
+                <controls:ButtonWithIndicator
+                    ButtonContent="Гиб вперёд"
+                    IndicatorColor="{Binding Bend.FrontPosition}"
+                    Command="{Binding Bend.ForwardStartCommand}"
+                    CommandCancel="{Binding Bend.ForwardCancelCommand}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    ButtonContent="Цанга зажим"
+                    IndicatorColor="{Binding Collet.FrontPosition}"
+                    Command="{Binding Collet.ForwardStartCommand}"
+                    CommandCancel="{Binding Collet.ForwardCancelCommand}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    ButtonContent="Дорн вперёд"
+                    IndicatorColor="{Binding Dorn.FrontPosition}"
+                    Command="{Binding Dorn.ForwardStartCommand}"
+                    CommandCancel="{Binding Dorn.ForwardCancelCommand}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    ButtonContent="Оснастка вверх"
+                    IndicatorColor="{Binding Adjustment.FrontPosition}"
+                    Command="{Binding Adjustment.ForwardStartCommand}"
+                    CommandCancel="{Binding Adjustment.ForwardCancelCommand}"
+                    Visibility="{Binding MoreThenOneLevel, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
+                <controls:ButtonWithIndicator
+                    x:Name="PunchingForward"
+                    ButtonContent="Пробивка вперёд"
+                    IndicatorColor="{Binding Punching.FrontPosition}"
+                    Command="{Binding Punching.ForwardStartCommand}"
+                    CommandCancel="{Binding Punching.ForwardCancelCommand}"
+                    Visibility="{Binding PunchingEnabled, Converter={StaticResource BoolToVisibilityConverter}}"/> <!--TODO: Перевести-->
+            </StackPanel>
         </Grid>
         <StackPanel
             Grid.Column="2"
