@@ -103,7 +103,7 @@ namespace StarkCNC.Models
             try
             {
                 var value = await _manualConfigurationService.ReadAsync<float>(SpeedRequestString);
-                double.TryParse(value.ToString(), CultureInfo.InvariantCulture, out var result);
+                double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
                 Speed = result;
             }
             catch (Opc.Ua.ServiceResultException)
@@ -131,7 +131,7 @@ namespace StarkCNC.Models
             try
             {
                 var value = await _manualConfigurationService.ReadAsync<float>(ActualRelativeDisplacementRequestString);
-                double.TryParse(value.ToString(), CultureInfo.InvariantCulture, out var result);
+                double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
                 RelativeDisplacement = result;
             }
             catch (Opc.Ua.ServiceResultException)
@@ -146,7 +146,7 @@ namespace StarkCNC.Models
             try
             {
                 var value = await _manualConfigurationService.ReadAsync<float>(TorqueRequestString);
-                double.TryParse(value.ToString(), CultureInfo.InvariantCulture, out var result);
+                double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
                 Torque = result;
             }
             catch (Opc.Ua.ServiceResultException)
