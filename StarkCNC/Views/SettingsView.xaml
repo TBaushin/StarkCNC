@@ -24,22 +24,9 @@
                 TextContent="Полностью электрический станок"
                 IsChecked="{Binding IsElectricMachine, Mode=TwoWay}"/> <!--TODO: Перевести-->
 
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <Grid Margin="20,10,20,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Label
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Content="{x:Static lang:Language.LevelsCount}"/>
+            <controls:BorderedContentControl Text="{x:Static lang:Language.LevelsCount}">
+                <controls:BorderedContentControl.BorderedContent>
                     <ComboBox
-                        Grid.Column="1"
                         VerticalAlignment="Center"
                         MinWidth="150"
                         ItemsSource="{Binding Floors}"
@@ -50,37 +37,24 @@
                             </DataTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
-                </Grid>
-            </Border>
+                </controls:BorderedContentControl.BorderedContent>
+            </controls:BorderedContentControl>
 
             <controls:BorderedLabeledTextBoxControl
                 x:Name="ResetRotationOffsetLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Смещение поворота"/>
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <Grid Margin="20,10,20,10">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                        <Label
-                            Grid.Column="0"
-                            VerticalAlignment="Center"
-                            Content="Скорость в автоматическом режиме"/>
-                        <Slider
-                            x:Name="AutomaticModeSpeedSlider"
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            MinWidth="270"
-                            Minimum="0"
-                            Maximum="100"/>
-                </Grid>
-            </Border>
+            <controls:BorderedContentControl
+                Text="Скорость в автоматическом режиме">
+                <controls:BorderedContentControl.BorderedContent>
+                    <Slider
+                        VerticalAlignment="Center"
+                        MinWidth="270"
+                        Minimum="0"
+                        Maximum="100"/>
+                </controls:BorderedContentControl.BorderedContent>
+            </controls:BorderedContentControl>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="ResetSupplyOffsetLTB"
                 NeedCallNumberInput="True"
