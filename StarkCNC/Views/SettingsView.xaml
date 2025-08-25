@@ -13,16 +13,16 @@
       Title="SettingsView">
 
     <ScrollViewer>
-        <StackPanel>
-            <CheckBox
-                Content="Электрический привод гиба"
-                IsChecked="{Binding IsElectricBendingDrive}"/> <!--TODO: Перевести-->
-            <CheckBox
-                Content="С пробивочным цилиндром"
-                IsChecked="{Binding IsPunchingCylinder}"/> <!--TODO: Перевести-->
-            <CheckBox
-                Content="Полностью электрический станок"
-                IsChecked="{Binding IsElectricMachine}"/> <!--TODO: Перевести-->
+        <StackPanel Margin="0,0,15,0">
+            <controls:BorderedSwitchToggleControl
+                TextContent="Электрический привод гиба"
+                IsChecked="{Binding IsElectricBendingDrive, Mode=TwoWay}"/> <!--TODO: Перевести-->
+            <controls:BorderedSwitchToggleControl
+                TextContent="С пробивочным цилиндром"
+                IsChecked="{Binding IsPunchingCylinder, Mode=TwoWay}"/> <!--TODO: Перевести-->
+            <controls:BorderedSwitchToggleControl
+                TextContent="Полностью электрический станок"
+                IsChecked="{Binding IsElectricMachine, Mode=TwoWay}"/> <!--TODO: Перевести-->
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -111,23 +111,27 @@
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент гиба"/>
-            <CheckBox
+            <controls:BorderedSwitchToggleControl
                 x:Name="BendSynchronizationCB"
-                Content="Синхронизация гиба по моменту/координатам"/>
+                TextContent="Синхронизация гиба по моменту/координатам"
+                IsChecked="False"/>
             <controls:LabeledTextBoxControl
                 x:Name="SynchronizationCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент синхронизации"/>
-            <CheckBox
-                    x:Name="AutomaticModeDornOperationCB"
-                    Content="Работа дорна в автоматическом режиме"/>
-            <CheckBox
-                    x:Name="DornLubricantCB"
-                    Content="Смазка дорна"/>
-            <CheckBox
+            <controls:BorderedSwitchToggleControl
+                x:Name="AutomaticModeDornOperationCB"
+                TextContent="Работа дорна в автоматическом режиме"
+                IsChecked="False"/>
+            <controls:BorderedSwitchToggleControl
+                x:Name="DornLubricantCB"
+                TextContent="Смазка дорна"
+                IsChecked="False"/>
+            <controls:BorderedSwitchToggleControl
                 x:Name="InterceptionModeCB"
-                Content="Режим перехвата"/>
+                TextContent="Режим перехвата"
+                IsChecked="False"/>
         </StackPanel>
     </ScrollViewer>
 </Page>

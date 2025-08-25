@@ -68,7 +68,7 @@ namespace StarkCNC.Controls
         private void SetSwitchOffStyles()
         {
             SwitchBorder.Background = (Brush)FindResource("ControlAltFillColorTertiaryBrush");
-            SwitchBorder.BorderBrush = (Brush)FindResource("ControlAltFillColorSecondaryBrush");
+            SwitchBorder.BorderBrush = (Brush)FindResource("ControlAltFillColorQuarternaryBrush");
             SwitchBorder.BorderThickness = new Thickness(1);
             SwitchBorder.MinHeight = 22;
             SwitchBorder.MaxHeight = 22;
