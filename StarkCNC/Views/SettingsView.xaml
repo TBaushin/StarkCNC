@@ -68,7 +68,6 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <!--<StackPanel Orientation="Vertical">-->
                         <Label
                             Grid.Column="0"
                             VerticalAlignment="Center"
@@ -80,7 +79,6 @@
                             MinWidth="270"
                             Minimum="0"
                             Maximum="100"/>
-                    <!--</StackPanel>-->
                 </Grid>
             </Border>
             <controls:BorderedLabeledTextBoxControl
