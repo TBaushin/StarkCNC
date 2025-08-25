@@ -44,7 +44,7 @@
                 </ComboBox>
             </Grid>
 
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="ResetRotationOffsetLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
@@ -56,57 +56,57 @@
                     Minimum="0"
                     Maximum="100"/>
             </StackPanel>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="ResetSupplyOffsetLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Смещение подачи после обнуления"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="PipeOutletCCoordinateLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Координата выхода трубы"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="FrontSupportLiftBanLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Запрет подъёма передней поддержки"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="MiddleSupportLiftBanLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Запрет подъёма средней поддержки"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="BackSupportLiftBanLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Запрет подъёма задней поддержки"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="StartRollingSupplySpeedLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Скорость подачи при начале прокатки"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="DornLeadWithdrawalBeforeBendLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Опережение отвода дорна перед гибом"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="SupplyCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент подачи"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="RotationCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент поворота"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="ConsoleCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент консоли"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="BendCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
@@ -115,7 +115,7 @@
                 x:Name="BendSynchronizationCB"
                 TextContent="Синхронизация гиба по моменту/координатам"
                 IsChecked="False"/>
-            <controls:LabeledTextBoxControl
+            <controls:BorderedLabeledTextBoxControl
                 x:Name="SynchronizationCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
