@@ -11,9 +11,9 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsView">
-
     <ScrollViewer>
         <StackPanel Margin="0,0,15,0">
+            
             <controls:BorderedSwitchToggleControl
                 TextContent="Электрический привод гиба"
                 IsChecked="{Binding IsElectricBendingDrive, Mode=TwoWay}"/> <!--TODO: Перевести-->
@@ -24,38 +24,65 @@
                 TextContent="Полностью электрический станок"
                 IsChecked="{Binding IsElectricMachine, Mode=TwoWay}"/> <!--TODO: Перевести-->
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Label
-                    Grid.Row="0"
-                    Content="{x:Static lang:Language.LevelsCount}"/>
-                <ComboBox
-                    Grid.Row="1"
-                    ItemsSource="{Binding Floors}"
-                    SelectedItem="{Binding SelectedFloorType}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Name}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </Grid>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid Margin="20,10,20,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Label
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Content="{x:Static lang:Language.LevelsCount}"/>
+                    <ComboBox
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
+                        MinWidth="150"
+                        ItemsSource="{Binding Floors}"
+                        SelectedItem="{Binding SelectedFloorType}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <Label Content="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                </Grid>
+            </Border>
 
             <controls:BorderedLabeledTextBoxControl
                 x:Name="ResetRotationOffsetLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Смещение поворота"/>
-            <StackPanel Orientation="Vertical">
-                <Label Content="Скорость в автоматическом режиме"/>
-                <Slider
-                    x:Name="AutomaticModeSpeedSlider"
-                    Minimum="0"
-                    Maximum="100"/>
-            </StackPanel>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid Margin="20,10,20,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <!--<StackPanel Orientation="Vertical">-->
+                        <Label
+                            Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Content="Скорость в автоматическом режиме"/>
+                        <Slider
+                            x:Name="AutomaticModeSpeedSlider"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            MinWidth="270"
+                            Minimum="0"
+                            Maximum="100"/>
+                    <!--</StackPanel>-->
+                </Grid>
+            </Border>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="ResetSupplyOffsetLTB"
                 NeedCallNumberInput="True"
