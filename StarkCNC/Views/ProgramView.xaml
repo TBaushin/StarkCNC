@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:helix="http://helix-toolkit.org/wpf"
       xmlns:local="clr-namespace:StarkCNC.Views"
@@ -69,7 +70,34 @@
                     </StackPanel>
                 </Button>
             </StackPanel>
-            <DataGrid 
+            <Grid
+                HorizontalAlignment="Stretch"
+                Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    LabelText="Длина трубы"
+                    IsNumericOnly="True"
+                    NeedCallNumberInput="True"/>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="1"
+                    Margin="10,0,10,0"
+                    LabelText="Установка Y"
+                    IsNumericOnly="True"
+                    NeedCallNumberInput="True"/>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="2"
+                    Margin="10,0,10,0"
+                    LabelText="Расчётный остаток"
+                    IsNumericOnly="True"
+                    NeedCallNumberInput="True"/>
+            </Grid>
+            <DataGrid
                 x:Name="PipeBendParametersDataGrid"
                 AutoGenerateColumns="False"
                 CanUserAddRows="True"
