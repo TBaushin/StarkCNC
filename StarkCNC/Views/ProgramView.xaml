@@ -97,6 +97,135 @@
                     IsNumericOnly="True"
                     NeedCallNumberInput="True"/>
             </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="№"/>
+                <Separator
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="5,0,5,0"
+                    VerticalAlignment="Stretch"/>
+                <StackPanel
+                    Grid.Column="2"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch">
+                    <Label
+                        HorizontalContentAlignment="Center"
+                        Content="Подача Y"/>
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Content="Speed"/>
+                </StackPanel>
+                <Separator
+                    Grid.Column="3"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="3,0,3,0"
+                    VerticalAlignment="Stretch"/>
+                <StackPanel
+                    Grid.Column="4"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch">
+                    <Label
+                        HorizontalContentAlignment="Center"
+                        Content="Поворот B"/>
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Content="Speed"/>
+                </StackPanel>
+                <Separator
+                    Grid.Column="5"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="3,0,3,0"
+                    VerticalAlignment="Stretch"/>
+                <Label
+                    Grid.Column="6"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalContentAlignment="Center"
+                    Content="Гиб C"/>
+                <Button
+                    Grid.Column="6"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    Content="Speed"/>
+                <Button
+                    Grid.Column="7"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    Content="Коэффициент"/>
+                <Separator
+                    Grid.Column="8"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="3,0,3,0"
+                    VerticalAlignment="Stretch"/>
+                <StackPanel
+                    Grid.Column="9"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Stretch">
+                    <Label
+                        HorizontalContentAlignment="Center"
+                        Content="Радиус R"/>
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Content="Режим"/>
+                </StackPanel>
+                <Separator
+                    Grid.Column="10"
+                    Grid.Row="0"
+                    Grid.RowSpan="2"
+                    Margin="3,0,3,0"
+                    VerticalAlignment="Stretch"/>
+                <Label
+                    Grid.Column="11"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    HorizontalContentAlignment="Center"
+                    Content="Отвод Y"/>
+                <Button
+                    Grid.Column="11"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    Content="B"/>
+                <Button
+                    Grid.Column="12"
+                    Grid.Row="1"
+                    HorizontalAlignment="Stretch"
+                    Content="Y2"/>
+            </Grid>
             <DataGrid
                 x:Name="PipeBendParametersDataGrid"
                 AutoGenerateColumns="False"
