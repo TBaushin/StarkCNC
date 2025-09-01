@@ -13,7 +13,6 @@
       Title="SettingsView">
     <ScrollViewer>
         <StackPanel Margin="0,0,15,0">
-            
             <controls:BorderedSwitchToggleControl
                 TextContent="Электрический привод гиба"
                 IsChecked="{Binding IsElectricBendingDrive, Mode=TwoWay}"/> <!--TODO: Перевести-->
@@ -24,7 +23,8 @@
                 TextContent="Полностью электрический станок"
                 IsChecked="{Binding IsElectricMachine, Mode=TwoWay}"/> <!--TODO: Перевести-->
 
-            <controls:BorderedContentControl Text="{x:Static lang:Language.LevelsCount}">
+            <controls:BorderedContentControl
+                Text="{x:Static lang:Language.LevelsCount}">
                 <controls:BorderedContentControl.BorderedContent>
                     <ComboBox
                         VerticalAlignment="Center"

@@ -47,12 +47,105 @@
         <StackPanel
             Grid.Row="2"
             Orientation="Vertical">
-            <controls:FloorControl
-                FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
-            <controls:FloorControl
-                FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
-            <controls:FloorControl
-                FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <controls:FloorControl
+                    Margin="10,0,10,0"
+                    FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
+            </Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <controls:FloorControl
+                    Margin="10,0,10,0"
+                    FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
+            </Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <controls:FloorControl
+                    Margin="10,0,10,0"
+                    FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
+            </Border>
+            <Expander Margin="8,4,7,4">
+                <ListView>
+                    <ListViewItem>
+                        <ListViewItem.Template>
+                            <ControlTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <Label
+                                        Grid.Column="0"
+                                        Grid.Row="0"
+                                        Grid.ColumnSpan="2"/>
+                                    <StackPanel
+                                        Grid.Column="0"
+                                        Grid.Row="1"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Left">
+                                        <Button/>
+                                        <Button/>
+                                        <Button/>
+                                    </StackPanel>
+                                    <StackPanel
+                                        Grid.Column="1"
+                                        Grid.Row="1"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right">
+                                        <Button/>
+                                        <Button/>
+                                    </StackPanel>
+                                </Grid>
+                            </ControlTemplate>
+                        </ListViewItem.Template>
+                    </ListViewItem>
+                </ListView>
+            </Expander>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                MouseEnter="Border_MouseEnter"
+                MouseLeave="Border_MouseLeave"
+                MouseDown="Border_MouseDown">
+                <Grid Margin="10,0,10,0" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel
+                        Grid.Column="0"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="4,0,4,0"
+                            FontSize="20"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE950;"/>
+                        <TextBlock Text="Управление оснастками"/>
+                    </StackPanel>
+                    <TextBlock
+                        Grid.Column="1"
+                        Margin="4,0,4,0"
+                        FontSize="20"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE76C;"/>
+                </Grid>
+            </Border>
         </StackPanel>
     </Grid>
 </Page>
