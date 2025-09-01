@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+using System.Windows.Input;
 
 namespace StarkCNC.Controls
 {
@@ -11,12 +10,9 @@ namespace StarkCNC.Controls
     public partial class FloorControl : UserControl
     {
         public static DependencyProperty FloorTextProperty = DependencyProperty.Register(nameof(FloorText), typeof(string), typeof(FloorControl), new PropertyMetadata());
-        public static DependencyProperty SearchItemPathProperty = DependencyProperty.Register(nameof(SearchItemPath), typeof(string), typeof(FloorControl), new PropertyMetadata());
-        public static DependencyProperty SearchSourceProperty = DependencyProperty.Register(nameof(SearchSource), typeof(IEnumerable), typeof(FloorControl), new PropertyMetadata());
-        public static DependencyProperty PipeDiameterProperty = DependencyProperty.Register(nameof(PipeDiameter), typeof(double), typeof(FloorControl), new PropertyMetadata());
-
-        public static ImageSource TurnOnImage;
-        public static ImageSource TurnOffImage;
+        public static DependencyProperty SelectedAdjustmentProperty = DependencyProperty.Register(nameof(SelectedAdjustment), typeof(string), typeof(FloorControl), new PropertyMetadata());
+        public static DependencyProperty EnabledProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FloorControl), new PropertyMetadata());
+        public static DependencyProperty NavigateProperty = DependencyProperty.Register(nameof(Navigate), typeof(ICommand), typeof(FloorControl), new PropertyMetadata());
 
         public string FloorText
         {
@@ -24,51 +20,42 @@ namespace StarkCNC.Controls
             set => SetValue(FloorTextProperty, value);
         }
 
-        public string SearchItemPath
+        public string SelectedAdjustment
         {
-            get => (string)GetValue(SearchItemPathProperty);
-            set => SetValue(SearchItemPathProperty, value);
+            get => (string)GetValue(SelectedAdjustmentProperty);
+            set => SetValue(SelectedAdjustmentProperty, value);
         }
 
-        public IEnumerable SearchSource
+        public bool IsChecked
         {
-            get => (IEnumerable)GetValue(SearchSourceProperty);
-            set => SetValue(SearchSourceProperty, value);
+            get => (bool)GetValue(EnabledProperty);
+            set => SetValue(EnabledProperty, value);
         }
 
-        public double PipeDiameter
+        public ICommand Navigate
         {
-            get => (double)GetValue(PipeDiameterProperty);
-            set => SetValue(PipeDiameterProperty, value);
+            get => (ICommand)GetValue(NavigateProperty);
+            set => SetValue(NavigateProperty, value);
         }
 
         public FloorControl()
         {
             InitializeComponent();
-
-            RollerImage.Source = TurnOffImage;
-            GridAdjustment.Visibility = Visibility.Hidden;
         }
 
-        private void FloorCheckBox_Click(object sender, RoutedEventArgs e)
+        private void TextBlock_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            if (sender is not CheckBox cb)
-                return;
+            Cursor = Cursors.Hand;
+        }
 
-            var check = cb.IsChecked;
-            if (check is null)
-                return;
+        private void TextBlock_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
+        }
 
-            if ((bool)check)
-            {
-                RollerImage.Source = TurnOnImage;
-                GridAdjustment.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                RollerImage.Source = TurnOffImage;
-                GridAdjustment.Visibility = Visibility.Hidden;
-            }
+        private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Navigate.Execute(null);
         }
     }
 }
