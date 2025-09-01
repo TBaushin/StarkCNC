@@ -49,7 +49,7 @@ namespace StarkCNC.ViewModels
             Adjustments.Add(adjustment);
 
             SelectedAdjustment = adjustment;
-            var settingsWindow = new AdjustmentSettingsWindow("Добавление новой оснастки");
+            var settingsWindow = new AdjustmentSettingsWindow(this, "Добавление новой оснастки");
             settingsWindow.ShowDialog();
             //_navigationService.Navigate(_adjustmentSettingsView);
         }
@@ -66,7 +66,7 @@ namespace StarkCNC.ViewModels
         {
             SelectedAdjustment = adjustment;
 
-            var settingsWindow = new AdjustmentSettingsWindow("Изменение оснастки");
+            var settingsWindow = new AdjustmentSettingsWindow(this, "Изменение оснастки");
             settingsWindow.ShowDialog();
         }
 

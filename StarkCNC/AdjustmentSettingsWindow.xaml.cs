@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using StarkCNC.ViewModels;
+using System.Windows;
 using System.Windows.Shell;
 
 namespace StarkCNC
@@ -8,8 +9,13 @@ namespace StarkCNC
     /// </summary>
     public partial class AdjustmentSettingsWindow : Window
     {
-        public AdjustmentSettingsWindow(string Title = "Добавление новой оснастки")
+        private AdjustmentViewModel ViewModel;
+
+        public AdjustmentSettingsWindow(AdjustmentViewModel viewModel, string Title = "Добавление новой оснастки")
         {
+            ViewModel = viewModel;
+            DataContext = viewModel;
+
             InitializeComponent();
 
             WindowChrome.SetWindowChrome(this,
