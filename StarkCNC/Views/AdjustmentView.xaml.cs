@@ -10,8 +10,11 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class AdjustmentView : Page
     {
+        private AdjustmentViewModel ViewModel;
+
         public AdjustmentView(AdjustmentViewModel viewModel)
         {
+            ViewModel = viewModel;
             DataContext = viewModel;
 
             InitializeComponent();
@@ -22,19 +25,19 @@ namespace StarkCNC.Views
             e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
         }
 
-        private void Border_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        private void AdjustmentManagement_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             Cursor = Cursors.Hand;
         }
 
-        private void Border_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        private void AdjustmentManagement_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
         {
             Cursor = Cursors.Arrow;
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
+            ViewModel.GoToAdjustmentListCommand.Execute(null);
         }
     }
 }

@@ -116,13 +116,14 @@
                 </ListView>
             </Expander>
             <Border
+                x:Name="AdjustmentManagement"
                 Margin="8,4,8,4"
                 MinHeight="80"
                 CornerRadius="4"
                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                MouseEnter="Border_MouseEnter"
-                MouseLeave="Border_MouseLeave"
-                MouseDown="Border_MouseDown">
+                MouseEnter="AdjustmentManagement_MouseEnter"
+                MouseLeave="AdjustmentManagement_MouseLeave"
+                MouseDown="AdjustmentManagement_MouseDown">
                 <Grid Margin="10,0,10,0" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

@@ -25,12 +25,6 @@ namespace StarkCNC.ViewModels
         [ObservableProperty]
         private AdjustmentParameters? _selectedAdjustment;
 
-        [ObservableProperty]
-        private bool _canForward = false;
-
-        [ObservableProperty]
-        private bool _canBackward = false;
-
         public AdjustmentViewModel(INavigationService navigationService, IAdjustmentRepository adjustmentRepository) 
         {
             _adjustmentListPage = new AdjustmentListView(this);
@@ -38,8 +32,6 @@ namespace StarkCNC.ViewModels
 
             _navigationService = navigationService;
             _repository = adjustmentRepository;
-
-            UpdateForwardAndBackwardProperty();
 
             foreach (var item in _repository.GetAll())
             {
@@ -57,7 +49,9 @@ namespace StarkCNC.ViewModels
             Adjustments.Add(adjustment);
 
             SelectedAdjustment = adjustment;
-            _navigationService.Navigate(_adjustmentSettingsView);
+            var settingsWindow = new AdjustmentSettingsWindow("Добавление новой оснастки");
+            settingsWindow.ShowDialog();
+            //_navigationService.Navigate(_adjustmentSettingsView);
         }
 
         [RelayCommand]
@@ -71,7 +65,9 @@ namespace StarkCNC.ViewModels
         private void EditAdjustment(AdjustmentParameters adjustment)
         {
             SelectedAdjustment = adjustment;
-            _navigationService.Navigate(_adjustmentSettingsView);
+
+            var settingsWindow = new AdjustmentSettingsWindow("Изменение оснастки");
+            settingsWindow.ShowDialog();
         }
 
         [RelayCommand]
@@ -82,46 +78,9 @@ namespace StarkCNC.ViewModels
         }
 
         [RelayCommand]
-        private void GoNextPage()
-        {
-            _skiped += 10;
-            var elements = _repository.GetTenElements(_skiped);
-
-            Adjustments.Clear();
-            foreach (var item in elements)
-            {
-                Adjustments.Add(new AdjustmentParameters(item));
-            }
-
-            UpdateForwardAndBackwardProperty();
-        }
-
-        [RelayCommand]
-        private void GoPreviousPage()
-        {
-            _skiped = Math.Max(0, _skiped - 10);
-            var elements = _repository.GetTenElements(_skiped);
-
-            Adjustments.Clear();
-            foreach (var item in elements)
-            {
-                Adjustments.Add(new AdjustmentParameters(item));
-            }
-
-            UpdateForwardAndBackwardProperty();
-        }
-
-        [RelayCommand]
         private void GoToAdjustmentList()
         {
             _navigationService.Navigate(_adjustmentListPage);
-        }
-
-        private void UpdateForwardAndBackwardProperty()
-        {
-            var total = _repository.Count();
-            CanForward = total > _skiped + 10;
-            CanBackward = _skiped >= 10;
         }
     }
 }
