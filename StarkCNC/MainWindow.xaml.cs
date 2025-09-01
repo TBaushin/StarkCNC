@@ -24,11 +24,7 @@ namespace StarkCNC
 
         public FlyoutMenuControl PageList { get; set; }
 
-        private double _windowHeight;
-        private double _windowWidth;
-        private double _windowLeft;
-        private double _windowTop;
-        private bool _maximized = false;
+        private bool _maximized;
 
         public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService, IServiceProvider serviceProvider)
         {
@@ -64,9 +60,6 @@ namespace StarkCNC
                         NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left
                 }
             );
-
-            _windowHeight = Height;
-            _windowWidth = Width;
 
             _navigationService.Navigate(ViewModel.Pages[0].Page);
 

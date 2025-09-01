@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
-using System.Threading;
 using System.Windows.Media;
 
 namespace StarkCNC.Models
@@ -25,7 +24,7 @@ namespace StarkCNC.Models
 
         public string FrontPositionRequestString { get; private set; } = string.Empty;
 
-        private Task _updateTask;
+        private Task? _updateTask;
         private CancellationTokenSource? _cancellationTokenSource;
 
         public OutputsParametersTwoButtons(IManualConfigurationService manualConfigurationService, bool autoRunUpdate) 
@@ -54,9 +53,9 @@ namespace StarkCNC.Models
                 {
                     while (!token.IsCancellationRequested)
                     {
-                        await GetRearPosition();
-                        await GetFrontPosition();
-                        await Task.Delay(150, token);
+                        await GetRearPosition().ConfigureAwait(false);
+                        await GetFrontPosition().ConfigureAwait(false);
+                        await Task.Delay(150, token).ConfigureAwait(false);
                     }
                 }
                 catch (TaskCanceledException)
@@ -72,30 +71,45 @@ namespace StarkCNC.Models
 
         public void StopUpdateTask()
         {
-            if (_updateTask == null)
+            if (_updateTask is null)
                 return;
 
             _cancellationTokenSource?.Cancel();
         }
 
         [RelayCommand]
-        private async Task ForwardStart() => await _manualConfigurationService.WriteAsync<bool>(true, ForwardRequestString);
+        private async Task ForwardStart() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(true, ForwardRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task ForwardCancel() => await _manualConfigurationService.WriteAsync<bool>(false, ForwardRequestString);
+        private async Task ForwardCancel() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(false, ForwardRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task BackwardStart() => await _manualConfigurationService.WriteAsync<bool>(true, BackwardRequestString);
+        private async Task BackwardStart() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(true, BackwardRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task BackwardCancel() => await _manualConfigurationService.WriteAsync(false, BackwardRequestString);
+        private async Task BackwardCancel() =>
+            await _manualConfigurationService
+                .WriteAsync(false, BackwardRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
         private async Task GetRearPosition()
         {
             try
             {
-                var result = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+                var result = await _manualConfigurationService
+                    .ReadAsync<bool>(RearPositionRequestString)
+                    .ConfigureAwait(false);
+
                 if (result)
                     RearPosition = Colors.Green;
                 else
@@ -112,7 +126,10 @@ namespace StarkCNC.Models
         {
             try
             {
-                var result = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+                var result = await _manualConfigurationService
+                    .ReadAsync<bool>(FrontPositionRequestString)
+                    .ConfigureAwait(false);
+
                 if (result)
                     FrontPosition = Colors.Green;
                 else

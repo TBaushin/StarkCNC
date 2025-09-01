@@ -16,11 +16,9 @@ namespace StarkCNC.ViewModels
         private readonly INavigationService _navigationService;
         private readonly IAdjustmentRepository _repository;
 
-        private int _skiped = 0;
+        public ObservableCollection<AdjustmentParameters> Adjustments { get; } = new ObservableCollection<AdjustmentParameters>();
 
-        public ObservableCollection<AdjustmentParameters> Adjustments { get; set; } = new ObservableCollection<AdjustmentParameters>();
-
-        public List<string> AdjustmentsString { get; } = new List<string> { Localization.Language.Winding, Localization.Language.Rolling };
+        public ICollection<string> AdjustmentsString { get; } = new List<string> { Localization.Language.Winding, Localization.Language.Rolling };
 
         [ObservableProperty]
         private AdjustmentParameters? _selectedAdjustment;

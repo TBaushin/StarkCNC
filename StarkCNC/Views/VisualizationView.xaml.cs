@@ -50,14 +50,14 @@ namespace StarkCNC.Views
             }
         }
 
-        private readonly HelixViewport3D viewport;
-        private TubeVisual3D tubeVisual;
-        private readonly List<TubePoint> tubePoints;
-        private DispatcherTimer animationTimer;
-        private List<BendingSegment> bendingProgram;
-        private int currentSegmentIndex;
-        private double animationProgress;
-        private bool isAnimating;
+        private readonly HelixViewport3D _viewport;
+        private TubeVisual3D _tubeVisual;
+        private readonly List<TubePoint> _tubePoints;
+        private DispatcherTimer _animationTimer;
+        private List<BendingSegment> _bendingProgram;
+        private int _currentSegmentIndex;
+        private double _animationProgress;
+        private bool _isAnimating;
 
         public double TubeRadius { get; set; } = 8.0;
         public double TotalTubeLength { get; set; } = 2000.0;
@@ -77,64 +77,67 @@ namespace StarkCNC.Views
 
         public TubeBendingAnimator(HelixViewport3D viewport)
         {
-            this.viewport = viewport ?? throw new ArgumentNullException(nameof(viewport));
-            tubePoints = new List<TubePoint>();
-            InitializeTube();
-            InitializeTimer();
+            _viewport = viewport ?? throw new ArgumentNullException(nameof(viewport));
+            _tubePoints = new List<TubePoint>();
+            _tubeVisual = InitializeTube();
+            _animationTimer = InitializeTimer();
         }
 
-        private void InitializeTube()
+        private TubeVisual3D InitializeTube()
         {
             GenerateInitialStraightTube();
-            tubeVisual = new TubeVisual3D
+            var tube = new TubeVisual3D
             {
                 Diameter = TubeRadius * 2,
                 ThetaDiv = 24,
                 Fill = Brushes.Gray
             };
             UpdateTubeVisual();
-            viewport.Children.Add(tubeVisual);
+            _viewport.Children.Add(tube);
+            return tube;
         }
 
         private void GenerateInitialStraightTube()
         {
-            tubePoints.Clear();
+            _tubePoints.Clear();
             double segmentLength = TotalTubeLength / TubeSegments;
             for (int i = 0; i <= TubeSegments; i++)
             {
                 double yPos = -i * segmentLength; // Труба вниз по Y от 0
                 Point3D position = new Point3D(0, yPos, BendHeight);
-                tubePoints.Add(new TubePoint(position, currentDirection, currentUpVector, i * segmentLength));
+                _tubePoints.Add(new TubePoint(position, currentDirection, currentUpVector, i * segmentLength));
             }
             currentFeedLength = 0.0;
         }
 
-        private void InitializeTimer()
+        private DispatcherTimer InitializeTimer()
         {
-            animationTimer = new DispatcherTimer
+            var timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromMilliseconds(16)
             };
-            animationTimer.Tick += OnAnimationTick;
+            timer.Tick += OnAnimationTick;
+            return timer;
         }
 
-        public void StartBendingAnimation(List<BendingSegment> program)
+        public void StartBendingAnimation(ICollection<BendingSegment> program)
         {
             if (program is null || program.Count == 0)
                 throw new ArgumentException("Программа гибки не может быть пустой.", nameof(program));
-            bendingProgram = new List<BendingSegment>(program);
-            currentSegmentIndex = 0;
-            animationProgress = 0.0;
-            isAnimating = true;
+
+            _bendingProgram = new List<BendingSegment>(program);
+            _currentSegmentIndex = 0;
+            _animationProgress = 0.0;
+            _isAnimating = true;
             ResetToInitialState();
-            AnimationPhaseChanged?.Invoke(this, $"Начало гибки сегмента {currentSegmentIndex + 1}");
-            animationTimer.Start();
+            AnimationPhaseChanged?.Invoke(this, $"Начало гибки сегмента {_currentSegmentIndex + 1}");
+            _animationTimer.Start();
         }
 
         public void StopAnimation()
         {
-            isAnimating = false;
-            animationTimer?.Stop();
+            _isAnimating = false;
+            _animationTimer?.Stop();
         }
 
         public void ResetToInitialState()
@@ -148,40 +151,40 @@ namespace StarkCNC.Views
 
         private void OnAnimationTick(object sender, EventArgs e)
         {
-            if (!isAnimating || currentSegmentIndex >= bendingProgram.Count)
+            if (!_isAnimating || _currentSegmentIndex >= _bendingProgram.Count)
             {
-                animationTimer.Stop();
-                isAnimating = false;
+                _animationTimer.Stop();
+                _isAnimating = false;
                 AnimationCompleted?.Invoke(this, EventArgs.Empty);
                 return;
             }
 
-            var segment = bendingProgram[currentSegmentIndex];
+            var segment = _bendingProgram[_currentSegmentIndex];
 
-            if (animationProgress < 0.4)
+            if (_animationProgress < 0.4)
                 AnimateTubeFeed(segment);
-            else if (animationProgress < 0.8)
+            else if (_animationProgress < 0.8)
                 AnimateBending(segment);
-            else if (animationProgress < 1.0)
+            else if (_animationProgress < 1.0)
                 AnimateRotation(segment);
 
-            animationProgress += AnimationSpeed;
+            _animationProgress += AnimationSpeed;
 
-            if (animationProgress >= 1.0)
+            if (_animationProgress >= 1.0)
             {
                 CompleteSegment(segment);
-                currentSegmentIndex++;
-                animationProgress = 0.0;
-                if (currentSegmentIndex >= bendingProgram.Count)
+                _currentSegmentIndex++;
+                _animationProgress = 0.0;
+                if (_currentSegmentIndex >= _bendingProgram.Count)
                 {
-                    isAnimating = false;
-                    animationTimer.Stop();
+                    _isAnimating = false;
+                    _animationTimer.Stop();
                     AnimationPhaseChanged?.Invoke(this, "Гибка завершена");
                     AnimationCompleted?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {
-                    AnimationPhaseChanged?.Invoke(this, $"Начало гибки сегмента {currentSegmentIndex + 1}");
+                    AnimationPhaseChanged?.Invoke(this, $"Начало гибки сегмента {_currentSegmentIndex + 1}");
                 }
             }
 
@@ -190,11 +193,11 @@ namespace StarkCNC.Views
 
         private void AnimateTubeFeed(BendingSegment segment)
         {
-            double phase = animationProgress / 0.4;
+            double phase = _animationProgress / 0.4;
             double feedDistance = segment.StraightLength * phase;
             Vector3D movement = currentDirection * feedDistance;
 
-            foreach (var pt in tubePoints)
+            foreach (var pt in _tubePoints)
             {
                 if (!pt.IsFixed && pt.DistanceFromBack > currentFeedLength)
                     pt.Position = pt.BasePosition + movement;
@@ -206,7 +209,7 @@ namespace StarkCNC.Views
             if (Math.Abs(segment.BendAngle) < 0.01 || segment.BendRadius < 0.01)
                 return;
 
-            double phase = (animationProgress - 0.4) / 0.4;
+            double phase = (_animationProgress - 0.4) / 0.4;
             double bendAngleRad = segment.BendAngle * Math.PI / 180.0 * phase;
 
             Vector3D bendAxis = currentUpVector;
@@ -217,7 +220,7 @@ namespace StarkCNC.Views
             double bendStart = currentFeedLength + segment.StraightLength;
             Point3D bendCenter = new Point3D(0, bendStart, BendHeight) + bendAxis * segment.BendRadius;
 
-            foreach (var pt in tubePoints)
+            foreach (var pt in _tubePoints)
             {
                 if (pt.IsFixed || pt.DistanceFromBack < currentFeedLength)
                     continue;
@@ -262,7 +265,7 @@ namespace StarkCNC.Views
             if (Math.Abs(segment.RotationAngle) < 0.01)
                 return;
 
-            double phase = (animationProgress - 0.8) / 0.2;
+            double phase = (_animationProgress - 0.8) / 0.2;
             double rotationAngleRad = segment.RotationAngle * Math.PI / 180.0 * phase;
 
             double rotationStart = currentFeedLength + segment.StraightLength;
@@ -271,7 +274,7 @@ namespace StarkCNC.Views
             Vector3D rotationAxis = currentDirection;
             Matrix3D rotationMatrix = CreateRotationMatrix(rotationAxis, rotationAngleRad);
 
-            foreach (var pt in tubePoints)
+            foreach (var pt in _tubePoints)
             {
                 if (pt.IsFixed || pt.DistanceFromBack < currentFeedLength)
                     continue;
@@ -295,7 +298,7 @@ namespace StarkCNC.Views
         private void CompleteSegment(BendingSegment segment)
         {
             double newFeedLength = currentFeedLength + segment.StraightLength;
-            foreach (var pt in tubePoints)
+            foreach (var pt in _tubePoints)
             {
                 if (pt.DistanceFromBack <= newFeedLength)
                 {
@@ -308,15 +311,15 @@ namespace StarkCNC.Views
 
         private void UpdateTubeVisual()
         {
-            if (tubePoints.Count < 2)
+            if (_tubePoints.Count < 2)
                 return;
 
-            var pathPoints = new Point3DCollection(tubePoints.Select(pt => pt.Position));
+            var pathPoints = new Point3DCollection(_tubePoints.Select(pt => pt.Position));
             if (Application.Current?.Dispatcher is not null)
             {
                 Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    tubeVisual.Path = pathPoints;
+                    _tubeVisual.Path = pathPoints;
                 }), DispatcherPriority.Render);
             }
         }
@@ -352,10 +355,10 @@ namespace StarkCNC.Views
 
         public void Dispose()
         {
-            animationTimer?.Stop();
-            if (tubeVisual != null && viewport.Children.Contains(tubeVisual))
-                viewport.Children.Remove(tubeVisual);
-            tubePoints.Clear();
+            _animationTimer?.Stop();
+            if (_tubeVisual != null && _viewport.Children.Contains(_tubeVisual))
+                _viewport.Children.Remove(_tubeVisual);
+            _tubePoints.Clear();
         }
     }
 
@@ -372,7 +375,7 @@ namespace StarkCNC.Views
             ViewModel = viewModel;
 
             InitializeComponent();
-            InitializeAnimation();
+            _animator = InitializeAnimation();
             BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
             BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
             BendingView.Children.Add(ViewModel.GetModels());
@@ -380,22 +383,24 @@ namespace StarkCNC.Views
             SetDefaultValue();
         }
 
-        private void InitializeAnimation()
+        private TubeBendingAnimator InitializeAnimation()
         {
             // Инициализируем аниматор с viewport
-            _animator = new TubeBendingAnimator(BendingView);
+            var animator = new TubeBendingAnimator(BendingView);
 
             // Подписываемся на события
-            _animator.AnimationPhaseChanged += (sender, phase) =>
+            animator.AnimationPhaseChanged += (sender, phase) =>
             {
                 // StatusTextBlock.Text = phase;
             };
 
-            _animator.AnimationCompleted += (sender, e) =>
+            animator.AnimationCompleted += (sender, e) =>
             {
                 //StatusTextBlock.Text = "Анимация завершена";
                 //StartButton.IsEnabled = true;
             };
+
+            return animator;
         }
         private void SetDefaultValue()
         {

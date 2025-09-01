@@ -1,4 +1,6 @@
-﻿namespace StarkCNC.Helpers
+﻿using System.Globalization;
+
+namespace StarkCNC.Helpers
 {
     internal static class Utility
     {
@@ -15,9 +17,13 @@
             var appContextBackdropData = AppContext.GetData("Switch.System.Windows.Appearance.DisableFluentThemeWindowBackdrop");
             bool disableFluentThemeWindowBackdrop = false;
 
-            if (appContextBackdropData != null)
+            if (appContextBackdropData is not null)
             {
-                disableFluentThemeWindowBackdrop = bool.Parse(Convert.ToString(appContextBackdropData));
+                var appContextBackdropDataString = Convert.ToString(appContextBackdropData, CultureInfo.CurrentCulture);
+                if (appContextBackdropDataString is null)
+                    disableFluentThemeWindowBackdrop = false;
+                else
+                    disableFluentThemeWindowBackdrop = bool.Parse(appContextBackdropDataString);
             }
 
             return disableFluentThemeWindowBackdrop;

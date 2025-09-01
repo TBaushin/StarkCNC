@@ -57,13 +57,13 @@ namespace StarkCNC.Models
             {
                 while (true)
                 {
-                    await GetSpeed();
-                    await GetCoordinate();
-                    await GetRelativeDisplacement();
-                    await GetTorque();
-                    await GetRearPosition();
-                    await GetFrontPosition();
-                    await Task.Delay(150);
+                    await GetSpeed().ConfigureAwait(false);
+                    await GetCoordinate().ConfigureAwait(false);
+                    await GetRelativeDisplacement().ConfigureAwait(false);
+                    await GetTorque().ConfigureAwait(false);
+                    await GetRearPosition().ConfigureAwait(false);
+                    await GetFrontPosition().ConfigureAwait(false);
+                    await Task.Delay(150).ConfigureAwait(false);
                 }
             });
 
@@ -71,22 +71,40 @@ namespace StarkCNC.Models
         }
 
         [RelayCommand]
-        private async Task ForwardStart() => await _manualConfigurationService.WriteAsync<bool>(true, ForwardRequestString);
+        private async Task ForwardStart() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(true, ForwardRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task ForwardCancel() => await _manualConfigurationService.WriteAsync<bool>(false, ForwardRequestString);
+        private async Task ForwardCancel() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(false, ForwardRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task BackwardStart() => await _manualConfigurationService.WriteAsync<bool>(true, BackwardRequestString);
+        private async Task BackwardStart() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(true, BackwardRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task BackwardCancel() => await _manualConfigurationService.WriteAsync<bool>(false, BackwardRequestString);
+        private async Task BackwardCancel() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(false, BackwardRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task RelativeDisposition() => await _manualConfigurationService.WriteAsync<bool>(true, RelativeDispositionRequestString);
+        private async Task RelativeDisposition() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(true, RelativeDispositionRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task RelativeDispositionCancel() => await _manualConfigurationService.WriteAsync<bool>(false, RelativeDispositionRequestString);
+        private async Task RelativeDispositionCancel() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(false, RelativeDispositionRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
         private async Task Reset()
@@ -102,7 +120,10 @@ namespace StarkCNC.Models
         {
             try
             {
-                var value = await _manualConfigurationService.ReadAsync<float>(SpeedRequestString);
+                var value = await _manualConfigurationService
+                    .ReadAsync<float>(SpeedRequestString)
+                    .ConfigureAwait(false);
+
                 double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
                 Speed = result;
             }
@@ -117,7 +138,9 @@ namespace StarkCNC.Models
         {
             try
             {
-                Coordinate = await _manualConfigurationService.ReadAsync<double>(ActualCoordinateRequestString);
+                Coordinate = await _manualConfigurationService
+                    .ReadAsync<double>(ActualCoordinateRequestString)
+                    .ConfigureAwait(false);
             }
             catch (Opc.Ua.ServiceResultException)
             {
@@ -130,7 +153,10 @@ namespace StarkCNC.Models
         {
             try
             {
-                var value = await _manualConfigurationService.ReadAsync<float>(ActualRelativeDisplacementRequestString);
+                var value = await _manualConfigurationService
+                    .ReadAsync<float>(ActualRelativeDisplacementRequestString)
+                    .ConfigureAwait(false);
+
                 double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
                 RelativeDisplacement = result;
             }
@@ -145,7 +171,10 @@ namespace StarkCNC.Models
         {
             try
             {
-                var value = await _manualConfigurationService.ReadAsync<float>(TorqueRequestString);
+                var value = await _manualConfigurationService
+                    .ReadAsync<float>(TorqueRequestString)
+                    .ConfigureAwait(false);
+
                 double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
                 Torque = result;
             }
@@ -160,7 +189,10 @@ namespace StarkCNC.Models
         {
             try
             {
-                var result = await _manualConfigurationService.ReadAsync<bool>(RearPositionRequestString);
+                var result = await _manualConfigurationService
+                    .ReadAsync<bool>(RearPositionRequestString)
+                    .ConfigureAwait(false);
+
                 if (result)
                     RearPosition = Colors.Green;
                 else
@@ -177,7 +209,10 @@ namespace StarkCNC.Models
         {
             try
             {
-                var result = await _manualConfigurationService.ReadAsync<bool>(FrontPositionRequestString);
+                var result = await _manualConfigurationService
+                    .ReadAsync<bool>(FrontPositionRequestString)
+                    .ConfigureAwait(false);
+
                 if (result)
                     FrontPosition = Colors.Green;
                 else
@@ -197,7 +232,9 @@ namespace StarkCNC.Models
                 if (Speed is not null)
                     value = (double)Speed;
 
-                await _manualConfigurationService.WriteAsync<float>(Convert.ToSingle(value), SpeedRequestString);
+                await _manualConfigurationService
+                    .WriteAsync<float>(Convert.ToSingle(value), SpeedRequestString)
+                    .ConfigureAwait(false);
             }
         }
 

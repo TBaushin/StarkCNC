@@ -10,9 +10,9 @@ namespace StarkCNC.Controls
     /// </summary>
     public partial class PersonPicture : UserControl
     {
-        private TextBlock _initialsTextBlock;
-        private Ellipse _pictureEllipse;
-        private Ellipse _statusEllipse;
+        private TextBlock? _initialsTextBlock;
+        private Ellipse? _pictureEllipse;
+        private Ellipse? _statusEllipse;
 
         public static readonly DependencyProperty StatusTextProperty = DependencyProperty.Register("StatusText", typeof(string), typeof(PersonPicture), new PropertyMetadata(default(string)));
         public static readonly DependencyProperty StrokeThicknessProperty = DependencyProperty.Register("StrokeThickness", typeof(double), typeof(PersonPicture), new PropertyMetadata(default(double)));
@@ -64,10 +64,20 @@ namespace StarkCNC.Controls
         {
             base.OnApplyTemplate();
 
-            _initialsTextBlock = GetTemplateChild("InitialsTextBlock") as TextBlock;
-            _initialsTextBlock.Background = Brushes.BlueViolet;
-            _pictureEllipse = GetTemplateChild("PictureEllipse") as Ellipse;
-            _statusEllipse = GetTemplateChild("StatusEllipse") as Ellipse;
+            var tb = GetTemplateChild("InitialsTextBlock") as TextBlock;
+            if (tb is not null)
+            {
+                _initialsTextBlock = tb;
+                _initialsTextBlock.Background = Brushes.BlueViolet;
+            }
+
+            var picture = GetTemplateChild("PictureEllipse") as Ellipse;
+            if (picture is not null)
+                _pictureEllipse = picture;
+
+            var status = GetTemplateChild("StatusEllipse") as Ellipse;
+            if (status is not null)
+                _statusEllipse = status;
 
             UpdateDisplay();
         }
@@ -80,19 +90,22 @@ namespace StarkCNC.Controls
 
         private void UpdateDisplay()
         {
-            if (PictureSource is not null)
+            if (_initialsTextBlock is not null && _pictureEllipse is not null)
             {
-                _initialsTextBlock.Visibility = Visibility.Collapsed;
-                _pictureEllipse.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                _initialsTextBlock.Visibility = Visibility.Visible;
-                _pictureEllipse.Visibility = Visibility.Collapsed;
+                if (PictureSource is not null)
+                {
+                    _initialsTextBlock.Visibility = Visibility.Collapsed;
+                    _pictureEllipse.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    _initialsTextBlock.Visibility = Visibility.Visible;
+                    _pictureEllipse.Visibility = Visibility.Collapsed;
 
-                var names = DisplayName.Split(' ');
-                var initials = string.Join("", names.Select(name => name[0]));
-                _initialsTextBlock.Text = initials;
+                    var names = DisplayName.Split(' ');
+                    var initials = string.Join("", names.Select(name => name[0]));
+                    _initialsTextBlock.Text = initials;
+                }
             }
         }
     }

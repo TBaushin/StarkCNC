@@ -39,12 +39,6 @@ namespace StarkCNC.Controls
             set => SetValue(IndicatorColorProperty, value);
         }
 
-        public event RoutedEventHandler Click;
-
-        public new event MouseButtonEventHandler MouseUp;
-
-        public new event MouseButtonEventHandler MouseDown;
-
         public ButtonWithIndicator()
         {
             InitializeComponent();

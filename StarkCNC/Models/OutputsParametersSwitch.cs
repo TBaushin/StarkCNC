@@ -15,7 +15,7 @@ namespace StarkCNC.Models
         [ObservableProperty]
         private Color _statusColor;
 
-        private Task _updateTask;
+        private Task? _updateTask;
         private CancellationTokenSource? _cancellationTokenSource;
 
         public OutputsParametersSwitch(IManualConfigurationService manualConfigurationService, bool autoRunUpdate = false)
@@ -44,8 +44,8 @@ namespace StarkCNC.Models
                 {
                     while (!token.IsCancellationRequested)
                     {
-                        await GetStatus();
-                        await Task.Delay(150, token);
+                        await GetStatus().ConfigureAwait(false);
+                        await Task.Delay(150, token).ConfigureAwait(false);
                     }
                 }
                 catch (TaskCanceledException)
@@ -61,21 +61,30 @@ namespace StarkCNC.Models
 
         public void StopUpdateTask()
         {
-            if (_updateTask == null)
+            if (_updateTask is null)
                 return;
 
             _cancellationTokenSource?.Cancel();
         }
 
         [RelayCommand]
-        private async Task Run() => await _manualConfigurationService.WriteAsync<bool>(true, RequestString);
+        private async Task Run() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(true, RequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task Cancel() => await _manualConfigurationService.WriteAsync<bool>(false, RequestString);
+        private async Task Cancel() =>
+            await _manualConfigurationService
+                .WriteAsync<bool>(false, RequestString)
+                .ConfigureAwait(false);
 
         private async Task GetStatus()
         {
-            var value = await _manualConfigurationService.ReadAsync<bool>(RequestString);
+            var value = await _manualConfigurationService
+                .ReadAsync<bool>(RequestString)
+                .ConfigureAwait(false);
+
             if (value)
                 StatusColor = Colors.Green;
             else

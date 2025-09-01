@@ -4,20 +4,23 @@ namespace StarkCNC.Services
 {
     public class NavigationService : INavigationService
     {
-        private Frame _frame;
+        private Frame? _frame;
 
         private readonly Stack<object> _history = new Stack<object>();
 
         private readonly Stack<object> _future = new Stack<object>();
 
-        private object _currentContent = null;
+        private object? _currentContent;
 
-        public object CurrentContent 
+        public object? CurrentContent 
         { 
             get => _currentContent; 
-            set {
+            set
+            {
                 _currentContent = value;
-                RaiseNavigationEvent(value);
+
+                if (value is Page page)
+                    Navigation?.Invoke(this, new NavigationEventArgs(page.Title));
             } 
         }
 
@@ -25,10 +28,13 @@ namespace StarkCNC.Services
         {
             get
             {
-                if (_history.Count <= 0) return false;
+                if (_history.Count <= 0)
+                    return false;
+
                 var content = _history.Peek();
                 if (content is null)
                     return false;
+
                 return true;
             }
         }
@@ -37,10 +43,13 @@ namespace StarkCNC.Services
         {
             get
             {
-                if (_future.Count <= 0) return false;
+                if (_future.Count <= 0)
+                    return false;
+
                 var content = _future.Peek();
                 if (content is null)
                     return false;
+
                 return true;
             }
         }
@@ -51,29 +60,35 @@ namespace StarkCNC.Services
         {
             if (!CanGoBack)
                 return;
+
             if (_currentContent is not null)
                 _future.Push(_currentContent);
             CurrentContent = _history.Pop();
-            _frame.Navigate(_currentContent);
+
+            NavigateToContent(CurrentContent);
         }
 
         public void GoForward()
         {
             if (!CanGoForward)
                 return;
+
             if (_currentContent is not null)
                 _history.Push(_currentContent);
             CurrentContent = _future.Pop();
-            _frame.Navigate(_currentContent);
+
+            NavigateToContent(CurrentContent);
         }
 
         public void Navigate(object content)
         {
             _future.Clear();
+
             if (_currentContent is not null)
                 _history.Push(_currentContent);
             CurrentContent = content;
-            _frame.Navigate(_currentContent);
+
+            NavigateToContent(content);
         }
 
         public void SetFrame(Frame frame)
@@ -81,12 +96,9 @@ namespace StarkCNC.Services
             _frame = frame;
         }
 
-        public void RaiseNavigationEvent(object content)
+        private void NavigateToContent(object content)
         {
-            if (content is Page page)
-            {
-                Navigation?.Invoke(this, new NavigationEventArgs(page.Title));
-            }
+            _frame?.Navigate(content);
         }
     }
 }

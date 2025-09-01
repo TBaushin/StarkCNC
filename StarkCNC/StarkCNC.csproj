@@ -8,6 +8,13 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup>
+	<AnalysisMode>all</AnalysisMode>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+	<AnalysisLevel>6.0-all</AnalysisLevel>
+  </PropertyGroup>
+
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
   </PropertyGroup>
