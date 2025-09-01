@@ -14,10 +14,9 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="37"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <StackPanel
             Grid.Row="0"
@@ -44,14 +43,16 @@
                     Text="&#xE90F;"/>
             </Button>
         </StackPanel>
-        <controls:FloorControl
-            Grid.Row="1"
-            FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
-        <controls:FloorControl
+        <Separator Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,5,0,5"/>
+        <StackPanel
             Grid.Row="2"
-            FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
-        <controls:FloorControl
-            Grid.Row="3"
-            FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
+            Orientation="Vertical">
+            <controls:FloorControl
+                FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
+            <controls:FloorControl
+                FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
+            <controls:FloorControl
+                FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
+        </StackPanel>
     </Grid>
 </Page>
