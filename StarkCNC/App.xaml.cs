@@ -1,11 +1,13 @@
 ﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StarkCNC.Controls;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
+using StarkCNC.DataSaver;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
@@ -53,6 +55,11 @@ namespace StarkCNC
                     services.AddSingleton<IManualConfigurationService, ManualConfigurationService>();
 #endif
                     services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
+
+                    services.AddDbContext<AppDbContext>(opt =>
+                        opt.UseSqlite(Configuration.GetConnectionString("SQLite")),
+                        ServiceLifetime.Singleton
+                    );
                 })
                 .Build();
             host.Start();
