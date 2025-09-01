@@ -6,7 +6,10 @@
              xmlns:local="clr-namespace:StarkCNC.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border x:Name="SwitchBorder">
+    <Border
+        x:Name="SwitchBorder"
+        MouseEnter="SwitchBorder_MouseEnter"
+        MouseLeave="SwitchBorder_MouseLeave">
         <Ellipse x:Name="SwitchEllipse"/>
     </Border>
 </UserControl>

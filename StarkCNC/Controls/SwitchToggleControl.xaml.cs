@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StarkCNC.Controls
@@ -80,6 +81,16 @@ namespace StarkCNC.Controls
             SwitchEllipse.HorizontalAlignment = HorizontalAlignment.Left;
             SwitchEllipse.Margin = new Thickness(3);
             SwitchEllipse.Width = 14;
+        }
+
+        private void SwitchBorder_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Cursor = Cursors.Hand;
+        }
+
+        private void SwitchBorder_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            Cursor = Cursors.Arrow;
         }
     }
 }
