@@ -3,10 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:StarkCNC.ViewModels"
         xmlns:controls="clr-namespace:StarkCNC.Controls"
         xmlns:lang="clr-namespace:StarkCNC.Localization"
         xmlns:local="clr-namespace:StarkCNC"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance vm:AdjustmentViewModel}"
         Title="AdjustmentSettingsWindow"
         Height="450" Width="500"
         ResizeMode="NoResize"
@@ -23,10 +25,12 @@
                 Style="{DynamicResource TitleTextBlockStyle}"/>
             <controls:LabeledTextBoxControl
                 Margin="0,0,0,16"
-                LabelText="{x:Static lang:Language.Name}"/>
+                LabelText="{x:Static lang:Language.Name}"
+                TextBoxText="{Binding SelectedAdjustment.Name}"/>
             <controls:LabeledTextBoxControl
                 Margin="0,0,0,16"
-                LabelText="{x:Static lang:Language.PipeDiameter}"/>
+                LabelText="{x:Static lang:Language.PipeDiameter}"
+                TextBoxText="{Binding SelectedAdjustment.PipeDiameter}"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -35,7 +39,10 @@
                 <Label
                     Grid.Row="0"
                     Content="Тип оснастки"/>
-                <ComboBox Grid.Row="1"/>
+                <ComboBox
+                    Grid.Row="1"
+                    ItemsSource="{Binding AdjustmentsString}"
+                    SelectedItem="{Binding SelectedAdjustment.Type}"/>
             </Grid>
         </StackPanel>
         <Grid
