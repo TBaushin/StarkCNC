@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Services;
 using System.Windows.Media;
 
 namespace StarkCNC.Models
@@ -144,14 +145,17 @@ namespace StarkCNC.Models
 
         public static OutputsParametersTwoButtons InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate)
         {
-            var section = configurationSection.GetSection(sectionName);
+            IConfigurationSection? section = null;
+
+            if (configurationSection is not null)
+                section = configurationSection.GetSection(sectionName);
 
             return new OutputsParametersTwoButtons(manualConfigurationService, autoRunUpdate)
             {
-                ForwardRequestString = section.GetValue<string>(nameof(ForwardRequestString)) ?? string.Empty,
-                BackwardRequestString = section.GetValue<string>(nameof(BackwardRequestString)) ?? string.Empty,
-                RearPositionRequestString = section.GetValue<string>(nameof(RearPositionRequestString)) ?? string.Empty,
-                FrontPositionRequestString = section.GetValue<string>(nameof(FrontPositionRequestString)) ?? string.Empty
+                ForwardRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(ForwardRequestString)),
+                BackwardRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(BackwardRequestString)),
+                RearPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RearPositionRequestString)),
+                FrontPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(FrontPositionRequestString))
             };
         }
     }

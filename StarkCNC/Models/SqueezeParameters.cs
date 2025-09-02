@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Services;
 using System.Windows.Media;
 
 namespace StarkCNC.Models
@@ -168,16 +169,19 @@ namespace StarkCNC.Models
 
         public static SqueezeParameters InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate)
         {
-            var section = configurationSection.GetSection(sectionName);
+            IConfigurationSection? section = null;
+
+            if (configurationSection is not null)
+                configurationSection.GetSection(sectionName);
 
             return new SqueezeParameters(manualConfigurationService, autoRunUpdate)
             {
-                ForwardRequestString = section.GetValue<string>(nameof(ForwardRequestString)) ?? string.Empty,
-                BackwardRequestString = section.GetValue<string>(nameof(BackwardRequestString)) ?? string.Empty,
-                RearPositionRequestString = section.GetValue<string>(nameof(RearPositionRequestString)) ?? string.Empty,
-                RearSecondPositionRequestString = section.GetValue<string>(nameof(RearSecondPositionRequestString)) ?? string.Empty,
-                FrontPositionRequestString = section.GetValue<string>(nameof(FrontPositionRequestString)) ?? string.Empty,
-                FrontSecondPositionRequestString = section.GetValue<string>(nameof(FrontSecondPositionRequestString)) ?? string.Empty
+                ForwardRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(ForwardRequestString)),
+                BackwardRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(BackwardRequestString)),
+                RearPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RearPositionRequestString)),
+                RearSecondPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RearSecondPositionRequestString)),
+                FrontPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(FrontPositionRequestString)),
+                FrontSecondPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(FrontSecondPositionRequestString))
             };
         }
     }

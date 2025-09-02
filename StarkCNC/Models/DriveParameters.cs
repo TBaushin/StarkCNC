@@ -2,8 +2,8 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Services;
 using System.Globalization;
-using System.Text.RegularExpressions;
 using System.Windows.Media;
 
 namespace StarkCNC.Models
@@ -50,25 +50,64 @@ namespace StarkCNC.Models
 
         public string RelativeDispositionRequestString { get; private set; } = string.Empty;
 
-        public DriveParameters(IManualConfigurationService manualConfigurationService)
+        private Task? _updateTask;
+        private CancellationTokenSource? _cancellationTokenSource;
+
+        public DriveParameters(IManualConfigurationService manualConfigurationService, bool autoRunUpdate)
         {
             _manualConfigurationService = manualConfigurationService;
 
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    await GetSpeed().ConfigureAwait(false);
-                    await GetCoordinate().ConfigureAwait(false);
-                    await GetRelativeDisplacement().ConfigureAwait(false);
-                    await GetTorque().ConfigureAwait(false);
-                    await GetRearPosition().ConfigureAwait(false);
-                    await GetFrontPosition().ConfigureAwait(false);
-                    await Task.Delay(150).ConfigureAwait(false);
-                }
-            });
+            if (autoRunUpdate)
+                StartUpdateTask();
 
             PropertyChanged += DriveParameters_PropertyChanged;
+        }
+
+        public void StartUpdateTask()
+        {
+            if (TaskIsRunning())
+                return;
+
+            _cancellationTokenSource?.Dispose();
+
+            _cancellationTokenSource = new CancellationTokenSource();
+            var token = _cancellationTokenSource.Token;
+
+            _updateTask = Task.Run(async () =>
+            {
+                try
+                {
+                    while (!token.IsCancellationRequested)
+                    {
+                        await GetSpeed().ConfigureAwait(false);
+                        await GetCoordinate().ConfigureAwait(false);
+                        await GetRelativeDisplacement().ConfigureAwait(false);
+                        await GetTorque().ConfigureAwait(false);
+                        await GetRearPosition().ConfigureAwait(false);
+                        await GetFrontPosition().ConfigureAwait(false);
+                        await Task.Delay(150).ConfigureAwait(false);
+                    }
+                }
+                catch (TaskCanceledException)
+                {
+                    // Нормально: задача отменена
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"UpdateTask error: {ex}");
+                }
+            }, token);
+        }
+
+        private bool TaskIsRunning() =>
+            _updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted;
+
+        public void StopUpdateTask()
+        {
+            if (_updateTask is null)
+                return;
+
+            _cancellationTokenSource?.Cancel();
         }
 
         [RelayCommand]
@@ -242,22 +281,25 @@ namespace StarkCNC.Models
             }
         }
 
-        public static DriveParameters InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName)
+        public static DriveParameters InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate)
         {
-            var section = configurationSection.GetSection(sectionName);
+            IConfigurationSection? section = null;
 
-            return new DriveParameters(manualConfigurationService)
+            if (configurationSection is not null)
+            section = configurationSection.GetSection(sectionName);
+
+            return new DriveParameters(manualConfigurationService, autoRunUpdate)
             {
-                ForwardRequestString = section.GetValue<string>(nameof(ForwardRequestString)) ?? string.Empty,
-                BackwardRequestString = section.GetValue<string>(nameof(BackwardRequestString)) ?? string.Empty,
-                ActualCoordinateRequestString = section.GetValue<string>(nameof(ActualCoordinateRequestString)) ?? string.Empty,
-                ActualRelativeDisplacementRequestString = section.GetValue<string>(nameof(ActualRelativeDisplacementRequestString)) ?? string.Empty,
-                ResetRequestString = section.GetValue<string>(nameof(ResetRequestString)) ?? string.Empty,
-                SpeedRequestString = section.GetValue<string>(nameof(SpeedRequestString)) ?? string.Empty,
-                TorqueRequestString = section.GetValue<string>(nameof(TorqueRequestString)) ?? string.Empty,
-                RearPositionRequestString = section.GetValue<string>(nameof(RearPositionRequestString)) ?? string.Empty,
-                FrontPositionRequestString = section.GetValue<string>(nameof(FrontPositionRequestString)) ?? string.Empty,
-                RelativeDispositionRequestString = section.GetValue<string>(nameof(RelativeDispositionRequestString)) ?? string.Empty
+                ForwardRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(ForwardRequestString)),
+                BackwardRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(BackwardRequestString)),
+                ActualCoordinateRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(ActualCoordinateRequestString)),
+                ActualRelativeDisplacementRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(ActualRelativeDisplacementRequestString)),
+                ResetRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(ResetRequestString)),
+                SpeedRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(SpeedRequestString)),
+                TorqueRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(TorqueRequestString)),
+                RearPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RearPositionRequestString)),
+                FrontPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(FrontPositionRequestString)),
+                RelativeDispositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RelativeDispositionRequestString))
             };
         }
     }

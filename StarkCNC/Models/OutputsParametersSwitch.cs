@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Services;
 using System.Windows.Media;
 
 namespace StarkCNC.Models
@@ -94,11 +95,14 @@ namespace StarkCNC.Models
 
         public static OutputsParametersSwitch InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate = false)
         {
-            var section = configurationSection.GetSection(sectionName);
+            IConfigurationSection? section = null;
+
+            if (configurationSection is not null)
+                section = configurationSection.GetSection(sectionName);
 
             return new OutputsParametersSwitch(manualConfigurationService)
             {
-                RequestString = section.GetValue<string>(nameof(RequestString)) ?? string.Empty
+                RequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RequestString))
             };
         }
     }
