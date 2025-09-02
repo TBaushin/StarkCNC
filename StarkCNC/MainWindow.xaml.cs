@@ -24,8 +24,6 @@ namespace StarkCNC
 
         public FlyoutMenuControl PageList { get; set; }
 
-        private bool _maximized;
-
         public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService, IServiceProvider serviceProvider)
         {
             _navigationService = navigationService;
@@ -94,6 +92,28 @@ namespace StarkCNC
 
             UpdateTitleBarButtonsVisibility();
 
+            SetWindowVisual();
+        }
+
+        private void UpdateTitleBarButtonsVisibility()
+        {
+            if (Utility.IsBackdropDisabled() || !Utility.IsBackdropSupported() ||
+                    SystemParameters.HighContrast == true)
+            {
+                MinimizeButton.Visibility = Visibility.Visible;
+                MaximizeButton.Visibility = Visibility.Visible;
+                CloseButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MinimizeButton.Visibility = Visibility.Collapsed;
+                MaximizeButton.Visibility = Visibility.Collapsed;
+                CloseButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void SetWindowVisual()
+        {
             if (SystemParameters.HighContrast == true)
             {
                 HighContrastBorder.SetResourceReference(BorderBrushProperty, IsActive ? SystemColors.ActiveCaptionBrushKey :
@@ -116,23 +136,6 @@ namespace StarkCNC
                 {
                     wc.NonClientFrameEdges = NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left;
                 }
-            }
-        }
-
-        private void UpdateTitleBarButtonsVisibility()
-        {
-            if (Utility.IsBackdropDisabled() || !Utility.IsBackdropSupported() ||
-                    SystemParameters.HighContrast == true)
-            {
-                MinimizeButton.Visibility = Visibility.Visible;
-                MaximizeButton.Visibility = Visibility.Visible;
-                CloseButton.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                MinimizeButton.Visibility = Visibility.Collapsed;
-                MaximizeButton.Visibility = Visibility.Collapsed;
-                CloseButton.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -159,13 +162,10 @@ namespace StarkCNC
             if (e.Key != System.Windows.Input.Key.F12 && e.Key != System.Windows.Input.Key.Escape)
                 return;
 
-            if (WindowState == WindowState.Maximized)
-                WindowState = WindowState.Normal;
-
-            if (e.Key == System.Windows.Input.Key.Escape && _maximized)
+            if (e.Key == System.Windows.Input.Key.Escape)
                 MinimizeWindow();
 
-            if (e.Key == System.Windows.Input.Key.F12 && !_maximized)
+            if (e.Key == System.Windows.Input.Key.F12 && WindowState != WindowState.Maximized)
                 MaximizeWindow();
             else
                 MinimizeWindow();
@@ -176,7 +176,6 @@ namespace StarkCNC
             WindowState = WindowState.Maximized;
             ResizeMode = ResizeMode.NoResize;
             Topmost = true;
-            _maximized = true;
             MaximizeIcon.Text = "\uE923";
         }
 
@@ -185,7 +184,6 @@ namespace StarkCNC
             WindowState = WindowState.Normal;
             ResizeMode = ResizeMode.CanResize;
             Topmost = false;
-            _maximized = false;
             MaximizeIcon.Text = "\uE922";
         }
 

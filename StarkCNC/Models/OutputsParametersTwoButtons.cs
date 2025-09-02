@@ -37,10 +37,8 @@ namespace StarkCNC.Models
 
         public void StartUpdateTask()
         {
-            if (_updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted)
-            {
+            if (TaskIsRunning())
                 return;
-            }
 
             _cancellationTokenSource?.Dispose();
 
@@ -68,6 +66,9 @@ namespace StarkCNC.Models
                 }
             }, token);
         }
+
+        private bool TaskIsRunning() =>
+            _updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted;
 
         public void StopUpdateTask()
         {
