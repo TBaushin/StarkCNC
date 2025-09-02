@@ -17,8 +17,9 @@ namespace StarkCNC.ViewModels
         private readonly IAdjustmentRepository _repository;
 
         public ObservableCollection<AdjustmentParameters> Adjustments { get; } = new ObservableCollection<AdjustmentParameters>();
+        public IEnumerable<StarkCNC.Core.Models.AdjustmentType> Types { get; }
 
-        public ICollection<string> AdjustmentsString { get; } = new List<string> { Localization.Language.Winding, Localization.Language.Rolling };
+        public ICollection<string> AdjustmentsString { get; } = new List<string>();
 
         [ObservableProperty]
         private AdjustmentParameters? _selectedAdjustment;
@@ -35,12 +36,14 @@ namespace StarkCNC.ViewModels
             {
                 Adjustments.Add(new AdjustmentParameters(item));
             }
+
+            Types = _repository.GetTypes();
         }
 
         [RelayCommand]
         private void CreateAdjustment()
         {
-            var item = new StarkCNC.Core.Models.AdjustmentParameters("");
+            var item = new StarkCNC.Core.Models.AdjustmentParameters("", _repository.GetTypes().First());
             _repository.AddElement(item);
 
             var adjustment = new AdjustmentParameters(item);
@@ -49,6 +52,14 @@ namespace StarkCNC.ViewModels
             SelectedAdjustment = adjustment;
             var settingsWindow = new AdjustmentSettingsWindow(this, "Добавление новой оснастки");
             settingsWindow.ShowDialog();
+
+            var result = settingsWindow.Result;
+            if (result is not null)
+            {
+                SelectedAdjustment.Name = result.Name;
+                SelectedAdjustment.PipeDiameter = result.PipeDiameter;
+                SelectedAdjustment.Type = result.Type;
+            }
             //_navigationService.Navigate(_adjustmentSettingsView);
         }
 
@@ -66,6 +77,14 @@ namespace StarkCNC.ViewModels
 
             var settingsWindow = new AdjustmentSettingsWindow(this, "Изменение оснастки");
             settingsWindow.ShowDialog();
+
+            var result = settingsWindow.Result;
+            if (result is not null)
+            {
+                SelectedAdjustment.Name = result.Name;
+                SelectedAdjustment.PipeDiameter = result.PipeDiameter;
+                SelectedAdjustment.Type = result.Type;
+            }
         }
 
         [RelayCommand]

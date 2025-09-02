@@ -6,11 +6,17 @@
 
         public double PipeDiameter { get; set; } = 50;
 
-        public string Type = string.Empty;
+        public AdjustmentType Type { get; set; }
 
-        public AdjustmentParameters(string name)
+        public AdjustmentParameters(string name, AdjustmentType type)
         {
             Name = name;
+            Type = type;
+        }
+
+        public AdjustmentParameters Copy()
+        {
+            return new AdjustmentParameters(Name, Type) { PipeDiameter = PipeDiameter };
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using StarkCNC.ViewModels;
+﻿using StarkCNC.Core.Models;
+using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Shell;
 
@@ -10,13 +11,30 @@ namespace StarkCNC
     public partial class AdjustmentSettingsWindow : Window
     {
         private AdjustmentViewModel ViewModel;
+        private AdjustmentParameters? _oldParamaters;
+
+        public AdjustmentParameters? Result { get; set; }
+        public IEnumerable<AdjustmentType>? Types { get; }
 
         public AdjustmentSettingsWindow(AdjustmentViewModel viewModel, string Title = "Добавление новой оснастки")
         {
             ViewModel = viewModel;
-            DataContext = viewModel;
 
-            InitializeComponent();
+            DataContext = this;
+
+            Types = ViewModel.Types;
+
+            _oldParamaters = ViewModel.SelectedAdjustment?.Cast().Copy();
+
+            if (_oldParamaters is not null)
+                Result = new AdjustmentParameters(_oldParamaters.Name, _oldParamaters.Type)
+                {
+                    PipeDiameter = _oldParamaters.PipeDiameter,
+                };
+            else
+                Result = new AdjustmentParameters("", Types.First());
+
+                InitializeComponent();
 
             WindowChrome.SetWindowChrome(this,
                 new WindowChrome
@@ -42,6 +60,11 @@ namespace StarkCNC
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            if (_oldParamaters is not null)
+                Result = _oldParamaters;
+            else
+                Result = null;
+
             Close();
         }
     }

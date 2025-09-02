@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using StarkCNC.Core.Models;
+using System.ComponentModel;
 
 namespace StarkCNC.Models
 {
@@ -26,7 +27,7 @@ namespace StarkCNC.Models
             }
         }
 
-        public string Type
+        public AdjustmentType Type
         {
             get => _adjustment.Type;
             set
@@ -41,9 +42,9 @@ namespace StarkCNC.Models
             _adjustment = adjustment;
         }
 
-        public AdjustmentParameters(string name)
+        public AdjustmentParameters(string name, AdjustmentType type)
         {
-            _adjustment = new StarkCNC.Core.Models.AdjustmentParameters(name);
+            _adjustment = new StarkCNC.Core.Models.AdjustmentParameters(name, type);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -4,7 +4,7 @@ namespace StarkCNC.Core.Repository
 {
     public interface IAdjustmentRepository
     {
-        AdjustmentParameters AddElement(string name);
+        AdjustmentParameters AddElement(string name, AdjustmentType type);
 
         AdjustmentParameters AddElement(AdjustmentParameters adjustment);
 
@@ -19,5 +19,8 @@ namespace StarkCNC.Core.Repository
         int Count();
 
         IEnumerable<AdjustmentParameters> GetAll();
+
+        IEnumerable<AdjustmentType> GetTypes();
+
     }
 }

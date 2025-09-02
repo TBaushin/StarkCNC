@@ -8,7 +8,6 @@
         xmlns:lang="clr-namespace:StarkCNC.Localization"
         xmlns:local="clr-namespace:StarkCNC"
         mc:Ignorable="d"
-        d:DataContext="{d:DesignInstance vm:AdjustmentViewModel}"
         Title="AdjustmentSettingsWindow"
         Height="450" Width="500"
         ResizeMode="NoResize"
@@ -26,11 +25,11 @@
             <controls:LabeledTextBoxControl
                 Margin="0,0,0,16"
                 LabelText="{x:Static lang:Language.Name}"
-                TextBoxText="{Binding SelectedAdjustment.Name}"/>
+                TextBoxText="{Binding Result.Name, Mode=TwoWay}"/>
             <controls:LabeledTextBoxControl
                 Margin="0,0,0,16"
                 LabelText="{x:Static lang:Language.PipeDiameter}"
-                TextBoxText="{Binding SelectedAdjustment.PipeDiameter}"/>
+                TextBoxText="{Binding Result.PipeDiameter, Mode=TwoWay}"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -41,8 +40,14 @@
                     Content="Тип оснастки"/>
                 <ComboBox
                     Grid.Row="1"
-                    ItemsSource="{Binding AdjustmentsString}"
-                    SelectedItem="{Binding SelectedAdjustment.Type}"/>
+                    ItemsSource="{Binding Types}"
+                    SelectedItem="{Binding Result.Type, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </Grid>
         </StackPanel>
         <Grid
