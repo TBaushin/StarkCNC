@@ -21,38 +21,36 @@ namespace StarkCNC.Views
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            var command = (sender as Button)?.Command;
-            var commandParameter = (sender as Button)?.CommandParameter;
-            if (command != null && command.CanExecute(commandParameter))
-            {
-                command.Execute(commandParameter);
-            }
+            ExecuteButtonCommand(sender);
 
             SaveButton.Focus();
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var command = (sender as Button)?.Command;
-            var commandParameter = (sender as Button)?.CommandParameter;
-            if (command != null && command.CanExecute(commandParameter))
-            {
-                command.Execute(commandParameter);
-            }
+            ExecuteButtonCommand(sender);
 
             EditButton.Focus();
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            var command = (sender as Button)?.Command;
-            var commandParameter = (sender as Button)?.CommandParameter;
-            if (command != null && command.CanExecute(commandParameter))
-            {
-                command.Execute(commandParameter);
-            }
+            ExecuteButtonCommand(sender);
 
             EditButton.Focus();
+        }
+
+        private static void ExecuteButtonCommand(object sender)
+        {
+            var button = sender as Button;
+            if (button is null)
+                return;
+
+            var command = button.Command;
+            var commandParameter = button.CommandParameter;
+
+            if (command is not null && command.CanExecute(commandParameter))
+                command.Execute(commandParameter);
         }
     }
 }
