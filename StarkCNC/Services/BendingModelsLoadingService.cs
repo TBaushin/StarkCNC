@@ -12,7 +12,7 @@ namespace StarkCNC.Services
     {
         public ModelVisual3D Pipe { get; private set; } = new ModelVisual3D();
 
-        public ModelVisual3D ModelVisual3D { get; private set; } = new ModelVisual3D();
+        public ModelVisual3D Model { get; private set; } = new ModelVisual3D();
 
         public Model3DGroup ModelsGroup { get; private set; }
 
@@ -53,7 +53,7 @@ namespace StarkCNC.Services
                 model.BackMaterial = materialGroup;
                 ModelsGroup.Children.Add(model);
             }
-            ModelVisual3D.Content = ModelsGroup;
+            Model.Content = ModelsGroup;
         }
 
         public void Load(string path, ModelType type)
@@ -115,8 +115,8 @@ namespace StarkCNC.Services
 
         public ModelVisual3D GetModelVisual3D()
         {
-            ModelVisual3D.Content = ModelsGroup;
-            return ModelVisual3D;
+            Model.Content = ModelsGroup;
+            return Model;
         }
 
         public Dictionary<string, double> GetDefault()
@@ -206,7 +206,7 @@ namespace StarkCNC.Services
             }
         }
 
-        private void SetMaterial(MaterialGroup materialGroup)
+        private static void SetMaterial(MaterialGroup materialGroup)
         { 
             Color mainColor = Colors.White;
             Color secondColor = Colors.Gray;

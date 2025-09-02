@@ -342,7 +342,7 @@ namespace StarkCNC.Views
                 0, 0, 0, 1); // TODO: Откуда эти формулы? Где их можно посмотреть, почитать о них?
         }
 
-        public static List<BendingSegment> CreateSampleProgram()
+        public static ICollection<BendingSegment> CreateSampleProgram()
         {
             return new List<BendingSegment>
             {

@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.MachineCommunication.Services;
 using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows.Media;
 
 namespace StarkCNC.Models
@@ -124,7 +125,8 @@ namespace StarkCNC.Models
                     .ReadAsync<float>(SpeedRequestString)
                     .ConfigureAwait(false);
 
-                double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
+                var culture = CultureInfo.CurrentCulture;
+                double.TryParse(value.ToString(culture), culture, out var result);
                 Speed = result;
             }
             catch (Opc.Ua.ServiceResultException)
@@ -157,7 +159,8 @@ namespace StarkCNC.Models
                     .ReadAsync<float>(ActualRelativeDisplacementRequestString)
                     .ConfigureAwait(false);
 
-                double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
+                var culture = CultureInfo.CurrentCulture;
+                double.TryParse(value.ToString(culture), culture, out var result);
                 RelativeDisplacement = result;
             }
             catch (Opc.Ua.ServiceResultException)
@@ -175,7 +178,8 @@ namespace StarkCNC.Models
                     .ReadAsync<float>(TorqueRequestString)
                     .ConfigureAwait(false);
 
-                double.TryParse(value.ToString(), CultureInfo.CurrentCulture, out var result);
+                var culture = CultureInfo.CurrentCulture;
+                double.TryParse(value.ToString(culture), culture, out var result);
                 Torque = result;
             }
             catch (Opc.Ua.ServiceResultException)

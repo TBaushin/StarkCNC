@@ -4,6 +4,7 @@ using LiveChartsCore.SkiaSharpView.Extensions;
 using LiveChartsCore.SkiaSharpView.Painting;
 using LiveChartsCore.SkiaSharpView.VisualElements;
 using SkiaSharp;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -112,7 +113,7 @@ namespace StarkCNC.Controls
             };
 
             Gauge.VisualElements = [new AngularTicksVisual {
-                Labeler = value => value.ToString("N1"),
+                Labeler = value => value.ToString("N1", CultureInfo.InvariantCulture),
                 LabelsSize = 12,
                 LabelsOuterOffset = -15,
                 OuterOffset = 15,
@@ -129,7 +130,7 @@ namespace StarkCNC.Controls
             }
         }
 
-        private void SetStyle(double sectionsOuter, double sectionWidth, SolidColorPaint color, PieSeries<ObservableValue> series)
+        private static void SetStyle(double sectionsOuter, double sectionWidth, SolidColorPaint color, PieSeries<ObservableValue> series)
         {
             series.OuterRadiusOffset = sectionsOuter;
             series.MaxRadialColumnWidth = sectionWidth;

@@ -43,7 +43,7 @@ namespace StarkCNC.ViewModels
         [RelayCommand]
         private async Task CreateNewFile()
         {
-            if(!await SaveFile())
+            if(!await SaveFile().ConfigureAwait(false))
                 return;
 
             var dialog = new SaveFileDialog();
@@ -77,7 +77,7 @@ namespace StarkCNC.ViewModels
 
             BendingDatas.Clear();
 
-            var data = await _gCodeService.ReadAsync(CurrentFilePath);
+            var data = await _gCodeService.ReadAsync(CurrentFilePath).ConfigureAwait(false);
             foreach (var item in data)
                 BendingDatas.Add(item);
 
@@ -101,7 +101,7 @@ namespace StarkCNC.ViewModels
                     return false;
             }
 
-            await _gCodeService.SaveAsync(CurrentFilePath, BendingDatas);
+            await _gCodeService.SaveAsync(CurrentFilePath, BendingDatas).ConfigureAwait(false);
             return true;
         }
 

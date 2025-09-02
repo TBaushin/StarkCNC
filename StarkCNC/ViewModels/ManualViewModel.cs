@@ -98,14 +98,20 @@ namespace StarkCNC.ViewModels
         private async void Connect()
         {
             if (!_configurationService.Connected)
-                await _configurationService.ConnectAsync();
+                await _configurationService.ConnectAsync().ConfigureAwait(false);
         }
 
         [RelayCommand]
-        private async Task ManualModeTurnOn() => await _configurationService.WriteAsync<bool>(true, ManualModeRequestString);
+        private async Task ManualModeTurnOn() =>
+            await _configurationService
+                .WriteAsync<bool>(true, ManualModeRequestString)
+                .ConfigureAwait(false);
 
         [RelayCommand]
-        private async Task ManualModeTurnOff() => await _configurationService.WriteAsync<bool>(false, ManualModeRequestString);
+        private async Task ManualModeTurnOff() =>
+            await _configurationService
+                .WriteAsync<bool>(false, ManualModeRequestString)
+                .ConfigureAwait(false);
 
         private void DefineFirstHydraulicsStatus()
         {

@@ -1,5 +1,6 @@
 ﻿using StarkCNC.Helpers;
 using StarkCNC.ViewModels;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -56,7 +57,7 @@ namespace StarkCNC.Controls
             if (NeedCallNumberInput)
             {
                 var value = NumberInputViewModel.ShowDialog();
-                TextBoxText = value.ToString();
+                TextBoxText = value.ToString(CultureInfo.CurrentCulture);
             }
         }
 
