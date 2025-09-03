@@ -75,7 +75,19 @@
                     FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
             <Expander Margin="8,4,7,4">
-                <ListView>
+                <Expander.Header>
+                    <StackPanel
+                        Margin="0,19.5,0,19.5"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="4,0,4,0"
+                            FontSize="20"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE8FD;"/>
+                        <TextBlock Text="Отображение доступных оснасток"/>
+                    </StackPanel>
+                </Expander.Header>
+                <ListView ItemsSource="{Binding Adjustments}">
                     <ListViewItem>
                         <ListViewItem.Template>
                             <ControlTemplate>
@@ -88,10 +100,16 @@
                                         <RowDefinition/>
                                         <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Label
+                                    <StackPanel
                                         Grid.Column="0"
                                         Grid.Row="0"
-                                        Grid.ColumnSpan="2"/>
+                                        Grid.ColumnSpan="2"
+                                        Orientation="Horizontal">
+                                        <Label Content="{Binding Name}"/>
+                                        <Label Content="{Binding Type.Name}"/>
+                                        <Label Content="R"/>
+                                        <Label Content="{Binding PipeDiameter}"/>
+                                    </StackPanel>
                                     <StackPanel
                                         Grid.Column="0"
                                         Grid.Row="1"
