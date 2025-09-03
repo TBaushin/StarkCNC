@@ -32,7 +32,16 @@
     <None Remove="3d_models\rolik.stl" />
     <None Remove="3d_models\Zagim.stl" />
     <None Remove="appsettings.json" />
+    <None Remove="Resources\Icons\bending-roller-2.svg" />
     <None Remove="Resources\Icons\bending-roller.svg" />
+    <None Remove="Resources\Icons\clamp-length-2.svg" />
+    <None Remove="Resources\Icons\clamp-length.svg" />
+    <None Remove="Resources\Icons\clamp-roller-inner-diameter.svg" />
+    <None Remove="Resources\Icons\clamp-roller-outer-diameter.svg" />
+    <None Remove="Resources\Icons\distance-from-clamp-roller-center-to-bend-axis-center.svg" />
+    <None Remove="Resources\Icons\press-length-2.svg" />
+    <None Remove="Resources\Icons\press-length.svg" />
+    <None Remove="Resources\Icons\press-support.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +67,33 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\bending-roller-2.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\clamp-length-2.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\clamp-length.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\clamp-roller-inner-diameter.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\clamp-roller-outer-diameter.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\distance-from-clamp-roller-center-to-bend-axis-center.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\press-length-2.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\press-length.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\press-support.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
