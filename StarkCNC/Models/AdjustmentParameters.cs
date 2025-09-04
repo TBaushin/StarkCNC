@@ -37,6 +37,16 @@ namespace StarkCNC.Models
             }
         }
 
+        public int? InstalledLevel
+        {
+            get => _adjustment.InstalledLevel;
+            set
+            {
+                _adjustment.InstalledLevel = value;
+                OnPropertyChanged(nameof(InstalledLevel));
+            }
+        }
+
         public AdjustmentParameters(StarkCNC.Core.Models.AdjustmentParameters adjustment)
         {
             _adjustment = adjustment;
@@ -49,11 +59,11 @@ namespace StarkCNC.Models
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void OnPropertyChanged(string propertyName)
+        public StarkCNC.Core.Models.AdjustmentParameters Cast() => _adjustment;
+
+        private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public StarkCNC.Core.Models.AdjustmentParameters Cast() => _adjustment;
     }
 }
