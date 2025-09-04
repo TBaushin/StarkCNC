@@ -131,6 +131,11 @@ namespace StarkCNC.Views
             }
         }
 
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void SetLevelToAdjustment(int level)
         {
             if (ViewModel.SelectedAdjustment is null)
