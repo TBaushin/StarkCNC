@@ -95,17 +95,25 @@ namespace StarkCNC.Views
 
         private void ThirdLevel_Click(object sender, RoutedEventArgs e)
         {
-
+            SetLevelToAdjustment(3);
         }
 
         private void SecondLevel_Click(object sender, RoutedEventArgs e)
         {
-
+            SetLevelToAdjustment(2);
         }
 
         private void FirstLevel_Click(object sender, RoutedEventArgs e)
         {
+            SetLevelToAdjustment(1);
+        }
 
+        private void SetLevelToAdjustment(int level)
+        {
+            if (ViewModel.SelectedAdjustment is null)
+                return;
+
+            ViewModel.SelectedAdjustment.InstalledLevel = level;
         }
     }
 }
