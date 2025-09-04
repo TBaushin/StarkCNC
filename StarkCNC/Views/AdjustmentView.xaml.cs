@@ -12,6 +12,7 @@ namespace StarkCNC.Views
     public partial class AdjustmentView : Page
     {
         private AdjustmentViewModel ViewModel;
+        private int _levelMustBeSetted;
 
         public AdjustmentView(AdjustmentViewModel viewModel)
         {
@@ -95,20 +96,41 @@ namespace StarkCNC.Views
 
         private void ThirdLevel_Click(object sender, RoutedEventArgs e)
         {
-            SetLevelToAdjustment(3);
+            _levelMustBeSetted = 3;
         }
 
         private void SecondLevel_Click(object sender, RoutedEventArgs e)
         {
-            SetLevelToAdjustment(2);
+            _levelMustBeSetted = 2;
         }
 
         private void FirstLevel_Click(object sender, RoutedEventArgs e)
         {
-            SetLevelToAdjustment(1);
+            _levelMustBeSetted = 1;
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            CollapseButtonsAndClearSelectedItem(sender);
+            _levelMustBeSetted = default;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            SetLevelToAdjustment(_levelMustBeSetted);
+            CollapseButtonsAndClearSelectedItem(sender);
+            _levelMustBeSetted = default;
+        }
+
+        private void SetLevelToAdjustment(int level)
+        {
+            if (ViewModel.SelectedAdjustment is null)
+                return;
+
+            ViewModel.SelectedAdjustment.InstalledLevel = level;
+        }
+
+        private void CollapseButtonsAndClearSelectedItem(object sender)
         {
             var button = sender as Button;
             if (button is null)
@@ -123,25 +145,10 @@ namespace StarkCNC.Views
                 if (child is not StackPanel panel)
                     continue;
 
-                // При нажатии на Cancel, мы в отличие от эвента SetUpButton_Click как раз делаем видимым InstallSelection, и невидимым LevelSelection
-                if (!panel.Name.Contains("LevelSelection", StringComparison.OrdinalIgnoreCase))
-                    panel.Visibility = Visibility.Visible;
-                else
-                    panel.Visibility = Visibility.Collapsed;
+                panel.Visibility = Visibility.Collapsed;
             }
-        }
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void SetLevelToAdjustment(int level)
-        {
-            if (ViewModel.SelectedAdjustment is null)
-                return;
-
-            ViewModel.SelectedAdjustment.InstalledLevel = level;
+            AdjustmentsList.SelectedItem = null;
         }
     }
 }
