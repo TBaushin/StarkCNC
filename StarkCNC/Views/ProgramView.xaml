@@ -13,7 +13,67 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.ProgramPageTitle}">
 
-    <Grid x:Name="MainGrid">
+    <Page.Resources>
+        <!-- Стиль для выделенных ячеек (желтый фон) -->
+        <Style x:Key="HighlightedCellStyle" TargetType="DataGridCell">
+            <Setter Property="Background" Value="Yellow"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- Стиль для обычных ячеек -->
+        <Style x:Key="NormalCellStyle" TargetType="DataGridCell">
+            <Setter Property="Background" Value="White"/>
+        </Style>
+
+        <!-- Стиль для заголовков -->
+        <Style x:Key="HeaderStyle" TargetType="TextBlock">
+            <Setter Property="Background" Value="#E0E0E0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- Стиль для кнопок со стрелками -->
+        <Style x:Key="ArrowButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="LightBlue"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="35"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+        </Style>
+
+        <!-- Стиль для редактируемых текстовых ячеек -->
+        <Style x:Key="EditableTextStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
+
+        <!-- Стиль для TextBox в режиме редактирования -->
+        <Style x:Key="EditingTextBoxStyle" TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+
+        <!-- Стиль для разделенных чисел в нижней части -->
+        <Style x:Key="SplitNumberStyle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="FontSize" Value="8"/>
+            <Setter Property="Foreground" Value="Black"/>
+            <Setter Property="Padding" Value="2"/>
+        </Style>
+    </Page.Resources>
+
+
+            <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -226,10 +286,10 @@
                     HorizontalAlignment="Stretch"
                     Content="Y2"/>
             </Grid>
-            <Border
-                CornerRadius="5">
+            <!--<Border
+    CornerRadius="5">
                 <ListView
-                    ItemsSource="{Binding BendingDatas, Mode=TwoWay}">
+        ItemsSource="{Binding BendingDatas, Mode=TwoWay}">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -253,118 +313,118 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Label
-                                    Grid.Column="0"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Content="№"/>
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="№"/>
                                 <Separator
-                                    Grid.Column="1"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Margin="5,0,5,0"
-                                    VerticalAlignment="Stretch"/>
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Margin="5,0,5,0"
+                        VerticalAlignment="Stretch"/>
                                 <StackPanel
-                                    Grid.Column="2"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch">
+                        Grid.Column="2"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch">
                                     <Label
-                                        HorizontalContentAlignment="Center"
-                                        Content="Подача Y"/>
+                            HorizontalContentAlignment="Center"
+                            Content="Подача Y"/>
                                     <Button
-                                        HorizontalAlignment="Stretch"
-                                        Content="Speed"/>
+                            HorizontalAlignment="Stretch"
+                            Content="Speed"/>
                                 </StackPanel>
                                 <Separator
-                                    Grid.Column="3"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Margin="3,0,3,0"
-                                    VerticalAlignment="Stretch"/>
+                        Grid.Column="3"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Margin="3,0,3,0"
+                        VerticalAlignment="Stretch"/>
                                 <StackPanel
-                                    Grid.Column="4"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch">
+                        Grid.Column="4"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch">
                                     <Label
-                                        HorizontalContentAlignment="Center"
-                                        Content="Поворот B"/>
+                            HorizontalContentAlignment="Center"
+                            Content="Поворот B"/>
                                     <Button
-                                        HorizontalAlignment="Stretch"
-                                        Content="Speed"/>
+                            HorizontalAlignment="Stretch"
+                            Content="Speed"/>
                                 </StackPanel>
                                 <Separator
-                                    Grid.Column="5"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Margin="3,0,3,0"
-                                    VerticalAlignment="Stretch"/>
+                        Grid.Column="5"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Margin="3,0,3,0"
+                        VerticalAlignment="Stretch"/>
                                 <Label
-                                    Grid.Column="6"
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="2"
-                                    HorizontalContentAlignment="Center"
-                                    Content="Гиб C"/>
+                        Grid.Column="6"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalContentAlignment="Center"
+                        Content="Гиб C"/>
                                 <Button
-                                    Grid.Column="6"
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Stretch"
-                                    Content="Speed"/>
+                        Grid.Column="6"
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        Content="Speed"/>
                                 <Button
-                                    Grid.Column="7"
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Stretch"
-                                    Content="Коэффициент"/>
+                        Grid.Column="7"
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        Content="Коэффициент"/>
                                 <Separator
-                                    Grid.Column="8"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Margin="3,0,3,0"
-                                    VerticalAlignment="Stretch"/>
+                        Grid.Column="8"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Margin="3,0,3,0"
+                        VerticalAlignment="Stretch"/>
                                 <StackPanel
-                                    Grid.Column="9"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Stretch">
+                        Grid.Column="9"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch">
                                     <Label
-                                        HorizontalContentAlignment="Center"
-                                        Content="Радиус R"/>
+                            HorizontalContentAlignment="Center"
+                            Content="Радиус R"/>
                                     <Button
-                                        HorizontalAlignment="Stretch"
-                                        Content="Режим"/>
+                            HorizontalAlignment="Stretch"
+                            Content="Режим"/>
                                 </StackPanel>
                                 <Separator
-                                    Grid.Column="10"
-                                    Grid.Row="0"
-                                    Grid.RowSpan="2"
-                                    Margin="3,0,3,0"
-                                    VerticalAlignment="Stretch"/>
+                        Grid.Column="10"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        Margin="3,0,3,0"
+                        VerticalAlignment="Stretch"/>
                                 <Label
-                                    Grid.Column="11"
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="2"
-                                    HorizontalContentAlignment="Center"
-                                    Content="Отвод Y"/>
+                        Grid.Column="11"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalContentAlignment="Center"
+                        Content="Отвод Y"/>
                                 <Button
-                                    Grid.Column="11"
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Stretch"
-                                    Content="B"/>
+                        Grid.Column="11"
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        Content="B"/>
                                 <Button
-                                    Grid.Column="12"
-                                    Grid.Row="1"
-                                    HorizontalAlignment="Stretch"
-                                    Content="Y2"/>
+                        Grid.Column="12"
+                        Grid.Row="1"
+                        HorizontalAlignment="Stretch"
+                        Content="Y2"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </Border>
+            </Border>-->
             <DataGrid
                 x:Name="PipeBendParametersDataGrid"
                 AutoGenerateColumns="False"
@@ -373,9 +433,132 @@
                 ColumnWidth="*"
                 ItemsSource="{Binding BendingDatas, Mode=TwoWay}"
                 BeginningEdit="PipeBendParametersDataGrid_BeginningEdit"
-                CellEditEnding="PipeBendParametersDataGrid_CellEditEnding">
+                CellEditEnding="PipeBendParametersDataGrid_CellEditEnding" SelectionChanged="PipeBendParametersDataGrid_SelectionChanged"
+                   CanUserReorderColumns="False"
+   CanUserResizeColumns="True"
+ 
+   GridLinesVisibility="All" 
+   HeadersVisibility="None"
+   RowHeaderWidth="0" 
+   HorizontalScrollBarVisibility="Auto"
+   VerticalScrollBarVisibility="Auto" 
+   FontSize="11"
+   SelectionMode="Single"
+   SelectionUnit="FullRow">
                 <DataGrid.Columns>
-                    <DataGridTextColumn
+                    
+                    <DataGridTextColumn Width="44" Binding="{Binding Number}" IsReadOnly="True">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock" BasedOn="{StaticResource EditableTextStyle}"/>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <!-- Ось Y - РЕДАКТИРУЕМАЯ с разделенными числами -->
+                    <DataGridTemplateColumn Width="86">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding StraightLength}" 
+                           Style="{StaticResource EditableTextStyle}"/>
+
+                                    <Rectangle Grid.Row="1" Fill="Black" Height="2" />
+                                   
+                                    <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
+                                    <Grid Grid.Row="2">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding StraightLength}" 
+                               Style="{StaticResource EditableTextStyle}"/>
+                                        <Rectangle Grid.Column="1" Fill="Black" Width="1" 
+                               VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding StraightLength}" 
+                               Style="{StaticResource EditableTextStyle}"/>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                       
+                    </DataGridTemplateColumn>
+
+                    <!-- Ось B - РЕДАКТИРУЕМАЯ с разделенными числами -->
+                    <DataGridTemplateColumn Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="2*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding AxisB_Value}" 
+                           Style="{StaticResource EditableTextStyle}"/>
+
+                                    <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
+                                    <Grid Grid.Row="1" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="2"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Grid.Column="0" Text="{Binding AxisB_Code1}" 
+                               Style="{StaticResource SplitNumberStyle}"/>
+                                        <Rectangle Grid.Column="1" Fill="Black" Width="1" 
+                               VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                        <TextBlock Grid.Column="2" Text="{Binding AxisB_Code2}" 
+                               Style="{StaticResource SplitNumberStyle}"/>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                    </DataGridTemplateColumn>
+
+                    <!-- Ось C - РЕДАКТИРУЕМАЯ (без изменений) -->
+                    <DataGridTemplateColumn Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition/>
+                                        <RowDefinition/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding AxisC_Value}" 
+                           Style="{StaticResource EditableTextStyle}"/>
+                                    <TextBlock Grid.Row="1" Text="{Binding AxisC_Code}" 
+                           HorizontalAlignment="Center" VerticalAlignment="Center"
+                           Background="Yellow" FontSize="9" Padding="2"/>
+                                </Grid>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="120">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding BendMode}" 
+                       HorizontalAlignment="Left" 
+                       VerticalAlignment="Center"
+                       Padding="5"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.CellEditingTemplate>
+                            <DataTemplate>
+                                <ComboBox SelectedItem="{Binding BendMode, Mode=TwoWay}"
+                      ItemsSource="{Binding ProgramView.BendModeList, RelativeSource={RelativeSource AncestorType=Window}}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Bottom"
+                      HorizontalContentAlignment="Right"
+                      IsEditable="False"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellEditingTemplate>
+                    </DataGridTemplateColumn>
+                    <!--<DataGridTextColumn
                         Header="{x:Static lang:Language.StraightLength}"
                         Binding="{Binding StraightLength}"/>
                     <DataGridTextColumn
@@ -386,7 +569,7 @@
                         Binding="{Binding BendingRadius}"/>
                     <DataGridTextColumn
                         Header="{x:Static lang:Language.RotationAngle}"
-                        Binding="{Binding RotationAngle}"/>
+                        Binding="{Binding RotationAngle}"/> -->
                 </DataGrid.Columns>
             </DataGrid>
         </StackPanel>
