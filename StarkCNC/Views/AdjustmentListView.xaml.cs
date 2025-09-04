@@ -1,7 +1,7 @@
-﻿using StarkCNC.ViewModels;
+﻿using StarkCNC.Helpers;
+using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace StarkCNC.Views
 {
@@ -32,8 +32,8 @@ namespace StarkCNC.Views
                 if (listViewItem is null)
                     continue;
 
-                var btns = FindVisualChildren<Button>(listViewItem);
-                foreach (var b in btns) b.Visibility = Visibility.Collapsed;
+                var buttons = VisualFinder.FindVisualChildren<Button>(listViewItem).ToList();
+                buttons.ForEach(b => b.Visibility = Visibility.Collapsed);
             }
 
             foreach (var item in listView.SelectedItems)
@@ -42,26 +42,8 @@ namespace StarkCNC.Views
                 if (listViewItem is null)
                     continue;
 
-                List<Button> buttons = FindVisualChildren<Button>(listViewItem).ToList();
-                foreach(var button in buttons)
-                {
-                    button.Visibility = Visibility.Visible;
-                }
-            }
-        }
-
-        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
-        {
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
-
-            for(int i = 0; i < childCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T t)
-                    yield return t;
-
-                foreach(var childOfChild in FindVisualChildren<T>(child))
-                    yield return childOfChild;
+                var buttons = VisualFinder.FindVisualChildren<Button>(listViewItem).ToList();
+                buttons.ForEach(b => b.Visibility = Visibility.Visible);
             }
         }
     }

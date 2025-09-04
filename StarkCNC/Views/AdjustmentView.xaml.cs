@@ -3,7 +3,6 @@ using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 
 namespace StarkCNC.Views
 {
@@ -39,6 +38,7 @@ namespace StarkCNC.Views
 
         private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            ViewModel.SelectedAdjustment = null;
             ViewModel.GoToAdjustmentListCommand.Execute(null);
         }
 
@@ -54,7 +54,7 @@ namespace StarkCNC.Views
                 if (listViewItem is null)
                     continue;
 
-                var panels = FindVisualChildren<StackPanel>(listViewItem).ToList();
+                var panels = VisualFinder.FindVisualChildren<StackPanel>(listViewItem).ToList();
                 panels.ForEach(p => p.Visibility = Visibility.Collapsed);
             }
 
@@ -64,7 +64,7 @@ namespace StarkCNC.Views
                 if (listViewItem is null)
                     continue;
 
-                var panels = FindVisualChildren<StackPanel>(listViewItem).ToList();
+                var panels = VisualFinder.FindVisualChildren<StackPanel>(listViewItem).ToList();
                 panels
                     .Where(p => p.Name == "InstallSelection").ToList()
                     .ForEach(p => p.Visibility = Visibility.Visible);
@@ -77,7 +77,7 @@ namespace StarkCNC.Views
             if (button is null)
                 return;
 
-            var parent = FindVisualParent<Grid>(button);
+            var parent = VisualFinder.FindVisualParent<Grid>(button);
             if (parent is null)
                 return;
 
@@ -93,31 +93,19 @@ namespace StarkCNC.Views
             }
         }
 
-        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        private void ThirdLevel_Click(object sender, RoutedEventArgs e)
         {
-            int childCount = VisualTreeHelper.GetChildrenCount(parent);
 
-            for (int i = 0; i < childCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(parent, i);
-                if (child is T t)
-                    yield return t;
-
-                foreach (var childOfChild in FindVisualChildren<T>(child))
-                    yield return childOfChild;
-            }
         }
 
-        private static T? FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        private void SecondLevel_Click(object sender, RoutedEventArgs e)
         {
-            var parent = VisualTreeHelper.GetParent(child);
 
-            while (parent is not null && !(parent is T))
-            {
-                parent = VisualTreeHelper.GetParent(parent);
-            }
+        }
 
-            return parent as T;
+        private void FirstLevel_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

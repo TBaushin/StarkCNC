@@ -116,9 +116,18 @@
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Left"
                                     Visibility="Collapsed">
-                                    <Button Content="Этаж 3"/>
-                                    <Button Content="Этаж 2"/>
-                                    <Button Content="Этаж 1"/>
+                                    <Button
+                                        x:Name="ThirdLevel"
+                                        Click="ThirdLevel_Click"
+                                        Content="Этаж 3"/>
+                                    <Button
+                                        x:Name="SecondLevel"
+                                        Click="SecondLevel_Click"
+                                        Content="Этаж 2"/>
+                                    <Button
+                                        x:Name="FirstLevel"
+                                        Click="FirstLevel_Click"
+                                        Content="Этаж 1"/>
                                 </StackPanel>
                                 <StackPanel
                                     x:Name="InstallSelection"
