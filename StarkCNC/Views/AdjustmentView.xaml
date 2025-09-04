@@ -92,7 +92,7 @@
                     SelectionChanged="ListView_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
+                            <Grid Margin="0,10,0,10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
@@ -115,6 +115,7 @@
                                     Grid.Row="1"
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Left"
+                                    Margin="0,10,0,0"
                                     Visibility="Collapsed">
                                     <Button
                                         x:Name="ThirdLevel"
@@ -122,6 +123,7 @@
                                         Content="Этаж 3"/>
                                     <Button
                                         x:Name="SecondLevel"
+                                        Margin="10,0,10,0"
                                         Click="SecondLevel_Click"
                                         Content="Этаж 2"/>
                                     <Button
@@ -135,6 +137,7 @@
                                     Grid.Row="1"
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Right"
+                                    Margin="0,10,0,0"
                                     Visibility="Collapsed">
                                     <Button
                                         x:Name="SetUpButton"
@@ -147,9 +150,15 @@
                                     Grid.Row="1"
                                     Orientation="Horizontal"
                                     HorizontalAlignment="Right"
+                                    Margin="0,10,0,0"
                                     Visibility="Collapsed">
-                                    <Button Content="Далее"/>
-                                    <Button Content="Отмена"/>
+                                    <Button
+                                        Margin="0,0,10,0"
+                                        Content="Далее"/>
+                                    <Button
+                                        x:Name="CancelButton"
+                                        Click="CancelButton_Click"
+                                        Content="Отмена"/>
                                 </StackPanel>
                                 
                             </Grid>
