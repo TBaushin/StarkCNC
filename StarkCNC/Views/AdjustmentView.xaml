@@ -88,49 +88,47 @@
                     </StackPanel>
                 </Expander.Header>
                 <ListView ItemsSource="{Binding Adjustments}">
-                    <ListViewItem>
-                        <ListViewItem.Template>
-                            <ControlTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="*"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel
-                                        Grid.Column="0"
-                                        Grid.Row="0"
-                                        Grid.ColumnSpan="2"
-                                        Orientation="Horizontal">
-                                        <Label Content="{Binding Name}"/>
-                                        <Label Content="{Binding Type.Name}"/>
-                                        <Label Content="R"/>
-                                        <Label Content="{Binding PipeDiameter}"/>
-                                    </StackPanel>
-                                    <StackPanel
-                                        Grid.Column="0"
-                                        Grid.Row="1"
-                                        Orientation="Horizontal"
-                                        HorizontalAlignment="Left">
-                                        <Button/>
-                                        <Button/>
-                                        <Button/>
-                                    </StackPanel>
-                                    <StackPanel
-                                        Grid.Column="1"
-                                        Grid.Row="1"
-                                        Orientation="Horizontal"
-                                        HorizontalAlignment="Right">
-                                        <Button/>
-                                        <Button/>
-                                    </StackPanel>
-                                </Grid>
-                            </ControlTemplate>
-                        </ListViewItem.Template>
-                    </ListViewItem>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <StackPanel
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                    Orientation="Horizontal">
+                                    <Label Content="{Binding Name}"/>
+                                    <Label Content="{Binding Type.Name}"/>
+                                    <Label Content="R"/>
+                                    <Label Content="{Binding PipeDiameter}"/>
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Left">
+                                    <Button/>
+                                    <Button/>
+                                    <Button/>
+                                </StackPanel>
+                                <StackPanel
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right">
+                                    <Button/>
+                                    <Button/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
                 </ListView>
             </Expander>
             <Border
