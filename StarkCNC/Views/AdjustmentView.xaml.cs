@@ -1,7 +1,9 @@
 ﻿using StarkCNC.Helpers;
 using StarkCNC.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace StarkCNC.Views
 {
@@ -38,6 +40,84 @@ namespace StarkCNC.Views
         private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ViewModel.GoToAdjustmentListCommand.Execute(null);
+        }
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var listView = sender as ListView;
+            if (listView is null)
+                return;
+
+            foreach (var item in e.RemovedItems)
+            {
+                var listViewItem = listView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+                if (listViewItem is null)
+                    continue;
+
+                var panels = FindVisualChildren<StackPanel>(listViewItem).ToList();
+                panels.ForEach(p => p.Visibility = Visibility.Collapsed);
+            }
+
+            foreach (var item in listView.SelectedItems)
+            {
+                var listViewItem = listView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+                if (listViewItem is null)
+                    continue;
+
+                var panels = FindVisualChildren<StackPanel>(listViewItem).ToList();
+                panels
+                    .Where(p => p.Name == "InstallSelection").ToList()
+                    .ForEach(p => p.Visibility = Visibility.Visible);
+            }
+        }
+
+        private void SetUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button is null)
+                return;
+
+            var parent = FindVisualParent<Grid>(button);
+            if (parent is null)
+                return;
+
+            foreach(var child in parent.Children)
+            {
+                if (child is not StackPanel panel)
+                    continue;
+
+                if (panel.Name.Contains("LevelSelection", StringComparison.OrdinalIgnoreCase))
+                    panel.Visibility = Visibility.Visible;
+                else
+                    panel.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private static IEnumerable<T> FindVisualChildren<T>(DependencyObject parent) where T : DependencyObject
+        {
+            int childCount = VisualTreeHelper.GetChildrenCount(parent);
+
+            for (int i = 0; i < childCount; i++)
+            {
+                var child = VisualTreeHelper.GetChild(parent, i);
+                if (child is T t)
+                    yield return t;
+
+                foreach (var childOfChild in FindVisualChildren<T>(child))
+                    yield return childOfChild;
+            }
+        }
+
+        private static T? FindVisualParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(child);
+
+            while (parent is not null && !(parent is T))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+
+            return parent as T;
         }
     }
 }

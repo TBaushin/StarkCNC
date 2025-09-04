@@ -87,7 +87,9 @@
                         <TextBlock Text="Отображение доступных оснасток"/>
                     </StackPanel>
                 </Expander.Header>
-                <ListView ItemsSource="{Binding Adjustments}">
+                <ListView
+                    ItemsSource="{Binding Adjustments}"
+                    SelectionChanged="ListView_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <Grid>
@@ -108,22 +110,39 @@
                                     <Run Text="R"/><Run Text="{Binding PipeDiameter}"/>
                                 </TextBlock>
                                 <StackPanel
+                                    x:Name="LevelSelectionLevelButtons"
                                     Grid.Column="0"
                                     Grid.Row="1"
                                     Orientation="Horizontal"
-                                    HorizontalAlignment="Left">
-                                    <Button/>
-                                    <Button/>
-                                    <Button/>
+                                    HorizontalAlignment="Left"
+                                    Visibility="Collapsed">
+                                    <Button Content="Этаж 3"/>
+                                    <Button Content="Этаж 2"/>
+                                    <Button Content="Этаж 1"/>
                                 </StackPanel>
                                 <StackPanel
+                                    x:Name="InstallSelection"
                                     Grid.Column="1"
                                     Grid.Row="1"
                                     Orientation="Horizontal"
-                                    HorizontalAlignment="Right">
-                                    <Button/>
-                                    <Button/>
+                                    HorizontalAlignment="Right"
+                                    Visibility="Collapsed">
+                                    <Button
+                                        x:Name="SetUpButton"
+                                        Click="SetUpButton_Click"
+                                        Content="Установить"/>
                                 </StackPanel>
+                                <StackPanel
+                                    x:Name="LevelSelectionSaveCancelButtons"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Visibility="Collapsed">
+                                    <Button Content="Далее"/>
+                                    <Button Content="Отмена"/>
+                                </StackPanel>
+                                
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
