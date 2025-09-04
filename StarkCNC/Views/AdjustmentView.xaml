@@ -99,16 +99,14 @@
                                     <RowDefinition/>
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
-                                <StackPanel
+                                <TextBlock
                                     Grid.Column="0"
                                     Grid.Row="0"
-                                    Grid.ColumnSpan="2"
-                                    Orientation="Horizontal">
-                                    <Label Content="{Binding Name}"/>
-                                    <Label Content="{Binding Type.Name}"/>
-                                    <Label Content="R"/>
-                                    <Label Content="{Binding PipeDiameter}"/>
-                                </StackPanel>
+                                    Grid.ColumnSpan="2">
+                                    <Run Text="{Binding Name}"/>
+                                    <Run Text="{Binding Type.Name}"/>
+                                    <Run Text="R"/><Run Text="{Binding PipeDiameter}"/>
+                                </TextBlock>
                                 <StackPanel
                                     Grid.Column="0"
                                     Grid.Row="1"
