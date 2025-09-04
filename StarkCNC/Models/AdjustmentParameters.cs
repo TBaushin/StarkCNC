@@ -37,7 +37,7 @@ namespace StarkCNC.Models
             }
         }
 
-        public int? InstalledLevel
+        public int InstalledLevel
         {
             get => _adjustment.InstalledLevel;
             set

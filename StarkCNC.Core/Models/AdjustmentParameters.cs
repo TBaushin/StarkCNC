@@ -8,7 +8,7 @@
 
         public AdjustmentType Type { get; set; }
 
-        public int? InstalledLevel { get; set; }
+        public int InstalledLevel { get; set; }
 
         public AdjustmentParameters(string name, AdjustmentType type)
         {
