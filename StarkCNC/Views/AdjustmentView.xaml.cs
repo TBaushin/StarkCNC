@@ -108,6 +108,29 @@ namespace StarkCNC.Views
             SetLevelToAdjustment(1);
         }
 
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button is null)
+                return;
+
+            var parent = VisualFinder.FindVisualParent<Grid>(button);
+            if (parent is null)
+                return;
+
+            foreach (var child in parent.Children)
+            {
+                if (child is not StackPanel panel)
+                    continue;
+
+                // При нажатии на Cancel, мы в отличие от эвента SetUpButton_Click как раз делаем видимым InstallSelection, и невидимым LevelSelection
+                if (!panel.Name.Contains("LevelSelection", StringComparison.OrdinalIgnoreCase))
+                    panel.Visibility = Visibility.Visible;
+                else
+                    panel.Visibility = Visibility.Collapsed;
+            }
+        }
+
         private void SetLevelToAdjustment(int level)
         {
             if (ViewModel.SelectedAdjustment is null)
