@@ -218,7 +218,8 @@
                         </Grid.RowDefinitions>
                         <TextBlock 
                             x:Name="PageTitleTextBlock"
-                            Grid.Row="0"/>
+                            Grid.Row="0"
+                            Margin="10,0,10,10"/>
                         <Frame 
                             Grid.Row="1"
                             x:Name="RootContentFrame" 
