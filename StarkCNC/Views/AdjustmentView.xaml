@@ -12,199 +12,166 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.AdjustmentPageTitle}">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="37"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel
-            Grid.Row="0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Stretch"
-            Orientation="Horizontal">
-            <Label
-                Content="Выбор оснастки"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"/> <!--TODO: Перевести-->
-        </StackPanel>
-        <StackPanel
-            Grid.Row="0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Stretch"
-            Orientation="Horizontal">
-            <Button
-                HorizontalAlignment="Right"
-                Command="{Binding GoToAdjustmentListCommand}">
-                <TextBlock
-                    Margin="0,4,0,4"
-                    FontFamily="{StaticResource SymbolThemeFontFamily}"
-                    FontSize="15"
-                    Text="&#xE90F;"/>
-            </Button>
-        </StackPanel>
-        <Separator Grid.Row="1" HorizontalAlignment="Stretch" Margin="0,5,0,5"/>
-        <StackPanel
-            Grid.Row="2"
-            Orientation="Vertical">
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <controls:FloorControl
-                    x:Name="ThirdLevel"
-                    Margin="10,0,10,0"
-                    FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
-            </Border>
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <controls:FloorControl
-                    x:Name="SecondLevel"
-                    Margin="10,0,10,0"
-                    FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
-            </Border>
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <controls:FloorControl
-                    x:Name="FirstLevel"
-                    Margin="10,0,10,0"
-                    FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
-            </Border>
-            <Expander Margin="8,4,7,4">
-                <Expander.Header>
-                    <StackPanel
-                        Margin="0,19.5,0,19.5"
-                        Orientation="Horizontal">
-                        <TextBlock
-                            Margin="4,0,4,0"
-                            FontSize="20"
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Text="&#xE8FD;"/>
-                        <TextBlock Text="Отображение доступных оснасток"/>
-                    </StackPanel>
-                </Expander.Header>
-                <ListView
-                    x:Name="AdjustmentsList"
-                    ItemsSource="{Binding Adjustments}"
-                    SelectedItem="{Binding SelectedAdjustment}"
-                    SelectionChanged="ListView_SelectionChanged">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Margin="0,10,0,10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Grid.Row="0"
-                                    Grid.ColumnSpan="2">
-                                    <Run Text="{Binding Name}"/>
-                                    <Run Text="{Binding Type.Name}"/>
-                                    <Run Text="R"/><Run Text="{Binding PipeDiameter}"/>
-                                </TextBlock>
-                                <StackPanel
-                                    x:Name="LevelSelectionLevelButtons"
-                                    Grid.Column="0"
-                                    Grid.Row="1"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Left"
-                                    Margin="0,10,0,0"
-                                    Visibility="Collapsed">
-                                    <Button
-                                        x:Name="ThirdLevelButton"
-                                        Click="ThirdLevelButton_Click"
-                                        Content="Этаж 3"/>
-                                    <Button
-                                        x:Name="SecondLevelButton"
-                                        Margin="10,0,10,0"
-                                        Click="SecondLevelButton_Click"
-                                        Content="Этаж 2"/>
-                                    <Button
-                                        x:Name="FirstLevelButton"
-                                        Click="FirstLevelButton_Click"
-                                        Content="Этаж 1"/>
-                                </StackPanel>
-                                <StackPanel
-                                    x:Name="InstallSelection"
-                                    Grid.Column="1"
-                                    Grid.Row="1"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Right"
-                                    Margin="0,10,0,0"
-                                    Visibility="Collapsed">
-                                    <Button
-                                        x:Name="SetUpButton"
-                                        Click="SetUpButton_Click"
-                                        Content="Установить"/>
-                                </StackPanel>
-                                <StackPanel
-                                    x:Name="LevelSelectionSaveCancelButtons"
-                                    Grid.Column="1"
-                                    Grid.Row="1"
-                                    Orientation="Horizontal"
-                                    HorizontalAlignment="Right"
-                                    Margin="0,10,0,0"
-                                    Visibility="Collapsed">
-                                    <Button
-                                        x:Name="SaveButton"
-                                        Margin="0,0,10,0"
-                                        Click="SaveButton_Click"
-                                        Content="Сохранить"/>
-                                    <Button
-                                        x:Name="CancelButton"
-                                        Click="CancelButton_Click"
-                                        Content="Отмена"/>
-                                </StackPanel>
-                                
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Expander>
-            <Border
-                x:Name="AdjustmentManagement"
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                MouseEnter="AdjustmentManagement_MouseEnter"
-                MouseLeave="AdjustmentManagement_MouseLeave"
-                MouseDown="AdjustmentManagement_MouseDown">
-                <Grid Margin="10,0,10,0" VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel
-                        Grid.Column="0"
-                        Orientation="Horizontal">
-                        <Label
-                            Margin="4,0,4,0"
-                            FontSize="20"
-                            FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Content="&#xE950;"/>
-                        <Label Content="Управление оснастками"/>
-                    </StackPanel>
-                    <Label
-                        Grid.Column="1"
+    <StackPanel
+        Grid.Row="2"
+        Orientation="Vertical">
+        <Border
+            Margin="8,4,8,4"
+            MinHeight="80"
+            CornerRadius="4"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+            <controls:FloorControl
+                x:Name="ThirdLevel"
+                Margin="10,0,10,0"
+                FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
+        </Border>
+        <Border
+            Margin="8,4,8,4"
+            MinHeight="80"
+            CornerRadius="4"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+            <controls:FloorControl
+                x:Name="SecondLevel"
+                Margin="10,0,10,0"
+                FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
+        </Border>
+        <Border
+            Margin="8,4,8,4"
+            MinHeight="80"
+            CornerRadius="4"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+            <controls:FloorControl
+                x:Name="FirstLevel"
+                Margin="10,0,10,0"
+                FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
+        </Border>
+        <Expander Margin="8,4,7,4">
+            <Expander.Header>
+                <StackPanel
+                    Margin="0,19.5,0,19.5"
+                    Orientation="Horizontal">
+                    <TextBlock
                         Margin="4,0,4,0"
                         FontSize="20"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Content="&#xE76C;"/>
-                </Grid>
-            </Border>
-        </StackPanel>
-    </Grid>
+                        Text="&#xE8FD;"/>
+                    <TextBlock Text="Отображение доступных оснасток"/>
+                </StackPanel>
+            </Expander.Header>
+            <ListView
+                x:Name="AdjustmentsList"
+                ItemsSource="{Binding Adjustments}"
+                SelectedItem="{Binding SelectedAdjustment}"
+                SelectionChanged="ListView_SelectionChanged">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,10,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                Grid.ColumnSpan="2">
+                                <Run Text="{Binding Name}"/>
+                                <Run Text="{Binding Type.Name}"/>
+                                <Run Text="R"/><Run Text="{Binding PipeDiameter}"/>
+                            </TextBlock>
+                            <StackPanel
+                                x:Name="LevelSelectionLevelButtons"
+                                Grid.Column="0"
+                                Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Left"
+                                Margin="0,10,0,0"
+                                Visibility="Collapsed">
+                                <Button
+                                    x:Name="ThirdLevelButton"
+                                    Click="ThirdLevelButton_Click"
+                                    Content="Этаж 3"/>
+                                <Button
+                                    x:Name="SecondLevelButton"
+                                    Margin="10,0,10,0"
+                                    Click="SecondLevelButton_Click"
+                                    Content="Этаж 2"/>
+                                <Button
+                                    x:Name="FirstLevelButton"
+                                    Click="FirstLevelButton_Click"
+                                    Content="Этаж 1"/>
+                            </StackPanel>
+                            <StackPanel
+                                x:Name="InstallSelection"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="0,10,0,0"
+                                Visibility="Collapsed">
+                                <Button
+                                    x:Name="SetUpButton"
+                                    Click="SetUpButton_Click"
+                                    Content="Установить"/>
+                            </StackPanel>
+                            <StackPanel
+                                x:Name="LevelSelectionSaveCancelButtons"
+                                Grid.Column="1"
+                                Grid.Row="1"
+                                Orientation="Horizontal"
+                                HorizontalAlignment="Right"
+                                Margin="0,10,0,0"
+                                Visibility="Collapsed">
+                                <Button
+                                    x:Name="SaveButton"
+                                    Margin="0,0,10,0"
+                                    Click="SaveButton_Click"
+                                    Content="Сохранить"/>
+                                <Button
+                                    x:Name="CancelButton"
+                                    Click="CancelButton_Click"
+                                    Content="Отмена"/>
+                            </StackPanel>
+                                
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Expander>
+        <Border
+            x:Name="AdjustmentManagement"
+            Margin="8,4,8,4"
+            MinHeight="80"
+            CornerRadius="4"
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            MouseEnter="AdjustmentManagement_MouseEnter"
+            MouseLeave="AdjustmentManagement_MouseLeave"
+            MouseDown="AdjustmentManagement_MouseDown">
+            <Grid Margin="10,0,10,0" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <Label
+                        Margin="4,0,4,0"
+                        FontSize="20"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Content="&#xE950;"/>
+                    <Label Content="Управление оснастками"/>
+                </StackPanel>
+                <Label
+                    Grid.Column="1"
+                    Margin="4,0,4,0"
+                    FontSize="20"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Content="&#xE76C;"/>
+            </Grid>
+        </Border>
+    </StackPanel>
 </Page>
