@@ -27,7 +27,7 @@
             Orientation="Vertical"
             VerticalAlignment="Center">
             <Label Content="{Binding FloorText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            <Label Content="{Binding SelectedAdjustment, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <Label x:Name="SelectedAdjustmentLabel"/>
         </StackPanel>
         <local:SwitchToggleControl
             Grid.Column="2"

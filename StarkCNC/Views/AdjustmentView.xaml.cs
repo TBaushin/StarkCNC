@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Helpers;
+using StarkCNC.Models;
 using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
@@ -94,17 +95,17 @@ namespace StarkCNC.Views
             }
         }
 
-        private void ThirdLevel_Click(object sender, RoutedEventArgs e)
+        private void ThirdLevelButton_Click(object sender, RoutedEventArgs e)
         {
             _levelMustBeSetted = 3;
         }
 
-        private void SecondLevel_Click(object sender, RoutedEventArgs e)
+        private void SecondLevelButton_Click(object sender, RoutedEventArgs e)
         {
             _levelMustBeSetted = 2;
         }
 
-        private void FirstLevel_Click(object sender, RoutedEventArgs e)
+        private void FirstLevelButton_Click(object sender, RoutedEventArgs e)
         {
             _levelMustBeSetted = 1;
         }
@@ -124,10 +125,35 @@ namespace StarkCNC.Views
 
         private void SetLevelToAdjustment(int level)
         {
-            if (ViewModel.SelectedAdjustment is null)
+            var adjustment = ViewModel.SelectedAdjustment;
+            if (adjustment is null)
                 return;
 
             ViewModel.SetLevelToAdjustmentCommand.Execute(level);
+
+            ClearFloorConrolsSelectedAdjustment(adjustment);
+            switch (level)
+            {
+                case 1:
+                    FirstLevel.SelectedAdjustment = adjustment;
+                    break;
+                case 2:
+                    SecondLevel.SelectedAdjustment = adjustment;
+                    break;
+                case 3:
+                    ThirdLevel.SelectedAdjustment = adjustment;
+                    break;
+            }
+        }
+
+        private void ClearFloorConrolsSelectedAdjustment(AdjustmentParameters adjustment)
+        {
+            if (FirstLevel.SelectedAdjustment is not null && FirstLevel.SelectedAdjustment == adjustment)
+                FirstLevel.SelectedAdjustment = null;
+            if (SecondLevel.SelectedAdjustment is not null && SecondLevel.SelectedAdjustment == adjustment)
+                SecondLevel.SelectedAdjustment = null;
+            if (ThirdLevel.SelectedAdjustment is not null && ThirdLevel.SelectedAdjustment == adjustment)
+                ThirdLevel.SelectedAdjustment = null;
         }
 
         private void CollapseButtonsAndClearSelectedItem(object sender)

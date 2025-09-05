@@ -53,6 +53,7 @@
                 CornerRadius="4"
                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                 <controls:FloorControl
+                    x:Name="ThirdLevel"
                     Margin="10,0,10,0"
                     FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
@@ -62,6 +63,7 @@
                 CornerRadius="4"
                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                 <controls:FloorControl
+                    x:Name="SecondLevel"
                     Margin="10,0,10,0"
                     FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
@@ -71,6 +73,7 @@
                 CornerRadius="4"
                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                 <controls:FloorControl
+                    x:Name="FirstLevel"
                     Margin="10,0,10,0"
                     FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
@@ -90,6 +93,7 @@
                 <ListView
                     x:Name="AdjustmentsList"
                     ItemsSource="{Binding Adjustments}"
+                    SelectedItem="{Binding SelectedAdjustment}"
                     SelectionChanged="ListView_SelectionChanged">
                     <ListView.ItemTemplate>
                         <DataTemplate>
@@ -119,17 +123,17 @@
                                     Margin="0,10,0,0"
                                     Visibility="Collapsed">
                                     <Button
-                                        x:Name="ThirdLevel"
-                                        Click="ThirdLevel_Click"
+                                        x:Name="ThirdLevelButton"
+                                        Click="ThirdLevelButton_Click"
                                         Content="Этаж 3"/>
                                     <Button
-                                        x:Name="SecondLevel"
+                                        x:Name="SecondLevelButton"
                                         Margin="10,0,10,0"
-                                        Click="SecondLevel_Click"
+                                        Click="SecondLevelButton_Click"
                                         Content="Этаж 2"/>
                                     <Button
-                                        x:Name="FirstLevel"
-                                        Click="FirstLevel_Click"
+                                        x:Name="FirstLevelButton"
+                                        Click="FirstLevelButton_Click"
                                         Content="Этаж 1"/>
                                 </StackPanel>
                                 <StackPanel

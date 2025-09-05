@@ -78,9 +78,9 @@ namespace StarkCNC.Core.Repository
 
         public void SetLevel(AdjustmentParameters adjustment, int level)
         {
+            adjustment.InstalledLevel = level;
             if (!_adjustments.Contains(adjustment))
             {
-                adjustment.InstalledLevel = level;
                 _adjustments.Add(adjustment);
             }
             else
@@ -91,5 +91,8 @@ namespace StarkCNC.Core.Repository
                 currentLevelAdjustments.ForEach(a => a.InstalledLevel = 0);
             }
         }
+
+        public AdjustmentParameters? GetAdjustmentWithLevel(int level) =>
+            _adjustments.FirstOrDefault(a => a.InstalledLevel == level);
     }
 }

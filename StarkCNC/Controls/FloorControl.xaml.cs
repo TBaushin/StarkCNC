@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using StarkCNC.Models;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -10,7 +11,7 @@ namespace StarkCNC.Controls
     public partial class FloorControl : UserControl
     {
         public static DependencyProperty FloorTextProperty = DependencyProperty.Register(nameof(FloorText), typeof(string), typeof(FloorControl), new PropertyMetadata());
-        public static DependencyProperty SelectedAdjustmentProperty = DependencyProperty.Register(nameof(SelectedAdjustment), typeof(string), typeof(FloorControl), new PropertyMetadata());
+        public static DependencyProperty SelectedAdjustmentProperty = DependencyProperty.Register(nameof(SelectedAdjustment), typeof(AdjustmentParameters), typeof(FloorControl), new PropertyMetadata());
         public static DependencyProperty EnabledProperty = DependencyProperty.Register(nameof(IsChecked), typeof(bool), typeof(FloorControl), new PropertyMetadata());
         public static DependencyProperty NavigateProperty = DependencyProperty.Register(nameof(Navigate), typeof(ICommand), typeof(FloorControl), new PropertyMetadata());
 
@@ -20,10 +21,19 @@ namespace StarkCNC.Controls
             set => SetValue(FloorTextProperty, value);
         }
 
-        public string SelectedAdjustment
+        public AdjustmentParameters? SelectedAdjustment
         {
-            get => (string)GetValue(SelectedAdjustmentProperty);
-            set => SetValue(SelectedAdjustmentProperty, value);
+            get => (AdjustmentParameters?)GetValue(SelectedAdjustmentProperty);
+            set
+            {
+                SetValue(SelectedAdjustmentProperty, value);
+
+                if (value is null)
+                    SelectedAdjustmentLabel.Content = string.Empty;
+                else
+                    SelectedAdjustmentLabel.Content =
+                        $"{value.Name} {value.Type.Name} R{value.PipeDiameter}";
+            }
         }
 
         public bool IsChecked
