@@ -1,32 +1,34 @@
 ﻿using System.Globalization;
 
-namespace StarkCNC.Helpers
+namespace StarkCNC.Helpers;
+
+internal static class Utility
 {
-    internal static class Utility
+    public static bool IsBackdropSupported()
     {
-        public static bool IsBackdropSupported()
-        {
-            var os = Environment.OSVersion;
-            var version = os.Version;
+        var os = Environment.OSVersion;
+        var version = os.Version;
 
-            return version.Major >= 10 && version.Build >= 22621;
+        return version.Major >= 10 && version.Build >= 22621;
+    }
+
+    public static bool IsBackdropDisabled()
+    {
+        var appContextBackdropData = AppContext
+            .GetData("Switch.System.Windows.Appearance.DisableFluentThemeWindowBackdrop");
+        bool disableFluentThemeWindowBackdrop = false;
+
+        if (appContextBackdropData is not null)
+        {
+            var appContextBackdropDataString = Convert
+                .ToString(appContextBackdropData, CultureInfo.CurrentCulture);
+
+            if (appContextBackdropDataString is null)
+                disableFluentThemeWindowBackdrop = false;
+            else
+                disableFluentThemeWindowBackdrop = bool.Parse(appContextBackdropDataString);
         }
 
-        public static bool IsBackdropDisabled()
-        {
-            var appContextBackdropData = AppContext.GetData("Switch.System.Windows.Appearance.DisableFluentThemeWindowBackdrop");
-            bool disableFluentThemeWindowBackdrop = false;
-
-            if (appContextBackdropData is not null)
-            {
-                var appContextBackdropDataString = Convert.ToString(appContextBackdropData, CultureInfo.CurrentCulture);
-                if (appContextBackdropDataString is null)
-                    disableFluentThemeWindowBackdrop = false;
-                else
-                    disableFluentThemeWindowBackdrop = bool.Parse(appContextBackdropDataString);
-            }
-
-            return disableFluentThemeWindowBackdrop;
-        }
+        return disableFluentThemeWindowBackdrop;
     }
 }

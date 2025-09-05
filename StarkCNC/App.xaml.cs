@@ -15,63 +15,62 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 
-namespace StarkCNC
+namespace StarkCNC;
+
+/// <summary>
+/// Interaction logic for App.xaml
+/// </summary>
+public partial class App : Application
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : Application
+    public static IConfiguration Configuration { get; private set; } = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .Build();
+
+    public App()
     {
-        public static IConfiguration Configuration { get; private set; } = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-            .Build();
-
-        public App()
-        {
-            IHost host = Host.CreateDefaultBuilder()
-                .ConfigureServices((context, services) =>
-                {
-                    services.AddSingleton<IConfiguration>(App.Configuration);
-                    services.AddSingleton<INavigationService, NavigationService>();
-                    services.AddSingleton<IStatusService, StatusService>();
-                    services.AddSingleton<ISettingsService, SettingsService>();
-                    services.AddSingleton<IGCodeService, GCodeService>();
-                    services.AddSingleton<MainWindow>();
-                    services.AddSingleton<MainWindowViewModel>();
-                    services.AddSingleton<VisualizationViewModel>();
-                    services.AddSingleton<ProgramViewModel>();
-                    services.AddSingleton<ManualViewModel>();
-                    services.AddSingleton<AdjustmentViewModel>();
-                    services.AddSingleton<UserViewModel>();
-                    services.AddSingleton<FlyoutMenuControl>();
-                    services.AddSingleton<SettingsViewModel>();
-                    services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
-#if DEBUG
-                    Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");
-                    services.AddSingleton<IManualConfigurationService, FakeManualConfigurationService>();
-#else
-                    Debug.WriteLine($"Подставился {nameof(ManualConfigurationService)}");
-                    services.AddSingleton<IManualConfigurationService, ManualConfigurationService>();
-#endif
-                    services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
-
-                    services.AddDbContext<AppDbContext>(opt =>
-                        opt.UseSqlite(Configuration.GetConnectionString("SQLite")),
-                        ServiceLifetime.Singleton
-                    );
-                })
-                .Build();
-            host.Start();
-
-            LiveCharts.Configure(c =>
+        IHost host = Host.CreateDefaultBuilder()
+            .ConfigureServices((context, services) =>
             {
-                c.AddDarkTheme();
-            });
+                services.AddSingleton<IConfiguration>(App.Configuration);
+                services.AddSingleton<INavigationService, NavigationService>();
+                services.AddSingleton<IStatusService, StatusService>();
+                services.AddSingleton<ISettingsService, SettingsService>();
+                services.AddSingleton<IGCodeService, GCodeService>();
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<MainWindowViewModel>();
+                services.AddSingleton<VisualizationViewModel>();
+                services.AddSingleton<ProgramViewModel>();
+                services.AddSingleton<ManualViewModel>();
+                services.AddSingleton<AdjustmentViewModel>();
+                services.AddSingleton<UserViewModel>();
+                services.AddSingleton<FlyoutMenuControl>();
+                services.AddSingleton<SettingsViewModel>();
+                services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
+#if DEBUG
+                Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");
+                services.AddSingleton<IManualConfigurationService, FakeManualConfigurationService>();
+#else
+                Debug.WriteLine($"Подставился {nameof(ManualConfigurationService)}");
+                services.AddSingleton<IManualConfigurationService, ManualConfigurationService>();
+#endif
+                services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
 
-            InitializeComponent();
-            MainWindow = host.Services.GetRequiredService<MainWindow>();
-            MainWindow.Visibility = Visibility.Visible;
-        }
+                services.AddDbContext<AppDbContext>(opt =>
+                    opt.UseSqlite(Configuration.GetConnectionString("SQLite")),
+                    ServiceLifetime.Singleton
+                );
+            })
+            .Build();
+        host.Start();
+
+        LiveCharts.Configure(c =>
+        {
+            c.AddDarkTheme();
+        });
+
+        InitializeComponent();
+        MainWindow = host.Services.GetRequiredService<MainWindow>();
+        MainWindow.Visibility = Visibility.Visible;
     }
 }

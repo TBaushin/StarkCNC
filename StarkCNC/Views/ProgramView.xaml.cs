@@ -1,70 +1,65 @@
-﻿using HelixToolkit.Wpf;
-using StarkCNC.Core.Calculations;
-using StarkCNC.Core.Models;
+﻿using StarkCNC.Core.Models;
 using StarkCNC.ViewModels;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Media3D;
 
-namespace StarkCNC.Views
+namespace StarkCNC.Views;
+
+/// <summary>
+/// Interaction logic for ProgramView.xaml
+/// </summary>
+public partial class ProgramView : Page
 {
-    /// <summary>
-    /// Interaction logic for ProgramView.xaml
-    /// </summary>
-    public partial class ProgramView : Page
+    private readonly ProgramViewModel ViewModel;
+
+    public ProgramView(ProgramViewModel viewModel)
     {
-        private readonly ProgramViewModel ViewModel;
+        ViewModel = viewModel;
+        DataContext = ViewModel;
+        InitializeComponent();
 
-        public ProgramView(ProgramViewModel viewModel)
+        BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
+        BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
+
+        BendingView.Children.Add(ViewModel.GetPipe());
+    }
+
+    private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+    {
+        var item = PipeBendParametersDataGrid.CurrentItem;
+        if (item is not BendingData data)
+            return;
+
+        var value = NumberInputViewModel.ShowDialog();
+
+        switch (PipeBendParametersDataGrid.CurrentColumn.DisplayIndex)
         {
-            ViewModel = viewModel;
-            DataContext = ViewModel;
-            InitializeComponent();
-
-            BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
-            BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
-
-            BendingView.Children.Add(ViewModel.GetPipe());
+            case 0:
+                data.StraightLength = value;
+                break;
+            case 1:
+                data.BendingAngle = value;
+                break;
+            case 2:
+                data.BendingRadius = value;
+                break;
+            case 3:
+                data.RotationAngle = value;
+                break;
         }
+    }
 
-        private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-            var item = PipeBendParametersDataGrid.CurrentItem;
-            if (item is not BendingData data)
-                return;
+    private void PipeBendParametersDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+    {
+        ViewModel.UpdateBend();
+    }
 
-            var value = NumberInputViewModel.ShowDialog();
+    private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        BendingView.CameraController.Zoom(-0.1); // Не знаю, но отрицательное число приближает, а положительное отодвигает
+    }
 
-            switch (PipeBendParametersDataGrid.CurrentColumn.DisplayIndex)
-            {
-                case 0:
-                    data.StraightLength = value;
-                    break;
-                case 1:
-                    data.BendingAngle = value;
-                    break;
-                case 2:
-                    data.BendingRadius = value;
-                    break;
-                case 3:
-                    data.RotationAngle = value;
-                    break;
-            }
-        }
-
-        private void PipeBendParametersDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            ViewModel.UpdateBend();
-        }
-
-        private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            BendingView.CameraController.Zoom(-0.1); // Не знаю, но отрицательное число приближает, а положительное отодвигает
-        }
-
-        private void ZoomOut_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            BendingView.CameraController.Zoom(0.1);
-        }
+    private void ZoomOut_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        BendingView.CameraController.Zoom(0.1);
     }
 }

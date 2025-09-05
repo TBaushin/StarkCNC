@@ -1,36 +1,35 @@
-﻿namespace StarkCNC.Core.Models
+﻿namespace StarkCNC.Core.Models;
+
+public class BendingData
 {
-    public class BendingData
+    /// <summary>
+    /// Длина прямого участка
+    /// </summary>
+    public double StraightLength { get; set; }
+
+    /// <summary>
+    /// Угол гиба
+    /// </summary>
+    public double BendingAngle { get; set; }
+
+    /// <summary>
+    /// Радиус гиба
+    /// </summary>
+    public double BendingRadius { get; set; }
+
+    /// <summary>
+    /// Угол поворота
+    /// </summary>
+    public double RotationAngle { get; set; }
+
+    public BendingData Copy()
     {
-        /// <summary>
-        /// Длина прямого участка
-        /// </summary>
-        public double StraightLength { get; set; }
-
-        /// <summary>
-        /// Угол гиба
-        /// </summary>
-        public double BendingAngle { get; set; }
-
-        /// <summary>
-        /// Радиус гиба
-        /// </summary>
-        public double BendingRadius { get; set; }
-
-        /// <summary>
-        /// Угол поворота
-        /// </summary>
-        public double RotationAngle { get; set; }
-
-        public BendingData Copy()
+        return new BendingData
         {
-            return new BendingData
-            {
-                StraightLength = StraightLength,
-                BendingAngle = BendingAngle,
-                BendingRadius = BendingRadius,
-                RotationAngle = RotationAngle
-            };
-        }
+            StraightLength = StraightLength,
+            BendingAngle = BendingAngle,
+            BendingRadius = BendingRadius,
+            RotationAngle = RotationAngle
+        };
     }
 }

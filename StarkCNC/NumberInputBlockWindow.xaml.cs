@@ -2,41 +2,40 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace StarkCNC
+namespace StarkCNC;
+
+/// <summary>
+/// Interaction logic for NumberInputBlockWindow.xaml
+/// </summary>
+public partial class NumberInputBlockWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for NumberInputBlockWindow.xaml
-    /// </summary>
-    public partial class NumberInputBlockWindow : Window
+    NumberInputViewModel ViewModel;
+
+    public NumberInputBlockWindow(NumberInputViewModel viewModel)
     {
-        NumberInputViewModel ViewModel;
+        ViewModel = viewModel;
+        DataContext = ViewModel;
 
-        public NumberInputBlockWindow(NumberInputViewModel viewModel)
-        {
-            ViewModel = viewModel;
-            DataContext = ViewModel;
+        InitializeComponent();
 
-            InitializeComponent();
+        Topmost = true;
+    }
 
-            Topmost = true;
-        }
+    private void Button_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not Button button)
+            return;
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            if (sender is not Button button)
-                return;
+        var content = button.Content;
+        if (content is null)
+            return;
 
-            var content = button.Content;
-            if (content is null)
-                return;
+        var number = content.ToString() ?? string.Empty;
+        ViewModel.AddNumber(number);
+    }
 
-            var number = content.ToString() ?? string.Empty;
-            ViewModel.AddNumber(number);
-        }
-
-        private void EnterButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
+    private void EnterButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
     }
 }

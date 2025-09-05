@@ -3,38 +3,37 @@ using StarkCNC.Models;
 using System.ComponentModel;
 using System.Windows.Media.Media3D;
 
-namespace StarkCNC.Services
+namespace StarkCNC.Services;
+
+public interface IBendingModelsLoadingService : INotifyPropertyChanged
 {
-    public interface IBendingModelsLoadingService : INotifyPropertyChanged
-    {
-        ModelVisual3D Pipe { get; }
+    ModelVisual3D Pipe { get; }
 
-        Model? Bend { get; }
+    Model? Bend { get; }
 
-        Model? Carriage { get; }
+    Model? Carriage { get; }
 
-        Model? Clamp { get; }
+    Model? Clamp { get; }
 
-        Model? Console { get; }
+    Model? Console { get; }
 
-        Model? Press { get; }
+    Model? Press { get; }
 
-        new event PropertyChangedEventHandler? PropertyChanged;
+    new event PropertyChangedEventHandler? PropertyChanged;
 
-        void Load(string path);
+    void Load(string path);
 
-        void Load(string path, ModelType type);
+    void Load(string path, ModelType type);
 
-        ModelVisual3D GetModelVisual3D();
+    ModelVisual3D GetModelVisual3D();
 
-        void UpdatePipeBend(ICollection<BendPositions> positions);
+    void UpdatePipeBend(ICollection<BendPositions> positions);
 
-        void UpdatePipeBend(ICollection<Point3D> positions, double diameter);
+    void UpdatePipeBend(ICollection<Point3D> positions, double diameter);
 
-        void UpdatePositions(double consolePosX, double bendRotationZ, double carriagePosY, double height, double clampPosX, double pressPosX);
+    void UpdatePositions(double consolePosX, double bendRotationZ, double carriagePosY, double height, double clampPosX, double pressPosX);
 
-        public Coordinates? GetModelPosition(ModelType modelType);
+    public Coordinates? GetModelPosition(ModelType modelType);
 
-        Dictionary<string, double> GetDefault();
-    }
+    Dictionary<string, double> GetDefault();
 }

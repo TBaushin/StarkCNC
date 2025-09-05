@@ -1,21 +1,20 @@
 ﻿using System.Windows.Controls;
 
-namespace StarkCNC.Services
+namespace StarkCNC.Services;
+
+public interface INavigationService
 {
-    public interface INavigationService
-    {
-        bool CanGoBack { get; }
+    bool CanGoBack { get; }
 
-        bool CanGoForward { get; }
+    bool CanGoForward { get; }
 
-        public event EventHandler<NavigationEventArgs> Navigation;
+    public event EventHandler<NavigationEventArgs> Navigation;
 
-        void Navigate(object content);
+    void Navigate(object content);
 
-        void GoBack();
+    void GoBack();
 
-        void GoForward();
+    void GoForward();
 
-        void SetFrame(Frame frame);
-    }
+    void SetFrame(Frame frame);
 }

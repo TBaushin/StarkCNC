@@ -1,29 +1,28 @@
-﻿namespace StarkCNC.Models
+﻿namespace StarkCNC.Models;
+
+public class User
 {
-    public class User
+    public string Name { get; set; }
+
+    public byte[] Image { get; set; }
+
+    public User(string name, byte[] image)
     {
-        public string Name { get; set; }
+        Name = name;
+        Image = image;
+    }
 
-        public byte[] Image { get; set; }
-
-        public User(string name, byte[] image)
+    public User(User? user)
+    {
+        if (user is null)
         {
-            Name = name;
-            Image = image;
+            Name = string.Empty;
+            Image = Array.Empty<byte>();
         }
-
-        public User(User? user)
+        else
         {
-            if (user is null)
-            {
-                Name = string.Empty;
-                Image = Array.Empty<byte>();
-            }
-            else
-            {
-                Name = user.Name;
-                Image = user.Image;
-            }
+            Name = user.Name;
+            Image = user.Image;
         }
     }
 }

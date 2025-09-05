@@ -2,55 +2,54 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace StarkCNC.Views
+namespace StarkCNC.Views;
+
+/// <summary>
+/// Interaction logic for UserView.xaml
+/// </summary>
+public partial class UserView : Page
 {
-    /// <summary>
-    /// Interaction logic for UserView.xaml
-    /// </summary>
-    public partial class UserView : Page
+    private readonly UserViewModel ViewModel;
+
+    public UserView(UserViewModel viewModel)
     {
-        private readonly UserViewModel ViewModel;
+        ViewModel = viewModel;
+        DataContext = ViewModel;
 
-        public UserView(UserViewModel viewModel)
-        {
-            ViewModel = viewModel;
-            DataContext = ViewModel;
+        InitializeComponent();
+    }
 
-            InitializeComponent();
-        }
+    private void EditButton_Click(object sender, RoutedEventArgs e)
+    {
+        ExecuteButtonCommand(sender);
 
-        private void EditButton_Click(object sender, RoutedEventArgs e)
-        {
-            ExecuteButtonCommand(sender);
+        SaveButton.Focus();
+    }
 
-            SaveButton.Focus();
-        }
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        ExecuteButtonCommand(sender);
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            ExecuteButtonCommand(sender);
+        EditButton.Focus();
+    }
 
-            EditButton.Focus();
-        }
+    private void CancelButton_Click(object sender, RoutedEventArgs e)
+    {
+        ExecuteButtonCommand(sender);
 
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            ExecuteButtonCommand(sender);
+        EditButton.Focus();
+    }
 
-            EditButton.Focus();
-        }
+    private static void ExecuteButtonCommand(object sender)
+    {
+        var button = sender as Button;
+        if (button is null)
+            return;
 
-        private static void ExecuteButtonCommand(object sender)
-        {
-            var button = sender as Button;
-            if (button is null)
-                return;
+        var command = button.Command;
+        var commandParameter = button.CommandParameter;
 
-            var command = button.Command;
-            var commandParameter = button.CommandParameter;
-
-            if (command is not null && command.CanExecute(commandParameter))
-                command.Execute(commandParameter);
-        }
+        if (command is not null && command.CanExecute(commandParameter))
+            command.Execute(commandParameter);
     }
 }

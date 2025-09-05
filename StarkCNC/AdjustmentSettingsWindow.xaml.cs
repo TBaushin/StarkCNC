@@ -3,69 +3,68 @@ using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Shell;
 
-namespace StarkCNC
+namespace StarkCNC;
+
+/// <summary>
+/// Interaction logic for AdjustmentSettingsWindow.xaml
+/// </summary>
+public partial class AdjustmentSettingsWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for AdjustmentSettingsWindow.xaml
-    /// </summary>
-    public partial class AdjustmentSettingsWindow : Window
+    private AdjustmentViewModel ViewModel;
+    private AdjustmentParameters? _oldParamaters;
+
+    public AdjustmentParameters? Result { get; set; }
+    public IEnumerable<AdjustmentType>? Types { get; }
+
+    public AdjustmentSettingsWindow(AdjustmentViewModel viewModel, string Title = "Добавление новой оснастки")
     {
-        private AdjustmentViewModel ViewModel;
-        private AdjustmentParameters? _oldParamaters;
+        ViewModel = viewModel;
 
-        public AdjustmentParameters? Result { get; set; }
-        public IEnumerable<AdjustmentType>? Types { get; }
+        DataContext = this;
 
-        public AdjustmentSettingsWindow(AdjustmentViewModel viewModel, string Title = "Добавление новой оснастки")
-        {
-            ViewModel = viewModel;
+        Types = ViewModel.Types;
 
-            DataContext = this;
+        _oldParamaters = ViewModel.SelectedAdjustment?.Cast().Copy();
 
-            Types = ViewModel.Types;
+        if (_oldParamaters is not null)
+            Result = new AdjustmentParameters(_oldParamaters.Name, _oldParamaters.Type)
+            {
+                PipeDiameter = _oldParamaters.PipeDiameter,
+            };
+        else
+            Result = new AdjustmentParameters("", Types.First());
 
-            _oldParamaters = ViewModel.SelectedAdjustment?.Cast().Copy();
+            InitializeComponent();
 
-            if (_oldParamaters is not null)
-                Result = new AdjustmentParameters(_oldParamaters.Name, _oldParamaters.Type)
-                {
-                    PipeDiameter = _oldParamaters.PipeDiameter,
-                };
-            else
-                Result = new AdjustmentParameters("", Types.First());
+        WindowChrome.SetWindowChrome(this,
+            new WindowChrome
+            {
+                CaptionHeight = 50,
+                CornerRadius = new CornerRadius(12),
+                GlassFrameThickness = new Thickness(-1),
+                ResizeBorderThickness = ResizeMode == ResizeMode.NoResize ? default : new Thickness(4),
+                UseAeroCaptionButtons = true,
+                NonClientFrameEdges = NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left
+            }
+        );
 
-                InitializeComponent();
+        Topmost = true;
 
-            WindowChrome.SetWindowChrome(this,
-                new WindowChrome
-                {
-                    CaptionHeight = 50,
-                    CornerRadius = new CornerRadius(12),
-                    GlassFrameThickness = new Thickness(-1),
-                    ResizeBorderThickness = ResizeMode == ResizeMode.NoResize ? default : new Thickness(4),
-                    UseAeroCaptionButtons = true,
-                    NonClientFrameEdges = NonClientFrameEdges.Right | NonClientFrameEdges.Bottom | NonClientFrameEdges.Left
-                }
-            );
+        TitleTB.Text = Title;
+    }
 
-            Topmost = true;
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        Close();
+    }
 
-            TitleTB.Text = Title;
-        }
+    private void CancelButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_oldParamaters is not null)
+            Result = _oldParamaters;
+        else
+            Result = null;
 
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_oldParamaters is not null)
-                Result = _oldParamaters;
-            else
-                Result = null;
-
-            Close();
-        }
+        Close();
     }
 }

@@ -5,176 +5,175 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace StarkCNC.Views
+namespace StarkCNC.Views;
+
+/// <summary>
+/// Interaction logic for AdjustmentView.xaml
+/// </summary>
+public partial class AdjustmentView : Page
 {
-    /// <summary>
-    /// Interaction logic for AdjustmentView.xaml
-    /// </summary>
-    public partial class AdjustmentView : Page
+    private AdjustmentViewModel ViewModel;
+    private int _levelMustBeSetted;
+
+    public AdjustmentView(AdjustmentViewModel viewModel)
     {
-        private AdjustmentViewModel ViewModel;
-        private int _levelMustBeSetted;
+        ViewModel = viewModel;
+        DataContext = viewModel;
 
-        public AdjustmentView(AdjustmentViewModel viewModel)
+        InitializeComponent();
+    }
+
+    private void PipeDiameterInput_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+    {
+        e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
+    }
+
+    private void AdjustmentManagement_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        Cursor = Cursors.Hand;
+    }
+
+    private void AdjustmentManagement_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        Cursor = Cursors.Arrow;
+    }
+
+    private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
+    {
+        ViewModel.SelectedAdjustment = null;
+        ViewModel.GoToAdjustmentListCommand.Execute(null);
+    }
+
+    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var listView = sender as ListView;
+        if (listView is null)
+            return;
+
+        foreach (var item in e.RemovedItems)
         {
-            ViewModel = viewModel;
-            DataContext = viewModel;
+            var listViewItem = listView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+            if (listViewItem is null)
+                continue;
 
-            InitializeComponent();
+            var panels = VisualFinder.FindVisualChildren<StackPanel>(listViewItem).ToList();
+            panels.ForEach(p => p.Visibility = Visibility.Collapsed);
         }
 
-        private void PipeDiameterInput_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        foreach (var item in listView.SelectedItems)
         {
-            e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
+            var listViewItem = listView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+            if (listViewItem is null)
+                continue;
+
+            var panels = VisualFinder.FindVisualChildren<StackPanel>(listViewItem).ToList();
+            panels
+                .Where(p => p.Name == "InstallSelection").ToList()
+                .ForEach(p => p.Visibility = Visibility.Visible);
         }
+    }
 
-        private void AdjustmentManagement_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+    private void SetUpButton_Click(object sender, RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        if (button is null)
+            return;
+
+        var parent = VisualFinder.FindVisualParent<Grid>(button);
+        if (parent is null)
+            return;
+
+        foreach(var child in parent.Children)
         {
-            Cursor = Cursors.Hand;
-        }
+            if (child is not StackPanel panel)
+                continue;
 
-        private void AdjustmentManagement_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            Cursor = Cursors.Arrow;
-        }
-
-        private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            ViewModel.SelectedAdjustment = null;
-            ViewModel.GoToAdjustmentListCommand.Execute(null);
-        }
-
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            var listView = sender as ListView;
-            if (listView is null)
-                return;
-
-            foreach (var item in e.RemovedItems)
-            {
-                var listViewItem = listView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
-                if (listViewItem is null)
-                    continue;
-
-                var panels = VisualFinder.FindVisualChildren<StackPanel>(listViewItem).ToList();
-                panels.ForEach(p => p.Visibility = Visibility.Collapsed);
-            }
-
-            foreach (var item in listView.SelectedItems)
-            {
-                var listViewItem = listView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
-                if (listViewItem is null)
-                    continue;
-
-                var panels = VisualFinder.FindVisualChildren<StackPanel>(listViewItem).ToList();
-                panels
-                    .Where(p => p.Name == "InstallSelection").ToList()
-                    .ForEach(p => p.Visibility = Visibility.Visible);
-            }
-        }
-
-        private void SetUpButton_Click(object sender, RoutedEventArgs e)
-        {
-            var button = sender as Button;
-            if (button is null)
-                return;
-
-            var parent = VisualFinder.FindVisualParent<Grid>(button);
-            if (parent is null)
-                return;
-
-            foreach(var child in parent.Children)
-            {
-                if (child is not StackPanel panel)
-                    continue;
-
-                if (panel.Name.Contains("LevelSelection", StringComparison.OrdinalIgnoreCase))
-                    panel.Visibility = Visibility.Visible;
-                else
-                    panel.Visibility = Visibility.Collapsed;
-            }
-        }
-
-        private void ThirdLevelButton_Click(object sender, RoutedEventArgs e)
-        {
-            _levelMustBeSetted = 3;
-        }
-
-        private void SecondLevelButton_Click(object sender, RoutedEventArgs e)
-        {
-            _levelMustBeSetted = 2;
-        }
-
-        private void FirstLevelButton_Click(object sender, RoutedEventArgs e)
-        {
-            _levelMustBeSetted = 1;
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            CollapseButtonsAndClearSelectedItem(sender);
-            _levelMustBeSetted = default;
-        }
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            SetLevelToAdjustment(_levelMustBeSetted);
-            CollapseButtonsAndClearSelectedItem(sender);
-            _levelMustBeSetted = default;
-        }
-
-        private void SetLevelToAdjustment(int level)
-        {
-            var adjustment = ViewModel.SelectedAdjustment;
-            if (adjustment is null)
-                return;
-
-            ViewModel.SetLevelToAdjustmentCommand.Execute(level);
-
-            ClearFloorConrolsSelectedAdjustment(adjustment);
-            switch (level)
-            {
-                case 1:
-                    FirstLevel.SelectedAdjustment = adjustment;
-                    break;
-                case 2:
-                    SecondLevel.SelectedAdjustment = adjustment;
-                    break;
-                case 3:
-                    ThirdLevel.SelectedAdjustment = adjustment;
-                    break;
-            }
-        }
-
-        private void ClearFloorConrolsSelectedAdjustment(AdjustmentParameters adjustment)
-        {
-            if (FirstLevel.SelectedAdjustment is not null && FirstLevel.SelectedAdjustment == adjustment)
-                FirstLevel.SelectedAdjustment = null;
-            if (SecondLevel.SelectedAdjustment is not null && SecondLevel.SelectedAdjustment == adjustment)
-                SecondLevel.SelectedAdjustment = null;
-            if (ThirdLevel.SelectedAdjustment is not null && ThirdLevel.SelectedAdjustment == adjustment)
-                ThirdLevel.SelectedAdjustment = null;
-        }
-
-        private void CollapseButtonsAndClearSelectedItem(object sender)
-        {
-            var button = sender as Button;
-            if (button is null)
-                return;
-
-            var parent = VisualFinder.FindVisualParent<Grid>(button);
-            if (parent is null)
-                return;
-
-            foreach (var child in parent.Children)
-            {
-                if (child is not StackPanel panel)
-                    continue;
-
+            if (panel.Name.Contains("LevelSelection", StringComparison.OrdinalIgnoreCase))
+                panel.Visibility = Visibility.Visible;
+            else
                 panel.Visibility = Visibility.Collapsed;
-            }
-
-            AdjustmentsList.SelectedItem = null;
         }
+    }
+
+    private void ThirdLevelButton_Click(object sender, RoutedEventArgs e)
+    {
+        _levelMustBeSetted = 3;
+    }
+
+    private void SecondLevelButton_Click(object sender, RoutedEventArgs e)
+    {
+        _levelMustBeSetted = 2;
+    }
+
+    private void FirstLevelButton_Click(object sender, RoutedEventArgs e)
+    {
+        _levelMustBeSetted = 1;
+    }
+
+    private void CancelButton_Click(object sender, RoutedEventArgs e)
+    {
+        CollapseButtonsAndClearSelectedItem(sender);
+        _levelMustBeSetted = default;
+    }
+
+    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    {
+        SetLevelToAdjustment(_levelMustBeSetted);
+        CollapseButtonsAndClearSelectedItem(sender);
+        _levelMustBeSetted = default;
+    }
+
+    private void SetLevelToAdjustment(int level)
+    {
+        var adjustment = ViewModel.SelectedAdjustment;
+        if (adjustment is null)
+            return;
+
+        ViewModel.SetLevelToAdjustmentCommand.Execute(level);
+
+        ClearFloorConrolsSelectedAdjustment(adjustment);
+        switch (level)
+        {
+            case 1:
+                FirstLevel.SelectedAdjustment = adjustment;
+                break;
+            case 2:
+                SecondLevel.SelectedAdjustment = adjustment;
+                break;
+            case 3:
+                ThirdLevel.SelectedAdjustment = adjustment;
+                break;
+        }
+    }
+
+    private void ClearFloorConrolsSelectedAdjustment(AdjustmentParameters adjustment)
+    {
+        if (FirstLevel.SelectedAdjustment is not null && FirstLevel.SelectedAdjustment == adjustment)
+            FirstLevel.SelectedAdjustment = null;
+        if (SecondLevel.SelectedAdjustment is not null && SecondLevel.SelectedAdjustment == adjustment)
+            SecondLevel.SelectedAdjustment = null;
+        if (ThirdLevel.SelectedAdjustment is not null && ThirdLevel.SelectedAdjustment == adjustment)
+            ThirdLevel.SelectedAdjustment = null;
+    }
+
+    private void CollapseButtonsAndClearSelectedItem(object sender)
+    {
+        var button = sender as Button;
+        if (button is null)
+            return;
+
+        var parent = VisualFinder.FindVisualParent<Grid>(button);
+        if (parent is null)
+            return;
+
+        foreach (var child in parent.Children)
+        {
+            if (child is not StackPanel panel)
+                continue;
+
+            panel.Visibility = Visibility.Collapsed;
+        }
+
+        AdjustmentsList.SelectedItem = null;
     }
 }

@@ -1,62 +1,61 @@
 ﻿using StarkCNC.Core.Services;
 using System.Diagnostics;
 
-namespace StarkCNC.MachineCommunication.Services
+namespace StarkCNC.MachineCommunication.Services;
+
+public class FakeManualConfigurationService : IManualConfigurationService
 {
-    public class FakeManualConfigurationService : IManualConfigurationService
+    private readonly IStatusService _statusService;
+
+    public bool Connected => GetRandomBool();
+
+    public FakeManualConfigurationService(IStatusService statusService)
     {
-        private readonly IStatusService _statusService;
+        _statusService = statusService;
+    }
 
-        public bool Connected => GetRandomBool();
+    public async Task ConnectAsync()
+    {
+        await Task.Delay(1000);
+        _statusService.Status = "Подключение успешно";
+    }
 
-        public FakeManualConfigurationService(IStatusService statusService)
+    public Task<T?> ReadAsync<T>(string from)
+    {
+        object? result = typeof(T) switch
         {
-            _statusService = statusService;
-        }
+            var t when t == typeof(bool) => GetRandomBool(),
+            var t when t == typeof(double) => GetRandomDouble(),
+            var t when t == typeof(float) => GetRandomFloat(),
+            _ => default(T)
+        };
 
-        public async Task ConnectAsync()
-        {
-            await Task.Delay(1000);
-            _statusService.Status = "Подключение успешно";
-        }
+        return Task.FromResult((T?)result);
+    }
 
-        public Task<T?> ReadAsync<T>(string from)
-        {
-            object? result = typeof(T) switch
-            {
-                var t when t == typeof(bool) => GetRandomBool(),
-                var t when t == typeof(double) => GetRandomDouble(),
-                var t when t == typeof(float) => GetRandomFloat(),
-                _ => default(T)
-            };
+    public async Task WriteAsync<T>(T value, string to)
+    {
+        Debug.WriteLine($"Запрос {to} со значением {value} принят");
+        await Task.Delay(100);
+    }
 
-            return Task.FromResult((T?)result);
-        }
+    private static bool GetRandomBool()
+    {
+        var random = new Random();
+        var v = random.Next(2);
+        return Convert.ToBoolean(v);
+    }
 
-        public async Task WriteAsync<T>(T value, string to)
-        {
-            Debug.WriteLine($"Запрос {to} со значением {value} принят");
-            await Task.Delay(100);
-        }
+    private static double GetRandomDouble()
+    {
+        var random = new Random();
+        var v = random.NextDouble();
+        return v * 100;
+    }
 
-        private static bool GetRandomBool()
-        {
-            var random = new Random();
-            var v = random.Next(2);
-            return Convert.ToBoolean(v);
-        }
-
-        private static double GetRandomDouble()
-        {
-            var random = new Random();
-            var v = random.NextDouble();
-            return v * 100;
-        }
-
-        private static float GetRandomFloat() {
-            var random = new Random();
-            var v = random.NextDouble();
-            return Convert.ToSingle(v * 100);
-        }
+    private static float GetRandomFloat() {
+        var random = new Random();
+        var v = random.NextDouble();
+        return Convert.ToSingle(v * 100);
     }
 }

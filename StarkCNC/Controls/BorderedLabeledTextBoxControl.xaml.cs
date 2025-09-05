@@ -11,11 +11,16 @@ namespace StarkCNC.Controls
     /// </summary>
     public partial class BorderedLabeledTextBoxControl : UserControl
     {
-        public static readonly DependencyProperty LabelTextProperty = DependencyProperty.Register(nameof(LabelText), typeof(object), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata());
-        public static readonly DependencyProperty TextBoxTextProperty = DependencyProperty.Register(nameof(TextBoxText), typeof(string), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata());
-        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty.Register(nameof(IsReadOnly), typeof(bool), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata());
-        public static readonly DependencyProperty NeedCallNumberInputProperty = DependencyProperty.Register(nameof(NeedCallNumberInput), typeof(bool), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata());
-        public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty.Register(nameof(IsNumericOnly), typeof(bool), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty LabelTextProperty = DependencyProperty
+            .Register(nameof(LabelText), typeof(object), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty TextBoxTextProperty = DependencyProperty
+            .Register(nameof(TextBoxText), typeof(string), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty
+            .Register(nameof(IsReadOnly), typeof(bool), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty NeedCallNumberInputProperty = DependencyProperty
+            .Register(nameof(NeedCallNumberInput), typeof(bool), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata());
+        public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty
+            .Register(nameof(IsNumericOnly), typeof(bool), typeof(BorderedLabeledTextBoxControl), new PropertyMetadata(false));
 
         public object? LabelText
         {

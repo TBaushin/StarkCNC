@@ -1,12 +1,11 @@
-﻿namespace StarkCNC.Services
+﻿namespace StarkCNC.Services;
+
+public enum ModelType
 {
-    public enum ModelType
-    {
-        Bend,
-        Carriage,
-        Clamp,
-        Console,
-        Press,
-        Roller
-    }
+    Bend,
+    Carriage,
+    Clamp,
+    Console,
+    Press,
+    Roller
 }
