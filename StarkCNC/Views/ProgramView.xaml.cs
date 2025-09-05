@@ -1,7 +1,5 @@
 ﻿using StarkCNC.Core.Models;
 using StarkCNC.ViewModels;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views;
@@ -25,11 +23,11 @@ public partial class ProgramView : Page
         BendingView.Children.Add(ViewModel.GetPipe());
     }
 
-        private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-            var item = PipeBendParametersDataGrid.CurrentItem;
-            if (item is not BendingData data)
-                return;
+    private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+    {
+        var item = PipeBendParametersDataGrid.CurrentItem;
+        if (item is not BendingData data)
+            return;
 
         var value = NumberInputViewModel.ShowDialog();
 
@@ -60,9 +58,8 @@ public partial class ProgramView : Page
         BendingView.CameraController.Zoom(-0.1); // Не знаю, но отрицательное число приближает, а положительное отодвигает
     }
 
-        private void ZoomOut_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            BendingView.CameraController.Zoom(0.1);
-        }
+    private void ZoomOut_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        BendingView.CameraController.Zoom(0.1);
     }
 }

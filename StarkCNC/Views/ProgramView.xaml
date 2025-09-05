@@ -433,7 +433,7 @@
                 ColumnWidth="*"
                 ItemsSource="{Binding BendingDatas, Mode=TwoWay}"
                 BeginningEdit="PipeBendParametersDataGrid_BeginningEdit"
-                CellEditEnding="PipeBendParametersDataGrid_CellEditEnding" SelectionChanged="PipeBendParametersDataGrid_SelectionChanged"
+              
                    CanUserReorderColumns="False"
    CanUserResizeColumns="True"
  
