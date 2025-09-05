@@ -73,7 +73,7 @@
     </Page.Resources>
 
 
-            <Grid x:Name="MainGrid">
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
@@ -433,20 +433,17 @@
                 ColumnWidth="*"
                 ItemsSource="{Binding BendingDatas, Mode=TwoWay}"
                 BeginningEdit="PipeBendParametersDataGrid_BeginningEdit"
-              
-                   CanUserReorderColumns="False"
-   CanUserResizeColumns="True"
- 
-   GridLinesVisibility="All" 
-   HeadersVisibility="None"
-   RowHeaderWidth="0" 
-   HorizontalScrollBarVisibility="Auto"
-   VerticalScrollBarVisibility="Auto" 
-   FontSize="11"
-   SelectionMode="Single"
-   SelectionUnit="FullRow">
+                CanUserReorderColumns="False"
+                CanUserResizeColumns="True"
+                GridLinesVisibility="All"
+                HeadersVisibility="None"
+                RowHeaderWidth="0"
+                HorizontalScrollBarVisibility="Auto"
+                VerticalScrollBarVisibility="Auto"
+                FontSize="11"
+                SelectionMode="Single"
+                SelectionUnit="FullRow">
                 <DataGrid.Columns>
-                    
                     <DataGridTextColumn Width="2*" Binding="{Binding Number}" IsReadOnly="True">
                         <DataGridTextColumn.ElementStyle>
                             <Style TargetType="TextBlock" BasedOn="{StaticResource EditableTextStyle}"/>
@@ -462,10 +459,10 @@
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding StraightLength}" 
-       Style="{StaticResource EditableTextStyle}"/>
+                                    <TextBlock Grid.Row="0" Text="{Binding StraightLength}"
+                                        Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2" />
+                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
 
                                     <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
                                     <Grid Grid.Row="2" Background="Gray">
@@ -473,8 +470,10 @@
                                             <ColumnDefinition Width="*"/>
                                             
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0"  Text="{Binding StraightLength, StringFormat='Speed: {0}'}" 
-           Style="{StaticResource EditableTextStyle}"  />
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Text="{Binding StraightLength, StringFormat='Speed: {0}'}"
+                                            Style="{StaticResource EditableTextStyle}"/>
                                     
                                     </Grid>
                                 </Grid>
@@ -491,10 +490,12 @@
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding StraightLength}" 
-Style="{StaticResource EditableTextStyle}"/>
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Text="{Binding StraightLength}"
+                                        Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2" />
+                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
 
                                     <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
                                     <Grid Grid.Row="2">
@@ -502,9 +503,10 @@ Style="{StaticResource EditableTextStyle}"/>
                                             <ColumnDefinition Width="*"/>
 
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding StraightLength}" 
-    Style="{StaticResource EditableTextStyle}"/>
-
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Text="{Binding StraightLength}"
+                                            Style="{StaticResource EditableTextStyle}"/>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>
@@ -520,11 +522,13 @@ Style="{StaticResource EditableTextStyle}"/>
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding StraightLength}" 
-                           Style="{StaticResource EditableTextStyle}"/>
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Text="{Binding StraightLength}"
+                                        Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2" />
-                                   
+                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
+
                                     <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
                                     <Grid Grid.Row="2">
                                         <Grid.ColumnDefinitions>
@@ -532,49 +536,54 @@ Style="{StaticResource EditableTextStyle}"/>
                                             <ColumnDefinition Width="2"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding StraightLength}" 
-                               Style="{StaticResource EditableTextStyle}"/>
-                                        <Rectangle Grid.Column="1" Fill="Black" Width="1" 
-                               VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding StraightLength}" 
-                               Style="{StaticResource EditableTextStyle}"/>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Text="{Binding StraightLength}"
+                                            Style="{StaticResource EditableTextStyle}"/>
+                                        <Rectangle
+                                            Grid.Column="1"
+                                            Fill="Black"
+                                            Width="1"
+                                            VerticalAlignment="Stretch"
+                                            HorizontalAlignment="Center"/>
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Text="{Binding StraightLength}"
+                                            Style="{StaticResource EditableTextStyle}"/>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                       
                     </DataGridTemplateColumn>
-
 
                     <!-- выбор режима гибки, радиус-->
                     <DataGridTemplateColumn Width="4*">
-                        
                         <DataGridTemplateColumn.CellTemplate>
-                            
                             <DataTemplate>
                                 <Grid>
                                     <Grid.RowDefinitions>
-                                    <RowDefinition Height="2*"/>
-                                    <RowDefinition Height="1*"/>
-                                    <RowDefinition Height="1*"/>
-                                </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0" Text="{Binding StraightLength}" 
-Style="{StaticResource EditableTextStyle}"/>
+                                        <RowDefinition Height="2*"/>
+                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="1*"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Text="{Binding StraightLength}" 
+                                        Style="{StaticResource EditableTextStyle}"/>
 
-                                <Rectangle Grid.Row="1" Fill="Black" Height="2" />
-                                <Grid Grid.Row="2">
-                                <ComboBox SelectedItem="{Binding BendMode, Mode=TwoWay}"
-ItemsSource="{Binding ProgramView.BendModeList, RelativeSource={RelativeSource AncestorType=Window}}"
-HorizontalAlignment="Stretch"
-VerticalAlignment="Center"
-HorizontalContentAlignment="Right"
-IsEditable="False"/>
-
-    </Grid>
-    </Grid>
-    </DataTemplate>
+                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
+                                    <Grid Grid.Row="2">
+                                        <ComboBox
+                                            SelectedItem="{Binding BendMode, Mode=TwoWay}"
+                                            ItemsSource="{Binding ProgramView.BendModeList, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            HorizontalAlignment="Stretch"
+                                            VerticalAlignment="Center"
+                                            HorizontalContentAlignment="Right"
+                                            IsEditable="False"/>
+                                    </Grid>
+                                </Grid>
+                            </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                       
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Width="8*">
                         <DataGridTemplateColumn.CellTemplate>
@@ -585,10 +594,12 @@ IsEditable="False"/>
                                         <RowDefinition Height="1*"/>
                                         <RowDefinition Height="1*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding StraightLength}" 
-        Style="{StaticResource EditableTextStyle}"/>
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Text="{Binding StraightLength}"
+                                        Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2" />
+                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
 
                                     <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
                                     <Grid Grid.Row="2">
@@ -597,12 +608,19 @@ IsEditable="False"/>
                                             <ColumnDefinition Width="2"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Grid.Column="0" Text="{Binding StraightLength}" 
-            Style="{StaticResource EditableTextStyle}"/>
-                                        <Rectangle Grid.Column="1" Fill="Black" Width="1" 
-            VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                        <TextBlock Grid.Column="2" Text="{Binding StraightLength}" 
-            Style="{StaticResource EditableTextStyle}"/>
+                                        <TextBlock
+                                            Grid.Column="0"
+                                            Text="{Binding StraightLength}"
+                                            Style="{StaticResource EditableTextStyle}"/>
+                                        <Rectangle
+                                            Grid.Column="1"
+                                            Fill="Black"
+                                            Width="1"
+                                            VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
+                                        <TextBlock
+                                            Grid.Column="2"
+                                            Text="{Binding StraightLength}"
+                                            Style="{StaticResource EditableTextStyle}"/>
                                     </Grid>
                                 </Grid>
                             </DataTemplate>
