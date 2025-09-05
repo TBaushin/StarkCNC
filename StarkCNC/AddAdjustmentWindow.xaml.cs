@@ -30,6 +30,7 @@ public partial class AddAdjustmentWindow : Window
             Result = new AdjustmentParameters(_oldParamaters.Name, _oldParamaters.Type)
             {
                 PipeDiameter = _oldParamaters.PipeDiameter,
+                Radius = _oldParamaters.Radius
             };
         else
             Result = new AdjustmentParameters("", Types.First());

@@ -54,6 +54,7 @@ public partial class AdjustmentViewModel : ObservableObject
         {
             SelectedAdjustment.Name = result.Name;
             SelectedAdjustment.PipeDiameter = result.PipeDiameter;
+            SelectedAdjustment.Radius = result.Radius;
             SelectedAdjustment.Type = result.Type;
         }
     }
@@ -78,6 +79,7 @@ public partial class AdjustmentViewModel : ObservableObject
         {
             SelectedAdjustment.Name = result.Name;
             SelectedAdjustment.PipeDiameter = result.PipeDiameter;
+            SelectedAdjustment.Radius = result.Radius;
             SelectedAdjustment.Type = result.Type;
         }
     }

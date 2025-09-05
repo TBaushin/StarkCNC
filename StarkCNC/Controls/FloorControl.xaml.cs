@@ -36,7 +36,7 @@ public partial class FloorControl : UserControl
                 SelectedAdjustmentLabel.Content = string.Empty;
             else
                 SelectedAdjustmentLabel.Content =
-                    $"{value.Name} {value.Type.Name} R{value.PipeDiameter}";
+                    $"{value.Name} {value.Type.Name} R{value.Radius}";
         }
     }
 

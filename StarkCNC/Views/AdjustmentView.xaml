@@ -82,7 +82,7 @@
                                     Grid.ColumnSpan="2">
                                     <Run Text="{Binding Name}"/>
                                     <Run Text="{Binding Type.Name}"/>
-                                    <Run Text="R"/><Run Text="{Binding PipeDiameter}"/>
+                                    <Run Text="R"/><Run Text="{Binding Radius}"/>
                                 </TextBlock>
                                 <StackPanel
                                     x:Name="LevelSelectionLevelButtons"
