@@ -13,105 +13,48 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdjustmentListView">
 
-    <StackPanel
-        Grid.Row="2"
-        Orientation="Vertical">
-        <controls:BorderedContentControl Text="Добавление новой оснастки">
-            <controls:BorderedContentControl.BorderedContent>
-                <Button
-                    Style="{DynamicResource AccentButtonStyle}"
-                    Content="{x:Static lang:Language.AddButton}"
-                    Command="{Binding CreateAdjustmentCommand}"/>
-            </controls:BorderedContentControl.BorderedContent>
-        </controls:BorderedContentControl>
-    </StackPanel>
-    <!--<Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Button
-                x:Name="AddAdjustment"
-                Command="{Binding CreateAdjustmentCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock 
-                        VerticalAlignment="Center"
-                        Margin="0,4,0,0"
-                        FontSize="10"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Text="&#xE710;"/>
-                    <TextBlock 
-                        Margin="8,0,0,0" 
-                        Text="{x:Static lang:Language.AddButton}"/>
-                </StackPanel>
-            </Button>
-        </Grid>
-        <ListView
-            Grid.Row="1"
-            ItemsSource="{Binding Adjustments}"
-            SelectionChanged="ListView_SelectionChanged">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="8,10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock             
-                            Grid.Row="0"             
-                            Grid.Column="0"             
-                            Margin="12,6,0,0"             
-                            FontWeight="Bold"             
-                            Text="{Binding Name, Mode=OneWay}"/>
-                        <StackPanel
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Right">
-                            <Button
-                                Margin="10,0,10,0"
-                                Visibility="Collapsed"
-                                Command="{Binding DataContext.EditAdjustmentCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                CommandParameter="{Binding}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock 
+    <ScrollViewer>
+        <StackPanel
+            Grid.Row="2"
+            Margin="0,0,15,0"
+            Orientation="Vertical">
+            <controls:BorderedContentControl Text="Добавление новой оснастки">
+                <controls:BorderedContentControl.BorderedContent>
+                    <Button
+                        Style="{DynamicResource AccentButtonStyle}"
+                        Content="{x:Static lang:Language.AddButton}"
+                        Command="{Binding CreateAdjustmentCommand}"/>
+                </controls:BorderedContentControl.BorderedContent>
+            </controls:BorderedContentControl>
+            <ItemsControl
+                ItemsSource="{Binding Adjustments}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <controls:BorderedContentControl
+                            Text="{Binding Name}">
+                            <controls:BorderedContentControl.BorderedContent>
+                                <Grid Margin="10,0,0,0" VerticalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button
+                                        Grid.Column="0"
+                                        Margin="0,0,6,0"
+                                        Content="{x:Static lang:Language.DeleteButton}"/>
+                                    <Label
+                                        Grid.Column="1"
+                                        Margin="4,0,4,0"
+                                        FontSize="20"
                                         VerticalAlignment="Center"
-                                        Margin="0,4,0,0"
-                                        FontSize="10"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        Text="&#xE70F;"/>
-                                    <TextBlock 
-                                        Margin="8,0,0,0" 
-                                        Text="{x:Static lang:Language.EditButton}"/>
-                                </StackPanel>
-                            </Button>
-                            <Button
-                                Margin="10,0,10,0"
-                                Visibility="Collapsed"
-                                Command="{Binding DataContext.DeleteAdjustmentCommand, RelativeSource={RelativeSource AncestorType=Page}}"
-                                CommandParameter="{Binding}">
-                                <StackPanel Orientation="Horizontal">
-                                    <TextBlock 
-                                        VerticalAlignment="Center"
-                                        Margin="0,4,0,0"
-                                        FontSize="10"
-                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        Text="&#xE74D;"/>
-                                    <TextBlock 
-                                        Margin="8,0,0,0" 
-                                        Text="{x:Static lang:Language.DeleteButton}"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>-->
+                                        Content="&#xE76C;"/>
+                                </Grid>
+                            </controls:BorderedContentControl.BorderedContent>
+                        </controls:BorderedContentControl>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </ScrollViewer>
 </Page>
