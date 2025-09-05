@@ -190,19 +190,19 @@
                     <StackPanel
                         Grid.Column="0"
                         Orientation="Horizontal">
-                        <TextBlock
+                        <Label
                             Margin="4,0,4,0"
                             FontSize="20"
                             FontFamily="{StaticResource SymbolThemeFontFamily}"
-                            Text="&#xE950;"/>
-                        <TextBlock Text="Управление оснастками"/>
+                            Content="&#xE950;"/>
+                        <Label Content="Управление оснастками"/>
                     </StackPanel>
-                    <TextBlock
+                    <Label
                         Grid.Column="1"
                         Margin="4,0,4,0"
                         FontSize="20"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Text="&#xE76C;"/>
+                        Content="&#xE76C;"/>
                 </Grid>
             </Border>
         </StackPanel>

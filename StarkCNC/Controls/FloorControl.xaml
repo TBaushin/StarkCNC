@@ -32,13 +32,13 @@
         <local:SwitchToggleControl
             Grid.Column="2"
             IsChecked="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <TextBlock
+        <Label
             Grid.Column="3"
             VerticalAlignment="Center"
             Margin="10,4,4,4"
             FontFamily="{StaticResource SymbolThemeFontFamily}"
             FontSize="20"
-            Text="&#xE76C;"
+            Content="&#xE76C;"
             MouseEnter="TextBlock_MouseEnter"
             MouseLeave="TextBlock_MouseLeave"
             MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
