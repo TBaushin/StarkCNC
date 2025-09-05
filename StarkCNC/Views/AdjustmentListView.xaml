@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+      xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:local="clr-namespace:StarkCNC.Views"
       d:DataContext="{d:DesignInstance vm:AdjustmentViewModel}"
@@ -12,7 +13,19 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AdjustmentListView">
 
-    <Grid>
+    <StackPanel
+        Grid.Row="2"
+        Orientation="Vertical">
+        <controls:BorderedContentControl Text="Добавление новой оснастки">
+            <controls:BorderedContentControl.BorderedContent>
+                <Button
+                    Style="{DynamicResource AccentButtonStyle}"
+                    Content="{x:Static lang:Language.AddButton}"
+                    Command="{Binding CreateAdjustmentCommand}"/>
+            </controls:BorderedContentControl.BorderedContent>
+        </controls:BorderedContentControl>
+    </StackPanel>
+    <!--<Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -100,5 +113,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-    </Grid>
+    </Grid>-->
 </Page>
