@@ -20,7 +20,7 @@
             Grid.Column="0"
             Width="32"
             Height="32"
-            Source="Resources/Icons/bending-roller.svg"/>
+            Source="Resources/Icons/bending-roller-2.svg"/>
         <StackPanel
             Grid.Column="1"
             Margin="10,0,10,0"
