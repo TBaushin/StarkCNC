@@ -46,7 +46,7 @@ public partial class AdjustmentViewModel : ObservableObject
         Adjustments.Add(adjustment);
 
         SelectedAdjustment = adjustment;
-        var settingsWindow = new AdjustmentSettingsWindow(this, "Добавление новой оснастки");
+        var settingsWindow = new AddAdjustmentWindow(this);
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
@@ -70,7 +70,7 @@ public partial class AdjustmentViewModel : ObservableObject
     {
         SelectedAdjustment = adjustment;
 
-        var settingsWindow = new AdjustmentSettingsWindow(this, "Изменение оснастки");
+        var settingsWindow = new AddAdjustmentWindow(this);
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;

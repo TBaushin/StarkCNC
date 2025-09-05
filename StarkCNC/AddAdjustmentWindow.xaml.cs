@@ -6,9 +6,9 @@ using System.Windows.Shell;
 namespace StarkCNC;
 
 /// <summary>
-/// Interaction logic for AdjustmentSettingsWindow.xaml
+/// Interaction logic for AddAdjustmentWindow.xaml
 /// </summary>
-public partial class AdjustmentSettingsWindow : Window
+public partial class AddAdjustmentWindow : Window
 {
     private AdjustmentViewModel ViewModel;
     private AdjustmentParameters? _oldParamaters;
@@ -16,7 +16,7 @@ public partial class AdjustmentSettingsWindow : Window
     public AdjustmentParameters? Result { get; set; }
     public IEnumerable<AdjustmentType>? Types { get; }
 
-    public AdjustmentSettingsWindow(AdjustmentViewModel viewModel, string Title = "Добавление новой оснастки")
+    public AddAdjustmentWindow(AdjustmentViewModel viewModel)
     {
         ViewModel = viewModel;
 
@@ -49,8 +49,6 @@ public partial class AdjustmentSettingsWindow : Window
         );
 
         Topmost = true;
-
-        TitleTB.Text = Title;
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
