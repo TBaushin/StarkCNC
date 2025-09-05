@@ -40,11 +40,6 @@ namespace StarkCNC.Models
         public int InstalledLevel
         {
             get => _adjustment.InstalledLevel;
-            set
-            {
-                _adjustment.InstalledLevel = value;
-                OnPropertyChanged(nameof(InstalledLevel));
-            }
         }
 
         public AdjustmentParameters(StarkCNC.Core.Models.AdjustmentParameters adjustment)

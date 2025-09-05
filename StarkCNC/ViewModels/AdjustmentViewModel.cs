@@ -18,8 +18,6 @@ namespace StarkCNC.ViewModels
         public ObservableCollection<AdjustmentParameters> Adjustments { get; } = new ObservableCollection<AdjustmentParameters>();
         public IEnumerable<StarkCNC.Core.Models.AdjustmentType> Types { get; }
 
-        public ICollection<string> AdjustmentsString { get; } = new List<string>();
-
         [ObservableProperty]
         private AdjustmentParameters? _selectedAdjustment;
 
@@ -95,6 +93,13 @@ namespace StarkCNC.ViewModels
         private void GoToAdjustmentList()
         {
             _navigationService.Navigate(_adjustmentListPage);
+        }
+
+        [RelayCommand]
+        private void SetLevelToAdjustment(int level)
+        {
+            if (SelectedAdjustment is not null)
+                _repository.SetLevel(SelectedAdjustment.Cast(), level);
         }
     }
 }

@@ -64,14 +64,32 @@ namespace StarkCNC.Core.Repository
 
         public void RemoveElement(AdjustmentParameters adjustment) => _adjustments.Remove(adjustment);
 
-        public IEnumerable<AdjustmentParameters> GetTenElements(int startPosition = 0) => _adjustments.Take(10).Skip(startPosition);
+        public IEnumerable<AdjustmentParameters> GetTenElements(int startPosition = 0) =>
+            _adjustments.Take(10).Skip(startPosition);
 
-        public IEnumerable<AdjustmentParameters> FindByName(string name) => _adjustments.Where(a => a.Name.Contains(name));
+        public IEnumerable<AdjustmentParameters> FindByName(string name) =>
+            _adjustments.Where(a => a.Name.Contains(name));
 
         public int Count() => _adjustments.Count;
 
         public IEnumerable<AdjustmentParameters> GetAll() => _adjustments;
 
         public IEnumerable<AdjustmentType> GetTypes() => _types;
+
+        public void SetLevel(AdjustmentParameters adjustment, int level)
+        {
+            if (!_adjustments.Contains(adjustment))
+            {
+                adjustment.InstalledLevel = level;
+                _adjustments.Add(adjustment);
+            }
+            else
+            {
+                var currentLevelAdjustments = _adjustments
+                    .Where(a => a.InstalledLevel == level && !a.Equals(adjustment))
+                    .ToList();
+                currentLevelAdjustments.ForEach(a => a.InstalledLevel = 0);
+            }
+        }
     }
 }

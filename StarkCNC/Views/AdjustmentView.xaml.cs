@@ -127,7 +127,7 @@ namespace StarkCNC.Views
             if (ViewModel.SelectedAdjustment is null)
                 return;
 
-            ViewModel.SelectedAdjustment.InstalledLevel = level;
+            ViewModel.SetLevelToAdjustmentCommand.Execute(level);
         }
 
         private void CollapseButtonsAndClearSelectedItem(object sender)

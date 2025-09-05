@@ -22,5 +22,6 @@ namespace StarkCNC.Core.Repository
 
         IEnumerable<AdjustmentType> GetTypes();
 
+        void SetLevel(AdjustmentParameters adjustment, int level);
     }
 }
