@@ -4,7 +4,9 @@ public class AdjustmentParameters
 {
     public string Name { get; set; } = string.Empty;
 
-    public double PipeDiameter { get; set; } = 50;
+    public double PipeDiameter { get; set; }
+
+    public double Radius { get; set; }
 
     public AdjustmentType Type { get; set; }
 
@@ -21,8 +23,8 @@ public class AdjustmentParameters
         if (obj is not AdjustmentParameters parameter)
             return false;
 
-        return parameter.Name == Name && parameter.PipeDiameter == PipeDiameter && parameter.Type == Type &&
-               parameter.InstalledLevel == InstalledLevel;
+        return parameter.Name == Name && parameter.PipeDiameter == PipeDiameter && parameter.Radius == Radius &&
+            parameter.Type == Type && parameter.InstalledLevel == InstalledLevel;
     }
 
     public override int GetHashCode() =>

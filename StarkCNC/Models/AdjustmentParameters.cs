@@ -27,6 +27,16 @@ public class AdjustmentParameters : INotifyPropertyChanged
         }
     }
 
+    public double Radius
+    {
+        get => _adjustment.Radius;
+        set
+        {
+            _adjustment.Radius = value;
+            OnPropertyChanged(nameof(Radius));
+        }
+    }
+
     public AdjustmentType Type
     {
         get => _adjustment.Type;
