@@ -4,6 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
+      xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:local="clr-namespace:StarkCNC.Views"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -97,8 +98,80 @@
                         Width="100"/>
                 </Grid>
             </Border>
-            <Border></Border>
-            <Border></Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <svg:SvgViewbox
+                        Grid.Column="0"
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,10,0"
+                        Source="Resources/Icons/clamp-length.svg"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical">
+                        <Label
+                            FontSize="20"
+                            Content="Длина прижима"/>
+                        <Label>
+                            <TextBlock>
+                                <Run Text="Измерьте длину прижимного вкладыша по оси"/>
+                                <Run
+                                    FontFamily="pack://application:,,,/Resources/Fonts/#ADLaM Display"
+                                    Text="Y"/><Run Text="."/>
+                            </TextBlock>
+                        </Label>
+                        <Label Content="Данный параметр используется для определения угла гиба для перестановки."/>
+                    </StackPanel>
+                    <TextBox
+                        Grid.Column="2"
+                        Height="32"
+                        Width="100"/>
+                </Grid>
+            </Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <svg:SvgViewbox
+                        Grid.Column="0"
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,10,0"
+                        Source="Resources/Icons/clamp-length.svg"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical">
+                        <Label
+                            FontSize="20"
+                            Content="Сопровождение дожима"/>
+                        <Label Content="Перемещение прижимного вкладыша во время гибки в автомате."/>
+                        <Label Content="Используется для улучшения качества гиба и предотвращения протягивания трубы."/>
+                    </StackPanel>
+                    <controls:SwitchToggleControl Grid.Column="2"/>
+                </Grid>
+            </Border>
         </StackPanel>
         <StackPanel
             x:Name="RollingAdjustmentTypeStackPanel"
