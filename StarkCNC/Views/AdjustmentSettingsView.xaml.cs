@@ -18,12 +18,24 @@ namespace StarkCNC.Views
 
             InitializeComponent();
 
+            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
             var selectedAdjustment = ViewModel.SelectedAdjustment;
             if (selectedAdjustment is not null)
             {
                 selectedAdjustment.PropertyChanged += SelectedAdjustment_PropertyChanged;
 
                 SetVisibilityForRollingAndWindingStackPanels(selectedAdjustment);
+            }
+        }
+
+        private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "SelectedAdjustment")
+            {
+                var selectedAdjustment = ViewModel.SelectedAdjustment;
+                if (selectedAdjustment is not null)
+                    SetVisibilityForRollingAndWindingStackPanels(selectedAdjustment);
             }
         }
 

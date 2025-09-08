@@ -176,11 +176,202 @@
         <StackPanel
             x:Name="RollingAdjustmentTypeStackPanel"
             Orientation="Vertical">
-            <Border></Border>
-            <Border></Border>
-            <Border></Border>
-            <Border></Border>
-            <Border></Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <svg:SvgViewbox
+                        Grid.Column="0"
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,10,0"
+                        Source="Resources/Icons/clamp-length-2.svg"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical">
+                        <Label
+                            FontSize="20"
+                            Content="Длина зажима"/>
+                        <Label>
+                            <TextBlock>
+                                <Run Text="Измерьте длину зажимного вкладыша по оси"/>
+                                <Run
+                                    FontFamily="pack://application:,,,/Resources/Fonts/#ADLaM Display"
+                                    Text="Y"/><Run Text="."/>
+                            </TextBlock>
+                        </Label>
+                        <Label Content="Данный параметр используется для работы в режиме перехвата, для определения координаты трубы при установке в начале программы"/>
+                    </StackPanel>
+                    <TextBox
+                        Grid.Column="2"
+                        Height="32"
+                        Width="100"/>
+                </Grid>
+            </Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <svg:SvgViewbox
+                        Grid.Column="0"
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,10,0"
+                        Source="Resources/Icons/press-length-2.svg"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical">
+                        <Label
+                            FontSize="20"
+                            Content="Длина прижима"/>
+                        <Label>
+                            <TextBlock>
+                                <Run Text="Измерьте длину прижимного вкладыша по оси"/>
+                                <Run
+                                    FontFamily="pack://application:,,,/Resources/Fonts/#ADLaM Display"
+                                    Text="Y"/><Run Text="."/>
+                            </TextBlock>
+                        </Label>
+                        <Label Content="Данный параметр используется для определения угла гиба для перестановки."/>
+                    </StackPanel>
+                    <TextBox
+                        Grid.Column="2"
+                        Height="32"
+                        Width="100"/>
+                </Grid>
+            </Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <svg:SvgViewbox
+                        Grid.Column="0"
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,10,0"
+                        Source="Resources/Icons/distance-from-clamp-roller-center-to-bend-axis-center.svg"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical">
+                        <Label
+                            FontSize="20"
+                            Content="Расстояние от центра ролика зажима до центра оси гиба"/>
+                        <Label>
+                            <TextBlock>
+                                <Run Text="Измерьте расстояние от центра зажимного ролика до центра оси гиба по координате"/>
+                                <Run
+                                    FontFamily="pack://application:,,,/Resources/Fonts/#ADLaM Display"
+                                    Text="X"/><Run Text="."/>
+                            </TextBlock>
+                        </Label>
+                        <Label Content="Данный параметр используется для расчёта положения гибочного ролика при прокатной гибке."/>
+                    </StackPanel>
+                    <TextBox
+                        Grid.Column="2"
+                        Height="32"
+                        Width="100"/>
+                </Grid>
+            </Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <svg:SvgViewbox
+                        Grid.Column="0"
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,10,0"
+                        Source="Resources/Icons/clamp-roller-outer-diameter.svg"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical">
+                        <Label
+                            FontSize="20"
+                            Content="Внешний диаметр зажимного ролика"/>
+                        <Label Content="Измерьте диаметр ролика."/>
+                        <Label Content="Данный параметр используется для расчёта положения гибочного ролика при прокатной гибке."/>
+                    </StackPanel>
+                    <TextBox
+                        Grid.Column="2"
+                        Height="32"
+                        Width="100"/>
+                </Grid>
+            </Border>
+            <Border
+                Margin="8,4,8,4"
+                MinHeight="80"
+                CornerRadius="4"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <Grid
+                    Grid.Column="0"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <svg:SvgViewbox
+                        Grid.Column="0"
+                        Width="32"
+                        Height="32"
+                        Margin="0,0,10,0"
+                        Source="Resources/Icons/clamp-roller-inner-diameter.svg"/>
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Vertical">
+                        <Label
+                            FontSize="20"
+                            Content="Внутренний диаметр зажимного ролика"/>
+                        <Label Content="Измерьте внутренний диаметр ролика."/>
+                        <Label Content="Данный параметр используется для расчёта положения гибочного ролика при прокатной гибке."/>
+                    </StackPanel>
+                    <TextBox
+                        Grid.Column="2"
+                        Height="32"
+                        Width="100"/>
+                </Grid>
+            </Border>
         </StackPanel>
         <Border
             Margin="8,4,8,4"
