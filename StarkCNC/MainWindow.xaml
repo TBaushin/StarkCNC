@@ -12,7 +12,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Title}" 
-        MinHeight="730" 
+        MinHeight="785" 
         MinWidth="1200"
         KeyDown="Window_KeyDown">
     <Window.Resources>
