@@ -1,6 +1,5 @@
-﻿using StarkCNC.Helpers;
+﻿using StarkCNC.Models;
 using StarkCNC.ViewModels;
-using System.Windows;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views;
@@ -20,30 +19,16 @@ public partial class AdjustmentListView : Page
         InitializeComponent();
     }
 
-    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        var listView = sender as ListView;
-        if (listView is null)
+        var label = sender as Label;
+        if (label is null)
             return;
 
-        foreach (var item in e.RemovedItems)
-        {
-            var listViewItem = listView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
-            if (listViewItem is null)
-                continue;
+        var adjustment = label.DataContext as AdjustmentParameters;
+        if (adjustment is null)
+            return;
 
-            var buttons = VisualFinder.FindVisualChildren<Button>(listViewItem).ToList();
-            buttons.ForEach(b => b.Visibility = Visibility.Collapsed);
-        }
-
-        foreach (var item in listView.SelectedItems)
-        {
-            var listViewItem = listView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
-            if (listViewItem is null)
-                continue;
-
-            var buttons = VisualFinder.FindVisualChildren<Button>(listViewItem).ToList();
-            buttons.ForEach(b => b.Visibility = Visibility.Visible);
-        }
+        ViewModel.EditAdjustmentCommand.Execute(adjustment);
     }
 }

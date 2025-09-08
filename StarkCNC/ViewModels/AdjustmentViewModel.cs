@@ -11,6 +11,7 @@ namespace StarkCNC.ViewModels;
 public partial class AdjustmentViewModel : ObservableObject
 {
     private readonly AdjustmentListView _adjustmentListPage;
+    private readonly AdjustmentSettingsView _adjustmentSettingsPage;
 
     private readonly INavigationService _navigationService;
     private readonly IAdjustmentRepository _repository;
@@ -24,6 +25,7 @@ public partial class AdjustmentViewModel : ObservableObject
     public AdjustmentViewModel(INavigationService navigationService, IAdjustmentRepository adjustmentRepository) 
     {
         _adjustmentListPage = new AdjustmentListView(this);
+        _adjustmentSettingsPage = new AdjustmentSettingsView(this);
 
         _navigationService = navigationService;
         _repository = adjustmentRepository;
@@ -70,8 +72,9 @@ public partial class AdjustmentViewModel : ObservableObject
     private void EditAdjustment(AdjustmentParameters adjustment)
     {
         SelectedAdjustment = adjustment;
+        _navigationService.Navigate(_adjustmentSettingsPage);
 
-        var settingsWindow = new AddAdjustmentWindow(this);
+        /*var settingsWindow = new AddAdjustmentWindow(this);
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
@@ -81,7 +84,7 @@ public partial class AdjustmentViewModel : ObservableObject
             SelectedAdjustment.PipeDiameter = result.PipeDiameter;
             SelectedAdjustment.Radius = result.Radius;
             SelectedAdjustment.Type = result.Type;
-        }
+        }*/
     }
 
     [RelayCommand]

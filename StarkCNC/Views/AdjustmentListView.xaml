@@ -49,7 +49,8 @@
                                         VerticalAlignment="Center"
                                         Cursor="Hand"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        Content="&#xE76C;"/>
+                                        Content="&#xE76C;"
+                                        MouseDown="Label_MouseDown"/>
                                 </Grid>
                             </controls:BorderedContentControl.BorderedContent>
                         </controls:BorderedContentControl>
