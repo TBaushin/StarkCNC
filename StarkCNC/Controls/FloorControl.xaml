@@ -39,8 +39,7 @@
             FontFamily="{StaticResource SymbolThemeFontFamily}"
             FontSize="20"
             Content="&#xE76C;"
-            MouseEnter="TextBlock_MouseEnter"
-            MouseLeave="TextBlock_MouseLeave"
+            Cursor="Hand"
             MouseLeftButtonDown="TextBlock_MouseLeftButtonDown"/>
     </Grid>
 </UserControl>

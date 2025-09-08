@@ -57,16 +57,6 @@ public partial class FloorControl : UserControl
         InitializeComponent();
     }
 
-    private void TextBlock_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-    {
-        Cursor = Cursors.Hand;
-    }
-
-    private void TextBlock_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-    {
-        Cursor = Cursors.Arrow;
-    }
-
     private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         Navigate.Execute(null);

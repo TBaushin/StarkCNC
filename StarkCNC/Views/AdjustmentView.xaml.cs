@@ -28,16 +28,6 @@ public partial class AdjustmentView : Page
         e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
     }
 
-    private void AdjustmentManagement_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-    {
-        Cursor = Cursors.Hand;
-    }
-
-    private void AdjustmentManagement_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-    {
-        Cursor = Cursors.Arrow;
-    }
-
     private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
     {
         ViewModel.SelectedAdjustment = null;

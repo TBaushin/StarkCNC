@@ -47,6 +47,7 @@
                                         Margin="4,0,4,0"
                                         FontSize="20"
                                         VerticalAlignment="Center"
+                                        Cursor="Hand"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                                         Content="&#xE76C;"/>
                                 </Grid>
