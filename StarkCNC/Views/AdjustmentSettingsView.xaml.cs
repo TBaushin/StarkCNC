@@ -1,4 +1,5 @@
-﻿using StarkCNC.ViewModels;
+﻿using StarkCNC.Models;
+using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views
@@ -16,6 +17,39 @@ namespace StarkCNC.Views
             DataContext = viewModel;
 
             InitializeComponent();
+
+            var selectedAdjustment = ViewModel.SelectedAdjustment;
+            if (selectedAdjustment is not null)
+            {
+                selectedAdjustment.PropertyChanged += SelectedAdjustment_PropertyChanged;
+
+                SetVisibilityForRollingAndWindingStackPanels(selectedAdjustment);
+            }
+        }
+
+        private void SelectedAdjustment_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var adjustment = sender as AdjustmentParameters;
+            if (adjustment is null)
+                return;
+
+            if (e.PropertyName == "Type")
+                SetVisibilityForRollingAndWindingStackPanels(adjustment);
+        }
+
+        private void SetVisibilityForRollingAndWindingStackPanels(AdjustmentParameters adjustment)
+        {
+            if (adjustment.Type.Name == "Намоткой")
+            {
+                WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Visible;
+                RollingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;
+            }
+
+            if (adjustment.Type.Name == "Прокатная")
+            {
+                RollingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Visible;
+                WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;
+            }
         }
     }
 }

@@ -9,6 +9,36 @@
       Title="AdjustmentSettingsView">
 
     <StackPanel>
+        <Border>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="0" Grid.Row="0">
+                    <Run Text="Тип оснастки:"/>
+                    <Run Text="{Binding SelectedAdjustment.Type.Name}"/>
+                </TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="1">
+                    <Run Text="Диаметр трубы:"/>
+                    <Run Text="{Binding SelectedAdjustment.PipeDiameter}"/>
+                </TextBlock>
+                <TextBlock Grid.Column="0" Grid.Row="2">
+                    <Run Text="Радиус оснастки:"/>
+                    <Run Text="{Binding SelectedAdjustment.Radius}"/>
+                </TextBlock>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    Content="Редактировать"/>
+            </Grid>
+        </Border>
         <StackPanel
             x:Name="WindingAdjustmentTypeStackPanel"
             Orientation="Vertical">
@@ -19,5 +49,8 @@
             Orientation="Vertical">
             
         </StackPanel>
+        <Border>
+            <Label/>
+        </Border>
     </StackPanel>
 </Page>
