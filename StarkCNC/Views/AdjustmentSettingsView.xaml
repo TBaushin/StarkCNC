@@ -117,7 +117,7 @@
                         Width="32"
                         Height="32"
                         Margin="0,0,10,0"
-                        Source="Resources/Icons/clamp-length.svg"/>
+                        Source="Resources/Icons/press-length.svg"/>
                     <StackPanel
                         Grid.Column="1"
                         Orientation="Vertical">
@@ -159,7 +159,7 @@
                         Width="32"
                         Height="32"
                         Margin="0,0,10,0"
-                        Source="Resources/Icons/clamp-length.svg"/>
+                        Source="Resources/Icons/press-support.svg"/>
                     <StackPanel
                         Grid.Column="1"
                         Orientation="Vertical">
