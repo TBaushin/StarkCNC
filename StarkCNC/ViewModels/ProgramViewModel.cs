@@ -43,7 +43,7 @@ public partial class ProgramViewModel : ObservableObject
     [RelayCommand]
     private async Task CreateNewFile()
     {
-        if(!await SaveFile().ConfigureAwait(false))
+        if(!await SaveFile().ConfigureAwait(true))
             return;
 
         var dialog = new SaveFileDialog();
@@ -62,7 +62,7 @@ public partial class ProgramViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async Task OpenFile()
+    private async void OpenFile()
     {
         var dialog = new OpenFileDialog();
         dialog.DefaultExt = _gcodeExtension;
@@ -77,9 +77,18 @@ public partial class ProgramViewModel : ObservableObject
 
         BendingDatas.Clear();
 
-        var data = await _gCodeService.ReadAsync(CurrentFilePath).ConfigureAwait(false);
-        foreach (var item in data)
-            BendingDatas.Add(item);
+        try
+        {
+            var data = await _gCodeService
+                .ReadAsync(CurrentFilePath)
+                .ConfigureAwait(true);
+            foreach (var item in data)
+                BendingDatas.Add(item);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
 
         UpdateBend();
     }
