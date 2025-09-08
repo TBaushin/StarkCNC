@@ -33,16 +33,16 @@ public partial class ProgramView : Page
 
         switch (PipeBendParametersDataGrid.CurrentColumn.DisplayIndex)
         {
-            case 0:
+            case 1:
                 data.StraightLength = value;
                 break;
-            case 1:
+            case 2:
                 data.BendingAngle = value;
                 break;
-            case 2:
+            case 3:
                 data.BendingRadius = value;
                 break;
-            case 3:
+            case 4:
                 data.RotationAngle = value;
                 break;
         }

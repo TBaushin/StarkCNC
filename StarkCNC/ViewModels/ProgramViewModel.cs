@@ -23,6 +23,7 @@ public partial class ProgramViewModel : ObservableObject
     private string _currentFilePath = string.Empty;
 
     public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
+    public List<string> BendModeList = new List<string>() { "Hello", "World" };
 
     public ProgramViewModel(IServiceProvider serviceProvider, IBendingModelsLoadingService bendingModelsLoadingService, IGCodeService gCodeService)
     {
@@ -114,16 +115,16 @@ public partial class ProgramViewModel : ObservableObject
         return true;
     }
 
-    public Visual3D GetPipe()
-    {
-        return _bendingModelsLoadingService.Pipe;
-    }
+    public Visual3D GetPipe() =>
+        _bendingModelsLoadingService.Pipe;
+    
 
     public void UpdateBend()
     {
         double pipeDiameter = 50;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
-        _bendingModelsLoadingService.UpdatePipeBend(WireBuilder.BuildWirePath(BendingDatas, pipeDiameter), pipeDiameter);
+        _bendingModelsLoadingService
+            .UpdatePipeBend(WireBuilder.BuildWirePath(BendingDatas, pipeDiameter), pipeDiameter);
     }
 }

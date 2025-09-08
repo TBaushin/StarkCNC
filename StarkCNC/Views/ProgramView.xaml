@@ -444,9 +444,14 @@
                 SelectionMode="Single"
                 SelectionUnit="FullRow">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Width="2*" Binding="{Binding Number}" IsReadOnly="True">
+                    <DataGridTextColumn
+                        Width="2*"
+                        Binding="{Binding Number}"
+                        IsReadOnly="True">
                         <DataGridTextColumn.ElementStyle>
-                            <Style TargetType="TextBlock" BasedOn="{StaticResource EditableTextStyle}"/>
+                            <Style
+                                TargetType="TextBlock"
+                                BasedOn="{StaticResource EditableTextStyle}"/>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
                     <!-- Ось Y - РЕДАКТИРУЕМАЯ с разделенными числами -->
@@ -456,25 +461,26 @@
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding StraightLength}"
+                                    <TextBlock
+                                        Grid.Row="0"
+                                        Text="{Binding StraightLength}"
                                         Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
+                                    <Rectangle
+                                        Grid.Row="1"
+                                        Fill="Black"
+                                        Height="2"/>
 
                                     <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
-                                    <Grid Grid.Row="2" Background="Gray">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            
-                                        </Grid.ColumnDefinitions>
+                                    <Grid
+                                        Grid.Row="2"
+                                        Background="Gray">
                                         <TextBlock
-                                            Grid.Column="0"
                                             Text="{Binding StraightLength, StringFormat='Speed: {0}'}"
                                             Style="{StaticResource EditableTextStyle}"/>
-                                    
                                     </Grid>
                                 </Grid>
                             </DataTemplate>
@@ -487,24 +493,22 @@
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <TextBlock
                                         Grid.Row="0"
                                         Text="{Binding StraightLength}"
                                         Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
+                                    <Rectangle
+                                        Grid.Row="1"
+                                        Fill="Black"
+                                        Height="2"/>
 
                                     <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
                                     <Grid Grid.Row="2">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-
-                                        </Grid.ColumnDefinitions>
                                         <TextBlock
-                                            Grid.Column="0"
                                             Text="{Binding StraightLength}"
                                             Style="{StaticResource EditableTextStyle}"/>
                                     </Grid>
@@ -519,15 +523,18 @@
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <TextBlock
                                         Grid.Row="0"
                                         Text="{Binding StraightLength}"
                                         Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
+                                    <Rectangle
+                                        Grid.Row="1"
+                                        Fill="Black"
+                                        Height="2"/>
 
                                     <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
                                     <Grid Grid.Row="2">
@@ -563,19 +570,22 @@
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="*"/>
                                     </Grid.RowDefinitions>
                                     <TextBlock
                                         Grid.Row="0"
                                         Text="{Binding StraightLength}" 
                                         Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
+                                    <Rectangle
+                                        Grid.Row="1"
+                                        Fill="Black"
+                                        Height="2"/>
                                     <Grid Grid.Row="2">
                                         <ComboBox
                                             SelectedItem="{Binding BendMode, Mode=TwoWay}"
-                                            ItemsSource="{Binding ProgramView.BendModeList, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            ItemsSource="{Binding BendModeList}"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Center"
                                             HorizontalContentAlignment="Right"
@@ -599,7 +609,10 @@
                                         Text="{Binding StraightLength}"
                                         Style="{StaticResource EditableTextStyle}"/>
 
-                                    <Rectangle Grid.Row="1" Fill="Black" Height="2"/>
+                                    <Rectangle
+                                        Grid.Row="1"
+                                        Fill="Black"
+                                        Height="2"/>
 
                                     <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
                                     <Grid Grid.Row="2">
