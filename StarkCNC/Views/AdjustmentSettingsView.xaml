@@ -378,7 +378,8 @@
             MinHeight="80"
             CornerRadius="4"
             Cursor="Hand"
-            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+            Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            PreviewMouseDown="Border_PreviewMouseDown">
             <Grid
                 Grid.Column="0"
                 Margin="10,0,10,0"

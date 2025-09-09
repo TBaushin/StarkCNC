@@ -12,6 +12,7 @@ public partial class AdjustmentViewModel : ObservableObject
 {
     private readonly AdjustmentListView _adjustmentListPage;
     private readonly AdjustmentSettingsView _adjustmentSettingsPage;
+    private readonly AdjustmentCoordinateSettingsView _adjustmentCoordinateSettingsPage;
 
     private readonly INavigationService _navigationService;
     private readonly IAdjustmentRepository _repository;
@@ -26,6 +27,7 @@ public partial class AdjustmentViewModel : ObservableObject
     {
         _adjustmentListPage = new AdjustmentListView(this);
         _adjustmentSettingsPage = new AdjustmentSettingsView(this);
+        _adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(this);
 
         _navigationService = navigationService;
         _repository = adjustmentRepository;
@@ -86,6 +88,12 @@ public partial class AdjustmentViewModel : ObservableObject
     private void GoToAdjustmentList()
     {
         _navigationService.Navigate(_adjustmentListPage);
+    }
+
+    [RelayCommand]
+    private void GoToCoordinateSettings()
+    {
+        _navigationService.Navigate(_adjustmentCoordinateSettingsPage);
     }
 
     [RelayCommand]

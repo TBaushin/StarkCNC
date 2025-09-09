@@ -63,5 +63,10 @@ namespace StarkCNC.Views
                 WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;
             }
         }
+
+        private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel.GoToCoordinateSettingsCommand.Execute(null);
+        }
     }
 }
