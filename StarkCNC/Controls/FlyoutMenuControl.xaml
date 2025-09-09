@@ -11,5 +11,159 @@
     <UserControl.Resources>
         <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
     </UserControl.Resources>
-    <Grid x:Name="FlyoutMenu"/>
+    <StackPanel>
+        <Grid x:Name="FlyoutMenuOpened">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <Button
+                    Width="253"
+                    Margin="19,18,18,0"
+                    Click="MenuButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,4,0,0"
+                            FontSize="15"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE700;"/>
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            Text="{x:Static lang:Language.MenuButton}"/>
+                    </StackPanel>
+                </Button>
+                <TextBox
+                    x:Name="SearchBox"
+                    Width="253"
+                    Margin="10"/>
+            </StackPanel>
+            <TreeView
+                Grid.Row="1"
+                Margin="8,8,0,0"
+                ItemsSource="{Binding Pages, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <TreeView.ItemTemplate>
+                    <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                        <StackPanel
+                            MinHeight="30"
+                            Orientation="Horizontal">
+                            <TextBlock
+                                MaxWidth="16"
+                                FontSize="16"
+                                VerticalAlignment="Center"
+                                FontFamily="SymbolThemeFontFamily"
+                                Text="{Binding IconGlyph}"
+                                Visibility="{Binding IconGlyph, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="12,0,0,0"
+                                VerticalAlignment="Center"
+                                Text="{Binding Title}"/>
+                        </StackPanel>
+                    </HierarchicalDataTemplate>
+                </TreeView.ItemTemplate>
+            </TreeView>
+            <StackPanel
+                Grid.Row="2"
+                Orientation="Horizontal">
+                <Button
+                    Margin="10"
+                    Height="40"
+                    Width="40"
+                    DockPanel.Dock="Bottom"
+                    Command="{Binding GoSettingsCommand}">
+                    <TextBlock
+                        Margin="0,4,0,0"
+                        FontSize="15"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE713;"/>
+                </Button>
+                <Button
+                    Margin="10"
+                    Height="40"
+                    Width="210"
+                    DockPanel.Dock="Bottom"
+                    HorizontalContentAlignment="Left"
+                    Command="{Binding GoUsersCommand}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,4,0,0"
+                            FontSize="15"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="&#xE77B;"/>
+                        <TextBlock Margin="8,0,0,0"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid
+            x:Name="FlyoutMenuClosed"
+            Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel
+                Grid.Row="0"
+                Orientation="Vertical">
+                <Button
+                    Margin="18,18,18,5"
+                    Click="MenuButton_Click">
+                    <TextBlock
+                        Margin="0,4,0,0"
+                        FontSize="15"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE700;"/>
+                </Button>
+                <Button
+                    Margin="18,5,18,5">
+                    <TextBlock
+                        Margin="0,4,0,0"
+                        FontSize="15"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE721;"/>
+                </Button>
+                <Separator/>
+            </StackPanel>
+            <ListView
+                Grid.Row="1"
+                Margin="8,8,0,8"
+                ItemsSource="{Binding Pages, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock
+                            Margin="0,4,0,0"
+                            FontSize="16"
+                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                            Text="{Binding IconGlyph}"
+                            Visibility="{Binding IconGlyph, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackPanel Grid.Row="2">
+                <Button
+                    DockPanel.Dock="Bottom"
+                    Command="{Binding GoUsersCommand}"
+                    Margin="18,5,18,5">
+                    <TextBlock
+                        Margin="0,4,0,0"
+                        FontSize="15"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE77B;"/>
+                </Button>
+                <Button
+                    DockPanel.Dock="Bottom"
+                    Command="{Binding GoSettingsCommand}"
+                    Margin="18,5,18,5">
+                    <TextBlock
+                        Margin="0,4,0,0"
+                        FontSize="15"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE713;"/>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </StackPanel>
 </UserControl>

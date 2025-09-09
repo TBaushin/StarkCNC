@@ -22,7 +22,7 @@ public partial class MainWindow : Window
 
     public MainWindowViewModel ViewModel { get; set; }
 
-    public FlyoutMenuControl PageList { get; set; }
+    public FlyoutMenuControl FlyoutMenu { get; set; }
 
     public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService, IServiceProvider serviceProvider)
     {
@@ -39,10 +39,10 @@ public partial class MainWindow : Window
         UpdateWindowBackground();
         UpdateMainWindowVisuals();
         
-        PageList = _serviceProvider.GetRequiredService<FlyoutMenuControl>();
-        PageList.Pages = ViewModel.Pages;
-        Grid.SetRowSpan(PageList, 2);
-        PageGrid.Children.Add(PageList);
+        FlyoutMenu = _serviceProvider.GetRequiredService<FlyoutMenuControl>();
+        FlyoutMenu.Pages = ViewModel.Pages;
+        Grid.SetRowSpan(FlyoutMenu, 2);
+        PageGrid.Children.Add(FlyoutMenu);
 
         _navigationService.SetFrame(RootContentFrame);
 
@@ -149,7 +149,7 @@ public partial class MainWindow : Window
             pageTitle = e.PageTitle;
 
         var page = ViewModel.GetNavigationItem(pageTitle);
-        PageList.UpdateSelected(page);
+        FlyoutMenu.UpdateSelected(page);
     }
 
     private void RootContentFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)

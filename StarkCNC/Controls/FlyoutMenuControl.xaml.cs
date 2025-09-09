@@ -2,8 +2,6 @@
 using StarkCNC.Services;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Media;
 
 namespace StarkCNC.Controls;
 
@@ -30,33 +28,16 @@ public partial class FlyoutMenuControl : UserControl
 
     public event RoutedPropertyChangedEventHandler<object> SelectedItemChanged;
 
-    public Button MenuButton { get; set; }
-
-    public Button SettingsButton { get; set; }
-
-    public Button UserButton { get; set; }
-
-    public TextBox SearchBox { get; set; }
-
-    public Button SearchButton { get; set; }
-
-    public ListView PageList { get; set; }
-
     public FlyoutMenuControl(INavigationService navigationService)
     {
         _navigationService = navigationService;
 
         InitializeComponent();
-
-        GenerateOpenPage();
-
-        PageList.SelectionChanged += PageList_SelectionChanged;
-        MenuButton.Click += MenuButton_Click;
     }
 
     public void UpdateSelected(ViewData? viewData)
     {
-        var page = viewData;
+        /*var page = viewData;
         if (page is null)
         {
             foreach (var item in PageList.Items)
@@ -79,32 +60,10 @@ public partial class FlyoutMenuControl : UserControl
         if (listViewItemFromPage is null)
             return;
 
-        listViewItemFromPage.IsSelected = true;
+        listViewItemFromPage.IsSelected = true;*/
     }
 
-    private void GenerateOpenPage()
-    {
-        FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-        FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-        FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-        FlyoutMenu.Children.Add(GenerateOpenHeader());
-        FlyoutMenu.Children.Add(GenerateOpenBody());
-        FlyoutMenu.Children.Add(GenerateOpenFooter());
-    }
-
-    private void GenerateClosedPage()
-    {
-        FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-        FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = new GridLength(1, GridUnitType.Star) });
-        FlyoutMenu.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
-
-        FlyoutMenu.Children.Add(GenerateClosedHeader());
-        FlyoutMenu.Children.Add(GenerateClosedBody());
-        FlyoutMenu.Children.Add(GenerateClosedFooter());
-    }
-
-    private StackPanel GenerateOpenHeader()
+    /*private StackPanel GenerateOpenHeader()
     {
         var sp = new StackPanel();
         MenuButton = new Button() { Width = 253, Margin = new Thickness(18) };
@@ -133,9 +92,9 @@ public partial class FlyoutMenuControl : UserControl
 
         Grid.SetRow(sp, 0);
         return sp;
-    }
+    }*/
 
-    private StackPanel GenerateClosedHeader()
+    /*private StackPanel GenerateClosedHeader()
     {
         var sp = new StackPanel();
         MenuButton = new Button()
@@ -179,9 +138,9 @@ public partial class FlyoutMenuControl : UserControl
 
         Grid.SetRow(sp, 0);
         return sp;
-    }
+    }*/
 
-    private ListView GenerateOpenBody()
+    /*private ListView GenerateOpenBody()
     {
         PageList = new ListView() { Margin = new Thickness(8, 8, 0, 0) };
         PageList.SetBinding(ListView.ItemsSourceProperty, new Binding("Pages"));
@@ -223,9 +182,9 @@ public partial class FlyoutMenuControl : UserControl
 
         Grid.SetRow(PageList, 1);
         return PageList;
-    }
+    }*/
 
-    private ListView GenerateClosedBody()
+    /*private ListView GenerateClosedBody()
     {
         PageList = new ListView() { Margin = new Thickness(8), HorizontalContentAlignment = HorizontalAlignment.Left };
         PageList.SetBinding(ListView.ItemsSourceProperty, new Binding("Pages"));
@@ -248,9 +207,9 @@ public partial class FlyoutMenuControl : UserControl
 
         Grid.SetRow(PageList, 1);
         return PageList;
-    }
+    }*/
 
-    private StackPanel GenerateOpenFooter()
+    /*private StackPanel GenerateOpenFooter()
     {
         SettingsButton = new Button()
         {
@@ -300,9 +259,9 @@ public partial class FlyoutMenuControl : UserControl
 
         Grid.SetRow(resultSp, 2);
         return resultSp;
-    }
+    }*/
 
-    private StackPanel GenerateClosedFooter()
+    /*private StackPanel GenerateClosedFooter()
     {
         SettingsButton = new Button()
         {
@@ -349,11 +308,15 @@ public partial class FlyoutMenuControl : UserControl
 
         Grid.SetRow(resultSp, 2);
         return resultSp;
-    }
+    }*/
 
     private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var navItem = PageList.SelectedItem as ViewData;
+        var pageList = sender as ListView;
+        if (pageList is null)
+            return;
+
+        var navItem = pageList.SelectedItem as ViewData;
         if (navItem is null)
             return;
 
@@ -362,7 +325,11 @@ public partial class FlyoutMenuControl : UserControl
 
     private void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
-        var navItem = PageList.SelectedItem as ViewData;
+        var pageList = sender as ListView;
+        if (pageList is null)
+            return;
+
+        var navItem = pageList.SelectedItem as ViewData;
         if (navItem is null)
             return;
 
@@ -374,22 +341,14 @@ public partial class FlyoutMenuControl : UserControl
         if (_menuOpen)
         {
             _menuOpen = false;
-            FlyoutMenu.Children.Clear();
-            FlyoutMenu.RowDefinitions.Clear();
-            GenerateClosedPage();
-
-            MenuButton.Click += MenuButton_Click;
-            PageList.SelectionChanged += PageList_SelectionChanged;
+            FlyoutMenuOpened.Visibility = Visibility.Collapsed;
+            FlyoutMenuClosed.Visibility = Visibility.Visible;
         }
         else
         {
             _menuOpen = true;
-            FlyoutMenu.Children.Clear();
-            FlyoutMenu.RowDefinitions.Clear();
-            GenerateOpenPage();
-
-            MenuButton.Click += MenuButton_Click;
-            PageList.SelectionChanged += PageList_SelectionChanged;
+            FlyoutMenuOpened.Visibility = Visibility.Visible;
+            FlyoutMenuClosed.Visibility = Visibility.Collapsed;
         }
     }
 }
