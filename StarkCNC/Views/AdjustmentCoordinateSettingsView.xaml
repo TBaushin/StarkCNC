@@ -30,7 +30,7 @@
                         Width="32"
                         Height="32"
                         Margin="0,0,10,0"
-                        Source="Resources/Icons/clamp-length-2.svg"/>
+                        Source="Resources/Icons/supply.svg"/>
                     <StackPanel
                         Grid.Column="1"
                         Orientation="Vertical">
