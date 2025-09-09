@@ -27,8 +27,8 @@
                     </Grid.ColumnDefinitions>
                     <svg:SvgViewbox
                         Grid.Column="0"
-                        Width="32"
-                        Height="32"
+                        Width="64"
+                        Height="64"
                         Margin="0,0,10,0"
                         Source="Resources/Icons/supply.svg"/>
                     <StackPanel

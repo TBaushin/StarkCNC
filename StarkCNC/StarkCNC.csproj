@@ -43,6 +43,7 @@
     <None Remove="Resources\Icons\press-length-2.svg" />
     <None Remove="Resources\Icons\press-length.svg" />
     <None Remove="Resources\Icons\press-support.svg" />
+    <None Remove="Resources\Icons\supply.svg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -104,6 +105,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="Resources\Icons\press-support.svg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Icons\supply.svg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
