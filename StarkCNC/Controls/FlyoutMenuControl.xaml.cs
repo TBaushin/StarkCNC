@@ -10,7 +10,7 @@ namespace StarkCNC.Controls;
 /// </summary>
 public partial class FlyoutMenuControl : UserControl
 {
-    private INavigationService _navigationService;
+    private readonly INavigationService _navigationService;
 
     private bool _menuOpen = true;
     private ViewData? _selectedItem;
