@@ -46,7 +46,8 @@ public partial class MainWindowViewModel : ObservableObject
         _navigationService = navigationService;
         _adjustmentRepository = adjustmentRepository;
 
-        statusService.PropertyChanged += (_, _) => Status = statusService.Status;
+        if(statusService is not null)
+            statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
         var AdjustmentPage = new ViewData(new AdjustmentView(_serviceProvider.GetRequiredService<AdjustmentViewModel>())) { IconGlyph = "\uE726" };
         AdjustmentVisibleElements(AdjustmentPage);
