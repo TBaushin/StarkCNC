@@ -99,6 +99,7 @@ public partial class MainWindowViewModel : ObservableObject
     {
         var adjustmentsWithLevel = _adjustmentRepository
             .GetAdjustmentsWithLevel()
+            .OrderBy(a => a.InstalledLevel)
             .ToList();
 
         var adjustmentViewModel = _serviceProvider.GetRequiredService<AdjustmentViewModel>();
