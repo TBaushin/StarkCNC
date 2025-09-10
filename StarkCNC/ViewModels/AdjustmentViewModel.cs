@@ -11,8 +11,6 @@ namespace StarkCNC.ViewModels;
 public partial class AdjustmentViewModel : ObservableObject
 {
     private readonly AdjustmentListView _adjustmentListPage;
-    private readonly AdjustmentSettingsView _adjustmentSettingsPage;
-    private readonly AdjustmentCoordinateSettingsView _adjustmentCoordinateSettingsPage;
 
     private readonly INavigationService _navigationService;
     private readonly IAdjustmentRepository _repository;
@@ -26,8 +24,6 @@ public partial class AdjustmentViewModel : ObservableObject
     public AdjustmentViewModel(INavigationService navigationService, IAdjustmentRepository adjustmentRepository) 
     {
         _adjustmentListPage = new AdjustmentListView(this);
-        _adjustmentSettingsPage = new AdjustmentSettingsView(this);
-        _adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(this);
 
         _navigationService = navigationService;
         _repository = adjustmentRepository;
@@ -74,7 +70,7 @@ public partial class AdjustmentViewModel : ObservableObject
     private void EditAdjustment(AdjustmentParameters adjustment)
     {
         SelectedAdjustment = adjustment;
-        _navigationService.Navigate(_adjustmentSettingsPage);
+        _navigationService.Navigate(new AdjustmentSettingsView(this, adjustment));
     }
 
     [RelayCommand]
@@ -91,9 +87,9 @@ public partial class AdjustmentViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void GoToCoordinateSettings()
+    private void GoToCoordinateSettings(AdjustmentParameters adjustment)
     {
-        _navigationService.Navigate(_adjustmentCoordinateSettingsPage);
+        _navigationService.Navigate(new AdjustmentCoordinateSettingsView(adjustment));
     }
 
     [RelayCommand]

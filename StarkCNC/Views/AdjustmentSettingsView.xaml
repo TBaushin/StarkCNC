@@ -31,19 +31,19 @@
                 <Label Grid.Column="0" Grid.Row="0">
                     <TextBlock>
                         <Run Text="Тип оснастки:"/>
-                        <Run Text="{Binding SelectedAdjustment.Type.Name}"/>
+                        <Run Text="{Binding Adjustment.Type.Name}"/>
                     </TextBlock>
                 </Label>
                 <Label Grid.Column="0" Grid.Row="1">
                     <TextBlock>
                         <Run Text="Диаметр трубы:"/>
-                        <Run Text="{Binding SelectedAdjustment.PipeDiameter}"/>
+                        <Run Text="{Binding Adjustment.PipeDiameter}"/>
                     </TextBlock>
                 </Label>
                 <Label Grid.Column="0" Grid.Row="2">
                     <TextBlock>
                         <Run Text="Радиус оснастки:"/>
-                        <Run Text="{Binding SelectedAdjustment.Radius}"/>
+                        <Run Text="{Binding Adjustment.Radius}"/>
                     </TextBlock>
                 </Label>
                 <Button

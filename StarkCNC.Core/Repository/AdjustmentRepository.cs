@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Core.Models;
+using System.ComponentModel;
 
 namespace StarkCNC.Core.Repository;
 
@@ -6,6 +7,8 @@ public class AdjustmentRepository : IAdjustmentRepository
 {
     private readonly List<AdjustmentType> _types = new List<AdjustmentType>();
     private readonly List<AdjustmentParameters> _adjustments = new List<AdjustmentParameters>();
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public AdjustmentRepository()
     {
@@ -17,9 +20,9 @@ public class AdjustmentRepository : IAdjustmentRepository
         };
         _adjustments = new List<AdjustmentParameters>()
         {
-            new AdjustmentParameters("D25", _types.First()),
-            new AdjustmentParameters("D11", _types.Last()),
-            new AdjustmentParameters("D50", _types.First()),
+            new AdjustmentParameters("D25", _types.First()) { InstalledLevel = 1 },
+            new AdjustmentParameters("D11", _types.Last()) { InstalledLevel = 2 },
+            new AdjustmentParameters("D50", _types.First()) { InstalledLevel = 3 },
             new AdjustmentParameters("Test", _types.Last()),
             new AdjustmentParameters("TestTest", _types.First()),
             new AdjustmentParameters("Program", _types.Last()),
@@ -28,17 +31,17 @@ public class AdjustmentRepository : IAdjustmentRepository
             new AdjustmentParameters("ListView", _types.First()),
             new AdjustmentParameters("ListViewItem", _types.Last()),
             new AdjustmentParameters("AdjustmentParameters", _types.First()),
-            new AdjustmentParameters("D25", _types.Last()),
-            new AdjustmentParameters("D11", _types.First()),
-            new AdjustmentParameters("D50", _types.Last()),
-            new AdjustmentParameters("Test", _types.First()),
-            new AdjustmentParameters("TestTest", _types.Last()),
-            new AdjustmentParameters("Program", _types.First()),
-            new AdjustmentParameters("Abcde", _types.Last()),
-            new AdjustmentParameters("StarkCNC", _types.First()),
-            new AdjustmentParameters("ListView", _types.Last()),
-            new AdjustmentParameters("ListViewItem", _types.First()),
-            new AdjustmentParameters("AdjustmentParameters", _types.Last())
+            new AdjustmentParameters("D26", _types.Last()),
+            new AdjustmentParameters("D12", _types.First()),
+            new AdjustmentParameters("D51", _types.Last()),
+            new AdjustmentParameters("Testi", _types.First()),
+            new AdjustmentParameters("TestiTesti", _types.Last()),
+            new AdjustmentParameters("Programi", _types.First()),
+            new AdjustmentParameters("Abcdef", _types.Last()),
+            new AdjustmentParameters("StarkCNC.Core", _types.First()),
+            new AdjustmentParameters("TreeView", _types.Last()),
+            new AdjustmentParameters("TreeViewItem", _types.First()),
+            new AdjustmentParameters("AdjustmentType", _types.Last())
         };
 #endif
     }
@@ -90,8 +93,12 @@ public class AdjustmentRepository : IAdjustmentRepository
                 .ToList();
             currentLevelAdjustments.ForEach(a => a.InstalledLevel = 0);
         }
+        PropertyChanged?.Invoke(adjustment, new PropertyChangedEventArgs(nameof(adjustment.InstalledLevel)));
     }
 
     public AdjustmentParameters? GetAdjustmentWithLevel(int level) =>
         _adjustments.FirstOrDefault(a => a.InstalledLevel == level);
+
+    public IEnumerable<AdjustmentParameters> GetAdjustmentsWithLevel() =>
+        _adjustments.Where(a => a.InstalledLevel > 0);
 }

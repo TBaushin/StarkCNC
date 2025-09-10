@@ -10,33 +10,18 @@ namespace StarkCNC.Views
     public partial class AdjustmentSettingsView : Page
     {
         private AdjustmentViewModel ViewModel;
+        public AdjustmentParameters Adjustment { get; set; }
 
-        public AdjustmentSettingsView(AdjustmentViewModel viewModel)
+        public AdjustmentSettingsView(AdjustmentViewModel viewModel, AdjustmentParameters adjustment)
         {
             ViewModel = viewModel;
-            DataContext = viewModel;
+            Adjustment = adjustment;
+            DataContext = this;
 
             InitializeComponent();
 
-            ViewModel.PropertyChanged += ViewModel_PropertyChanged;
-
-            var selectedAdjustment = ViewModel.SelectedAdjustment;
-            if (selectedAdjustment is not null)
-            {
-                selectedAdjustment.PropertyChanged += SelectedAdjustment_PropertyChanged;
-
-                SetVisibilityForRollingAndWindingStackPanels(selectedAdjustment);
-            }
-        }
-
-        private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "SelectedAdjustment")
-            {
-                var selectedAdjustment = ViewModel.SelectedAdjustment;
-                if (selectedAdjustment is not null)
-                    SetVisibilityForRollingAndWindingStackPanels(selectedAdjustment);
-            }
+            Adjustment.PropertyChanged += SelectedAdjustment_PropertyChanged;
+            SetVisibilityForRollingAndWindingStackPanels();
         }
 
         private void SelectedAdjustment_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -46,18 +31,18 @@ namespace StarkCNC.Views
                 return;
 
             if (e.PropertyName == "Type")
-                SetVisibilityForRollingAndWindingStackPanels(adjustment);
+                SetVisibilityForRollingAndWindingStackPanels();
         }
 
-        private void SetVisibilityForRollingAndWindingStackPanels(AdjustmentParameters adjustment)
+        private void SetVisibilityForRollingAndWindingStackPanels()
         {
-            if (adjustment.Type.Name == "Намоткой")
+            if (Adjustment.Type.Name == "Намоткой")
             {
                 WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Visible;
                 RollingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;
             }
 
-            if (adjustment.Type.Name == "Прокатная")
+            if (Adjustment.Type.Name == "Прокатная")
             {
                 RollingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Visible;
                 WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;

@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace StarkCNC.Models;
 
@@ -6,9 +7,11 @@ public class ViewData
 {
     private Page _page;
 
-    public string Title { get; private set; }
+    public string Title { get; set; }
 
-    public string IconGlyph { get; set; }
+    public string? IconGlyph { get; set; }
+
+    public ObservableCollection<ViewData> Items { get; } = new ObservableCollection<ViewData>();
 
     public Page Page 
     { 
@@ -25,6 +28,7 @@ public class ViewData
 
     public ViewData(Page page)
     {
-        Page = page;
+        _page = page;
+        Title = _page.Title;
     }
 }

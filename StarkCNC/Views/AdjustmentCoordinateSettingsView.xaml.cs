@@ -1,4 +1,4 @@
-﻿using StarkCNC.ViewModels;
+﻿using StarkCNC.Models;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views
@@ -8,12 +8,11 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class AdjustmentCoordinateSettingsView : Page
     {
-        private AdjustmentViewModel ViewModel;
+        public AdjustmentParameters Adjustment { get; set; }
 
-        public AdjustmentCoordinateSettingsView(AdjustmentViewModel viewModel)
+        public AdjustmentCoordinateSettingsView(AdjustmentParameters adjustment)
         {
-            ViewModel = viewModel;
-            DataContext = viewModel;
+            DataContext = this;
 
             InitializeComponent();
         }

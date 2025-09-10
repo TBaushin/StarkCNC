@@ -1,9 +1,12 @@
 ﻿using StarkCNC.Core.Models;
+using System.ComponentModel;
 
 namespace StarkCNC.Core.Repository;
 
 public interface IAdjustmentRepository
 {
+    event PropertyChangedEventHandler PropertyChanged;
+
     AdjustmentParameters AddElement(string name, AdjustmentType type);
 
     AdjustmentParameters AddElement(AdjustmentParameters adjustment);
@@ -25,4 +28,6 @@ public interface IAdjustmentRepository
     void SetLevel(AdjustmentParameters adjustment, int level);
 
     AdjustmentParameters? GetAdjustmentWithLevel(int level);
+
+    IEnumerable<AdjustmentParameters> GetAdjustmentsWithLevel();
 }
