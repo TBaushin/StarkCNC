@@ -113,10 +113,10 @@ public partial class MainWindowViewModel : ObservableObject
             if (adjustment is not null)
             {
                 var adjustmentSettingPage = new AdjustmentSettingsView(adjustmentViewModel, adjustment);
-                var viewData = new ViewData(adjustmentSettingPage) { Title = a.Name };
+                var viewData = new ViewData(adjustmentSettingPage) { Title = $"{a.Name} Этаж {a.InstalledLevel}" };
 
                 var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(adjustment);
-                viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage));
+                viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
 
                 adjustmentPage.Items.Add(viewData);
             }
