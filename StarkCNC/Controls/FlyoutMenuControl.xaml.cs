@@ -13,6 +13,7 @@ public partial class FlyoutMenuControl : UserControl
     private INavigationService _navigationService;
 
     private bool _menuOpen = true;
+    private ViewData? _selectedItem;
 
     public static readonly DependencyProperty PagesProperty = DependencyProperty.Register(
         nameof(Pages), 
@@ -37,30 +38,50 @@ public partial class FlyoutMenuControl : UserControl
 
     public void UpdateSelected(ViewData? viewData)
     {
-        /*var page = viewData;
-        if (page is null)
+        if (viewData is null)
         {
-            foreach (var item in PageList.Items)
+            foreach (var item in PagesTreeView.Items)
             {
-                ListViewItem? listViewItem = PageList.ItemContainerGenerator
-                    .ContainerFromItem(item) as ListViewItem;
+                TreeViewItem? tvItem = PagesTreeView.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
 
-                if (listViewItem is null)
+                if (tvItem is null)
                     continue;
 
-                listViewItem.IsSelected = false;
+                tvItem.IsSelected = false;
             }
 
-            return;
+            foreach (var item in PagesTreeView.Items)
+            {
+                ListViewItem? lvItem = PagesListView.ItemContainerGenerator.ContainerFromItem(item) as ListViewItem;
+
+                if (lvItem is null)
+                    continue;
+
+                lvItem.IsSelected = false;
+            }
+        }
+        else
+        {
+            _selectedItem = viewData;
         }
 
-        var listViewItemFromPage = PageList.ItemContainerGenerator
-            .ContainerFromItem(page) as ListViewItem;
+        SetSelectedForPage(_selectedItem);
+    }
 
-        if (listViewItemFromPage is null)
+    private void SetSelectedForPage(ViewData? data)
+    {
+        if (data is null)
             return;
+        
+        var tvItemFromPage = PagesTreeView.ItemContainerGenerator.ContainerFromItem(data) as TreeViewItem;
+        var lvItemFromPage = PagesListView.ItemContainerGenerator.ContainerFromItem(data) as ListViewItem;
 
-        listViewItemFromPage.IsSelected = true;*/
+        if (tvItemFromPage is not null)
+            tvItemFromPage.IsSelected = true;
+
+
+        if (lvItemFromPage is not null)
+            lvItemFromPage.IsSelected = true;
     }
 
     /*private StackPanel GenerateOpenHeader()
@@ -312,6 +333,9 @@ public partial class FlyoutMenuControl : UserControl
 
     private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (e.AddedItems.Count < 1)
+            return;
+
         var pageList = sender as ListView;
         if (pageList is null)
             return;
@@ -320,12 +344,16 @@ public partial class FlyoutMenuControl : UserControl
         if (navItem is null)
             return;
 
+        _selectedItem = navItem;
         _navigationService.Navigate(navItem.Page);
     }
 
     private void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
-        var pageList = sender as ListView;
+        if (e.NewValue is bool selected && selected != true)
+            return;
+
+        var pageList = sender as TreeView;
         if (pageList is null)
             return;
 
@@ -333,6 +361,7 @@ public partial class FlyoutMenuControl : UserControl
         if (navItem is null)
             return;
 
+        _selectedItem = navItem;
         _navigationService.Navigate(navItem.Page);
     }
 
@@ -350,5 +379,7 @@ public partial class FlyoutMenuControl : UserControl
             FlyoutMenuOpened.Visibility = Visibility.Visible;
             FlyoutMenuClosed.Visibility = Visibility.Collapsed;
         }
+
+        UpdateSelected(null);
     }
 }

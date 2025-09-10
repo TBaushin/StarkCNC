@@ -40,8 +40,10 @@
                     Margin="10"/>
             </StackPanel>
             <TreeView
+                x:Name="PagesTreeView"
                 Grid.Row="1"
                 Margin="8,8,0,0"
+                SelectedItemChanged="PageList_SelectedItemChanged"
                 ItemsSource="{Binding Pages, RelativeSource={RelativeSource AncestorType=UserControl}}">
                 <TreeView.ItemTemplate>
                     <HierarchicalDataTemplate ItemsSource="{Binding Items}">
@@ -128,9 +130,11 @@
                 <Separator/>
             </StackPanel>
             <ListView
+                x:Name="PagesListView"
                 Grid.Row="1"
                 Margin="8,8,0,8"
-                ItemsSource="{Binding Pages, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                ItemsSource="{Binding Pages, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                SelectionChanged="PageList_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <TextBlock
