@@ -243,274 +243,276 @@
                         Content="Редактировать"/>
                 </Grid>
             </Border>
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <Grid
-                    Grid.Column="0"
-                    Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <svg:SvgViewbox
+            <StackPanel> <!--TODO: Привязать visibility к типу станка - электрический-->
+                <Border
+                    Margin="8,4,8,4"
+                    MinHeight="80"
+                    CornerRadius="4"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid
                         Grid.Column="0"
-                        Width="32"
-                        Height="32"
-                        Margin="0,0,10,0"
-                        Source="Resources/Icons/clamp-length-2.svg"/>
-                    <StackPanel
-                        Grid.Column="1"
-                        Orientation="Vertical">
-                        <Label
-                            FontSize="20"
-                            Content="Дожим"/>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Ограничение переднего положения:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Коэффициент скорости:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                    </StackPanel>
-                    <Button
-                        Grid.Column="2"
-                        Content="Редактировать"/>
-                </Grid>
-            </Border>
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <Grid
-                    Grid.Column="0"
-                    Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <svg:SvgViewbox
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <svg:SvgViewbox
+                            Grid.Column="0"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,10,0"
+                            Source="Resources/Icons/clamp-length-2.svg"/>
+                        <StackPanel
+                            Grid.Column="1"
+                            Orientation="Vertical">
+                            <Label
+                                FontSize="20"
+                                Content="Дожим"/>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Ограничение переднего положения:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Коэффициент скорости:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                        </StackPanel>
+                        <Button
+                            Grid.Column="2"
+                            Content="Редактировать"/>
+                    </Grid>
+                </Border>
+                <Border
+                    Margin="8,4,8,4"
+                    MinHeight="80"
+                    CornerRadius="4"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid
                         Grid.Column="0"
-                        Width="32"
-                        Height="32"
-                        Margin="0,0,10,0"
-                        Source="Resources/Icons/clamp-length-2.svg"/>
-                    <StackPanel
-                        Grid.Column="1"
-                        Orientation="Vertical">
-                        <Label
-                            FontSize="20"
-                            Content="Зажим"/>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Переднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Среднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Заднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Коэффициент скорости:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                    </StackPanel>
-                    <Button
-                        Grid.Column="2"
-                        Content="Редактировать"/>
-                </Grid>
-            </Border>
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <Grid
-                    Grid.Column="0"
-                    Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <svg:SvgViewbox
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <svg:SvgViewbox
+                            Grid.Column="0"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,10,0"
+                            Source="Resources/Icons/clamp-length-2.svg"/>
+                        <StackPanel
+                            Grid.Column="1"
+                            Orientation="Vertical">
+                            <Label
+                                FontSize="20"
+                                Content="Зажим"/>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Переднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Среднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Заднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Коэффициент скорости:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                        </StackPanel>
+                        <Button
+                            Grid.Column="2"
+                            Content="Редактировать"/>
+                    </Grid>
+                </Border>
+                <Border
+                    Margin="8,4,8,4"
+                    MinHeight="80"
+                    CornerRadius="4"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid
                         Grid.Column="0"
-                        Width="32"
-                        Height="32"
-                        Margin="0,0,10,0"
-                        Source="Resources/Icons/clamp-length-2.svg"/>
-                    <StackPanel
-                        Grid.Column="1"
-                        Orientation="Vertical">
-                        <Label
-                            FontSize="20"
-                            Content="Прижим"/>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Переднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Среднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Заднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Коэффициент скорости:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                    </StackPanel>
-                    <Button
-                        Grid.Column="2"
-                        Content="Редактировать"/>
-                </Grid>
-            </Border>
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <Grid
-                    Grid.Column="0"
-                    Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <svg:SvgViewbox
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <svg:SvgViewbox
+                            Grid.Column="0"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,10,0"
+                            Source="Resources/Icons/clamp-length-2.svg"/>
+                        <StackPanel
+                            Grid.Column="1"
+                            Orientation="Vertical">
+                            <Label
+                                FontSize="20"
+                                Content="Прижим"/>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Переднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Среднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Заднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Коэффициент скорости:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                        </StackPanel>
+                        <Button
+                            Grid.Column="2"
+                            Content="Редактировать"/>
+                    </Grid>
+                </Border>
+                <Border
+                    Margin="8,4,8,4"
+                    MinHeight="80"
+                    CornerRadius="4"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid
                         Grid.Column="0"
-                        Width="32"
-                        Height="32"
-                        Margin="0,0,10,0"
-                        Source="Resources/Icons/clamp-length-2.svg"/>
-                    <StackPanel
-                        Grid.Column="1"
-                        Orientation="Vertical">
-                        <Label
-                            FontSize="20"
-                            Content="Дорн"/>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Переднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Среднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Заднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Коэффициент скорости:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                    </StackPanel>
-                    <Button
-                        Grid.Column="2"
-                        Content="Редактировать"/>
-                </Grid>
-            </Border>
-            <Border
-                Margin="8,4,8,4"
-                MinHeight="80"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <Grid
-                    Grid.Column="0"
-                    Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <svg:SvgViewbox
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <svg:SvgViewbox
+                            Grid.Column="0"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,10,0"
+                            Source="Resources/Icons/clamp-length-2.svg"/>
+                        <StackPanel
+                            Grid.Column="1"
+                            Orientation="Vertical">
+                            <Label
+                                FontSize="20"
+                                Content="Дорн"/>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Переднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Среднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Заднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Коэффициент скорости:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                        </StackPanel>
+                        <Button
+                            Grid.Column="2"
+                            Content="Редактировать"/>
+                    </Grid>
+                </Border>
+                <Border
+                    Margin="8,4,8,4"
+                    MinHeight="80"
+                    CornerRadius="4"
+                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                    <Grid
                         Grid.Column="0"
-                        Width="32"
-                        Height="32"
-                        Margin="0,0,10,0"
-                        Source="Resources/Icons/clamp-length-2.svg"/>
-                    <StackPanel
-                        Grid.Column="1"
-                        Orientation="Vertical">
-                        <Label
-                            FontSize="20"
-                            Content="Подъём"/>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Переднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Среднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Заднее положение:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Коэффициент скорости:"/>
-                                <Run/>
-                            </TextBlock>
-                        </Label>
-                    </StackPanel>
-                    <Button
-                        Grid.Column="2"
-                        Content="Редактировать"/>
-                </Grid>
-            </Border>
+                        Margin="10,0,10,0"
+                        VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <svg:SvgViewbox
+                            Grid.Column="0"
+                            Width="32"
+                            Height="32"
+                            Margin="0,0,10,0"
+                            Source="Resources/Icons/clamp-length-2.svg"/>
+                        <StackPanel
+                            Grid.Column="1"
+                            Orientation="Vertical">
+                            <Label
+                                FontSize="20"
+                                Content="Подъём"/>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Переднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Среднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Заднее положение:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                            <Label>
+                                <TextBlock>
+                                    <Run Text="Коэффициент скорости:"/>
+                                    <Run/>
+                                </TextBlock>
+                            </Label>
+                        </StackPanel>
+                        <Button
+                            Grid.Column="2"
+                            Content="Редактировать"/>
+                    </Grid>
+                </Border>
+            </StackPanel>
         </StackPanel>
     </ScrollViewer>
 </Page>
