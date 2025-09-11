@@ -46,7 +46,7 @@ public partial class AdjustmentViewModel : ObservableObject
         Adjustments.Add(adjustment);
 
         SelectedAdjustment = adjustment;
-        var settingsWindow = new AddAdjustmentWindow(this);
+        var settingsWindow = new AdjustmentSettingsWindow(this);
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
@@ -71,6 +71,18 @@ public partial class AdjustmentViewModel : ObservableObject
     {
         SelectedAdjustment = adjustment;
         _navigationService.Navigate(new AdjustmentSettingsView(this, adjustment));
+
+        var settingsWindow = new AdjustmentSettingsWindow(this, "Редактирование оснастки");
+        settingsWindow.ShowDialog();
+
+        var result = settingsWindow.Result;
+        if (result is not null)
+        {
+            SelectedAdjustment.Name = result.Name;
+            SelectedAdjustment.PipeDiameter = result.PipeDiameter;
+            SelectedAdjustment.Radius = result.Radius;
+            SelectedAdjustment.Type = result.Type;
+        }
     }
 
     [RelayCommand]

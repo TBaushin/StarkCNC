@@ -1,4 +1,4 @@
-﻿<Window x:Class="StarkCNC.AddAdjustmentWindow"
+﻿<Window x:Class="StarkCNC.AdjustmentSettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -19,7 +19,7 @@
         </Grid.RowDefinitions>
         <StackPanel Margin="20,0,20,0" Grid.Row="0">
             <TextBlock
-                Text="Добавление новой оснастки"
+                x:Name="TitleTextBlock"
                 Margin="0,32,0,24"
                 Style="{DynamicResource TitleTextBlockStyle}"/>
             <controls:LabeledTextBoxControl

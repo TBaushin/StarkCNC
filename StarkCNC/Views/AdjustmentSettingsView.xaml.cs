@@ -64,5 +64,10 @@ namespace StarkCNC.Views
             var value = NumberInputViewModel.ShowDialog();
             textBox.Text = value.ToString(CultureInfo.CurrentCulture);
         }
+
+        private void EditAdjustmentButton_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            ViewModel.EditAdjustmentCommand.Execute(Adjustment);
+        }
     }
 }
