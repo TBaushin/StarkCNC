@@ -27,7 +27,7 @@ public partial class FlyoutMenuControl : UserControl
         set => SetValue(PagesProperty, value); 
     }
 
-    public event RoutedPropertyChangedEventHandler<object> SelectedItemChanged;
+    public event RoutedPropertyChangedEventHandler<object>? SelectedItemChanged;
 
     public FlyoutMenuControl(INavigationService navigationService)
     {

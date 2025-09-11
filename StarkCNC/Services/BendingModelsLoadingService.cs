@@ -143,6 +143,9 @@ public class BendingModelsLoadingService : IBendingModelsLoadingService, INotify
 
     public void UpdatePipeBend(ICollection<BendPositions> positions)
     {
+        if (positions is null)
+            return;
+
         var builder = new MeshBuilder(true, true);
         foreach (var pos in positions)
         {

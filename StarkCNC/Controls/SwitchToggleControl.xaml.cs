@@ -25,7 +25,7 @@ public partial class SwitchToggleControl : UserControl
         }
     }
 
-    public event RoutedEventHandler Click;
+    public event RoutedEventHandler? Click;
 
     public SwitchToggleControl()
     {
