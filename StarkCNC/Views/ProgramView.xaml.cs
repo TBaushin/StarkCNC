@@ -20,7 +20,7 @@ public partial class ProgramView : Page
         BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
         BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
 
-        BendingView.Children.Add(ViewModel.GetPipe());
+        BendingView.Children.Add(ViewModel.Pipe);
     }
 
     private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)

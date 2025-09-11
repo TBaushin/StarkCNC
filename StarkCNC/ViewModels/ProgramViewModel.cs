@@ -22,6 +22,9 @@ public partial class ProgramViewModel : ObservableObject
     [ObservableProperty]
     private string _currentFilePath = string.Empty;
 
+    [ObservableProperty]
+    private readonly Visual3D _pipe;
+
     public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
     public List<string> BendModeList = new List<string>() { "Hello", "World" };
 
@@ -39,6 +42,8 @@ public partial class ProgramViewModel : ObservableObject
                 UpdateBend();
             }
         };
+
+        _pipe = _bendingModelsLoadingService.Pipe;
     }
 
     [RelayCommand]
@@ -114,11 +119,7 @@ public partial class ProgramViewModel : ObservableObject
         await _gCodeService.SaveAsync(CurrentFilePath, BendingDatas).ConfigureAwait(false);
         return true;
     }
-
-    public Visual3D GetPipe() =>
-        _bendingModelsLoadingService.Pipe;
     
-
     public void UpdateBend()
     {
         double pipeDiameter = 50;
