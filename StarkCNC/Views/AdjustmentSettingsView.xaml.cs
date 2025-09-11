@@ -1,5 +1,6 @@
 ﻿using StarkCNC.Models;
 using StarkCNC.ViewModels;
+using System.Globalization;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views
@@ -52,6 +53,16 @@ namespace StarkCNC.Views
         private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             ViewModel.GoToCoordinateSettingsCommand.Execute(null);
+        }
+
+        private void TextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox is null)
+                return;
+
+            var value = NumberInputViewModel.ShowDialog();
+            textBox.Text = value.ToString(CultureInfo.CurrentCulture);
         }
     }
 }

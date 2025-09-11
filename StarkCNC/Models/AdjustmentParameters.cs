@@ -52,6 +52,26 @@ public class AdjustmentParameters : INotifyPropertyChanged
         get => _adjustment.InstalledLevel;
     }
 
+    public double ClampLength
+    {
+        get => _adjustment.ClampLength;
+        set
+        {
+            _adjustment.ClampLength = value;
+            OnPropertyChanged(nameof(ClampLength));
+        }
+    }
+
+    public double PressLength
+    {
+        get => _adjustment.PressLength;
+        set
+        {
+            _adjustment.PressLength = value;
+            OnPropertyChanged(nameof(PressLength));
+        }
+    }
+
     public AdjustmentParameters(StarkCNC.Core.Models.AdjustmentParameters adjustment)
     {
         _adjustment = adjustment;

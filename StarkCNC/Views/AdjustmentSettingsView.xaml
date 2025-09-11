@@ -95,7 +95,9 @@
                     <TextBox
                         Grid.Column="2"
                         Height="32"
-                        Width="100"/>
+                        Width="100"
+                        PreviewMouseDown="TextBox_PreviewMouseDown"
+                        Text="{Binding Adjustment.ClampLength, Mode=TwoWay}"/>
                 </Grid>
             </Border>
             <Border
@@ -137,7 +139,9 @@
                     <TextBox
                         Grid.Column="2"
                         Height="32"
-                        Width="100"/>
+                        Width="100"
+                        PreviewMouseDown="TextBox_PreviewMouseDown"
+                        Text="{Binding Adjustment.PressLength, Mode=TwoWay}"/>
                 </Grid>
             </Border>
             <Border
@@ -215,7 +219,9 @@
                     <TextBox
                         Grid.Column="2"
                         Height="32"
-                        Width="100"/>
+                        Width="100"
+                        PreviewMouseDown="TextBox_PreviewMouseDown"
+                        Text="{Binding Adjustment.ClampLength, Mode=TwoWay}"/>
                 </Grid>
             </Border>
             <Border
@@ -257,7 +263,9 @@
                     <TextBox
                         Grid.Column="2"
                         Height="32"
-                        Width="100"/>
+                        Width="100"
+                        PreviewMouseDown="TextBox_PreviewMouseDown"
+                        Text="{Binding Adjustment.PressLength, Mode=TwoWay}"/>
                 </Grid>
             </Border>
             <Border

@@ -12,6 +12,10 @@ public class AdjustmentParameters
 
     public int InstalledLevel { get; set; }
 
+    public double ClampLength { get; set; }
+
+    public double PressLength { get; set; }
+
     public AdjustmentParameters(string name, AdjustmentType type)
     {
         Name = name;
