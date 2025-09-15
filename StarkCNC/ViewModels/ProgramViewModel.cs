@@ -18,15 +18,18 @@ public partial class ProgramViewModel : ObservableObject
    
     private const string _gcodeExtension = ".gcode";
     private const string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
+    private readonly Visual3D _pipe;
 
     [ObservableProperty]
     private string _currentFilePath = string.Empty;
 
-    [ObservableProperty]
-    private readonly Visual3D _pipe;
-
     public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
     public List<string> BendModeList = new List<string>() { "Hello", "World" };
+
+    public Visual3D Pipe
+    {
+        get => _pipe;
+    }
 
     public ProgramViewModel(IServiceProvider serviceProvider, IBendingModelsLoadingService bendingModelsLoadingService, IGCodeService gCodeService)
     {
