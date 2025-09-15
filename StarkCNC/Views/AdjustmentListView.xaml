@@ -41,6 +41,7 @@
                                     <Button
                                         Grid.Column="0"
                                         Margin="0,0,6,0"
+                                        Click="DeleteButton_Click"
                                         Content="{x:Static lang:Language.DeleteButton}"/>
                                     <Label
                                         Grid.Column="1"

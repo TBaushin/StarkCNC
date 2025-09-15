@@ -31,4 +31,17 @@ public partial class AdjustmentListView : Page
 
         ViewModel.EditAdjustmentCommand.Execute(adjustment);
     }
+
+    private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        if (button is null)
+            return;
+
+        var adjustment = button.DataContext as AdjustmentParameters;
+        if (adjustment is null)
+            return;
+
+        ViewModel.DeleteAdjustmentCommand.Execute(adjustment);
+    }
 }
