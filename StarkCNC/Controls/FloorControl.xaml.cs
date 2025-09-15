@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Models;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -10,12 +11,19 @@ namespace StarkCNC.Controls;
 /// </summary>
 public partial class FloorControl : UserControl
 {
+    [SuppressMessage("Usage", "CA2211", Justification = "Особенность XAML UI")]
     public static DependencyProperty FloorTextProperty = DependencyProperty
         .Register(nameof(FloorText), typeof(string), typeof(FloorControl), new PropertyMetadata());
+
+    [SuppressMessage("Usage", "CA2211", Justification = "Особенность XAML UI")]
     public static DependencyProperty SelectedAdjustmentProperty = DependencyProperty
         .Register(nameof(SelectedAdjustment), typeof(AdjustmentParameters), typeof(FloorControl), new PropertyMetadata());
+
+    [SuppressMessage("Usage", "CA2211", Justification = "Особенность XAML UI")]
     public static DependencyProperty EnabledProperty = DependencyProperty
         .Register(nameof(IsChecked), typeof(bool), typeof(FloorControl), new PropertyMetadata());
+
+    [SuppressMessage("Usage", "CA2211", Justification = "Особенность XAML UI")]
     public static DependencyProperty NavigateProperty = DependencyProperty
         .Register(nameof(Navigate), typeof(ICommand), typeof(FloorControl), new PropertyMetadata());
 

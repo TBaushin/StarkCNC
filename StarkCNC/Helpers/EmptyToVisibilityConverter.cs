@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
@@ -7,6 +8,7 @@ namespace StarkCNC.Helpers;
 /// <summary>
 /// Converts an empty string to Visibility.Collapsed
 /// </summary>
+[SuppressMessage("Usage", "CA1812", Justification = "Особенность XAML UI")]
 internal sealed class EmptyToVisibilityConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)

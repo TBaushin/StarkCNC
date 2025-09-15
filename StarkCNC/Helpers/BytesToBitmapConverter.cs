@@ -1,10 +1,12 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.IO;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
 
 namespace StarkCNC.Helpers;
 
+[SuppressMessage("Usage", "CA1812", Justification = "Особенность XAML UI")]
 internal class BytesToBitmapConverter : IValueConverter
 {
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
