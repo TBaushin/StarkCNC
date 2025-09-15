@@ -73,9 +73,6 @@ public partial class AdjustmentViewModel : ObservableObject
     [RelayCommand]
     private void EditAdjustment(AdjustmentParameters adjustment)
     {
-        SelectedAdjustment = adjustment;
-        _navigationService.Navigate(new AdjustmentSettingsView(this, adjustment));
-
         var settingsWindow = new AdjustmentSettingsWindow(this, "Редактирование оснастки");
         settingsWindow.ShowDialog();
 
@@ -100,6 +97,13 @@ public partial class AdjustmentViewModel : ObservableObject
     private void GoToAdjustmentList()
     {
         _navigationService.Navigate(_adjustmentListPage);
+    }
+
+    [RelayCommand]
+    private void GoToEditSettings(AdjustmentParameters adjustment)
+    {
+        SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Cast().Equals(adjustment.Cast()));
+        _navigationService.Navigate(new AdjustmentSettingsView(this, adjustment));
     }
 
     [RelayCommand]

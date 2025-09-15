@@ -29,7 +29,7 @@ public partial class AdjustmentListView : Page
         if (adjustment is null)
             return;
 
-        ViewModel.EditAdjustmentCommand.Execute(adjustment);
+        ViewModel.GoToEditSettingsCommand.Execute(adjustment);
     }
 
     private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
