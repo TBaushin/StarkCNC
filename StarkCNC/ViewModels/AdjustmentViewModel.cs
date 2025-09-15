@@ -77,12 +77,14 @@ public partial class AdjustmentViewModel : ObservableObject
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
-        if (result is not null)
+        if (result is not null && SelectedAdjustment is not null)
         {
             SelectedAdjustment.Name = result.Name;
             SelectedAdjustment.PipeDiameter = result.PipeDiameter;
             SelectedAdjustment.Radius = result.Radius;
             SelectedAdjustment.Type = result.Type;
+            SelectedAdjustment.ClampLength = result.ClampLength;
+            SelectedAdjustment.PressLength = result.PressLength;
         }
     }
 
