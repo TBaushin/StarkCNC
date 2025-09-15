@@ -148,9 +148,9 @@
             </ListView>
             <StackPanel Grid.Row="2">
                 <Button
+                    Margin="18,5,18,5"
                     DockPanel.Dock="Bottom"
-                    Command="{Binding GoUsersCommand}"
-                    Margin="18,5,18,5">
+                    Command="{Binding GoUsersCommand}">
                     <TextBlock
                         Margin="0,4,0,0"
                         FontSize="15"
@@ -158,9 +158,9 @@
                         Text="&#xE77B;"/>
                 </Button>
                 <Button
+                    Margin="18,5,18,5"
                     DockPanel.Dock="Bottom"
-                    Command="{Binding GoSettingsCommand}"
-                    Margin="18,5,18,5">
+                    Command="{Binding GoSettingsCommand}">
                     <TextBlock
                         Margin="0,4,0,0"
                         FontSize="15"
