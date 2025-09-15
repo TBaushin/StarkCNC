@@ -98,30 +98,16 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void AdjustmentVisibleElements(ViewData adjustmentPage)
     {
-        var adjustmentsWithLevel = _adjustmentRepository
-            .GetAdjustmentsWithLevel()
-            .OrderBy(a => a.InstalledLevel)
-            .ToList();
-
         var adjustmentViewModel = _serviceProvider.GetRequiredService<AdjustmentViewModel>();
-        adjustmentsWithLevel.ForEach(a =>
+        foreach (var adjustment in adjustmentViewModel.SetUpAdjustments)
         {
-            var adjustment = adjustmentViewModel.Adjustments
-                .FirstOrDefault(e => e.Name == a.Name &&
-                    e.PipeDiameter == a.PipeDiameter &&
-                    e.Radius == a.Radius &&
-                    e.InstalledLevel == a.InstalledLevel);
+            var adjustmentSettingPage = new AdjustmentSettingsView(adjustmentViewModel, adjustment);
+            var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
 
-            if (adjustment is not null)
-            {
-                var adjustmentSettingPage = new AdjustmentSettingsView(adjustmentViewModel, adjustment);
-                var viewData = new ViewData(adjustmentSettingPage) { Title = $"{a.Name} Этаж {a.InstalledLevel}" };
+            var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(adjustment);
+            viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
 
-                var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(adjustment);
-                viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
-
-                adjustmentPage.Items.Add(viewData);
-            }
-        });
+            adjustmentPage.Items.Add(viewData);
+        }
     }
 }
