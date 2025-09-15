@@ -36,6 +36,6 @@ public class AdjustmentParameters
     
 
     public AdjustmentParameters Copy() =>
-        new AdjustmentParameters(Name, Type) { PipeDiameter = PipeDiameter };
+        new AdjustmentParameters(Name, Type) { PipeDiameter = PipeDiameter, Radius = Radius };
     
 }
