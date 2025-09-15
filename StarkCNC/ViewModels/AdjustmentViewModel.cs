@@ -128,7 +128,7 @@ public partial class AdjustmentViewModel : ObservableObject
         adjustmentsWithLevel.ForEach(awl =>
         {
             Adjustments
-                    .Where(a => a.Cast() == awl)
+                    .Where(a => a.Cast().Equals(awl))
                     .ToList()
                     .ForEach(a => result.Add(a));
         });
