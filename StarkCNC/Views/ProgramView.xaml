@@ -13,65 +13,6 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.ProgramPageTitle}">
 
-    <Page.Resources>
-        <!-- Стиль для выделенных ячеек (желтый фон) -->
-        <Style x:Key="HighlightedCellStyle" TargetType="DataGridCell">
-            <Setter Property="Background" Value="Yellow"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-
-        <!-- Стиль для обычных ячеек -->
-        <Style x:Key="NormalCellStyle" TargetType="DataGridCell">
-            <Setter Property="Background" Value="White"/>
-        </Style>
-
-        <!-- Стиль для заголовков -->
-        <Style x:Key="HeaderStyle" TargetType="TextBlock">
-            <Setter Property="Background" Value="#E0E0E0"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="Padding" Value="5"/>
-        </Style>
-
-        <!-- Стиль для кнопок со стрелками -->
-        <Style x:Key="ArrowButtonStyle" TargetType="Button">
-            <Setter Property="Background" Value="LightBlue"/>
-            <Setter Property="Width" Value="40"/>
-            <Setter Property="Height" Value="35"/>
-            <Setter Property="Margin" Value="2"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-
-        <!-- Стиль для редактируемых текстовых ячеек -->
-        <Style x:Key="EditableTextStyle" TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Padding" Value="5"/>
-        </Style>
-
-        <!-- Стиль для TextBox в режиме редактирования -->
-        <Style x:Key="EditingTextBoxStyle" TargetType="TextBox">
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="HorizontalContentAlignment" Value="Center"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Padding" Value="2"/>
-        </Style>
-
-        <!-- Стиль для разделенных чисел в нижней части -->
-        <Style x:Key="SplitNumberStyle" TargetType="TextBlock">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="8"/>
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="Padding" Value="2"/>
-        </Style>
-    </Page.Resources>
-
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
