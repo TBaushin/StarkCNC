@@ -20,10 +20,7 @@ public partial class AdjustmentViewModel : ObservableObject
 
     [ObservableProperty]
     private AdjustmentParametersDto? _selectedAdjustment;
-    public ObservableCollection<AdjustmentParametersDto> SetUpAdjustments
-    {
-        get => GetSetUpAdjustments();
-    }
+    public ObservableCollection<AdjustmentParametersDto> SetUpAdjustments { get; private set; } = new ObservableCollection<AdjustmentParametersDto>();
 
     public AdjustmentViewModel(INavigationService navigationService, IAdjustmentRepository adjustmentRepository) 
     {
@@ -38,6 +35,8 @@ public partial class AdjustmentViewModel : ObservableObject
         }
 
         Types = _repository.GetTypes();
+
+        GetSetUpAdjustments();
     }
 
     [RelayCommand]
@@ -119,11 +118,13 @@ public partial class AdjustmentViewModel : ObservableObject
     {
         if (SelectedAdjustment is not null)
             _repository.SetLevel(SelectedAdjustment.Cast(), level);
+
+        GetSetUpAdjustments();
     }
 
-    private ObservableCollection<AdjustmentParametersDto> GetSetUpAdjustments()
+    private void GetSetUpAdjustments()
     {
-        var result = new ObservableCollection<AdjustmentParametersDto>();
+        SetUpAdjustments.Clear();
         var adjustmentsWithLevel = _repository
             .GetAdjustmentsWithLevel()
             .ToList();
@@ -132,9 +133,7 @@ public partial class AdjustmentViewModel : ObservableObject
             Adjustments
                     .Where(a => a.Cast().Equals(awl))
                     .ToList()
-                    .ForEach(a => result.Add(a));
+                    .ForEach(a => SetUpAdjustments.Add(a));
         });
-
-        return result;
     }
 }

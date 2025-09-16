@@ -31,6 +31,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     private readonly SettingsView _settingsPage;
     private readonly UserView _userPage;
+    private readonly ViewData _adjustmentPage;
 
     [ObservableProperty]
     private string _status = string.Empty;
@@ -48,17 +49,19 @@ public partial class MainWindowViewModel : ObservableObject
         if(statusService is not null)
             statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
-        var AdjustmentPage = new ViewData(new AdjustmentView(_adjustmentViewModel)) { IconGlyph = "\uE726" };
-        AdjustmentVisibleElements(AdjustmentPage);
+        _adjustmentPage = new ViewData(new AdjustmentView(_adjustmentViewModel)) { IconGlyph = "\uE726" };
+        AdjustmentUpdateChildElements();
         _pages = [
             new ViewData(new ManualView(_serviceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE732" },
             new ViewData(new VisualizationView(_serviceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },
             new ViewData(new ProgramView(_serviceProvider.GetRequiredService<ProgramViewModel>())) { IconGlyph = "\uE726" },
-            AdjustmentPage
+            _adjustmentPage
         ];
 
         _settingsPage = new SettingsView(_serviceProvider.GetRequiredService<SettingsViewModel>());
         _userPage = new UserView(_serviceProvider.GetRequiredService<UserViewModel>());
+
+        _adjustmentViewModel.SetUpAdjustments.CollectionChanged += SetUpAdjustments_CollectionChanged;
     }
 
     [RelayCommand]
@@ -95,8 +98,9 @@ public partial class MainWindowViewModel : ObservableObject
         return Pages.FirstOrDefault(e => e.Title == title);
     }
 
-    private void AdjustmentVisibleElements(ViewData adjustmentPage)
+    private void AdjustmentUpdateChildElements()
     {
+        _adjustmentPage.Items.Clear();
         foreach (var adjustment in _adjustmentViewModel.SetUpAdjustments)
         {
             var adjustmentSettingPage = new AdjustmentSettingsView(_adjustmentViewModel, adjustment);
@@ -105,7 +109,12 @@ public partial class MainWindowViewModel : ObservableObject
             var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(adjustment);
             viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
 
-            adjustmentPage.Items.Add(viewData);
+            _adjustmentPage.Items.Add(viewData);
         }
+    }
+
+    private void SetUpAdjustments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        AdjustmentUpdateChildElements();
     }
 }
