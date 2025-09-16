@@ -90,7 +90,7 @@ public class AdjustmentParametersDto : INotifyPropertyChanged
         if (adjustment is null)
             return false;
 
-        return Cast().Equals(adjustment.Cast());
+        return _adjustment.Equals(adjustment.Cast());
     }
 
     public AdjustmentParameters Cast() => _adjustment;
