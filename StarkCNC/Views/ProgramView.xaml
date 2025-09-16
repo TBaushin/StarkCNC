@@ -72,7 +72,6 @@
         </Style>
     </Page.Resources>
 
-
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -159,7 +158,7 @@
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="4*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -237,11 +236,13 @@
                 <Button
                     Grid.Column="6"
                     Grid.Row="1"
+                    Margin="5,0,5,0"
                     HorizontalAlignment="Stretch"
                     Content="Speed"/>
                 <Button
                     Grid.Column="7"
                     Grid.Row="1"
+                    Margin="5,0,5,0"
                     HorizontalAlignment="Stretch"
                     Content="Коэффициент"/>
                 <Separator
@@ -278,382 +279,194 @@
                 <Button
                     Grid.Column="11"
                     Grid.Row="1"
+                    Margin="5,0,5,0"
                     HorizontalAlignment="Stretch"
                     Content="B"/>
                 <Button
                     Grid.Column="12"
                     Grid.Row="1"
+                    Margin="5,0,5,0"
                     HorizontalAlignment="Stretch"
                     Content="Y2"/>
             </Grid>
-            <!--<Border
-    CornerRadius="5">
-                <ListView
-        ItemsSource="{Binding BendingDatas, Mode=TwoWay}">
-                    <ListView.ItemTemplate>
+            <ScrollViewer Margin="0,10,0,0">
+                <ItemsControl
+                    ItemsSource="{Binding BendingDatas}">
+                    <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="4*"/>
-                                    <ColumnDefinition Width="4*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Label
-                        Grid.Column="0"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
-                        Content="№"/>
+                            <StackPanel
+                                Margin="0,3,0,3"
+                                Orientation="Vertical">
                                 <Separator
-                        Grid.Column="1"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Margin="5,0,5,0"
-                        VerticalAlignment="Stretch"/>
-                                <StackPanel
-                        Grid.Column="2"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Stretch">
-                                    <Label
-                            HorizontalContentAlignment="Center"
-                            Content="Подача Y"/>
-                                    <Button
-                            HorizontalAlignment="Stretch"
-                            Content="Speed"/>
-                                </StackPanel>
-                                <Separator
-                        Grid.Column="3"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Margin="3,0,3,0"
-                        VerticalAlignment="Stretch"/>
-                                <StackPanel
-                        Grid.Column="4"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Stretch">
-                                    <Label
-                            HorizontalContentAlignment="Center"
-                            Content="Поворот B"/>
-                                    <Button
-                            HorizontalAlignment="Stretch"
-                            Content="Speed"/>
-                                </StackPanel>
-                                <Separator
-                        Grid.Column="5"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Margin="3,0,3,0"
-                        VerticalAlignment="Stretch"/>
-                                <Label
-                        Grid.Column="6"
-                        Grid.Row="0"
-                        Grid.ColumnSpan="2"
-                        HorizontalContentAlignment="Center"
-                        Content="Гиб C"/>
-                                <Button
-                        Grid.Column="6"
-                        Grid.Row="1"
-                        HorizontalAlignment="Stretch"
-                        Content="Speed"/>
-                                <Button
-                        Grid.Column="7"
-                        Grid.Row="1"
-                        HorizontalAlignment="Stretch"
-                        Content="Коэффициент"/>
-                                <Separator
-                        Grid.Column="8"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Margin="3,0,3,0"
-                        VerticalAlignment="Stretch"/>
-                                <StackPanel
-                        Grid.Column="9"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Stretch">
-                                    <Label
-                            HorizontalContentAlignment="Center"
-                            Content="Радиус R"/>
-                                    <Button
-                            HorizontalAlignment="Stretch"
-                            Content="Режим"/>
-                                </StackPanel>
-                                <Separator
-                        Grid.Column="10"
-                        Grid.Row="0"
-                        Grid.RowSpan="2"
-                        Margin="3,0,3,0"
-                        VerticalAlignment="Stretch"/>
-                                <Label
-                        Grid.Column="11"
-                        Grid.Row="0"
-                        Grid.ColumnSpan="2"
-                        HorizontalContentAlignment="Center"
-                        Content="Отвод Y"/>
-                                <Button
-                        Grid.Column="11"
-                        Grid.Row="1"
-                        HorizontalAlignment="Stretch"
-                        Content="B"/>
-                                <Button
-                        Grid.Column="12"
-                        Grid.Row="1"
-                        HorizontalAlignment="Stretch"
-                        Content="Y2"/>
-                            </Grid>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-            </Border>-->
-            <DataGrid
-                x:Name="PipeBendParametersDataGrid"
-                AutoGenerateColumns="False"
-                CanUserAddRows="True"
-                CanUserSortColumns="False"
-                ColumnWidth="*"
-                ItemsSource="{Binding BendingDatas, Mode=TwoWay}"
-                BeginningEdit="PipeBendParametersDataGrid_BeginningEdit"
-                CanUserReorderColumns="False"
-                CanUserResizeColumns="True"
-                GridLinesVisibility="All"
-                HeadersVisibility="None"
-                RowHeaderWidth="0"
-                HorizontalScrollBarVisibility="Auto"
-                VerticalScrollBarVisibility="Auto"
-                FontSize="11"
-                SelectionMode="Single"
-                SelectionUnit="FullRow">
-                <DataGrid.Columns>
-                    <DataGridTextColumn
-                        Width="2*"
-                        Binding="{Binding Number}"
-                        IsReadOnly="True">
-                        <DataGridTextColumn.ElementStyle>
-                            <Style
-                                TargetType="TextBlock"
-                                BasedOn="{StaticResource EditableTextStyle}"/>
-                        </DataGridTextColumn.ElementStyle>
-                    </DataGridTextColumn>
-                    <!-- Ось Y - РЕДАКТИРУЕМАЯ с разделенными числами -->
-                    <DataGridTemplateColumn Width="4*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
+                                    Margin="5,0,5,0"
+                                    VerticalAlignment="Stretch"/>
                                 <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Text="{Binding StraightLength}"
-                                        Style="{StaticResource EditableTextStyle}"/>
-
-                                    <Rectangle
-                                        Grid.Row="1"
-                                        Fill="Black"
-                                        Height="2"/>
-
-                                    <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/> <!--0-->
+                                        <ColumnDefinition Width="Auto"/> <!--1-->
+                                        <ColumnDefinition Width="4*"/> <!--2-->
+                                        <ColumnDefinition Width="Auto"/> <!--3-->
+                                        <ColumnDefinition Width="4*"/> <!--4-->
+                                        <ColumnDefinition Width="Auto"/> <!--5-->
+                                        <ColumnDefinition Width="4*"/> <!--6-->
+                                        <ColumnDefinition Width="4*"/> <!--7-->
+                                        <ColumnDefinition Width="Auto"/> <!--8-->
+                                        <ColumnDefinition Width="4*"/> <!--9-->
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Label
+                                        Grid.Column="0"
+                                        VerticalAlignment="Center"
+                                        Content="1"/>
+                                    <Separator
+                                        Grid.Column="1"
+                                        Margin="5,0,5,0"
+                                        VerticalAlignment="Stretch"/>
                                     <Grid
-                                        Grid.Row="2"
-                                        Background="Gray">
-                                        <TextBlock
-                                            Text="{Binding StraightLength, StringFormat='Speed: {0}'}"
-                                            Style="{StaticResource EditableTextStyle}"/>
+                                        Grid.Column="2"
+                                        Margin="0,2,0,2">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <controls:PrefixedTextBoxControl
+                                            Grid.Row="0"
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
+                                        <controls:PrefixedTextBoxControl
+                                            Grid.Row="1"
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
                                     </Grid>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="4*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Text="{Binding StraightLength}"
-                                        Style="{StaticResource EditableTextStyle}"/>
-
-                                    <Rectangle
-                                        Grid.Row="1"
-                                        Fill="Black"
-                                        Height="2"/>
-
-                                    <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
-                                    <Grid Grid.Row="2">
-                                        <TextBlock
-                                            Text="{Binding StraightLength}"
-                                            Style="{StaticResource EditableTextStyle}"/>
-                                    </Grid>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="8*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Text="{Binding StraightLength}"
-                                        Style="{StaticResource EditableTextStyle}"/>
-
-                                    <Rectangle
-                                        Grid.Row="1"
-                                        Fill="Black"
-                                        Height="2"/>
-
-                                    <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
-                                    <Grid Grid.Row="2">
+                                    <Separator
+                                        Grid.Column="3"
+                                        Margin="5,0,5,0"
+                                        VerticalAlignment="Stretch"/>
+                                    <StackPanel
+                                        Grid.Column="4"
+                                        Margin="0,2,0,2"
+                                        Orientation="Vertical">
+                                        <controls:PrefixedTextBoxControl
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
+                                        <controls:PrefixedTextBoxControl
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
+                                    </StackPanel>
+                                    <Separator
+                                        Grid.Column="5"
+                                        Margin="5,0,5,0"
+                                        VerticalAlignment="Stretch"/>
+                                    <Grid Grid.Column="6"
+                                          Grid.ColumnSpan="2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="2"/>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <controls:PrefixedTextBoxControl
                                             Grid.Column="0"
-                                            Text="{Binding StraightLength}"
-                                            Style="{StaticResource EditableTextStyle}"/>
-                                        <Rectangle
+                                            Grid.ColumnSpan="3"
+                                            Grid.Row="0"
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
+                                        <controls:PrefixedTextBoxControl
+                                            Grid.Column="0"
+                                            Grid.Row="1"
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
+                                        <Separator
                                             Grid.Column="1"
-                                            Fill="Black"
-                                            Width="1"
-                                            VerticalAlignment="Stretch"
-                                            HorizontalAlignment="Center"/>
-                                        <TextBlock
+                                            Grid.Row="1"
+                                            Margin="5,0,5,0"
+                                            VerticalAlignment="Stretch"/>
+                                        <controls:PrefixedTextBoxControl
                                             Grid.Column="2"
-                                            Text="{Binding StraightLength}"
-                                            Style="{StaticResource EditableTextStyle}"/>
+                                            Grid.Row="1"
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
                                     </Grid>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-
-                    <!-- выбор режима гибки, радиус-->
-                    <DataGridTemplateColumn Width="4*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="*"/>
-                                        <RowDefinition Height="*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Text="{Binding StraightLength}" 
-                                        Style="{StaticResource EditableTextStyle}"/>
-
-                                    <Rectangle
-                                        Grid.Row="1"
-                                        Fill="Black"
-                                        Height="2"/>
-                                    <Grid Grid.Row="2">
-                                        <ComboBox
-                                            SelectedItem="{Binding BendMode, Mode=TwoWay}"
-                                            ItemsSource="{Binding BendModeList}"
-                                            HorizontalAlignment="Stretch"
-                                            VerticalAlignment="Center"
-                                            HorizontalContentAlignment="Right"
-                                            IsEditable="False"/>
-                                    </Grid>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="8*">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="2*"/>
-                                        <RowDefinition Height="1*"/>
-                                        <RowDefinition Height="1*"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                        Grid.Row="0"
-                                        Text="{Binding StraightLength}"
-                                        Style="{StaticResource EditableTextStyle}"/>
-
-                                    <Rectangle
-                                        Grid.Row="1"
-                                        Fill="Black"
-                                        Height="2"/>
-
-                                    <!-- Нижняя часть с двумя числами, разделенными вертикальной чертой -->
-                                    <Grid Grid.Row="2">
+                                    <Separator
+                                        Grid.Column="8"
+                                        Margin="5,0,5,0"
+                                        VerticalAlignment="Stretch"/>
+                                    <StackPanel
+                                        Grid.Column="9"
+                                        Orientation="Vertical"
+                                        Margin="0,2,0,2">
+                                        <controls:PrefixedTextBoxControl
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
+                                        <ComboBox Margin="0,5,0,5">
+                                            <ComboBoxItem>
+                                                Hi
+                                            </ComboBoxItem>
+                                        </ComboBox>
+                                    </StackPanel>
+                                    <Separator
+                                        Grid.Column="10"
+                                        Margin="5,0,5,0"
+                                        VerticalAlignment="Stretch"/>
+                                    <Grid Grid.Column="11"
+                                          Grid.ColumnSpan="2"
+                                          Margin="0,2,0,2">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="2"/>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        <controls:PrefixedTextBoxControl
                                             Grid.Column="0"
-                                            Text="{Binding StraightLength}"
-                                            Style="{StaticResource EditableTextStyle}"/>
-                                        <Rectangle
+                                            Grid.ColumnSpan="3"
+                                            Grid.Row="0"
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
+                                        <controls:PrefixedTextBoxControl
+                                            Grid.Column="0"
+                                            Grid.Row="1"
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
+                                        <Separator
                                             Grid.Column="1"
-                                            Fill="Black"
-                                            Width="1"
-                                            VerticalAlignment="Stretch" HorizontalAlignment="Center"/>
-                                        <TextBlock
+                                            Grid.Row="1"
+                                            Margin="5,0,5,0"
+                                            VerticalAlignment="Stretch"/>
+                                        <controls:PrefixedTextBoxControl
                                             Grid.Column="2"
-                                            Text="{Binding StraightLength}"
-                                            Style="{StaticResource EditableTextStyle}"/>
+                                            Grid.Row="1"
+                                            Margin="0,5,0,5"
+                                            Prefix="Sp:"
+                                            Text=""/>
                                     </Grid>
                                 </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-
-                    </DataGridTemplateColumn>
-                    <!--<DataGridTextColumn
-                        Header="{x:Static lang:Language.StraightLength}"
-                        Binding="{Binding StraightLength}"/>
-                    <DataGridTextColumn
-                        Header="{x:Static lang:Language.BendingAngle}"
-                        Binding="{Binding BendingAngle}"/>
-                    <DataGridTextColumn
-                        Header="{x:Static lang:Language.BendingRadius}"
-                        Binding="{Binding BendingRadius}"/>
-                    <DataGridTextColumn
-                        Header="{x:Static lang:Language.RotationAngle}"
-                        Binding="{Binding RotationAngle}"/> -->
-                </DataGrid.Columns>
-            </DataGrid>
+                                <Separator
+                                    Margin="5,0,5,0"
+                                    VerticalAlignment="Stretch"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
         </StackPanel>
         <Border 
             Grid.Column="1" 

@@ -25,7 +25,7 @@ public partial class ProgramView : Page
 
     private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
     {
-        var item = PipeBendParametersDataGrid.CurrentItem;
+        /*var item = PipeBendParametersDataGrid.CurrentItem;
         if (item is not BendingData data)
             return;
 
@@ -45,7 +45,7 @@ public partial class ProgramView : Page
             case 4:
                 data.RotationAngle = value;
                 break;
-        }
+        }*/
     }
 
     private void PipeBendParametersDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
