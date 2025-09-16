@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
-using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Models;
 using StarkCNC.Services;
@@ -22,7 +21,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     private readonly IServiceProvider _serviceProvider;
 
-    private readonly IAdjustmentRepository _adjustmentRepository;
+    private readonly AdjustmentViewModel _adjustmentViewModel;
 
     [ObservableProperty]
     private bool _canNavigateBack;
@@ -40,16 +39,16 @@ public partial class MainWindowViewModel : ObservableObject
         IServiceProvider serviceProvider,
         INavigationService navigationService,
         IStatusService statusService,
-        IAdjustmentRepository adjustmentRepository) 
+        AdjustmentViewModel adjustmentViewModel) 
     {
         _serviceProvider = serviceProvider;
         _navigationService = navigationService;
-        _adjustmentRepository = adjustmentRepository;
+        _adjustmentViewModel = adjustmentViewModel;
 
         if(statusService is not null)
             statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
-        var AdjustmentPage = new ViewData(new AdjustmentView(_serviceProvider.GetRequiredService<AdjustmentViewModel>())) { IconGlyph = "\uE726" };
+        var AdjustmentPage = new ViewData(new AdjustmentView(_adjustmentViewModel)) { IconGlyph = "\uE726" };
         AdjustmentVisibleElements(AdjustmentPage);
         _pages = [
             new ViewData(new ManualView(_serviceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE732" },
@@ -98,10 +97,9 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void AdjustmentVisibleElements(ViewData adjustmentPage)
     {
-        var adjustmentViewModel = _serviceProvider.GetRequiredService<AdjustmentViewModel>();
-        foreach (var adjustment in adjustmentViewModel.SetUpAdjustments)
+        foreach (var adjustment in _adjustmentViewModel.SetUpAdjustments)
         {
-            var adjustmentSettingPage = new AdjustmentSettingsView(adjustmentViewModel, adjustment);
+            var adjustmentSettingPage = new AdjustmentSettingsView(_adjustmentViewModel, adjustment);
             var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
 
             var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(adjustment);
