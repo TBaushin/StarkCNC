@@ -21,6 +21,22 @@ public partial class AdjustmentView : Page
         DataContext = viewModel;
 
         InitializeComponent();
+        InitializeLevels();
+    }
+
+    private void InitializeLevels()
+    {
+        ThirdLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
+            .FirstOrDefault(e => e.InstalledLevel == 3);
+        ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+
+        SecondLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
+            .FirstOrDefault(e => e.InstalledLevel == 2);
+        SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+
+        FirstLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
+            .FirstOrDefault(e => e.InstalledLevel == 1);
+        FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
     }
 
     private void PipeDiameterInput_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -126,12 +142,15 @@ public partial class AdjustmentView : Page
         {
             case 1:
                 FirstLevel.SelectedAdjustment = adjustment;
+                FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
                 break;
             case 2:
                 SecondLevel.SelectedAdjustment = adjustment;
+                SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
                 break;
             case 3:
                 ThirdLevel.SelectedAdjustment = adjustment;
+                ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
                 break;
         }
     }
