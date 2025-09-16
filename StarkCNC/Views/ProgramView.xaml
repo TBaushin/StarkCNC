@@ -302,16 +302,16 @@
                                     VerticalAlignment="Stretch"/>
                                 <Grid>
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/> <!--0-->
-                                        <ColumnDefinition Width="Auto"/> <!--1-->
-                                        <ColumnDefinition Width="4*"/> <!--2-->
-                                        <ColumnDefinition Width="Auto"/> <!--3-->
-                                        <ColumnDefinition Width="4*"/> <!--4-->
-                                        <ColumnDefinition Width="Auto"/> <!--5-->
-                                        <ColumnDefinition Width="4*"/> <!--6-->
-                                        <ColumnDefinition Width="4*"/> <!--7-->
-                                        <ColumnDefinition Width="Auto"/> <!--8-->
-                                        <ColumnDefinition Width="4*"/> <!--9-->
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="4*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="4*"/>
                                         <ColumnDefinition Width="4*"/>
