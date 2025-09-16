@@ -1,4 +1,4 @@
-﻿using StarkCNC.Models;
+﻿using StarkCNC.DTO;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,7 +17,7 @@ public partial class FloorControl : UserControl
 
     [SuppressMessage("Usage", "CA2211", Justification = "Особенность XAML UI")]
     public static DependencyProperty SelectedAdjustmentProperty = DependencyProperty
-        .Register(nameof(SelectedAdjustment), typeof(AdjustmentParameters), typeof(FloorControl), new PropertyMetadata());
+        .Register(nameof(SelectedAdjustment), typeof(AdjustmentParametersDto), typeof(FloorControl), new PropertyMetadata());
 
     [SuppressMessage("Usage", "CA2211", Justification = "Особенность XAML UI")]
     public static DependencyProperty EnabledProperty = DependencyProperty
@@ -33,9 +33,9 @@ public partial class FloorControl : UserControl
         set => SetValue(FloorTextProperty, value);
     }
 
-    public AdjustmentParameters? SelectedAdjustment
+    public AdjustmentParametersDto? SelectedAdjustment
     {
-        get => (AdjustmentParameters?)GetValue(SelectedAdjustmentProperty);
+        get => (AdjustmentParametersDto?)GetValue(SelectedAdjustmentProperty);
         set
         {
             SetValue(SelectedAdjustmentProperty, value);

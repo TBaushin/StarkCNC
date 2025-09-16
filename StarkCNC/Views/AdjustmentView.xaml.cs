@@ -1,5 +1,5 @@
-﻿using StarkCNC.Helpers;
-using StarkCNC.Models;
+﻿using StarkCNC.DTO;
+using StarkCNC.Helpers;
 using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
@@ -136,7 +136,7 @@ public partial class AdjustmentView : Page
         }
     }
 
-    private void ClearFloorConrolsSelectedAdjustment(AdjustmentParameters adjustment)
+    private void ClearFloorConrolsSelectedAdjustment(AdjustmentParametersDto adjustment)
     {
         if (FirstLevel.SelectedAdjustment is not null && FirstLevel.SelectedAdjustment == adjustment)
             FirstLevel.SelectedAdjustment = null;

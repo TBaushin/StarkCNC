@@ -1,4 +1,4 @@
-﻿using StarkCNC.Models;
+﻿using StarkCNC.DTO;
 using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
@@ -25,7 +25,7 @@ public partial class AdjustmentListView : Page
         if (label is null)
             return;
 
-        var adjustment = label.DataContext as AdjustmentParameters;
+        var adjustment = label.DataContext as AdjustmentParametersDto;
         if (adjustment is null)
             return;
 
@@ -38,7 +38,7 @@ public partial class AdjustmentListView : Page
         if (button is null)
             return;
 
-        var adjustment = button.DataContext as AdjustmentParameters;
+        var adjustment = button.DataContext as AdjustmentParametersDto;
         if (adjustment is null)
             return;
 

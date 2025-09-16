@@ -1,4 +1,4 @@
-﻿using StarkCNC.Models;
+﻿using StarkCNC.DTO;
 using StarkCNC.ViewModels;
 using System.Globalization;
 using System.Windows.Controls;
@@ -11,9 +11,9 @@ namespace StarkCNC.Views
     public partial class AdjustmentSettingsView : Page
     {
         private AdjustmentViewModel ViewModel;
-        public AdjustmentParameters Adjustment { get; set; }
+        public AdjustmentParametersDto Adjustment { get; set; }
 
-        public AdjustmentSettingsView(AdjustmentViewModel viewModel, AdjustmentParameters adjustment)
+        public AdjustmentSettingsView(AdjustmentViewModel viewModel, AdjustmentParametersDto adjustment)
         {
             ViewModel = viewModel;
             Adjustment = adjustment;
@@ -27,7 +27,7 @@ namespace StarkCNC.Views
 
         private void SelectedAdjustment_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            var adjustment = sender as AdjustmentParameters;
+            var adjustment = sender as AdjustmentParametersDto;
             if (adjustment is null)
                 return;
 

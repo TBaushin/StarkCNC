@@ -1,4 +1,4 @@
-﻿using StarkCNC.Models;
+﻿using StarkCNC.DTO;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views
@@ -8,9 +8,9 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class AdjustmentCoordinateSettingsView : Page
     {
-        public AdjustmentParameters Adjustment { get; set; }
+        public AdjustmentParametersDto Adjustment { get; set; }
 
-        public AdjustmentCoordinateSettingsView(AdjustmentParameters adjustment)
+        public AdjustmentCoordinateSettingsView(AdjustmentParametersDto adjustment)
         {
             DataContext = this;
 

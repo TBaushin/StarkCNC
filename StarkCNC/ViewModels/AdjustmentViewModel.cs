@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Repository;
-using StarkCNC.Models;
+using StarkCNC.DTO;
 using StarkCNC.Services;
 using StarkCNC.Views;
 using System.Collections.ObjectModel;
@@ -15,12 +15,12 @@ public partial class AdjustmentViewModel : ObservableObject
     private readonly INavigationService _navigationService;
     private readonly IAdjustmentRepository _repository;
 
-    public ObservableCollection<AdjustmentParameters> Adjustments { get; } = new ObservableCollection<AdjustmentParameters>();
+    public ObservableCollection<AdjustmentParametersDto> Adjustments { get; } = new ObservableCollection<AdjustmentParametersDto>();
     public IEnumerable<StarkCNC.Core.Models.AdjustmentType> Types { get; }
 
     [ObservableProperty]
-    private AdjustmentParameters? _selectedAdjustment;
-    public ObservableCollection<AdjustmentParameters> SetUpAdjustments
+    private AdjustmentParametersDto? _selectedAdjustment;
+    public ObservableCollection<AdjustmentParametersDto> SetUpAdjustments
     {
         get => GetSetUpAdjustments();
     }
@@ -34,7 +34,7 @@ public partial class AdjustmentViewModel : ObservableObject
 
         foreach (var item in _repository.GetAll())
         {
-            Adjustments.Add(new AdjustmentParameters(item));
+            Adjustments.Add(new AdjustmentParametersDto(item));
         }
 
         Types = _repository.GetTypes();
@@ -46,7 +46,7 @@ public partial class AdjustmentViewModel : ObservableObject
         var item = new StarkCNC.Core.Models.AdjustmentParameters("", _repository.GetTypes().First());
         _repository.AddElement(item);
 
-        var adjustment = new AdjustmentParameters(item);
+        var adjustment = new AdjustmentParametersDto(item);
         Adjustments.Add(adjustment);
 
         SelectedAdjustment = adjustment;
@@ -64,14 +64,14 @@ public partial class AdjustmentViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void DeleteAdjustment(AdjustmentParameters adjustment)
+    private void DeleteAdjustment(AdjustmentParametersDto adjustment)
     {
         _repository.RemoveElement(adjustment.Cast());
         Adjustments.Remove(adjustment);
     }
 
     [RelayCommand]
-    private void EditAdjustment(AdjustmentParameters adjustment)
+    private void EditAdjustment(AdjustmentParametersDto adjustment)
     {
         var settingsWindow = new AdjustmentSettingsWindow(this, "Редактирование оснастки");
         settingsWindow.ShowDialog();
@@ -102,14 +102,14 @@ public partial class AdjustmentViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void GoToEditSettings(AdjustmentParameters adjustment)
+    private void GoToEditSettings(AdjustmentParametersDto adjustment)
     {
         SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Cast().Equals(adjustment.Cast()));
         _navigationService.Navigate(new AdjustmentSettingsView(this, adjustment));
     }
 
     [RelayCommand]
-    private void GoToCoordinateSettings(AdjustmentParameters adjustment)
+    private void GoToCoordinateSettings(AdjustmentParametersDto adjustment)
     {
         _navigationService.Navigate(new AdjustmentCoordinateSettingsView(adjustment));
     }
@@ -121,9 +121,9 @@ public partial class AdjustmentViewModel : ObservableObject
             _repository.SetLevel(SelectedAdjustment.Cast(), level);
     }
 
-    private ObservableCollection<AdjustmentParameters> GetSetUpAdjustments()
+    private ObservableCollection<AdjustmentParametersDto> GetSetUpAdjustments()
     {
-        var result = new ObservableCollection<AdjustmentParameters>();
+        var result = new ObservableCollection<AdjustmentParametersDto>();
         var adjustmentsWithLevel = _repository
             .GetAdjustmentsWithLevel()
             .ToList();

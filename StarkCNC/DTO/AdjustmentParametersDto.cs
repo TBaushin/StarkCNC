@@ -1,11 +1,11 @@
 ﻿using StarkCNC.Core.Models;
 using System.ComponentModel;
 
-namespace StarkCNC.Models;
+namespace StarkCNC.DTO;
 
-public class AdjustmentParameters : INotifyPropertyChanged
+public class AdjustmentParametersDto : INotifyPropertyChanged
 {
-    private readonly StarkCNC.Core.Models.AdjustmentParameters _adjustment;
+    private readonly AdjustmentParameters _adjustment;
 
     public string Name
     {
@@ -72,19 +72,19 @@ public class AdjustmentParameters : INotifyPropertyChanged
         }
     }
 
-    public AdjustmentParameters(StarkCNC.Core.Models.AdjustmentParameters adjustment)
+    public AdjustmentParametersDto(AdjustmentParameters adjustment)
     {
         _adjustment = adjustment;
     }
 
-    public AdjustmentParameters(string name, AdjustmentType type)
+    public AdjustmentParametersDto(string name, AdjustmentType type)
     {
-        _adjustment = new StarkCNC.Core.Models.AdjustmentParameters(name, type);
+        _adjustment = new AdjustmentParameters(name, type);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public StarkCNC.Core.Models.AdjustmentParameters Cast() => _adjustment;
+    public AdjustmentParameters Cast() => _adjustment;
 
     private void OnPropertyChanged(string propertyName)
     {
