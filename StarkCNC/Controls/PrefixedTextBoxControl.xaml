@@ -37,12 +37,15 @@
             </Border>
 
             <TextBox
+                x:Name="InputTextBox"
                 Grid.Column="1"
                 BorderThickness="0"
                 Padding="8,4"
                 Height="31"
                 Background="Transparent"
                 Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                PreviewMouseDown="InputTextBox_PreviewMouseDown"
+                PreviewTextInput="InputTextBox_PreviewTextInput"
                 Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
     </Border>

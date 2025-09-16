@@ -187,7 +187,7 @@
                     Grid.Column="1"
                     Grid.Row="0"
                     Grid.RowSpan="2"
-                    Margin="5,0,5,0"
+                    Margin="4,0,4,0"
                     VerticalAlignment="Stretch"/>
                 <StackPanel
                     Grid.Column="2"
@@ -322,7 +322,7 @@
                                         Content="1"/>
                                     <Separator
                                         Grid.Column="1"
-                                        Margin="5,0,5,0"
+                                        Margin="4,0,4,0"
                                         VerticalAlignment="Stretch"/>
                                     <Grid
                                         Grid.Column="2"
@@ -334,17 +334,21 @@
                                         <controls:PrefixedTextBoxControl
                                             Grid.Row="0"
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                         <controls:PrefixedTextBoxControl
                                             Grid.Row="1"
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                     </Grid>
                                     <Separator
                                         Grid.Column="3"
-                                        Margin="5,0,5,0"
+                                        Margin="4,0,4,0"
                                         VerticalAlignment="Stretch"/>
                                     <StackPanel
                                         Grid.Column="4"
@@ -352,16 +356,20 @@
                                         Orientation="Vertical">
                                         <controls:PrefixedTextBoxControl
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                         <controls:PrefixedTextBoxControl
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                     </StackPanel>
                                     <Separator
                                         Grid.Column="5"
-                                        Margin="5,0,5,0"
+                                        Margin="4,0,4,0"
                                         VerticalAlignment="Stretch"/>
                                     <Grid Grid.Column="6"
                                           Grid.ColumnSpan="2">
@@ -379,29 +387,35 @@
                                             Grid.ColumnSpan="3"
                                             Grid.Row="0"
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                         <controls:PrefixedTextBoxControl
                                             Grid.Column="0"
                                             Grid.Row="1"
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                         <Separator
                                             Grid.Column="1"
                                             Grid.Row="1"
-                                            Margin="5,0,5,0"
+                                            Margin="3,0,3,0"
                                             VerticalAlignment="Stretch"/>
                                         <controls:PrefixedTextBoxControl
                                             Grid.Column="2"
                                             Grid.Row="1"
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                     </Grid>
                                     <Separator
                                         Grid.Column="8"
-                                        Margin="5,0,5,0"
+                                        Margin="3,0,3,0"
                                         VerticalAlignment="Stretch"/>
                                     <StackPanel
                                         Grid.Column="9"
@@ -409,6 +423,8 @@
                                         Margin="0,2,0,2">
                                         <controls:PrefixedTextBoxControl
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                         <ComboBox Margin="0,5,0,5">
@@ -419,7 +435,7 @@
                                     </StackPanel>
                                     <Separator
                                         Grid.Column="10"
-                                        Margin="5,0,5,0"
+                                        Margin="4,0,4,0"
                                         VerticalAlignment="Stretch"/>
                                     <Grid Grid.Column="11"
                                           Grid.ColumnSpan="2"
@@ -438,23 +454,29 @@
                                             Grid.ColumnSpan="3"
                                             Grid.Row="0"
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                         <controls:PrefixedTextBoxControl
                                             Grid.Column="0"
                                             Grid.Row="1"
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                         <Separator
                                             Grid.Column="1"
                                             Grid.Row="1"
-                                            Margin="5,0,5,0"
+                                            Margin="3,0,3,0"
                                             VerticalAlignment="Stretch"/>
                                         <controls:PrefixedTextBoxControl
                                             Grid.Column="2"
                                             Grid.Row="1"
                                             Margin="0,5,0,5"
+                                            NeedCallNumberInput="True"
+                                            IsNumericOnly="True"
                                             Prefix="Sp:"
                                             Text=""/>
                                     </Grid>
