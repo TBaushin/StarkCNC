@@ -84,6 +84,15 @@ public class AdjustmentParametersDto : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    public override bool Equals(object? obj)
+    {
+        var adjustment = obj as AdjustmentParametersDto;
+        if (adjustment is null)
+            return false;
+
+        return Cast().Equals(adjustment.Cast());
+    }
+
     public AdjustmentParameters Cast() => _adjustment;
 
     private void OnPropertyChanged(string propertyName)
