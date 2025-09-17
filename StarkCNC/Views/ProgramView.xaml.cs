@@ -1,5 +1,4 @@
-﻿using StarkCNC.Core.Models;
-using StarkCNC.ViewModels;
+﻿using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views;
@@ -20,7 +19,7 @@ public partial class ProgramView : Page
         BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
         BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
 
-        BendingView.Children.Add(ViewModel.Pipe);
+        BendingView.Children.Add(ViewModel.PipeModel);
     }
 
     private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
@@ -61,5 +60,10 @@ public partial class ProgramView : Page
     private void ZoomOut_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         BendingView.CameraController.Zoom(0.1);
+    }
+
+    private void AddLineButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.BendingDatas.Add(new Core.Models.BendingData());
     }
 }
