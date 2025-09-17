@@ -18,22 +18,21 @@ public partial class ProgramViewModel : ObservableObject
    
     private const string _gcodeExtension = ".gcode";
     private const string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
-    private readonly Visual3D _pipe;
+    private readonly Visual3D _pipeModel;
 
     [ObservableProperty]
     private string _currentFilePath = string.Empty;
 
-    public ObservableCollection<BendingData> BendingDatas { get; set; } = new ObservableCollection<BendingData>();
-    public List<string> BendModeList = new List<string>() { "Hello", "World" };
+    public ObservableCollection<BendingData> BendingDatas { get; } = new ObservableCollection<BendingData>();
+    public IEnumerable<string> BendModeList { get; } = new List<string>() { "Hello", "World" };
 
-    public Visual3D Pipe
+    public Visual3D PipeModel
     {
-        get => _pipe;
+        get => _pipeModel;
     }
 
     public ProgramViewModel(IServiceProvider serviceProvider, IBendingModelsLoadingService bendingModelsLoadingService, IGCodeService gCodeService)
     {
-
         _bendingModelsLoadingService = bendingModelsLoadingService;
         _gCodeService = gCodeService;
 
@@ -46,7 +45,7 @@ public partial class ProgramViewModel : ObservableObject
             }
         };
 
-        _pipe = _bendingModelsLoadingService.Pipe;
+        _pipeModel = _bendingModelsLoadingService.Pipe;
     }
 
     [RelayCommand]
