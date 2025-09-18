@@ -5,6 +5,7 @@ using Microsoft.Win32;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
+using StarkCNC.DTO;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Media3D;
@@ -18,21 +19,22 @@ public partial class ProgramViewModel : ObservableObject
    
     private const string _gcodeExtension = ".gcode";
     private const string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
-    private readonly Visual3D _pipeModel;
+    private readonly Visual3D _pipe;
 
     [ObservableProperty]
     private string _currentFilePath = string.Empty;
 
-    public ObservableCollection<BendingData> BendingDatas { get; } = new ObservableCollection<BendingData>();
-    public IEnumerable<string> BendModeList { get; } = new List<string>() { "Hello", "World" };
+    public ObservableCollection<BendingDataDto> BendingDatas { get; set; } = new ObservableCollection<BendingDataDto>();
+    public ObservableCollection<string> BendModeList = new ObservableCollection<string>() { "Hello", "World" };
 
-    public Visual3D PipeModel
+    public Visual3D Pipe
     {
-        get => _pipeModel;
+        get => _pipe;
     }
 
     public ProgramViewModel(IServiceProvider serviceProvider, IBendingModelsLoadingService bendingModelsLoadingService, IGCodeService gCodeService)
     {
+
         _bendingModelsLoadingService = bendingModelsLoadingService;
         _gCodeService = gCodeService;
 
@@ -45,7 +47,7 @@ public partial class ProgramViewModel : ObservableObject
             }
         };
 
-        _pipeModel = _bendingModelsLoadingService.Pipe;
+        _pipe = _bendingModelsLoadingService.Pipe;
     }
 
     [RelayCommand]
@@ -90,8 +92,13 @@ public partial class ProgramViewModel : ObservableObject
             var data = await _gCodeService
                 .ReadAsync(CurrentFilePath)
                 .ConfigureAwait(true);
+
+            int i = 1;
             foreach (var item in data)
-                BendingDatas.Add(item);
+            {
+                BendingDatas.Add(new BendingDataDto(i, item));
+                i++;
+            }
         }
         catch (Exception)
         {
@@ -118,7 +125,7 @@ public partial class ProgramViewModel : ObservableObject
                 return false;
         }
 
-        await _gCodeService.SaveAsync(CurrentFilePath, BendingDatas).ConfigureAwait(false);
+        await _gCodeService.SaveAsync(CurrentFilePath, CastDtoToModel()).ConfigureAwait(false);
         return true;
     }
     
@@ -128,6 +135,16 @@ public partial class ProgramViewModel : ObservableObject
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
         _bendingModelsLoadingService
-            .UpdatePipeBend(WireBuilder.BuildWirePath(BendingDatas, pipeDiameter), pipeDiameter);
+            .UpdatePipeBend(WireBuilder.BuildWirePath(CastDtoToModel(), pipeDiameter), pipeDiameter);
+    }
+
+    private ICollection<BendingData> CastDtoToModel()
+    {
+        var data = new List<BendingData>();
+        foreach (var item in BendingDatas)
+        {
+            data.Add(item.Cast());
+        }
+        return data;
     }
 }
