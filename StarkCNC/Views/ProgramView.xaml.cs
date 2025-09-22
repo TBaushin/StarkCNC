@@ -19,32 +19,7 @@ public partial class ProgramView : Page
         BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
         BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
 
-        BendingView.Children.Add(ViewModel.PipeModel);
-    }
-
-    private void PipeBendParametersDataGrid_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-    {
-        /*var item = PipeBendParametersDataGrid.CurrentItem;
-        if (item is not BendingData data)
-            return;
-
-        var value = NumberInputViewModel.ShowDialog();
-
-        switch (PipeBendParametersDataGrid.CurrentColumn.DisplayIndex)
-        {
-            case 1:
-                data.StraightLength = value;
-                break;
-            case 2:
-                data.BendingAngle = value;
-                break;
-            case 3:
-                data.BendingRadius = value;
-                break;
-            case 4:
-                data.RotationAngle = value;
-                break;
-        }*/
+        BendingView.Children.Add(ViewModel.Pipe);
     }
 
     private void PipeBendParametersDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
@@ -64,6 +39,6 @@ public partial class ProgramView : Page
 
     private void AddLineButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        ViewModel.BendingDatas.Add(new Core.Models.BendingData());
+        ViewModel.BendingDatas.Add(new DTO.BendingDataDto());
     }
 }
