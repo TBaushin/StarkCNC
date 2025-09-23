@@ -396,7 +396,7 @@
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="Sp:"
-                                                Text="{Binding , StringFormat={}{0} мм}"/>
+                                                Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
                                             <controls:PrefixedTextBoxControl
                                                 Grid.Column="0"
                                                 Grid.Row="1"
@@ -404,7 +404,7 @@
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="Sp:"
-                                                Text="{Binding , StringFormat={}{0}°}"/>
+                                                Text="{Binding StraightLength, StringFormat={}{0}°}"/>
                                             <Separator
                                                 Grid.Column="1"
                                                 Grid.Row="1"
@@ -417,7 +417,7 @@
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="Sp:"
-                                                Text="{Binding , StringFormat={}{0} мм}"/>
+                                                Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
                                         </Grid>
                                     </Grid>
                                     <Separator
