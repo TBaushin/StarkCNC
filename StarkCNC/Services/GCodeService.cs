@@ -1,10 +1,11 @@
 ﻿using Gcode.Utils;
 using Gcode.Utils.Entity;
 using StarkCNC.Core.Models;
+using StarkCNC.Core.Services;
 using System.IO;
 using System.Text;
 
-namespace StarkCNC.Core.Services;
+namespace StarkCNC.Services;
 
 public class GCodeService : IGCodeService
 {
@@ -35,7 +36,7 @@ public class GCodeService : IGCodeService
         }
 
         await using StreamWriter writer = new StreamWriter(path);
-        await writer.WriteAsync(gcodeSB.ToString());
+        await writer.WriteAsync(gcodeSB.ToString()).ConfigureAwait(false);
         writer.Close();
     }
 
@@ -43,7 +44,7 @@ public class GCodeService : IGCodeService
     {
         var data = new List<BendingData>();
         using StreamReader reader = new StreamReader(path);
-        string content = await reader.ReadToEndAsync();
+        string content = await reader.ReadToEndAsync().ConfigureAwait(false);
 
         List<string> rawContent = content
             .Split([Environment.NewLine], StringSplitOptions.None)
