@@ -11,6 +11,9 @@ public class GCodeService : IGCodeService
 {
     public async Task SaveAsync(string path, ICollection<BendingData> data)
     {
+        if (data is null)
+            return;
+
         var gcodes = new List<GcodeCommandFrame>();
         foreach (var item in data)
         {
