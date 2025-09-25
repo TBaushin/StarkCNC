@@ -11,7 +11,7 @@ namespace StarkCNC.Controls;
 public partial class SwitchToggleControl : UserControl
 {
     public static readonly DependencyProperty IsCheckedProperty = DependencyProperty
-        .Register(nameof(IsChecked), typeof(bool), typeof(SwitchToggleControl), new PropertyMetadata());
+        .Register(nameof(IsChecked), typeof(bool), typeof(SwitchToggleControl), new PropertyMetadata(false, OnIsCheckedChanged));
     public static readonly RoutedEvent ClickEvent = EventManager
         .RegisterRoutedEvent(nameof(Click), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SwitchToggleControl));
 
@@ -30,8 +30,17 @@ public partial class SwitchToggleControl : UserControl
     public SwitchToggleControl()
     {
         InitializeComponent();
-        SetSwitchOffStyles();
+        ChangePosition();
         MouseLeftButtonDown += SwitchToggleControl_MouseLeftButtonDown;
+    }
+
+    private static void OnIsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        var control = d as SwitchToggleControl;
+        if (control is null)
+            return;
+
+        control.ChangePosition();
     }
 
     private void SwitchToggleControl_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Core.Models;
+using StarkCNC.Core.Models.Settings;
 using StarkCNC.Core.Services;
 using System.ComponentModel;
 
@@ -49,6 +50,44 @@ public class SettingsViewModel : INotifyPropertyChanged
             OnPropertyChanged(nameof(IsElectricMachine));
         }
     }
+
+    public double Speed
+    {
+        get => _settingsService.Speed;
+        set
+        {
+            _settingsService.Speed = value;
+            OnPropertyChanged(nameof(Speed));
+        }
+    }
+
+    public double SynchronizationCoefficient
+    {
+        get => _settingsService.SynchronizationCoefficient;
+        set
+        {
+            _settingsService.SynchronizationCoefficient = value;
+            OnPropertyChanged(nameof(SynchronizationCoefficient));
+        }
+    }
+
+    public bool InterceptionMode
+    {
+        get => _settingsService.InterceptionMode;
+        set
+        {
+            _settingsService.InterceptionMode = value;
+            OnPropertyChanged(nameof(InterceptionMode));
+        }
+    }
+
+    public Bend Bend => _settingsService.Bend;
+    public Dorn Dorn => _settingsService.Dorn;
+    public Rotation Rotation => _settingsService.Rotation;
+    public Support Support => _settingsService.Support;
+    public Supply Supply => _settingsService.Supply;
+    public StarkCNC.Core.Models.Settings.Console Console => _settingsService.Console;
+    public Pipe Pipe => _settingsService.Pipe;
 
     public SettingsViewModel(ISettingsService settingsService)
     {
