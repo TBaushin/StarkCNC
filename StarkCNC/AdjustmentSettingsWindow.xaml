@@ -45,13 +45,8 @@
                 <ComboBox
                     Grid.Row="1"
                     ItemsSource="{Binding Types}"
-                    SelectedItem="{Binding Result.Type, Mode=TwoWay}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <Label Content="{Binding Name}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
+                    SelectedItem="{Binding SelectedType, Mode=TwoWay}"/>
+
             </Grid>
         </StackPanel>
         <Grid

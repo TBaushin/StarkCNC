@@ -1,54 +1,51 @@
-﻿using StarkCNC.Core.Models;
+﻿using Microsoft.Extensions.Configuration;
+using StarkCNC.Core.Models;
 using System.ComponentModel;
 
 namespace StarkCNC.Core.Repository;
 
 public class AdjustmentRepository : IAdjustmentRepository
 {
-    private readonly List<AdjustmentType> _types = new List<AdjustmentType>();
+    private readonly IConfiguration _configuration;
     private readonly List<AdjustmentParameters> _adjustments = new List<AdjustmentParameters>();
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public AdjustmentRepository()
+    public AdjustmentRepository(IConfiguration configuration)
     {
+        _configuration = configuration;
 #if DEBUG
-        _types = new List<AdjustmentType>()
-        {
-            new AdjustmentType("Намоткой"),
-            new AdjustmentType("Прокатная")
-        };
         _adjustments = new List<AdjustmentParameters>()
         {
-            new AdjustmentParameters("D25", _types.First()) { InstalledLevel = 1 },
-            new AdjustmentParameters("D11", _types.Last()) { InstalledLevel = 2 },
-            new AdjustmentParameters("D50", _types.First()) { InstalledLevel = 3 },
-            new AdjustmentParameters("Test", _types.Last()),
-            new AdjustmentParameters("TestTest", _types.First()),
-            new AdjustmentParameters("Program", _types.Last()),
-            new AdjustmentParameters("Abcde", _types.First()),
-            new AdjustmentParameters("StarkCNC", _types.Last()),
-            new AdjustmentParameters("ListView", _types.First()),
-            new AdjustmentParameters("ListViewItem", _types.Last()),
-            new AdjustmentParameters("AdjustmentParameters", _types.First()),
-            new AdjustmentParameters("D26", _types.Last()),
-            new AdjustmentParameters("D12", _types.First()),
-            new AdjustmentParameters("D51", _types.Last()),
-            new AdjustmentParameters("Testi", _types.First()),
-            new AdjustmentParameters("TestiTesti", _types.Last()),
-            new AdjustmentParameters("Programi", _types.First()),
-            new AdjustmentParameters("Abcdef", _types.Last()),
-            new AdjustmentParameters("StarkCNC.Core", _types.First()),
-            new AdjustmentParameters("TreeView", _types.Last()),
-            new AdjustmentParameters("TreeViewItem", _types.First()),
-            new AdjustmentParameters("AdjustmentType", _types.Last())
+            new AdjustmentParameters(_configuration, "D25") { InstalledLevel = 1, Type = AdjustmentType.Winding },
+            new AdjustmentParameters(_configuration, "D11") { InstalledLevel = 2, Type = AdjustmentType.Rolling },
+            new AdjustmentParameters(_configuration, "D50") { InstalledLevel = 3, Type = AdjustmentType.Winding },
+            new AdjustmentParameters(_configuration, "Test"),
+            new AdjustmentParameters(_configuration, "TestTest"),
+            new AdjustmentParameters(_configuration, "Program"),
+            new AdjustmentParameters(_configuration, "Abcde"),
+            new AdjustmentParameters(_configuration, "StarkCNC"),
+            new AdjustmentParameters(_configuration, "ListView"),
+            new AdjustmentParameters(_configuration, "ListViewItem"),
+            new AdjustmentParameters(_configuration, "AdjustmentParameters"),
+            new AdjustmentParameters(_configuration, "D26"),
+            new AdjustmentParameters(_configuration, "D12"),
+            new AdjustmentParameters(_configuration, "D51"),
+            new AdjustmentParameters(_configuration, "Testi"),
+            new AdjustmentParameters(_configuration, "TestiTesti"),
+            new AdjustmentParameters(_configuration, "Programi"),
+            new AdjustmentParameters(_configuration, "Abcdef"),
+            new AdjustmentParameters(_configuration, "StarkCNC.Core"),
+            new AdjustmentParameters(_configuration, "TreeView"),
+            new AdjustmentParameters(_configuration, "TreeViewItem"),
+            new AdjustmentParameters(_configuration, "AdjustmentType")
         };
 #endif
     }
 
-    public AdjustmentParameters AddElement(string name, AdjustmentType type)
+    public AdjustmentParameters AddElement(string name)
     {
-        _adjustments.Add(new AdjustmentParameters(name, type));
+        _adjustments.Add(new AdjustmentParameters(_configuration, name));
         return _adjustments.Last();
     }
 
@@ -76,8 +73,6 @@ public class AdjustmentRepository : IAdjustmentRepository
     public int Count() => _adjustments.Count;
 
     public IEnumerable<AdjustmentParameters> GetAll() => _adjustments;
-
-    public IEnumerable<AdjustmentType> GetTypes() => _types;
 
     public void SetLevel(AdjustmentParameters adjustment, int level)
     {

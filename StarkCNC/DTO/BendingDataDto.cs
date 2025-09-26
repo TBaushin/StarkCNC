@@ -82,6 +82,9 @@ public class BendingDataDto : INotifyPropertyChanged
         return _bendingData.Equals(data.Cast());
     }
 
+    public override int GetHashCode() =>
+        HashCode.Combine(Id, _bendingData.GetHashCode());
+
     private void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -7,7 +7,7 @@ public interface IAdjustmentRepository
 {
     event PropertyChangedEventHandler PropertyChanged;
 
-    AdjustmentParameters AddElement(string name, AdjustmentType type);
+    AdjustmentParameters AddElement(string name);
 
     AdjustmentParameters AddElement(AdjustmentParameters adjustment);
 
@@ -22,8 +22,6 @@ public interface IAdjustmentRepository
     int Count();
 
     IEnumerable<AdjustmentParameters> GetAll();
-
-    IEnumerable<AdjustmentType> GetTypes();
 
     void SetLevel(AdjustmentParameters adjustment, int level);
 

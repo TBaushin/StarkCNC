@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Repository;
 using StarkCNC.DTO;
 using StarkCNC.Services;
@@ -12,20 +13,21 @@ public partial class AdjustmentViewModel : ObservableObject
 {
     private readonly AdjustmentListView _adjustmentListPage;
 
+    private readonly IConfiguration _configuration;
     private readonly INavigationService _navigationService;
     private readonly IAdjustmentRepository _repository;
 
     public ObservableCollection<AdjustmentParametersDto> Adjustments { get; } = new ObservableCollection<AdjustmentParametersDto>();
-    public IEnumerable<StarkCNC.Core.Models.AdjustmentType> Types { get; }
 
     [ObservableProperty]
     private AdjustmentParametersDto? _selectedAdjustment;
     public ObservableCollection<AdjustmentParametersDto> SetUpAdjustments { get; private set; } = new ObservableCollection<AdjustmentParametersDto>();
 
-    public AdjustmentViewModel(INavigationService navigationService, IAdjustmentRepository adjustmentRepository) 
+    public AdjustmentViewModel(IConfiguration configuration, INavigationService navigationService, IAdjustmentRepository adjustmentRepository) 
     {
         _adjustmentListPage = new AdjustmentListView(this);
 
+        _configuration = configuration;
         _navigationService = navigationService;
         _repository = adjustmentRepository;
 
@@ -34,22 +36,20 @@ public partial class AdjustmentViewModel : ObservableObject
             Adjustments.Add(new AdjustmentParametersDto(item));
         }
 
-        Types = _repository.GetTypes();
-
         GetSetUpAdjustments();
     }
 
     [RelayCommand]
     private void CreateAdjustment()
     {
-        var item = new StarkCNC.Core.Models.AdjustmentParameters("", _repository.GetTypes().First());
+        var item = new StarkCNC.Core.Models.AdjustmentParameters(_configuration, "");
         _repository.AddElement(item);
 
         var adjustment = new AdjustmentParametersDto(item);
         Adjustments.Add(adjustment);
 
         SelectedAdjustment = adjustment;
-        var settingsWindow = new AdjustmentSettingsWindow(this);
+        var settingsWindow = new AdjustmentSettingsWindow(_configuration, this);
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
@@ -59,6 +59,14 @@ public partial class AdjustmentViewModel : ObservableObject
             SelectedAdjustment.PipeDiameter = result.PipeDiameter;
             SelectedAdjustment.Radius = result.Radius;
             SelectedAdjustment.Type = result.Type;
+            SelectedAdjustment.ForwardDangerZoneCoordinate = result.ForwardDangerZoneCoordinate;
+            SelectedAdjustment.DistanceFromCenter = result.DistanceFromCenter;
+            SelectedAdjustment.BendRoller = result.BendRoller;
+            SelectedAdjustment.Clamp = result.Clamp;
+            SelectedAdjustment.ClampRoller = result.ClampRoller;
+            SelectedAdjustment.Console = result.Console;
+            SelectedAdjustment.Press = result.Press;
+            SelectedAdjustment.Squeeze = result.Squeeze;
         }
     }
 
@@ -73,7 +81,7 @@ public partial class AdjustmentViewModel : ObservableObject
     private void EditAdjustment(AdjustmentParametersDto adjustment)
     {
         SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
-        var settingsWindow = new AdjustmentSettingsWindow(this, "Редактирование оснастки");
+        var settingsWindow = new AdjustmentSettingsWindow(_configuration, this, "Редактирование оснастки");
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
@@ -83,8 +91,14 @@ public partial class AdjustmentViewModel : ObservableObject
             SelectedAdjustment.PipeDiameter = result.PipeDiameter;
             SelectedAdjustment.Radius = result.Radius;
             SelectedAdjustment.Type = result.Type;
-            SelectedAdjustment.ClampLength = result.ClampLength;
-            SelectedAdjustment.PressLength = result.PressLength;
+            SelectedAdjustment.ForwardDangerZoneCoordinate = result.ForwardDangerZoneCoordinate;
+            SelectedAdjustment.DistanceFromCenter = result.DistanceFromCenter;
+            SelectedAdjustment.BendRoller = result.BendRoller;
+            SelectedAdjustment.Clamp = result.Clamp;
+            SelectedAdjustment.ClampRoller = result.ClampRoller;
+            SelectedAdjustment.Console = result.Console;
+            SelectedAdjustment.Press = result.Press;
+            SelectedAdjustment.Squeeze = result.Squeeze;
         }
     }
 

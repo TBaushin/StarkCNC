@@ -1,4 +1,5 @@
-﻿using StarkCNC.DTO;
+﻿using StarkCNC.Core.Models;
+using StarkCNC.DTO;
 using StarkCNC.ViewModels;
 using System.Globalization;
 using System.Windows.Controls;
@@ -37,13 +38,13 @@ namespace StarkCNC.Views
 
         private void SetVisibilityForRollingAndWindingStackPanels()
         {
-            if (Adjustment.Type.Name == "Намоткой")
+            if (Adjustment.Type == AdjustmentType.Winding)
             {
                 WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Visible;
                 RollingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;
             }
 
-            if (Adjustment.Type.Name == "Прокатная")
+            if (Adjustment.Type == AdjustmentType.Rolling)
             {
                 RollingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Visible;
                 WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;

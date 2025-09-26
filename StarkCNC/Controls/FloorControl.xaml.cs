@@ -1,5 +1,8 @@
-﻿using StarkCNC.DTO;
+﻿using StarkCNC.Core.Models;
+using StarkCNC.DTO;
+using StarkCNC.Helpers;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -27,6 +30,8 @@ public partial class FloorControl : UserControl
     public static DependencyProperty NavigateProperty = DependencyProperty
         .Register(nameof(Navigate), typeof(ICommand), typeof(FloorControl), new PropertyMetadata());
 
+    private AdjustmentTypeToStringConverter _converter = new AdjustmentTypeToStringConverter();
+
     public string FloorText
     {
         get => (string)GetValue(FloorTextProperty);
@@ -44,7 +49,7 @@ public partial class FloorControl : UserControl
                 SelectedAdjustmentLabel.Content = string.Empty;
             else
                 SelectedAdjustmentLabel.Content =
-                    $"{value.Name} {value.Type.Name} R{value.Radius}";
+                    $"{value.Name} {_converter.Convert(value.Type, typeof(AdjustmentType), new {}, CultureInfo.CurrentCulture)} R{value.Radius}";
         }
     }
 

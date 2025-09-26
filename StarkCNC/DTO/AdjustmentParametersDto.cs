@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Core.Models;
+using StarkCNC.Core.Models.Adjustment;
 using System.ComponentModel;
 
 namespace StarkCNC.DTO;
@@ -52,34 +53,89 @@ public class AdjustmentParametersDto : INotifyPropertyChanged
         get => _adjustment.InstalledLevel;
     }
 
-    public double ClampLength
+    public double ForwardDangerZoneCoordinate
     {
-        get => _adjustment.ClampLength;
+        get => _adjustment.ForwardDangerZoneCoordinate;
         set
         {
-            _adjustment.ClampLength = value;
-            OnPropertyChanged(nameof(ClampLength));
+            _adjustment.ForwardDangerZoneCoordinate = value;
+            OnPropertyChanged(nameof(ForwardDangerZoneCoordinate));
         }
     }
 
-    public double PressLength
+    public double DistanceFromCenter
     {
-        get => _adjustment.PressLength;
+        get => _adjustment.DistanceFromCenter;
         set
         {
-            _adjustment.PressLength = value;
-            OnPropertyChanged(nameof(PressLength));
+            _adjustment.DistanceFromCenter = value;
+            OnPropertyChanged(nameof(DistanceFromCenter));
+        }
+    }
+
+    public BendRoller BendRoller
+    {
+        get => _adjustment.BendRoller;
+        set
+        {
+            _adjustment.BendRoller = value;
+            OnPropertyChanged(nameof(BendRoller));
+        }
+    }
+
+    public Clamp Clamp
+    {
+        get => _adjustment.Clamp;
+        set
+        {
+            _adjustment.Clamp = value;
+            OnPropertyChanged(nameof(Clamp));
+        }
+    }
+
+    public ClampRoller ClampRoller
+    {
+        get => _adjustment.ClampRoller;
+        set
+        {
+            _adjustment.ClampRoller = value;
+            OnPropertyChanged(nameof(ClampRoller));
+        }
+    }
+
+    public StarkCNC.Core.Models.Adjustment.Console Console
+    {
+        get => _adjustment.Console;
+        set
+        {
+            _adjustment.Console = value;
+            OnPropertyChanged(nameof(Console));
+        }
+    }
+
+    public Press Press
+    {
+        get => _adjustment.Press;
+        set
+        {
+            _adjustment.Press = value;
+            OnPropertyChanged(nameof(Press));
+        }
+    }
+
+    public Squeeze Squeeze
+    {
+        get => _adjustment.Squeeze;
+        set
+        {
+            _adjustment.Squeeze = value;
+            OnPropertyChanged(nameof(Squeeze));
         }
     }
 
     public AdjustmentParametersDto(AdjustmentParameters adjustment)
     {
         _adjustment = adjustment;
-    }
-
-    public AdjustmentParametersDto(string name, AdjustmentType type)
-    {
-        _adjustment = new AdjustmentParameters(name, type);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -92,6 +148,9 @@ public class AdjustmentParametersDto : INotifyPropertyChanged
 
         return _adjustment.Equals(adjustment.Cast());
     }
+
+    public override int GetHashCode() =>
+        _adjustment.GetHashCode();
 
     public AdjustmentParameters Cast() => _adjustment;
 
