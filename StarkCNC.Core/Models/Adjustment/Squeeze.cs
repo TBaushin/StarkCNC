@@ -2,7 +2,7 @@
 
 namespace StarkCNC.Core.Models.Adjustment;
 
-public class Squeeze
+public class Squeeze : ICloneable
 {
     private string _turnOnRequestString;
 
@@ -14,16 +14,14 @@ public class Squeeze
         _turnOnRequestString = turnOnRequestString;
     }
 
-    public Squeeze Copy() =>
-        new Squeeze(TurnOn, _turnOnRequestString);
+    public object Clone() => MemberwiseClone();
 
     public override bool Equals(object? obj)
     {
-        var other = obj as Squeeze;
-        if (other is null)
+        if (obj is not Squeeze other)
             return false;
 
-        return TurnOn.Equals(other.TurnOn);
+        return TurnOn == other.TurnOn;
     }
 
     public override int GetHashCode() =>

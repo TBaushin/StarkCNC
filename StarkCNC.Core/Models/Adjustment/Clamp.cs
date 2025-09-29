@@ -2,7 +2,7 @@
 
 namespace StarkCNC.Core.Models.Adjustment;
 
-public class Clamp
+public class Clamp : ICloneable
 {
     private string _deepRequestString = string.Empty;
     private string _lengthRequestString = string.Empty;
@@ -18,13 +18,11 @@ public class Clamp
         _lengthRequestString = lengthRequestString;
     }
 
-    public Clamp Copy() =>
-        new Clamp(Deep, _deepRequestString, Length, _lengthRequestString);
+    public object Clone() => MemberwiseClone();
 
     public override bool Equals(object? obj)
     {
-        var other = obj as Clamp;
-        if (other is null)
+        if (obj is not Clamp other)
             return false;
 
         return Deep == other.Deep && Length == other.Length;

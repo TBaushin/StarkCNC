@@ -3,7 +3,7 @@ using StarkCNC.Core.Models.Adjustment;
 
 namespace StarkCNC.Core.Models;
 
-public class AdjustmentParameters
+public class AdjustmentParameters : ICloneable
 {
     private readonly IConfiguration _configuration;
     private string _adjustmentTypeRequestString = string.Empty;
@@ -25,6 +25,8 @@ public class AdjustmentParameters
 
     public double DistanceFromCenter { get; set; }
 
+    public Bend Bend { get; set; }
+
     public BendRoller BendRoller { get; set; }
     
     public Clamp Clamp { get; set; }
@@ -33,9 +35,17 @@ public class AdjustmentParameters
 
     public StarkCNC.Core.Models.Adjustment.Console Console { get; set; }
 
+    public Dorn Dorn { get; set; }
+
+    public Lift Lift { get; set; }
+
     public Press Press { get; set; }
 
+    public Rotation Rotation { get; set; }
+
     public Squeeze Squeeze { get; set; }
+
+    public Supply Supply { get; set; }
 
     public AdjustmentParameters(IConfiguration configuration, string name)
     {
@@ -60,12 +70,17 @@ public class AdjustmentParameters
         DistanceFromCenter = distanceFromCenterSection.GetSection("Default").Get<double>();
         _distanceFromCenterRequestString = distanceFromCenterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
+        Bend = Bend.ReadConfiguration(adjustmentSection);
         BendRoller = BendRoller.ReadConfiguration(adjustmentSection);
         Clamp = Clamp.ReadConfiguration(adjustmentSection);
         ClampRoller = ClampRoller.ReadConfiguration(adjustmentSection);
         Console = StarkCNC.Core.Models.Adjustment.Console.ReadConfiguration(adjustmentSection);
+        Dorn = Dorn.ReadConfiguration(adjustmentSection);
+        Lift = Lift.ReadConfiguration(adjustmentSection);
         Press = Press.ReadConfiguration(adjustmentSection);
+        Rotation = Rotation.ReadConfiguration(adjustmentSection);
         Squeeze = Squeeze.ReadConfiguration(adjustmentSection);
+        Supply = Supply.ReadConfiguration(adjustmentSection);
     }
 
     public override bool Equals(object? obj)
@@ -81,18 +96,29 @@ public class AdjustmentParameters
             other.InstalledLevel == InstalledLevel &&
             other.ForwardDangerZoneCoordinate == ForwardDangerZoneCoordinate &&
             other.DistanceFromCenter == DistanceFromCenter &&
+            other.Bend.Equals(Bend) &&
             other.BendRoller.Equals(BendRoller) &&
             other.Clamp.Equals(Clamp) &&
             other.ClampRoller.Equals(ClampRoller) &&
             other.Console.Equals(Console) &&
+            other.Dorn.Equals(Dorn) &&
+            other.Lift.Equals(Lift) &&
             other.Press.Equals(Press) &&
-            other.Squeeze.Equals(Squeeze);
+            other.Rotation.Equals(Rotation) &&
+            other.Squeeze.Equals(Squeeze) &&
+            other.Supply.Equals(Supply);
     }
 
     public override int GetHashCode() =>
-        HashCode.Combine(Name, PipeDiameter, Type, InstalledLevel);
+        HashCode.Combine(
+            Name,
+            PipeDiameter,
+            Type,
+            InstalledLevel,
+            ForwardDangerZoneCoordinate,
+            DistanceFromCenter);
     
-    public AdjustmentParameters Copy() =>
+    public object Clone() =>
         new AdjustmentParameters(_configuration, Name) {
             Type = Type,
             PipeDiameter = PipeDiameter,
@@ -100,11 +126,16 @@ public class AdjustmentParameters
             InstalledLevel = InstalledLevel,
             ForwardDangerZoneCoordinate = ForwardDangerZoneCoordinate,
             DistanceFromCenter = DistanceFromCenter,
-            BendRoller = BendRoller.Copy(),
-            Clamp = Clamp.Copy(),
-            ClampRoller = ClampRoller.Copy(),
-            Console = Console.Copy(),
-            Press = Press.Copy(),
-            Squeeze = Squeeze.Copy(),
+            Bend = (Bend)Bend.Clone(),
+            BendRoller = (BendRoller)BendRoller.Clone(),
+            Clamp = (Clamp)Clamp.Clone(),
+            ClampRoller = (ClampRoller)ClampRoller.Clone(),
+            Console = (StarkCNC.Core.Models.Adjustment.Console)Console.Clone(),
+            Dorn = (Dorn)Dorn.Clone(),
+            Lift = (Lift)Lift.Clone(),
+            Press = (Press)Press.Clone(),
+            Rotation = (Rotation)Rotation.Clone(),
+            Squeeze = (Squeeze)Squeeze.Clone(),
+            Supply = (Supply)Supply.Clone(),
         };
 }

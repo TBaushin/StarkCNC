@@ -2,7 +2,7 @@
 
 namespace StarkCNC.Core.Models.Adjustment;
 
-public class BendRoller
+public class BendRoller : ICloneable
 {
     private string _radiusRequestString = string.Empty;
     private string _outerRadiusRequestString = string.Empty;
@@ -18,13 +18,11 @@ public class BendRoller
         _outerRadiusRequestString = outerRadiusRequestString;
     }
 
-    public BendRoller Copy() =>
-        new BendRoller(Radius, _radiusRequestString, OuterRadius, _outerRadiusRequestString);
+    public object Clone() => MemberwiseClone();
 
     public override bool Equals(object? obj)
     {
-        var other = obj as BendRoller;
-        if (other is null)
+        if (obj is not BendRoller other)
             return false;
 
         return Radius == other.Radius && OuterRadius == other.OuterRadius;

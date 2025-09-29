@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
+using StarkCNC.DTO;
 using StarkCNC.Helpers;
 using StarkCNC.ViewModels;
 using System.Globalization;
@@ -50,7 +51,8 @@ public partial class AdjustmentSettingsWindow : Window
 
         DataContext = this;
 
-        _oldParameters = ViewModel.SelectedAdjustment?.Cast().Copy();
+        if (ViewModel.SelectedAdjustment is AdjustmentParametersDto selectedAdjustment)
+            _oldParameters = (AdjustmentParameters)selectedAdjustment.Cast().Clone();
 
         if (_oldParameters is not null)
             Result = new AdjustmentParameters(configuration, _oldParameters.Name)

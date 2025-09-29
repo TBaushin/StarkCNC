@@ -2,7 +2,7 @@
 
 namespace StarkCNC.Core.Models.Adjustment;
 
-public class ClampRoller
+public class ClampRoller : ICloneable
 {
     private string _outerRadiusRequesString = string.Empty;
     private string _innerRadiusRequestString = string.Empty;
@@ -22,13 +22,11 @@ public class ClampRoller
         _innerRadiusRequestString = innerRadiusRequestString;
     }
 
-    public ClampRoller Copy() =>
-        new ClampRoller(OuterRadius, _outerRadiusRequesString, InnerRadius, _innerRadiusRequestString);
+    public object Clone() => MemberwiseClone();
 
     public override bool Equals(object? obj)
     {
-        var other = obj as ClampRoller;
-        if (other is null)
+        if (obj is not ClampRoller other)
             return false;
 
         return OuterRadius == other.OuterRadius && InnerRadius == other.InnerRadius;

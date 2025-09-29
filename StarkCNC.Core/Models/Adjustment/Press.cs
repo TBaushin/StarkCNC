@@ -2,7 +2,7 @@
 
 namespace StarkCNC.Core.Models.Adjustment;
 
-public class Press
+public class Press : ICloneable
 {
     private string _dangerZoneCoordinateRequestString = string.Empty;
     private string _lengthRequestString = string.Empty;
@@ -22,17 +22,11 @@ public class Press
         _lengthRequestString = lengthRequestString;
     }
 
-    public Press Copy() =>
-        new Press(
-            DangerZoneCoordinate,
-            _dangerZoneCoordinateRequestString,
-            Length,
-            _lengthRequestString);
+    public object Clone() => MemberwiseClone();
 
     public override bool Equals(object? obj)
     {
-        var other = obj as Press;
-        if (other is null)
+        if (obj is not Press other)
             return false;
 
         return DangerZoneCoordinate == other.DangerZoneCoordinate && Length == other.Length;

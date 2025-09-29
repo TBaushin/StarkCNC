@@ -2,7 +2,7 @@
 
 namespace StarkCNC.Core.Models.Adjustment;
 
-public class Console
+public class Console : ICloneable
 {
     private string _bendPositionRequestString = string.Empty;
     private string _secondFloorPositionRequestString = string.Empty;
@@ -28,19 +28,11 @@ public class Console
         _secondFloorIntermediatePositionRequestString = secondFloorIntermediatePositionRequestString;
     }
 
-    public Console Copy() =>
-        new Console(
-            BendPosition,
-            _bendPositionRequestString,
-            SecondFloorPosition,
-            _secondFloorPositionRequestString,
-            SecondFloorIntermediatePosition,
-            _secondFloorIntermediatePositionRequestString);
+    public object Clone() => MemberwiseClone();
 
     public override bool Equals(object? obj)
     {
-        var other = obj as Console;
-        if (other is null)
+        if (obj is not Console other)
             return false;
 
         return
