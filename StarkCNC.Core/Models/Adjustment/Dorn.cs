@@ -11,7 +11,7 @@ public class Dorn : ICloneable
 
     public double ForwardPosition { get; set; }
     public double MiddlePosition { get; set; }
-    public double BackPosition { get; set; }
+    public double BackwardPosition { get; set; }
     public double SpeedCoefficient { get; set; }
 
     public Dorn(
@@ -19,7 +19,7 @@ public class Dorn : ICloneable
         string forwardPositionRequestString,
         double middlePosition,
         string middlePositionRequestString,
-        double backPosition,
+        double backwardPosition,
         string backPositionRequestString,
         double speedPosition,
         string speedPositionRequestString)
@@ -28,7 +28,7 @@ public class Dorn : ICloneable
         _forwardPositionRequestString = forwardPositionRequestString;
         MiddlePosition = middlePosition;
         _middlePositionRequestString = middlePositionRequestString;
-        BackPosition = backPosition;
+        BackwardPosition = backwardPosition;
         _backPositionRequestString = backPositionRequestString;
         SpeedCoefficient = speedPosition;
         _speedCoefficientRequestString = speedPositionRequestString;
@@ -43,7 +43,7 @@ public class Dorn : ICloneable
 
         return other.ForwardPosition == ForwardPosition &&
             other.MiddlePosition == MiddlePosition &&
-            other.BackPosition == BackPosition &&
+            other.BackwardPosition == BackwardPosition &&
             other.SpeedCoefficient == SpeedCoefficient;
     }
 
@@ -53,7 +53,7 @@ public class Dorn : ICloneable
             _forwardPositionRequestString,
             MiddlePosition,
             _middlePositionRequestString,
-            BackPosition,
+            BackwardPosition,
             _backPositionRequestString,
             SpeedCoefficient,
             _speedCoefficientRequestString);
@@ -70,9 +70,9 @@ public class Dorn : ICloneable
         var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
         var middlePositionRequestString = middlePositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
-        var backPositionSection = dornSection.GetSection("BackPosition");
-        var backPositionDefault = backPositionSection.GetSection("Default").Get<double>();
-        var backPositionRequestString = backPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+        var backwardPositionSection = dornSection.GetSection("BackwardPosition");
+        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<double>();
+        var backwardPositionRequestString = backwardPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = dornSection.GetSection("SpeedCoefficient");
         var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
@@ -82,8 +82,8 @@ public class Dorn : ICloneable
             forwardPositionRequestString,
             middlePositionDefault,
             middlePositionRequestString,
-            backPositionDefault,
-            backPositionRequestString,
+            backwardPositionDefault,
+            backwardPositionRequestString,
             speedCoefficientDefault,
             speedCoefficientRequestString);
 

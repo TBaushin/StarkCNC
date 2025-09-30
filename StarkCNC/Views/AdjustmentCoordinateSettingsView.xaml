@@ -45,25 +45,25 @@
                         <Label>
                             <TextBlock>
                                 <Run Text="Положение зоны прижима:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Press.PressZonePosition}"/>
                             </TextBlock>
                         </Label>
                         <Label>
                             <TextBlock>
                                 <Run Text="Положение передней опасной зоны:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Supply.ForwardDangerZonePosition}"/>
                             </TextBlock>
                         </Label>
                         <Label>
                             <TextBlock>
                                 <Run Text="Глубина губок цанги:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Supply.ColletJawsDepth}"/>
                             </TextBlock>
                         </Label>
                         <Label>
                             <TextBlock>
                                 <Run Text="Коэффициент скорости:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Supply.SpeedCoefficient}"/>
                             </TextBlock>
                         </Label>
                     </StackPanel>
@@ -106,13 +106,13 @@
                         <Label>
                             <TextBlock>
                                 <Run Text="Положение консоли для гибки:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Console.BendPosition}"/>
                             </TextBlock>
                         </Label>
                         <Label>
                             <TextBlock>
                                 <Run Text="Положение консоли при переходе с 1 на 2 этаж:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Console.SecondFloorPosition}"/>
                             </TextBlock>
                         </Label>
                         <Label>
@@ -124,13 +124,13 @@
                         <Label>
                             <TextBlock>
                                 <Run Text="Расстояние отъезда для поворота трубы:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Console.PipeRotationDepartureDistance}"/>
                             </TextBlock>
                         </Label>
                         <Label>
                             <TextBlock>
                                 <Run Text="Коэффициент скорости:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Console.SpeedCoefficient}"/>
                             </TextBlock>
                         </Label>
                     </StackPanel>
@@ -173,13 +173,13 @@
                         <Label>
                             <TextBlock>
                                 <Run Text="Смещение поворота после поиска нуля:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Rotation.OffsetAfterZeroSearch}"/>
                             </TextBlock>
                         </Label>
                         <Label>
                             <TextBlock>
                                 <Run Text="Коэффициент скорости:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Rotation.SpeedCoefficient}"/>
                             </TextBlock>
                         </Label>
                     </StackPanel>
@@ -222,19 +222,19 @@
                         <Label>
                             <TextBlock>
                                 <Run Text="Ограничение переднего положения:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Bend.ForwardPositionLimitation}"/>
                             </TextBlock>
                         </Label>
                         <Label>
                             <TextBlock>
                                 <Run Text="Коэффициент скорости:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Bend.SpeedCoefficient}"/>
                             </TextBlock>
                         </Label>
                         <Label>
                             <TextBlock>
                                 <Run Text="Скорость замедления:"/>
-                                <Run/>
+                                <Run Text="{Binding Adjustment.Bend.SlowdownSpeed}"/>
                             </TextBlock>
                         </Label>
                     </StackPanel>
@@ -273,13 +273,13 @@
                             <Label>
                                 <TextBlock>
                                     <Run Text="Ограничение переднего положения:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Squeeze.FrontPositionLimitation}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Коэффициент скорости:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Squeeze.SpeedCoefficient}"/>
                                 </TextBlock>
                             </Label>
                         </StackPanel>
@@ -317,25 +317,25 @@
                             <Label>
                                 <TextBlock>
                                     <Run Text="Переднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Clamp.ForwardPosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Среднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Clamp.MiddlePosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Заднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Clamp.BackwardPosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Коэффициент скорости:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Clamp.SpeedCoefficient}"/>
                                 </TextBlock>
                             </Label>
                         </StackPanel>
@@ -373,25 +373,25 @@
                             <Label>
                                 <TextBlock>
                                     <Run Text="Переднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Press.ForwardPosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Среднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Press.MiddlePosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Заднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Press.BackwardPosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Коэффициент скорости:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Press.SpeedCoefficient}"/>
                                 </TextBlock>
                             </Label>
                         </StackPanel>
@@ -429,25 +429,25 @@
                             <Label>
                                 <TextBlock>
                                     <Run Text="Переднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Dorn.ForwardPosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Среднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Dorn.MiddlePosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Заднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Dorn.BackwardPosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Коэффициент скорости:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Dorn.SpeedCoefficient}"/>
                                 </TextBlock>
                             </Label>
                         </StackPanel>
@@ -484,26 +484,26 @@
                                 Content="Подъём"/>
                             <Label>
                                 <TextBlock>
-                                    <Run Text="Переднее положение:"/>
-                                    <Run/>
+                                    <Run Text="Верхнее положение:"/>
+                                    <Run Text="{Binding Adjustment.Lift.UpperPosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Среднее положение:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Lift.MiddlePosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
-                                    <Run Text="Заднее положение:"/>
-                                    <Run/>
+                                    <Run Text="Нижнее положение:"/>
+                                    <Run Text="{Binding Adjustment.Lift.LowerPosition}"/>
                                 </TextBlock>
                             </Label>
                             <Label>
                                 <TextBlock>
                                     <Run Text="Коэффициент скорости:"/>
-                                    <Run/>
+                                    <Run Text="{Binding Adjustment.Lift.SpeedCoefficient}"/>
                                 </TextBlock>
                             </Label>
                         </StackPanel>

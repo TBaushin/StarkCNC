@@ -12,6 +12,7 @@ namespace StarkCNC.Views
 
         public AdjustmentCoordinateSettingsView(AdjustmentParametersDto adjustment)
         {
+            Adjustment = adjustment;
             DataContext = this;
 
             InitializeComponent();

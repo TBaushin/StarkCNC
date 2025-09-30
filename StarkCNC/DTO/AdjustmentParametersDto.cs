@@ -73,6 +73,16 @@ public class AdjustmentParametersDto : INotifyPropertyChanged
         }
     }
 
+    public Bend Bend
+    {
+        get => _adjustment.Bend;
+        set
+        {
+            _adjustment.Bend = value;
+            OnPropertyChanged(nameof(Bend));
+        }
+    }
+
     public BendRoller BendRoller
     {
         get => _adjustment.BendRoller;
@@ -113,6 +123,26 @@ public class AdjustmentParametersDto : INotifyPropertyChanged
         }
     }
 
+    public Dorn Dorn
+    {
+        get => _adjustment.Dorn;
+        set
+        {
+            _adjustment.Dorn = value;
+            OnPropertyChanged(nameof(Dorn));
+        }
+    }
+
+    public Lift Lift
+    {
+        get => _adjustment.Lift;
+        set
+        {
+            _adjustment.Lift = value;
+            OnPropertyChanged(nameof(Lift));
+        }
+    }
+
     public Press Press
     {
         get => _adjustment.Press;
@@ -123,6 +153,16 @@ public class AdjustmentParametersDto : INotifyPropertyChanged
         }
     }
 
+    public Rotation Rotation
+    {
+        get => _adjustment.Rotation;
+        set
+        {
+            _adjustment.Rotation = value;
+            OnPropertyChanged(nameof(Rotation));
+        }
+    }
+
     public Squeeze Squeeze
     {
         get => _adjustment.Squeeze;
@@ -130,6 +170,16 @@ public class AdjustmentParametersDto : INotifyPropertyChanged
         {
             _adjustment.Squeeze = value;
             OnPropertyChanged(nameof(Squeeze));
+        }
+    }
+
+    public Supply Supply
+    {
+        get => _adjustment.Supply;
+        set
+        {
+            _adjustment.Supply = value;
+            OnPropertyChanged(nameof(Supply));
         }
     }
 
