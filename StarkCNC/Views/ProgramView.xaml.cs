@@ -39,6 +39,16 @@ public partial class ProgramView : Page
 
     private void AddLineButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        ViewModel.BendingDatas.Add(new DTO.BendingDataDto());
+        if (ViewModel.BendingDatas.Count == 0)
+        {
+            ViewModel.BendingDatas.Add(new DTO.BendingDataDto() { Id = 1 });
+            return;
+        }
+
+        var lastElement = ViewModel.BendingDatas.Last();
+        if (lastElement is null)
+            ViewModel.BendingDatas.Add(new DTO.BendingDataDto() { Id = 1 });
+        else
+            ViewModel.BendingDatas.Add(new DTO.BendingDataDto() { Id = lastElement.Id + 1 });
     }
 }
