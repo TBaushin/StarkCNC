@@ -165,7 +165,7 @@ public partial class AdjustmentViewModel : ObservableObject
         if (SelectedAdjustment is null)
             return;
 
-        var parametersSettingsWindow = new AdjustmentParametersSettingsWindow(string.Empty, SelectedAdjustment, parameter);
+        var parametersSettingsWindow = new AdjustmentParametersSettingsWindow(SelectedAdjustment, parameter);
         parametersSettingsWindow.ShowDialog();
     }
 
