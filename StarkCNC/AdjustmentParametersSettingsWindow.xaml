@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:StarkCNC"
         mc:Ignorable="d"
         Title="AdjustmentParametersSettingsWindow"
-        Height="465" Width="500"
+        Height="565" Width="500"
         ResizeMode="NoResize"
         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
     <Grid Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
@@ -21,17 +21,114 @@
             x:Name="TitleTextBlock"
             Margin="0,32,0,24"
             Style="{DynamicResource TitleTextBlockStyle}"/>
-            <ItemsControl
-                ItemsSource="{Binding TitleValues}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <controls:LabeledTextBoxControl
-                            Margin="0,0,0,16"
-                            LabelText="{Binding Title}"
-                            TextBoxText="{Binding Value}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <StackPanel
+                x:Name="SupplyStackPanel"
+                Visibility="Collapsed">
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Положение зоны прижима"
+                    TextBoxText="{Binding Adjustment.Supply.PressZonePosition}"/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Положение передней опасной зоны"
+                    TextBoxText="{Binding Adjustment.Supply.ForwardDangerZonePosition}"/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Глубина губок цанги"
+                    TextBoxText="{Binding Adjustment.Supply.ColletJawsDepth}"/>
+            </StackPanel>
+            <StackPanel
+                x:Name="ConsoleStackPanel"
+                Visibility="Collapsed">
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Положение консоли для гибки"
+                    TextBoxText="{Binding Adjustment.Console.BendPosition}"/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Положение консоли при переходе с 1 на 2 этаж"
+                    TextBoxText="{Binding Adjustment.Console.SecondFloorPosition}"/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Положение консоли при переходе с 2 на 3 этаж"
+                    TextBoxText=""/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Расстояние отъезда для поворота трубы"
+                    TextBoxText="{Binding Adjustment.Console.PipeRotationDepartureDistance}"/>
+            </StackPanel>
+            <StackPanel
+                x:Name="RotationStackPanel"
+                Visibility="Collapsed">
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Смщение поворота после поиска нуля"
+                    TextBoxText="{Binding Adjustment.Rotation.OffsetAfterZeroSearch}"/>
+            </StackPanel>
+            <StackPanel
+                x:Name="BendStackPanel"
+                Visibility="Collapsed">
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Ограничение переднего положения"
+                    TextBoxText="{Binding Adjustment.Bend.ForwardPositionLimitation}"/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Коэффициент скорости"
+                    TextBoxText="{Binding Adjustment.Bend.SpeedCoefficient}"/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Коэффициент замедления"
+                    TextBoxText="{Binding Adjustment.Bend.SlowdownSpeed}"/>
+            </StackPanel>
+            <StackPanel
+                x:Name="SqueezeStackPanel"
+                Visibility="Collapsed">
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Ограничение переднего положения"
+                    TextBoxText="{Binding Adjustment.Squeeze.FrontPositionLimitation}"/>
+            </StackPanel>
+            <StackPanel
+                x:Name="ClampDornPressStackPanel"
+                Visibility="Collapsed">
+                <controls:LabeledTextBoxControl
+                    x:Name="ForwardPosition"
+                    Margin="0,0,0,16"
+                    LabelText="Переднее положение"
+                    TextBoxText="{Binding ForwardPosition, Mode=TwoWay}"/>
+                <controls:LabeledTextBoxControl
+                    x:Name="MiddlePosition"
+                    Margin="0,0,0,16"
+                    LabelText="Среднее положение"
+                    TextBoxText="{Binding MiddlePosition, Mode=TwoWay}"/>
+                <controls:LabeledTextBoxControl
+                    x:Name="BackwardPosition"
+                    Margin="0,0,0,16"
+                    LabelText="Заднее положение"
+                    TextBoxText="{Binding BackwardPosition, Mode=TwoWay}"/>
+            </StackPanel>
+            <StackPanel
+                x:Name="LiftStackPanel"
+                Visibility="Collapsed">
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Верхнее положение"
+                    TextBoxText="{Binding Adjustment.Lift.UpperPosition}"/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Среднее положение"
+                    TextBoxText="{Binding Adjustment.Lift.MiddlePosition}"/>
+                <controls:LabeledTextBoxControl
+                    Margin="0,0,0,16"
+                    LabelText="Нижнее положение"
+                    TextBoxText="{Binding Adjustment.Lift.LowerPosition}"/>
+            </StackPanel>
+            <controls:LabeledTextBoxControl
+                x:Name="SpeedCoefficient"
+                Margin="0,0,0,16"
+                LabelText="Коэффициент скорости"
+                TextBoxText="{Binding SpeedCoefficient}"/>
         </StackPanel>
         <Grid
             Grid.Row="1"

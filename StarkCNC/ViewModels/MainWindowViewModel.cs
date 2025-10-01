@@ -100,13 +100,14 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void AdjustmentUpdateChildElements()
     {
+        var adjustmentViewModel = _serviceProvider.GetRequiredService<AdjustmentViewModel>();
         _adjustmentPage.Items.Clear();
         foreach (var adjustment in _adjustmentViewModel.SetUpAdjustments)
         {
             var adjustmentSettingPage = new AdjustmentSettingsView(_adjustmentViewModel, adjustment);
             var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
 
-            var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(adjustment);
+            var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(adjustmentViewModel, adjustment);
             viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
 
             _adjustmentPage.Items.Add(viewData);

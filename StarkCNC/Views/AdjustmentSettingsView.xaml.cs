@@ -20,6 +20,9 @@ namespace StarkCNC.Views
             Adjustment = adjustment;
             DataContext = this;
 
+            if (ViewModel.SelectedAdjustment is null)
+                ViewModel.SelectAdjustment(adjustment);
+
             InitializeComponent();
 
             Adjustment.PropertyChanged += SelectedAdjustment_PropertyChanged;

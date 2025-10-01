@@ -45,7 +45,7 @@
                         <Label>
                             <TextBlock>
                                 <Run Text="Положение зоны прижима:"/>
-                                <Run Text="{Binding Adjustment.Press.PressZonePosition}"/>
+                                <Run Text="{Binding Adjustment.Supply.PressZonePosition}"/>
                             </TextBlock>
                         </Label>
                         <Label>
@@ -68,7 +68,9 @@
                         </Label>
                     </StackPanel>
                     <Button
+                        x:Name="SupplyEditButton"
                         Grid.Column="2"
+                        Click="EditButton_Click"
                         Content="Редактировать"/>
                 </Grid>
             </Border>
@@ -135,7 +137,9 @@
                         </Label>
                     </StackPanel>
                     <Button
+                        x:Name="ConsoleEditButton"
                         Grid.Column="2"
+                        Click="EditButton_Click"
                         Content="Редактировать"/>
                 </Grid>
             </Border>
@@ -184,7 +188,9 @@
                         </Label>
                     </StackPanel>
                     <Button
+                        x:Name="RotationEditButton"
                         Grid.Column="2"
+                        Click="EditButton_Click"
                         Content="Редактировать"/>
                 </Grid>
             </Border>
@@ -239,7 +245,9 @@
                         </Label>
                     </StackPanel>
                     <Button
+                        x:Name="BendEditButton"
                         Grid.Column="2"
+                        Click="EditButton_Click"
                         Content="Редактировать"/>
                 </Grid>
             </Border>
@@ -284,7 +292,9 @@
                             </Label>
                         </StackPanel>
                         <Button
+                            x:Name="SqueezeEditButton"
                             Grid.Column="2"
+                            Click="EditButton_Click"
                             Content="Редактировать"/>
                     </Grid>
                 </Border>
@@ -340,7 +350,9 @@
                             </Label>
                         </StackPanel>
                         <Button
+                            x:Name="ClampEditButton"
                             Grid.Column="2"
+                            Click="EditButton_Click"
                             Content="Редактировать"/>
                     </Grid>
                 </Border>
@@ -396,7 +408,9 @@
                             </Label>
                         </StackPanel>
                         <Button
+                            x:Name="PressEditButton"
                             Grid.Column="2"
+                            Click="EditButton_Click"
                             Content="Редактировать"/>
                     </Grid>
                 </Border>
@@ -452,7 +466,9 @@
                             </Label>
                         </StackPanel>
                         <Button
+                            x:Name="DornEditButton"
                             Grid.Column="2"
+                            Click="EditButton_Click"
                             Content="Редактировать"/>
                     </Grid>
                 </Border>
@@ -508,7 +524,9 @@
                             </Label>
                         </StackPanel>
                         <Button
+                            x:Name="LiftEditButton"
                             Grid.Column="2"
+                            Click="EditButton_Click"
                             Content="Редактировать"/>
                     </Grid>
                 </Border>
