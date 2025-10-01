@@ -1,7 +1,5 @@
-﻿using StarkCNC.Controls;
-using StarkCNC.DTO;
+﻿using StarkCNC.DTO;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Shell;
 
 namespace StarkCNC;
