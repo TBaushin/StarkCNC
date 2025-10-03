@@ -1,15 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using StarkCNC.Core.Models.Adjustment;
+﻿using StarkCNC.Core.Models.Adjustment;
 
 namespace StarkCNC.Core.Models;
 
 public class AdjustmentParameters : ICloneable
 {
-    private readonly IConfiguration _configuration;
-    private string _adjustmentTypeRequestString = string.Empty;
-    private string _pipeDiameterRequestString = string.Empty;
-    private string _forwardDangerZoneCoordinateRequestString = string.Empty;
-    private string _distanceFromCenterRequestString = string.Empty;
+    public Guid Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
 
@@ -47,40 +42,46 @@ public class AdjustmentParameters : ICloneable
 
     public Supply Supply { get; set; }
 
-    public AdjustmentParameters(IConfiguration configuration, string name)
+    public AdjustmentParameters(
+        Guid id,
+        string name,
+        double pipeDiameter,
+        double radius,
+        AdjustmentType type,
+        int installedLevel,
+        double forwardDangerZoneCoordinate,
+        double distanceFromCenter,
+        Bend bend,
+        BendRoller bendRoller,
+        Clamp clamp,
+        ClampRoller clampRoller,
+        StarkCNC.Core.Models.Adjustment.Console console,
+        Dorn dorn,
+        Lift lift,
+        Press press,
+        Rotation rotation,
+        Squeeze squeeze,
+        Supply supply)
     {
-        _configuration = configuration;
+        Id = id;
         Name = name;
-
-        var adjustmentSection = configuration.GetSection("Adjustment");
-
-        var adjustmentTypeSection = _configuration.GetSection("AdjustmentType");
-        Type = adjustmentSection.GetSection("Default").Get<bool>() == true ? AdjustmentType.Rolling : AdjustmentType.Winding;
-        _adjustmentTypeRequestString = adjustmentSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var pipeDiameterSection = _configuration.GetSection("PipeDiameter");
-        PipeDiameter = pipeDiameterSection.GetSection("Default").Get<double>();
-        _pipeDiameterRequestString = pipeDiameterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var forwardDangerZoneSection = _configuration.GetSection("ForwardDangerZone");
-        ForwardDangerZoneCoordinate = forwardDangerZoneSection.GetSection("Default").Get<double>();
-        _forwardDangerZoneCoordinateRequestString = forwardDangerZoneSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var distanceFromCenterSection = _configuration.GetSection("DistanceFromCenter");
-        DistanceFromCenter = distanceFromCenterSection.GetSection("Default").Get<double>();
-        _distanceFromCenterRequestString = distanceFromCenterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        Bend = Bend.ReadConfiguration(adjustmentSection);
-        BendRoller = BendRoller.ReadConfiguration(adjustmentSection);
-        Clamp = Clamp.ReadConfiguration(adjustmentSection);
-        ClampRoller = ClampRoller.ReadConfiguration(adjustmentSection);
-        Console = StarkCNC.Core.Models.Adjustment.Console.ReadConfiguration(adjustmentSection);
-        Dorn = Dorn.ReadConfiguration(adjustmentSection);
-        Lift = Lift.ReadConfiguration(adjustmentSection);
-        Press = Press.ReadConfiguration(adjustmentSection);
-        Rotation = Rotation.ReadConfiguration(adjustmentSection);
-        Squeeze = Squeeze.ReadConfiguration(adjustmentSection);
-        Supply = Supply.ReadConfiguration(adjustmentSection);
+        PipeDiameter = pipeDiameter;
+        Radius = radius;
+        Type = type;
+        InstalledLevel = installedLevel;
+        ForwardDangerZoneCoordinate = forwardDangerZoneCoordinate;
+        DistanceFromCenter = distanceFromCenter;
+        Bend = bend;
+        BendRoller = bendRoller;
+        Clamp = clamp;
+        ClampRoller = clampRoller;
+        Console = console;
+        Dorn = dorn;
+        Lift = lift;
+        Press = press;
+        Rotation = rotation;
+        Squeeze = squeeze;
+        Supply = supply;
     }
 
     public override bool Equals(object? obj)
@@ -116,26 +117,46 @@ public class AdjustmentParameters : ICloneable
             Type,
             InstalledLevel,
             ForwardDangerZoneCoordinate,
-            DistanceFromCenter);
+            DistanceFromCenter,
+            GetHashCodeFromBToD(),
+            GetHashCodeFromLToS());
+
+    private int GetHashCodeFromBToD() =>
+        HashCode.Combine(
+            Bend.GetHashCode(),
+            BendRoller.GetHashCode(),
+            Clamp.GetHashCode(),
+            ClampRoller.GetHashCode(),
+            Console.GetHashCode(),
+            Dorn.GetHashCode());
+
+    private int GetHashCodeFromLToS() =>
+        HashCode.Combine(
+            Lift.GetHashCode(),
+            Press.GetHashCode(),
+            Rotation.GetHashCode(),
+            Squeeze.GetHashCode(),
+            Supply.GetHashCode());
     
     public object Clone() =>
-        new AdjustmentParameters(_configuration, Name) {
-            Type = Type,
-            PipeDiameter = PipeDiameter,
-            Radius = Radius,
-            InstalledLevel = InstalledLevel,
-            ForwardDangerZoneCoordinate = ForwardDangerZoneCoordinate,
-            DistanceFromCenter = DistanceFromCenter,
-            Bend = (Bend)Bend.Clone(),
-            BendRoller = (BendRoller)BendRoller.Clone(),
-            Clamp = (Clamp)Clamp.Clone(),
-            ClampRoller = (ClampRoller)ClampRoller.Clone(),
-            Console = (StarkCNC.Core.Models.Adjustment.Console)Console.Clone(),
-            Dorn = (Dorn)Dorn.Clone(),
-            Lift = (Lift)Lift.Clone(),
-            Press = (Press)Press.Clone(),
-            Rotation = (Rotation)Rotation.Clone(),
-            Squeeze = (Squeeze)Squeeze.Clone(),
-            Supply = (Supply)Supply.Clone(),
-        };
+        new AdjustmentParameters(
+            Id,
+            Name,
+            PipeDiameter,
+            Radius,
+            Type,
+            InstalledLevel,
+            ForwardDangerZoneCoordinate,
+            DistanceFromCenter,
+            (Bend)Bend.Clone(),
+            (BendRoller)BendRoller.Clone(),
+            (Clamp)Clamp.Clone(),
+            (ClampRoller)ClampRoller.Clone(),
+            (StarkCNC.Core.Models.Adjustment.Console)Console.Clone(),
+            (Dorn)Dorn.Clone(),
+            (Lift)Lift.Clone(),
+            (Press)Press.Clone(),
+            (Rotation)Rotation.Clone(),
+            (Squeeze)Squeeze.Clone(),
+            (Supply)Supply.Clone());
 }

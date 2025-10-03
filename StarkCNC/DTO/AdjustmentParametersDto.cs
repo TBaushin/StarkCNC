@@ -1,211 +1,204 @@
-﻿using StarkCNC.Core.Models;
-using StarkCNC.Core.Models.Adjustment;
-using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Configuration;
+using StarkCNC.Core.Models;
+using StarkCNC.DTO.Adjustment;
 
 namespace StarkCNC.DTO;
 
-public class AdjustmentParametersDto : INotifyPropertyChanged
+public partial class AdjustmentParametersDto : ObservableObject, ICloneable
 {
-    private readonly AdjustmentParameters _adjustment;
+    private string _typeRequestString = string.Empty;
+    private string _pipeDiameterRequestString = string.Empty;
+    private string _forwardDangerZoneCoordinateRequestString = string.Empty;
+    private string _distanceFromCenterRequestString = string.Empty;
 
-    public string Name
+    [ObservableProperty]
+    private Guid? _id;
+
+    [ObservableProperty]
+    private string? _name;
+
+    [ObservableProperty]
+    private double _pipeDiameter;
+
+    [ObservableProperty]
+    private double _radius;
+
+    [ObservableProperty]
+    private AdjustmentType? _type;
+
+    [ObservableProperty]
+    private int _installedLevel;
+
+    [ObservableProperty]
+    private double _forwardDangerZoneCoordinate;
+
+    [ObservableProperty]
+    private double _distanceFromCenter;
+
+    [ObservableProperty]
+    private BendDto? _bend;
+
+    [ObservableProperty]
+    private BendRollerDto? _bendRoller;
+
+    [ObservableProperty]
+    private ClampDto? _clamp;
+
+    [ObservableProperty]
+    private ClampRollerDto? _clampRoller;
+
+    [ObservableProperty]
+    private ConsoleDto? _console;
+
+    [ObservableProperty]
+    private DornDto? _dorn;
+
+    [ObservableProperty]
+    private LiftDto? _lift;
+
+    [ObservableProperty]
+    private PressDto? _press;
+
+    [ObservableProperty]
+    private RotationDto? _rotation;
+
+    [ObservableProperty]
+    private SqueezeDto? _squeeze;
+
+    [ObservableProperty]
+    private SupplyDto? _supply;
+
+    private AdjustmentParametersDto(
+        string typeRequestString,
+        string pipeDiameterRequestString,
+        string forwardDangerZoneCoordinateRequestString,
+        string distanceFromCenterRequestString)
     {
-        get => _adjustment.Name;
-        set
+        _typeRequestString = typeRequestString;
+        _pipeDiameterRequestString = pipeDiameterRequestString;
+        _forwardDangerZoneCoordinateRequestString = forwardDangerZoneCoordinateRequestString;
+        _distanceFromCenterRequestString = distanceFromCenterRequestString;
+    }
+
+    public object Clone() =>
+        new AdjustmentParametersDto(
+            _typeRequestString,
+            _pipeDiameterRequestString,
+            _forwardDangerZoneCoordinateRequestString,
+            _distanceFromCenterRequestString)
         {
-            _adjustment.Name = value;
-            OnPropertyChanged(nameof(Name));
+            Id = Id,
+            Name = (string?)Name?.Clone(),
+            PipeDiameter = PipeDiameter,
+            Radius = Radius,
+            Type = Type,
+            InstalledLevel = InstalledLevel,
+            ForwardDangerZoneCoordinate = ForwardDangerZoneCoordinate,
+            DistanceFromCenter = DistanceFromCenter,
+            Bend = (BendDto?)Bend?.Clone(),
+            BendRoller = (BendRollerDto?)BendRoller?.Clone(),
+            Clamp = (ClampDto?)Clamp?.Clone(),
+            ClampRoller = (ClampRollerDto?)ClampRoller?.Clone(),
+            Console = (ConsoleDto?)Console?.Clone(),
+            Dorn = (DornDto?)Dorn?.Clone(),
+            Lift = (LiftDto?)Lift?.Clone(),
+            Press = (PressDto?)Press?.Clone(),
+            Rotation = (RotationDto?)Rotation?.Clone(),
+            Squeeze = (SqueezeDto?)Squeeze?.Clone(),
+            Supply = (SupplyDto?)Supply?.Clone(),
+        };
+
+    public AdjustmentParameters? Parse(Guid? id)
+    {
+        if (id is null)
+            id = Guid.NewGuid();
+
+        try
+        {
+            return new AdjustmentParameters(
+                id.Value,
+                DtoParser.RequireNotNull(Name, nameof(Name)),
+                PipeDiameter,
+                Radius,
+                DtoParser.RequireNotNull(Type, nameof(Type)),
+                InstalledLevel,
+                ForwardDangerZoneCoordinate,
+                DistanceFromCenter,
+                DtoParser.RequireNotNull(Bend?.Parse(), nameof(Bend)),
+                DtoParser.RequireNotNull(BendRoller?.Parse(), nameof(BendRoller)),
+                DtoParser.RequireNotNull(Clamp?.Parse(), nameof(Clamp)),
+                DtoParser.RequireNotNull(ClampRoller?.Parse(), nameof(ClampRoller)),
+                DtoParser.RequireNotNull(Console?.Parse(), nameof(Console)),
+                DtoParser.RequireNotNull(Dorn?.Parse(), nameof(Dorn)),
+                DtoParser.RequireNotNull(Lift?.Parse(), nameof(Lift)),
+                DtoParser.RequireNotNull(Press?.Parse(), nameof(Press)),
+                DtoParser.RequireNotNull(Rotation?.Parse(), nameof(Rotation)),
+                DtoParser.RequireNotNull(Squeeze?.Parse(), nameof(Squeeze)),
+                DtoParser.RequireNotNull(Supply?.Parse(), nameof(Supply)));
+        }
+        catch (ArgumentNullException)
+        {
+            return null;
         }
     }
 
-    public double PipeDiameter
+    public static AdjustmentParametersDto? CreateFromConfiguration(IConfiguration configuration)
     {
-        get => _adjustment.PipeDiameter;
-        set
+        if (configuration is null)
+            throw new ArgumentNullException(nameof(configuration));
+
+        var adjustmentSection = configuration.GetSection("Adjustment");
+
+        var adjustmentTypeSection = configuration.GetSection("AdjustmentType");
+        var type = adjustmentSection.GetSection("Default").Get<bool>() == true ? AdjustmentType.Rolling : AdjustmentType.Winding;
+        var typeRequestString = adjustmentSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        var pipeDiameterSection = configuration.GetSection("PipeDiameter");
+        var pipeDiameter = pipeDiameterSection.GetSection("Default").Get<double>();
+        var pipeDiameterRequestString = pipeDiameterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        var forwardDangerZoneSection = configuration.GetSection("ForwardDangerZone");
+        var forwardDangerZoneCoordinate = forwardDangerZoneSection.GetSection("Default").Get<double>();
+        var forwardDangerZoneCoordinateRequestString = forwardDangerZoneSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        var distanceFromCenterSection = configuration.GetSection("DistanceFromCenter");
+        var distanceFromCenter = distanceFromCenterSection.GetSection("Default").Get<double>();
+        var distanceFromCenterRequestString = distanceFromCenterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        var bend = BendDto.CreateFromConfiguration(adjustmentSection);
+        var bendRoller = BendRollerDto.CreateFromConfiguration(adjustmentSection);
+        var clamp = ClampDto.CreateFromConfiguration(adjustmentSection);
+        var clampRoller = ClampRollerDto.CreateFromConfiguration(adjustmentSection);
+        var console = ConsoleDto.CreateFromConfiguration(adjustmentSection);
+        var dorn = DornDto.CreateFromConfiguration(adjustmentSection);
+        var lift = LiftDto.CreateFromConfiguration(adjustmentSection);
+        var press = PressDto.CreateFromConfiguration(adjustmentSection);
+        var rotation = RotationDto.CreateFromConfiguration(adjustmentSection);
+        var squeeze = SqueezeDto.CreateFromConfiguration(adjustmentSection);
+        var supply = SupplyDto.CreateFromConfiguration(adjustmentSection);
+
+        return new AdjustmentParametersDto(
+            typeRequestString,
+            pipeDiameterRequestString,
+            forwardDangerZoneCoordinateRequestString,
+            distanceFromCenterRequestString)
         {
-            _adjustment.PipeDiameter = value;
-            OnPropertyChanged(nameof(PipeDiameter));
-        }
-    }
-
-    public double Radius
-    {
-        get => _adjustment.Radius;
-        set
-        {
-            _adjustment.Radius = value;
-            OnPropertyChanged(nameof(Radius));
-        }
-    }
-
-    public AdjustmentType Type
-    {
-        get => _adjustment.Type;
-        set
-        {
-            _adjustment.Type = value;
-            OnPropertyChanged(nameof(Type));
-        }
-    }
-
-    public int InstalledLevel
-    {
-        get => _adjustment.InstalledLevel;
-    }
-
-    public double ForwardDangerZoneCoordinate
-    {
-        get => _adjustment.ForwardDangerZoneCoordinate;
-        set
-        {
-            _adjustment.ForwardDangerZoneCoordinate = value;
-            OnPropertyChanged(nameof(ForwardDangerZoneCoordinate));
-        }
-    }
-
-    public double DistanceFromCenter
-    {
-        get => _adjustment.DistanceFromCenter;
-        set
-        {
-            _adjustment.DistanceFromCenter = value;
-            OnPropertyChanged(nameof(DistanceFromCenter));
-        }
-    }
-
-    public Bend Bend
-    {
-        get => _adjustment.Bend;
-        set
-        {
-            _adjustment.Bend = value;
-            OnPropertyChanged(nameof(Bend));
-        }
-    }
-
-    public BendRoller BendRoller
-    {
-        get => _adjustment.BendRoller;
-        set
-        {
-            _adjustment.BendRoller = value;
-            OnPropertyChanged(nameof(BendRoller));
-        }
-    }
-
-    public Clamp Clamp
-    {
-        get => _adjustment.Clamp;
-        set
-        {
-            _adjustment.Clamp = value;
-            OnPropertyChanged(nameof(Clamp));
-        }
-    }
-
-    public ClampRoller ClampRoller
-    {
-        get => _adjustment.ClampRoller;
-        set
-        {
-            _adjustment.ClampRoller = value;
-            OnPropertyChanged(nameof(ClampRoller));
-        }
-    }
-
-    public StarkCNC.Core.Models.Adjustment.Console Console
-    {
-        get => _adjustment.Console;
-        set
-        {
-            _adjustment.Console = value;
-            OnPropertyChanged(nameof(Console));
-        }
-    }
-
-    public Dorn Dorn
-    {
-        get => _adjustment.Dorn;
-        set
-        {
-            _adjustment.Dorn = value;
-            OnPropertyChanged(nameof(Dorn));
-        }
-    }
-
-    public Lift Lift
-    {
-        get => _adjustment.Lift;
-        set
-        {
-            _adjustment.Lift = value;
-            OnPropertyChanged(nameof(Lift));
-        }
-    }
-
-    public Press Press
-    {
-        get => _adjustment.Press;
-        set
-        {
-            _adjustment.Press = value;
-            OnPropertyChanged(nameof(Press));
-        }
-    }
-
-    public Rotation Rotation
-    {
-        get => _adjustment.Rotation;
-        set
-        {
-            _adjustment.Rotation = value;
-            OnPropertyChanged(nameof(Rotation));
-        }
-    }
-
-    public Squeeze Squeeze
-    {
-        get => _adjustment.Squeeze;
-        set
-        {
-            _adjustment.Squeeze = value;
-            OnPropertyChanged(nameof(Squeeze));
-        }
-    }
-
-    public Supply Supply
-    {
-        get => _adjustment.Supply;
-        set
-        {
-            _adjustment.Supply = value;
-            OnPropertyChanged(nameof(Supply));
-        }
-    }
-
-    public AdjustmentParametersDto(AdjustmentParameters adjustment)
-    {
-        _adjustment = adjustment;
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public override bool Equals(object? obj)
-    {
-        var adjustment = obj as AdjustmentParametersDto;
-        if (adjustment is null)
-            return false;
-
-        return _adjustment.Equals(adjustment.Cast());
-    }
-
-    public override int GetHashCode() =>
-        _adjustment.GetHashCode();
-
-    public AdjustmentParameters Cast() => _adjustment;
-
-    private void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Type = type,
+            PipeDiameter = pipeDiameter,
+            ForwardDangerZoneCoordinate = forwardDangerZoneCoordinate,
+            DistanceFromCenter = distanceFromCenter,
+            Bend = bend,
+            BendRoller = bendRoller,
+            Clamp = clamp,
+            ClampRoller = clampRoller,
+            Console = console,
+            Dorn = dorn,
+            Lift = lift,
+            Press = press,
+            Rotation = rotation,
+            Squeeze = squeeze,
+            Supply = supply,
+        };
     }
 }

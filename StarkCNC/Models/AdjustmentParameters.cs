@@ -3,7 +3,7 @@ using StarkCNC.MachineCommunication.Services;
 
 namespace StarkCNC.Models;
 
-internal class AdjustmentParameters : ObservableObject
+internal partial class AdjustmentParameters : ObservableObject, IDisposable
 {
     private readonly IManualConfigurationService _manualConfigurationService;
 
@@ -74,5 +74,13 @@ internal class AdjustmentParameters : ObservableObject
             return;
 
         _cancellationTokenSource?.Cancel();
+    }
+
+    public void Dispose()
+    {
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.Dispose();
+
+        _updateTask?.Dispose();
     }
 }

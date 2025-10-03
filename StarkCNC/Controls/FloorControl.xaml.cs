@@ -45,7 +45,7 @@ public partial class FloorControl : UserControl
         {
             SetValue(SelectedAdjustmentProperty, value);
 
-            if (value is null)
+            if (value is null || value.Type is null)
                 SelectedAdjustmentLabel.Content = string.Empty;
             else
                 SelectedAdjustmentLabel.Content =

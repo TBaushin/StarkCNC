@@ -33,7 +33,11 @@ public partial class AdjustmentViewModel : ObservableObject
 
         foreach (var item in _repository.GetAll())
         {
-            Adjustments.Add(new AdjustmentParametersDto(item));
+            var dto = item.ToDto(configuration);
+            if (dto is null)
+                continue;
+
+            Adjustments.Add(dto);
         }
 
         GetSetUpAdjustments();
@@ -54,10 +58,10 @@ public partial class AdjustmentViewModel : ObservableObject
     [RelayCommand]
     private void CreateAdjustment()
     {
-        var item = new StarkCNC.Core.Models.AdjustmentParameters(_configuration, "");
-        _repository.AddElement(item);
+        var adjustment = AdjustmentParametersDto.CreateFromConfiguration(_configuration);
+        if (adjustment is null)
+            throw new ArgumentNullException(nameof(adjustment));
 
-        var adjustment = new AdjustmentParametersDto(item);
         Adjustments.Add(adjustment);
 
         SelectedAdjustment = adjustment;
@@ -84,14 +88,28 @@ public partial class AdjustmentViewModel : ObservableObject
             SelectedAdjustment.Rotation = result.Rotation;
             SelectedAdjustment.Squeeze = result.Squeeze;
             SelectedAdjustment.Supply = result.Supply;
+
+            var newAdjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
+            if (newAdjustment is not null)
+                _repository.AddElement(newAdjustment);
         }
     }
 
     [RelayCommand]
     private void DeleteAdjustment(AdjustmentParametersDto adjustment)
     {
-        _repository.RemoveElement(adjustment.Cast());
-        Adjustments.Remove(adjustment);
+        if (adjustment is null)
+            return;
+
+        if (adjustment.Id is not Guid id)
+        {
+            Adjustments.Remove(adjustment);
+        }
+        else
+        {
+            Adjustments.Remove(adjustment);
+            _repository.RemoveElement(id);
+        }
     }
 
     [RelayCommand]
@@ -153,8 +171,10 @@ public partial class AdjustmentViewModel : ObservableObject
     [RelayCommand]
     private void SetLevelToAdjustment(int level)
     {
-        if (SelectedAdjustment is not null)
-            _repository.SetLevel(SelectedAdjustment.Cast(), level);
+        if (SelectedAdjustment is not null && SelectedAdjustment.Id is Guid id)
+        {
+            _repository.SetLevel(id, level);
+        }
 
         GetSetUpAdjustments();
     }
@@ -178,7 +198,7 @@ public partial class AdjustmentViewModel : ObservableObject
         adjustmentsWithLevel.ForEach(awl =>
         {
             Adjustments
-                    .Where(a => a.Cast().Equals(awl))
+                    .Where(a => a.Id.Equals(awl.Id))
                     .ToList()
                     .ForEach(a => SetUpAdjustments.Add(a));
         });

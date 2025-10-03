@@ -4,22 +4,15 @@ namespace StarkCNC.Core.Models.Adjustment;
 
 public class ClampRoller : ICloneable
 {
-    private string _outerRadiusRequesString = string.Empty;
-    private string _innerRadiusRequestString = string.Empty;
-
     public double OuterRadius { get; set; }
     public double InnerRadius { get; set; }
 
     public ClampRoller(
         double outerRadius,
-        string outerRadiusRequestString,
-        double innerRadius,
-        string innerRadiusRequestString)
+        double innerRadius)
     {
         OuterRadius = outerRadius;
-        _outerRadiusRequesString = outerRadiusRequestString;
         InnerRadius = innerRadius;
-        _innerRadiusRequestString = innerRadiusRequestString;
     }
 
     public object Clone() => MemberwiseClone();
@@ -33,24 +26,5 @@ public class ClampRoller : ICloneable
     }
 
     public override int GetHashCode() =>
-        HashCode.Combine(OuterRadius, _outerRadiusRequesString, InnerRadius, _innerRadiusRequestString);
-
-    public static ClampRoller ReadConfiguration(IConfigurationSection section)
-    {
-        var clampRollerSection = section.GetSection("ClampRoller");
-
-        var outerRadiusSection = clampRollerSection.GetSection("OuterRadius");
-        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<double>();
-        var outerRadiusRequestString = outerRadiusSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var innerRadiusSection = clampRollerSection.GetSection("InnerRadius");
-        var innerRadiusDefault = innerRadiusSection.GetSection("Default").Get<double>();
-        var innerRadiusRequestString = innerRadiusSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        return new ClampRoller(
-            outerRadiusDefault,
-            outerRadiusRequestString,
-            innerRadiusDefault,
-            innerRadiusRequestString);
-    }
+        HashCode.Combine(OuterRadius, InnerRadius);
 }

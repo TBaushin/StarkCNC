@@ -1,0 +1,86 @@
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Configuration;
+using StarkCNC.Core.Models.Adjustment;
+
+namespace StarkCNC.DTO.Adjustment;
+
+public partial class BendDto : ObservableObject, ICloneable
+{
+    private string _forwardPositionLimitationRequestString = string.Empty;
+    private string _speedCoefficientRequestString = string.Empty;
+    private string _slowdownSpeedRequestString = string.Empty;
+
+    [ObservableProperty]
+    private double _forwardPositionLimitation;
+
+    [ObservableProperty]
+    private double _speedCoefficient;
+
+    [ObservableProperty]
+    private double _slowdownSpeed;
+
+    public BendDto(
+        string forwardPositionLimitationRequestString,
+        string speedCoefficientRequestString,
+        string slowdownSpeedRequestString)
+    {
+        _forwardPositionLimitationRequestString = forwardPositionLimitationRequestString;
+        _speedCoefficientRequestString = speedCoefficientRequestString;
+        _slowdownSpeedRequestString = slowdownSpeedRequestString;
+    }
+
+    public object Clone() => MemberwiseClone();
+
+    public Bend Parse() =>
+        new Bend(ForwardPositionLimitation, SpeedCoefficient, SlowdownSpeed);
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is not BendDto other)
+            return false;
+
+        return
+            other.ForwardPositionLimitation == ForwardPositionLimitation &&
+            other.SpeedCoefficient == SpeedCoefficient &&
+            other.SlowdownSpeed == SlowdownSpeed;
+    }
+
+    public override int GetHashCode() =>
+        HashCode.Combine(
+            ForwardPositionLimitation,
+            _forwardPositionLimitationRequestString,
+            SpeedCoefficient,
+            _speedCoefficientRequestString,
+            SlowdownSpeed,
+            _slowdownSpeedRequestString);
+
+    public static BendDto? CreateFromConfiguration(IConfigurationSection section)
+    {
+        if (section is null)
+            throw new ArgumentNullException(nameof(section));
+
+        var bendSection = section.GetSection("Bend");
+
+        var forwardPositionLimitationSection = bendSection.GetSection("ForwardPositionLimitation");
+        var forwardPositionLimitationDefault = forwardPositionLimitationSection.GetSection("Default").Get<double>();
+        var forwardPositionLimitationRequestString = forwardPositionLimitationSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        var speedCoefficientSection = bendSection.GetSection("SpeedCoefficient");
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        var slowdownSpeedSection = bendSection.GetSection("SlowdownSpeed");
+        var slowdownSpeedDefault = slowdownSpeedSection.GetSection("Default").Get<double>();
+        var slowndownSpeedRequestString = slowdownSpeedSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        return new BendDto(
+            forwardPositionLimitationRequestString,
+            speedCoefficientRequestString,
+            slowndownSpeedRequestString)
+        {
+            ForwardPositionLimitation = forwardPositionLimitationDefault,
+            SpeedCoefficient = speedCoefficientDefault,
+            SlowdownSpeed = slowdownSpeedDefault,
+        };
+    }
+}

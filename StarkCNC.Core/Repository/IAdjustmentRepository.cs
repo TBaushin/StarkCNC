@@ -1,21 +1,14 @@
 ﻿using StarkCNC.Core.Models;
-using System.ComponentModel;
 
 namespace StarkCNC.Core.Repository;
 
 public interface IAdjustmentRepository
 {
-    event PropertyChangedEventHandler PropertyChanged;
-
-    AdjustmentParameters AddElement(string name);
-
     AdjustmentParameters AddElement(AdjustmentParameters adjustment);
 
-    void RemoveElement(string name);
+    void RemoveElement(Guid id);
 
     void RemoveElement(AdjustmentParameters adjustment);
-
-    IEnumerable<AdjustmentParameters> GetTenElements(int startPostion = 0);
 
     IEnumerable<AdjustmentParameters> FindByName(string name);
 
@@ -23,7 +16,7 @@ public interface IAdjustmentRepository
 
     IEnumerable<AdjustmentParameters> GetAll();
 
-    void SetLevel(AdjustmentParameters adjustment, int level);
+    void SetLevel(Guid id, int level);
 
     AdjustmentParameters? GetAdjustmentWithLevel(int level);
 
