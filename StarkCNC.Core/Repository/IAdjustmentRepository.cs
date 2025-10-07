@@ -4,11 +4,11 @@ namespace StarkCNC.Core.Repository;
 
 public interface IAdjustmentRepository
 {
-    AdjustmentParameters AddElement(AdjustmentParameters adjustment);
+    Task<AdjustmentParameters> AddElementAsync(AdjustmentParameters adjustment);
 
-    void RemoveElement(Guid id);
+    Task RemoveElementAsync(Guid id);
 
-    void RemoveElement(AdjustmentParameters adjustment);
+    Task RemoveElementAsync(AdjustmentParameters adjustment);
 
     IEnumerable<AdjustmentParameters> FindByName(string name);
 
@@ -16,7 +16,7 @@ public interface IAdjustmentRepository
 
     IEnumerable<AdjustmentParameters> GetAll();
 
-    void SetLevel(Guid id, int level);
+    Task SetLevelAsync(Guid id, int level);
 
     AdjustmentParameters? GetAdjustmentWithLevel(int level);
 
