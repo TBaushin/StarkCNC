@@ -1,5 +1,6 @@
 ﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -7,6 +8,7 @@ using StarkCNC.Controls;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Repository;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.Diagnostics;
@@ -27,10 +29,12 @@ public partial class App : Application
 
     public App()
     {
+        
         IHost host = Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
                 services.AddSingleton<IConfiguration>(App.Configuration);
+                services.AddDbContext<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IStatusService, StatusService>();
                 services.AddSingleton<ISettingsService, SettingsService>();

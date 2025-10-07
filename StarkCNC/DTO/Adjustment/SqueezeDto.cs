@@ -11,6 +11,9 @@ public partial class SqueezeDto : ObservableObject, ICloneable
     private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private bool _turnOn;
 
     [ObservableProperty]
@@ -31,8 +34,8 @@ public partial class SqueezeDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public Squeeze Parse() =>
-        new Squeeze(TurnOn, FrontPositionLimitation, SpeedCoefficient);
+    public Squeeze Parse(Guid? id) =>
+        new Squeeze(TurnOn, FrontPositionLimitation, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
@@ -40,6 +43,7 @@ public partial class SqueezeDto : ObservableObject, ICloneable
             return false;
 
         return
+            Id == other.Id &&
             TurnOn == other.TurnOn &&
             FrontPositionLimitation == other.FrontPositionLimitation &&
             SpeedCoefficient == other.SpeedCoefficient;
@@ -47,6 +51,7 @@ public partial class SqueezeDto : ObservableObject, ICloneable
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             TurnOn,
             _turnOnRequestString,
             FrontPositionLimitation,

@@ -12,6 +12,9 @@ public partial class DornDto : ObservableObject, ICloneable
     private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _forwardPosition;
 
     [ObservableProperty]
@@ -27,25 +30,27 @@ public partial class DornDto : ObservableObject, ICloneable
         string forwardPositionRequestString,
         string middlePositionRequestString,
         string backPositionRequestString,
-        string speedPositionRequestString)
+        string speedCoefficientRequestString)
     {
         _forwardPositionRequestString = forwardPositionRequestString;
         _middlePositionRequestString = middlePositionRequestString;
         _backPositionRequestString = backPositionRequestString;
-        _speedCoefficientRequestString = speedPositionRequestString;
+        _speedCoefficientRequestString = speedCoefficientRequestString;
     }
 
     public object Clone() => MemberwiseClone();
 
-    public Dorn Parse() =>
-        new Dorn(ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient);
+    public Dorn Parse(Guid? id) =>
+        new Dorn(ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
         if (obj is not DornDto other)
             return false;
 
-        return other.ForwardPosition == ForwardPosition &&
+        return
+            other.Id == Id &&
+            other.ForwardPosition == ForwardPosition &&
             other.MiddlePosition == MiddlePosition &&
             other.BackwardPosition == BackwardPosition &&
             other.SpeedCoefficient == SpeedCoefficient;
@@ -53,14 +58,16 @@ public partial class DornDto : ObservableObject, ICloneable
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             ForwardPosition,
             _forwardPositionRequestString,
             MiddlePosition,
             _middlePositionRequestString,
             BackwardPosition,
             _backPositionRequestString,
-            SpeedCoefficient,
-            _speedCoefficientRequestString);
+            HashCode.Combine(
+                SpeedCoefficient,
+                _speedCoefficientRequestString));
 
     public static DornDto? CreateFromConfiguration(IConfigurationSection section)
     {

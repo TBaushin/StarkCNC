@@ -2,6 +2,7 @@
 
 public class Supply : ICloneable
 {
+    public Guid Id { get; set; }
     public double PressZonePosition { get; set; }
     public double ForwardDangerZonePosition { get; set; }
     public double ColletJawsDepth { get; set; }

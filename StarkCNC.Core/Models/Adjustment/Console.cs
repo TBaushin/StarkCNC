@@ -2,6 +2,7 @@
 
 public class Console : ICloneable
 {
+    public Guid Id { get; set; }
     public double BendPosition { get; set; }
     public double SecondFloorPosition { get; set; }
     public double SecondFloorIntermediatePosition { get; set; }

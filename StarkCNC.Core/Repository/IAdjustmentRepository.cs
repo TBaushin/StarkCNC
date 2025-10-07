@@ -4,7 +4,7 @@ namespace StarkCNC.Core.Repository;
 
 public interface IAdjustmentRepository
 {
-    Task<AdjustmentParameters> AddElementAsync(AdjustmentParameters adjustment);
+    Task AddElementAsync(AdjustmentParameters adjustment);
 
     Task RemoveElementAsync(Guid id);
 

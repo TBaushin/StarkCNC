@@ -2,6 +2,7 @@
 
 public class BendRoller : ICloneable
 {
+    public Guid Id { get; set; }
     public double Radius { get; set; }
     public double OuterRadius { get; set; }
 

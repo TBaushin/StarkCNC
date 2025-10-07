@@ -12,6 +12,9 @@ public partial class LiftDto : ObservableObject, ICloneable
     private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _upperPosition;
 
     [ObservableProperty]
@@ -37,8 +40,8 @@ public partial class LiftDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public Lift Parse() =>
-        new Lift(UpperPosition, MiddlePosition, LowerPosition, SpeedCoefficient);
+    public Lift Parse(Guid? id) =>
+        new Lift(UpperPosition, MiddlePosition, LowerPosition, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
@@ -46,6 +49,7 @@ public partial class LiftDto : ObservableObject, ICloneable
             return false;
 
         return
+            other.Id == Id &&
             other.UpperPosition == UpperPosition &&
             other.MiddlePosition == MiddlePosition &&
             other.LowerPosition == LowerPosition &&
@@ -54,14 +58,16 @@ public partial class LiftDto : ObservableObject, ICloneable
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             UpperPosition,
             _upperPositionRequestString,
             MiddlePosition,
             _middlePositionRequestString,
             LowerPosition,
             _lowerPositionRequestString,
-            SpeedCoefficient,
-            _speedCoefficientRequestString);
+            HashCode.Combine(
+                SpeedCoefficient,
+                _speedCoefficientRequestString));
 
     public static LiftDto? CreateFromConfiguration(IConfigurationSection section)
     {

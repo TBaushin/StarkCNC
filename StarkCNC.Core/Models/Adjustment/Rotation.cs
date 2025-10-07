@@ -2,6 +2,7 @@
 
 public class Rotation : ICloneable
 {
+    public Guid Id { get; set; }
     public double OffsetAfterZeroSearch { get; set; }
     public double SpeedCoefficient { get; set; }
 

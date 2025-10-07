@@ -14,6 +14,9 @@ public partial class PressDto : ObservableObject, ICloneable
     private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _dangerZoneCoordinate;
 
     [ObservableProperty]
@@ -49,8 +52,8 @@ public partial class PressDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public Press Parse() =>
-        new Press(DangerZoneCoordinate, Length, ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient);
+    public Press Parse(Guid? id) =>
+        new Press(DangerZoneCoordinate, Length, ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
@@ -58,6 +61,7 @@ public partial class PressDto : ObservableObject, ICloneable
             return false;
 
         return
+            Id == other.Id &&
             DangerZoneCoordinate == other.DangerZoneCoordinate &&
             Length == other.Length &&
             ForwardPosition == other.ForwardPosition &&
@@ -68,6 +72,7 @@ public partial class PressDto : ObservableObject, ICloneable
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             DangerZoneCoordinate,
             _dangerZoneCoordinateRequestString,
             Length,

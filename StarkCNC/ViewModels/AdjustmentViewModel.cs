@@ -56,7 +56,7 @@ public partial class AdjustmentViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void CreateAdjustment()
+    private async Task CreateAdjustment()
     {
         var adjustment = AdjustmentParametersDto.CreateFromConfiguration(_configuration);
         if (adjustment is null)
@@ -91,12 +91,12 @@ public partial class AdjustmentViewModel : ObservableObject
 
             var newAdjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
             if (newAdjustment is not null)
-                _repository.AddElement(newAdjustment);
+                await _repository.AddElementAsync(newAdjustment).ConfigureAwait(false);
         }
     }
 
     [RelayCommand]
-    private void DeleteAdjustment(AdjustmentParametersDto adjustment)
+    private async Task DeleteAdjustment(AdjustmentParametersDto adjustment)
     {
         if (adjustment is null)
             return;
@@ -108,7 +108,7 @@ public partial class AdjustmentViewModel : ObservableObject
         else
         {
             Adjustments.Remove(adjustment);
-            _repository.RemoveElement(id);
+            await _repository.RemoveElementAsync(id).ConfigureAwait(false);
         }
     }
 
@@ -169,11 +169,11 @@ public partial class AdjustmentViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void SetLevelToAdjustment(int level)
+    private async Task SetLevelToAdjustment(int level)
     {
         if (SelectedAdjustment is not null && SelectedAdjustment.Id is Guid id)
         {
-            _repository.SetLevel(id, level);
+            await _repository.SetLevelAsync(id, level).ConfigureAwait(false);
         }
 
         GetSetUpAdjustments();

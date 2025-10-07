@@ -10,6 +10,9 @@ public partial class BendRollerDto : ObservableObject, ICloneable
     private string _outerRadiusRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _radius;
 
     [ObservableProperty]
@@ -23,19 +26,27 @@ public partial class BendRollerDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public BendRoller Parse() =>
-        new BendRoller(Radius, OuterRadius);
+    public BendRoller Parse(Guid? id) =>
+        new BendRoller(Radius, OuterRadius) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
         if (obj is not BendRollerDto other)
             return false;
 
-        return Radius == other.Radius && OuterRadius == other.OuterRadius;
+        return
+            Id == other.Id &&
+            Radius == other.Radius &&
+            OuterRadius == other.OuterRadius;
     }
 
     public override int GetHashCode() =>
-        HashCode.Combine(Radius, _radiusRequestString, OuterRadius, _outerRadiusRequestString);
+        HashCode.Combine(
+            Id,
+            Radius,
+            _radiusRequestString,
+            OuterRadius,
+            _outerRadiusRequestString);
 
     public static BendRollerDto? CreateFromConfiguration(IConfigurationSection section)
     {

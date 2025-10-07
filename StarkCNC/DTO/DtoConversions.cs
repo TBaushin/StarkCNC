@@ -47,6 +47,7 @@ internal static class DtoConversions
         if (bendDto is null)
             return bendDto;
 
+        bendDto.Id = bend.Id;
         bendDto.ForwardPositionLimitation = bend.ForwardPositionLimitation;
         bendDto.SpeedCoefficient = bend.SpeedCoefficient;
         bendDto.SlowdownSpeed = bend.SlowdownSpeed;
@@ -62,6 +63,7 @@ internal static class DtoConversions
         if (bendRollerDto is null)
             return bendRollerDto;
 
+        bendRollerDto.Id = bendRoller.Id;
         bendRollerDto.Radius = bendRoller.Radius;
         bendRollerDto.OuterRadius = bendRoller.OuterRadius;
         return bendRollerDto;
@@ -76,6 +78,7 @@ internal static class DtoConversions
         if (clampDto is null)
             return clampDto;
 
+        clampDto.Id = clamp.Id;
         clampDto.Deep = clamp.Deep;
         clampDto.Length = clamp.Length;
         clampDto.ForwardPosition = clamp.ForwardPosition;
@@ -85,17 +88,18 @@ internal static class DtoConversions
         return clampDto;
     }
 
-    public static ClampRollerDto? ToDto(this ClampRoller clamp, IConfiguration configuration)
+    public static ClampRollerDto? ToDto(this ClampRoller clampRoller, IConfiguration configuration)
     {
-        if (clamp is null)
-            throw new ArgumentNullException(nameof(clamp));
+        if (clampRoller is null)
+            throw new ArgumentNullException(nameof(clampRoller));
 
         var clampRollerDto = ClampRollerDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
         if (clampRollerDto is null)
             return clampRollerDto;
 
-        clampRollerDto.OuterRadius = clamp.OuterRadius;
-        clampRollerDto.InnerRadius = clamp.InnerRadius;
+        clampRollerDto.Id = clampRoller.Id;
+        clampRollerDto.OuterRadius = clampRoller.OuterRadius;
+        clampRollerDto.InnerRadius = clampRoller.InnerRadius;
         return clampRollerDto;
     }
 
@@ -108,6 +112,7 @@ internal static class DtoConversions
         if (consoleDto is null)
             return consoleDto;
 
+        consoleDto.Id = console.Id;
         consoleDto.BendPosition = console.BendPosition;
         consoleDto.SecondFloorPosition = console.SecondFloorPosition;
         consoleDto.SecondFloorIntermediatePosition = console.SecondFloorIntermediatePosition;
@@ -126,6 +131,7 @@ internal static class DtoConversions
         if (dornDto is null)
             return dornDto;
 
+        dornDto.Id = dorn.Id;
         dornDto.ForwardPosition = dorn.ForwardPosition;
         dornDto.MiddlePosition = dorn.MiddlePosition;
         dornDto.BackwardPosition = dorn.BackwardPosition;
@@ -142,6 +148,7 @@ internal static class DtoConversions
         if (liftDto is null)
             return liftDto;
 
+        liftDto.Id = lift.Id;
         liftDto.UpperPosition = lift.UpperPosition;
         liftDto.MiddlePosition = lift.MiddlePosition;
         lift.LowerPosition = lift.LowerPosition;
@@ -158,6 +165,7 @@ internal static class DtoConversions
         if (pressDto is null)
             return pressDto;
 
+        pressDto.Id = press.Id;
         pressDto.DangerZoneCoordinate = press.DangerZoneCoordinate;
         pressDto.Length = press.Length;
         pressDto.ForwardPosition = press.ForwardPosition;
@@ -176,6 +184,7 @@ internal static class DtoConversions
         if (rotationDto is null)
             return rotationDto;
 
+        rotationDto.Id = rotation.Id;
         rotationDto.OffsetAfterZeroSearch = rotation.OffsetAfterZeroSearch;
         rotationDto.SpeedCoefficient = rotation.SpeedCoefficient;
         return rotationDto;
@@ -190,6 +199,7 @@ internal static class DtoConversions
         if (squeezeDto is null)
             return squeezeDto;
 
+        squeezeDto.Id = squeeze.Id;
         squeezeDto.TurnOn = squeeze.TurnOn;
         squeezeDto.FrontPositionLimitation = squeeze.FrontPositionLimitation;
         squeezeDto.SpeedCoefficient = squeeze.SpeedCoefficient;
@@ -205,6 +215,7 @@ internal static class DtoConversions
         if (supplyDto is null)
             return supplyDto;
 
+        supplyDto.Id = supply.Id;
         supplyDto.PressZonePosition = supply.PressZonePosition;
         supplyDto.ForwardDangerZonePosition = supply.ForwardDangerZonePosition;
         supplyDto.ColletJawsDepth = supply.ColletJawsDepth;

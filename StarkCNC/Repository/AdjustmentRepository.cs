@@ -1,4 +1,4 @@
-﻿using StarkCNC.Core;
+﻿using Microsoft.EntityFrameworkCore;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 
@@ -7,18 +7,16 @@ namespace StarkCNC.Repository;
 public class AdjustmentRepository : IAdjustmentRepository
 {
     private AppJsonContext _context;
-    private readonly List<AdjustmentParameters> _adjustments = new List<AdjustmentParameters>();
 
     public AdjustmentRepository(AppJsonContext context)
     {
         _context = context;
     }
 
-    public async Task<AdjustmentParameters> AddElementAsync(AdjustmentParameters adjustment)
+    public async Task AddElementAsync(AdjustmentParameters adjustment)
     {
-        var a = _context.Add(adjustment);
+        await _context.AddAsync(adjustment).ConfigureAwait(false);
         await _context.SaveChangesAsync().ConfigureAwait(false);
-        return a;
     }
 
     public async Task RemoveElementAsync(Guid id)
@@ -40,7 +38,7 @@ public class AdjustmentRepository : IAdjustmentRepository
     public IEnumerable<AdjustmentParameters> FindByName(string name) =>
         _context.Adjustments.Where(a => a.Name.Contains(name, StringComparison.CurrentCulture));
 
-    public int Count() => _adjustments.Count;
+    public int Count() => _context.Adjustments.Count();
 
     public IEnumerable<AdjustmentParameters> GetAll() => _context.Adjustments.ToList();
 

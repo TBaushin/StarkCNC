@@ -11,6 +11,9 @@ public partial class BendDto : ObservableObject, ICloneable
     private string _slowdownSpeedRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _forwardPositionLimitation;
 
     [ObservableProperty]
@@ -31,8 +34,8 @@ public partial class BendDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public Bend Parse() =>
-        new Bend(ForwardPositionLimitation, SpeedCoefficient, SlowdownSpeed);
+    public Bend Parse(Guid? id) =>
+        new Bend(ForwardPositionLimitation, SpeedCoefficient, SlowdownSpeed) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
@@ -40,6 +43,7 @@ public partial class BendDto : ObservableObject, ICloneable
             return false;
 
         return
+            other.Id == Id &&
             other.ForwardPositionLimitation == ForwardPositionLimitation &&
             other.SpeedCoefficient == SpeedCoefficient &&
             other.SlowdownSpeed == SlowdownSpeed;
@@ -47,6 +51,7 @@ public partial class BendDto : ObservableObject, ICloneable
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             ForwardPositionLimitation,
             _forwardPositionLimitationRequestString,
             SpeedCoefficient,

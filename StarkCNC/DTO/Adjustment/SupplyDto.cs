@@ -12,6 +12,9 @@ public partial class SupplyDto : ObservableObject, ICloneable
     private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _pressZonePosition;
 
     [ObservableProperty]
@@ -37,8 +40,8 @@ public partial class SupplyDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public Supply Parse() =>
-        new Supply(PressZonePosition, ForwardDangerZonePosition, ColletJawsDepth, SpeedCoefficient);
+    public Supply Parse(Guid? id) =>
+        new Supply(PressZonePosition, ForwardDangerZonePosition, ColletJawsDepth, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
@@ -46,6 +49,7 @@ public partial class SupplyDto : ObservableObject, ICloneable
             return false;
 
         return
+            other.Id == Id &&
             other.PressZonePosition == PressZonePosition &&
             other.ForwardDangerZonePosition == ForwardDangerZonePosition &&
             other.ColletJawsDepth == ColletJawsDepth &&
@@ -54,14 +58,16 @@ public partial class SupplyDto : ObservableObject, ICloneable
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             PressZonePosition,
             _pressZonePositionRequestString,
             ForwardDangerZonePosition,
             _forwardDangerZonePositionRequestString,
             ColletJawsDepth,
             _colletJawsDepthRequestString,
-            SpeedCoefficient,
-            _speedCoefficientRequestString);
+            HashCode.Combine(
+                SpeedCoefficient,
+                _speedCoefficientRequestString));
 
     public static SupplyDto? CreateFromConfiguration(IConfigurationSection section)
     {

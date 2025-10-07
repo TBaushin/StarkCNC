@@ -2,6 +2,7 @@
 
 public class Dorn : ICloneable
 {
+    public Guid Id { get; set; }
     public double ForwardPosition { get; set; }
     public double MiddlePosition { get; set; }
     public double BackwardPosition { get; set; }
@@ -11,12 +12,12 @@ public class Dorn : ICloneable
         double forwardPosition,
         double middlePosition,
         double backwardPosition,
-        double speedPosition)
+        double speedCoefficient)
     {
         ForwardPosition = forwardPosition;
         MiddlePosition = middlePosition;
         BackwardPosition = backwardPosition;
-        SpeedCoefficient = speedPosition;
+        SpeedCoefficient = speedCoefficient;
     }
 
     public object Clone() => MemberwiseClone();

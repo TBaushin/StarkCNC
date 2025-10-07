@@ -10,6 +10,9 @@ public partial class ClampRollerDto : ObservableObject, ICloneable
     private string _innerRadiusRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _outerRadius;
 
     [ObservableProperty]
@@ -25,19 +28,27 @@ public partial class ClampRollerDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public ClampRoller Parse() =>
-        new ClampRoller(OuterRadius, InnerRadius);
+    public ClampRoller Parse(Guid? id) =>
+        new ClampRoller(OuterRadius, InnerRadius) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
         if (obj is not ClampRollerDto other)
             return false;
 
-        return OuterRadius == other.OuterRadius && InnerRadius == other.InnerRadius;
+        return 
+            Id == other.Id &&
+            OuterRadius == other.OuterRadius &&
+            InnerRadius == other.InnerRadius;
     }
 
     public override int GetHashCode() =>
-        HashCode.Combine(OuterRadius, _outerRadiusRequesString, InnerRadius, _innerRadiusRequestString);
+        HashCode.Combine(
+            Id,
+            OuterRadius,
+            _outerRadiusRequesString,
+            InnerRadius,
+            _innerRadiusRequestString);
 
     public static ClampRollerDto? CreateFromConfiguration(IConfigurationSection section)
     {

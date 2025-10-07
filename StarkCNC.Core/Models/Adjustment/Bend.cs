@@ -2,6 +2,7 @@
 
 public class Bend : ICloneable
 {
+    public Guid Id { get; set; }
     public double ForwardPositionLimitation { get; set; }
     public double SpeedCoefficient { get; set; }
     public double SlowdownSpeed { get; set; }

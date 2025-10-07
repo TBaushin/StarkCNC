@@ -10,6 +10,9 @@ public partial class RotationDto : ObservableObject, ICloneable
     private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _offsetAfterZeroSearch;
 
     [ObservableProperty]
@@ -25,8 +28,8 @@ public partial class RotationDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public Rotation Parse() =>
-        new Rotation(OffsetAfterZeroSearch, SpeedCoefficient);
+    public Rotation Parse(Guid? id) =>
+        new Rotation(OffsetAfterZeroSearch, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
@@ -34,12 +37,14 @@ public partial class RotationDto : ObservableObject, ICloneable
             return false;
 
         return
+            other.Id == Id &&
             other.SpeedCoefficient == SpeedCoefficient &&
             other.OffsetAfterZeroSearch == OffsetAfterZeroSearch;
     }
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             OffsetAfterZeroSearch,
             _offsetAfterZeroSearchRequestString,
             SpeedCoefficient,

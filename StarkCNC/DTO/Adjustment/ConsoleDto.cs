@@ -13,6 +13,9 @@ public partial class ConsoleDto : ObservableObject, ICloneable
     private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _bendPosition;
 
     [ObservableProperty]
@@ -48,14 +51,14 @@ public partial class ConsoleDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public StarkCNC.Core.Models.Adjustment.Console Parse() =>
+    public StarkCNC.Core.Models.Adjustment.Console Parse(Guid? id) =>
         new StarkCNC.Core.Models.Adjustment.Console(
             BendPosition,
             SecondFloorPosition,
             SecondFloorIntermediatePosition,
             ThirdFloorPosition,
             PipeRotationDepartureDistance,
-            SpeedCoefficient);
+            SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
@@ -63,6 +66,7 @@ public partial class ConsoleDto : ObservableObject, ICloneable
             return false;
 
         return
+            Id == other.Id &&
             BendPosition == other.BendPosition &&
             SecondFloorPosition == other.SecondFloorPosition &&
             SecondFloorIntermediatePosition == other.SecondFloorIntermediatePosition &&
@@ -73,6 +77,7 @@ public partial class ConsoleDto : ObservableObject, ICloneable
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             BendPosition,
             _bendPositionRequestString,
             SecondFloorPosition,

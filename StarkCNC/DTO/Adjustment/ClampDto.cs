@@ -14,6 +14,9 @@ public partial class ClampDto : ObservableObject, ICloneable
     private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
+    private Guid _id;
+
+    [ObservableProperty]
     private double _deep;
 
     [ObservableProperty]
@@ -49,8 +52,8 @@ public partial class ClampDto : ObservableObject, ICloneable
 
     public object Clone() => MemberwiseClone();
 
-    public Clamp Parse() =>
-        new Clamp(Deep, Length, ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient);
+    public Clamp Parse(Guid? id) =>
+        new Clamp(Deep, Length, ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
 
     public override bool Equals(object? obj)
     {
@@ -58,6 +61,7 @@ public partial class ClampDto : ObservableObject, ICloneable
             return false;
 
         return
+            Id == other.Id &&
             Deep == other.Deep &&
             Length == other.Length &&
             ForwardPosition == other.ForwardPosition &&
@@ -68,6 +72,7 @@ public partial class ClampDto : ObservableObject, ICloneable
 
     public override int GetHashCode() =>
         HashCode.Combine(
+            Id,
             Deep,
             _deepRequestString,
             Length,

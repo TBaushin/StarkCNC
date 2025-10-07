@@ -1,9 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace StarkCNC.Core.Models.Adjustment;
+﻿namespace StarkCNC.Core.Models.Adjustment;
 
 public class ClampRoller : ICloneable
 {
+    public Guid Id { get; set; }
     public double OuterRadius { get; set; }
     public double InnerRadius { get; set; }
 

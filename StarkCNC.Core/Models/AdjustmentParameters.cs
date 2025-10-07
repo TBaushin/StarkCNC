@@ -1,4 +1,5 @@
-﻿using StarkCNC.Core.Models.Adjustment;
+﻿using Microsoft.Extensions.DependencyInjection;
+using StarkCNC.Core.Models.Adjustment;
 
 namespace StarkCNC.Core.Models;
 
@@ -20,26 +21,37 @@ public class AdjustmentParameters : ICloneable
 
     public double DistanceFromCenter { get; set; }
 
+    public Guid BendId { get; set; }
     public Bend Bend { get; set; }
 
+    public Guid BendRollerId { get; set; }
     public BendRoller BendRoller { get; set; }
     
+    public Guid ClampId { get; set; }
     public Clamp Clamp { get; set; }
 
+    public Guid ClampRollerId { get; set; }
     public ClampRoller ClampRoller { get; set; }
 
+    public Guid ConsoleId { get; set; }
     public StarkCNC.Core.Models.Adjustment.Console Console { get; set; }
 
+    public Guid DornId { get; set; }
     public Dorn Dorn { get; set; }
 
+    public Guid LiftId { get; set; }
     public Lift Lift { get; set; }
 
+    public Guid PressId { get; set; }
     public Press Press { get; set; }
 
+    public Guid RotationId { get; set; }
     public Rotation Rotation { get; set; }
 
+    public Guid SqueezeId { get; set; }
     public Squeeze Squeeze { get; set; }
 
+    public Guid SupplyId { get; set; }
     public Supply Supply { get; set; }
 
     public AdjustmentParameters(
@@ -71,6 +83,7 @@ public class AdjustmentParameters : ICloneable
         InstalledLevel = installedLevel;
         ForwardDangerZoneCoordinate = forwardDangerZoneCoordinate;
         DistanceFromCenter = distanceFromCenter;
+
         Bend = bend;
         BendRoller = bendRoller;
         Clamp = clamp;
@@ -83,6 +96,8 @@ public class AdjustmentParameters : ICloneable
         Squeeze = squeeze;
         Supply = supply;
     }
+
+    public AdjustmentParameters() { }
 
     public override bool Equals(object? obj)
     {

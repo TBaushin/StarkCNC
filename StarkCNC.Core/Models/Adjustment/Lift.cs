@@ -2,6 +2,7 @@
 
 public class Lift : ICloneable
 {
+    public Guid Id { get; set; }
     public double UpperPosition { get; set; }
     public double MiddlePosition { get; set; }
     public double LowerPosition { get; set; }

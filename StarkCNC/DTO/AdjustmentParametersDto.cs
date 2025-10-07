@@ -37,35 +37,57 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
     private double _distanceFromCenter;
 
     [ObservableProperty]
+    private Guid _bendId;
+    [ObservableProperty]
     private BendDto? _bend;
 
+    [ObservableProperty]
+    private Guid _bendRollerId;
     [ObservableProperty]
     private BendRollerDto? _bendRoller;
 
     [ObservableProperty]
+    private Guid _clampId;
+    [ObservableProperty]
     private ClampDto? _clamp;
 
+    [ObservableProperty]
+    private Guid _clampRollerId;
     [ObservableProperty]
     private ClampRollerDto? _clampRoller;
 
     [ObservableProperty]
+    private Guid _consoleId;
+    [ObservableProperty]
     private ConsoleDto? _console;
 
+    [ObservableProperty]
+    private Guid _dornId;
     [ObservableProperty]
     private DornDto? _dorn;
 
     [ObservableProperty]
+    private Guid _liftId;
+    [ObservableProperty]
     private LiftDto? _lift;
 
+    [ObservableProperty]
+    private Guid _pressId;
     [ObservableProperty]
     private PressDto? _press;
 
     [ObservableProperty]
+    private Guid _rotationId;
+    [ObservableProperty]
     private RotationDto? _rotation;
 
     [ObservableProperty]
+    private Guid _squeezeId;
+    [ObservableProperty]
     private SqueezeDto? _squeeze;
 
+    [ObservableProperty]
+    private Guid _supplyId;
     [ObservableProperty]
     private SupplyDto? _supply;
 
@@ -111,13 +133,10 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
 
     public AdjustmentParameters? Parse(Guid? id)
     {
-        if (id is null)
-            id = Guid.NewGuid();
-
         try
         {
             return new AdjustmentParameters(
-                id.Value,
+                id ?? Guid.NewGuid(),
                 DtoParser.RequireNotNull(Name, nameof(Name)),
                 PipeDiameter,
                 Radius,
@@ -125,17 +144,17 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
                 InstalledLevel,
                 ForwardDangerZoneCoordinate,
                 DistanceFromCenter,
-                DtoParser.RequireNotNull(Bend?.Parse(), nameof(Bend)),
-                DtoParser.RequireNotNull(BendRoller?.Parse(), nameof(BendRoller)),
-                DtoParser.RequireNotNull(Clamp?.Parse(), nameof(Clamp)),
-                DtoParser.RequireNotNull(ClampRoller?.Parse(), nameof(ClampRoller)),
-                DtoParser.RequireNotNull(Console?.Parse(), nameof(Console)),
-                DtoParser.RequireNotNull(Dorn?.Parse(), nameof(Dorn)),
-                DtoParser.RequireNotNull(Lift?.Parse(), nameof(Lift)),
-                DtoParser.RequireNotNull(Press?.Parse(), nameof(Press)),
-                DtoParser.RequireNotNull(Rotation?.Parse(), nameof(Rotation)),
-                DtoParser.RequireNotNull(Squeeze?.Parse(), nameof(Squeeze)),
-                DtoParser.RequireNotNull(Supply?.Parse(), nameof(Supply)));
+                DtoParser.RequireNotNull(Bend?.Parse(BendId), nameof(Bend)),
+                DtoParser.RequireNotNull(BendRoller?.Parse(BendRollerId), nameof(BendRoller)),
+                DtoParser.RequireNotNull(Clamp?.Parse(ClampId), nameof(Clamp)),
+                DtoParser.RequireNotNull(ClampRoller?.Parse(ClampRollerId), nameof(ClampRoller)),
+                DtoParser.RequireNotNull(Console?.Parse(ConsoleId), nameof(Console)),
+                DtoParser.RequireNotNull(Dorn?.Parse(DornId), nameof(Dorn)),
+                DtoParser.RequireNotNull(Lift?.Parse(LiftId), nameof(Lift)),
+                DtoParser.RequireNotNull(Press?.Parse(PressId), nameof(Press)),
+                DtoParser.RequireNotNull(Rotation?.Parse(RotationId), nameof(Rotation)),
+                DtoParser.RequireNotNull(Squeeze?.Parse(SqueezeId), nameof(Squeeze)),
+                DtoParser.RequireNotNull(Supply?.Parse(SupplyId), nameof(Supply)));
         }
         catch (ArgumentNullException)
         {
