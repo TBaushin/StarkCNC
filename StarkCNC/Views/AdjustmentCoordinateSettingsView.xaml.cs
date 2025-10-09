@@ -10,13 +10,13 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class AdjustmentCoordinateSettingsView : Page
     {
-        private SettingsService _settingsService;
+        private ISettingsService _settingsService;
 
         private AdjustmentViewModel ViewModel { get; set; }
         public AdjustmentParametersDto Adjustment { get; set; }
 
         public AdjustmentCoordinateSettingsView(
-            SettingsService settings,
+            ISettingsService settings,
             AdjustmentViewModel viewModel,
             AdjustmentParametersDto adjustment)
         {

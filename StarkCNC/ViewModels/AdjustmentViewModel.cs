@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using StarkCNC.Core.Repository;
+using StarkCNC.Core.Services;
 using StarkCNC.DTO;
 using StarkCNC.Services;
 using StarkCNC.Views;
@@ -171,7 +173,10 @@ public partial class AdjustmentViewModel : ObservableObject
     [RelayCommand]
     private void GoToCoordinateSettings(AdjustmentParametersDto adjustment)
     {
-        _navigationService.Navigate(new AdjustmentCoordinateSettingsView(this, adjustment));
+        _navigationService.Navigate(new AdjustmentCoordinateSettingsView(
+            _serviceProvider.GetRequiredService<ISettingsService>(),
+            this,
+            adjustment));
     }
 
     [RelayCommand]
