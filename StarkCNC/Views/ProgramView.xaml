@@ -284,13 +284,12 @@
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-                                                <controls:PrefixedTextBoxControl
+                                                <controls:LabeledTextBoxControl
                                                     Grid.Row="0"
                                                     Margin="0,5,0,5"
                                                     NeedCallNumberInput="True"
                                                     IsNumericOnly="True"
-                                                    Prefix="Sp:"
-                                                    Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
+                                                    TextBoxText="{Binding StraightLength, StringFormat={}{0} мм}"/>
                                                 <controls:PrefixedTextBoxControl
                                                     Grid.Row="1"
                                                     Margin="0,5,0,5"
@@ -307,12 +306,11 @@
                                                 Grid.Column="5"
                                                 Margin="0,2,0,2"
                                                 Orientation="Vertical">
-                                                <controls:PrefixedTextBoxControl
+                                                <controls:LabeledTextBoxControl
                                                     Margin="0,5,0,5"
                                                     NeedCallNumberInput="True"
                                                     IsNumericOnly="True"
-                                                    Prefix="Sp:"
-                                                    Text="{Binding RotationAngle, StringFormat={}{0}°}"/>
+                                                    TextBoxText="{Binding RotationAngle, StringFormat={}{0}°}"/>
                                                 <controls:PrefixedTextBoxControl
                                                     Margin="0,5,0,5"
                                                     NeedCallNumberInput="True"
@@ -335,15 +333,14 @@
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-                                                <controls:PrefixedTextBoxControl
+                                                <controls:LabeledTextBoxControl
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="3"
                                                     Grid.Row="0"
                                                     Margin="0,5,0,5"
                                                     NeedCallNumberInput="True"
                                                     IsNumericOnly="True"
-                                                    Prefix="Sp:"
-                                                    Text="{Binding BendingAngle, StringFormat={}{0}°}"/>
+                                                    TextBoxText="{Binding BendingAngle, StringFormat={}{0}°}"/>
                                                 <controls:PrefixedTextBoxControl
                                                     Grid.Column="0"
                                                     Grid.Row="1"
@@ -374,12 +371,11 @@
                                                 Grid.Column="10"
                                                 Orientation="Vertical"
                                                 Margin="0,2,0,2">
-                                                <controls:PrefixedTextBoxControl
+                                                <controls:LabeledTextBoxControl
                                                     Margin="0,5,0,5"
                                                     NeedCallNumberInput="True"
                                                     IsNumericOnly="True"
-                                                    Prefix="Sp:"
-                                                    Text="{Binding BendingRadius, StringFormat={}{0} мм}"/>
+                                                    TextBoxText="{Binding BendingRadius, StringFormat={}{0} мм}"/>
                                                 <ComboBox
                                                     Margin="0,5,0,5"
                                                     ItemsSource="{Binding DataContext.BendModeList, RelativeSource={RelativeSource AncestorType=Page}}"/>
@@ -400,15 +396,14 @@
                                                     <RowDefinition Height="*"/>
                                                     <RowDefinition Height="*"/>
                                                 </Grid.RowDefinitions>
-                                                <controls:PrefixedTextBoxControl
+                                                <controls:LabeledTextBoxControl
                                                     Grid.Column="0"
                                                     Grid.ColumnSpan="3"
                                                     Grid.Row="0"
                                                     Margin="0,5,0,5"
                                                     NeedCallNumberInput="True"
                                                     IsNumericOnly="True"
-                                                    Prefix="Sp:"
-                                                    Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
+                                                    TextBoxText="{Binding StraightLength, StringFormat={}{0} мм}"/>
                                                 <controls:PrefixedTextBoxControl
                                                     Grid.Column="0"
                                                     Grid.Row="1"
