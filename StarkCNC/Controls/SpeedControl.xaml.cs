@@ -112,9 +112,7 @@ public partial class SpeedControl : UserControl
         InitializeComponent();
 
         Gauge.Series = GaugeGenerator.BuildAngularGaugeSections(
-            new GaugeItem(50, s => SetStyle(14, 12, new SolidColorPaint(SKColors.DeepSkyBlue), s)),
-            new GaugeItem(25, s => SetStyle(14, 12, new SolidColorPaint(SKColors.Orange), s)),
-            new GaugeItem(25, s => SetStyle(14, 12, new SolidColorPaint(SKColors.Red), s))
+            new GaugeItem(100, s => SetStyle(14, 12, new SolidColorPaint(SKColors.DeepSkyBlue), s))
         );
 
         _needle = new NeedleVisual
