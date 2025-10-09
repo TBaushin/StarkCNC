@@ -377,8 +377,16 @@
                                                     IsNumericOnly="True"
                                                     TextBoxText="{Binding BendingRadius, StringFormat={}{0} мм}"/>
                                                 <ComboBox
-                                                    Margin="0,5,0,5"
-                                                    ItemsSource="{Binding DataContext.BendModeList, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                                                    Margin="0,5,0,5">
+                                                    <!--ItemsSource="{Binding DataContext.BendModeList, RelativeSource={RelativeSource AncestorType=Page}}"-->
+                                                    <ComboBoxItem>Режим гибки</ComboBoxItem>
+                                                    <ComboBoxItem>Гибка</ComboBoxItem>
+                                                    <ComboBoxItem>Пробивка 1</ComboBoxItem>
+                                                    <ComboBoxItem>Пробивка 2</ComboBoxItem>
+                                                    <ComboBoxItem>Перехват</ComboBoxItem>
+                                                    <ComboBoxItem>Спираль</ComboBoxItem>
+                                                    <ComboBoxItem>Гибка с уездом</ComboBoxItem>
+                                                </ComboBox>
                                             </StackPanel>
                                             <Separator
                                                 Grid.Column="11"
