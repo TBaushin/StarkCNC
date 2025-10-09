@@ -235,195 +235,212 @@
                     <ItemsControl ItemsSource="{Binding BendingDatas}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel
-                                    Margin="0,3,0,3"
-                                    Orientation="Vertical">
-                                    <Separator
-                                        Margin="5,0,5,0"
-                                        VerticalAlignment="Stretch"/>
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="Auto"/>
-                                            <ColumnDefinition Width="4*"/>
-                                            <ColumnDefinition Width="4*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label
-                                            Grid.Column="0"
-                                            VerticalAlignment="Center"
-                                            Content="{Binding Id}"/>
+                                <Border
+                                    Margin="8,4,8,4"
+                                    MinHeight="80"
+                                    CornerRadius="4"
+                                    Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                                    <StackPanel
+                                        Margin="0,4,0,4"
+                                        Orientation="Vertical">
                                         <Separator
-                                            Grid.Column="1"
-                                            Margin="4,0,4,0"
+                                            Margin="5,0,5,0"
                                             VerticalAlignment="Stretch"/>
-                                        <Grid
-                                            Grid.Column="2"
-                                            Margin="0,2,0,2">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <controls:PrefixedTextBoxControl
-                                                Grid.Row="0"
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
-                                            <controls:PrefixedTextBoxControl
-                                                Grid.Row="1"
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding StraightLength, StringFormat={}{0}%}"/>
-                                        </Grid>
-                                        <Separator
-                                            Grid.Column="3"
-                                            Margin="4,0,4,0"
-                                            VerticalAlignment="Stretch"/>
-                                        <StackPanel
-                                            Grid.Column="4"
-                                            Margin="0,2,0,2"
-                                            Orientation="Vertical">
-                                            <controls:PrefixedTextBoxControl
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding RotationAngle, StringFormat={}{0}°}"/>
-                                            <controls:PrefixedTextBoxControl
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding RotationAngle, StringFormat={}{0}%}"/>
-                                        </StackPanel>
-                                        <Separator
-                                            Grid.Column="5"
-                                            Margin="4,0,4,0"
-                                            VerticalAlignment="Stretch"/>
-                                        <Grid Grid.Column="6"
-                                              Grid.ColumnSpan="2">
+                                        <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <controls:PrefixedTextBoxControl
-                                                Grid.Column="0"
-                                                Grid.ColumnSpan="3"
-                                                Grid.Row="0"
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding BendingAngle, StringFormat={}{0}°}"/>
-                                            <controls:PrefixedTextBoxControl
-                                                Grid.Column="0"
-                                                Grid.Row="1"
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding BendingAngle, StringFormat={}{0}%}"/>
-                                            <Separator
-                                                Grid.Column="1"
-                                                Grid.Row="1"
-                                                Margin="3,0,3,0"
-                                                VerticalAlignment="Stretch"/>
-                                            <controls:PrefixedTextBoxControl
-                                                Grid.Column="2"
-                                                Grid.Row="1"
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding BendingAngle, StringFormat={}{0}°}"/>
-                                        </Grid>
-                                        <Separator
-                                            Grid.Column="8"
-                                            Margin="3,0,3,0"
-                                            VerticalAlignment="Stretch"/>
-                                        <StackPanel
-                                            Grid.Column="9"
-                                            Orientation="Vertical"
-                                            Margin="0,2,0,2">
-                                            <controls:PrefixedTextBoxControl
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding BendingRadius, StringFormat={}{0} мм}"/>
-                                            <ComboBox
-                                                Margin="0,5,0,5"
-                                                ItemsSource="{Binding DataContext.BendModeList, RelativeSource={RelativeSource AncestorType=Page}}"/>
-                                        </StackPanel>
-                                        <Separator
-                                            Grid.Column="10"
-                                            Margin="4,0,4,0"
-                                            VerticalAlignment="Stretch"/>
-                                        <Grid Grid.Column="11"
-                                              Grid.ColumnSpan="2"
-                                              Margin="0,2,0,2">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
                                                 <ColumnDefinition Width="Auto"/>
-                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="4*"/>
+                                                <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*"/>
-                                                <RowDefinition Height="*"/>
-                                            </Grid.RowDefinitions>
-                                            <controls:PrefixedTextBoxControl
-                                                Grid.Column="0"
-                                                Grid.ColumnSpan="3"
-                                                Grid.Row="0"
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
-                                            <controls:PrefixedTextBoxControl
-                                                Grid.Column="0"
-                                                Grid.Row="1"
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding StraightLength, StringFormat={}{0}°}"/>
                                             <Separator
+                                                Grid.Column="0"
+                                                Margin="4,0,4,0"
+                                                VerticalAlignment="Stretch"/>
+                                            <Label
                                                 Grid.Column="1"
-                                                Grid.Row="1"
+                                                VerticalAlignment="Center"
+                                                HorizontalAlignment="Center"
+                                                Content="{Binding Id}"/>
+                                            <Separator
+                                                Grid.Column="2"
+                                                Margin="4,0,4,0"
+                                                VerticalAlignment="Stretch"/>
+                                            <Grid
+                                                Grid.Column="3"
+                                                Margin="0,2,0,2">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <controls:PrefixedTextBoxControl
+                                                    Grid.Row="0"
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
+                                                <controls:PrefixedTextBoxControl
+                                                    Grid.Row="1"
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding StraightLength, StringFormat={}{0}%}"/>
+                                            </Grid>
+                                            <Separator
+                                                Grid.Column="4"
+                                                Margin="4,0,4,0"
+                                                VerticalAlignment="Stretch"/>
+                                            <StackPanel
+                                                Grid.Column="5"
+                                                Margin="0,2,0,2"
+                                                Orientation="Vertical">
+                                                <controls:PrefixedTextBoxControl
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding RotationAngle, StringFormat={}{0}°}"/>
+                                                <controls:PrefixedTextBoxControl
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding RotationAngle, StringFormat={}{0}%}"/>
+                                            </StackPanel>
+                                            <Separator
+                                                Grid.Column="6"
+                                                Margin="4,0,4,0"
+                                                VerticalAlignment="Stretch"/>
+                                            <Grid Grid.Column="7"
+                                                  Grid.ColumnSpan="2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <controls:PrefixedTextBoxControl
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="3"
+                                                    Grid.Row="0"
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding BendingAngle, StringFormat={}{0}°}"/>
+                                                <controls:PrefixedTextBoxControl
+                                                    Grid.Column="0"
+                                                    Grid.Row="1"
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding BendingAngle, StringFormat={}{0}%}"/>
+                                                <Separator
+                                                    Grid.Column="1"
+                                                    Grid.Row="1"
+                                                    Margin="3,0,3,0"
+                                                    VerticalAlignment="Stretch"/>
+                                                <controls:PrefixedTextBoxControl
+                                                    Grid.Column="2"
+                                                    Grid.Row="1"
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding BendingAngle, StringFormat={}{0}°}"/>
+                                            </Grid>
+                                            <Separator
+                                                Grid.Column="9"
                                                 Margin="3,0,3,0"
                                                 VerticalAlignment="Stretch"/>
-                                            <controls:PrefixedTextBoxControl
-                                                Grid.Column="2"
-                                                Grid.Row="1"
-                                                Margin="0,5,0,5"
-                                                NeedCallNumberInput="True"
-                                                IsNumericOnly="True"
-                                                Prefix="Sp:"
-                                                Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
+                                            <StackPanel
+                                                Grid.Column="10"
+                                                Orientation="Vertical"
+                                                Margin="0,2,0,2">
+                                                <controls:PrefixedTextBoxControl
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding BendingRadius, StringFormat={}{0} мм}"/>
+                                                <ComboBox
+                                                    Margin="0,5,0,5"
+                                                    ItemsSource="{Binding DataContext.BendModeList, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                                            </StackPanel>
+                                            <Separator
+                                                Grid.Column="11"
+                                                Margin="4,0,4,0"
+                                                VerticalAlignment="Stretch"/>
+                                            <Grid Grid.Column="12"
+                                                    Grid.ColumnSpan="2"
+                                                    Margin="0,2,0,2">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="*"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="*"/>
+                                                </Grid.RowDefinitions>
+                                                <controls:PrefixedTextBoxControl
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="3"
+                                                    Grid.Row="0"
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
+                                                <controls:PrefixedTextBoxControl
+                                                    Grid.Column="0"
+                                                    Grid.Row="1"
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding StraightLength, StringFormat={}{0}°}"/>
+                                                <Separator
+                                                    Grid.Column="1"
+                                                    Grid.Row="1"
+                                                    Margin="3,0,3,0"
+                                                    VerticalAlignment="Stretch"/>
+                                                <controls:PrefixedTextBoxControl
+                                                    Grid.Column="2"
+                                                    Grid.Row="1"
+                                                    Margin="0,5,0,5"
+                                                    NeedCallNumberInput="True"
+                                                    IsNumericOnly="True"
+                                                    Prefix="Sp:"
+                                                    Text="{Binding StraightLength, StringFormat={}{0} мм}"/>
+                                            </Grid>
+                                            <Separator
+                                                Grid.Column="14"
+                                                Margin="4,0,4,0"
+                                                VerticalAlignment="Stretch"/>
                                         </Grid>
-                                    </Grid>
-                                    <Separator
-                                        Margin="5,0,5,0"
-                                        VerticalAlignment="Stretch"/>
-                                </StackPanel>
+                                        <Separator
+                                            Margin="5,0,5,0"
+                                            VerticalAlignment="Stretch"/>
+                                    </StackPanel>
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
