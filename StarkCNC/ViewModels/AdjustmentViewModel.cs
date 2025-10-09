@@ -13,6 +13,7 @@ public partial class AdjustmentViewModel : ObservableObject
 {
     private readonly AdjustmentListView _adjustmentListPage;
 
+    private readonly IServiceProvider _serviceProvider;
     private readonly IConfiguration _configuration;
     private readonly INavigationService _navigationService;
     private readonly IAdjustmentRepository _repository;
@@ -23,10 +24,15 @@ public partial class AdjustmentViewModel : ObservableObject
     private AdjustmentParametersDto? _selectedAdjustment;
     public ObservableCollection<AdjustmentParametersDto> SetUpAdjustments { get; private set; } = new ObservableCollection<AdjustmentParametersDto>();
 
-    public AdjustmentViewModel(IConfiguration configuration, INavigationService navigationService, IAdjustmentRepository adjustmentRepository) 
+    public AdjustmentViewModel(
+        IServiceProvider serviceProvider,
+        IConfiguration configuration,
+        INavigationService navigationService,
+        IAdjustmentRepository adjustmentRepository) 
     {
         _adjustmentListPage = new AdjustmentListView(this);
 
+        _serviceProvider = serviceProvider;
         _configuration = configuration;
         _navigationService = navigationService;
         _repository = adjustmentRepository;

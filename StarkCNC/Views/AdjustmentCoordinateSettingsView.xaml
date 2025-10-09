@@ -12,6 +12,7 @@
     <ScrollViewer>
         <StackPanel Orientation="Vertical">
             <Border
+                x:Name="Supply"
                 Margin="8,4,8,4"
                 MinHeight="80"
                 CornerRadius="4"
@@ -75,6 +76,7 @@
                 </Grid>
             </Border>
             <Border
+                x:Name="Console"
                 Margin="8,4,8,4"
                 MinHeight="80"
                 CornerRadius="4"
@@ -144,6 +146,7 @@
                 </Grid>
             </Border>
             <Border
+                x:Name="Rotation"
                 Margin="8,4,8,4"
                 MinHeight="80"
                 CornerRadius="4"
@@ -195,6 +198,7 @@
                 </Grid>
             </Border>
             <Border
+                x:Name="Bend"
                 Margin="8,4,8,4"
                 MinHeight="80"
                 CornerRadius="4"
@@ -253,9 +257,11 @@
             </Border>
             <StackPanel> <!--TODO: Привязать visibility к типу станка - электрический-->
                 <Border
+                    x:Name="Squeeze"
                     Margin="8,4,8,4"
                     MinHeight="80"
                     CornerRadius="4"
+                    Visibility="Collapsed"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                     <Grid
                         Grid.Column="0"
@@ -299,9 +305,11 @@
                     </Grid>
                 </Border>
                 <Border
+                    x:Name="Clamp"
                     Margin="8,4,8,4"
                     MinHeight="80"
                     CornerRadius="4"
+                    Visibility="Collapsed"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                     <Grid
                         Grid.Column="0"
@@ -357,9 +365,11 @@
                     </Grid>
                 </Border>
                 <Border
+                    x:Name="Press"
                     Margin="8,4,8,4"
                     MinHeight="80"
                     CornerRadius="4"
+                    Visibility="Collapsed"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                     <Grid
                         Grid.Column="0"
@@ -415,9 +425,11 @@
                     </Grid>
                 </Border>
                 <Border
+                    x:Name="Dorn"
                     Margin="8,4,8,4"
                     MinHeight="80"
                     CornerRadius="4"
+                    Visibility="Collapsed"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                     <Grid
                         Grid.Column="0"
@@ -473,9 +485,11 @@
                     </Grid>
                 </Border>
                 <Border
+                    x:Name="Lift"
                     Margin="8,4,8,4"
                     MinHeight="80"
                     CornerRadius="4"
+                    Visibility="Collapsed"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
                     <Grid
                         Grid.Column="0"
