@@ -5,7 +5,7 @@ using System.ComponentModel;
 
 namespace StarkCNC.Core.Services;
 
-public class SettingsService : ISettingsService
+public class SettingsService : ISettingsService // Вынести в класс Settings и заменить Service на Repository
 {
     private FloorType? _selectedFloorType;
     private bool _isElectricBendingDrive = false;
@@ -19,7 +19,7 @@ public class SettingsService : ISettingsService
     private string _synchronizationCoefficientRequestString = string.Empty;
     private string _interceptionModeRequestString = string.Empty;
 
-    public IReadOnlyCollection<FloorType> FloorTypes { get; }
+    public IReadOnlyCollection<FloorType> FloorTypes { get; } // TODO: ENUM
 
     public FloorType? SelectedFloorType
     {
@@ -164,7 +164,7 @@ public class SettingsService : ISettingsService
         _interceptionMode = im.GetSection("Default").Get<bool>();
     }
 
-    private void OnPropertyChanged(string propertyName)
+    private void OnPropertyChanged(string propertyName) // TODO отказаться от PropertyChanged и создать Dto
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
