@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.DTO;
@@ -121,7 +122,7 @@ public partial class AdjustmentViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void EditAdjustment(AdjustmentParametersDto adjustment)
+    private async Task EditAdjustment(AdjustmentParametersDto adjustment)
     {
         SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
         var settingsWindow = new AdjustmentSettingsWindow(_configuration, this, "Редактирование оснастки");
@@ -147,6 +148,10 @@ public partial class AdjustmentViewModel : ObservableObject
             SelectedAdjustment.Rotation = result.Rotation;
             SelectedAdjustment.Squeeze = result.Squeeze;
             SelectedAdjustment.Supply = result.Supply;
+
+            AdjustmentParameters? adjustmentParameter = SelectedAdjustment.Parse(SelectedAdjustment.Id);
+            if (adjustmentParameter is not null)
+                await _repository.UpdateElementAsync(adjustmentParameter).ConfigureAwait(false);
         }
     }
 
@@ -191,13 +196,17 @@ public partial class AdjustmentViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void GoToEditParametersSettings(string parameter)
+    private async Task GoToEditParametersSettings(string parameter)
     {
         if (SelectedAdjustment is null)
             return;
 
         var parametersSettingsWindow = new AdjustmentParametersSettingsWindow(SelectedAdjustment, parameter);
         parametersSettingsWindow.ShowDialog();
+
+        AdjustmentParameters? adjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
+        if (adjustment is not null)
+            await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);
     }
 
     private void GetSetUpAdjustments()

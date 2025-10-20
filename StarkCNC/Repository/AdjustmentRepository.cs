@@ -35,8 +35,22 @@ public class AdjustmentRepository : IAdjustmentRepository
         await _context.SaveChangesAsync().ConfigureAwait(false);
     }
 
+    public async Task UpdateElementAsync(AdjustmentParameters adjustment)
+    {
+        var local = FindById(adjustment.Id);
+        if (local is not null)
+            _context.Entry(local).CurrentValues.SetValues(adjustment);
+        else
+            _context.Entry(adjustment).State = EntityState.Modified;
+
+        await _context.SaveChangesAsync().ConfigureAwait(false);
+    }
+
     public IEnumerable<AdjustmentParameters> FindByName(string name) =>
         _context.Adjustments.Where(a => a.Name.Contains(name, StringComparison.CurrentCulture));
+
+    public AdjustmentParameters? FindById(Guid id) =>
+        _context.Adjustments.FirstOrDefault(a => a.Id == id);
 
     public int Count() => _context.Adjustments.Count();
 

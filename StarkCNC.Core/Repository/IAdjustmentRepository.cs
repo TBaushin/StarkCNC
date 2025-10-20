@@ -10,7 +10,11 @@ public interface IAdjustmentRepository
 
     Task RemoveElementAsync(AdjustmentParameters adjustment);
 
+    Task UpdateElementAsync(AdjustmentParameters adjustment);
+
     IEnumerable<AdjustmentParameters> FindByName(string name);
+
+    AdjustmentParameters? FindById(Guid id);
 
     int Count();
 
