@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Text.Json;
 
@@ -47,13 +48,16 @@ public class AppJsonContext : DbContext
             _defaultFileName = defaultFileName;
 
         Database.EnsureCreated();
+
+        ReadAdjustments();
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        DeleteAdjsutments();
         var r = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-        await SaveAdjustments().ConfigureAwait(false);
+        await SaveAdjustments().ConfigureAwait(false); // Записывает новые
 
         return r;
     }
@@ -97,6 +101,37 @@ public class AppJsonContext : DbContext
         return section.GetSection("DefaultFileName").Get<string>();
     }
 
+    [SuppressMessage("Usage", "CA1031", Justification = "Плохое решение, но по другому нельзя")]
+    private void ReadAdjustments()
+    {
+        var currentSavePath = _savePath + "\\Adjustments";
+
+        if (!Directory.Exists(currentSavePath))
+            return;
+
+        var files = Directory.GetFiles(currentSavePath);
+
+        foreach (var file in files)
+        {
+            if (!file.EndsWith(".json", StringComparison.CurrentCulture))
+                continue;
+
+            var json = File.ReadAllText(file);
+            var adjustment = JsonSerializer.Deserialize<AdjustmentParameters>(json);
+            if (adjustment is not null)
+                Adjustments.Add(adjustment);
+        }
+
+        try
+        {
+            SaveChangesAsync().ConfigureAwait(false);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+    }
+
     private async Task SaveAdjustments()
     {
         var toSave = GetToSaveAdjustments();
@@ -107,12 +142,8 @@ public class AppJsonContext : DbContext
             if (!Directory.Exists(currentSavePath))
                 Directory.CreateDirectory(currentSavePath);
 
-
-            var json = JsonSerializer.Serialize(item, new JsonSerializerOptions { WriteIndented = true });
-
             currentSavePath += "\\" + item.Name + ".json";
-
-            await File.WriteAllTextAsync(currentSavePath, json).ConfigureAwait(false);
+            await SaveAdjustment(item, currentSavePath).ConfigureAwait(false);
         }
     }
 
@@ -127,5 +158,38 @@ public class AppJsonContext : DbContext
         }
 
         return toSave;
+    }
+
+    private static async Task SaveAdjustment(AdjustmentParameters adjustment, string currentSavePath)
+    {
+        var json = JsonSerializer.Serialize(adjustment, new JsonSerializerOptions { WriteIndented = true });
+
+        await File.WriteAllTextAsync(currentSavePath, json).ConfigureAwait(false);
+    }
+
+    private void DeleteAdjsutments()
+    {
+        var toDelete = GetToDeleteAdjustments();
+
+        foreach (var item in toDelete)
+        {
+            var currentSavePath = _savePath + "\\Adjustments";
+            var filePath = currentSavePath + "\\" + item.Name + ".json";
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+        }
+    }
+
+    private IEnumerable<AdjustmentParameters> GetToDeleteAdjustments()
+    {
+        var toDelete = new List<AdjustmentParameters>();
+
+        foreach (var a in Adjustments)
+        {
+            if (Entry(a).State == EntityState.Deleted)
+                toDelete.Add(a);
+        }
+
+        return toDelete;
     }
 }
