@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using StarkCNC.Core.Models.Adjustment;
+﻿using StarkCNC.Core.Models.Adjustment;
 
 namespace StarkCNC.Core.Models;
 
