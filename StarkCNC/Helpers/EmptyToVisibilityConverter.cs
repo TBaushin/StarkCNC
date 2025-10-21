@@ -21,7 +21,7 @@ internal sealed class EmptyToVisibilityConverter : IValueConverter
         return value is null ? Visibility.Collapsed : Visibility.Visible;
     }
 
-    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+    public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }

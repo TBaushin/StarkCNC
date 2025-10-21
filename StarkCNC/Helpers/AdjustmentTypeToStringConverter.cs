@@ -6,7 +6,7 @@ namespace StarkCNC.Helpers;
 
 internal class AdjustmentTypeToStringConverter : IValueConverter
 {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not AdjustmentType type)
             return string.Empty;
@@ -20,7 +20,7 @@ internal class AdjustmentTypeToStringConverter : IValueConverter
         return string.Empty;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
         if (value is not string text)
             return AdjustmentType.Winding;
