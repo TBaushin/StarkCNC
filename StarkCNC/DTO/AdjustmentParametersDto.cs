@@ -170,8 +170,8 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
         var adjustmentSection = configuration.GetSection("Adjustment");
 
         var adjustmentTypeSection = configuration.GetSection("AdjustmentType");
-        var type = adjustmentSection.GetSection("Default").Get<bool>() == true ? AdjustmentType.Rolling : AdjustmentType.Winding;
-        var typeRequestString = adjustmentSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+        var type = adjustmentTypeSection.GetSection("Default").Get<bool>() == true ? AdjustmentType.Rolling : AdjustmentType.Winding;
+        var typeRequestString = adjustmentTypeSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var pipeDiameterSection = configuration.GetSection("PipeDiameter");
         var pipeDiameter = pipeDiameterSection.GetSection("Default").Get<double>();

@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-namespace StarkCNC.Core.Models.Adjustment;
+﻿namespace StarkCNC.Core.Models.Adjustment;
 
 public class Squeeze : ICloneable
 {
