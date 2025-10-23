@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
+using StarkCNC.Database;
 
 namespace StarkCNC.Repository;
 
@@ -37,7 +38,7 @@ public class AdjustmentRepository : IAdjustmentRepository
 
     public async Task UpdateElementAsync(AdjustmentParameters adjustment)
     {
-        var local = FindById(adjustment.Id);
+        var local = await FindByIdAsync(adjustment.Id).ConfigureAwait(false);
         if (local is not null)
             _context.Entry(local).CurrentValues.SetValues(adjustment);
         else
@@ -46,19 +47,19 @@ public class AdjustmentRepository : IAdjustmentRepository
         await _context.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public IEnumerable<AdjustmentParameters> FindByName(string name) =>
-        _context.Adjustments.Where(a => a.Name.Contains(name, StringComparison.CurrentCulture));
+    public async Task<IEnumerable<AdjustmentParameters>> FindByNameAsync(string name) =>
+        await _context.Adjustments.Where(a => a.Name.Contains(name, StringComparison.CurrentCulture)).ToListAsync().ConfigureAwait(false);
 
-    public AdjustmentParameters? FindById(Guid id) =>
-        _context.Adjustments.FirstOrDefault(a => a.Id == id);
+    public async Task<AdjustmentParameters?> FindByIdAsync(Guid id) =>
+        await _context.Adjustments.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
 
     public int Count() => _context.Adjustments.Count();
 
-    public IEnumerable<AdjustmentParameters> GetAll() => _context.Adjustments.ToList();
+    public async Task<IEnumerable<AdjustmentParameters>> GetAllAsync() => await _context.Adjustments.ToListAsync().ConfigureAwait(false);
 
     public async Task SetLevelAsync(Guid id, int level)
     {
-        var item = _context.Adjustments.FirstOrDefault(a => a.Id == id);
+        var item = await _context.Adjustments.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
         if (item is null)
             return;
 
@@ -67,9 +68,9 @@ public class AdjustmentRepository : IAdjustmentRepository
         await _context.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public AdjustmentParameters? GetAdjustmentWithLevel(int level) =>
-        _context.Adjustments.FirstOrDefault(a => a.InstalledLevel == level);
+    public async Task<AdjustmentParameters?> GetAdjustmentWithLevelAsync(int level) =>
+        await _context.Adjustments.FirstOrDefaultAsync(a => a.InstalledLevel == level).ConfigureAwait(false);
 
-    public IEnumerable<AdjustmentParameters> GetAdjustmentsWithLevel() =>
-        _context.Adjustments.Where(a => a.InstalledLevel > 0);
+    public async Task<IEnumerable<AdjustmentParameters>> GetAdjustmentsWithLevelAsync() =>
+        await _context.Adjustments.Where(a => a.InstalledLevel > 0).ToListAsync().ConfigureAwait(false);
 }

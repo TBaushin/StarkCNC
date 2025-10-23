@@ -1,5 +1,4 @@
-﻿using StarkCNC.Core.Services;
-using StarkCNC.DTO;
+﻿using StarkCNC.DTO;
 using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
@@ -10,13 +9,14 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class AdjustmentCoordinateSettingsView : Page
     {
-        private ISettingsService _settingsService;
+        private SettingsDto _settingsService;
 
         private AdjustmentViewModel ViewModel { get; set; }
+
         public AdjustmentParametersDto Adjustment { get; set; }
 
         public AdjustmentCoordinateSettingsView(
-            ISettingsService settings,
+            SettingsDto settings,
             AdjustmentViewModel viewModel,
             AdjustmentParametersDto adjustment)
         {

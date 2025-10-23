@@ -1,100 +1,80 @@
-﻿using StarkCNC.Core.Models;
-using StarkCNC.Core.Models.Settings;
-using StarkCNC.Core.Services;
-using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Configuration;
+using StarkCNC.Core.Models;
+using StarkCNC.Core.Repository;
+using StarkCNC.DTO;
+using StarkCNC.Helpers;
+using System.Globalization;
 
 namespace StarkCNC.ViewModels;
 
-public class SettingsViewModel : INotifyPropertyChanged
+public partial class SettingsViewModel : ObservableObject
 {
-    private readonly ISettingsService _settingsService;
+    private ISettingsRepository _settingsRepository;
+    private static FloorTypeToStringConverter _floorTypeToStringConverter = new FloorTypeToStringConverter();
 
-    public bool IsElectricBendingDrive
+    public IReadOnlyCollection<string> Types { get; } = new List<string>()
     {
-        get => _settingsService.IsElectricBendingDrive;
-        set
+        (string)_floorTypeToStringConverter.Convert(FloorType.SingleLevel, typeof(string), null, CultureInfo.CurrentCulture),
+        (string)_floorTypeToStringConverter.Convert(FloorType.TwoLevel, typeof(string), null, CultureInfo.CurrentCulture),
+        (string)_floorTypeToStringConverter.Convert(FloorType.ThreeLevel, typeof(string), null, CultureInfo.CurrentCulture)
+    };
+
+    [ObservableProperty]
+    private SettingsDto _settings;
+
+    [ObservableProperty]
+    private string _selectedType = string.Empty;
+
+
+    public SettingsViewModel(ISettingsRepository settingsRepository, IConfiguration configuration)
+    {
+        if (configuration is null)
+            throw new ArgumentNullException(nameof(configuration));
+
+        _settingsRepository = settingsRepository;
+
+        var settings = _settingsRepository.GetAsync().Result;
+        SettingsDto? settingsDto = null;
+        if (settings is not null)
+            settingsDto = settings.ToDto(configuration);
+
+        if (settingsDto is null)
+            settingsDto = SettingsDto.CreateFromConfiguration(configuration);
+
+        if (settingsDto is not null)
+            Settings = settingsDto;
+
+        SelectedType = (string)_floorTypeToStringConverter.Convert(Settings.FloorType, typeof(string), null, CultureInfo.CurrentCulture);
+
+        Settings.PropertyChanged += Settings_PropertyChanged;
+
+        PropertyChanged += SettingsViewModel_PropertyChanged;
+    }
+
+    private async void Settings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Settings.FloorType))
+            SelectedType = (string)_floorTypeToStringConverter.Convert(Settings.FloorType, typeof(string), null, CultureInfo.CurrentCulture);
+
+        Settings? item;
+        if (Settings.Id is not Guid id)
+            item = Settings.Parse(Settings.Id);
+        else
+            item = await _settingsRepository.FindByIdAsync(id).ConfigureAwait(false);
+
+        if (item is not null)
         {
-            _settingsService.IsElectricBendingDrive = value;
-            OnPropertyChanged(nameof(IsElectricBendingDrive));
+            if (_settingsRepository.Count() == 0)
+                await _settingsRepository.AddElementAsync(item).ConfigureAwait(false);
+            else
+                await _settingsRepository.UpdateElementAsync(item).ConfigureAwait(false);
         }
     }
 
-    public IReadOnlyCollection<FloorType> Floors { get => _settingsService.FloorTypes; }
-
-    public FloorType? SelectedFloorType
+    private void SettingsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        get => _settingsService.SelectedFloorType;
-        set
-        {
-            _settingsService.SelectedFloorType = value;
-            OnPropertyChanged(nameof(SelectedFloorType));
-        }
+        if (e.PropertyName == nameof(SelectedType))
+            Settings.FloorType = (FloorType)_floorTypeToStringConverter.ConvertBack(SelectedType, typeof(FloorType), null, CultureInfo.CurrentCulture);
     }
-
-    public bool IsPunchingCylinder
-    {
-        get => _settingsService.IsPunchingCylinder;
-        set
-        {
-            _settingsService.IsPunchingCylinder = value;
-            OnPropertyChanged(nameof(IsPunchingCylinder));
-        }
-    }
-
-    public bool IsElectricMachine
-    {
-        get => _settingsService.IsElectricMachine;
-        set
-        {
-            _settingsService.IsElectricMachine = value;
-            OnPropertyChanged(nameof(IsElectricMachine));
-        }
-    }
-
-    public double Speed
-    {
-        get => _settingsService.Speed;
-        set
-        {
-            _settingsService.Speed = value;
-            OnPropertyChanged(nameof(Speed));
-        }
-    }
-
-    public double SynchronizationCoefficient
-    {
-        get => _settingsService.SynchronizationCoefficient;
-        set
-        {
-            _settingsService.SynchronizationCoefficient = value;
-            OnPropertyChanged(nameof(SynchronizationCoefficient));
-        }
-    }
-
-    public bool InterceptionMode
-    {
-        get => _settingsService.InterceptionMode;
-        set
-        {
-            _settingsService.InterceptionMode = value;
-            OnPropertyChanged(nameof(InterceptionMode));
-        }
-    }
-
-    public Bend Bend => _settingsService.Bend;
-    public Dorn Dorn => _settingsService.Dorn;
-    public Rotation Rotation => _settingsService.Rotation;
-    public Support Support => _settingsService.Support;
-    public Supply Supply => _settingsService.Supply;
-    public StarkCNC.Core.Models.Settings.Console Console => _settingsService.Console;
-    public Pipe Pipe => _settingsService.Pipe;
-
-    public SettingsViewModel(ISettingsService settingsService)
-    {
-        _settingsService = settingsService;
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 }

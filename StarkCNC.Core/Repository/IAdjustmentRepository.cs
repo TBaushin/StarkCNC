@@ -12,17 +12,17 @@ public interface IAdjustmentRepository
 
     Task UpdateElementAsync(AdjustmentParameters adjustment);
 
-    IEnumerable<AdjustmentParameters> FindByName(string name);
+    Task<IEnumerable<AdjustmentParameters>> FindByNameAsync(string name);
 
-    AdjustmentParameters? FindById(Guid id);
+    Task<AdjustmentParameters?> FindByIdAsync(Guid id);
 
     int Count();
 
-    IEnumerable<AdjustmentParameters> GetAll();
+    Task<IEnumerable<AdjustmentParameters>> GetAllAsync();
 
     Task SetLevelAsync(Guid id, int level);
 
-    AdjustmentParameters? GetAdjustmentWithLevel(int level);
+    Task<AdjustmentParameters?> GetAdjustmentWithLevelAsync(int level);
 
-    IEnumerable<AdjustmentParameters> GetAdjustmentsWithLevel();
+    Task<IEnumerable<AdjustmentParameters>> GetAdjustmentsWithLevelAsync();
 }

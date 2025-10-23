@@ -1,18 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-using System.Text.Json;
 
-namespace StarkCNC;
+namespace StarkCNC.Database;
 
 public class AppJsonContext : DbContext
 {
     private readonly string _savePath;
     private readonly string _defaultFileName;
 
+    private readonly List<IDbHelper> _helpers;
+
     public DbSet<AdjustmentParameters> Adjustments { get; set; }
+    public DbSet<Settings> Settings { get; set; }
 
     public AppJsonContext(DbContextOptions<AppJsonContext> options, IConfiguration configuration) : base(options)
     {
@@ -49,15 +49,24 @@ public class AppJsonContext : DbContext
 
         Database.EnsureCreated();
 
-        ReadAdjustments();
+        _helpers = new List<IDbHelper>() { new AdjustmentDbHelper(_savePath, this), new SettingsDbHelper(_savePath, this) };
+
+        try
+        {
+            _helpers.ForEach(e => e.Read());
+        }
+        catch
+        {
+            // Ignore
+        }
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        DeleteAdjsutments();
+        _helpers.ForEach(async e => await e.Delete().ConfigureAwait(false));
         var r = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
 
-        await SaveAdjustments().ConfigureAwait(false); // Записывает новые
+        _helpers.ForEach(async e => await e.Save().ConfigureAwait(false));
 
         return r;
     }
@@ -99,97 +108,5 @@ public class AppJsonContext : DbContext
             throw new ArgumentNullException(nameof(configuration));
 
         return section.GetSection("DefaultFileName").Get<string>();
-    }
-
-    [SuppressMessage("Usage", "CA1031", Justification = "Плохое решение, но по другому нельзя")]
-    private void ReadAdjustments()
-    {
-        var currentSavePath = _savePath + "\\Adjustments";
-
-        if (!Directory.Exists(currentSavePath))
-            return;
-
-        var files = Directory.GetFiles(currentSavePath);
-
-        foreach (var file in files)
-        {
-            if (!file.EndsWith(".json", StringComparison.CurrentCulture))
-                continue;
-
-            var json = File.ReadAllText(file);
-            var adjustment = JsonSerializer.Deserialize<AdjustmentParameters>(json);
-            if (adjustment is not null)
-                Adjustments.Add(adjustment);
-        }
-
-        try
-        {
-            SaveChangesAsync().ConfigureAwait(false);
-        }
-        catch (Exception)
-        {
-            // Ignore
-        }
-    }
-
-    private async Task SaveAdjustments()
-    {
-        var toSave = GetToSaveAdjustments();
-
-        foreach (var item in toSave)
-        {
-            var currentSavePath = _savePath + "\\Adjustments";
-            if (!Directory.Exists(currentSavePath))
-                Directory.CreateDirectory(currentSavePath);
-
-            currentSavePath += "\\" + item.Name + ".json";
-            await SaveAdjustment(item, currentSavePath).ConfigureAwait(false);
-        }
-    }
-
-    private IEnumerable<AdjustmentParameters> GetToSaveAdjustments()
-    {
-        var toSave = new List<AdjustmentParameters>();
-
-        foreach (var a in Adjustments)
-        {
-            if (Entry(a).State != EntityState.Deleted)
-                toSave.Add(a);
-        }
-
-        return toSave;
-    }
-
-    private static async Task SaveAdjustment(AdjustmentParameters adjustment, string currentSavePath)
-    {
-        var json = JsonSerializer.Serialize(adjustment, new JsonSerializerOptions { WriteIndented = true });
-
-        await File.WriteAllTextAsync(currentSavePath, json).ConfigureAwait(false);
-    }
-
-    private void DeleteAdjsutments()
-    {
-        var toDelete = GetToDeleteAdjustments();
-
-        foreach (var item in toDelete)
-        {
-            var currentSavePath = _savePath + "\\Adjustments";
-            var filePath = currentSavePath + "\\" + item.Name + ".json";
-            if (File.Exists(filePath))
-                File.Delete(filePath);
-        }
-    }
-
-    private IEnumerable<AdjustmentParameters> GetToDeleteAdjustments()
-    {
-        var toDelete = new List<AdjustmentParameters>();
-
-        foreach (var a in Adjustments)
-        {
-            if (Entry(a).State == EntityState.Deleted)
-                toDelete.Add(a);
-        }
-
-        return toDelete;
     }
 }

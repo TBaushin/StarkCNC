@@ -108,7 +108,7 @@ public partial class MainWindowViewModel : ObservableObject
             var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
 
             var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(
-                _serviceProvider.GetRequiredService<ISettingsService>(),
+                _serviceProvider.GetRequiredService<SettingsViewModel>().Settings,
                 adjustmentViewModel,
                 adjustment);
             viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });

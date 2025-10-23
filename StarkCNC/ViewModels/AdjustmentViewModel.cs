@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
-using StarkCNC.Core.Services;
 using StarkCNC.DTO;
 using StarkCNC.Services;
 using StarkCNC.Views;
@@ -40,14 +39,7 @@ public partial class AdjustmentViewModel : ObservableObject
         _navigationService = navigationService;
         _repository = adjustmentRepository;
 
-        foreach (var item in _repository.GetAll())
-        {
-            var dto = item.ToDto(configuration);
-            if (dto is null)
-                continue;
-
-            Adjustments.Add(dto);
-        }
+        UpdateAdjustments();
 
         GetSetUpAdjustments();
     }
@@ -179,7 +171,7 @@ public partial class AdjustmentViewModel : ObservableObject
     private void GoToCoordinateSettings(AdjustmentParametersDto adjustment)
     {
         _navigationService.Navigate(new AdjustmentCoordinateSettingsView(
-            _serviceProvider.GetRequiredService<ISettingsService>(),
+            _serviceProvider.GetRequiredService<SettingsViewModel>().Settings,
             this,
             adjustment));
     }
@@ -209,18 +201,43 @@ public partial class AdjustmentViewModel : ObservableObject
             await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);
     }
 
-    private void GetSetUpAdjustments()
+    private async void UpdateAdjustments()
     {
-        SetUpAdjustments.Clear();
-        var adjustmentsWithLevel = _repository
-            .GetAdjustmentsWithLevel()
-            .ToList();
-        adjustmentsWithLevel.ForEach(awl =>
+        try
         {
-            Adjustments
-                    .Where(a => a.Id.Equals(awl.Id))
-                    .ToList()
-                    .ForEach(a => SetUpAdjustments.Add(a));
-        });
+            foreach (var item in await _repository.GetAllAsync().ConfigureAwait(false))
+            {
+                var dto = item.ToDto(_configuration);
+                if (dto is null)
+                    continue;
+
+                Adjustments.Add(dto);
+            }
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+    }
+
+    private async void GetSetUpAdjustments()
+    {
+        try
+        {
+            SetUpAdjustments.Clear();
+            var adjustmentsWithLevel = await _repository
+                .GetAdjustmentsWithLevelAsync().ConfigureAwait(false);
+            adjustmentsWithLevel.ToList().ForEach(awl =>
+            {
+                Adjustments
+                        .Where(a => a.Id.Equals(awl.Id))
+                        .ToList()
+                        .ForEach(a => SetUpAdjustments.Add(a));
+            });
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
 }

@@ -5,7 +5,7 @@ using StarkCNC.DTO.Adjustment;
 
 namespace StarkCNC.DTO;
 
-internal static class DtoConversions
+internal static class AdjustmentDtoConversions
 {
     public static AdjustmentParametersDto? ToDto(this AdjustmentParameters adjustment, IConfiguration configuration)
     {

@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using StarkCNC.Controls;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
+using StarkCNC.Database;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Repository;
 using StarkCNC.Services;
@@ -37,7 +38,7 @@ public partial class App : Application
                 services.AddDbContext<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IStatusService, StatusService>();
-                services.AddSingleton<ISettingsService, SettingsService>();
+                services.AddSingleton<ISettingsRepository, SettingsRepository>();
                 services.AddSingleton<IGCodeService, GCodeService>();
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
