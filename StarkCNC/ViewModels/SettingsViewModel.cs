@@ -57,11 +57,7 @@ public partial class SettingsViewModel : ObservableObject
         if (e.PropertyName == nameof(Settings.FloorType))
             SelectedType = (string)_floorTypeToStringConverter.Convert(Settings.FloorType, typeof(string), null, CultureInfo.CurrentCulture);
 
-        Settings? item;
-        if (Settings.Id is not Guid id)
-            item = Settings.Parse(Settings.Id);
-        else
-            item = await _settingsRepository.FindByIdAsync(id).ConfigureAwait(false);
+        Settings? item = Settings.Parse(Settings.Id);
 
         if (item is not null)
         {

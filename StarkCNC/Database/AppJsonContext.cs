@@ -90,6 +90,17 @@ public class AppJsonContext : DbContext
             entity.HasOne(a => a.Squeeze).WithMany().HasForeignKey(a => a.SqueezeId);
             entity.HasOne(a => a.Supply).WithMany().HasForeignKey(a => a.SupplyId);
         });
+
+        modelBuilder.Entity<Settings>(entity =>
+        {
+            entity.HasOne(s => s.Bend).WithMany().HasForeignKey(s => s.BendId);
+            entity.HasOne(s => s.Console).WithMany().HasForeignKey(s => s.ConsoleId);
+            entity.HasOne(s => s.Dorn).WithMany().HasForeignKey(s => s.DornId);
+            entity.HasOne(s => s.Pipe).WithMany().HasForeignKey(s => s.PipeId);
+            entity.HasOne(s => s.Rotation).WithMany().HasForeignKey(s => s.RotationId);
+            entity.HasOne(s => s.Supply).WithMany().HasForeignKey(s => s.SupplyId);
+            entity.HasOne(s => s.Support).WithMany().HasForeignKey(s => s.SupportId);
+        });
     }
 
     private static string? GetSavePath(IConfiguration configuration)
