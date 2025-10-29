@@ -2,6 +2,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
 using StarkCNC.DTO.SettingsParameters;
+using System.ComponentModel;
 
 namespace StarkCNC.DTO;
 
@@ -10,6 +11,8 @@ public partial class SettingsDto : ObservableObject, ICloneable
     private string _speedRequestString = string.Empty;
     private string _synchronizationCoefficientRequestString = string.Empty;
     private string _interceptionModeRequestString = string.Empty;
+
+    private Dictionary<string, PropertyChangedEventHandler> _childHandlers = new Dictionary<string, PropertyChangedEventHandler>();
 
     [ObservableProperty]
     private Guid? _id;
@@ -107,7 +110,7 @@ public partial class SettingsDto : ObservableObject, ICloneable
         try
         {
             return new Settings(
-                id ?? Guid.NewGuid(),
+                DtoParseHelper.GetId(Id, id),
                 FloorType,
                 IsElectricBendingDrive,
                 IsPunchingCylinder,
@@ -174,5 +177,41 @@ public partial class SettingsDto : ObservableObject, ICloneable
                 Console = console,
                 Pipe = pipe
             };
+    }
+
+    partial void OnBendChanged(BendDto? oldValue, BendDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Bend));
+
+    partial void OnDornChanged(DornDto? oldValue, DornDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Dorn));
+
+    partial void OnRotationChanged(RotationDto? oldValue, RotationDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Rotation));
+
+    partial void OnSupportChanged(SupportDto? oldValue, SupportDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Support));
+
+    partial void OnSupplyChanged(SupplyDto? oldValue, SupplyDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Supply));
+
+    partial void OnConsoleChanged(ConsoleDto? oldValue, ConsoleDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Console));
+
+    partial void OnPipeChanged(PipeDto? oldValue, PipeDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Pipe));
+
+    private void OnChildChanged(ObservableObject? oldValue, ObservableObject? newValue, string childName)
+    {
+        if (!_childHandlers.TryGetValue(childName, out var handler))
+        {
+            handler = (_, _) => OnPropertyChanged(childName);
+            _childHandlers[childName] = handler;
+        }
+
+        if (oldValue is not null)
+            oldValue.PropertyChanged -= handler;
+
+        if (newValue is not null)
+            newValue.PropertyChanged += handler;
     }
 }

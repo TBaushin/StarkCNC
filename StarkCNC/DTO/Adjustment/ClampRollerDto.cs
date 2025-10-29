@@ -29,7 +29,7 @@ public partial class ClampRollerDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public ClampRoller Parse(Guid? id) =>
-        new ClampRoller(OuterRadius, InnerRadius) { Id = id ?? Guid.NewGuid() };
+        new ClampRoller(OuterRadius, InnerRadius) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

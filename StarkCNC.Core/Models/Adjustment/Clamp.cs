@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class Clamp : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public double Deep { get; set; }
     public double Length { get; set; }

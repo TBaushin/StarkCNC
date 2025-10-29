@@ -35,7 +35,7 @@ public partial class SupportDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Support Parse(Guid? id) =>
-        new Support(FrontLiftBan, MiddleLiftBan, BackLiftBan);
+        new Support(FrontLiftBan, MiddleLiftBan, BackLiftBan) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

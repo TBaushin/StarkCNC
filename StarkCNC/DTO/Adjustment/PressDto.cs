@@ -53,7 +53,7 @@ public partial class PressDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Press Parse(Guid? id) =>
-        new Press(DangerZoneCoordinate, Length, ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
+        new Press(DangerZoneCoordinate, Length, ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

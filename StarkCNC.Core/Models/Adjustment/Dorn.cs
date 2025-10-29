@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class Dorn : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public double ForwardPosition { get; set; }
     public double MiddlePosition { get; set; }

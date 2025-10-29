@@ -41,7 +41,7 @@ public partial class LiftDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Lift Parse(Guid? id) =>
-        new Lift(UpperPosition, MiddlePosition, LowerPosition, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
+        new Lift(UpperPosition, MiddlePosition, LowerPosition, SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

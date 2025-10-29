@@ -35,7 +35,7 @@ public partial class SupplyDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Supply Parse(Guid? id) =>
-        new Supply(ResetedOffset, StartRollingSpeed, Coefficient) { Id = id ?? Guid.NewGuid() };
+        new Supply(ResetedOffset, StartRollingSpeed, Coefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

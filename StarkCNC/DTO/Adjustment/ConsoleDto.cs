@@ -58,7 +58,7 @@ public partial class ConsoleDto : ObservableObject, ICloneable
             SecondFloorIntermediatePosition,
             ThirdFloorPosition,
             PipeRotationDepartureDistance,
-            SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
+            SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

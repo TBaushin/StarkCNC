@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class Supply : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public double PressZonePosition { get; set; }
     public double ForwardDangerZonePosition { get; set; }

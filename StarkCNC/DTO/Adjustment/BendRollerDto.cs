@@ -27,7 +27,7 @@ public partial class BendRollerDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public BendRoller Parse(Guid? id) =>
-        new BendRoller(Radius, OuterRadius) { Id = id ?? Guid.NewGuid() };
+        new BendRoller(Radius, OuterRadius) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

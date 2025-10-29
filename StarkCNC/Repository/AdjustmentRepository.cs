@@ -14,10 +14,12 @@ public class AdjustmentRepository : IAdjustmentRepository
         _context = context;
     }
 
-    public async Task AddElementAsync(AdjustmentParameters adjustment)
+    public async Task<AdjustmentParameters?> AddElementAsync(AdjustmentParameters adjustment)
     {
         await _context.AddAsync(adjustment).ConfigureAwait(false);
         await _context.SaveChangesAsync().ConfigureAwait(false);
+
+        return adjustment;
     }
 
     public async Task RemoveElementAsync(Guid id)
@@ -25,22 +27,28 @@ public class AdjustmentRepository : IAdjustmentRepository
         var item = _context.Adjustments.FirstOrDefault(a => a.Id == id);
         if (item is not null)
         {
-            _context.Adjustments.Remove(item);
+            _context.Remove(item);
             await _context.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 
     public async Task RemoveElementAsync(AdjustmentParameters adjustment)
     {
-        _context.Adjustments.Remove(adjustment);
+        _context.Remove(adjustment);
         await _context.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task UpdateElementAsync(AdjustmentParameters adjustment)
     {
+        if (adjustment is null)
+            throw new ArgumentNullException(nameof(adjustment));
+
         var local = await FindByIdAsync(adjustment.Id).ConfigureAwait(false);
         if (local is not null)
+        {
             _context.Entry(local).CurrentValues.SetValues(adjustment);
+            UpdateLocalEntry(adjustment, local);
+        }
         else
             _context.Entry(adjustment).State = EntityState.Modified;
 
@@ -73,4 +81,19 @@ public class AdjustmentRepository : IAdjustmentRepository
 
     public async Task<IEnumerable<AdjustmentParameters>> GetAdjustmentsWithLevelAsync() =>
         await _context.Adjustments.Where(a => a.InstalledLevel > 0).ToListAsync().ConfigureAwait(false);
+
+    private void UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local)
+    {
+        _context.Entry(local.Bend).CurrentValues.SetValues(item.Bend);
+        _context.Entry(local.BendRoller).CurrentValues.SetValues(item.BendRoller);
+        _context.Entry(local.Clamp).CurrentValues.SetValues(item.Clamp);
+        _context.Entry(local.ClampRoller).CurrentValues.SetValues(item.ClampRoller);
+        _context.Entry(local.Console).CurrentValues.SetValues(item.Console);
+        _context.Entry(local.Dorn).CurrentValues.SetValues(item.Dorn);
+        _context.Entry(local.Lift).CurrentValues.SetValues(item.Lift);
+        _context.Entry(local.Press).CurrentValues.SetValues(item.Press);
+        _context.Entry(local.Rotation).CurrentValues.SetValues(item.Rotation);
+        _context.Entry(local.Squeeze).CurrentValues.SetValues(item.Squeeze);
+        _context.Entry(local.Supply).CurrentValues.SetValues(item.Supply);
+    }
 }

@@ -53,7 +53,7 @@ public partial class ClampDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Clamp Parse(Guid? id) =>
-        new Clamp(Deep, Length, ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
+        new Clamp(Deep, Length, ForwardPosition, MiddlePosition, BackwardPosition, SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

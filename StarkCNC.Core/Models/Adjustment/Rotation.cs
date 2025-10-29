@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class Rotation : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public double OffsetAfterZeroSearch { get; set; }
     public double SpeedCoefficient { get; set; }

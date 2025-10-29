@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.SettingsParameters;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.SettingsParameters;
 
 public class Dorn : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public bool Automatic { get; set; }
     public bool LubricantTurnOn { get; set; }
@@ -30,4 +33,11 @@ public class Dorn : ICloneable
             LubricantTurnOn == other.LubricantTurnOn &&
             LeadWithdrawalBeforeBend == other.LeadWithdrawalBeforeBend;
     }
+
+    public override int GetHashCode() =>
+        HashCode.Combine(
+            Id,
+            Automatic,
+            LubricantTurnOn,
+            LeadWithdrawalBeforeBend);
 }

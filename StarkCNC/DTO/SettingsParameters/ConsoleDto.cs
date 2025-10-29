@@ -21,7 +21,7 @@ public partial class ConsoleDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public StarkCNC.Core.Models.SettingsParameters.Console Parse(Guid? id) =>
-        new StarkCNC.Core.Models.SettingsParameters.Console(Coefficient) { Id = id ?? Guid.NewGuid() };
+        new StarkCNC.Core.Models.SettingsParameters.Console(Coefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

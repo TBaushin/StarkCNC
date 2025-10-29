@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class ClampRoller : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public double OuterRadius { get; set; }
     public double InnerRadius { get; set; }

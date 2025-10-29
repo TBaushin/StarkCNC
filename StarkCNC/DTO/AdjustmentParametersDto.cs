@@ -136,7 +136,7 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
         try
         {
             return new AdjustmentParameters(
-                id ?? Guid.NewGuid(),
+                DtoParseHelper.GetId(Id, id),
                 DtoParser.RequireNotNull(Name, nameof(Name)),
                 PipeDiameter,
                 Radius,

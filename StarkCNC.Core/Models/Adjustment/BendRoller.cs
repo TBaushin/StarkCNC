@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class BendRoller : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public double Radius { get; set; }
     public double OuterRadius { get; set; }

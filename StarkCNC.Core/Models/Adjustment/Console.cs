@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class Console : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public double BendPosition { get; set; }
     public double SecondFloorPosition { get; set; }

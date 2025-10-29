@@ -35,7 +35,7 @@ public partial class SqueezeDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Squeeze Parse(Guid? id) =>
-        new Squeeze(TurnOn, FrontPositionLimitation, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
+        new Squeeze(TurnOn, FrontPositionLimitation, SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

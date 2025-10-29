@@ -1,9 +1,12 @@
 ﻿using StarkCNC.Core.Models.Adjustment;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StarkCNC.Core.Models;
 
 public class AdjustmentParameters : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
@@ -21,36 +24,58 @@ public class AdjustmentParameters : ICloneable
     public double DistanceFromCenter { get; set; }
 
     public Guid BendId { get; set; }
+
+    [ForeignKey(nameof(BendId))]
     public Bend Bend { get; set; }
 
     public Guid BendRollerId { get; set; }
+
+    [ForeignKey(nameof(BendRollerId))]
     public BendRoller BendRoller { get; set; }
-    
+
     public Guid ClampId { get; set; }
+
+    [ForeignKey(nameof(ClampId))]
     public Clamp Clamp { get; set; }
 
     public Guid ClampRollerId { get; set; }
+
+    [ForeignKey(nameof(ClampRollerId))]
     public ClampRoller ClampRoller { get; set; }
 
     public Guid ConsoleId { get; set; }
+
+    [ForeignKey(nameof(ConsoleId))]
     public StarkCNC.Core.Models.Adjustment.Console Console { get; set; }
 
     public Guid DornId { get; set; }
+
+    [ForeignKey(nameof(DornId))]
     public Dorn Dorn { get; set; }
 
     public Guid LiftId { get; set; }
+
+    [ForeignKey(nameof(LiftId))]
     public Lift Lift { get; set; }
 
     public Guid PressId { get; set; }
+
+    [ForeignKey(nameof(PressId))]
     public Press Press { get; set; }
 
     public Guid RotationId { get; set; }
+
+    [ForeignKey(nameof(RotationId))]
     public Rotation Rotation { get; set; }
 
     public Guid SqueezeId { get; set; }
+
+    [ForeignKey(nameof(SqueezeId))]
     public Squeeze Squeeze { get; set; }
 
     public Guid SupplyId { get; set; }
+
+    [ForeignKey(nameof(SupplyId))]
     public Supply Supply { get; set; }
 
     public AdjustmentParameters(
@@ -84,16 +109,27 @@ public class AdjustmentParameters : ICloneable
         DistanceFromCenter = distanceFromCenter;
 
         Bend = bend;
+        BendId = Bend.Id;
         BendRoller = bendRoller;
+        BendRollerId = bendRoller.Id;
         Clamp = clamp;
+        ClampId = Clamp.Id;
         ClampRoller = clampRoller;
+        ClampRollerId = ClampRoller.Id;
         Console = console;
+        ConsoleId = Console.Id;
         Dorn = dorn;
+        DornId = Dorn.Id;
         Lift = lift;
+        LiftId = Lift.Id;
         Press = press;
+        PressId = Press.Id;
         Rotation = rotation;
+        RotationId = Rotation.Id;
         Squeeze = squeeze;
+        SqueezeId = Squeeze.Id;
         Supply = supply;
+        SupplyId = Supply.Id;
     }
 
     public AdjustmentParameters() { }

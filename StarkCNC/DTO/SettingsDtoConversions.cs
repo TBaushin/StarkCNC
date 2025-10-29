@@ -25,12 +25,19 @@ internal static class SettingsDtoConversions
         settingsDto.SynchronizationCoefficient = settings.SynchronizationCoefficient;
         settingsDto.InterceptionMode = settings.InterceptionMode;
         settingsDto.Bend = settings.Bend.ToDto(configuration);
+        settingsDto.BendId = settings.BendId;
         settingsDto.Dorn = settings.Dorn.ToDto(configuration);
+        settingsDto.DornId = settings.DornId;
         settingsDto.Rotation = settings.Rotation.ToDto(configuration);
+        settingsDto.RotationId = settings.RotationId;
         settingsDto.Support = settings.Support.ToDto(configuration);
+        settingsDto.SupportId = settings.SupportId;
         settingsDto.Supply = settings.Supply.ToDto(configuration);
+        settingsDto.SupplyId = settings.SupplyId;
         settingsDto.Console = settings.Console.ToDto(configuration);
+        settingsDto.ConsoleId = settings.ConsoleId;
         settingsDto.Pipe = settings.Pipe.ToDto(configuration);
+        settingsDto.PipeId = settings.PipeId;
 
         return settingsDto;
     }

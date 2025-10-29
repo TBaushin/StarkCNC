@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
@@ -11,6 +12,7 @@ namespace StarkCNC.ViewModels;
 public partial class SettingsViewModel : ObservableObject
 {
     private ISettingsRepository _settingsRepository;
+    private IConfiguration _configuration;
     private static FloorTypeToStringConverter _floorTypeToStringConverter = new FloorTypeToStringConverter();
 
     public IReadOnlyCollection<string> Types { get; } = new List<string>()
@@ -34,13 +36,15 @@ public partial class SettingsViewModel : ObservableObject
 
         _settingsRepository = settingsRepository;
 
+        _configuration = configuration;
+
         var settings = _settingsRepository.GetAsync().Result;
         SettingsDto? settingsDto = null;
         if (settings is not null)
             settingsDto = settings.ToDto(configuration);
 
         if (settingsDto is null)
-            settingsDto = SettingsDto.CreateFromConfiguration(configuration);
+            settingsDto = SettingsDto.CreateFromConfiguration(_configuration);
 
         if (settingsDto is not null)
             Settings = settingsDto;
@@ -52,25 +56,34 @@ public partial class SettingsViewModel : ObservableObject
         PropertyChanged += SettingsViewModel_PropertyChanged;
     }
 
-    private async void Settings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    [RelayCommand]
+    private async Task SaveOrUpdateSettings()
     {
-        if (e.PropertyName == nameof(Settings.FloorType))
-            SelectedType = (string)_floorTypeToStringConverter.Convert(Settings.FloorType, typeof(string), null, CultureInfo.CurrentCulture);
-
         Settings? item = Settings.Parse(Settings.Id);
 
         if (item is not null)
         {
             if (_settingsRepository.Count() == 0)
-                await _settingsRepository.AddElementAsync(item).ConfigureAwait(false);
+            {
+                var settings = await _settingsRepository.AddElementAsync(item).ConfigureAwait(false);
+                if (settings is not null)
+                    Settings = settings.ToDto(_configuration);
+            }
             else
                 await _settingsRepository.UpdateElementAsync(item).ConfigureAwait(false);
         }
     }
 
+    private void Settings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        SaveOrUpdateSettingsCommand.Execute(null);
+    }
+
     private void SettingsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
         if (e.PropertyName == nameof(SelectedType))
+        {
             Settings.FloorType = (FloorType)_floorTypeToStringConverter.ConvertBack(SelectedType, typeof(FloorType), null, CultureInfo.CurrentCulture);
+        }
     }
 }

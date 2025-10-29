@@ -92,8 +92,16 @@ public partial class AdjustmentViewModel : ObservableObject
 
             var newAdjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
             if (newAdjustment is not null)
-                await _repository.AddElementAsync(newAdjustment).ConfigureAwait(false);
+            {
+                var item = await _repository.AddElementAsync(newAdjustment).ConfigureAwait(false);
+                if (item is null)
+                    return;
+
+                SelectedAdjustment = item.ToDto(_configuration);
+            }
         }
+        
+        UpdateAdjustments();
     }
 
     [RelayCommand]
@@ -111,6 +119,8 @@ public partial class AdjustmentViewModel : ObservableObject
             Adjustments.Remove(adjustment);
             await _repository.RemoveElementAsync(id).ConfigureAwait(false);
         }
+        
+        UpdateAdjustments();
     }
 
     [RelayCommand]
@@ -145,6 +155,8 @@ public partial class AdjustmentViewModel : ObservableObject
             if (adjustmentParameter is not null)
                 await _repository.UpdateElementAsync(adjustmentParameter).ConfigureAwait(false);
         }
+        
+        UpdateAdjustments();
     }
 
     [RelayCommand]
@@ -203,6 +215,7 @@ public partial class AdjustmentViewModel : ObservableObject
 
     private async void UpdateAdjustments()
     {
+        Adjustments.Clear();
         try
         {
             foreach (var item in await _repository.GetAllAsync().ConfigureAwait(false))

@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class Squeeze : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public bool TurnOn { get; set; }
     public double FrontPositionLimitation { get; set; }

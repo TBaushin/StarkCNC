@@ -22,7 +22,7 @@ public partial class PipeDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Pipe Parse(Guid? id) =>
-        new Pipe(OutletCoordinate) { Id = id ?? Guid.NewGuid() };
+        new Pipe(OutletCoordinate) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

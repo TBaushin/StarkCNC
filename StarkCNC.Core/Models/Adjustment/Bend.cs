@@ -1,7 +1,10 @@
-﻿namespace StarkCNC.Core.Models.Adjustment;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace StarkCNC.Core.Models.Adjustment;
 
 public class Bend : ICloneable
 {
+    [Key]
     public Guid Id { get; set; }
     public double ForwardPositionLimitation { get; set; }
     public double SpeedCoefficient { get; set; }

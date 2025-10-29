@@ -35,7 +35,7 @@ public partial class DornDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Dorn Parse(Guid? id) =>
-        new Dorn(Automatic, LubricantTurnOn, LeadWithdrawalBeforeBend) { Id = id ?? Guid.NewGuid() };
+        new Dorn(Automatic, LubricantTurnOn, LeadWithdrawalBeforeBend) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

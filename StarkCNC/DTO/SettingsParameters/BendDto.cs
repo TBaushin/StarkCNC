@@ -27,7 +27,7 @@ public partial class BendDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Bend Parse(Guid? id) =>
-        new Bend(Coefficient, Synchronization) { Id = id ?? Guid.NewGuid() };
+        new Bend(Coefficient, Synchronization) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

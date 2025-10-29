@@ -29,7 +29,7 @@ public partial class RotationDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Rotation Parse(Guid? id) =>
-        new Rotation(OffsetAfterZeroSearch, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
+        new Rotation(OffsetAfterZeroSearch, SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

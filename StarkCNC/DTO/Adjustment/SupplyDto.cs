@@ -41,7 +41,7 @@ public partial class SupplyDto : ObservableObject, ICloneable
     public object Clone() => MemberwiseClone();
 
     public Supply Parse(Guid? id) =>
-        new Supply(PressZonePosition, ForwardDangerZonePosition, ColletJawsDepth, SpeedCoefficient) { Id = id ?? Guid.NewGuid() };
+        new Supply(PressZonePosition, ForwardDangerZonePosition, ColletJawsDepth, SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {

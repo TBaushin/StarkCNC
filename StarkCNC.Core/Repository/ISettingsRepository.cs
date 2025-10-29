@@ -4,7 +4,7 @@ namespace StarkCNC.Core.Repository;
 
 public interface ISettingsRepository
 {
-    Task AddElementAsync(Settings settings);
+    Task<Settings?> AddElementAsync(Settings settings);
 
     Task UpdateElementAsync(Settings settings);
 
@@ -13,7 +13,4 @@ public interface ISettingsRepository
     Task<Settings?> GetAsync();
 
     int Count();
-
-    static bool CanBeAdded(IEnumerable<Settings> settingsCollection) =>
-        !settingsCollection.Any();
 }
