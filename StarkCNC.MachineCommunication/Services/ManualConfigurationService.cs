@@ -92,7 +92,7 @@ public class ManualConfigurationService : IManualConfigurationService
             _statusService.Status = Localization.Language.GetDataRequestErrorMessage + $" {from}";
         }
 
-         return default;
+        return default;
     }
   
     private void RunUpdateTask()
