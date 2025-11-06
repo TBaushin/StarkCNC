@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using StarkCNC.Core.Models;
+﻿using StarkCNC.Core.Models;
 using StarkCNC.DTO;
 using StarkCNC.Helpers;
 using StarkCNC.ViewModels;
@@ -45,7 +44,7 @@ public partial class AdjustmentSettingsWindow : Window
         }
     }
 
-    public AdjustmentSettingsWindow(IConfiguration configuration, AdjustmentViewModel viewModel, string Title = "Добавление новой оснастки")
+    public AdjustmentSettingsWindow(AdjustmentViewModel viewModel, string Title = "Добавление новой оснастки")
     {
         ViewModel = viewModel;
 
@@ -57,7 +56,7 @@ public partial class AdjustmentSettingsWindow : Window
         if (_oldParameters is not null)
             Result = (AdjustmentParametersDto)_oldParameters.Clone();
         else
-            Result = AdjustmentParametersDto.CreateFromConfiguration(configuration);
+            Result = AdjustmentParametersDto.CreateFromConfiguration();
 
         InitializeComponent();
         TitleTextBlock.Text = Title;

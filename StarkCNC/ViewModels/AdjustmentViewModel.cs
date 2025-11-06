@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
@@ -15,8 +14,6 @@ public partial class AdjustmentViewModel : ObservableObject
 {
     private readonly AdjustmentListView _adjustmentListPage;
 
-    private readonly IServiceProvider _serviceProvider;
-    private readonly IConfiguration _configuration;
     private readonly INavigationService _navigationService;
     private readonly IAdjustmentRepository _repository;
 
@@ -24,18 +21,15 @@ public partial class AdjustmentViewModel : ObservableObject
 
     [ObservableProperty]
     private AdjustmentParametersDto? _selectedAdjustment;
+
     public ObservableCollection<AdjustmentParametersDto> SetUpAdjustments { get; private set; } = new ObservableCollection<AdjustmentParametersDto>();
 
     public AdjustmentViewModel(
-        IServiceProvider serviceProvider,
-        IConfiguration configuration,
         INavigationService navigationService,
         IAdjustmentRepository adjustmentRepository) 
     {
         _adjustmentListPage = new AdjustmentListView(this);
 
-        _serviceProvider = serviceProvider;
-        _configuration = configuration;
         _navigationService = navigationService;
         _repository = adjustmentRepository;
 
@@ -59,14 +53,14 @@ public partial class AdjustmentViewModel : ObservableObject
     [RelayCommand]
     private async Task CreateAdjustment()
     {
-        var adjustment = AdjustmentParametersDto.CreateFromConfiguration(_configuration);
+        var adjustment = AdjustmentParametersDto.CreateFromConfiguration();
         if (adjustment is null)
             throw new ArgumentNullException(nameof(adjustment));
 
         Adjustments.Add(adjustment);
 
         SelectedAdjustment = adjustment;
-        var settingsWindow = new AdjustmentSettingsWindow(_configuration, this);
+        var settingsWindow = new AdjustmentSettingsWindow(this);
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
@@ -97,7 +91,7 @@ public partial class AdjustmentViewModel : ObservableObject
                 if (item is null)
                     return;
 
-                SelectedAdjustment = item.ToDto(_configuration);
+                SelectedAdjustment = item.ToDto();
             }
         }
         
@@ -127,7 +121,7 @@ public partial class AdjustmentViewModel : ObservableObject
     private async Task EditAdjustment(AdjustmentParametersDto adjustment)
     {
         SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
-        var settingsWindow = new AdjustmentSettingsWindow(_configuration, this, "Редактирование оснастки");
+        var settingsWindow = new AdjustmentSettingsWindow(this, "Редактирование оснастки");
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
@@ -183,7 +177,7 @@ public partial class AdjustmentViewModel : ObservableObject
     private void GoToCoordinateSettings(AdjustmentParametersDto adjustment)
     {
         _navigationService.Navigate(new AdjustmentCoordinateSettingsView(
-            _serviceProvider.GetRequiredService<SettingsViewModel>().Settings,
+            App.ServiceProvider.GetRequiredService<SettingsViewModel>().Settings,
             this,
             adjustment));
     }
@@ -220,7 +214,7 @@ public partial class AdjustmentViewModel : ObservableObject
         {
             foreach (var item in await _repository.GetAllAsync().ConfigureAwait(false))
             {
-                var dto = item.ToDto(_configuration);
+                var dto = item.ToDto();
                 if (dto is null)
                     continue;
 
@@ -252,5 +246,35 @@ public partial class AdjustmentViewModel : ObservableObject
         {
             // Ignore
         }
+    }
+
+    private async Task<AdjustmentParametersDto?> SaveOrUpdateSettings(AdjustmentParametersDto adjustment)
+    {
+        AdjustmentParameters? item = adjustment.Parse(adjustment.Id);
+
+        if (item is not null)
+        {
+            if (_repository.Count() == 0)
+            {
+                var settings = await _repository.AddElementAsync(item).ConfigureAwait(false);
+                if (settings is not null)
+                    return settings.ToDto();
+            }
+            else
+                await _repository.UpdateElementAsync(item).ConfigureAwait(false);
+
+            return item.ToDto();
+        }
+
+        return null;
+    }
+
+    private async void Adjustment_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        var adjustment = sender as AdjustmentParametersDto;
+        if (adjustment is null)
+            return;
+
+        await SaveOrUpdateSettings(adjustment).ConfigureAwait(false);
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using StarkCNC.Core.Models;
+﻿using StarkCNC.Core.Models;
 using StarkCNC.Core.Models.SettingsParameters;
 using StarkCNC.DTO.SettingsParameters;
 
@@ -7,14 +6,14 @@ namespace StarkCNC.DTO;
 
 internal static class SettingsDtoConversions
 {
-    public static SettingsDto? ToDto(this Settings settings, IConfiguration configuration)
+    public static SettingsDto? ToDto(this Settings settings)
     {
         if (settings is null)
             throw new ArgumentNullException(nameof(settings));
 
-        var settingsDto = SettingsDto.CreateFromConfiguration(configuration);
+        var settingsDto = SettingsDto.CreateFromConfiguration();
         if (settingsDto is null)
-            throw new ArgumentNullException(nameof(configuration), $"Section \"Settings\" or inner sections not found in {nameof(configuration)}");
+            throw new ArgumentException(nameof(settingsDto));
 
         settingsDto.Id = settings.Id;
         settingsDto.FloorType = settings.FloorType;
@@ -24,30 +23,30 @@ internal static class SettingsDtoConversions
         settingsDto.Speed = settings.Speed;
         settingsDto.SynchronizationCoefficient = settings.SynchronizationCoefficient;
         settingsDto.InterceptionMode = settings.InterceptionMode;
-        settingsDto.Bend = settings.Bend.ToDto(configuration);
+        settingsDto.Bend = settings.Bend.ToDto();
         settingsDto.BendId = settings.BendId;
-        settingsDto.Dorn = settings.Dorn.ToDto(configuration);
+        settingsDto.Dorn = settings.Dorn.ToDto();
         settingsDto.DornId = settings.DornId;
-        settingsDto.Rotation = settings.Rotation.ToDto(configuration);
+        settingsDto.Rotation = settings.Rotation.ToDto();
         settingsDto.RotationId = settings.RotationId;
-        settingsDto.Support = settings.Support.ToDto(configuration);
+        settingsDto.Support = settings.Support.ToDto();
         settingsDto.SupportId = settings.SupportId;
-        settingsDto.Supply = settings.Supply.ToDto(configuration);
+        settingsDto.Supply = settings.Supply.ToDto();
         settingsDto.SupplyId = settings.SupplyId;
-        settingsDto.Console = settings.Console.ToDto(configuration);
+        settingsDto.Console = settings.Console.ToDto();
         settingsDto.ConsoleId = settings.ConsoleId;
-        settingsDto.Pipe = settings.Pipe.ToDto(configuration);
+        settingsDto.Pipe = settings.Pipe.ToDto();
         settingsDto.PipeId = settings.PipeId;
 
         return settingsDto;
     }
 
-    public static BendDto? ToDto(this Bend bend, IConfiguration configuration)
+    public static BendDto? ToDto(this Bend bend)
     {
         if (bend is null)
             throw new ArgumentNullException(nameof(bend));
 
-        var bendDto = BendDto.CreateFromConfiguration(configuration.GetSection("Settings"));
+        var bendDto = BendDto.CreateFromConfiguration(App.Configuration.GetSection("Settings"));
         if (bendDto is null)
             return bendDto;
 
@@ -58,12 +57,12 @@ internal static class SettingsDtoConversions
         return bendDto;
     }
 
-    public static DornDto? ToDto(this Dorn dorn, IConfiguration configuration)
+    public static DornDto? ToDto(this Dorn dorn)
     {
         if (dorn is null)
             throw new ArgumentNullException(nameof(dorn));
 
-        var dornDto = DornDto.CreateFromConfiguration(configuration.GetSection("Settings"));
+        var dornDto = DornDto.CreateFromConfiguration(App.Configuration.GetSection("Settings"));
         if (dornDto is null)
             return dornDto;
 
@@ -75,12 +74,12 @@ internal static class SettingsDtoConversions
         return dornDto;
     }
 
-    public static RotationDto? ToDto(this Rotation rotation, IConfiguration configuration)
+    public static RotationDto? ToDto(this Rotation rotation)
     {
         if (rotation is null)
             throw new ArgumentNullException(nameof(rotation));
 
-        var rotationDto = RotationDto.CreateFromConfiguration(configuration.GetSection("Settings"));
+        var rotationDto = RotationDto.CreateFromConfiguration(App.Configuration.GetSection("Settings"));
         if (rotationDto is null)
             return rotationDto;
 
@@ -91,12 +90,12 @@ internal static class SettingsDtoConversions
         return rotationDto;
     }
 
-    public static SupportDto? ToDto(this Support support, IConfiguration configuration)
+    public static SupportDto? ToDto(this Support support)
     {
         if (support is null)
             throw new ArgumentNullException(nameof(support));
 
-        var supportDto = SupportDto.CreateFromConfiguration(configuration.GetSection("Settings"));
+        var supportDto = SupportDto.CreateFromConfiguration(App.Configuration.GetSection("Settings"));
         if (supportDto is null)
             return supportDto;
 
@@ -108,12 +107,12 @@ internal static class SettingsDtoConversions
         return supportDto;
     }
 
-    public static SupplyDto? ToDto(this Supply supply, IConfiguration configuration)
+    public static SupplyDto? ToDto(this Supply supply)
     {
         if (supply is null)
             throw new ArgumentNullException(nameof(supply));
 
-        var supplyDto = SupplyDto.CreateFromConfiguration(configuration.GetSection("Settings"));
+        var supplyDto = SupplyDto.CreateFromConfiguration(App.Configuration.GetSection("Settings"));
         if (supplyDto is null)
             return supplyDto;
 
@@ -125,12 +124,12 @@ internal static class SettingsDtoConversions
         return supplyDto;
     }
 
-    public static ConsoleDto? ToDto(this StarkCNC.Core.Models.SettingsParameters.Console console, IConfiguration configuration)
+    public static ConsoleDto? ToDto(this StarkCNC.Core.Models.SettingsParameters.Console console)
     {
         if (console is null)
             throw new ArgumentNullException(nameof(console));
 
-        var consoleDto = ConsoleDto.CreateFromConfiguration(configuration.GetSection("Settings"));
+        var consoleDto = ConsoleDto.CreateFromConfiguration(App.Configuration.GetSection("Settings"));
         if (consoleDto is null)
             return consoleDto;
 
@@ -140,12 +139,12 @@ internal static class SettingsDtoConversions
         return consoleDto;
     }
 
-    public static PipeDto? ToDto(this Pipe pipe, IConfiguration configuration)
+    public static PipeDto? ToDto(this Pipe pipe)
     {
         if (pipe is null)
             throw new ArgumentNullException(nameof(pipe));
 
-        var pipeDto = PipeDto.CreateFromConfiguration(configuration.GetSection("Settings"));
+        var pipeDto = PipeDto.CreateFromConfiguration(App.Configuration.GetSection("Settings"));
         if (pipeDto is null)
             return pipeDto;
 

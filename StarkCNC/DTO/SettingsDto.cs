@@ -132,12 +132,9 @@ public partial class SettingsDto : ObservableObject, ICloneable
         }
     }
 
-    public static SettingsDto? CreateFromConfiguration(IConfiguration configuration)
+    public static SettingsDto? CreateFromConfiguration()
     {
-        if (configuration is null)
-            throw new ArgumentNullException(nameof(configuration));
-
-        var settingsSection = configuration.GetSection("Settings");
+        var settingsSection = App.Configuration.GetSection("Settings");
         var floorType = FloorType.SingleLevel;
 
         var speedSection = settingsSection.GetSection("Speed");

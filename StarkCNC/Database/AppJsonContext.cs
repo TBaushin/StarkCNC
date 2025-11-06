@@ -13,12 +13,9 @@ public class AppJsonContext : DbContext
     public DbSet<AdjustmentParameters> Adjustments { get; set; }
     public DbSet<Settings> Settings { get; set; }
 
-    public AppJsonContext(DbContextOptions<AppJsonContext> options, IConfiguration configuration) : base(options)
+    public AppJsonContext(DbContextOptions<AppJsonContext> options) : base(options)
     {
-        if (configuration is null)
-            throw new ArgumentNullException(nameof(configuration));
-
-        _savePath = GetSavePath(configuration);
+        _savePath = GetSavePath();
 
         Database.EnsureCreated();
 
@@ -44,9 +41,9 @@ public class AppJsonContext : DbContext
         return r;
     }
 
-    private static string GetSavePath(IConfiguration configuration)
+    private static string GetSavePath()
     {
-        var section = configuration.GetSection("SaveParameters");
+        var section = App.Configuration.GetSection("SaveParameters");
         if (section is null)
             return AppDomain.CurrentDomain.BaseDirectory;
 

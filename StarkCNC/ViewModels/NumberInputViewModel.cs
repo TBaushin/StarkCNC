@@ -1,28 +1,17 @@
-﻿using CommunityToolkit.Mvvm.Input;
-using System.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System.Globalization;
 
 namespace StarkCNC.ViewModels;
 
-public partial class NumberInputViewModel : INotifyPropertyChanged
+public partial class NumberInputViewModel : ObservableObject
 {
     private bool _needAddPoint;
+
+    public double ResultValue { get; set; }
+
+    [ObservableProperty]
     private string _outputValue = string.Empty;
-
-    public double ResultValue { get; set; } = 0;
-
-    public string OutputValue
-    {
-        get => _outputValue;
-        set
-        {
-            _outputValue = value;
-            TryConvertToDouble();
-            OnPropertyChanged(nameof(OutputValue));
-        }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     public void AddNumber(string number)
     {
@@ -65,11 +54,6 @@ public partial class NumberInputViewModel : INotifyPropertyChanged
     {
         Double.TryParse(OutputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var result);
         ResultValue = result;
-    }
-
-    private void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
     public static double ShowDialog()

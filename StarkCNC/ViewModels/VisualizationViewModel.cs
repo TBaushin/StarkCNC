@@ -9,12 +9,10 @@ namespace StarkCNC.ViewModels;
 public class VisualizationViewModel : ObservableObject
 {
     private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
-    private readonly IConfiguration _configuration;
 
-    public VisualizationViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IConfiguration configuration)
+    public VisualizationViewModel(IBendingModelsLoadingService bendingModelsLoadingService)
     {
         _bendingModelsLoadingService = bendingModelsLoadingService;
-        _configuration = configuration;
 
         LoadModels();
     }
@@ -41,7 +39,7 @@ public class VisualizationViewModel : ObservableObject
 
     private void LoadModels()
     {
-        ICollection<LoadingModel>? loadingModels = _configuration.GetSection("ModelsPath").Get<ICollection<LoadingModel>>();
+        ICollection<LoadingModel>? loadingModels = App.Configuration.GetSection("ModelsPath").Get<ICollection<LoadingModel>>();
         if (loadingModels is null)
             return;
         foreach (var item in loadingModels)

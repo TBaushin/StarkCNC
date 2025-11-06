@@ -18,18 +18,14 @@ public partial class MainWindow : Window
 {
     private readonly INavigationService _navigationService;
 
-    private readonly IServiceProvider _serviceProvider;
-
     public MainWindowViewModel ViewModel { get; set; }
 
     public FlyoutMenuControl FlyoutMenu { get; set; }
 
-    public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService, IServiceProvider serviceProvider)
+    public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService)
     {
         _navigationService = navigationService;
         _navigationService.Navigation += OnNavigation;
-
-        _serviceProvider = serviceProvider;
 
         ViewModel = viewModel;
         DataContext = ViewModel;
@@ -39,7 +35,7 @@ public partial class MainWindow : Window
         UpdateWindowBackground();
         UpdateMainWindowVisuals();
         
-        FlyoutMenu = _serviceProvider.GetRequiredService<FlyoutMenuControl>();
+        FlyoutMenu = App.ServiceProvider.GetRequiredService<FlyoutMenuControl>();
         FlyoutMenu.Pages = ViewModel.Pages;
         Grid.SetRowSpan(FlyoutMenu, 2);
         PageGrid.Children.Add(FlyoutMenu);
@@ -76,7 +72,7 @@ public partial class MainWindow : Window
 
     private void UpdateWindowBackground()
     {
-        if ((!Utility.IsBackdropDisabled() && !Utility.IsBackdropSupported()))
+        if (!Utility.IsBackdropDisabled() && !Utility.IsBackdropSupported())
         {
             this.SetResourceReference(BackgroundProperty, "WindowBackground");
         }

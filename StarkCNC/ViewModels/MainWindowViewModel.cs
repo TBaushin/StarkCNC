@@ -19,8 +19,6 @@ public partial class MainWindowViewModel : ObservableObject
 
     private readonly INavigationService _navigationService;
 
-    private readonly IServiceProvider _serviceProvider;
-
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
     [ObservableProperty]
@@ -37,29 +35,27 @@ public partial class MainWindowViewModel : ObservableObject
     private string _status = string.Empty;
 
     public MainWindowViewModel(
-        IServiceProvider serviceProvider,
         INavigationService navigationService,
         IStatusService statusService,
         AdjustmentViewModel adjustmentViewModel) 
     {
-        _serviceProvider = serviceProvider;
         _navigationService = navigationService;
         _adjustmentViewModel = adjustmentViewModel;
 
-        if(statusService is not null)
+        if (statusService is not null)
             statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
         _adjustmentPage = new ViewData(new AdjustmentView(_adjustmentViewModel)) { IconGlyph = "\uE726" };
         AdjustmentUpdateChildElements();
         _pages = [
-            new ViewData(new ManualView(_serviceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE732" },
-            new ViewData(new VisualizationView(_serviceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },
-            new ViewData(new ProgramView(_serviceProvider.GetRequiredService<ProgramViewModel>())) { IconGlyph = "\uE726" },
+            new ViewData(new ManualView(App.ServiceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE732" },
+            new ViewData(new VisualizationView(App.ServiceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },
+            new ViewData(new ProgramView(App.ServiceProvider.GetRequiredService<ProgramViewModel>())) { IconGlyph = "\uE726" },
             _adjustmentPage
         ];
 
-        _settingsPage = new SettingsView(_serviceProvider.GetRequiredService<SettingsViewModel>());
-        _userPage = new UserView(_serviceProvider.GetRequiredService<UserViewModel>());
+        _settingsPage = new SettingsView(App.ServiceProvider.GetRequiredService<SettingsViewModel>());
+        _userPage = new UserView(App.ServiceProvider.GetRequiredService<UserViewModel>());
 
         _adjustmentViewModel.SetUpAdjustments.CollectionChanged += SetUpAdjustments_CollectionChanged;
     }
@@ -100,7 +96,7 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void AdjustmentUpdateChildElements()
     {
-        var adjustmentViewModel = _serviceProvider.GetRequiredService<AdjustmentViewModel>();
+        var adjustmentViewModel = App.ServiceProvider.GetRequiredService<AdjustmentViewModel>();
         _adjustmentPage.Items.Clear();
         foreach (var adjustment in _adjustmentViewModel.SetUpAdjustments)
         {
@@ -108,7 +104,7 @@ public partial class MainWindowViewModel : ObservableObject
             var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
 
             var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(
-                _serviceProvider.GetRequiredService<SettingsViewModel>().Settings,
+                App.ServiceProvider.GetRequiredService<SettingsViewModel>().Settings,
                 adjustmentViewModel,
                 adjustment);
             viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });

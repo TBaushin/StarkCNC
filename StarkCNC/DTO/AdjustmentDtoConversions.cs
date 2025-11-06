@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using StarkCNC.Core.Models;
+﻿using StarkCNC.Core.Models;
 using StarkCNC.Core.Models.Adjustment;
 using StarkCNC.DTO.Adjustment;
 
@@ -7,12 +6,12 @@ namespace StarkCNC.DTO;
 
 internal static class AdjustmentDtoConversions
 {
-    public static AdjustmentParametersDto? ToDto(this AdjustmentParameters adjustment, IConfiguration configuration)
+    public static AdjustmentParametersDto? ToDto(this AdjustmentParameters adjustment)
     {
         if (adjustment is null)
             throw new ArgumentNullException(nameof(adjustment));
 
-        var adjustmentDto = AdjustmentParametersDto.CreateFromConfiguration(configuration);
+        var adjustmentDto = AdjustmentParametersDto.CreateFromConfiguration();
         if (adjustmentDto is null)
             throw new ArgumentException(nameof(adjustmentDto));
 
@@ -24,26 +23,26 @@ internal static class AdjustmentDtoConversions
         adjustmentDto.InstalledLevel = adjustment.InstalledLevel;
         adjustmentDto.ForwardDangerZoneCoordinate = adjustment.ForwardDangerZoneCoordinate;
         adjustmentDto.DistanceFromCenter = adjustment.DistanceFromCenter;
-        adjustmentDto.Bend = adjustment.Bend.ToDto(configuration);
-        adjustmentDto.BendRoller = adjustment.BendRoller.ToDto(configuration);
-        adjustmentDto.Clamp = adjustment.Clamp.ToDto(configuration);
-        adjustmentDto.ClampRoller = adjustment.ClampRoller.ToDto(configuration);
-        adjustmentDto.Console = adjustment.Console.ToDto(configuration);
-        adjustmentDto.Dorn = adjustment.Dorn.ToDto(configuration);
-        adjustmentDto.Lift = adjustment.Lift.ToDto(configuration);
-        adjustmentDto.Press = adjustment.Press.ToDto(configuration);
-        adjustmentDto.Rotation = adjustment.Rotation.ToDto(configuration);
-        adjustmentDto.Squeeze = adjustment.Squeeze.ToDto(configuration);
-        adjustmentDto.Supply = adjustment.Supply.ToDto(configuration);
+        adjustmentDto.Bend = adjustment.Bend.ToDto();
+        adjustmentDto.BendRoller = adjustment.BendRoller.ToDto();
+        adjustmentDto.Clamp = adjustment.Clamp.ToDto();
+        adjustmentDto.ClampRoller = adjustment.ClampRoller.ToDto();
+        adjustmentDto.Console = adjustment.Console.ToDto();
+        adjustmentDto.Dorn = adjustment.Dorn.ToDto();
+        adjustmentDto.Lift = adjustment.Lift.ToDto();
+        adjustmentDto.Press = adjustment.Press.ToDto();
+        adjustmentDto.Rotation = adjustment.Rotation.ToDto();
+        adjustmentDto.Squeeze = adjustment.Squeeze.ToDto();
+        adjustmentDto.Supply = adjustment.Supply.ToDto();
         return adjustmentDto;
     }
 
-    public static BendDto? ToDto(this Bend bend, IConfiguration configuration)
+    public static BendDto? ToDto(this Bend bend)
     {
         if (bend is null)
             throw new ArgumentNullException(nameof(bend));
 
-        var bendDto = BendDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var bendDto = BendDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (bendDto is null)
             return bendDto;
 
@@ -54,12 +53,12 @@ internal static class AdjustmentDtoConversions
         return bendDto;
     }
 
-    public static BendRollerDto? ToDto(this BendRoller bendRoller, IConfiguration configuration)
+    public static BendRollerDto? ToDto(this BendRoller bendRoller)
     {
         if (bendRoller is null)
             throw new ArgumentNullException(nameof(bendRoller));
 
-        var bendRollerDto = BendRollerDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var bendRollerDto = BendRollerDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (bendRollerDto is null)
             return bendRollerDto;
 
@@ -69,12 +68,12 @@ internal static class AdjustmentDtoConversions
         return bendRollerDto;
     }
 
-    public static ClampDto? ToDto(this Clamp clamp, IConfiguration configuration)
+    public static ClampDto? ToDto(this Clamp clamp)
     {
         if (clamp is null)
             throw new ArgumentNullException(nameof(clamp));
 
-        var clampDto = ClampDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var clampDto = ClampDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (clampDto is null)
             return clampDto;
 
@@ -88,12 +87,12 @@ internal static class AdjustmentDtoConversions
         return clampDto;
     }
 
-    public static ClampRollerDto? ToDto(this ClampRoller clampRoller, IConfiguration configuration)
+    public static ClampRollerDto? ToDto(this ClampRoller clampRoller)
     {
         if (clampRoller is null)
             throw new ArgumentNullException(nameof(clampRoller));
 
-        var clampRollerDto = ClampRollerDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var clampRollerDto = ClampRollerDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (clampRollerDto is null)
             return clampRollerDto;
 
@@ -103,12 +102,12 @@ internal static class AdjustmentDtoConversions
         return clampRollerDto;
     }
 
-    public static ConsoleDto? ToDto(this StarkCNC.Core.Models.Adjustment.Console console, IConfiguration configuration)
+    public static ConsoleDto? ToDto(this StarkCNC.Core.Models.Adjustment.Console console)
     {
         if (console is null)
             throw new ArgumentNullException(nameof(console));
 
-        var consoleDto = ConsoleDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var consoleDto = ConsoleDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (consoleDto is null)
             return consoleDto;
 
@@ -122,12 +121,12 @@ internal static class AdjustmentDtoConversions
         return consoleDto;
     }
 
-    public static DornDto? ToDto(this Dorn dorn, IConfiguration configuration)
+    public static DornDto? ToDto(this Dorn dorn)
     {
         if (dorn is null)
             throw new ArgumentNullException(nameof(dorn));
 
-        var dornDto = DornDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var dornDto = DornDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (dornDto is null)
             return dornDto;
 
@@ -139,12 +138,12 @@ internal static class AdjustmentDtoConversions
         return dornDto;
     }
 
-    public static LiftDto? ToDto(this Lift lift, IConfiguration configuration)
+    public static LiftDto? ToDto(this Lift lift)
     {
         if (lift is null)
             throw new ArgumentNullException(nameof(lift));
 
-        var liftDto = LiftDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var liftDto = LiftDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (liftDto is null)
             return liftDto;
 
@@ -156,12 +155,12 @@ internal static class AdjustmentDtoConversions
         return liftDto;
     }
 
-    public static PressDto? ToDto(this Press press, IConfiguration configuration)
+    public static PressDto? ToDto(this Press press)
     {
         if (press is null)
             throw new ArgumentNullException(nameof(press));
 
-        var pressDto = PressDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var pressDto = PressDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (pressDto is null)
             return pressDto;
 
@@ -175,12 +174,12 @@ internal static class AdjustmentDtoConversions
         return pressDto;
     }
 
-    public static RotationDto? ToDto(this Rotation rotation, IConfiguration configuration)
+    public static RotationDto? ToDto(this Rotation rotation)
     {
         if (rotation is null)
             throw new ArgumentNullException(nameof(rotation));
 
-        var rotationDto = RotationDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var rotationDto = RotationDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (rotationDto is null)
             return rotationDto;
 
@@ -190,12 +189,12 @@ internal static class AdjustmentDtoConversions
         return rotationDto;
     }
 
-    public static SqueezeDto? ToDto(this Squeeze squeeze, IConfiguration configuration)
+    public static SqueezeDto? ToDto(this Squeeze squeeze)
     {
         if (squeeze is null)
             throw new ArgumentNullException(nameof(squeeze));
 
-        var squeezeDto = SqueezeDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var squeezeDto = SqueezeDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (squeezeDto is null)
             return squeezeDto;
 
@@ -206,12 +205,12 @@ internal static class AdjustmentDtoConversions
         return squeezeDto;
     }
 
-    public static SupplyDto? ToDto(this Supply supply, IConfiguration configuration)
+    public static SupplyDto? ToDto(this Supply supply)
     {
         if (supply is null)
             throw new ArgumentNullException(nameof(supply));
 
-        var supplyDto = SupplyDto.CreateFromConfiguration(configuration.GetSection("Adjustment"));
+        var supplyDto = SupplyDto.CreateFromConfiguration(App.Configuration.GetSection("Adjustment"));
         if (supplyDto is null)
             return supplyDto;
 

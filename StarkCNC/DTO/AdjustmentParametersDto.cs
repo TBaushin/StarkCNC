@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
 using StarkCNC.DTO.Adjustment;
+using System.ComponentModel;
 
 namespace StarkCNC.DTO;
 
@@ -11,6 +12,8 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
     private string _pipeDiameterRequestString = string.Empty;
     private string _forwardDangerZoneCoordinateRequestString = string.Empty;
     private string _distanceFromCenterRequestString = string.Empty;
+
+    private Dictionary<string, PropertyChangedEventHandler> _childHandlers = new Dictionary<string, PropertyChangedEventHandler>();
 
     [ObservableProperty]
     private Guid? _id;
@@ -162,26 +165,23 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
         }
     }
 
-    public static AdjustmentParametersDto? CreateFromConfiguration(IConfiguration configuration)
+    public static AdjustmentParametersDto? CreateFromConfiguration()
     {
-        if (configuration is null)
-            throw new ArgumentNullException(nameof(configuration));
+        var adjustmentSection = App.Configuration.GetSection("Adjustment");
 
-        var adjustmentSection = configuration.GetSection("Adjustment");
-
-        var adjustmentTypeSection = configuration.GetSection("AdjustmentType");
+        var adjustmentTypeSection = adjustmentSection.GetSection("AdjustmentType");
         var type = adjustmentTypeSection.GetSection("Default").Get<bool>() == true ? AdjustmentType.Rolling : AdjustmentType.Winding;
         var typeRequestString = adjustmentTypeSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
-        var pipeDiameterSection = configuration.GetSection("PipeDiameter");
+        var pipeDiameterSection = adjustmentSection.GetSection("PipeDiameter");
         var pipeDiameter = pipeDiameterSection.GetSection("Default").Get<double>();
         var pipeDiameterRequestString = pipeDiameterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
-        var forwardDangerZoneSection = configuration.GetSection("ForwardDangerZone");
+        var forwardDangerZoneSection = adjustmentSection.GetSection("ForwardDangerZone");
         var forwardDangerZoneCoordinate = forwardDangerZoneSection.GetSection("Default").Get<double>();
         var forwardDangerZoneCoordinateRequestString = forwardDangerZoneSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
-        var distanceFromCenterSection = configuration.GetSection("DistanceFromCenter");
+        var distanceFromCenterSection = adjustmentSection.GetSection("DistanceFromCenter");
         var distanceFromCenter = distanceFromCenterSection.GetSection("Default").Get<double>();
         var distanceFromCenterRequestString = distanceFromCenterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
@@ -219,5 +219,53 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
             Squeeze = squeeze,
             Supply = supply,
         };
+    }
+
+    partial void OnBendChanged(BendDto? oldValue, BendDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Bend));
+
+    partial void OnBendRollerChanged(BendRollerDto? oldValue, BendRollerDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(BendRoller));
+
+    partial void OnClampChanged(ClampDto? oldValue, ClampDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Clamp));
+
+    partial void OnClampRollerChanged(ClampRollerDto? oldValue, ClampRollerDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(ClampRoller));
+
+    partial void OnConsoleChanged(ConsoleDto? oldValue, ConsoleDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Console));
+
+    partial void OnDornChanged(DornDto? oldValue, DornDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Dorn));
+
+    partial void OnLiftChanged(LiftDto? oldValue, LiftDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Lift));
+
+    partial void OnPressChanged(PressDto? oldValue, PressDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Press));
+
+    partial void OnRotationChanged(RotationDto? oldValue, RotationDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Rotation));
+
+    partial void OnSqueezeChanged(SqueezeDto? oldValue, SqueezeDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Squeeze));
+
+    partial void OnSupplyChanged(SupplyDto? oldValue, SupplyDto? newValue) =>
+        OnChildChanged(oldValue, newValue, nameof(Supply));
+
+    private void OnChildChanged(ObservableObject? oldValue, ObservableObject? newValue, string childName)
+    {
+        if (!_childHandlers.TryGetValue(childName, out var handler))
+        {
+            handler = (_, _) => OnPropertyChanged(childName);
+            _childHandlers[childName] = handler;
+        }
+
+        if (oldValue is not null)
+            oldValue.PropertyChanged -= handler;
+
+        if (newValue is not null)
+            newValue.PropertyChanged += handler;
     }
 }

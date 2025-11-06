@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.DTO;
@@ -12,7 +11,6 @@ namespace StarkCNC.ViewModels;
 public partial class SettingsViewModel : ObservableObject
 {
     private ISettingsRepository _settingsRepository;
-    private IConfiguration _configuration;
     private static FloorTypeToStringConverter _floorTypeToStringConverter = new FloorTypeToStringConverter();
 
     public IReadOnlyCollection<string> Types { get; } = new List<string>()
@@ -29,22 +27,17 @@ public partial class SettingsViewModel : ObservableObject
     private string _selectedType = string.Empty;
 
 
-    public SettingsViewModel(ISettingsRepository settingsRepository, IConfiguration configuration)
+    public SettingsViewModel(ISettingsRepository settingsRepository)
     {
-        if (configuration is null)
-            throw new ArgumentNullException(nameof(configuration));
-
         _settingsRepository = settingsRepository;
-
-        _configuration = configuration;
 
         var settings = _settingsRepository.GetAsync().Result;
         SettingsDto? settingsDto = null;
         if (settings is not null)
-            settingsDto = settings.ToDto(configuration);
+            settingsDto = settings.ToDto();
 
         if (settingsDto is null)
-            settingsDto = SettingsDto.CreateFromConfiguration(_configuration);
+            settingsDto = SettingsDto.CreateFromConfiguration();
 
         if (settingsDto is not null)
             Settings = settingsDto;
@@ -67,7 +60,7 @@ public partial class SettingsViewModel : ObservableObject
             {
                 var settings = await _settingsRepository.AddElementAsync(item).ConfigureAwait(false);
                 if (settings is not null)
-                    Settings = settings.ToDto(_configuration);
+                    Settings = settings.ToDto();
             }
             else
                 await _settingsRepository.UpdateElementAsync(item).ConfigureAwait(false);

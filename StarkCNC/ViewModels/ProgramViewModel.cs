@@ -32,13 +32,13 @@ public partial class ProgramViewModel : ObservableObject
         get => _pipe;
     }
 
-    public ProgramViewModel(IServiceProvider serviceProvider, IBendingModelsLoadingService bendingModelsLoadingService, IGCodeService gCodeService)
+    public ProgramViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IGCodeService gCodeService)
     {
 
         _bendingModelsLoadingService = bendingModelsLoadingService;
         _gCodeService = gCodeService;
 
-        serviceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
+        App.ServiceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
         _bendingModelsLoadingService.PropertyChanged += (sender, args) =>
         {
             if (args.PropertyName == nameof(IBendingModelsLoadingService.Carriage))
@@ -72,7 +72,7 @@ public partial class ProgramViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private async void OpenFile()
+    private async Task OpenFile()
     {
         var dialog = new OpenFileDialog();
         dialog.DefaultExt = _gcodeExtension;

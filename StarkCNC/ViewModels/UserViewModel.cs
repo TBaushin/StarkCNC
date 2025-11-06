@@ -68,7 +68,7 @@ public partial class UserViewModel : ObservableObject
     private async Task RemoveUser(User selectedUser)
     {
         cancelTokenSource.Cancel();
-        await displayMessageTask;
+        await displayMessageTask.ConfigureAwait(false);
 
         DeletedName = selectedUser.Name;
 

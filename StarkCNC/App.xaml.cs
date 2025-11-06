@@ -23,18 +23,33 @@ namespace StarkCNC;
 /// </summary>
 public partial class App : Application
 {
+    private static IHost _host = RegisterServices();
+
     public static IConfiguration Configuration { get; private set; } = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .Build();
 
+    public static IServiceProvider ServiceProvider { get; } = _host.Services;
+
     public App()
     {
-        
-        IHost host = Host.CreateDefaultBuilder()
+        _host.Start();
+
+        LiveCharts.Configure(c =>
+        {
+            c.AddDarkTheme();
+        });
+
+        InitializeComponent();
+        MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        MainWindow.Visibility = Visibility.Visible;
+    }
+
+    private static IHost RegisterServices() =>
+        Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
-                services.AddSingleton<IConfiguration>(App.Configuration);
                 services.AddDbContext<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IStatusService, StatusService>();
@@ -60,15 +75,4 @@ public partial class App : Application
                 services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
             })
             .Build();
-        host.Start();
-
-        LiveCharts.Configure(c =>
-        {
-            c.AddDarkTheme();
-        });
-
-        InitializeComponent();
-        MainWindow = host.Services.GetRequiredService<MainWindow>();
-        MainWindow.Visibility = Visibility.Visible;
-    }
 }
