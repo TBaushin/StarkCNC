@@ -19,40 +19,19 @@ public class NavigationService : INavigationService
         {
             _currentContent = value;
 
-            if (value is Page page)
-                Navigation?.Invoke(this, new NavigationEventArgs(page.Title));
+            if (value is not null)
+            {
+                NavigateToContent(value);
+
+                if (value is Page page)
+                    Navigation?.Invoke(this, new NavigationEventArgs(page));
+            }
         } 
     }
 
-    public bool CanGoBack
-    {
-        get
-        {
-            if (_history.Count <= 0)
-                return false;
+    public bool CanGoBack => _history.Any();
 
-            var content = _history.Peek();
-            if (content is null)
-                return false;
-
-            return true;
-        }
-    }
-
-    public bool CanGoForward
-    {
-        get
-        {
-            if (_future.Count <= 0)
-                return false;
-
-            var content = _future.Peek();
-            if (content is null)
-                return false;
-
-            return true;
-        }
-    }
+    public bool CanGoForward => _future.Any();
 
     public event EventHandler<NavigationEventArgs>? Navigation;
 
@@ -64,8 +43,6 @@ public class NavigationService : INavigationService
         if (_currentContent is not null)
             _future.Push(_currentContent);
         CurrentContent = _history.Pop();
-
-        NavigateToContent(CurrentContent);
     }
 
     public void GoForward()
@@ -76,8 +53,6 @@ public class NavigationService : INavigationService
         if (_currentContent is not null)
             _history.Push(_currentContent);
         CurrentContent = _future.Pop();
-
-        NavigateToContent(CurrentContent);
     }
 
     public void Navigate(object content)
@@ -87,8 +62,6 @@ public class NavigationService : INavigationService
         if (_currentContent is not null)
             _history.Push(_currentContent);
         CurrentContent = content;
-
-        NavigateToContent(content);
     }
 
     public void SetFrame(Frame frame)

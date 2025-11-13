@@ -1,13 +1,17 @@
-﻿namespace StarkCNC.Services;
+﻿using System.Windows.Controls;
+
+namespace StarkCNC.Services;
 
 public class NavigationEventArgs
 {
-    public string? PageTitle { get; set; }
+    public string? Title { get; set; }
+    public Page? Page { get; set; }
 
     public NavigationEventArgs() { }
 
-    public NavigationEventArgs(string? pageTitle)
+    public NavigationEventArgs(Page? page)
     {
-        PageTitle = pageTitle;
+        Page = page;
+        Title = page?.Title;
     }
 }
