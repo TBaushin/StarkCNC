@@ -1,6 +1,4 @@
-﻿using Gcode.Utils;
-using Gcode.Utils.Entity;
-using StarkCNC.Core.Models;
+﻿using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
 using System.IO;
 using System.Text;
@@ -14,23 +12,12 @@ public class GCodeService : IGCodeService
         if (data is null)
             return;
 
-        var gcodes = new List<GcodeCommandFrame>();
+        var builder = new StringBuilder();
         foreach (var item in data)
         {
-            gcodes.Add(new GcodeCommandFrame()
-            { 
-                Y = item.StraightLength, 
-                C = item.BendingAngle, 
-                R = item.BendingRadius, 
-                B = item.RotationAngle
-            });
+            var str = ConvertToSaveString(item);
+            builder.AppendLine(str);
         }
-
-        var gcodeSB = new StringBuilder();
-        gcodes.ForEach(gcode =>
-        {
-            gcodeSB.AppendLine(gcode.ToString());
-        });
 
         if (!File.Exists(path))
         {
@@ -38,8 +25,8 @@ public class GCodeService : IGCodeService
             fs.Close();
         }
 
-        await using StreamWriter writer = new StreamWriter(path);
-        await writer.WriteAsync(gcodeSB.ToString()).ConfigureAwait(false);
+        using StreamWriter writer = new StreamWriter(path);
+        await writer.WriteAsync(builder.ToString()).ConfigureAwait(false);
         writer.Close();
     }
 
@@ -54,33 +41,126 @@ public class GCodeService : IGCodeService
             .ToList();
         rawContent.ForEach(c =>
         {
-            if (!string.IsNullOrEmpty(c))
-            {
-                var gcodeConverted = c.ToGcodeCommandFrame();
-
-                data.Add(new BendingData()
-                {
-                    StraightLength = GetValueOrDefault(gcodeConverted, g => g.Y),
-                    BendingAngle = GetValueOrDefault(gcodeConverted, g => g.C),
-                    BendingRadius = GetValueOrDefault(gcodeConverted, g => g.R),
-                    RotationAngle = GetValueOrDefault(gcodeConverted, g => g.B)
-                });
-            }
+            data.Add(ConvertToBendingData(c));
         });
 
         reader.Close();
         return data;
     }
 
-    private static double GetValueOrDefault(GcodeCommandFrame frame, Func<GcodeCommandFrame, double?> selector)
+    private static IEnumerable<KeyValuePair<string, object>> ConvertToSave(BendingData data) =>
+        new Dictionary<string, object>
+        {
+            { "Y", data.StraightLength },
+            { "Ys", data.StraightSpeed },
+            { "Y1", data.Offset },
+            { "Y1b", data.OffsetSpeed },
+            { "Y2", data.OffsetCoefficient },
+            { "C", data.BendingAngle },
+            { "Cs", data.BendingAngleSpeed },
+            { "Ck", data.BendingAngleCoefficient },
+            { "R", data.BendingRadius },
+            { "M", data.BendingRadiusMode },
+            { "B", data.RotationAngle },
+            { "Bs", data.RotationSpeed }
+        };
+
+    private static string ConvertToSaveString(BendingData data)
     {
-        if (frame is null)
-            return 0;
+        var dataDict = ConvertToSave(data);
 
-        var value = selector(frame);
-        if (value is null)
-            return 0;
+        var builder = new StringBuilder();
+        foreach (var item in dataDict)
+        {
+            if (item.Key.Length > 1)
+                builder.Append($"{item.Key}={item.Value} ");
+            else
+                builder.Append($"{item.Key}{item.Value} ");
+        }
 
-        return (double)value;
+        return builder.ToString().TrimEnd();
+    }
+
+    private static IEnumerable<KeyValuePair<string, object>> ReadString(string data)
+    {
+        var result = new List<KeyValuePair<string, object>>();
+        var parts = data.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        foreach (var item in parts)
+        {
+            if (item.Contains('=', StringComparison.CurrentCulture))
+            {
+                var keyValue = item.Split('=', StringSplitOptions.RemoveEmptyEntries);
+                if (keyValue.Length == 2)
+                {
+                    var key = keyValue[0];
+                    var valueString = keyValue[1];
+                    if (double.TryParse(valueString, out double doubleValue))
+                        result.Add(new KeyValuePair<string, object>(key, doubleValue));
+                    else
+                        result.Add(new KeyValuePair<string, object>(key, valueString));
+                }
+            }
+            else
+            {
+                var key = item.Substring(0, 1);
+                var valueString = item.Substring(1);
+                if (double.TryParse(valueString, out double doubleValue))
+                    result.Add(new KeyValuePair<string, object>(key, doubleValue));
+            }
+        }
+
+        return result;
+    }
+
+    private static BendingData ConvertToBendingData(string data)
+    {
+        var keyValue = ReadString(data);
+
+        var bendingData = new BendingData();
+
+        foreach (var item in keyValue)
+        {
+            switch (item.Key)
+            {
+                case "Y":
+                    bendingData.StraightLength = (double)item.Value;
+                    break;
+                case "Ys":
+                    bendingData.StraightSpeed = (double)item.Value;
+                    break;
+                case "Y1":
+                    bendingData.Offset = (double)item.Value;
+                    break;
+                case "Y1b":
+                    bendingData.OffsetSpeed = (double)item.Value;
+                    break;
+                case "Y2":
+                    bendingData.OffsetCoefficient = (double)item.Value;
+                    break;
+                case "C":
+                    bendingData.BendingAngle = (double)item.Value;
+                    break;
+                case "Cs":
+                    bendingData.BendingAngleSpeed = (double)item.Value;
+                    break;
+                case "Ck":
+                    bendingData.BendingAngleCoefficient = (double)item.Value;
+                    break;
+                case "R":
+                    bendingData.BendingRadius = (double)item.Value;
+                    break;
+                case "M":
+                    bendingData.BendingRadiusMode = (string)item.Value;
+                    break;
+                case "B":
+                    bendingData.RotationAngle = (double)item.Value;
+                    break;
+                case "Bs":
+                    bendingData.RotationSpeed = (double)item.Value;
+                    break;
+            }
+        }
+
+        return bendingData;
     }
 }

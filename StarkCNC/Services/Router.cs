@@ -43,12 +43,10 @@ public class Router : IRouter, IRouteBuilder
         _navigationService.Navigate(page);
     }
 
-    public Type? ResolveType(string route)
-    {
-        if (_routes.TryGetValue(route, out var type))
-            return type;
-        return null;
-    }
+    public Type? ResolveType(string route) =>
+        _routes.TryGetValue(route, out var type) ? type : null;
+
+    public IEnumerable<KeyValuePair<string, Type>> GetRoutes() => _routes;
 
     private void _navigationService_Navigation(object? sender, NavigationEventArgs e)
     {

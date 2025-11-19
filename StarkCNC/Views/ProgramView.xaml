@@ -457,10 +457,9 @@
                 </ItemsControl>
             </ScrollViewer>
             <Button
-                x:Name="AddLineButton"
                 Grid.Row="4"
                 Margin="7,0,0,10"
-                Click="AddLineButton_Click">
+                Command="{Binding AddBendingDataCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Label
                         VerticalAlignment="Center"

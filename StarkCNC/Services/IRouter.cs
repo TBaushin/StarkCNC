@@ -9,4 +9,6 @@ public interface IRouter
     void Navigate(string route);
 
     Type? ResolveType(string route);
+
+    IEnumerable<KeyValuePair<string, Type>> GetRoutes();
 }

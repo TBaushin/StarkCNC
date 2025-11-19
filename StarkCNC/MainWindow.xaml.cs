@@ -138,11 +138,11 @@ public partial class MainWindow : Window
     private void OnNavigation(object? sender, NavigationEventArgs e)
     {
         RootContentFrame.UpdateLayout();
-        PageTitleTextBlock.Text = $"{Localization.Language.Tab}: {e.PageTitle}";
+        PageTitleTextBlock.Text = $"{Localization.Language.Tab}: {e.Title}";
 
         string pageTitle = string.Empty;
-        if (e.PageTitle is not null)
-            pageTitle = e.PageTitle;
+        if (e.Title is not null)
+            pageTitle = e.Title;
 
         var page = ViewModel.GetNavigationItem(pageTitle);
         FlyoutMenu.UpdateSelected(page);

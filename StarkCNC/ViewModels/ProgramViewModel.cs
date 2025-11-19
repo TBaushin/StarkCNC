@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
+using Opc.Ua;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
@@ -24,7 +25,7 @@ public partial class ProgramViewModel : ObservableObject
     [ObservableProperty]
     private string _currentFilePath = string.Empty;
 
-    public ObservableCollection<BendingDataDto> BendingDatas { get; set; } = new ObservableCollection<BendingDataDto>();
+    public ObservableCollection<BendingDataViewModel> BendingDatas { get; set; } = new ObservableCollection<BendingDataViewModel>();
     public ObservableCollection<string> BendModeList = new ObservableCollection<string>() { "Hello", "World" };
 
     public Visual3D Pipe
@@ -96,7 +97,7 @@ public partial class ProgramViewModel : ObservableObject
             int i = 1;
             foreach (var item in data)
             {
-                BendingDatas.Add(new BendingDataDto(i, item));
+                BendingDatas.Add(new BendingDataViewModel(i, item));
                 i++;
             }
         }
@@ -125,26 +126,58 @@ public partial class ProgramViewModel : ObservableObject
                 return false;
         }
 
-        await _gCodeService.SaveAsync(CurrentFilePath, CastDtoToModel()).ConfigureAwait(false);
+        await _gCodeService.SaveAsync(CurrentFilePath, CastToModel()).ConfigureAwait(false);
         return true;
     }
-    
+
+    [RelayCommand]
+    private void AddBendingData()
+    {
+        if (BendingDatas.Count == 0)
+        {
+            BendingDatas.Add(new BendingDataViewModel() { Id = 1 });
+            return;
+        }
+
+        var lastElement = BendingDatas.Last();
+        if (lastElement is null)
+            BendingDatas.Add(new BendingDataViewModel() { Id = 1 });
+        else
+            BendingDatas.Add(new BendingDataViewModel() { Id = lastElement.Id + 1 });
+        UpdateBend();
+    }
+
     public void UpdateBend()
     {
         double pipeDiameter = 50;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
         _bendingModelsLoadingService
-            .UpdatePipeBend(WireBuilder.BuildWirePath(CastDtoToModel(), pipeDiameter), pipeDiameter);
+            .UpdatePipeBend(WireBuilder.BuildWirePath(CastToModel(), pipeDiameter), pipeDiameter);
     }
 
-    private ICollection<BendingData> CastDtoToModel()
+    private ICollection<BendingData> CastToModel()
     {
-        var data = new List<BendingData>();
-        foreach (var item in BendingDatas)
+        var result = new List<BendingData>();
+        foreach (var data in BendingDatas)
         {
-            data.Add(item.Cast());
+            result.Add(new BendingData()
+            {
+                StraightLength = data.StraightLength,
+                StraightSpeed = data.StraightSpeed,
+                Offset = data.Offset,
+                OffsetSpeed = data.OffsetSpeed,
+                OffsetCoefficient = data.OffsetCoefficient,
+                BendingAngle = data.BendingAngle,
+                BendingAngleSpeed = data.BendingAngleSpeed,
+                BendingAngleCoefficient = data.BendingAngleCoefficient,
+                BendingRadius = data.BendingRadius,
+                BendingRadiusMode = data.BendingRadiusMode,
+                RotationAngle = data.RotationAngle,
+                RotationSpeed = data.RotationSpeed
+            });
         }
-        return data;
+
+        return result;
     }
 }

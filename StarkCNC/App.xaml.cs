@@ -25,10 +25,7 @@ public partial class App : Application
 {
     private static IHost _host = RegisterServices();
 
-    public static IConfiguration Configuration { get; private set; } = new ConfigurationBuilder()
-        .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        .Build();
+    public static IConfiguration Configuration { get; private set; } = ConfigureStartup();
 
     public static IServiceProvider ServiceProvider { get; } = _host.Services;
 
@@ -41,10 +38,20 @@ public partial class App : Application
             c.AddDarkTheme();
         });
 
+        ViewLocator.Initialize(_host.Services);
+
+        ConfigureRoutes(_host.Services.GetRequiredService<IRouter>());
+
         InitializeComponent();
         MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
         MainWindow.Visibility = Visibility.Visible;
     }
+
+    private static IConfiguration ConfigureStartup() =>
+        new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .Build();
 
     private static IHost RegisterServices() =>
         Host.CreateDefaultBuilder()
@@ -52,6 +59,8 @@ public partial class App : Application
             {
                 services.AddDbContext<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
                 services.AddSingleton<INavigationService, NavigationService>();
+                services.AddSingleton<IRouter, Router>();
+                services.AddSingleton<IBreadcrumbService, BreadcrumbService>();
                 services.AddSingleton<IStatusService, StatusService>();
                 services.AddSingleton<ISettingsRepository, SettingsRepository>();
                 services.AddSingleton<IGCodeService, GCodeService>();
@@ -75,4 +84,18 @@ public partial class App : Application
                 services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
             })
             .Build();
+
+    private static void ConfigureRoutes(IRouter router) =>
+        router.ConfigureRoutes(configure =>
+        {
+            configure.AddRoute("/manual", typeof(ManualViewModel));
+            configure.AddRoute("/visualization", typeof(VisualizationViewModel));
+            configure.AddRoute("/program", typeof(ProgramViewModel));
+            configure.AddRoute("/adjustment", typeof(AdjustmentViewModel));
+            //configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel));
+            //configure.AddRoute("/adjustment/current");
+            //configure.AddRoute("/adjustment/current/coordinates");
+            configure.AddRoute("/settings", typeof(SettingsViewModel));
+            configure.AddRoute("/users", typeof(UserViewModel));
+        });
 }

@@ -19,13 +19,15 @@ public partial class MainWindowViewModel : ObservableObject
 
     private readonly INavigationService _navigationService;
 
+    private readonly IRouter _router;
+
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
     [ObservableProperty]
     private bool _canNavigateBack;
 
     [ObservableProperty]
-    private ObservableCollection<ViewData> _pages;
+    private ObservableCollection<ViewData> _pages = new ObservableCollection<ViewData>();
 
     private readonly SettingsView _settingsPage;
     private readonly UserView _userPage;
@@ -36,10 +38,12 @@ public partial class MainWindowViewModel : ObservableObject
 
     public MainWindowViewModel(
         INavigationService navigationService,
+        IRouter router,
         IStatusService statusService,
         AdjustmentViewModel adjustmentViewModel) 
     {
         _navigationService = navigationService;
+        _router = router;
         _adjustmentViewModel = adjustmentViewModel;
 
         if (statusService is not null)
@@ -47,12 +51,19 @@ public partial class MainWindowViewModel : ObservableObject
 
         _adjustmentPage = new ViewData(new AdjustmentView(_adjustmentViewModel)) { IconGlyph = "\uE726" };
         AdjustmentUpdateChildElements();
-        _pages = [
-            new ViewData(new ManualView(App.ServiceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE732" },
-            new ViewData(new VisualizationView(App.ServiceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },
-            new ViewData(new ProgramView(App.ServiceProvider.GetRequiredService<ProgramViewModel>())) { IconGlyph = "\uE726" },
-            _adjustmentPage
-        ];
+        foreach (var item in _router.GetRoutes())
+        {
+            if (item.Key == "/settings" || item.Key == "/users")
+                continue;
+            _pages.Add(new ViewData(ViewLocator.Build(item.Value)));
+        }
+        _pages.Add(_adjustmentPage);
+        //_pages = [
+        //    new ViewData(new ManualView(App.ServiceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE732" },
+        //    new ViewData(new VisualizationView(App.ServiceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },
+        //    new ViewData(new ProgramView()) { IconGlyph = "\uE726" },
+        //    _adjustmentPage
+        //];
 
         _settingsPage = new SettingsView(App.ServiceProvider.GetRequiredService<SettingsViewModel>());
         _userPage = new UserView(App.ServiceProvider.GetRequiredService<UserViewModel>());
@@ -75,13 +86,13 @@ public partial class MainWindowViewModel : ObservableObject
     [RelayCommand]
     private void GoSettings()
     {
-        _navigationService.Navigate(_settingsPage);
+        _router.Navigate("/settings");
     }
 
     [RelayCommand]
     private void GoUsers()
     {
-        _navigationService.Navigate(_userPage);
+        _router.Navigate("/users");
     }
 
     public void UpdateCanNavigateBack()

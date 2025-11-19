@@ -3,9 +3,9 @@ using System.Windows.Controls;
 
 namespace StarkCNC;
 
-public class ViewLocator
+public static class ViewLocator
 {
-    private static IServiceProvider _serviceProvider;
+    private static IServiceProvider? _serviceProvider;
 
     public static void Initialize(IServiceProvider serviceProvider)
     {
@@ -14,6 +14,9 @@ public class ViewLocator
 
     public static Page? Build(Type param)
     {
+        if (_serviceProvider is null)
+            throw new InvalidOperationException("ViewLocator is not initialized. Call ViewLocator.Initialize with a valid IServiceProvider before using.");
+
         if (param is null)
             return null;
 
