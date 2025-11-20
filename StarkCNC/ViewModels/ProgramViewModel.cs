@@ -38,7 +38,7 @@ public partial class ProgramViewModel : ObservableObject
         _bendingModelsLoadingService = bendingModelsLoadingService;
         _gCodeService = gCodeService;
 
-        App.ServiceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
+        //App.ServiceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
         _bendingModelsLoadingService.PropertyChanged += (sender, args) =>
         {
             if (args.PropertyName == nameof(IBendingModelsLoadingService.Carriage))

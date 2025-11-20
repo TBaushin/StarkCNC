@@ -17,6 +17,8 @@ public partial class AdjustmentViewModel : ObservableObject
     private readonly INavigationService _navigationService;
     private readonly IAdjustmentRepository _repository;
 
+    private readonly SettingsViewModel _settingsViewModel;
+
     public ObservableCollection<AdjustmentParametersDto> Adjustments { get; } = new ObservableCollection<AdjustmentParametersDto>();
 
     [ObservableProperty]
@@ -26,12 +28,15 @@ public partial class AdjustmentViewModel : ObservableObject
 
     public AdjustmentViewModel(
         INavigationService navigationService,
-        IAdjustmentRepository adjustmentRepository) 
+        IAdjustmentRepository adjustmentRepository,
+        SettingsViewModel settingsViewModel) 
     {
         _adjustmentListPage = new AdjustmentListView(this);
 
         _navigationService = navigationService;
         _repository = adjustmentRepository;
+
+        _settingsViewModel = settingsViewModel;
 
         UpdateAdjustments();
 
@@ -177,7 +182,7 @@ public partial class AdjustmentViewModel : ObservableObject
     private void GoToCoordinateSettings(AdjustmentParametersDto adjustment)
     {
         _navigationService.Navigate(new AdjustmentCoordinateSettingsView(
-            App.ServiceProvider.GetRequiredService<SettingsViewModel>().Settings,
+            _settingsViewModel.Settings,
             this,
             adjustment));
     }

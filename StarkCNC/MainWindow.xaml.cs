@@ -22,7 +22,7 @@ public partial class MainWindow : Window
 
     public FlyoutMenuControl FlyoutMenu { get; set; }
 
-    public MainWindow(MainWindowViewModel viewModel, INavigationService navigationService)
+    public MainWindow(INavigationService navigationService, MainWindowViewModel viewModel, FlyoutMenuControl flyoutMenuControl)
     {
         _navigationService = navigationService;
         _navigationService.Navigation += OnNavigation;
@@ -34,8 +34,8 @@ public partial class MainWindow : Window
 
         UpdateWindowBackground();
         UpdateMainWindowVisuals();
-        
-        FlyoutMenu = App.ServiceProvider.GetRequiredService<FlyoutMenuControl>();
+
+        FlyoutMenu = flyoutMenuControl;
         FlyoutMenu.Pages = ViewModel.Pages;
         Grid.SetRowSpan(FlyoutMenu, 2);
         PageGrid.Children.Add(FlyoutMenu);
@@ -137,12 +137,18 @@ public partial class MainWindow : Window
 
     private void OnNavigation(object? sender, NavigationEventArgs e)
     {
+        Breadcrumbs.Children.Clear();
+
         RootContentFrame.UpdateLayout();
-        PageTitleTextBlock.Text = $"{Localization.Language.Tab}: {e.PageTitle}";
+        //PageTitleTextBlock.Text = $"{Localization.Language.Tab}: {e.Title}";
+
+        var breadcrumb = ViewModel.Breadcrumb as StackPanel;
+        if (breadcrumb is not null)
+            Breadcrumbs.Children.Add(breadcrumb);
 
         string pageTitle = string.Empty;
-        if (e.PageTitle is not null)
-            pageTitle = e.PageTitle;
+        if (e.Title is not null)
+            pageTitle = e.Title;
 
         var page = ViewModel.GetNavigationItem(pageTitle);
         FlyoutMenu.UpdateSelected(page);
