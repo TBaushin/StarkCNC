@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
 
-public partial class MainWindowViewModel : ObservableObject
+public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty]
     private string _title = "StarkCNC";
@@ -23,28 +23,37 @@ public partial class MainWindowViewModel : ObservableObject
 
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
+    private readonly SettingsViewModel _settingsViewModel;
+
     [ObservableProperty]
     private bool _canNavigateBack;
 
     [ObservableProperty]
     private ObservableCollection<ViewData> _pages = new ObservableCollection<ViewData>();
 
-    private readonly SettingsView _settingsPage;
-    private readonly UserView _userPage;
     private readonly ViewData _adjustmentPage;
 
     [ObservableProperty]
     private string _status = string.Empty;
 
+    [ObservableProperty]
+    private object _breadcrumb;
+
     public MainWindowViewModel(
         INavigationService navigationService,
         IRouter router,
+        IBreadcrumbService breadcrumbService,
         IStatusService statusService,
-        AdjustmentViewModel adjustmentViewModel) 
+        AdjustmentViewModel adjustmentViewModel,
+        SettingsViewModel settingsViewModel,
+        ManualViewModel manualViewModel,
+        VisualizationViewModel visualizationViewModel,
+        ProgramViewModel programViewModel) 
     {
         _navigationService = navigationService;
         _router = router;
         _adjustmentViewModel = adjustmentViewModel;
+        _settingsViewModel = settingsViewModel;
 
         if (statusService is not null)
             statusService.PropertyChanged += (_, _) => Status = statusService.Status;
@@ -65,10 +74,8 @@ public partial class MainWindowViewModel : ObservableObject
         //    _adjustmentPage
         //];
 
-        _settingsPage = new SettingsView(App.ServiceProvider.GetRequiredService<SettingsViewModel>());
-        _userPage = new UserView(App.ServiceProvider.GetRequiredService<UserViewModel>());
-
         _adjustmentViewModel.SetUpAdjustments.CollectionChanged += SetUpAdjustments_CollectionChanged;
+        _navigationService.Navigation += (_, _) => Breadcrumb = breadcrumbService.VisibleObject;
     }
 
     [RelayCommand]
@@ -107,7 +114,6 @@ public partial class MainWindowViewModel : ObservableObject
 
     private void AdjustmentUpdateChildElements()
     {
-        var adjustmentViewModel = App.ServiceProvider.GetRequiredService<AdjustmentViewModel>();
         _adjustmentPage.Items.Clear();
         foreach (var adjustment in _adjustmentViewModel.SetUpAdjustments)
         {
@@ -115,8 +121,8 @@ public partial class MainWindowViewModel : ObservableObject
             var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
 
             var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(
-                App.ServiceProvider.GetRequiredService<SettingsViewModel>().Settings,
-                adjustmentViewModel,
+                _settingsViewModel.Settings,
+                _adjustmentViewModel,
                 adjustment);
             viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
 

@@ -27,8 +27,6 @@ public partial class App : Application
 
     public static IConfiguration Configuration { get; private set; } = ConfigureStartup();
 
-    public static IServiceProvider ServiceProvider { get; } = _host.Services;
-
     public App()
     {
         _host.Start();
@@ -43,7 +41,8 @@ public partial class App : Application
         ConfigureRoutes(_host.Services.GetRequiredService<IRouter>());
 
         InitializeComponent();
-        MainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+        
+        MainWindow = _host.Services.GetRequiredService<MainWindow>();
         MainWindow.Visibility = Visibility.Visible;
     }
 
@@ -93,8 +92,11 @@ public partial class App : Application
             configure.AddRoute("/program", typeof(ProgramViewModel));
             configure.AddRoute("/adjustment", typeof(AdjustmentViewModel));
             //configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel));
-            //configure.AddRoute("/adjustment/current");
-            //configure.AddRoute("/adjustment/current/coordinates");
+            //configure.AddRoute("/adjustment/configure");
+            //configure.AddRoute("/adjustment/configure/coordinates");
+            //configure.AddRoute("/adjustment/first-level", typeof(AdjustmentViewModel));
+            //configure.AddRoute("/adjustment/second-level", typeof(AdjustmentViewModel));
+            //configure.AddRoute("/adjustment/third-level", typeof(AdjustmentViewModel));
             configure.AddRoute("/settings", typeof(SettingsViewModel));
             configure.AddRoute("/users", typeof(UserViewModel));
         });
