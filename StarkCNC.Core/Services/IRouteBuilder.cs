@@ -1,4 +1,4 @@
-﻿namespace StarkCNC.Services;
+﻿namespace StarkCNC.Core.Services;
 
 public interface IRouteBuilder
 {

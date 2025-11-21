@@ -1,4 +1,6 @@
-﻿namespace StarkCNC.Services;
+﻿using StarkCNC.Core.Services;
+
+namespace StarkCNC.Services;
 
 public class Router : IRouter, IRouteBuilder
 {
