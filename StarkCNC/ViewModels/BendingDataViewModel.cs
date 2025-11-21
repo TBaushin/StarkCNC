@@ -9,16 +9,28 @@ public partial class BendingDataViewModel : ViewModelBase
     private int _id;
 
     /// <summary>
+    /// Длина трубы
+    /// </summary>
+    [ObservableProperty]
+    private double _pipeLength;
+
+    /// <summary>
+    /// Установка Y
+    /// </summary>
+    [ObservableProperty]
+    private double _ySetup;
+
+    /// <summary>
     /// Подача Y
     /// </summary>
     [ObservableProperty]
-    private double _straightLength;
+    private double _supply;
 
     /// <summary>
     /// Подача скорость Ys
     /// </summary>
     [ObservableProperty]
-    private double _straightSpeed;
+    private double _supplySpeed;
 
     /// <summary>
     /// Отвод Y1
@@ -87,8 +99,10 @@ public partial class BendingDataViewModel : ViewModelBase
         Id = id;
         if (data is not null)
         {
-            StraightLength = data.StraightLength;
-            StraightSpeed = data.StraightSpeed;
+            PipeLength = data.PipeLength;
+            YSetup = data.YSetup;
+            Supply = data.Supply;
+            SupplySpeed = data.SupplySpeed;
             Offset = data.Offset;
             OffsetSpeed = data.OffsetSpeed;
             OffsetCoefficient = data.OffsetCoefficient;

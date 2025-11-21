@@ -41,10 +41,10 @@ public static class WireBuilder
 
         foreach (var seg in segments)
         {
-            // Прямой участок
-            if (seg.StraightLength > 0)
+            // Подача
+            if (seg.Supply > 0)
             {
-                currentPoint += currentDirection * seg.StraightLength;
+                currentPoint += currentDirection * seg.Supply;
                 points.Add(currentPoint);
             }
 
@@ -127,12 +127,12 @@ public class BendCalculation : IBendCalculation
                 var x = Convert.ToSingle(pipeDiameter * Math.Cos(circumferenceLength) + BendParameters.BendingRadius);
                 var z = Convert.ToSingle(pipeDiameter * Math.Sin(circumferenceLength));
 
-                var xb = Convert.ToSingle(Math.Sin(firstAngle) * x + carriagePos + BendParameters.StraightLength);
+                var xb = Convert.ToSingle(Math.Sin(firstAngle) * x + carriagePos + BendParameters.Supply);
                 var yb = Convert.ToSingle(Math.Cos(firstAngle) * x - BendParameters.BendingRadius);
                 var zb = z;
                 bend.StartPosition = new Point3D(xb, yb, zb);
 
-                xb = Convert.ToSingle(Math.Sin(secondAngle) * x + carriagePos + BendParameters.StraightLength);
+                xb = Convert.ToSingle(Math.Sin(secondAngle) * x + carriagePos + BendParameters.Supply);
                 yb = Convert.ToSingle(Math.Cos(secondAngle) * x - BendParameters.BendingRadius);
                 zb = z;
                 bend.EndPosition = new Point3D(xb, yb, zb);

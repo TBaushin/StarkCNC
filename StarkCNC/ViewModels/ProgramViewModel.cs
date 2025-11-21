@@ -1,12 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
-using Opc.Ua;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
-using StarkCNC.DTO;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Media3D;
@@ -25,8 +22,16 @@ public partial class ProgramViewModel : ObservableObject
     [ObservableProperty]
     private string _currentFilePath = string.Empty;
 
+    [ObservableProperty]
+    private double _pipeLength;
+
+    [ObservableProperty]
+    private double _ySetup;
+
+    [ObservableProperty]
+    private double _estimatedRemainingLength;
+
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; set; } = new ObservableCollection<BendingDataViewModel>();
-    public ObservableCollection<string> BendModeList = new ObservableCollection<string>() { "Hello", "World" };
 
     public Visual3D Pipe
     {
@@ -54,7 +59,7 @@ public partial class ProgramViewModel : ObservableObject
     [RelayCommand]
     private async Task CreateNewFile()
     {
-        if(!await SaveFile().ConfigureAwait(true))
+        if (!await SaveFile().ConfigureAwait(true))
             return;
 
         var dialog = new SaveFileDialog();
@@ -100,6 +105,13 @@ public partial class ProgramViewModel : ObservableObject
                 BendingDatas.Add(new BendingDataViewModel(i, item));
                 i++;
             }
+
+            var firstItem = data.FirstOrDefault();
+            if (firstItem is not null)
+            {
+                PipeLength = firstItem.PipeLength;
+                YSetup = firstItem.YSetup;
+            }
         }
         catch (Exception)
         {
@@ -141,9 +153,9 @@ public partial class ProgramViewModel : ObservableObject
 
         var lastElement = BendingDatas.Last();
         if (lastElement is null)
-            BendingDatas.Add(new BendingDataViewModel() { Id = 1 });
+            BendingDatas.Add(new BendingDataViewModel() { Id = 1, PipeLength = PipeLength, YSetup = YSetup });
         else
-            BendingDatas.Add(new BendingDataViewModel() { Id = lastElement.Id + 1 });
+            BendingDatas.Add(new BendingDataViewModel() { Id = lastElement.Id + 1, PipeLength = PipeLength, YSetup = YSetup });
         UpdateBend();
     }
 
@@ -156,6 +168,16 @@ public partial class ProgramViewModel : ObservableObject
             .UpdatePipeBend(WireBuilder.BuildWirePath(CastToModel(), pipeDiameter), pipeDiameter);
     }
 
+    private void UpdateEstimatedRemainingLength()
+    {
+        //var supply = 0.0;
+        //foreach (var data in BendingDatas)
+        //{
+        //    supply += data.Supply;
+        //}
+        //var result = PipeLength - (supply + (2 * Math.PI * ))
+    }
+
     private ICollection<BendingData> CastToModel()
     {
         var result = new List<BendingData>();
@@ -163,8 +185,10 @@ public partial class ProgramViewModel : ObservableObject
         {
             result.Add(new BendingData()
             {
-                StraightLength = data.StraightLength,
-                StraightSpeed = data.StraightSpeed,
+                PipeLength = data.PipeLength,
+                YSetup = data.YSetup,
+                Supply = data.Supply,
+                SupplySpeed = data.SupplySpeed,
                 Offset = data.Offset,
                 OffsetSpeed = data.OffsetSpeed,
                 OffsetCoefficient = data.OffsetCoefficient,

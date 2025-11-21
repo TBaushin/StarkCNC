@@ -3,14 +3,24 @@
 public class BendingData
 {
     /// <summary>
-    /// Длина прямого участка Y
+    /// Длина трубы L
     /// </summary>
-    public double StraightLength { get; set; }
+    public double PipeLength { get; set; }
 
     /// <summary>
-    /// Длина прямого участка скорость Ys
+    /// Установка Y Y0
     /// </summary>
-    public double StraightSpeed { get; set; }
+    public double YSetup { get; set; }
+
+    /// <summary>
+    /// Подача Y
+    /// </summary>
+    public double Supply { get; set; }
+
+    /// <summary>
+    /// Подача скорость Ys
+    /// </summary>
+    public double SupplySpeed { get; set; }
 
     /// <summary>
     /// Отвод Y1
@@ -65,8 +75,10 @@ public class BendingData
     public BendingData Copy() =>
         new BendingData
         {
-            StraightLength = StraightLength,
-            StraightSpeed = StraightSpeed,
+            PipeLength = PipeLength,
+            YSetup = YSetup,
+            Supply = Supply,
+            SupplySpeed = SupplySpeed,
             Offset = Offset,
             OffsetSpeed = OffsetSpeed,
             OffsetCoefficient = OffsetCoefficient,

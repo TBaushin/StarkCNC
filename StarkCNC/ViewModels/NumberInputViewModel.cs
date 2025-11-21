@@ -8,8 +8,6 @@ public partial class NumberInputViewModel : ObservableObject
 {
     private bool _needAddPoint;
 
-    public double ResultValue { get; set; }
-
     [ObservableProperty]
     private string _outputValue = string.Empty;
 
@@ -26,7 +24,6 @@ public partial class NumberInputViewModel : ObservableObject
     private void Clear()
     {
         OutputValue = string.Empty;
-        ResultValue = 0;
     }
 
     [RelayCommand]
@@ -50,10 +47,11 @@ public partial class NumberInputViewModel : ObservableObject
         _needAddPoint = true;
     }
 
-    private void TryConvertToDouble()
+    private static double TryConvertToDouble(string outputValue)
     {
-        Double.TryParse(OutputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var result);
-        ResultValue = result;
+        if (Double.TryParse(outputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var result))
+            return result;
+        return 0;
     }
 
     public static double ShowDialog()
@@ -61,6 +59,6 @@ public partial class NumberInputViewModel : ObservableObject
         var viewModel = new NumberInputViewModel();
         var window = new NumberInputBlockWindow(viewModel);
         window.ShowDialog();
-        return viewModel.ResultValue;
+        return TryConvertToDouble(viewModel.OutputValue);
     }
 }

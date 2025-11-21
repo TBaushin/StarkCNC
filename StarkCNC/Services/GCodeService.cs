@@ -51,8 +51,10 @@ public class GCodeService : IGCodeService
     private static IEnumerable<KeyValuePair<string, object>> ConvertToSave(BendingData data) =>
         new Dictionary<string, object>
         {
-            { "Y", data.StraightLength },
-            { "Ys", data.StraightSpeed },
+            { "L", data.PipeLength },
+            { "Y0", data.YSetup },
+            { "Y", data.Supply },
+            { "Ys", data.SupplySpeed },
             { "Y1", data.Offset },
             { "Y1b", data.OffsetSpeed },
             { "Y2", data.OffsetCoefficient },
@@ -72,7 +74,7 @@ public class GCodeService : IGCodeService
         var builder = new StringBuilder();
         foreach (var item in dataDict)
         {
-            if (item.Key.Length > 1)
+            if (item.Key.Length > 1 || item.Key == "M")
                 builder.Append($"{item.Key}={item.Value} ");
             else
                 builder.Append($"{item.Key}{item.Value} ");
@@ -90,7 +92,7 @@ public class GCodeService : IGCodeService
             if (item.Contains('=', StringComparison.CurrentCulture))
             {
                 var keyValue = item.Split('=', StringSplitOptions.RemoveEmptyEntries);
-                if (keyValue.Length == 2)
+                if (keyValue.Length == 2 || keyValue[0] == "M")
                 {
                     var key = keyValue[0];
                     var valueString = keyValue[1];
@@ -122,11 +124,17 @@ public class GCodeService : IGCodeService
         {
             switch (item.Key)
             {
+                case "L":
+                    bendingData.PipeLength = (double)item.Value;
+                    break;
+                case "Y0":
+                    bendingData.YSetup = (double)item.Value;
+                    break;
                 case "Y":
-                    bendingData.StraightLength = (double)item.Value;
+                    bendingData.Supply = (double)item.Value;
                     break;
                 case "Ys":
-                    bendingData.StraightSpeed = (double)item.Value;
+                    bendingData.SupplySpeed = (double)item.Value;
                     break;
                 case "Y1":
                     bendingData.Offset = (double)item.Value;
