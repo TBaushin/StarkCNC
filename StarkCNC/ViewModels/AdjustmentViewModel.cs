@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.DTO;
