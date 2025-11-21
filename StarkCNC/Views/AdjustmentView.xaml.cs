@@ -15,17 +15,20 @@ public partial class AdjustmentView : Page
     private AdjustmentViewModel ViewModel;
     private int _levelMustBeSetted;
 
-    public AdjustmentView(AdjustmentViewModel viewModel)
+    public AdjustmentView()
     {
-        ViewModel = viewModel;
-        DataContext = viewModel;
-
         InitializeComponent();
+        if (DataContext is AdjustmentViewModel vm)
+            ViewModel = vm;
+
         InitializeLevels();
     }
 
     private void InitializeLevels()
     {
+        if (ViewModel is null)
+            return;
+
         ThirdLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
             .FirstOrDefault(e => e.InstalledLevel == 3);
         ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
@@ -46,6 +49,9 @@ public partial class AdjustmentView : Page
 
     private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
     {
+        if (ViewModel is null)
+            return;
+
         ViewModel.SelectedAdjustment = null;
         ViewModel.GoToAdjustmentListCommand.Execute(null);
     }
@@ -131,6 +137,9 @@ public partial class AdjustmentView : Page
 
     private void SetLevelToAdjustment(int level)
     {
+        if (ViewModel is null)
+            return;
+
         var adjustment = ViewModel.SelectedAdjustment;
         if (adjustment is null)
             return;

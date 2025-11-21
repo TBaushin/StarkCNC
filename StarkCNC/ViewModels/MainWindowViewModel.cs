@@ -57,7 +57,7 @@ public partial class MainWindowViewModel : ViewModelBase
         if (statusService is not null)
             statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
-        _adjustmentPage = new ViewData(new AdjustmentView(_adjustmentViewModel)) { IconGlyph = "\uE726" };
+        _adjustmentPage = new ViewData(ViewLocator.Build(typeof(AdjustmentViewModel))) { IconGlyph = "\uE726" };
         AdjustmentUpdateChildElements();
         foreach (var item in _router.GetRoutes())
         {
