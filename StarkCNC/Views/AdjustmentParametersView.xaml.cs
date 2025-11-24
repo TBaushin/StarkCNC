@@ -7,25 +7,19 @@ using System.Windows.Controls;
 namespace StarkCNC.Views
 {
     /// <summary>
-    /// Interaction logic for AdjustmentSettingsView.xaml
+    /// Interaction logic for AdjustmentParametersView.xaml
     /// </summary>
-    public partial class AdjustmentSettingsView : Page
+    public partial class AdjustmentParametersView : Page
     {
-        private AdjustmentViewModel ViewModel;
-        public AdjustmentParametersDto Adjustment { get; set; }
+        private AdjustmentParametersViewModel? ViewModel;
 
-        public AdjustmentSettingsView(AdjustmentViewModel viewModel, AdjustmentParametersDto adjustment)
+        public AdjustmentParametersView()
         {
-            ViewModel = viewModel;
-            Adjustment = adjustment;
-            DataContext = this;
-
-            if (ViewModel.SelectedAdjustment is null)
-                ViewModel.SelectAdjustment(adjustment);
-
             InitializeComponent();
 
-            Adjustment.PropertyChanged += SelectedAdjustment_PropertyChanged;
+            if (DataContext is AdjustmentParametersViewModel viewModel)
+                ViewModel = viewModel;
+
             SetVisibilityForRollingAndWindingStackPanels();
         }
 
@@ -41,22 +35,20 @@ namespace StarkCNC.Views
 
         private void SetVisibilityForRollingAndWindingStackPanels()
         {
-            if (Adjustment.Type == AdjustmentType.Winding)
+            if (ViewModel is null)
+                return;
+
+            if (ViewModel.AdjustmentType == AdjustmentType.Winding)
             {
                 WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Visible;
                 RollingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;
             }
 
-            if (Adjustment.Type == AdjustmentType.Rolling)
+            if (ViewModel.AdjustmentType == AdjustmentType.Rolling)
             {
                 RollingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Visible;
                 WindingAdjustmentTypeStackPanel.Visibility = System.Windows.Visibility.Collapsed;
             }
-        }
-
-        private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            ViewModel.GoToCoordinateSettingsCommand.Execute(Adjustment);
         }
 
         private void TextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -67,11 +59,6 @@ namespace StarkCNC.Views
 
             var value = NumberInputViewModel.ShowDialog();
             textBox.Text = value.ToString(CultureInfo.InvariantCulture);
-        }
-
-        private void EditAdjustmentButton_Click(object sender, System.Windows.RoutedEventArgs e)
-        {
-            ViewModel.EditAdjustmentCommand.Execute(Adjustment);
         }
     }
 }

@@ -174,7 +174,7 @@ public partial class AdjustmentViewModel : ObservableObject
     private void GoToEditSettings(AdjustmentParametersDto adjustment)
     {
         SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
-        _navigationService.Navigate(new AdjustmentSettingsView(this, adjustment));
+        _navigationService.Navigate(new AdjustmentParametersView(this, adjustment));
     }
 
     [RelayCommand]
