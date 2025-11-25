@@ -116,16 +116,16 @@ public partial class MainWindowViewModel : ViewModelBase
         _adjustmentPage.Items.Clear();
         foreach (var adjustment in _adjustmentViewModel.SetUpAdjustments)
         {
-            var adjustmentSettingPage = new AdjustmentParametersView(_adjustmentViewModel, adjustment);
-            var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
+            //var adjustmentSettingPage = new AdjustmentParametersView(_adjustmentViewModel, adjustment);
+            //var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
 
-            var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(
-                _settingsViewModel.Settings,
-                _adjustmentViewModel,
-                adjustment);
-            viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
+            //var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(
+            //    _settingsViewModel.Settings,
+            //    _adjustmentViewModel,
+            //    adjustment);
+            //viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
 
-            _adjustmentPage.Items.Add(viewData);
+            //_adjustmentPage.Items.Add(viewData);
         }
     }
 

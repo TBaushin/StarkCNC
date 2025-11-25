@@ -64,40 +64,40 @@ public partial class AdjustmentViewModel : ObservableObject
         Adjustments.Add(adjustment);
 
         SelectedAdjustment = adjustment;
-        var settingsWindow = new AdjustmentSettingsWindow(this);
-        settingsWindow.ShowDialog();
+        //var settingsWindow = new AdjustmentSettingsWindow(this);
+        //settingsWindow.ShowDialog();
 
-        var result = settingsWindow.Result;
-        if (result is not null)
-        {
-            SelectedAdjustment.Name = result.Name;
-            SelectedAdjustment.PipeDiameter = result.PipeDiameter;
-            SelectedAdjustment.Radius = result.Radius;
-            SelectedAdjustment.Type = result.Type;
-            SelectedAdjustment.ForwardDangerZoneCoordinate = result.ForwardDangerZoneCoordinate;
-            SelectedAdjustment.DistanceFromCenter = result.DistanceFromCenter;
-            SelectedAdjustment.Bend = result.Bend;
-            SelectedAdjustment.BendRoller = result.BendRoller;
-            SelectedAdjustment.Clamp = result.Clamp;
-            SelectedAdjustment.ClampRoller = result.ClampRoller;
-            SelectedAdjustment.Console = result.Console;
-            SelectedAdjustment.Dorn = result.Dorn;
-            SelectedAdjustment.Lift = result.Lift;
-            SelectedAdjustment.Press = result.Press;
-            SelectedAdjustment.Rotation = result.Rotation;
-            SelectedAdjustment.Squeeze = result.Squeeze;
-            SelectedAdjustment.Supply = result.Supply;
+        //var result = settingsWindow.Result;
+        //if (result is not null)
+        //{
+        //    SelectedAdjustment.Name = result.Name;
+        //    SelectedAdjustment.PipeDiameter = result.PipeDiameter;
+        //    SelectedAdjustment.Radius = result.Radius;
+        //    SelectedAdjustment.Type = result.Type;
+        //    SelectedAdjustment.ForwardDangerZoneCoordinate = result.ForwardDangerZoneCoordinate;
+        //    SelectedAdjustment.DistanceFromCenter = result.DistanceFromCenter;
+        //    SelectedAdjustment.Bend = result.Bend;
+        //    SelectedAdjustment.BendRoller = result.BendRoller;
+        //    SelectedAdjustment.Clamp = result.Clamp;
+        //    SelectedAdjustment.ClampRoller = result.ClampRoller;
+        //    SelectedAdjustment.Console = result.Console;
+        //    SelectedAdjustment.Dorn = result.Dorn;
+        //    SelectedAdjustment.Lift = result.Lift;
+        //    SelectedAdjustment.Press = result.Press;
+        //    SelectedAdjustment.Rotation = result.Rotation;
+        //    SelectedAdjustment.Squeeze = result.Squeeze;
+        //    SelectedAdjustment.Supply = result.Supply;
 
-            var newAdjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
-            if (newAdjustment is not null)
-            {
-                var item = await _repository.AddElementAsync(newAdjustment).ConfigureAwait(false);
-                if (item is null)
-                    return;
+        //    var newAdjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
+        //    if (newAdjustment is not null)
+        //    {
+        //        var item = await _repository.AddElementAsync(newAdjustment).ConfigureAwait(false);
+        //        if (item is null)
+        //            return;
 
-                SelectedAdjustment = item.ToDto();
-            }
-        }
+        //        SelectedAdjustment = item.ToDto();
+        //    }
+        //}
         
         UpdateAdjustments();
     }
@@ -125,34 +125,34 @@ public partial class AdjustmentViewModel : ObservableObject
     private async Task EditAdjustment(AdjustmentParametersDto adjustment)
     {
         SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
-        var settingsWindow = new AdjustmentSettingsWindow(this, "Редактирование оснастки");
-        settingsWindow.ShowDialog();
+        //var settingsWindow = new AdjustmentSettingsWindow(this, "Редактирование оснастки");
+        //settingsWindow.ShowDialog();
 
-        var result = settingsWindow.Result;
-        if (result is not null && SelectedAdjustment is not null)
-        {
-            SelectedAdjustment.Name = result.Name;
-            SelectedAdjustment.PipeDiameter = result.PipeDiameter;
-            SelectedAdjustment.Radius = result.Radius;
-            SelectedAdjustment.Type = result.Type;
-            SelectedAdjustment.ForwardDangerZoneCoordinate = result.ForwardDangerZoneCoordinate;
-            SelectedAdjustment.DistanceFromCenter = result.DistanceFromCenter;
-            SelectedAdjustment.Bend = result.Bend;
-            SelectedAdjustment.BendRoller = result.BendRoller;
-            SelectedAdjustment.Clamp = result.Clamp;
-            SelectedAdjustment.ClampRoller = result.ClampRoller;
-            SelectedAdjustment.Console = result.Console;
-            SelectedAdjustment.Dorn = result.Dorn;
-            SelectedAdjustment.Lift = result.Lift;
-            SelectedAdjustment.Press = result.Press;
-            SelectedAdjustment.Rotation = result.Rotation;
-            SelectedAdjustment.Squeeze = result.Squeeze;
-            SelectedAdjustment.Supply = result.Supply;
+        //var result = settingsWindow.Result;
+        //if (result is not null && SelectedAdjustment is not null)
+        //{
+        //    SelectedAdjustment.Name = result.Name;
+        //    SelectedAdjustment.PipeDiameter = result.PipeDiameter;
+        //    SelectedAdjustment.Radius = result.Radius;
+        //    SelectedAdjustment.Type = result.Type;
+        //    SelectedAdjustment.ForwardDangerZoneCoordinate = result.ForwardDangerZoneCoordinate;
+        //    SelectedAdjustment.DistanceFromCenter = result.DistanceFromCenter;
+        //    SelectedAdjustment.Bend = result.Bend;
+        //    SelectedAdjustment.BendRoller = result.BendRoller;
+        //    SelectedAdjustment.Clamp = result.Clamp;
+        //    SelectedAdjustment.ClampRoller = result.ClampRoller;
+        //    SelectedAdjustment.Console = result.Console;
+        //    SelectedAdjustment.Dorn = result.Dorn;
+        //    SelectedAdjustment.Lift = result.Lift;
+        //    SelectedAdjustment.Press = result.Press;
+        //    SelectedAdjustment.Rotation = result.Rotation;
+        //    SelectedAdjustment.Squeeze = result.Squeeze;
+        //    SelectedAdjustment.Supply = result.Supply;
 
-            AdjustmentParameters? adjustmentParameter = SelectedAdjustment.Parse(SelectedAdjustment.Id);
-            if (adjustmentParameter is not null)
-                await _repository.UpdateElementAsync(adjustmentParameter).ConfigureAwait(false);
-        }
+        //    AdjustmentParameters? adjustmentParameter = SelectedAdjustment.Parse(SelectedAdjustment.Id);
+        //    if (adjustmentParameter is not null)
+        //        await _repository.UpdateElementAsync(adjustmentParameter).ConfigureAwait(false);
+        //}
         
         UpdateAdjustments();
     }
@@ -174,7 +174,7 @@ public partial class AdjustmentViewModel : ObservableObject
     private void GoToEditSettings(AdjustmentParametersDto adjustment)
     {
         SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
-        _navigationService.Navigate(new AdjustmentParametersView(this, adjustment));
+        //_navigationService.Navigate(new AdjustmentParametersView(this, adjustment));
     }
 
     [RelayCommand]
