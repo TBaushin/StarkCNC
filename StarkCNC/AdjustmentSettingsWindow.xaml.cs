@@ -14,9 +14,9 @@ namespace StarkCNC;
 public partial class AdjustmentSettingsWindow : Window
 {
     private static readonly AdjustmentTypeToStringConverter _converter = new AdjustmentTypeToStringConverter();
-    private AdjustmentParametersForSettingsWindowDTO? _oldParameters;
+    private AdjustmentParametersVisibleDto? _oldParameters;
 
-    public AdjustmentParametersForSettingsWindowDTO? Result { get; set; }
+    public AdjustmentParametersVisibleDto? Result { get; set; }
 
     public IEnumerable<string> Types { get; set; } = new List<string>()
     {
@@ -43,7 +43,7 @@ public partial class AdjustmentSettingsWindow : Window
         }
     }
 
-    public AdjustmentSettingsWindow(AdjustmentParametersForSettingsWindowDTO dto, string Title = "Добавление новой оснастки")
+    public AdjustmentSettingsWindow(AdjustmentParametersVisibleDto dto, string Title = "Добавление новой оснастки")
     {
         _oldParameters = dto;
         DataContext = this;

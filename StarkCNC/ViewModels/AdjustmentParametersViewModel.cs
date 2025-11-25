@@ -142,7 +142,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         if (_adjustment is null)
             return;
 
-        var dto = new DTO.AdjustmentParametersForSettingsWindowDTO
+        var dto = new DTO.AdjustmentParametersVisibleDto
         {
             Name = Name,
             AdjustmentType = AdjustmentType,

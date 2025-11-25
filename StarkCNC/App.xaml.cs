@@ -91,7 +91,7 @@ public partial class App : Application
             configure.AddRoute("/visualization", typeof(VisualizationViewModel));
             configure.AddRoute("/program", typeof(ProgramViewModel));
             configure.AddRoute("/adjustment", typeof(AdjustmentViewModel));
-            //configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel));
+            configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel));
             //configure.AddRoute("/adjustment/configure");
             //configure.AddRoute("/adjustment/configure/coordinates");
             //configure.AddRoute("/adjustment/first-level", typeof(AdjustmentViewModel));

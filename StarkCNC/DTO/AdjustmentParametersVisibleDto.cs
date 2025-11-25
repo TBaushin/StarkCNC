@@ -2,7 +2,7 @@
 
 namespace StarkCNC.DTO;
 
-public class AdjustmentParametersForSettingsWindowDTO
+public class AdjustmentParametersVisibleDto
 {
     public string Name { get; set; } = string.Empty;
 

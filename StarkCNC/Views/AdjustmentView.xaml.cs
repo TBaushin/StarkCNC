@@ -26,20 +26,20 @@ public partial class AdjustmentView : Page
 
     private void InitializeLevels()
     {
-        if (ViewModel is null)
-            return;
+        //if (ViewModel is null)
+        //    return;
 
-        ThirdLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
-            .FirstOrDefault(e => e.InstalledLevel == 3);
-        ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        //ThirdLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
+        //    .FirstOrDefault(e => e.InstalledLevel == 3);
+        //ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
 
-        SecondLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
-            .FirstOrDefault(e => e.InstalledLevel == 2);
-        SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        //SecondLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
+        //    .FirstOrDefault(e => e.InstalledLevel == 2);
+        //SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
 
-        FirstLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
-            .FirstOrDefault(e => e.InstalledLevel == 1);
-        FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        //FirstLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
+        //    .FirstOrDefault(e => e.InstalledLevel == 1);
+        //FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
     }
 
     private void PipeDiameterInput_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -146,22 +146,22 @@ public partial class AdjustmentView : Page
 
         ViewModel.SetLevelToAdjustmentCommand.Execute(level);
 
-        ClearFloorConrolsSelectedAdjustment(adjustment);
-        switch (level)
-        {
-            case 1:
-                FirstLevel.SelectedAdjustment = adjustment;
-                FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
-                break;
-            case 2:
-                SecondLevel.SelectedAdjustment = adjustment;
-                SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
-                break;
-            case 3:
-                ThirdLevel.SelectedAdjustment = adjustment;
-                ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
-                break;
-        }
+        //ClearFloorConrolsSelectedAdjustment(adjustment);
+        //switch (level)
+        //{
+        //    case 1:
+        //        FirstLevel.SelectedAdjustment = adjustment;
+        //        FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        //        break;
+        //    case 2:
+        //        SecondLevel.SelectedAdjustment = adjustment;
+        //        SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        //        break;
+        //    case 3:
+        //        ThirdLevel.SelectedAdjustment = adjustment;
+        //        ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        //        break;
+        //}
     }
 
     private void ClearFloorConrolsSelectedAdjustment(AdjustmentParametersDto adjustment)

@@ -9,14 +9,15 @@ namespace StarkCNC.Views;
 /// </summary>
 public partial class AdjustmentListView : Page
 {
-    AdjustmentViewModel ViewModel;
+    private AdjustmentListViewModel? ViewModel;
 
-    public AdjustmentListView(AdjustmentViewModel viewModel)
+    public AdjustmentListView()
     {
-        ViewModel = viewModel;
-        DataContext = ViewModel;
-
         InitializeComponent();
+
+        if (DataContext is AdjustmentListViewModel viewModel)
+            ViewModel = viewModel;
+
     }
 
     private void Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -25,11 +26,9 @@ public partial class AdjustmentListView : Page
         if (label is null)
             return;
 
-        var adjustment = label.DataContext as AdjustmentParametersDto;
-        if (adjustment is null)
-            return;
+        var adjustment = label.DataContext as AdjustmentParametersVisibleDto;
 
-        ViewModel.GoToEditSettingsCommand.Execute(adjustment);
+        ViewModel?.DeleteAdjustmentCommand.Execute(adjustment);
     }
 
     private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -38,10 +37,8 @@ public partial class AdjustmentListView : Page
         if (button is null)
             return;
 
-        var adjustment = button.DataContext as AdjustmentParametersDto;
-        if (adjustment is null)
-            return;
+        var adjustment = button.DataContext as AdjustmentParametersVisibleDto;
 
-        ViewModel.DeleteAdjustmentCommand.Execute(adjustment);
+        ViewModel?.DeleteAdjustmentCommand.Execute(adjustment);
     }
 }
