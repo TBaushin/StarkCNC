@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
     </UserControl.Resources>
-    <StackPanel>
+    <Grid>
         <Grid x:Name="FlyoutMenuOpened">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -54,7 +54,7 @@
                                 MaxWidth="16"
                                 FontSize="16"
                                 VerticalAlignment="Center"
-                                FontFamily="SymbolThemeFontFamily"
+                                FontFamily="{StaticResource SymbolThemeFontFamily}"
                                 Text="{Binding IconGlyph}"
                                 Visibility="{Binding IconGlyph, Converter={StaticResource EmptyToVisibilityConverter}}"/>
                             <TextBlock
@@ -73,7 +73,6 @@
                     Margin="10"
                     Height="40"
                     Width="40"
-                    DockPanel.Dock="Bottom"
                     Command="{Binding GoSettingsCommand}">
                     <TextBlock
                         Margin="0,4,0,0"
@@ -85,7 +84,6 @@
                     Margin="10"
                     Height="40"
                     Width="210"
-                    DockPanel.Dock="Bottom"
                     HorizontalContentAlignment="Left"
                     Command="{Binding GoUsersCommand}">
                     <StackPanel Orientation="Horizontal">
@@ -109,9 +107,10 @@
             </Grid.RowDefinitions>
             <StackPanel
                 Grid.Row="0"
-                Orientation="Vertical">
+                Orientation="Vertical"
+                HorizontalAlignment="Center">
                 <Button
-                    Margin="18,18,18,5"
+                    Margin="18,18,18,6"
                     Click="MenuButton_Click">
                     <TextBlock
                         Margin="0,4,0,0"
@@ -120,7 +119,7 @@
                         Text="&#xE700;"/>
                 </Button>
                 <Button
-                    Margin="18,5,18,5">
+                    Margin="18,5,18,7">
                     <TextBlock
                         Margin="0,4,0,0"
                         FontSize="15"
@@ -132,7 +131,7 @@
             <ListView
                 x:Name="PagesListView"
                 Grid.Row="1"
-                Margin="8,8,0,8"
+                Margin="7,8,0,0"
                 ItemsSource="{Binding Pages, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 SelectionChanged="PageList_SelectionChanged">
                 <ListView.ItemTemplate>
@@ -146,10 +145,10 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-            <StackPanel Grid.Row="2">
+            <StackPanel Grid.Row="2" HorizontalAlignment="Center">
+                <Separator/>
                 <Button
-                    Margin="18,5,18,5"
-                    DockPanel.Dock="Bottom"
+                    Margin="18,7,18,5"
                     Command="{Binding GoUsersCommand}">
                     <TextBlock
                         Margin="0,4,0,0"
@@ -158,8 +157,7 @@
                         Text="&#xE77B;"/>
                 </Button>
                 <Button
-                    Margin="18,5,18,5"
-                    DockPanel.Dock="Bottom"
+                    Margin="18,5,18,10"
                     Command="{Binding GoSettingsCommand}">
                     <TextBlock
                         Margin="0,4,0,0"
@@ -169,5 +167,5 @@
                 </Button>
             </StackPanel>
         </Grid>
-    </StackPanel>
+    </Grid>
 </UserControl>
