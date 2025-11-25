@@ -6,9 +6,9 @@ public interface IRouter
 
     void ConfigureRoutes(Action<IRouteBuilder> configure);
 
-    void Navigate(string route);
+    object? Navigate(string path, params object[] parameters);
 
-    Type? ResolveType(string route);
+    Type? ResolveType(string path);
 
-    IEnumerable<KeyValuePair<string, Type>> GetRoutes();
+    IEnumerable<KeyValuePair<string, Route>> GetRoutes();
 }
