@@ -87,17 +87,17 @@ public partial class App : Application
     private static void ConfigureRoutes(IRouter router) =>
         router.ConfigureRoutes(configure =>
         {
-            configure.AddRoute("/manual", typeof(ManualViewModel));
-            configure.AddRoute("/visualization", typeof(VisualizationViewModel));
-            configure.AddRoute("/program", typeof(ProgramViewModel));
-            configure.AddRoute("/adjustment", typeof(AdjustmentViewModel));
-            configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel));
-            //configure.AddRoute("/adjustment/configure");
-            //configure.AddRoute("/adjustment/configure/coordinates");
+            configure.AddRoute("/manual", typeof(ManualViewModel), "Ручной режим", "\uE732"); // \xEBFC
+            configure.AddRoute("/visualization", typeof(VisualizationViewModel), "Визуализация", "\xE809"); // \xF158
+            configure.AddRoute("/program", typeof(ProgramViewModel), "Программа", "\xF259");
+            configure.AddRoute("/adjustment", typeof(AdjustmentViewModel), "Оснастка");
+            configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel), "Управление оснастками");
+            configure.AddRoute("/adjustment/edit", typeof(AdjustmentParametersViewModel));
+            configure.AddRoute("/adjustment/edit/coordinates", typeof(AdjustmentParametersCoordinatesViewModel));
             //configure.AddRoute("/adjustment/first-level", typeof(AdjustmentViewModel));
             //configure.AddRoute("/adjustment/second-level", typeof(AdjustmentViewModel));
             //configure.AddRoute("/adjustment/third-level", typeof(AdjustmentViewModel));
-            configure.AddRoute("/settings", typeof(SettingsViewModel));
-            configure.AddRoute("/users", typeof(UserViewModel));
+            configure.AddRoute("/settings", typeof(SettingsViewModel), "Настройки", "\xE713");
+            configure.AddRoute("/users", typeof(UserViewModel), iconGlyph: "\xE77B");
         });
 }
