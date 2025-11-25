@@ -12,22 +12,27 @@ public static class ViewLocator
         _serviceProvider = serviceProvider;
     }
 
-    public static Page? Build(Type param)
+    public static Page? Build(Type type, params object[] parameters)
     {
         if (_serviceProvider is null)
             throw new InvalidOperationException("ViewLocator is not initialized. Call ViewLocator.Initialize with a valid IServiceProvider before using.");
 
-        if (param is null)
+        if (type is null)
             return null;
 
-        var name = param.FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
-        var type = Type.GetType(name);
+        var name = type.FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+        var pageType = Type.GetType(name);
 
-        if (type is null)
+        if (pageType is null)
             return GenerateNotFoundPage(name);
 
-        var page = (Page)ActivatorUtilities.CreateInstance(_serviceProvider, type)!;
-        page.DataContext = ActivatorUtilities.CreateInstance(_serviceProvider, param)!;
+        var page = (Page)ActivatorUtilities.CreateInstance(_serviceProvider, pageType)!;
+
+        var viewModel = parameters is not null && parameters.Length > 0
+            ? ActivatorUtilities.CreateInstance(_serviceProvider, type, parameters)
+            : ActivatorUtilities.CreateInstance(_serviceProvider, type);
+
+        page.DataContext = viewModel;
 
         return page;
     }
