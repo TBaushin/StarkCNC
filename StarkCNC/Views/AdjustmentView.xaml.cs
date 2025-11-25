@@ -1,6 +1,8 @@
-﻿using StarkCNC.DTO;
+﻿using StarkCNC.Core.Models;
+using StarkCNC.DTO;
 using StarkCNC.Helpers;
 using StarkCNC.ViewModels;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -12,35 +14,44 @@ namespace StarkCNC.Views;
 /// </summary>
 public partial class AdjustmentView : Page
 {
+    private AdjustmentTypeToStringConverter _converter = new AdjustmentTypeToStringConverter();
     private AdjustmentViewModel ViewModel;
     private int _levelMustBeSetted;
 
     public AdjustmentView()
     {
         InitializeComponent();
-        if (DataContext is AdjustmentViewModel vm)
-            ViewModel = vm;
+        UpdateViewMode();
 
         InitializeLevels();
     }
 
     private void InitializeLevels()
     {
-        //if (ViewModel is null)
-        //    return;
+        UpdateViewMode();
+        if (ViewModel is null)
+            return;
 
-        //ThirdLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
-        //    .FirstOrDefault(e => e.InstalledLevel == 3);
-        //ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        var thirdLevelAdjustment = ViewModel.SetUpAdjustments
+            .FirstOrDefault(e => e.InstalledLevel == 3);
+        ThirdLevel.AdjustmentName = GenerateAdjustmentName(thirdLevelAdjustment);
+        ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
 
-        //SecondLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
-        //    .FirstOrDefault(e => e.InstalledLevel == 2);
-        //SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        var secondLevelAdjustment = ViewModel.SetUpAdjustments
+            .FirstOrDefault(e => e.InstalledLevel == 2);
+        SecondLevel.AdjustmentName = GenerateAdjustmentName(secondLevelAdjustment);
+        SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
 
-        //FirstLevel.SelectedAdjustment = ViewModel.SetUpAdjustments
-        //    .FirstOrDefault(e => e.InstalledLevel == 1);
-        //FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+        var firstLevelAdjustment = ViewModel.SetUpAdjustments
+            .FirstOrDefault(e => e.InstalledLevel == 1);
+        FirstLevel.AdjustmentName = GenerateAdjustmentName(firstLevelAdjustment);
+        FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
     }
+
+    private string GenerateAdjustmentName(AdjustmentParameters? adjustment) =>
+        adjustment is null
+        ? string.Empty
+        : $"{adjustment.Name} {_converter.Convert(adjustment.Type, typeof(AdjustmentType), new { }, CultureInfo.CurrentCulture)} R{adjustment.Radius}";
 
     private void PipeDiameterInput_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
     {
@@ -49,6 +60,7 @@ public partial class AdjustmentView : Page
 
     private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
     {
+        UpdateViewMode();
         if (ViewModel is null)
             return;
 
@@ -137,6 +149,8 @@ public partial class AdjustmentView : Page
 
     private void SetLevelToAdjustment(int level)
     {
+        UpdateViewMode();
+
         if (ViewModel is null)
             return;
 
@@ -164,14 +178,15 @@ public partial class AdjustmentView : Page
         //}
     }
 
-    private void ClearFloorConrolsSelectedAdjustment(AdjustmentParametersDto adjustment)
+    private void ClearFloorConrolsSelectedAdjustment(AdjustmentParameters adjustment)
     {
-        if (FirstLevel.SelectedAdjustment is not null && FirstLevel.SelectedAdjustment == adjustment)
-            FirstLevel.SelectedAdjustment = null;
-        if (SecondLevel.SelectedAdjustment is not null && SecondLevel.SelectedAdjustment == adjustment)
-            SecondLevel.SelectedAdjustment = null;
-        if (ThirdLevel.SelectedAdjustment is not null && ThirdLevel.SelectedAdjustment == adjustment)
-            ThirdLevel.SelectedAdjustment = null;
+        var adjustmentName = GenerateAdjustmentName(adjustment);
+        if (FirstLevel.AdjustmentName is not null && FirstLevel.AdjustmentName == adjustmentName)
+            FirstLevel.AdjustmentName = string.Empty;
+        if (SecondLevel.AdjustmentName is not null && SecondLevel.AdjustmentName == adjustmentName)
+            SecondLevel.AdjustmentName = string.Empty;
+        if (ThirdLevel.AdjustmentName is not null && ThirdLevel.AdjustmentName == adjustmentName)
+            ThirdLevel.AdjustmentName = string.Empty;
     }
 
     private void CollapseButtonsAndClearSelectedItem(object sender)
@@ -193,5 +208,11 @@ public partial class AdjustmentView : Page
         }
 
         AdjustmentsList.SelectedItem = null;
+    }
+
+    private void UpdateViewMode()
+    {
+        if (DataContext is AdjustmentViewModel vm && ViewModel is not AdjustmentViewModel)
+            ViewModel = vm;
     }
 }

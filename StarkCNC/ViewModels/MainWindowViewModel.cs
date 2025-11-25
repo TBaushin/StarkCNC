@@ -21,8 +21,6 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
-    private readonly SettingsViewModel _settingsViewModel;
-
     [ObservableProperty]
     private bool _canNavigateBack;
 
@@ -43,7 +41,6 @@ public partial class MainWindowViewModel : ViewModelBase
         IBreadcrumbService breadcrumbService,
         IStatusService statusService,
         AdjustmentViewModel adjustmentViewModel,
-        SettingsViewModel settingsViewModel,
         ManualViewModel manualViewModel,
         VisualizationViewModel visualizationViewModel,
         ProgramViewModel programViewModel) 
@@ -51,20 +48,19 @@ public partial class MainWindowViewModel : ViewModelBase
         _navigationService = navigationService;
         _router = router;
         _adjustmentViewModel = adjustmentViewModel;
-        _settingsViewModel = settingsViewModel;
 
         if (statusService is not null)
             statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
         _adjustmentPage = new ViewData(ViewLocator.Build(typeof(AdjustmentViewModel))) { IconGlyph = "\uE726" };
         AdjustmentUpdateChildElements();
-        foreach (var item in _router.GetRoutes())
-        {
-            if (item.Key == "/settings" || item.Key == "/users")
-                continue;
-            _pages.Add(new ViewData(ViewLocator.Build(item.Value)));
-        }
-        _pages.Add(_adjustmentPage);
+        //foreach (var item in _router.GetRoutes())
+        //{
+        //    if (item.Key == "/settings" || item.Key == "/users" || item.Key.Contains("/adjustment", StringComparison.CurrentCulture))
+        //        continue;
+        //    _pages.Add(new ViewData(ViewLocator.Build(item.Value)));
+        //}
+        //_pages.Add(_adjustmentPage);
         //_pages = [
         //    new ViewData(new ManualView(App.ServiceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE732" },
         //    new ViewData(new VisualizationView(App.ServiceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },

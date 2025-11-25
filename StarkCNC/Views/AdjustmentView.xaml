@@ -150,7 +150,7 @@
                 CornerRadius="4"
                 Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                 Cursor="Hand"
-                MouseDown="AdjustmentManagement_MouseDown">
+                PreviewMouseDown="AdjustmentManagement_MouseDown">
                 <Grid Margin="10,0,10,0" VerticalAlignment="Center">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

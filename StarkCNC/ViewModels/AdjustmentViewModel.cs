@@ -56,136 +56,17 @@ public partial class AdjustmentViewModel : ObservableObject
         }
     }
 
-    //[RelayCommand]
-    //private async Task CreateAdjustment()
-    //{
-    //    var adjustment = AdjustmentParametersDto.CreateFromConfiguration();
-    //    if (adjustment is null)
-    //        throw new ArgumentNullException(nameof(adjustment));
-
-    //    Adjustments.Add(adjustment);
-
-    //    SelectedAdjustment = adjustment;
-    //    //var settingsWindow = new AdjustmentSettingsWindow(this);
-    //    //settingsWindow.ShowDialog();
-
-    //    //var result = settingsWindow.Result;
-    //    //if (result is not null)
-    //    //{
-    //    //    SelectedAdjustment.Name = result.Name;
-    //    //    SelectedAdjustment.PipeDiameter = result.PipeDiameter;
-    //    //    SelectedAdjustment.Radius = result.Radius;
-    //    //    SelectedAdjustment.Type = result.Type;
-    //    //    SelectedAdjustment.ForwardDangerZoneCoordinate = result.ForwardDangerZoneCoordinate;
-    //    //    SelectedAdjustment.DistanceFromCenter = result.DistanceFromCenter;
-    //    //    SelectedAdjustment.Bend = result.Bend;
-    //    //    SelectedAdjustment.BendRoller = result.BendRoller;
-    //    //    SelectedAdjustment.Clamp = result.Clamp;
-    //    //    SelectedAdjustment.ClampRoller = result.ClampRoller;
-    //    //    SelectedAdjustment.Console = result.Console;
-    //    //    SelectedAdjustment.Dorn = result.Dorn;
-    //    //    SelectedAdjustment.Lift = result.Lift;
-    //    //    SelectedAdjustment.Press = result.Press;
-    //    //    SelectedAdjustment.Rotation = result.Rotation;
-    //    //    SelectedAdjustment.Squeeze = result.Squeeze;
-    //    //    SelectedAdjustment.Supply = result.Supply;
-
-    //    //    var newAdjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
-    //    //    if (newAdjustment is not null)
-    //    //    {
-    //    //        var item = await _repository.AddElementAsync(newAdjustment).ConfigureAwait(false);
-    //    //        if (item is null)
-    //    //            return;
-
-    //    //        SelectedAdjustment = item.ToDto();
-    //    //    }
-    //    //}
-        
-    //    UpdateAdjustments();
-    //}
-
-    //[RelayCommand]
-    //private async Task DeleteAdjustment(AdjustmentParametersDto adjustment)
-    //{
-    //    if (adjustment is null)
-    //        return;
-
-    //    if (adjustment.Id is not Guid id)
-    //    {
-    //        Adjustments.Remove(adjustment);
-    //    }
-    //    else
-    //    {
-    //        Adjustments.Remove(adjustment);
-    //        await _repository.RemoveElementAsync(id).ConfigureAwait(false);
-    //    }
-        
-    //    UpdateAdjustments();
-    //}
-
-    //[RelayCommand]
-    //private async Task EditAdjustment(AdjustmentParametersDto adjustment)
-    //{
-    //    SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
-    //    //var settingsWindow = new AdjustmentSettingsWindow(this, "Редактирование оснастки");
-    //    //settingsWindow.ShowDialog();
-
-    //    //var result = settingsWindow.Result;
-    //    //if (result is not null && SelectedAdjustment is not null)
-    //    //{
-    //    //    SelectedAdjustment.Name = result.Name;
-    //    //    SelectedAdjustment.PipeDiameter = result.PipeDiameter;
-    //    //    SelectedAdjustment.Radius = result.Radius;
-    //    //    SelectedAdjustment.Type = result.Type;
-    //    //    SelectedAdjustment.ForwardDangerZoneCoordinate = result.ForwardDangerZoneCoordinate;
-    //    //    SelectedAdjustment.DistanceFromCenter = result.DistanceFromCenter;
-    //    //    SelectedAdjustment.Bend = result.Bend;
-    //    //    SelectedAdjustment.BendRoller = result.BendRoller;
-    //    //    SelectedAdjustment.Clamp = result.Clamp;
-    //    //    SelectedAdjustment.ClampRoller = result.ClampRoller;
-    //    //    SelectedAdjustment.Console = result.Console;
-    //    //    SelectedAdjustment.Dorn = result.Dorn;
-    //    //    SelectedAdjustment.Lift = result.Lift;
-    //    //    SelectedAdjustment.Press = result.Press;
-    //    //    SelectedAdjustment.Rotation = result.Rotation;
-    //    //    SelectedAdjustment.Squeeze = result.Squeeze;
-    //    //    SelectedAdjustment.Supply = result.Supply;
-
-    //    //    AdjustmentParameters? adjustmentParameter = SelectedAdjustment.Parse(SelectedAdjustment.Id);
-    //    //    if (adjustmentParameter is not null)
-    //    //        await _repository.UpdateElementAsync(adjustmentParameter).ConfigureAwait(false);
-    //    //}
-        
-    //    UpdateAdjustments();
-    //}
-
-    //[RelayCommand]
-    //private void SaveAdjustment()
-    //{
-    //    SelectedAdjustment = null;
-    //    _navigationService.Navigate(_adjustmentListPage);
-    //}
-
     [RelayCommand]
     private void GoToAdjustmentList()
     {
-        _router.Navigate("/adjustments/list");
+        _router.Navigate("/adjustment/list");
     }
 
     [RelayCommand]
     private void GoToEditSettings(AdjustmentParametersDto adjustment)
     {
-        SelectedAdjustment = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
-        //_navigationService.Navigate(new AdjustmentParametersView(this, adjustment));
-    }
-
-    [RelayCommand]
-    private void GoToCoordinateSettings(AdjustmentParametersDto adjustment)
-    {
-        _navigationService.Navigate(new AdjustmentCoordinateSettingsView(
-            _settingsViewModel.Settings,
-            this,
-            adjustment));
+        var selected = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
+        _router.Navigate($"/adjustment/edit", selected?.Id);
     }
 
     [RelayCommand]
@@ -197,20 +78,6 @@ public partial class AdjustmentViewModel : ObservableObject
         }
 
         GetSetUpAdjustments();
-    }
-
-    [RelayCommand]
-    private async Task GoToEditParametersSettings(string parameter)
-    {
-        if (SelectedAdjustment is null)
-            return;
-
-        //var parametersSettingsWindow = new AdjustmentParametersSettingsWindow(SelectedAdjustment, parameter);
-        //parametersSettingsWindow.ShowDialog();
-
-        //AdjustmentParameters? adjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
-        //if (adjustment is not null)
-        //    await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);
     }
 
     private async void UpdateAdjustments()
@@ -235,23 +102,16 @@ public partial class AdjustmentViewModel : ObservableObject
 
     private async void GetSetUpAdjustments()
     {
-        try
+        SetUpAdjustments.Clear();
+        var adjustmentsWithLevel = await _repository
+            .GetAdjustmentsWithLevelAsync().ConfigureAwait(false);
+        adjustmentsWithLevel.ToList().ForEach(awl =>
         {
-            SetUpAdjustments.Clear();
-            var adjustmentsWithLevel = await _repository
-                .GetAdjustmentsWithLevelAsync().ConfigureAwait(false);
-            adjustmentsWithLevel.ToList().ForEach(awl =>
-            {
-                Adjustments
-                        .Where(a => a.Id.Equals(awl.Id))
-                        .ToList()
-                        .ForEach(a => SetUpAdjustments.Add(a));
-            });
-        }
-        catch (Exception)
-        {
-            // Ignore
-        }
+            Adjustments
+                    .Where(a => a.Id.Equals(awl.Id))
+                    .ToList()
+                    .ForEach(a => SetUpAdjustments.Add(a));
+        });
     }
 
     private async Task<AdjustmentParametersDto?> SaveOrUpdateSettings(AdjustmentParametersDto adjustment)

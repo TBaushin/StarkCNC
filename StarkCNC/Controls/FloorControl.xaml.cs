@@ -1,8 +1,4 @@
-﻿using StarkCNC.Core.Models;
-using StarkCNC.DTO;
-using StarkCNC.Helpers;
-using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -19,8 +15,8 @@ public partial class FloorControl : UserControl
         .Register(nameof(FloorText), typeof(string), typeof(FloorControl), new PropertyMetadata());
 
     [SuppressMessage("Usage", "CA2211", Justification = "Особенность XAML UI")]
-    public static DependencyProperty SelectedAdjustmentProperty = DependencyProperty
-        .Register(nameof(SelectedAdjustment), typeof(AdjustmentParametersDto), typeof(FloorControl), new PropertyMetadata());
+    public static DependencyProperty  AdjustmentNameProperty = DependencyProperty
+        .Register(nameof(AdjustmentName), typeof(string), typeof(FloorControl), new PropertyMetadata());
 
     [SuppressMessage("Usage", "CA2211", Justification = "Особенность XAML UI")]
     public static DependencyProperty EnabledProperty = DependencyProperty
@@ -30,26 +26,23 @@ public partial class FloorControl : UserControl
     public static DependencyProperty NavigateProperty = DependencyProperty
         .Register(nameof(Navigate), typeof(ICommand), typeof(FloorControl), new PropertyMetadata());
 
-    private AdjustmentTypeToStringConverter _converter = new AdjustmentTypeToStringConverter();
-
     public string FloorText
     {
         get => (string)GetValue(FloorTextProperty);
         set => SetValue(FloorTextProperty, value);
     }
 
-    public AdjustmentParametersDto? SelectedAdjustment
+    public string AdjustmentName
     {
-        get => (AdjustmentParametersDto?)GetValue(SelectedAdjustmentProperty);
+        get => (string)GetValue(AdjustmentNameProperty);
         set
         {
-            SetValue(SelectedAdjustmentProperty, value);
+            SetValue(AdjustmentNameProperty, value);
 
-            if (value is null || value.Type is null)
+            if (value is null)
                 SelectedAdjustmentLabel.Content = string.Empty;
             else
-                SelectedAdjustmentLabel.Content =
-                    $"{value.Name} {_converter.Convert(value.Type, typeof(AdjustmentType), new {}, CultureInfo.CurrentCulture)} R{value.Radius}";
+                SelectedAdjustmentLabel.Content = value;
         }
     }
 
@@ -72,7 +65,7 @@ public partial class FloorControl : UserControl
 
     private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        if (SelectedAdjustment is not null)
-            Navigate.Execute(SelectedAdjustment);
+        //if (SelectedAdjustment is not null)
+            //Navigate.Execute(SelectedAdjustment);
     }
 }

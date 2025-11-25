@@ -51,6 +51,11 @@ namespace StarkCNC.Views
             }
         }
 
+        private void Border_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            ViewModel?.GoToSettingCoordinatesCommand.Execute(null);
+        }
+
         private void TextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var textBox = sender as TextBox;

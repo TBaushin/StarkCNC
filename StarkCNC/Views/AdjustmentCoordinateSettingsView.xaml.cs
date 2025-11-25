@@ -1,5 +1,4 @@
-﻿using StarkCNC.DTO;
-using StarkCNC.ViewModels;
+﻿using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views
@@ -9,31 +8,25 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class AdjustmentCoordinateSettingsView : Page
     {
-        private SettingsDto _settingsService;
+        private AdjustmentParametersCoordinatesViewModel? ViewModel { get; set; }
 
-        private AdjustmentViewModel ViewModel { get; set; }
-
-        public AdjustmentParametersDto Adjustment { get; set; }
-
-        public AdjustmentCoordinateSettingsView(
-            SettingsDto settings,
-            AdjustmentViewModel viewModel,
-            AdjustmentParametersDto adjustment)
+        public AdjustmentCoordinateSettingsView()
         {
-            _settingsService = settings;
-            Adjustment = adjustment;
-            ViewModel = viewModel;
-            DataContext = this;
-
             InitializeComponent();
 
-            _settingsService.PropertyChanged += Settings_PropertyChanged;
+            if (DataContext is AdjustmentParametersCoordinatesViewModel viewModel)
+            {
+                ViewModel = viewModel;
+                ViewModel.PropertyChanged += Settings_PropertyChanged;
+            }
+
             ShowOrHideElements();
         }
 
         private void Settings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            ShowOrHideElements();
+            if (e.PropertyName == nameof(AdjustmentParametersCoordinatesViewModel.IsElectricMachine))
+                ShowOrHideElements();
         }
 
         private void EditButton_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -41,14 +34,17 @@ namespace StarkCNC.Views
             if (sender is not Button btn)
                 return;
 
-            ViewModel.GoToEditParametersSettingsCommand
-                .Execute(btn.Name.Replace("EditButton", "", StringComparison.CurrentCulture));
+            var parameter = btn.Name.Replace("EditButton", "", System.StringComparison.CurrentCulture);
+
+            ViewModel?.EditParametersCommand.Execute(parameter);
         }
 
         private void ShowOrHideElements()
         {
+            if (ViewModel is null)
+                return;
 
-            if (_settingsService.IsElectricMachine)
+            if (ViewModel.IsElectricMachine)
             {
                 Squeeze.Visibility = System.Windows.Visibility.Visible;
                 Clamp.Visibility = System.Windows.Visibility.Visible;

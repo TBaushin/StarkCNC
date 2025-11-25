@@ -407,7 +407,7 @@
             CornerRadius="4"
             Cursor="Hand"
             Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-            PreviewMouseDown="{Binding GoToSettingCoordinatesCommand}">
+            PreviewMouseDown="Border_PreviewMouseDown">
             <Grid
                 Grid.Column="0"
                 Margin="10,0,10,0"

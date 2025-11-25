@@ -64,15 +64,20 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     [ObservableProperty]
     private double _clampRollerInnerRadius;
 
-    public AdjustmentParametersViewModel(IRouter router, IAdjustmentRepository repository, IManualConfigurationService manualConfigurationService)
+    public AdjustmentParametersViewModel(
+        IRouter router,
+        IAdjustmentRepository repository,
+        IManualConfigurationService manualConfigurationService,
+        Guid? id)
     {
         _router = router;
         _repository = repository;
         _manualConfigurationService = manualConfigurationService;
         ReadRequestsFromConfiguration();
+        SetSelectedAdjustment(id);
     }
 
-    public async Task SetSelectedAdjustment(Guid? id)
+    private async void SetSelectedAdjustment(Guid? id)
     {
         if (id is not Guid guid)
             throw new ArgumentNullException(nameof(id));
@@ -135,7 +140,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     [RelayCommand]
     private void GoToSettingCoordinates()
     {
-        _router.Navigate("/");
+        _router.Navigate("/adjustment/edit/coordinates", _adjustment?.Id);
     }
 
     [RelayCommand]
