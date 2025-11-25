@@ -1,23 +1,45 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using StarkCNC.Core.Models;
+using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Repository;
 using StarkCNC.DTO;
+using StarkCNC.MachineCommunication.Services;
 using System.Collections.ObjectModel;
-using System.Xml.Linq;
 
 namespace StarkCNC.ViewModels;
 
 public partial class AdjustmentListViewModel : ViewModelBase
 {
     private readonly IAdjustmentRepository _repository;
+    private readonly IManualConfigurationService _manualConfigurationService;
+
+    private string _typeRequestString = string.Empty;
+
+    private string _pipeDiameterRequestString = string.Empty;
+
+    private string _radiusRequestString = string.Empty;
 
     ObservableCollection<AdjustmentParametersVisibleDto> Adjustments = new ObservableCollection<AdjustmentParametersVisibleDto>();
 
-    public AdjustmentListViewModel(IAdjustmentRepository repository)
+    public AdjustmentListViewModel(IAdjustmentRepository repository, IManualConfigurationService manualConfigurationService)
     {
         _repository = repository;
+        _manualConfigurationService = manualConfigurationService;
+        ReadRequestsFromConfiguration();
 
         LoadAdjustmentsAsync();
+    }
+
+    private void ReadRequestsFromConfiguration()
+    {
+        var adjustmentSection = App.Configuration.GetSection("Adjustment");
+
+        var adjustmentTypeSection = adjustmentSection.GetSection("AdjustmentType");
+        _typeRequestString = adjustmentTypeSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        var pipeDiameterSection = adjustmentSection.GetSection("PipeDiameter");
+        _pipeDiameterRequestString = pipeDiameterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        //var radius
     }
 
     public async void LoadAdjustmentsAsync()
@@ -36,6 +58,20 @@ public partial class AdjustmentListViewModel : ViewModelBase
                     Radius = adjustment.Radius
                 });
         }
+    }
+
+    [RelayCommand]
+    private async Task CreateAdjustment()
+    {
+        var settingsWindow = new AdjustmentSettingsWindow(null, "Создание оснастки");
+        settingsWindow.Show();
+        var result = settingsWindow.Result;
+
+        if (result is null)
+            return;
+
+        // Create new adjustment
+        LoadAdjustmentsAsync();
     }
 
     [RelayCommand]
@@ -82,6 +118,11 @@ public partial class AdjustmentListViewModel : ViewModelBase
             adjustmentToUpdate.Radius = result.Radius;
 
             await _repository.UpdateElementAsync(adjustmentToUpdate).ConfigureAwait(false);
+
+            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
+            await _manualConfigurationService.WriteAsync(adjustmentToUpdate.Type, _typeRequestString).ConfigureAwait(false);
+            await _manualConfigurationService.WriteAsync(adjustmentToUpdate.PipeDiameter, _pipeDiameterRequestString).ConfigureAwait(false);
+
             LoadAdjustmentsAsync();
         }
     }

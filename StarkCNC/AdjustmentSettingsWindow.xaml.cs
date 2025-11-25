@@ -1,7 +1,6 @@
 ﻿using StarkCNC.Core.Models;
 using StarkCNC.DTO;
 using StarkCNC.Helpers;
-using StarkCNC.ViewModels;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Shell;
@@ -43,10 +42,18 @@ public partial class AdjustmentSettingsWindow : Window
         }
     }
 
-    public AdjustmentSettingsWindow(AdjustmentParametersVisibleDto dto, string Title = "Добавление новой оснастки")
+    public AdjustmentSettingsWindow(AdjustmentParametersVisibleDto? dto, string Title = "Добавление новой оснастки")
     {
         _oldParameters = dto;
         DataContext = this;
+
+        Result = new AdjustmentParametersVisibleDto()
+        {
+            Name = dto?.Name ?? string.Empty,
+            AdjustmentType = dto?.AdjustmentType ?? AdjustmentType.Winding,
+            PipeDiameter = dto?.PipeDiameter ?? 0,
+            Radius = dto?.Radius ?? 0
+        };
 
         InitializeComponent();
         TitleTextBlock.Text = Title;
