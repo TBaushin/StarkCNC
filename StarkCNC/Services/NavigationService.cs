@@ -50,8 +50,8 @@ public class NavigationService : INavigationService
         if (!CanGoForward)
             return;
 
-        if (_currentContent is not null)
-            _history.Push(_currentContent);
+        if (CurrentContent is not null)
+            _history.Push(CurrentContent);
         CurrentContent = _future.Pop();
     }
 
@@ -59,8 +59,8 @@ public class NavigationService : INavigationService
     {
         _future.Clear();
 
-        if (_currentContent is not null)
-            _history.Push(_currentContent);
+        if (CurrentContent is not null)
+            _history.Push(CurrentContent);
         CurrentContent = content;
     }
 

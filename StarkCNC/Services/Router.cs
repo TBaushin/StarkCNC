@@ -5,7 +5,7 @@ namespace StarkCNC.Services;
 public class Router : IRouter, IRouteBuilder
 {
     private readonly INavigationService _navigationService;
-    private readonly Dictionary<string, Type> _routes = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, Route> _routes = new(StringComparer.OrdinalIgnoreCase);
 
     private string _currentRoute = string.Empty;
 
@@ -18,10 +18,16 @@ public class Router : IRouter, IRouteBuilder
         _navigationService.Navigation += _navigationService_Navigation;
     }
 
-    public void AddRoute(string route, Type type)
+    public void AddRoute(string route, Type type, string? title = null, string? iconGlyph = null)
     {
         if (!_routes.ContainsKey(route))
-            _routes.Add(route, type);
+            _routes.Add(
+                route,
+                new Route(
+                    route,
+                    type,
+                    string.IsNullOrEmpty(title) ? string.Empty : title,
+                    string.IsNullOrEmpty(iconGlyph) ? string.Empty : iconGlyph));
     }
 
     public void ConfigureRoutes(Action<IRouteBuilder> configure)
@@ -32,23 +38,24 @@ public class Router : IRouter, IRouteBuilder
         configure(this);
     }
 
-    public void Navigate(string route)
+    public object? Navigate(string path, params object[] parameters)
     {
-        if(!_routes.TryGetValue(route, out var type))
-            throw new InvalidOperationException($"Route '{route}' is not configured.");
+        if(!_routes.TryGetValue(path, out var route))
+            throw new InvalidOperationException($"Route '{path}' is not configured.");
 
-        var page = ViewLocator.Build(type);
+        var page = ViewLocator.Build(route.Type, parameters);
         if (page is null)
-            return;
+            return null;
 
-        _currentRoute = route;
+        _currentRoute = path;
         _navigationService.Navigate(page);
+        return page;
     }
 
-    public Type? ResolveType(string route) =>
-        _routes.TryGetValue(route, out var type) ? type : null;
+    public Type? ResolveType(string path) =>
+        _routes.TryGetValue(path, out var route) ? route.Type : null;
 
-    public IEnumerable<KeyValuePair<string, Type>> GetRoutes() => _routes;
+    public IEnumerable<KeyValuePair<string, Route>> GetRoutes() => _routes;
 
     private void _navigationService_Navigation(object? sender, NavigationEventArgs e)
     {
@@ -58,7 +65,7 @@ public class Router : IRouter, IRouteBuilder
 
         foreach (var kv in _routes)
         {
-            if (kv.Value.Name == pageType.Name + "Model")
+            if (kv.Value.Type.Name == pageType.Name + "Model")
             {
                 _currentRoute = kv.Key;
                 break;
