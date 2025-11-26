@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using StarkCNC.Controls;
 using StarkCNC.Core.Services;
 using StarkCNC.Helpers;
