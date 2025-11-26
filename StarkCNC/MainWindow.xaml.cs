@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Win32;
 using StarkCNC.Controls;
+using StarkCNC.Core.Services;
 using StarkCNC.Helpers;
 using StarkCNC.Services;
 using StarkCNC.ViewModels;
@@ -16,16 +17,19 @@ namespace StarkCNC;
 /// </summary>
 public partial class MainWindow : Window
 {
-    private readonly INavigationService _navigationService;
-
     public MainWindowViewModel ViewModel { get; set; }
 
     public FlyoutMenuControl FlyoutMenu { get; set; }
 
-    public MainWindow(INavigationService navigationService, MainWindowViewModel viewModel, FlyoutMenuControl flyoutMenuControl)
+    public MainWindow(INavigationService navigationService, IRouter router, MainWindowViewModel viewModel, FlyoutMenuControl flyoutMenuControl)
     {
-        _navigationService = navigationService;
-        _navigationService.Navigation += OnNavigation;
+        if (navigationService is null)
+            throw new ArgumentNullException(nameof(navigationService));
+
+        if (router is null)
+            throw new ArgumentNullException(nameof(router));
+
+        navigationService.Navigation += OnNavigation;
 
         ViewModel = viewModel;
         DataContext = ViewModel;
@@ -40,7 +44,7 @@ public partial class MainWindow : Window
         Grid.SetRowSpan(FlyoutMenu, 2);
         PageGrid.Children.Add(FlyoutMenu);
 
-        _navigationService.SetFrame(RootContentFrame);
+        navigationService.SetFrame(RootContentFrame);
 
         WindowChrome.SetWindowChrome(this,
             new WindowChrome
@@ -55,7 +59,7 @@ public partial class MainWindow : Window
             }
         );
 
-        _navigationService.Navigate(ViewModel.Pages[0].Page);
+        router.Navigate("/manual");
 
         MaximizeWindow();
 
