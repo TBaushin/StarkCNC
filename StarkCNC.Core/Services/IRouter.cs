@@ -2,7 +2,7 @@
 
 public interface IRouter
 {
-    string CurrentRoute { get; }
+    Route? CurrentRoute { get; }
 
     void ConfigureRoutes(Action<IRouteBuilder> configure);
 
@@ -11,4 +11,6 @@ public interface IRouter
     Type? ResolveType(string path);
 
     IEnumerable<KeyValuePair<string, Route>> GetRoutes();
+
+    Route? GetRoute(string path);
 }

@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Models;
+using StarkCNC.Repository;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
 
@@ -18,6 +20,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private readonly INavigationService _navigationService;
 
     private readonly IRouter _router;
+
+    private readonly IAdjustmentRepository _adjustmentRepository;
 
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
@@ -40,6 +44,7 @@ public partial class MainWindowViewModel : ViewModelBase
         IRouter router,
         IBreadcrumbService breadcrumbService,
         IStatusService statusService,
+        IAdjustmentRepository adjustmentRepository,
         AdjustmentViewModel adjustmentViewModel,
         ManualViewModel manualViewModel,
         VisualizationViewModel visualizationViewModel,
@@ -47,26 +52,15 @@ public partial class MainWindowViewModel : ViewModelBase
     {
         _navigationService = navigationService;
         _router = router;
+        _adjustmentRepository = adjustmentRepository;
         _adjustmentViewModel = adjustmentViewModel;
 
         if (statusService is not null)
             statusService.PropertyChanged += (_, _) => Status = statusService.Status;
 
-        _adjustmentPage = new ViewData(ViewLocator.Build(typeof(AdjustmentViewModel))) { IconGlyph = "\uE726" };
+        RegisterPages();
+        _adjustmentPage = Pages.First(e => e.Title == "Оснастка");
         AdjustmentUpdateChildElements();
-        //foreach (var item in _router.GetRoutes())
-        //{
-        //    if (item.Key == "/settings" || item.Key == "/users" || item.Key.Contains("/adjustment", StringComparison.CurrentCulture))
-        //        continue;
-        //    _pages.Add(new ViewData(ViewLocator.Build(item.Value)));
-        //}
-        //_pages.Add(_adjustmentPage);
-        //_pages = [
-        //    new ViewData(new ManualView(App.ServiceProvider.GetRequiredService<ManualViewModel>())) { IconGlyph = "\uE732" },
-        //    new ViewData(new VisualizationView(App.ServiceProvider.GetRequiredService<VisualizationViewModel>())) { IconGlyph = "\uE726" },
-        //    new ViewData(new ProgramView()) { IconGlyph = "\uE726" },
-        //    _adjustmentPage
-        //];
 
         _adjustmentViewModel.SetUpAdjustments.CollectionChanged += SetUpAdjustments_CollectionChanged;
         _navigationService.Navigation += (_, _) => Breadcrumb = breadcrumbService.VisibleObject;
@@ -106,21 +100,38 @@ public partial class MainWindowViewModel : ViewModelBase
         return Pages.FirstOrDefault(e => e.Title == title);
     }
 
-    private void AdjustmentUpdateChildElements()
+    private void RegisterPages()
+    {
+        var routes = new string[] { "/manual", "/visualization", "/program", "/adjustment" };
+        foreach (var route in routes)
+        {
+            var realRoute = _router.GetRoute(route);
+            if (realRoute is null)
+                continue;
+
+            Pages.Add(new ViewData(realRoute.Title, realRoute.IconGlyph, new RelayCommand(() => _router.Navigate(realRoute.Path))));
+        }
+    }
+
+    private async void AdjustmentUpdateChildElements()
     {
         _adjustmentPage.Items.Clear();
-        foreach (var adjustment in _adjustmentViewModel.SetUpAdjustments)
+        var withLevel = await _adjustmentRepository.GetAdjustmentsWithLevelAsync().ConfigureAwait(false);
+        foreach (var adjustment in withLevel)
         {
-            //var adjustmentSettingPage = new AdjustmentParametersView(_adjustmentViewModel, adjustment);
-            //var viewData = new ViewData(adjustmentSettingPage) { Title = $"{adjustment.Name} Этаж {adjustment.InstalledLevel}" };
+            var leveledAdjustmentViewData = new ViewData(
+                $"{adjustment.Name} Этаж {adjustment.InstalledLevel}",
+                null,
+                new RelayCommand(() => _router.Navigate("/adjustment/edit", adjustment.Id)));
 
-            //var adjustmentCoordinateSettingsPage = new AdjustmentCoordinateSettingsView(
-            //    _settingsViewModel.Settings,
-            //    _adjustmentViewModel,
-            //    adjustment);
-            //viewData.Items.Add(new ViewData(adjustmentCoordinateSettingsPage) { Title = "Настройка координат" });
+            var adjustmentCoordinateSettingsViewData = new ViewData(
+                "Настройка координат",
+                null,
+                new RelayCommand(() => _router.Navigate("/adjustment/edit/coordinates", adjustment.Id)));
 
-            //_adjustmentPage.Items.Add(viewData);
+            leveledAdjustmentViewData.Items.Add(adjustmentCoordinateSettingsViewData);
+
+            _adjustmentPage.Items.Add(leveledAdjustmentViewData);
         }
     }
 

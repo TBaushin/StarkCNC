@@ -1,5 +1,4 @@
 ﻿using StarkCNC.Models;
-using StarkCNC.Services;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,8 +9,6 @@ namespace StarkCNC.Controls;
 /// </summary>
 public partial class FlyoutMenuControl : UserControl
 {
-    private readonly INavigationService _navigationService;
-
     private bool _menuOpen = true;
     private ViewData? _selectedItem;
 
@@ -29,10 +26,8 @@ public partial class FlyoutMenuControl : UserControl
 
     public event RoutedPropertyChangedEventHandler<object>? SelectedItemChanged;
 
-    public FlyoutMenuControl(INavigationService navigationService)
+    public FlyoutMenuControl()
     {
-        _navigationService = navigationService;
-
         InitializeComponent();
     }
 
@@ -59,6 +54,8 @@ public partial class FlyoutMenuControl : UserControl
 
                 lvItem.IsSelected = false;
             }
+
+            _selectedItem = null;
         }
         else
         {
@@ -98,7 +95,7 @@ public partial class FlyoutMenuControl : UserControl
             return;
 
         _selectedItem = navItem;
-        //_navigationService.Navigate(navItem.Page);
+        _selectedItem.NavigationCommand.Execute(null);
     }
 
     private void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -115,7 +112,7 @@ public partial class FlyoutMenuControl : UserControl
             return;
 
         _selectedItem = navItem;
-        //_navigationService.Navigate(navItem.Page);
+        _selectedItem.NavigationCommand.Execute(null);
     }
 
     private void MenuButton_Click(object sender, RoutedEventArgs e)

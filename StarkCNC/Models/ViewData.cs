@@ -1,11 +1,12 @@
-﻿using System.Collections.ObjectModel;
-using System.Windows.Controls;
+﻿using CommunityToolkit.Mvvm.Input;
+using StarkCNC.Core.Services;
+using System.Collections.ObjectModel;
 
 namespace StarkCNC.Models;
 
 public class ViewData
 {
-    private Page _page;
+    public IRelayCommand NavigationCommand { get; }
 
     public string Title { get; set; }
 
@@ -13,22 +14,10 @@ public class ViewData
 
     public ObservableCollection<ViewData> Items { get; } = new ObservableCollection<ViewData>();
 
-    public Page Page 
-    { 
-        get 
-        {
-            return _page; 
-        }
-        private set 
-        { 
-            _page = value;
-            Title = _page.Title;
-        } 
-    }
-
-    public ViewData(Page page)
+    public ViewData(string title, string? iconGlyph, IRelayCommand navigationCommand)
     {
-        _page = page;
-        Title = _page.Title;
+        Title = title;
+        IconGlyph = iconGlyph;
+        NavigationCommand = navigationCommand;
     }
 }

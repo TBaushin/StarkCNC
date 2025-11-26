@@ -11,7 +11,7 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
     private readonly IRouter _router;
     private readonly INavigationService _navigationService;
 
-    private readonly List<Page> _breadcrumbs = new();
+    private readonly List<string> _breadcrumbsTitles = new();
 
     [ObservableProperty]
     private object _visibleObject;
@@ -26,9 +26,9 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
 
     private void _navigationService_Navigation(object? sender, NavigationEventArgs e)
     {
-        _breadcrumbs.Clear();
+        _breadcrumbsTitles.Clear();
 
-        var segments = _router.CurrentRoute.Split('/', StringSplitOptions.RemoveEmptyEntries);
+        var segments = _router.CurrentRoute?.Path.Split('/', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
         var current = "";
         foreach (var segment in segments)
         {
@@ -42,7 +42,7 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
             if (page is null)
                 continue;
 
-            _breadcrumbs.Add(page);
+            _breadcrumbsTitles.Add(page.Title);
         }
 
         GenerateVisibleObject();
@@ -52,25 +52,28 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
     {
         var sp = new StackPanel { Orientation = Orientation.Horizontal };
 
-        for (int i = 0; i < _breadcrumbs.Count; i++)
+        for (int i = 0; i < _breadcrumbsTitles.Count; i++)
         {
-            var page = _breadcrumbs[i];
-            var label = new Label() { Content = page.Title, Cursor = Cursors.Hand };
+            var pageTitle = _breadcrumbsTitles[i];
+            var label = new Label() { Content = pageTitle, Cursor = Cursors.Hand };
             label.PreviewMouseLeftButtonDown += (s, e) =>
             {
-                var segments = _router.CurrentRoute.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                var segments = _router.CurrentRoute?.Path.Split('/', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
                 var targetRoute = "";
 
                 foreach (var segment in segments)
                 {
                     targetRoute += "/" + segment;
                     var type = _router.ResolveType(targetRoute);
+
                     if (type is null)
                         continue;
+                    
                     var pg = ViewLocator.Build(type);
                     if (pg is null)
                         continue;
-                    if (pg.Title == page.Title)
+                    
+                    if (pg.Title == pageTitle)
                         break;
                 }
 
@@ -79,7 +82,7 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
 
             sp.Children.Add(label);
 
-            if (i < _breadcrumbs.Count - 1)
+            if (i < _breadcrumbsTitles.Count - 1)
                 sp.Children.Add(new Label() { Content = "&#xE76C;", FontFamily =  App.Current.TryFindResource("SymbolThemeFontFamily") as FontFamily });
         }
 

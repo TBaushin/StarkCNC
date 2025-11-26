@@ -20,7 +20,7 @@ public partial class MainWindow : Window
 
     public FlyoutMenuControl FlyoutMenu { get; set; }
 
-    public MainWindow(INavigationService navigationService, IRouter router, MainWindowViewModel viewModel, FlyoutMenuControl flyoutMenuControl)
+    public MainWindow(INavigationService navigationService, IRouter router, MainWindowViewModel viewModel)
     {
         if (navigationService is null)
             throw new ArgumentNullException(nameof(navigationService));
@@ -38,7 +38,7 @@ public partial class MainWindow : Window
         UpdateWindowBackground();
         UpdateMainWindowVisuals();
 
-        FlyoutMenu = flyoutMenuControl;
+        FlyoutMenu = new FlyoutMenuControl();
         FlyoutMenu.Pages = ViewModel.Pages;
         Grid.SetRowSpan(FlyoutMenu, 2);
         PageGrid.Children.Add(FlyoutMenu);
@@ -194,12 +194,12 @@ public partial class MainWindow : Window
 
     private void MinimizeWindow(object sender, RoutedEventArgs e)
     {
-        this.WindowState = WindowState.Minimized;
+        WindowState = WindowState.Minimized;
     }
 
     private void MaximizeWindow(object sender, RoutedEventArgs e)
     {
-        if (this.WindowState == WindowState.Maximized)
+        if (WindowState == WindowState.Maximized)
         {
             MinimizeWindow();
         }

@@ -7,9 +7,9 @@ public class Router : IRouter, IRouteBuilder
     private readonly INavigationService _navigationService;
     private readonly Dictionary<string, Route> _routes = new(StringComparer.OrdinalIgnoreCase);
 
-    private string _currentRoute = string.Empty;
+    private Route? _currentRoute;
 
-    public string CurrentRoute => _currentRoute;
+    public Route? CurrentRoute => _currentRoute;
 
     public Router(INavigationService navigationService)
     {
@@ -47,7 +47,7 @@ public class Router : IRouter, IRouteBuilder
         if (page is null)
             return null;
 
-        _currentRoute = path;
+        _currentRoute = route;
         _navigationService.Navigate(page);
         return page;
     }
@@ -56,6 +56,9 @@ public class Router : IRouter, IRouteBuilder
         _routes.TryGetValue(path, out var route) ? route.Type : null;
 
     public IEnumerable<KeyValuePair<string, Route>> GetRoutes() => _routes;
+
+    public Route? GetRoute(string path) =>
+        _routes.TryGetValue(path, out var route) ? route : null;
 
     private void _navigationService_Navigation(object? sender, NavigationEventArgs e)
     {
@@ -67,7 +70,7 @@ public class Router : IRouter, IRouteBuilder
         {
             if (kv.Value.Type.Name == pageType.Name + "Model")
             {
-                _currentRoute = kv.Key;
+                _currentRoute = kv.Value;
                 break;
             }
         }
