@@ -65,13 +65,13 @@ public partial class App : Application
                 services.AddSingleton<IGCodeService, GCodeService>();
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
-                services.AddSingleton<VisualizationViewModel>();
-                services.AddSingleton<ProgramViewModel>();
-                services.AddSingleton<ManualViewModel>();
-                services.AddSingleton<AdjustmentViewModel>();
-                services.AddSingleton<UserViewModel>();
+                services.AddTransient<VisualizationViewModel>();
+                services.AddTransient<ProgramViewModel>();
+                services.AddTransient<ManualViewModel>();
+                services.AddTransient<AdjustmentViewModel>();
+                services.AddTransient<UserViewModel>();
                 services.AddSingleton<FlyoutMenuControl>();
-                services.AddSingleton<SettingsViewModel>();
+                services.AddTransient<SettingsViewModel>();
                 services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
 #if DEBUG
                 Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");
@@ -90,10 +90,10 @@ public partial class App : Application
             configure.AddRoute("/manual", typeof(ManualViewModel), "Ручной режим", "\uE732"); // \xEBFC
             configure.AddRoute("/visualization", typeof(VisualizationViewModel), "Визуализация", "\xE809"); // \xF158
             configure.AddRoute("/program", typeof(ProgramViewModel), "Программа", "\xF259");
-            configure.AddRoute("/adjustment", typeof(AdjustmentViewModel), "Оснастка");
-            configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel), "Управление оснастками");
-            configure.AddRoute("/adjustment/edit", typeof(AdjustmentParametersViewModel));
-            configure.AddRoute("/adjustment/edit/coordinates", typeof(AdjustmentParametersCoordinatesViewModel));
+            configure.AddRoute("/adjustment", typeof(AdjustmentViewModel), "Оснастка", "\uE835");
+            configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel), "Управление оснастками", "\uE8FD"); // \uEA37
+            configure.AddRoute("/adjustment/edit", typeof(AdjustmentParametersViewModel), iconGlyph: "\uE90F"); // \uEC7A
+            configure.AddRoute("/adjustment/edit/coordinates", typeof(AdjustmentParametersCoordinatesViewModel)); // \uEC7A \uF73D
             //configure.AddRoute("/adjustment/first-level", typeof(AdjustmentViewModel));
             //configure.AddRoute("/adjustment/second-level", typeof(AdjustmentViewModel));
             //configure.AddRoute("/adjustment/third-level", typeof(AdjustmentViewModel));
