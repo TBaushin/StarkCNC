@@ -63,8 +63,8 @@ public partial class AdjustmentListViewModel : ViewModelBase
     [RelayCommand]
     private async Task CreateAdjustment()
     {
-        var settingsWindow = new AdjustmentSettingsWindow(null, "Создание оснастки");
-        settingsWindow.Show();
+        var settingsWindow = new AdjustmentSettingsWindow(null);
+        settingsWindow.ShowDialog();
         var result = settingsWindow.Result;
 
         if (result is null)
