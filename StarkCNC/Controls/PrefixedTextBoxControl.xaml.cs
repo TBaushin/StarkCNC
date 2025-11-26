@@ -55,7 +55,7 @@ public partial class PrefixedTextBoxControl : UserControl
             var value = NumberInputViewModel.ShowDialog();
             Text = value.ToString(CultureInfo.CurrentCulture);
         }
-        e.Handled = true;
+        //e.Handled = true; ??
     }
 
     private void InputTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)

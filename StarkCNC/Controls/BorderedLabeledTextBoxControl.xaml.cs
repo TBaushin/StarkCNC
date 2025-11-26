@@ -64,7 +64,7 @@ public partial class BorderedLabeledTextBoxControl : UserControl
             var value = NumberInputViewModel.ShowDialog();
             TextBoxText = value.ToString(CultureInfo.CurrentCulture);
         }
-        e.Handled = true;
+        //e.Handled = true; ??
     }
 
     private void InputTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
