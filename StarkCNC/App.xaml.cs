@@ -63,6 +63,7 @@ public partial class App : Application
                 services.AddSingleton<IStatusService, StatusService>();
                 services.AddSingleton<ISettingsRepository, SettingsRepository>();
                 services.AddSingleton<IGCodeService, GCodeService>();
+                services.AddTransient<AdjustmentParametersConstructor>();
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
                 services.AddTransient<VisualizationViewModel>();
