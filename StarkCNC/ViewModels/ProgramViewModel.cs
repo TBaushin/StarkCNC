@@ -250,6 +250,21 @@ public partial class ProgramViewModel : ObservableObject
         }
     }
 
+    [RelayCommand]
+    private void UpdateEstimatedRemainingLength()
+    {
+        if (PipeLength > 0)
+        {
+            double result = PipeLength;
+            foreach (var data in BendingDatas)
+            {
+                result -= data.Supply + (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle);
+            }
+
+            EstimatedRemainingLength = result;
+        }
+    }
+
     public void UpdateBend()
     {
         double pipeDiameter = 50;
@@ -257,16 +272,6 @@ public partial class ProgramViewModel : ObservableObject
 
         _bendingModelsLoadingService
             .UpdatePipeBend(WireBuilder.BuildWirePath(CastToModel(), pipeDiameter), pipeDiameter);
-    }
-
-    private void UpdateEstimatedRemainingLength()
-    {
-        //var supply = 0.0;
-        //foreach (var data in BendingDatas)
-        //{
-        //    supply += data.Supply;
-        //}
-        //var result = PipeLength - (supply + (2 * Math.PI * ))
     }
 
     private ICollection<BendingData> CastToModel()
