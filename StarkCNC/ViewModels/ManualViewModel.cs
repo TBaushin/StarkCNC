@@ -59,10 +59,10 @@ public partial class ManualViewModel : ObservableObject
     [ObservableProperty]
     private bool _moreThenOneLevel = false;
 
-    public ManualViewModel(IManualConfigurationService configurationService, ISettingsRepository _settingsRepository)
+    public ManualViewModel(IManualConfigurationService configurationService, ISettingsRepository settingsRepository)
     {
         _configurationService = configurationService;
-        _settings = _settingsRepository.GetAsync().Result;
+        _settings = settingsRepository?.GetAsync().Result;
 
         Connect();
 
