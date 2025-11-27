@@ -20,14 +20,7 @@ public partial class ProgramView : Page
         BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
         BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
 
-        if (ViewModel is not null)
-            BendingView.Children.Add(ViewModel.Pipe);
-    }
-
-    private void PipeBendParametersDataGrid_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-    {
-        if (ViewModel is not null)
-            ViewModel.UpdateBend();
+        BendingView.Children.Add(ViewModel.Pipe);
     }
 
     private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)
