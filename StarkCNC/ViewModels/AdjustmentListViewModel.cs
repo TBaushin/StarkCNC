@@ -1,16 +1,20 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Repository;
+using StarkCNC.Core.Services;
 using StarkCNC.DTO;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Services;
 using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
 
 public partial class AdjustmentListViewModel : ViewModelBase
 {
+    private readonly IRouter _router;
     private readonly IAdjustmentRepository _repository;
     private readonly IManualConfigurationService _manualConfigurationService;
+    private readonly AdjustmentParametersConstructor _adjustmentConstructor;
 
     private string _typeRequestString = string.Empty;
 
@@ -18,12 +22,18 @@ public partial class AdjustmentListViewModel : ViewModelBase
 
     private string _radiusRequestString = string.Empty;
 
-    ObservableCollection<AdjustmentParametersVisibleDto> Adjustments = new ObservableCollection<AdjustmentParametersVisibleDto>();
+    public ObservableCollection<AdjustmentParametersVisibleDto> Adjustments { get; } = new ObservableCollection<AdjustmentParametersVisibleDto>();
 
-    public AdjustmentListViewModel(IAdjustmentRepository repository, IManualConfigurationService manualConfigurationService)
+    public AdjustmentListViewModel(
+        IRouter router,
+        IAdjustmentRepository repository,
+        IManualConfigurationService manualConfigurationService,
+        AdjustmentParametersConstructor adjustmentConstructor)
     {
+        _router = router;
         _repository = repository;
         _manualConfigurationService = manualConfigurationService;
+        _adjustmentConstructor = adjustmentConstructor;
         ReadRequestsFromConfiguration();
 
         LoadAdjustmentsAsync();
@@ -70,7 +80,12 @@ public partial class AdjustmentListViewModel : ViewModelBase
         if (result is null)
             return;
 
-        // Create new adjustment
+        var adjustment = await _adjustmentConstructor
+            .Build(result.Name, result.AdjustmentType, result.PipeDiameter, result.Radius)
+            .ConfigureAwait(false);
+
+        await _repository.AddElementAsync(adjustment).ConfigureAwait(false);
+
         LoadAdjustmentsAsync();
     }
 
@@ -98,32 +113,49 @@ public partial class AdjustmentListViewModel : ViewModelBase
         if (adjustment is null)
             return;
 
-        var settingsWindow = new AdjustmentSettingsWindow(adjustment, "Редактирование оснастки");
-        settingsWindow.ShowDialog();
-
-        var result = settingsWindow.Result;
-        if (result is null)
+        var adjustmentsToEdit = await _repository.FindByNameAsync(adjustment.Name).ConfigureAwait(false);
+        if (adjustmentsToEdit is null)
             return;
 
-        var adjustmentsToUpdate = await _repository.FindByNameAsync(adjustment.Name).ConfigureAwait(false);
-        if (adjustmentsToUpdate is null)
-            return;
-
-        var adjustmentToUpdate = adjustmentsToUpdate.FirstOrDefault();
-        if (adjustmentToUpdate is not null)
+        var adjustmentToEdit = adjustmentsToEdit.FirstOrDefault();
+        if (adjustmentToEdit is not null)
         {
-            adjustmentToUpdate.Name = result.Name;
-            adjustmentToUpdate.Type = result.AdjustmentType;
-            adjustmentToUpdate.PipeDiameter = result.PipeDiameter;
-            adjustmentToUpdate.Radius = result.Radius;
-
-            await _repository.UpdateElementAsync(adjustmentToUpdate).ConfigureAwait(false);
-
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(adjustmentToUpdate.Type, _typeRequestString).ConfigureAwait(false);
-            await _manualConfigurationService.WriteAsync(adjustmentToUpdate.PipeDiameter, _pipeDiameterRequestString).ConfigureAwait(false);
-
-            LoadAdjustmentsAsync();
+            _router.Navigate("/adjustment/edit", adjustmentToEdit.Id);
         }
     }
+
+    //[RelayCommand]
+    //private async Task EditAdjustment(AdjustmentParametersVisibleDto? adjustment)
+    //{
+    //    if (adjustment is null)
+    //        return;
+
+    //    var settingsWindow = new AdjustmentSettingsWindow(adjustment, "Редактирование оснастки");
+    //    settingsWindow.ShowDialog();
+
+    //    var result = settingsWindow.Result;
+    //    if (result is null)
+    //        return;
+
+    //    var adjustmentsToUpdate = await _repository.FindByNameAsync(adjustment.Name).ConfigureAwait(false);
+    //    if (adjustmentsToUpdate is null)
+    //        return;
+
+    //    var adjustmentToUpdate = adjustmentsToUpdate.FirstOrDefault();
+    //    if (adjustmentToUpdate is not null)
+    //    {
+    //        adjustmentToUpdate.Name = result.Name;
+    //        adjustmentToUpdate.Type = result.AdjustmentType;
+    //        adjustmentToUpdate.PipeDiameter = result.PipeDiameter;
+    //        adjustmentToUpdate.Radius = result.Radius;
+
+    //        await _repository.UpdateElementAsync(adjustmentToUpdate).ConfigureAwait(false);
+
+    //        // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
+    //        await _manualConfigurationService.WriteAsync(adjustmentToUpdate.Type, _typeRequestString).ConfigureAwait(false);
+    //        await _manualConfigurationService.WriteAsync(adjustmentToUpdate.PipeDiameter, _pipeDiameterRequestString).ConfigureAwait(false);
+
+    //        LoadAdjustmentsAsync();
+    //    }
+    //}
 }
