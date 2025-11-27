@@ -1,5 +1,4 @@
 ﻿using StarkCNC.Core.Models;
-using StarkCNC.DTO;
 using StarkCNC.Helpers;
 using StarkCNC.ViewModels;
 using System.Globalization;
@@ -18,20 +17,18 @@ public partial class AdjustmentView : Page
     private AdjustmentViewModel ViewModel;
     private int _levelMustBeSetted;
 
-    public AdjustmentView()
+    public AdjustmentView(AdjustmentViewModel viewModel)
     {
+        ViewModel = viewModel;
+        DataContext = ViewModel;
+
         InitializeComponent();
-        UpdateViewModel();
 
         InitializeLevels();
     }
 
     private void InitializeLevels()
     {
-        UpdateViewModel();
-        if (ViewModel is null)
-            return;
-
         var thirdLevelAdjustment = ViewModel.SetUpAdjustments
             .FirstOrDefault(e => e.InstalledLevel == 3);
         ThirdLevel.AdjustmentName = GenerateAdjustmentName(thirdLevelAdjustment);
@@ -60,10 +57,6 @@ public partial class AdjustmentView : Page
 
     private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
     {
-        UpdateViewModel();
-        if (ViewModel is null)
-            return;
-
         ViewModel.SelectedAdjustment = null;
         ViewModel.GoToAdjustmentListCommand.Execute(null);
     }
@@ -149,11 +142,6 @@ public partial class AdjustmentView : Page
 
     private void SetLevelToAdjustment(int level)
     {
-        UpdateViewModel();
-
-        if (ViewModel is null)
-            return;
-
         var adjustment = ViewModel.SelectedAdjustment;
         if (adjustment is null)
             return;
@@ -208,11 +196,5 @@ public partial class AdjustmentView : Page
         }
 
         AdjustmentsList.SelectedItem = null;
-    }
-
-    private void UpdateViewModel()
-    {
-        if (DataContext is AdjustmentViewModel vm && ViewModel is not AdjustmentViewModel)
-            ViewModel = vm;
     }
 }

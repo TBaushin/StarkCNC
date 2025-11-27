@@ -8,17 +8,16 @@ namespace StarkCNC.Views
     /// </summary>
     public partial class AdjustmentCoordinateSettingsView : Page
     {
-        private AdjustmentParametersCoordinatesViewModel? ViewModel { get; set; }
+        private AdjustmentParametersCoordinatesViewModel ViewModel;
 
-        public AdjustmentCoordinateSettingsView()
+        public AdjustmentCoordinateSettingsView(AdjustmentParametersCoordinatesViewModel viewModel)
         {
+            ViewModel = viewModel;
+            DataContext = ViewModel;
+
             InitializeComponent();
 
-            if (DataContext is AdjustmentParametersCoordinatesViewModel viewModel)
-            {
-                ViewModel = viewModel;
-                ViewModel.PropertyChanged += Settings_PropertyChanged;
-            }
+            ViewModel.PropertyChanged += Settings_PropertyChanged;
 
             ShowOrHideElements();
         }
@@ -36,14 +35,11 @@ namespace StarkCNC.Views
 
             var parameter = btn.Name.Replace("EditButton", "", System.StringComparison.CurrentCulture);
 
-            ViewModel?.EditParametersCommand.Execute(parameter);
+            ViewModel.EditParametersCommand.Execute(parameter);
         }
 
         private void ShowOrHideElements()
         {
-            if (ViewModel is null)
-                return;
-
             if (ViewModel.IsElectricMachine)
             {
                 Squeeze.Visibility = System.Windows.Visibility.Visible;

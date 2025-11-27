@@ -66,13 +66,8 @@ public partial class App : Application
                 services.AddTransient<AdjustmentParametersConstructor>();
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
-                services.AddTransient<VisualizationViewModel>();
-                services.AddTransient<ProgramViewModel>();
-                services.AddTransient<ManualViewModel>();
                 services.AddTransient<AdjustmentViewModel>();
-                services.AddTransient<UserViewModel>();
                 services.AddSingleton<FlyoutMenuControl>();
-                services.AddTransient<SettingsViewModel>();
                 services.AddSingleton<IBendingModelsLoadingService, BendingModelsLoadingService>();
 #if DEBUG
                 Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");

@@ -45,10 +45,7 @@ public partial class MainWindowViewModel : ViewModelBase
         IBreadcrumbService breadcrumbService,
         IStatusService statusService,
         IAdjustmentRepository adjustmentRepository,
-        AdjustmentViewModel adjustmentViewModel,
-        ManualViewModel manualViewModel,
-        VisualizationViewModel visualizationViewModel,
-        ProgramViewModel programViewModel) 
+        AdjustmentViewModel adjustmentViewModel) 
     {
         _navigationService = navigationService;
         _router = router;

@@ -26,13 +26,11 @@ public static class ViewLocator
         if (pageType is null)
             return GenerateNotFoundPage(name);
 
-        var page = (Page)ActivatorUtilities.CreateInstance(_serviceProvider, pageType)!;
-
         var viewModel = parameters is not null && parameters.Length > 0
             ? ActivatorUtilities.CreateInstance(_serviceProvider, type, parameters)
             : ActivatorUtilities.CreateInstance(_serviceProvider, type);
 
-        page.DataContext = viewModel;
+        var page = (Page)ActivatorUtilities.CreateInstance(_serviceProvider, pageType, viewModel)!;
 
         return page;
     }

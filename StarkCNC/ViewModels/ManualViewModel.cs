@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
-using StarkCNC.DTO;
+using StarkCNC.Core.Repository;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
 
@@ -11,7 +11,7 @@ namespace StarkCNC.ViewModels;
 public partial class ManualViewModel : ObservableObject
 {
     private readonly IManualConfigurationService _configurationService;
-    private readonly SettingsDto _settings;
+    private readonly Settings? _settings;
 
     public string ManualModeRequestString { get; set; } = string.Empty;
 
@@ -59,13 +59,10 @@ public partial class ManualViewModel : ObservableObject
     [ObservableProperty]
     private bool _moreThenOneLevel = false;
 
-    public ManualViewModel(IManualConfigurationService configurationService, SettingsViewModel settingsViewModel)
+    public ManualViewModel(IManualConfigurationService configurationService, ISettingsRepository _settingsRepository)
     {
-        if (settingsViewModel is null)
-            throw new ArgumentNullException(nameof(settingsViewModel));
-
         _configurationService = configurationService;
-        _settings = settingsViewModel.Settings;
+        _settings = _settingsRepository.GetAsync().Result;
 
         Connect();
 
@@ -93,8 +90,6 @@ public partial class ManualViewModel : ObservableObject
         DefineSecondHydraulicsStatus();
         DefinePunchingStatus();
         DefineMoreThanOneLevelStatus();
-
-        _settings.PropertyChanged += _settingsService_PropertyChanged;
     }
 
     private async void Connect()
@@ -117,6 +112,9 @@ public partial class ManualViewModel : ObservableObject
 
     private void DefineFirstHydraulicsStatus()
     {
+        if (_settings is null)
+            return;
+
         if (_settings.IsElectricMachine)
         {
             FirstHydraulicsEnabled = false;
@@ -131,6 +129,9 @@ public partial class ManualViewModel : ObservableObject
 
     private void DefineSecondHydraulicsStatus()
     {
+        if (_settings is null)
+            return;
+
         if (_settings.IsElectricMachine || _settings.IsElectricBendingDrive)
         {
             SecondHydraulicsEnabled = false;
@@ -145,6 +146,9 @@ public partial class ManualViewModel : ObservableObject
 
     private void DefinePunchingStatus()
     {
+        if (_settings is null)
+            return;
+
         if (_settings.IsPunchingCylinder)
         {
             PunchingEnabled = false;
@@ -159,7 +163,7 @@ public partial class ManualViewModel : ObservableObject
 
     private void DefineMoreThanOneLevelStatus()
     {
-        if (_settings.FloorType != FloorType.SingleLevel)
+        if (_settings?.FloorType != FloorType.SingleLevel)
         {
             MoreThenOneLevel = true;
             Adjustment.StartUpdateTask();
@@ -169,13 +173,5 @@ public partial class ManualViewModel : ObservableObject
             MoreThenOneLevel = false;
             Adjustment.StopUpdateTask();
         }
-    }
-
-    private void _settingsService_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        DefineFirstHydraulicsStatus();
-        DefineSecondHydraulicsStatus();
-        DefinePunchingStatus();
-        DefineMoreThanOneLevelStatus();
     }
 }

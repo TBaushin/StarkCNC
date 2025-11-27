@@ -8,14 +8,14 @@ namespace StarkCNC.Views;
 /// </summary>
 public partial class ProgramView : Page
 {
-    private readonly ProgramViewModel? ViewModel;
+    private readonly ProgramViewModel ViewModel;
 
-    public ProgramView()
+    public ProgramView(ProgramViewModel viewModel)
     {
-        InitializeComponent();
+        ViewModel = viewModel;
+        DataContext = ViewModel;
 
-        if (DataContext is ProgramViewModel vm)
-            ViewModel = vm;
+        InitializeComponent();
 
         BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
         BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
