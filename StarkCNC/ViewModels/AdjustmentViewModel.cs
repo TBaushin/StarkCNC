@@ -4,16 +4,12 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.DTO;
-using StarkCNC.Services;
-using StarkCNC.Views;
 using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
 
 public partial class AdjustmentViewModel : ObservableObject
 {
-    private readonly AdjustmentListView _adjustmentListPage;
-
     private readonly IRouter _router;
     private readonly IAdjustmentRepository _repository;
 

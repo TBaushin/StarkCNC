@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Models;
-using StarkCNC.Repository;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
 
