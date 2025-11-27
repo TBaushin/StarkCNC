@@ -21,14 +21,14 @@ public partial class AdjustmentView : Page
     public AdjustmentView()
     {
         InitializeComponent();
-        UpdateViewMode();
+        UpdateViewModel();
 
         InitializeLevels();
     }
 
     private void InitializeLevels()
     {
-        UpdateViewMode();
+        UpdateViewModel();
         if (ViewModel is null)
             return;
 
@@ -60,7 +60,7 @@ public partial class AdjustmentView : Page
 
     private void AdjustmentManagement_MouseDown(object sender, MouseButtonEventArgs e)
     {
-        UpdateViewMode();
+        UpdateViewModel();
         if (ViewModel is null)
             return;
 
@@ -149,7 +149,7 @@ public partial class AdjustmentView : Page
 
     private void SetLevelToAdjustment(int level)
     {
-        UpdateViewMode();
+        UpdateViewModel();
 
         if (ViewModel is null)
             return;
@@ -210,7 +210,7 @@ public partial class AdjustmentView : Page
         AdjustmentsList.SelectedItem = null;
     }
 
-    private void UpdateViewMode()
+    private void UpdateViewModel()
     {
         if (DataContext is AdjustmentViewModel vm && ViewModel is not AdjustmentViewModel)
             ViewModel = vm;
