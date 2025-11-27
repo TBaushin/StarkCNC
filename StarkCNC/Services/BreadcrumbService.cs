@@ -30,19 +30,17 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
 
         var segments = _router.CurrentRoute?.Path.Split('/', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
         var current = "";
+        var routes = _router.GetRoutes();
         foreach (var segment in segments)
         {
-            current += "/" + segment;
+            current += $"/{segment}";
 
-            var type = _router.ResolveType(current);
-            if (type is null)
+            var route = _router.GetRoute(segment);
+            if (route is null)
                 continue;
 
-            var page = ViewLocator.Build(type);
-            if (page is null)
-                continue;
-
-            _breadcrumbsTitles.Add(page.Title);
+            if (!string.IsNullOrEmpty(route.Title))
+                _breadcrumbsTitles.Add(route.Title);
         }
 
         GenerateVisibleObject();
