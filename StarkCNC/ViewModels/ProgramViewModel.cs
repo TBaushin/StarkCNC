@@ -159,6 +159,97 @@ public partial class ProgramViewModel : ObservableObject
         UpdateBend();
     }
 
+    [RelayCommand]
+    private void SetSupplySpeedToAll()
+    {
+        var firstItem = BendingDatas.FirstOrDefault();
+        if (firstItem is null)
+            return;
+
+        foreach (var item in BendingDatas)
+        {
+            item.SupplySpeed = firstItem.SupplySpeed;
+        }
+    }
+
+    [RelayCommand]
+    private void SetRotationSpeedToAll()
+    {
+        var firstItem = BendingDatas.FirstOrDefault();
+        if (firstItem is null)
+            return;
+
+        foreach (var item in BendingDatas)
+        {
+            item.RotationSpeed = firstItem.RotationSpeed;
+        }
+    }
+
+    [RelayCommand]
+    private void SetBendSpeedToAll()
+    {
+        var firstItem = BendingDatas.FirstOrDefault();
+        if (firstItem is null)
+            return;
+
+        foreach (var item in BendingDatas)
+        {
+            item.BendingAngleSpeed = firstItem.BendingAngleSpeed;
+        }
+    }
+
+    [RelayCommand]
+    private void SetBendCoefficientToAll()
+    {
+        var firstItem = BendingDatas.FirstOrDefault();
+        if (firstItem is null)
+            return;
+
+        foreach (var item in BendingDatas)
+        {
+            item.BendingAngleCoefficient = firstItem.BendingAngleCoefficient;
+        }
+    }
+
+    [RelayCommand]
+    private void SetRadiusModeToAll()
+    {
+        var firstItem = BendingDatas.FirstOrDefault();
+        if (firstItem is null)
+            return;
+
+        foreach (var item in BendingDatas)
+        {
+            item.BendingRadiusMode = firstItem.BendingRadiusMode;
+        }
+    }
+
+    [RelayCommand]
+    private void SetOffsetSpeedToAll()
+    {
+        var firstItem = BendingDatas.FirstOrDefault();
+        if (firstItem is null)
+            return;
+
+        foreach (var item in BendingDatas)
+        {
+            item.OffsetSpeed = firstItem.OffsetSpeed;
+        }
+    }
+
+    [RelayCommand]
+    private void SetOffsetCoefficientToAll()
+    {
+        var firstItem = BendingDatas.FirstOrDefault();
+        if (firstItem is null)
+            return;
+
+        foreach (var item in BendingDatas)
+        {
+            item.OffsetCoefficient = firstItem.OffsetCoefficient;
+        }
+    }
+
     public void UpdateBend()
     {
         double pipeDiameter = 50;
