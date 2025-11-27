@@ -51,7 +51,7 @@
                                         Cursor="Hand"
                                         FontFamily="{StaticResource SymbolThemeFontFamily}"
                                         Content="&#xE76C;"
-                                        MouseDown="Label_MouseDown"/>
+                                        PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown"/>
                                 </Grid>
                             </controls:BorderedContentControl.BorderedContent>
                         </controls:BorderedContentControl>

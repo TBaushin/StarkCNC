@@ -17,22 +17,25 @@ public partial class AdjustmentListView : Page
 
         if (DataContext is AdjustmentListViewModel viewModel)
             ViewModel = viewModel;
-
     }
 
-    private void Label_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private void Label_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
+        UpdateViewModel();
+
         var label = sender as Label;
         if (label is null)
             return;
 
         var adjustment = label.DataContext as AdjustmentParametersVisibleDto;
 
-        ViewModel?.DeleteAdjustmentCommand.Execute(adjustment);
+        ViewModel?.EditAdjustmentCommand.Execute(adjustment);
     }
 
     private void DeleteButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
+        UpdateViewModel();
+
         var button = sender as Button;
         if (button is null)
             return;
@@ -40,5 +43,11 @@ public partial class AdjustmentListView : Page
         var adjustment = button.DataContext as AdjustmentParametersVisibleDto;
 
         ViewModel?.DeleteAdjustmentCommand.Execute(adjustment);
+    }
+
+    private void UpdateViewModel()
+    {
+        if (DataContext is AdjustmentListViewModel vm && ViewModel is not AdjustmentListViewModel)
+            ViewModel = vm;
     }
 }
