@@ -68,22 +68,12 @@ public partial class AdjustmentViewModel : ObservableObject
 
     private async void UpdateAdjustments()
     {
-        //Adjustments.Clear();
-        //try
-        //{
-        //    foreach (var item in await _repository.GetAllAsync().ConfigureAwait(false))
-        //    {
-        //        var dto = item.ToDto();
-        //        if (dto is null)
-        //            continue;
-
-        //        Adjustments.Add(dto);
-        //    }
-        //}
-        //catch (Exception)
-        //{
-        //    // Ignore
-        //}
+        Adjustments.Clear();
+        var adjustments = await _repository.GetAllAsync().ConfigureAwait(false);
+        foreach (var item in adjustments)
+        {
+            Adjustments.Add(item);
+        }
     }
 
     private async void GetSetUpAdjustments()
