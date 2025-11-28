@@ -267,6 +267,7 @@ public partial class ProgramViewModel : ObservableObject
 
     public void UpdateBend()
     {
+        UpdateEstimatedRemainingLength();
         double pipeDiameter = 50;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
