@@ -250,7 +250,6 @@ public partial class ProgramViewModel : ObservableObject
         }
     }
 
-    [RelayCommand]
     private void UpdateEstimatedRemainingLength()
     {
         if (PipeLength > 0)

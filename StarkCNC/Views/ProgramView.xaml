@@ -321,6 +321,7 @@
                                                 Margin="0,5,0,5"
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
+                                                TextChanged="Input_TextChanged"
                                                 TextBoxText="{Binding Supply, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                             <controls:PrefixedTextBoxControl
                                                 Grid.Row="1"
@@ -328,6 +329,7 @@
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="Sp:"
+                                                TextChanged="Input_TextChanged"
                                                 Text="{Binding SupplySpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
                                         </Grid>
                                         <Separator
@@ -342,12 +344,14 @@
                                                 Margin="0,5,0,5"
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
+                                                TextChanged="Input_TextChanged"
                                                 TextBoxText="{Binding RotationAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
                                             <controls:PrefixedTextBoxControl
                                                 Margin="0,5,0,5"
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="Sp:"
+                                                TextChanged="Input_TextChanged"
                                                 Text="{Binding RotationSpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
                                         </StackPanel>
                                         <Separator
@@ -372,6 +376,7 @@
                                                 Margin="0,5,0,5"
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
+                                                TextChanged="Input_TextChanged"
                                                 TextBoxText="{Binding BendingAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
                                             <controls:PrefixedTextBoxControl
                                                 Grid.Column="0"
@@ -380,6 +385,7 @@
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="Sp:"
+                                                TextChanged="Input_TextChanged"
                                                 Text="{Binding BendingAngleSpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
                                             <Separator
                                                 Grid.Column="1"
@@ -393,6 +399,7 @@
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="C:"
+                                                TextChanged="Input_TextChanged"
                                                 Text="{Binding BendingAngleCoefficient, StringFormat={}{0}°, Mode=TwoWay}"/>
                                         </Grid>
                                         <Separator
@@ -407,6 +414,7 @@
                                                 Margin="0,5,0,5"
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
+                                                TextChanged="Input_TextChanged"
                                                 TextBoxText="{Binding BendingRadius, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                             <ComboBox
                                                 Margin="0,5,0,5"
@@ -444,6 +452,7 @@
                                                 Margin="0,5,0,5"
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
+                                                TextChanged="Input_TextChanged"
                                                 TextBoxText="{Binding Offset, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                             <controls:PrefixedTextBoxControl
                                                 Grid.Column="0"
@@ -452,6 +461,7 @@
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="Sp:"
+                                                TextChanged="Input_TextChanged"
                                                 Text="{Binding OffsetSpeed, StringFormat={}{0}°, Mode=TwoWay}"/>
                                             <Separator
                                                 Grid.Column="1"
@@ -465,6 +475,7 @@
                                                 NeedCallNumberInput="True"
                                                 IsNumericOnly="True"
                                                 Prefix="C:"
+                                                TextChanged="Input_TextChanged"
                                                 Text="{Binding OffsetCoefficient, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                         </Grid>
                                         <Separator

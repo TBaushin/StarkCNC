@@ -46,6 +46,7 @@
                 Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                 PreviewMouseDown="InputTextBox_PreviewMouseDown"
                 PreviewTextInput="InputTextBox_PreviewTextInput"
+                TextChanged="InputTextBox_TextChanged"
                 Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
     </Border>

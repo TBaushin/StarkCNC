@@ -19,6 +19,8 @@ public partial class PrefixedTextBoxControl : UserControl
         .Register(nameof(NeedCallNumberInput), typeof(bool), typeof(PrefixedTextBoxControl), new PropertyMetadata());
     public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty
         .Register(nameof(IsNumericOnly), typeof(bool), typeof(PrefixedTextBoxControl), new PropertyMetadata(false));
+    public static readonly RoutedEvent TextChangedEvent = EventManager.
+        RegisterRoutedEvent(nameof(TextChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PrefixedTextBoxControl));
 
     public string Prefix
     {
@@ -43,6 +45,12 @@ public partial class PrefixedTextBoxControl : UserControl
         set => SetValue(IsNumericOnlyProperty, value);
     }
 
+    public event RoutedEventHandler TextChanged
+    {
+        add => AddHandler(TextChangedEvent, value);
+        remove => RemoveHandler(TextChangedEvent, value);
+    }
+
     public PrefixedTextBoxControl()
     {
         InitializeComponent();
@@ -62,5 +70,13 @@ public partial class PrefixedTextBoxControl : UserControl
     {
         if (IsNumericOnly)
             e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
+    }
+
+    private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        SetCurrentValue(TextProperty, InputTextBox.Text);
+
+        var args = new RoutedEventArgs(TextChangedEvent, this);
+        RaiseEvent(args);
     }
 }

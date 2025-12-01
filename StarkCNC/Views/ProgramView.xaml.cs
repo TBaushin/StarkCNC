@@ -32,4 +32,9 @@ public partial class ProgramView : Page
     {
         BendingView.CameraController.Zoom(0.1);
     }
+
+    private void Input_TextChanged(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.UpdateBend();
+    }
 }

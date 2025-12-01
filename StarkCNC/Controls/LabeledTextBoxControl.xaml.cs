@@ -21,6 +21,8 @@ public partial class LabeledTextBoxControl : UserControl
         .Register(nameof(NeedCallNumberInput), typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata());
     public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty
         .Register(nameof(IsNumericOnly), typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata(false));
+    public static readonly RoutedEvent TextChangedEvent = EventManager.
+        RegisterRoutedEvent(nameof(TextChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LabeledTextBoxControl));
 
     public object? LabelText
     {
@@ -52,6 +54,12 @@ public partial class LabeledTextBoxControl : UserControl
         set => SetValue(IsNumericOnlyProperty, value);
     }
 
+    public event RoutedEventHandler TextChanged
+    {
+        add => AddHandler(TextChangedEvent, value);
+        remove => RemoveHandler(TextChangedEvent, value);
+    }
+
     public LabeledTextBoxControl()
     {
         InitializeComponent();
@@ -71,5 +79,13 @@ public partial class LabeledTextBoxControl : UserControl
     {
         if (IsNumericOnly)
             e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
+    }
+
+    private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+        SetCurrentValue(TextBoxTextProperty, InputTextBox.Text);
+
+        var args = new RoutedEventArgs(TextChangedEvent, this);
+        RaiseEvent(args);
     }
 }
