@@ -63,9 +63,7 @@ public partial class AdjustmentView : Page
 
     private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var listView = sender as ListView;
-        if (listView is null)
-            return;
+        var listView = AdjustmentsList;
 
         foreach (var item in e.RemovedItems)
         {
@@ -148,22 +146,25 @@ public partial class AdjustmentView : Page
 
         ViewModel.SetLevelToAdjustmentCommand.Execute(level);
 
-        //ClearFloorConrolsSelectedAdjustment(adjustment);
-        //switch (level)
-        //{
-        //    case 1:
-        //        FirstLevel.SelectedAdjustment = adjustment;
-        //        FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
-        //        break;
-        //    case 2:
-        //        SecondLevel.SelectedAdjustment = adjustment;
-        //        SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
-        //        break;
-        //    case 3:
-        //        ThirdLevel.SelectedAdjustment = adjustment;
-        //        ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
-        //        break;
-        //}
+        ClearFloorConrolsSelectedAdjustment(adjustment);
+        switch (level)
+        {
+            case 1:
+                FirstLevel.AdjustmentName = GenerateAdjustmentName(adjustment);
+                FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+                break;
+            case 2:
+                SecondLevel.AdjustmentName = GenerateAdjustmentName(adjustment);
+                SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+                break;
+            case 3:
+                ThirdLevel.AdjustmentName = GenerateAdjustmentName(adjustment);
+                ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
+                break;
+        }
+
+        ViewModel.SelectedAdjustment = null;
+        AdjustmentsList.SelectedItems.Clear();
     }
 
     private void ClearFloorConrolsSelectedAdjustment(AdjustmentParameters adjustment)
