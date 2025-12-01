@@ -53,18 +53,6 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
 
         LoadSettings();
         SetSelectedAdjustment(id);
-    }
-
-    private async void SetSelectedAdjustment(Guid? id)
-    {
-        if (id is not Guid guid)
-            throw new ArgumentNullException(nameof(id));
-
-        var adjustment = await _repository.FindByIdAsync(guid).ConfigureAwait(false);
-        if (adjustment is null)
-            throw new InvalidOperationException("Не удалось найти оснастку");
-
-        _adjustment = adjustment;
 
         Bend = new AdjustmentParametersBendVisibleDto()
         {
@@ -133,6 +121,18 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
             ColletJawsDepth = _adjustment.Supply.ColletJawsDepth,
             SpeedCoefficient = _adjustment.Supply.SpeedCoefficient
         };
+    }
+
+    private async void SetSelectedAdjustment(Guid? id)
+    {
+        if (id is not Guid guid)
+            throw new ArgumentNullException(nameof(id));
+
+        var adjustment = await _repository.FindByIdAsync(guid).ConfigureAwait(false);
+        if (adjustment is null)
+            throw new InvalidOperationException("Не удалось найти оснастку");
+
+        _adjustment = adjustment;
     }
 
     private async void LoadSettings()
