@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using StarkCNC.Core.Models.Adjustment;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.DTO;
 
@@ -10,6 +10,8 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
 {
     private readonly IAdjustmentRepository _repository;
     private readonly ISettingsRepository _settingsRepository;
+
+    private AdjustmentParameters _adjustment;
 
     [ObservableProperty]
     private bool _isElectricMachine;
@@ -62,72 +64,74 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
         if (adjustment is null)
             throw new InvalidOperationException("Не удалось найти оснастку");
 
+        _adjustment = adjustment;
+
         Bend = new AdjustmentParametersBendVisibleDto()
         {
-            ForwardPositionLimitation = adjustment.Bend.ForwardPositionLimitation,
-            SpeedCoefficient = adjustment.Bend.SpeedCoefficient,
-            SlowdownSpeed = adjustment.Bend.SlowdownSpeed
+            ForwardPositionLimitation = _adjustment.Bend.ForwardPositionLimitation,
+            SpeedCoefficient = _adjustment.Bend.SpeedCoefficient,
+            SlowdownSpeed = _adjustment.Bend.SlowdownSpeed
         };
 
         Clamp = new AdjustmentParametersClampVisibleDto()
         {
-            ForwardPosition = adjustment.Clamp.ForwardPosition,
-            MiddlePosition = adjustment.Clamp.MiddlePosition,
-            BackwardPosition = adjustment.Clamp.BackwardPosition,
-            SpeedCoefficient = adjustment.Clamp.SpeedCoefficient
+            ForwardPosition = _adjustment.Clamp.ForwardPosition,
+            MiddlePosition = _adjustment.Clamp.MiddlePosition,
+            BackwardPosition = _adjustment.Clamp.BackwardPosition,
+            SpeedCoefficient = _adjustment.Clamp.SpeedCoefficient
         };
 
         Console = new AdjustmentParametersConsoleVisibleDto()
         {
-            BendPosition = adjustment.Console.BendPosition,
-            SecondFloorPosition = adjustment.Console.SecondFloorPosition,
-            ThirdFloorPosition = adjustment.Console.ThirdFloorPosition,
-            PipeRotationDepartureDistance = adjustment.Console.PipeRotationDepartureDistance,
-            SpeedCoefficient = adjustment.Console.SpeedCoefficient
+            BendPosition = _adjustment.Console.BendPosition,
+            SecondFloorPosition = _adjustment.Console.SecondFloorPosition,
+            ThirdFloorPosition = _adjustment.Console.ThirdFloorPosition,
+            PipeRotationDepartureDistance = _adjustment.Console.PipeRotationDepartureDistance,
+            SpeedCoefficient = _adjustment.Console.SpeedCoefficient
         };
 
         Dorn = new AdjustmentParametersDornVisibleDto()
         {
-            ForwardPosition = adjustment.Dorn.ForwardPosition,
-            MiddlePosition = adjustment.Dorn.MiddlePosition,
-            BackwardPosition = adjustment.Dorn.BackwardPosition,
-            SpeedCoefficient = adjustment.Dorn.SpeedCoefficient
+            ForwardPosition = _adjustment.Dorn.ForwardPosition,
+            MiddlePosition = _adjustment.Dorn.MiddlePosition,
+            BackwardPosition = _adjustment.Dorn.BackwardPosition,
+            SpeedCoefficient = _adjustment.Dorn.SpeedCoefficient
         };
 
         Lift = new AdjustmentParametersLiftVisibleDto()
         {
-            UpperPosition = adjustment.Lift.UpperPosition,
-            MiddlePosition = adjustment.Lift.MiddlePosition,
-            LowerPosition = adjustment.Lift.LowerPosition,
-            SpeedCoefficient = adjustment.Lift.SpeedCoefficient
+            UpperPosition = _adjustment.Lift.UpperPosition,
+            MiddlePosition = _adjustment.Lift.MiddlePosition,
+            LowerPosition = _adjustment.Lift.LowerPosition,
+            SpeedCoefficient = _adjustment.Lift.SpeedCoefficient
         };
 
         Press = new AdjustmentParametersPressVisibleDto()
         {
-            ForwardPosition = adjustment.Press.ForwardPosition,
-            MiddlePosition = adjustment.Press.MiddlePosition,
-            BackwardPosition = adjustment.Press.BackwardPosition,
-            SpeedCoefficient = adjustment.Press.SpeedCoefficient
+            ForwardPosition = _adjustment.Press.ForwardPosition,
+            MiddlePosition = _adjustment.Press.MiddlePosition,
+            BackwardPosition = _adjustment.Press.BackwardPosition,
+            SpeedCoefficient = _adjustment.Press.SpeedCoefficient
         };
 
         Rotation = new AdjustmentParametersRotationVisibleDto()
         {
-            OffsetAfterZeroSearch = adjustment.Rotation.OffsetAfterZeroSearch,
-            SpeedCoefficient = adjustment.Rotation.SpeedCoefficient
+            OffsetAfterZeroSearch = _adjustment.Rotation.OffsetAfterZeroSearch,
+            SpeedCoefficient = _adjustment.Rotation.SpeedCoefficient
         };
 
         Squeeze = new AdjustmentParametersSqueezeVisibleDto()
         {
-            FrontPositionLimitation = adjustment.Squeeze.FrontPositionLimitation,
-            SpeedCoefficient = adjustment.Squeeze.SpeedCoefficient
+            FrontPositionLimitation = _adjustment.Squeeze.FrontPositionLimitation,
+            SpeedCoefficient = _adjustment.Squeeze.SpeedCoefficient
         };
 
         Supply = new AdjustmentParametersSupplyVisibleDto()
         {
-            PressZonePosition = adjustment.Supply.PressZonePosition,
-            ForwardDangerZonePosition = adjustment.Supply.ForwardDangerZonePosition,
-            ColletJawsDepth = adjustment.Supply.ColletJawsDepth,
-            SpeedCoefficient = adjustment.Supply.SpeedCoefficient
+            PressZonePosition = _adjustment.Supply.PressZonePosition,
+            ForwardDangerZonePosition = _adjustment.Supply.ForwardDangerZonePosition,
+            ColletJawsDepth = _adjustment.Supply.ColletJawsDepth,
+            SpeedCoefficient = _adjustment.Supply.SpeedCoefficient
         };
     }
 
@@ -140,11 +144,11 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
     [RelayCommand]
     private async Task EditParameters(string parameter)
     {
-        //var parametersSettingsWindow = new AdjustmentParametersSettingsWindow(SelectedAdjustment, parameter);
-        //parametersSettingsWindow.ShowDialog();
+        var parametersSettingsWindow = new AdjustmentParametersSettingsWindow(_adjustment, parameter);
+        parametersSettingsWindow.ShowDialog();
 
-        //AdjustmentParameters? adjustment = SelectedAdjustment.Parse(SelectedAdjustment.Id);
-        //if (adjustment is not null)
-        //    await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);
+        var adjustment = parametersSettingsWindow.Adjustment;
+        if (adjustment.Id == _adjustment.Id)
+            await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);
     }
 }

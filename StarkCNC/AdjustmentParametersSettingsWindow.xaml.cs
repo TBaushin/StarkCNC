@@ -1,4 +1,4 @@
-﻿using StarkCNC.DTO;
+﻿using StarkCNC.Core.Models;
 using System.Windows;
 using System.Windows.Shell;
 
@@ -9,9 +9,9 @@ namespace StarkCNC;
 /// </summary>
 public partial class AdjustmentParametersSettingsWindow : Window
 {
-    public AdjustmentParametersDto Adjustment { get; set; }
+    public AdjustmentParameters Adjustment { get; set; }
 
-    public AdjustmentParametersSettingsWindow(AdjustmentParametersDto adjustment, string parameter)
+    public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter)
     {
         Adjustment = adjustment;
         DataContext = this;
