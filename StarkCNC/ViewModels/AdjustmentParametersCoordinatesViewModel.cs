@@ -54,6 +54,9 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
         LoadSettings();
         SetSelectedAdjustment(id);
 
+        if (_adjustment is null)
+            throw new InvalidOperationException("Не удалось найти оснастку");
+
         Bend = new AdjustmentParametersBendVisibleDto()
         {
             ForwardPositionLimitation = _adjustment.Bend.ForwardPositionLimitation,
