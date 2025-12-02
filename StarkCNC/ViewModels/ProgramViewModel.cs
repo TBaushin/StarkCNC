@@ -250,7 +250,7 @@ public partial class ProgramViewModel : ObservableObject
         }
     }
 
-    private void UpdateEstimatedRemainingLength()
+    private void UpdateEstimatedRemainingLengthAndPipeLength()
     {
         if (PipeLength > 0)
         {
@@ -262,11 +262,21 @@ public partial class ProgramViewModel : ObservableObject
 
             EstimatedRemainingLength = result;
         }
+        else if (PipeLength <= 0 && EstimatedRemainingLength > 0)
+        {
+            double result = EstimatedRemainingLength;
+            foreach (var data in BendingDatas)
+            {
+                result += data.Supply - (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle);
+            }
+
+            PipeLength = result;
+        }
     }
 
     public void UpdateBend()
     {
-        UpdateEstimatedRemainingLength();
+        UpdateEstimatedRemainingLengthAndPipeLength();
         double pipeDiameter = 50;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
