@@ -14,6 +14,9 @@ internal sealed class BoolToVisibilityConverter : IValueConverter
         if (value is not bool b_value)
             return Visibility.Collapsed;
 
+        if (parameter is string param && param.Equals("invert", StringComparison.OrdinalIgnoreCase))
+            b_value = !b_value;
+
         return b_value == true ? Visibility.Visible : Visibility.Collapsed;
     }
 
@@ -21,6 +24,11 @@ internal sealed class BoolToVisibilityConverter : IValueConverter
     {
         if (value is not Visibility visibility)
             return false;
+
+        if (parameter is string param && param.Equals("invert", StringComparison.OrdinalIgnoreCase))
+            visibility = visibility == Visibility.Visible
+                ? Visibility.Collapsed
+                : Visibility.Visible;
 
         return visibility == Visibility.Visible;
     }

@@ -40,6 +40,7 @@ public partial class MainWindow : Window
 
         FlyoutMenu = new FlyoutMenuControl();
         FlyoutMenu.Pages = ViewModel.Pages;
+        FlyoutMenu.MenuIsOpen = true;
         Grid.SetRowSpan(FlyoutMenu, 2);
         PageGrid.Children.Add(FlyoutMenu);
 
@@ -212,5 +213,13 @@ public partial class MainWindow : Window
     private void CloseWindow(object sender, RoutedEventArgs e)
     {
         Application.Current.Shutdown();
+    }
+
+    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        if (Width < 1200)
+        {
+            FlyoutMenu.MenuIsOpen = false;
+        }
     }
 }

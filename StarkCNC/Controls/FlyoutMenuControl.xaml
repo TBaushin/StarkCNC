@@ -10,9 +10,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </UserControl.Resources>
     <Grid>
-        <Grid x:Name="FlyoutMenuOpened">
+        <Grid x:Name="FlyoutMenuOpened" Visibility="{Binding MenuIsOpen, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -98,8 +99,8 @@
             </StackPanel>
         </Grid>
         <Grid
-            x:Name="FlyoutMenuClosed"
-            Visibility="Collapsed">
+            x:Name="FlyoutMenuClosed" 
+            Visibility="{Binding MenuIsOpen, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='invert'}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>

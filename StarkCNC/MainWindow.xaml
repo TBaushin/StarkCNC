@@ -12,9 +12,10 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="{Binding Title}" 
-        MinHeight="785" 
-        MinWidth="1200"
-        KeyDown="Window_KeyDown">
+        MinHeight="710" 
+        MinWidth="950"
+        KeyDown="Window_KeyDown"
+        SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
         <Style x:Key="TitleBarDefaultButtonStyle" TargetType="Button">

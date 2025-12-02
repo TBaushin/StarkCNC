@@ -9,7 +9,6 @@ namespace StarkCNC.Controls;
 /// </summary>
 public partial class FlyoutMenuControl : UserControl
 {
-    private bool _menuOpen = true;
     private ViewData? _selectedItem;
 
     public static readonly DependencyProperty PagesProperty = DependencyProperty.Register(
@@ -18,10 +17,22 @@ public partial class FlyoutMenuControl : UserControl
         typeof(FlyoutMenuControl)
     );
 
+    public static readonly DependencyProperty MenuIsOpenProperty = DependencyProperty
+        .Register(nameof(MenuIsOpen), typeof(bool), typeof(FlyoutMenuControl));
+
     public IEnumerable<ViewData> Pages 
     { 
         get => (IEnumerable<ViewData>)GetValue(PagesProperty); 
         set => SetValue(PagesProperty, value); 
+    }
+
+    public bool MenuIsOpen
+    {
+        get => (bool)GetValue(MenuIsOpenProperty);
+        set
+        {
+            SetValue(MenuIsOpenProperty, value);
+        }
     }
 
     public event RoutedPropertyChangedEventHandler<object>? SelectedItemChanged;
@@ -117,18 +128,10 @@ public partial class FlyoutMenuControl : UserControl
 
     private void MenuButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_menuOpen)
-        {
-            _menuOpen = false;
-            FlyoutMenuOpened.Visibility = Visibility.Collapsed;
-            FlyoutMenuClosed.Visibility = Visibility.Visible;
-        }
+        if (MenuIsOpen)
+            MenuIsOpen = false;
         else
-        {
-            _menuOpen = true;
-            FlyoutMenuOpened.Visibility = Visibility.Visible;
-            FlyoutMenuClosed.Visibility = Visibility.Collapsed;
-        }
+            MenuIsOpen = true;
 
         UpdateSelected(null);
     }
