@@ -420,13 +420,13 @@
                                                 Margin="0,5,0,5"
                                                 SelectedItem="{Binding BendingRadiusMode, Mode=TwoWay}">
                                                 <!--ItemsSource="{Binding DataContext.BendModeList, RelativeSource={RelativeSource AncestorType=Page}}"-->
-                                                <ComboBoxItem>Режим гибки</ComboBoxItem>
-                                                <ComboBoxItem>Гибка</ComboBoxItem>
-                                                <ComboBoxItem>Пробивка 1</ComboBoxItem>
-                                                <ComboBoxItem>Пробивка 2</ComboBoxItem>
-                                                <ComboBoxItem>Перехват</ComboBoxItem>
-                                                <ComboBoxItem>Спираль</ComboBoxItem>
-                                                <ComboBoxItem>Гибка с уездом</ComboBoxItem>
+                                                <ComboBoxItem Content="Режим гибки"/>
+                                                <ComboBoxItem Content="Гибка"/>
+                                                <ComboBoxItem Content="Пробивка 1"/>
+                                                <ComboBoxItem Content="Пробивка 2"/>
+                                                <ComboBoxItem Content="Перехват"/>
+                                                <ComboBoxItem Content="Спираль"/>
+                                                <ComboBoxItem Content="Гибка с уездом"/>
                                             </ComboBox>
                                         </StackPanel>
                                         <Separator
