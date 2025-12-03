@@ -187,6 +187,9 @@ public partial class MainWindow : Window
 
     private void MinimizeWindow()
     {
+        if (WindowState == WindowState.Normal && ResizeMode == ResizeMode.CanResize && Topmost == false && MaximizeIcon.Text == "\uE922")
+            return;
+
         WindowState = WindowState.Normal;
         ResizeMode = ResizeMode.CanResize;
         Topmost = false;
@@ -217,6 +220,9 @@ public partial class MainWindow : Window
 
     private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
     {
+        if (WindowState != WindowState.Maximized)
+            MinimizeWindow();
+
         if (Width < 1200)
         {
             FlyoutMenu.MenuIsOpen = false;
