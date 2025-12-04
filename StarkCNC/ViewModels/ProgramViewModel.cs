@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Win32;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
-using StarkCNC.Core.Services;
+using StarkCNC.Core.UoW;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Media.Media3D;
@@ -13,7 +13,7 @@ namespace StarkCNC.ViewModels;
 public partial class ProgramViewModel : ObservableObject
 {
     private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
-    private readonly IGCodeService _gCodeService;
+    private readonly IBendingDataUnitOfWork _unitOfWork;
    
     private const string _gcodeExtension = ".gcode";
     private const string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
@@ -38,11 +38,11 @@ public partial class ProgramViewModel : ObservableObject
         get => _pipe;
     }
 
-    public ProgramViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IGCodeService gCodeService)
+    public ProgramViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IBendingDataUnitOfWork unitOfWork)
     {
 
         _bendingModelsLoadingService = bendingModelsLoadingService;
-        _gCodeService = gCodeService;
+        _unitOfWork = unitOfWork;
 
         //App.ServiceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
         _bendingModelsLoadingService.PropertyChanged += (sender, args) =>
@@ -54,6 +54,13 @@ public partial class ProgramViewModel : ObservableObject
         };
 
         _pipe = _bendingModelsLoadingService.Pipe;
+
+        int i = 1;
+        foreach (var item in _unitOfWork.BendingDatas)
+        {
+            BendingDatas.Add(new BendingDataViewModel(i, item));
+            i++;
+        }
     }
 
     [RelayCommand]
@@ -95,18 +102,16 @@ public partial class ProgramViewModel : ObservableObject
 
         try
         {
-            var data = await _gCodeService
-                .ReadAsync(CurrentFilePath)
-                .ConfigureAwait(true);
+            await _unitOfWork.ReadFileAsync(CurrentFilePath).ConfigureAwait(false);
 
             int i = 1;
-            foreach (var item in data)
+            foreach (var item in _unitOfWork.BendingDatas)
             {
                 BendingDatas.Add(new BendingDataViewModel(i, item));
                 i++;
             }
 
-            var firstItem = data.FirstOrDefault();
+            var firstItem = _unitOfWork.BendingDatas.FirstOrDefault();
             if (firstItem is not null)
             {
                 PipeLength = firstItem.PipeLength;
@@ -138,7 +143,8 @@ public partial class ProgramViewModel : ObservableObject
                 return false;
         }
 
-        await _gCodeService.SaveAsync(CurrentFilePath, CastToModel()).ConfigureAwait(false);
+        CastToModel();
+        await _unitOfWork.WriteFileAsync(CurrentFilePath).ConfigureAwait(false);
         return true;
     }
 
@@ -148,6 +154,7 @@ public partial class ProgramViewModel : ObservableObject
         if (BendingDatas.Count == 0)
         {
             BendingDatas.Add(new BendingDataViewModel() { Id = 1 });
+            CastToModel();
             return;
         }
 
@@ -170,6 +177,8 @@ public partial class ProgramViewModel : ObservableObject
         {
             item.SupplySpeed = firstItem.SupplySpeed;
         }
+
+        CastToModel();
     }
 
     [RelayCommand]
@@ -183,6 +192,8 @@ public partial class ProgramViewModel : ObservableObject
         {
             item.RotationSpeed = firstItem.RotationSpeed;
         }
+
+        CastToModel();
     }
 
     [RelayCommand]
@@ -196,6 +207,8 @@ public partial class ProgramViewModel : ObservableObject
         {
             item.BendingAngleSpeed = firstItem.BendingAngleSpeed;
         }
+
+        CastToModel();
     }
 
     [RelayCommand]
@@ -209,6 +222,8 @@ public partial class ProgramViewModel : ObservableObject
         {
             item.BendingAngleCoefficient = firstItem.BendingAngleCoefficient;
         }
+
+        CastToModel();
     }
 
     [RelayCommand]
@@ -222,6 +237,8 @@ public partial class ProgramViewModel : ObservableObject
         {
             item.BendingRadiusMode = firstItem.BendingRadiusMode;
         }
+
+        CastToModel();
     }
 
     [RelayCommand]
@@ -235,6 +252,8 @@ public partial class ProgramViewModel : ObservableObject
         {
             item.OffsetSpeed = firstItem.OffsetSpeed;
         }
+
+        CastToModel();
     }
 
     [RelayCommand]
@@ -248,48 +267,39 @@ public partial class ProgramViewModel : ObservableObject
         {
             item.OffsetCoefficient = firstItem.OffsetCoefficient;
         }
+
+        CastToModel();
     }
 
     private void UpdateEstimatedRemainingLengthAndPipeLength()
     {
         if (PipeLength > 0)
         {
-            double result = PipeLength;
-            foreach (var data in BendingDatas)
-            {
-                result -= data.Supply + (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle);
-            }
-
-            EstimatedRemainingLength = result;
+            EstimatedRemainingLength = _unitOfWork.CalculateEstimatedRemainingLength(PipeLength);
         }
         else if (PipeLength <= 0 && EstimatedRemainingLength > 0)
         {
-            double result = EstimatedRemainingLength;
-            foreach (var data in BendingDatas)
-            {
-                result += data.Supply - (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle);
-            }
-
-            PipeLength = result;
+            PipeLength = _unitOfWork.CalculatePipeLength(EstimatedRemainingLength);
         }
     }
 
     public void UpdateBend()
     {
+        CastToModel();
         UpdateEstimatedRemainingLengthAndPipeLength();
         double pipeDiameter = 50;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
         _bendingModelsLoadingService
-            .UpdatePipeBend(WireBuilder.BuildWirePath(CastToModel(), pipeDiameter), pipeDiameter);
+            .UpdatePipeBend(WireBuilder.BuildWirePath(_unitOfWork.BendingDatas, pipeDiameter), pipeDiameter);
     }
 
-    private ICollection<BendingData> CastToModel()
+    private void CastToModel()
     {
-        var result = new List<BendingData>();
+        _unitOfWork.BendingDatas.Clear();
         foreach (var data in BendingDatas)
         {
-            result.Add(new BendingData()
+            _unitOfWork.BendingDatas.Add(new BendingData()
             {
                 PipeLength = data.PipeLength,
                 YSetup = data.YSetup,
@@ -307,7 +317,5 @@ public partial class ProgramViewModel : ObservableObject
                 RotationSpeed = data.RotationSpeed
             });
         }
-
-        return result;
     }
 }

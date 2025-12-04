@@ -7,10 +7,12 @@ using Microsoft.Extensions.Hosting;
 using StarkCNC.Controls;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
+using StarkCNC.Core.UoW;
 using StarkCNC.Database;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Repository;
 using StarkCNC.Services;
+using StarkCNC.UoW;
 using StarkCNC.ViewModels;
 using System.Diagnostics;
 using System.IO;
@@ -69,6 +71,7 @@ public partial class App : Application
                 services.AddTransient<AdjustmentViewModel>();
                 services.AddSingleton<FlyoutMenuControl>();
                 services.AddTransient<IBendingModelsLoadingService, BendingModelsLoadingService>();
+                services.AddSingleton<IBendingDataUnitOfWork, BendingDataUnitOfWork>();
 #if DEBUG
                 Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");
                 services.AddSingleton<IManualConfigurationService, FakeManualConfigurationService>();
