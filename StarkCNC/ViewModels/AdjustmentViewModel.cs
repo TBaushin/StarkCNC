@@ -20,6 +20,15 @@ public partial class AdjustmentViewModel : ObservableObject
 
     public ObservableCollection<AdjustmentParameters> SetUpAdjustments { get; private set; } = new ObservableCollection<AdjustmentParameters>();
 
+    [ObservableProperty]
+    private bool _firstFloorEnabled;
+
+    [ObservableProperty]
+    private bool _secondFloorEnabled;
+
+    [ObservableProperty]
+    private bool _thirdFloorEnabled;
+
     public AdjustmentViewModel(IRouter router, IAdjustmentRepository adjustmentRepository) 
     {
         _router = router;

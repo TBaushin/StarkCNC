@@ -29,7 +29,8 @@
                 <controls:FloorControl
                     x:Name="ThirdLevel"
                     Margin="10,0,10,0"
-                    FloorText="Этаж 3"/> <!--TODO: Сделать генерируемым и перевести-->
+                    FloorText="Этаж 3"
+                    IsEnabled="{Binding ThirdFloorEnabled, Mode=TwoWay}"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
             <Border
                 Margin="8,4,8,4"
@@ -39,7 +40,8 @@
                 <controls:FloorControl
                     x:Name="SecondLevel"
                     Margin="10,0,10,0"
-                    FloorText="Этаж 2"/> <!--TODO: Сделать генерируемым и перевести-->
+                    FloorText="Этаж 2"
+                    IsEnabled="{Binding SecondFloorEnabled, Mode=TwoWay}"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
             <Border
                 Margin="8,4,8,4"
@@ -49,7 +51,8 @@
                 <controls:FloorControl
                     x:Name="FirstLevel"
                     Margin="10,0,10,0"
-                    FloorText="Этаж 1"/> <!--TODO: Сделать генерируемым и перевести-->
+                    FloorText="Этаж 1"
+                    IsEnabled="{Binding FirstFloorEnabled, Mode=TwoWay}"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
             <Expander Margin="8,4,7,4">
                 <Expander.Header>
