@@ -146,7 +146,7 @@ public partial class AdjustmentView : Page
 
         ViewModel.SetLevelToAdjustmentCommand.Execute(level);
 
-        ClearFloorConrolsSelectedAdjustment(adjustment);
+        ClearFloorControlsSelectedAdjustment(adjustment);
         switch (level)
         {
             case 1:
@@ -167,7 +167,7 @@ public partial class AdjustmentView : Page
         AdjustmentsList.SelectedItems.Clear();
     }
 
-    private void ClearFloorConrolsSelectedAdjustment(AdjustmentParameters adjustment)
+    private void ClearFloorControlsSelectedAdjustment(AdjustmentParameters adjustment)
     {
         var adjustmentName = GenerateAdjustmentName(adjustment);
         if (FirstLevel.AdjustmentName is not null && FirstLevel.AdjustmentName == adjustmentName)
