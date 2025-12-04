@@ -10,31 +10,37 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
     public ICollection<BendingData> BendingDatas { get; } = new List<BendingData>();
 
+    public double PipeLength { get; set; }
+
+    public double EstimatedRemainingLength { get; set; }
+
     public BendingDataUnitOfWork(IGCodeService gCodeService)
     {
         _gCodeService = gCodeService;
     }
 
-    public double CalculateEstimatedRemainingLength(double pipeLength)
+    public double CalculateEstimatedRemainingLength()
     {
-        double result = pipeLength;
+        double result = PipeLength;
         foreach (var data in BendingDatas)
         {
             result -= data.Supply + (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle);
         }
 
-        return result;
+        EstimatedRemainingLength = result;
+        return EstimatedRemainingLength;
     }
 
-    public double CalculatePipeLength(double estimatedRemainingLength)
+    public double CalculatePipeLength()
     {
-        double result = estimatedRemainingLength;
+        double result = EstimatedRemainingLength;
         foreach (var data in BendingDatas)
         {
             result += data.Supply - (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle);
         }
 
-        return result;
+        PipeLength = result;
+        return PipeLength;
     }
 
     public async Task ReadFileAsync(string filePath)

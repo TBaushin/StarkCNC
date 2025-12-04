@@ -61,6 +61,9 @@ public partial class ProgramViewModel : ObservableObject
             BendingDatas.Add(new BendingDataViewModel(i, item));
             i++;
         }
+
+        EstimatedRemainingLength = _unitOfWork.EstimatedRemainingLength;
+        PipeLength = _unitOfWork.PipeLength;
     }
 
     [RelayCommand]
@@ -275,11 +278,11 @@ public partial class ProgramViewModel : ObservableObject
     {
         if (PipeLength > 0)
         {
-            EstimatedRemainingLength = _unitOfWork.CalculateEstimatedRemainingLength(PipeLength);
+            EstimatedRemainingLength = _unitOfWork.CalculateEstimatedRemainingLength();
         }
         else if (PipeLength <= 0 && EstimatedRemainingLength > 0)
         {
-            PipeLength = _unitOfWork.CalculatePipeLength(EstimatedRemainingLength);
+            PipeLength = _unitOfWork.CalculatePipeLength();
         }
     }
 
@@ -317,5 +320,15 @@ public partial class ProgramViewModel : ObservableObject
                 RotationSpeed = data.RotationSpeed
             });
         }
+    }
+
+    partial void OnEstimatedRemainingLengthChanged(double oldValue, double newValue)
+    {
+        _unitOfWork.EstimatedRemainingLength = newValue;
+    }
+
+    partial void OnPipeLengthChanged(double oldValue, double newValue)
+    {
+        _unitOfWork.PipeLength = newValue;
     }
 }
