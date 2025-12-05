@@ -31,7 +31,18 @@ public partial class ProgramViewModel : ObservableObject
     [ObservableProperty]
     private double _estimatedRemainingLength;
 
-    public ObservableCollection<BendingDataViewModel> BendingDatas { get; set; } = new ObservableCollection<BendingDataViewModel>();
+    public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
+
+    public static IReadOnlyCollection<string> BendingModes { get; } = new List<string>()
+    {
+        "Режим гибки",
+        "Гибка",
+        "Пробивка 1",
+        "Пробивка 2",
+        "Перехват",
+        "Спираль",
+        "Гибка с уездом"
+    };
 
     public Visual3D Pipe
     {

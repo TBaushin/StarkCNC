@@ -37,4 +37,50 @@ public partial class ProgramView : Page
     {
         ViewModel.UpdateBend();
     }
+
+    private void SetSupplySpeedButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.SetSupplySpeedToAllCommand.Execute(null);
+    }
+
+    private void SetRotationSpeedButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.SetRotationSpeedToAllCommand.Execute(null);
+    }
+
+    private void SetBendSpeedButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.SetBendSpeedToAllCommand.Execute(null);
+    }
+
+    private void SetBendCoefficientButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.SetBendCoefficientToAllCommand.Execute(null);
+    }
+
+    private void SetRadiusModeButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.SetRadiusModeToAllCommand.Execute(null);
+    }
+
+    private void SetOffsetSpeedButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.SetOffsetSpeedToAllCommand.Execute(null);
+    }
+
+    private void SetOffsetCoefficientButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        ViewModel.SetOffsetCoefficientToAllCommand.Execute(null);
+    }
+
+    private void DeleteBendingDataButton_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var button = sender as Button;
+        if (button is null)
+            return;
+
+        var dgc = button.Parent as DataGridCell;
+        if (dgc is null)
+            return;
+    }
 }
