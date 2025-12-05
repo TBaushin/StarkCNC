@@ -98,14 +98,15 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void RegisterPages()
     {
-        var routes = new string[] { "/manual", "/visualization", "/program", "/automatic", "/adjustment" };
-        foreach (var route in routes)
+        foreach (var route in _router.GetRoutes())
         {
-            var realRoute = _router.GetRoute(route);
-            if (realRoute is null)
+            if (route.Key == "/users" || route.Key == "/settings")
                 continue;
 
-            Pages.Add(new ViewData(realRoute.Title, realRoute.IconGlyph, new RelayCommand(() => _router.Navigate(realRoute.Path))));
+            if (route.Key.Split('/', StringSplitOptions.RemoveEmptyEntries).Length > 1)
+                continue;
+
+            Pages.Add(new ViewData(route.Value.Title, route.Value.IconGlyph, new RelayCommand(() => _router.Navigate(route.Value.Path))));
         }
     }
 
