@@ -86,9 +86,10 @@ public partial class App : Application
     private static void ConfigureRoutes(IRouter router) =>
         router.ConfigureRoutes(configure =>
         {
-            configure.AddRoute("/manual", typeof(ManualViewModel), "Ручной режим", "\uE732"); // \xEBFC
+            configure.AddRoute("/manual", typeof(ManualViewModel), "Ручной режим", "\xEBFC"); // \
             configure.AddRoute("/visualization", typeof(VisualizationViewModel), "Визуализация", "\xE809"); // \xF158
             configure.AddRoute("/program", typeof(ProgramViewModel), "Программа", "\xF259");
+            configure.AddRoute("/automatic", typeof(AutomaticViewModel), "Автомат", "\uF8A6");
             configure.AddRoute("/adjustment", typeof(AdjustmentViewModel), "Оснастка", "\uE835");
             configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel), "Управление оснастками", "\uE8FD"); // \uEA37
             configure.AddRoute("/adjustment/edit", typeof(AdjustmentParametersViewModel), iconGlyph: "\uE90F"); // \uEC7A

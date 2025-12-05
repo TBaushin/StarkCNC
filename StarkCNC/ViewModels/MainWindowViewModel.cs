@@ -98,7 +98,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     private void RegisterPages()
     {
-        var routes = new string[] { "/manual", "/visualization", "/program", "/adjustment" };
+        var routes = new string[] { "/manual", "/visualization", "/program", "/automatic", "/adjustment" };
         foreach (var route in routes)
         {
             var realRoute = _router.GetRoute(route);
