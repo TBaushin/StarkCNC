@@ -58,13 +58,6 @@ public partial class AdjustmentViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void GoToEditSettings(AdjustmentParametersDto adjustment)
-    {
-        var selected = Adjustments.FirstOrDefault(a => a.Equals(adjustment));
-        _router.Navigate($"/adjustment/edit", selected?.Id);
-    }
-
-    [RelayCommand]
     private async Task SetLevelToAdjustment(int level)
     {
         if (SelectedAdjustment is not null && SelectedAdjustment.Id is Guid id)
