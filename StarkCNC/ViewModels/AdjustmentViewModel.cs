@@ -75,6 +75,36 @@ public partial class AdjustmentViewModel : ObservableObject
         GetSetUpAdjustments();
     }
 
+    [RelayCommand]
+    private void NavigateToFirstFloorEdit()
+    {
+        var firstFloorAdjustment = SetUpAdjustments.Where(a => a.InstalledLevel == 1).FirstOrDefault();
+        if (firstFloorAdjustment is null)
+            return;
+
+        _router.Navigate("/adjustment/edit", firstFloorAdjustment.Id);
+    }
+
+    [RelayCommand]
+    private void NavigateToSecondFloorEdit()
+    {
+        var firstFloorAdjustment = SetUpAdjustments.Where(a => a.InstalledLevel == 2).FirstOrDefault();
+        if (firstFloorAdjustment is null)
+            return;
+
+        _router.Navigate("/adjustment/edit", firstFloorAdjustment.Id);
+    }
+
+    [RelayCommand]
+    private void NavigateToThirdFloorEdit()
+    {
+        var firstFloorAdjustment = SetUpAdjustments.Where(a => a.InstalledLevel == 3).FirstOrDefault();
+        if (firstFloorAdjustment is null)
+            return;
+
+        _router.Navigate("/adjustment/edit", firstFloorAdjustment.Id);
+    }
+
     private async void UpdateAdjustments()
     {
         Adjustments.Clear();

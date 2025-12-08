@@ -32,17 +32,14 @@ public partial class AdjustmentView : Page
         var thirdLevelAdjustment = ViewModel.SetUpAdjustments
             .FirstOrDefault(e => e.InstalledLevel == 3);
         ThirdLevel.AdjustmentName = GenerateAdjustmentName(thirdLevelAdjustment);
-        ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
 
         var secondLevelAdjustment = ViewModel.SetUpAdjustments
             .FirstOrDefault(e => e.InstalledLevel == 2);
         SecondLevel.AdjustmentName = GenerateAdjustmentName(secondLevelAdjustment);
-        SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
 
         var firstLevelAdjustment = ViewModel.SetUpAdjustments
             .FirstOrDefault(e => e.InstalledLevel == 1);
         FirstLevel.AdjustmentName = GenerateAdjustmentName(firstLevelAdjustment);
-        FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
     }
 
     private string GenerateAdjustmentName(AdjustmentParameters? adjustment) =>
@@ -151,15 +148,12 @@ public partial class AdjustmentView : Page
         {
             case 1:
                 FirstLevel.AdjustmentName = GenerateAdjustmentName(adjustment);
-                FirstLevel.Navigate = ViewModel.GoToEditSettingsCommand;
                 break;
             case 2:
                 SecondLevel.AdjustmentName = GenerateAdjustmentName(adjustment);
-                SecondLevel.Navigate = ViewModel.GoToEditSettingsCommand;
                 break;
             case 3:
                 ThirdLevel.AdjustmentName = GenerateAdjustmentName(adjustment);
-                ThirdLevel.Navigate = ViewModel.GoToEditSettingsCommand;
                 break;
         }
 

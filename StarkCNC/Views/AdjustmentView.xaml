@@ -30,7 +30,8 @@
                     x:Name="ThirdLevel"
                     Margin="10,0,10,0"
                     FloorText="Этаж 3"
-                    IsChecked="{Binding ThirdFloorEnabled, Mode=TwoWay}"/> <!--TODO: Сделать генерируемым и перевести-->
+                    IsChecked="{Binding ThirdFloorEnabled, Mode=TwoWay}"
+                    Navigate="{Binding NavigateToThirdFloorEditCommand}"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
             <Border
                 Margin="8,4,8,4"
@@ -41,7 +42,8 @@
                     x:Name="SecondLevel"
                     Margin="10,0,10,0"
                     FloorText="Этаж 2"
-                    IsChecked="{Binding SecondFloorEnabled, Mode=TwoWay}"/> <!--TODO: Сделать генерируемым и перевести-->
+                    IsChecked="{Binding SecondFloorEnabled, Mode=TwoWay}"
+                    Navigate="{Binding NavigateToSecondFloorEditCommand}"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
             <Border
                 Margin="8,4,8,4"
@@ -52,7 +54,8 @@
                     x:Name="FirstLevel"
                     Margin="10,0,10,0"
                     FloorText="Этаж 1"
-                    IsChecked="{Binding FirstFloorEnabled, Mode=TwoWay}"/> <!--TODO: Сделать генерируемым и перевести-->
+                    IsChecked="{Binding FirstFloorEnabled, Mode=TwoWay}"
+                    Navigate="{Binding NavigateToFirstFloorEditCommand}"/> <!--TODO: Сделать генерируемым и перевести-->
             </Border>
             <Expander Margin="8,4,7,4">
                 <Expander.Header>

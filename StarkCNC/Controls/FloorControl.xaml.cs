@@ -65,6 +65,7 @@ public partial class FloorControl : UserControl
 
     private void TextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
+        Navigate.Execute(null);
         //if (SelectedAdjustment is not null)
             //Navigate.Execute(SelectedAdjustment);
     }
