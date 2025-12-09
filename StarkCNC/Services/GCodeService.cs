@@ -74,10 +74,12 @@ public class GCodeService : IGCodeService
         var builder = new StringBuilder();
         foreach (var item in dataDict)
         {
-            if (item.Key.Length > 1 || item.Key == "M")
-                builder.Append($"{item.Key}={item.Value} ");
+            if (item.Key.Length > 1 && item.Key != "M")
+                builder = builder.Append($"{item.Key}={item.Value} ");
+            else if (item.Key == "M")
+                builder = builder.Append($"{item.Key}='{item.Value}' ");
             else
-                builder.Append($"{item.Key}{item.Value} ");
+                builder = builder.Append($"{item.Key}{item.Value} ");
         }
 
         return builder.ToString().TrimEnd();
@@ -92,7 +94,7 @@ public class GCodeService : IGCodeService
             if (item.Contains('=', StringComparison.CurrentCulture))
             {
                 var keyValue = item.Split('=', StringSplitOptions.RemoveEmptyEntries);
-                if (keyValue.Length == 2 || keyValue[0] == "M")
+                if (keyValue.Length == 2 || keyValue[0] != "M")
                 {
                     var key = keyValue[0];
                     var valueString = keyValue[1];
@@ -100,6 +102,13 @@ public class GCodeService : IGCodeService
                         result.Add(new KeyValuePair<string, object>(key, doubleValue));
                     else
                         result.Add(new KeyValuePair<string, object>(key, valueString));
+                }
+                else
+                {
+                    var key = keyValue[0];
+                    var valueString = keyValue[1];
+                    valueString = valueString.Replace("'", "", StringComparison.CurrentCulture);
+                    result.Add(new KeyValuePair<string, object>(key, valueString));
                 }
             }
             else
