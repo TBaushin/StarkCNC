@@ -4,12 +4,16 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
+      xmlns:helpers="clr-namespace:StarkCNC.Helpers"
       xmlns:local="clr-namespace:StarkCNC.Views"
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       d:DataContext="{d:DesignInstance vm:AutomaticViewModel}"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
       Title="AutomaticView">
+    <Page.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
 
     <Grid ColumnDefinitions="4*,3*" RowDefinitions="9*,*">
         <StackPanel
@@ -257,7 +261,9 @@
                     IsNumericOnly="True"
                     TextBoxText="{Binding TaskDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
             </Grid>
-            <Grid ColumnDefinitions="*,*">
+            <Grid
+                ColumnDefinitions="*,*"
+                Visibility="{Binding IsFullAtomatic, Converter={StaticResource BoolToVisibilityConverter}}">
                 <Label
                     Grid.Column="0"
                     VerticalAlignment="Center"

@@ -34,6 +34,9 @@ public partial class AutomaticViewModel : ViewModelBase
     private int _taskDetails;
 
     [ObservableProperty]
+    private bool _isFullAtomatic;
+
+    [ObservableProperty]
     private double _pipeInstallationDelay;
 
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
