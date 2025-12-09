@@ -46,6 +46,8 @@ public partial class AutomaticViewModel : ViewModelBase
         if (unitOfWork is null)
             throw new ArgumentNullException(nameof(unitOfWork));
 
+        ProgramName = unitOfWork.ProgramName;
+
         int i = 0;
         foreach (var item in unitOfWork.BendingDatas)
         {

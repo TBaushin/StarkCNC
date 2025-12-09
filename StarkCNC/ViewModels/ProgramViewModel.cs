@@ -116,7 +116,7 @@ public partial class ProgramViewModel : ObservableObject
 
         try
         {
-            await _unitOfWork.ReadFileAsync(CurrentFilePath).ConfigureAwait(false);
+            await _unitOfWork.ReadFileAsync(CurrentFilePath).ConfigureAwait(true);
 
             int i = 1;
             foreach (var item in _unitOfWork.BendingDatas)

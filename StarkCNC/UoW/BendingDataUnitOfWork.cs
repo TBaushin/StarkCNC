@@ -1,12 +1,15 @@
 ﻿using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
+using System.IO;
 
 namespace StarkCNC.UoW;
 
 public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 {
     private IGCodeService _gCodeService;
+
+    public string ProgramName { get; private set; } = string.Empty;
 
     public ICollection<BendingData> BendingDatas { get; } = new List<BendingData>();
 
@@ -46,7 +49,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
     public async Task ReadFileAsync(string filePath)
     {
         BendingDatas.Clear();
-        
+
+        ProgramName = Path.GetFileNameWithoutExtension(filePath);
         var data = await _gCodeService.ReadAsync(filePath).ConfigureAwait(false);
         if (data is null)
             return;
@@ -60,5 +64,6 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
     public async Task WriteFileAsync(string filePath)
     {
         await _gCodeService.SaveAsync(filePath, BendingDatas).ConfigureAwait(false);
+        ProgramName = Path.GetFileNameWithoutExtension(filePath);
     }
 }
