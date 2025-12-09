@@ -4,7 +4,7 @@ public class User
 {
     public string Name { get; set; }
 
-    public byte[] Image { get; set; }
+    public IReadOnlyCollection<byte> Image { get; }
 
     public User(string name, byte[] image)
     {
