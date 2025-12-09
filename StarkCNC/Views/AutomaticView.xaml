@@ -44,8 +44,7 @@
                         Content="Время цикла:"/>
                     <controls:LabeledTextBoxControl
                         Grid.Column="1"
-                        NeedCallNumberInput="True"
-                        IsNumericOnly="True"
+                        IsEnabled="False"
                         TextBoxText="{Binding CycleTime, StringFormat={}{0} сек., Mode=TwoWay}"/>
                 </Grid>
                 
