@@ -13,7 +13,7 @@ public partial class AutomaticViewModel : ViewModelBase
     private IManualConfigurationService _configurationService;
 
     [ObservableProperty]
-    private string _programName;
+    private string _programName = string.Empty;
 
     [ObservableProperty]
     private double _speed;
@@ -36,12 +36,15 @@ public partial class AutomaticViewModel : ViewModelBase
     [ObservableProperty]
     private double _pipeInstallationDelay;
 
-    public ObservableCollection<BendingDataViewModel> BendingDatas { get; set; } = new ObservableCollection<BendingDataViewModel>();
+    public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
 
     public AutomaticViewModel(IConfiguration configuration, IManualConfigurationService configurationService, IBendingDataUnitOfWork unitOfWork)
     {
         _configuration = configuration;
         _configurationService = configurationService;
+
+        if (unitOfWork is null)
+            throw new ArgumentNullException(nameof(unitOfWork));
 
         int i = 0;
         foreach (var item in unitOfWork.BendingDatas)
@@ -51,7 +54,7 @@ public partial class AutomaticViewModel : ViewModelBase
         }
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = true)]
     private async Task SetAutomaticMode()
     {
         var automaticTagsSection = _configuration.GetSection("AutomaticTags");
@@ -62,6 +65,20 @@ public partial class AutomaticViewModel : ViewModelBase
 
         await _configurationService
             .WriteAsync(true, turnOnRequestString)
+            .ConfigureAwait(false);
+    }
+
+    [RelayCommand(AllowConcurrentExecutions = true)]
+    private async Task ClearActuatorErrors()
+    {
+        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
+        var clearActuatorErrorsRequestString = automaticTagsSection
+            .GetSection("ClearActuatorErrors")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        await _configurationService
+            .WriteAsync(true, clearActuatorErrorsRequestString)
             .ConfigureAwait(false);
     }
 }

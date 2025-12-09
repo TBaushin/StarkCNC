@@ -347,7 +347,8 @@
                 Grid.Column="6"
                 Grid.Row="1"
                 Margin="10,0,10,0"
-                Content="Сброс ошибок приводов"/>
+                Content="Сброс ошибок приводов"
+                Command="{Binding ClearActuatorErrorsCommand}"/>
         </Grid>
     </Grid>
 </Page>
