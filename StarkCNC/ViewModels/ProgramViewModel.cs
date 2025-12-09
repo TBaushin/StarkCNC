@@ -285,6 +285,12 @@ public partial class ProgramViewModel : ObservableObject
         CastToModel();
     }
 
+    [RelayCommand]
+    private void RemoveBendingData(BendingDataViewModel data)
+    {
+        BendingDatas.Remove(data);
+    }
+
     private void UpdateEstimatedRemainingLengthAndPipeLength()
     {
         if (PipeLength > 0)

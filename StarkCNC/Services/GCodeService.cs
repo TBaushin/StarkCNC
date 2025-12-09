@@ -37,7 +37,7 @@ public class GCodeService : IGCodeService
         string content = await reader.ReadToEndAsync().ConfigureAwait(false);
 
         List<string> rawContent = content
-            .Split([Environment.NewLine], StringSplitOptions.None)
+            .Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries)
             .ToList();
         rawContent.ForEach(c =>
         {

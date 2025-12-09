@@ -75,12 +75,10 @@ public partial class ProgramView : Page
 
     private void DeleteBendingDataButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        var button = sender as Button;
-        if (button is null)
+        var item = BendingDatasDataGrid.SelectedItem as BendingDataViewModel;
+        if (item is null)
             return;
 
-        var dgc = button.Parent as DataGridCell;
-        if (dgc is null)
-            return;
+        ViewModel.RemoveBendingDataCommand.Execute(item);
     }
 }
