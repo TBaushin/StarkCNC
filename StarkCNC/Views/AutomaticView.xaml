@@ -38,9 +38,11 @@
                         Grid.Column="0"
                         VerticalAlignment="Center"
                         Content="Время цикла:"/>
-                    <TextBox
+                    <controls:LabeledTextBoxControl
                         Grid.Column="1"
-                        Text="{Binding CycleTime, StringFormat={}{0} Сек.}"/>
+                        NeedCallNumberInput="True"
+                        IsNumericOnly="True"
+                        TextBoxText="{Binding CycleTime, StringFormat={}{0} сек., Mode=TwoWay}"/>
                 </Grid>
                 
                 <!--Row 1-->
@@ -58,7 +60,7 @@
                         NeedCallNumberInput="True"
                         IsNumericOnly="True"
                         Prefix="Y:"
-                        Text="{Binding SetUpPoint}"/>
+                        Text="{Binding SetUpPoint, Mode=TwoWay}"/>
                 </Grid>
                 <Grid
                     Grid.Column="1"
@@ -74,7 +76,7 @@
                         NeedCallNumberInput="True"
                         IsNumericOnly="True"
                         Prefix="L:"
-                        Text="{Binding PipeLength}"/>
+                        Text="{Binding PipeLength, Mode=TwoWay}"/>
                 </Grid>
             </Grid>
             <DataGrid
@@ -232,6 +234,39 @@
                         HorizontalAlignment="Center"
                         Content="{Binding ProgramName}"/>
                 </Border>
+            </Grid>
+            <Grid ColumnDefinitions="*,*">
+                <Label
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="Количество вып. деталей"/>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="1"
+                    NeedCallNumberInput="True"
+                    IsNumericOnly="True"
+                    TextBoxText="{Binding CountCompletedDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
+            </Grid>
+            <Grid ColumnDefinitions="*,*">
+                <Label
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="Задание деталей"/>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="1"
+                    NeedCallNumberInput="True"
+                    IsNumericOnly="True"
+                    TextBoxText="{Binding TaskDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
+            </Grid>
+            <Grid ColumnDefinitions="*,*">
+                <Label
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Content="Задержка установки трубы"/>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="1"
+                    NeedCallNumberInput="True"
+                    IsNumericOnly="True"
+                    TextBoxText="{Binding PipeInstallationDelay, StringFormat={}{0} сек., Mode=TwoWay}"/>
             </Grid>
         </StackPanel>
         <Grid

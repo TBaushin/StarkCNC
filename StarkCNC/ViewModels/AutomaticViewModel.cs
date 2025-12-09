@@ -27,6 +27,15 @@ public partial class AutomaticViewModel : ViewModelBase
     [ObservableProperty]
     private double _setUpPoint;
 
+    [ObservableProperty]
+    private int _countCompletedDetails;
+
+    [ObservableProperty]
+    private int _taskDetails;
+
+    [ObservableProperty]
+    private double _pipeInstallationDelay;
+
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; set; } = new ObservableCollection<BendingDataViewModel>();
 
     public AutomaticViewModel(IConfiguration configuration, IManualConfigurationService configurationService, IBendingDataUnitOfWork unitOfWork)
