@@ -115,6 +115,11 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             .GetSection("RequestString")
             .Get<string>() ?? string.Empty;
 
+        var cycleTimeRequestString = automaticTagsSection
+            .GetSection("CycleTime")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
         _updateTask = Task.Run(async () =>
         {
             try
@@ -122,8 +127,11 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
                 while (!token.IsCancellationRequested)
                 {
                     HasErrors = await _configurationService
-                    .ReadAsync<bool>(stopErrorRequestString)
-                    .ConfigureAwait(false);
+                        .ReadAsync<bool>(stopErrorRequestString)
+                        .ConfigureAwait(false);
+                    CycleTime = await _configurationService
+                        .ReadAsync<double>(cycleTimeRequestString)
+                        .ConfigureAwait(false);
                     await Task.Delay(150).ConfigureAwait(false);
                 }
             }
