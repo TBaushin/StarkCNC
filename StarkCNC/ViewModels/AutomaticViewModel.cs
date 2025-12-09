@@ -7,10 +7,12 @@ using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
 
-public partial class AutomaticViewModel : ViewModelBase
+public partial class AutomaticViewModel : ViewModelBase, IDisposable
 {
     private IConfiguration _configuration;
     private IManualConfigurationService _configurationService;
+
+    private bool _disposed;
 
     [ObservableProperty]
     private string _programName = string.Empty;
@@ -44,6 +46,9 @@ public partial class AutomaticViewModel : ViewModelBase
 
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
 
+    private Task? _updateTask;
+    private CancellationTokenSource? _cancellationTokenSource;
+
     public AutomaticViewModel(IConfiguration configuration, IManualConfigurationService configurationService, IBendingDataUnitOfWork unitOfWork)
     {
         _configuration = configuration;
@@ -60,6 +65,8 @@ public partial class AutomaticViewModel : ViewModelBase
             BendingDatas.Add(new BendingDataViewModel(i, item));
             i += 1;
         }
+
+        StartUpdateTask();
     }
 
     [RelayCommand(AllowConcurrentExecutions = true)]
@@ -90,5 +97,73 @@ public partial class AutomaticViewModel : ViewModelBase
             .ConfigureAwait(false);
 
         HasErrors = false;
+    }
+
+    private void StartUpdateTask()
+    {
+        if (TaskIsRunning())
+            return;
+
+        _cancellationTokenSource?.Dispose();
+
+        _cancellationTokenSource = new CancellationTokenSource();
+        var token = _cancellationTokenSource.Token;
+
+        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
+        var stopErrorRequestString = automaticTagsSection
+            .GetSection("StopErrors")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        _updateTask = Task.Run(async () =>
+        {
+            try
+            {
+                while (!token.IsCancellationRequested)
+                {
+                    HasErrors = await _configurationService
+                    .ReadAsync<bool>(stopErrorRequestString)
+                    .ConfigureAwait(false);
+                    await Task.Delay(150).ConfigureAwait(false);
+                }
+            }
+            catch (TaskCanceledException)
+            {
+                // Нормально: задача отменена
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"UpdateTask error: {ex}");
+            }
+        }, token);
+    }
+
+    private bool TaskIsRunning() =>
+        _updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted;
+
+    private void StopUpdateTask()
+    {
+        if (_updateTask is null)
+            return;
+
+        _cancellationTokenSource?.Cancel();
+        _cancellationTokenSource?.Dispose();
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing)
+            StopUpdateTask();
+
+        _disposed = true;
     }
 }
