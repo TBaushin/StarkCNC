@@ -39,6 +39,9 @@ public partial class AutomaticViewModel : ViewModelBase
     [ObservableProperty]
     private double _pipeInstallationDelay;
 
+    [ObservableProperty]
+    private bool _hasErrors;
+
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
 
     public AutomaticViewModel(IConfiguration configuration, IManualConfigurationService configurationService, IBendingDataUnitOfWork unitOfWork)
@@ -85,5 +88,7 @@ public partial class AutomaticViewModel : ViewModelBase
         await _configurationService
             .WriteAsync(true, clearActuatorErrorsRequestString)
             .ConfigureAwait(false);
+
+        HasErrors = false;
     }
 }

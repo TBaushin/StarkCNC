@@ -362,6 +362,7 @@
                 Grid.Column="6"
                 Grid.Row="1"
                 Margin="10,0,10,0"
+                Visibility="{Binding HasErrors, Converter={StaticResource BoolToVisibilityConverter}}"
                 Content="Сброс ошибок приводов"
                 Command="{Binding ClearActuatorErrorsCommand}"/>
         </Grid>
