@@ -26,7 +26,6 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     private string _selectedType = string.Empty;
 
-
     public SettingsViewModel(ISettingsRepository settingsRepository)
     {
         _settingsRepository = settingsRepository;
