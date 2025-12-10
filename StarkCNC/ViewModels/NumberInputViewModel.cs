@@ -6,8 +6,6 @@ namespace StarkCNC.ViewModels;
 
 public partial class NumberInputViewModel : ObservableObject
 {
-    private bool _needAddPoint;
-
     [ObservableProperty]
     private string _outputValue = string.Empty;
 
@@ -38,13 +36,12 @@ public partial class NumberInputViewModel : ObservableObject
     [RelayCommand]
     private void AddPoint()
     {
-        if (_needAddPoint)
+        if (OutputValue.Contains('.', StringComparison.CurrentCultureIgnoreCase))
             return;
 
         if (OutputValue.Length == 0)
             OutputValue = "0";
         OutputValue += ".";
-        _needAddPoint = true;
     }
 
     private static double TryConvertToDouble(string outputValue)

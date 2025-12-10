@@ -9,7 +9,8 @@
         d:DataContext="{d:DesignInstance vm:NumberInputViewModel}"
         mc:Ignorable="d"
         Title="NumberInputBlockWindow"
-        Height="635" Width="585">
+        Height="635" Width="585"
+        KeyDown="Window_KeyDown">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -20,6 +21,7 @@
             IsReadOnly="True"
             TextAlignment="Right"
             FontSize="25"
+            PreviewTextInput="OutputTextBox_PreviewTextInput"
             Text="{Binding OutputValue}"/>
         <Grid
             x:Name="NumberBlockGrid"
