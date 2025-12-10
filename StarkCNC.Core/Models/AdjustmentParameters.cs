@@ -6,6 +6,9 @@ namespace StarkCNC.Core.Models;
 
 public class AdjustmentParameters : ICloneable
 {
+    private int _installedLevel;
+    private bool _isEnabled;
+
     [Key]
     public Guid Id { get; set; }
 
@@ -17,7 +20,30 @@ public class AdjustmentParameters : ICloneable
 
     public AdjustmentType Type { get; set; }
 
-    public int InstalledLevel { get; set; }
+    public int InstalledLevel
+    {
+        get => _installedLevel;
+        set
+        {
+            _installedLevel = value;
+            if (value <= 0 || value > 3)
+                IsEnabled = false;
+            else
+                IsEnabled = true;
+        }
+    }
+
+    public bool IsEnabled
+    {
+        get => _isEnabled;
+        set
+        {
+            if (InstalledLevel <= 0 || InstalledLevel > 3)
+                _isEnabled = false;
+            else
+                _isEnabled = value;
+        }
+    }
 
     public double ForwardDangerZoneCoordinate { get; set; }
 
@@ -85,6 +111,7 @@ public class AdjustmentParameters : ICloneable
         double radius,
         AdjustmentType type,
         int installedLevel,
+        bool isEnabled,
         double forwardDangerZoneCoordinate,
         double distanceFromCenter,
         Bend bend,
@@ -105,6 +132,7 @@ public class AdjustmentParameters : ICloneable
         Radius = radius;
         Type = type;
         InstalledLevel = installedLevel;
+        IsEnabled = isEnabled;
         ForwardDangerZoneCoordinate = forwardDangerZoneCoordinate;
         DistanceFromCenter = distanceFromCenter;
 
@@ -145,6 +173,7 @@ public class AdjustmentParameters : ICloneable
             other.Radius == Radius &&
             other.Type == Type &&
             other.InstalledLevel == InstalledLevel &&
+            other.IsEnabled == IsEnabled &&
             other.ForwardDangerZoneCoordinate == ForwardDangerZoneCoordinate &&
             other.DistanceFromCenter == DistanceFromCenter &&
             other.Bend.Equals(Bend) &&
@@ -166,13 +195,14 @@ public class AdjustmentParameters : ICloneable
             PipeDiameter,
             Type,
             InstalledLevel,
+            IsEnabled,
             ForwardDangerZoneCoordinate,
-            DistanceFromCenter,
             GetHashCodeFromBToD(),
             GetHashCodeFromLToS());
 
     private int GetHashCodeFromBToD() =>
         HashCode.Combine(
+            DistanceFromCenter.GetHashCode(),
             Bend.GetHashCode(),
             BendRoller.GetHashCode(),
             Clamp.GetHashCode(),
@@ -196,6 +226,7 @@ public class AdjustmentParameters : ICloneable
             Radius,
             Type,
             InstalledLevel,
+            IsEnabled,
             ForwardDangerZoneCoordinate,
             DistanceFromCenter,
             (Bend)Bend.Clone(),

@@ -34,6 +34,9 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
     private int _installedLevel;
 
     [ObservableProperty]
+    private bool _isEnabled;
+
+    [ObservableProperty]
     private double _forwardDangerZoneCoordinate;
 
     [ObservableProperty]
@@ -145,6 +148,7 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
                 Radius,
                 DtoParser.RequireNotNull(Type, nameof(Type)),
                 InstalledLevel,
+                IsEnabled,
                 ForwardDangerZoneCoordinate,
                 DistanceFromCenter,
                 DtoParser.RequireNotNull(Bend?.Parse(BendId), nameof(Bend)),

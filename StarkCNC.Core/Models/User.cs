@@ -9,11 +9,11 @@ public class User : ICloneable
 
     public string Name { get; set; }
 
-    public IReadOnlyCollection<byte> Image { get; private set; }
+    public IReadOnlyCollection<byte>? Image { get; private set; }
 
     public User() { }
 
-    public User(Guid id, string name, IReadOnlyCollection<byte> image)
+    public User(Guid id, string name, IReadOnlyCollection<byte>? image)
     {
         Id = id;
         Name = name;

@@ -119,6 +119,19 @@ public partial class AdjustmentViewModel : ObservableObject
                     .Where(a => a.Id.Equals(awl.Id))
                     .ToList()
                     .ForEach(a => SetUpAdjustments.Add(a));
+
+            switch (awl.InstalledLevel)
+            {
+                case 1:
+                    FirstFloorEnabled = awl.IsEnabled;
+                    break;
+                case 2:
+                    SecondFloorEnabled = awl.IsEnabled;
+                    break;
+                case 3:
+                    ThirdFloorEnabled = awl.IsEnabled;
+                    break;
+            }
         });
     }
 
@@ -150,5 +163,56 @@ public partial class AdjustmentViewModel : ObservableObject
             return;
 
         await SaveOrUpdateSettings(adjustment).ConfigureAwait(false);
+    }
+
+    partial void OnFirstFloorEnabledChanged(bool oldValue, bool newValue)
+    {
+        var adjustment = SetUpAdjustments.FirstOrDefault(a => a.InstalledLevel == 1);
+        if (adjustment is not null)
+        {
+            adjustment.IsEnabled = newValue;
+            try
+            {
+                _repository.UpdateElementAsync(adjustment).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                // Ignore
+            }
+        }
+    }
+
+    partial void OnSecondFloorEnabledChanged(bool oldValue, bool newValue)
+    {
+        var adjustment = SetUpAdjustments.FirstOrDefault(a => a.InstalledLevel == 2);
+        if (adjustment is not null)
+        {
+            adjustment.IsEnabled = newValue;
+            try
+            {
+                _repository.UpdateElementAsync(adjustment).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                // Ignore
+            }
+        }
+    }
+
+    partial void OnThirdFloorEnabledChanged(bool oldValue, bool newValue)
+    {
+        var adjustment = SetUpAdjustments.FirstOrDefault(a => a.InstalledLevel == 3);
+        if (adjustment is not null)
+        {
+            adjustment.IsEnabled = newValue;
+            try
+            {
+                _repository.UpdateElementAsync(adjustment).GetAwaiter().GetResult();
+            }
+            catch
+            {
+                // Ignore
+            }
+        }
     }
 }

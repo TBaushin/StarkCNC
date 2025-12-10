@@ -47,6 +47,7 @@ public class AdjustmentParametersConstructor
             radius,
             type,
             0,
+            false,
             forwardDangerZoneCoordinate,
             distanceFromCenter,
             BuildBendFromConfiguration(adjustmentSection),
