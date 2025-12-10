@@ -11,7 +11,10 @@ public class AppJsonContext : DbContext
     private readonly List<IDbHelper> _helpers;
 
     public DbSet<AdjustmentParameters> Adjustments { get; set; }
+
     public DbSet<Settings> Settings { get; set; }
+
+    public DbSet<User> Users { get; set; }
 
     public AppJsonContext(DbContextOptions<AppJsonContext> options) : base(options)
     {
@@ -19,7 +22,12 @@ public class AppJsonContext : DbContext
 
         Database.EnsureCreated();
 
-        _helpers = new List<IDbHelper>() { new AdjustmentDbHelper(_savePath, this), new SettingsDbHelper(_savePath, this) };
+        _helpers = new List<IDbHelper>()
+        {
+            new AdjustmentDbHelper(_savePath, this),
+            new SettingsDbHelper(_savePath, this),
+            new UsersDbHelper(_savePath, this)
+        };
 
         try
         {
