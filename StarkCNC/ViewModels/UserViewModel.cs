@@ -45,7 +45,7 @@ public partial class UserViewModel : ObservableObject
 
         foreach(var user in users)
         {
-            Users.Add(new User(user.Id, user.Name, user.Image.ToArray()));
+            Users.Add(new User(user.Id, user.Name, user.Image?.ToArray() ?? Array.Empty<byte>()));
         }
     }
 

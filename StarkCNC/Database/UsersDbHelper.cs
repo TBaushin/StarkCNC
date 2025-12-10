@@ -56,7 +56,7 @@ public class UsersDbHelper : IDbHelper
             if (!Directory.Exists(currentSavePath))
                 Directory.CreateDirectory(currentSavePath);
 
-            currentSavePath += "\\" + item.Name + ".json";
+            currentSavePath += "\\" + item.Id + ".json";
             await Save(item, currentSavePath).ConfigureAwait(false);
         }
     }
@@ -68,7 +68,7 @@ public class UsersDbHelper : IDbHelper
         var currentSavePath = _savePath + "\\Users";
         foreach (var item in toDelete)
         {
-            var filePath = currentSavePath + "\\" + item.Name + ".json";
+            var filePath = currentSavePath + "\\" + item.Id + ".json";
             if (File.Exists(filePath))
                 try
                 {
