@@ -3,6 +3,7 @@ using StarkCNC.ViewModels;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace StarkCNC.Controls;
 
@@ -58,12 +59,18 @@ public partial class PrefixedTextBoxControl : UserControl
 
     private void InputTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
+        var binding = BindingOperations.GetBindingExpression(this, LabeledTextBoxControl.TextBoxTextProperty);
+
         if (NeedCallNumberInput)
         {
             var value = NumberInputViewModel.ShowDialog();
             Text = value.ToString(CultureInfo.CurrentCulture);
+
+            binding.UpdateSource();
+            binding.UpdateTarget();
+
+            e.Handled = true; // ???
         }
-        //e.Handled = true; ??
     }
 
     private void InputTextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
