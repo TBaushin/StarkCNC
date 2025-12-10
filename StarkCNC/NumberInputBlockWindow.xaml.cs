@@ -94,7 +94,5 @@ public partial class NumberInputBlockWindow : Window
                 ClearLastButton.Command?.Execute(null);
                 break;
         }
-
-        Debug.WriteLine((Decimal)e.Key);
     }
 }
