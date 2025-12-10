@@ -1,6 +1,5 @@
 ﻿using StarkCNC.Helpers;
 using StarkCNC.ViewModels;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
