@@ -303,21 +303,24 @@
                 Margin="10,0,10,0"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
-                Prefix="Y:"/>
+                Prefix="Y:"
+                Text="{Binding CurrentTaskSupply}"/>
             <controls:PrefixedTextBoxControl
                 Grid.Column="2"
                 Grid.Row="0"
                 Margin="10,0,10,0"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
-                Prefix="B:"/>
+                Prefix="B:"
+                Text="{Binding CurrentTaskRotationAngle}"/>
             <controls:PrefixedTextBoxControl
                 Grid.Column="3"
                 Grid.Row="0"
                 Margin="10,0,10,0"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
-                Prefix="C:"/>
+                Prefix="C:"
+                Text="{Binding CurrentTaskBendingAngle}"/>
             
             <!--ROW 1-->
             <Label
@@ -331,28 +334,32 @@
                 Margin="10,0,10,0"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
-                Prefix="Y:"/>
+                Prefix="Y:"
+                Text="{Binding FacticalSupply}"/>
             <controls:PrefixedTextBoxControl
                 Grid.Column="2"
                 Grid.Row="1"
                 Margin="10,0,10,0"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
-                Prefix="B:"/>
+                Prefix="B:"
+                Text="{Binding FacticalRotationAngle}"/>
             <controls:PrefixedTextBoxControl
                 Grid.Column="3"
                 Grid.Row="1"
                 Margin="10,0,10,0"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
-                Prefix="C:"/>
+                Prefix="C:"
+                Text="{Binding FacticalBendingAngle}"/>
             <controls:PrefixedTextBoxControl
                 Grid.Column="4"
                 Grid.Row="1"
                 Margin="10,0,10,0"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
-                Prefix="X:"/>
+                Prefix="X:"
+                Text="{Binding FactialConsole}"/>
             <Button
                 Grid.Column="5"
                 Grid.Row="1"

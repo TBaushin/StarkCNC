@@ -42,6 +42,30 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     private double _pipeInstallationDelay;
 
     [ObservableProperty]
+    private double _currentTaskSupply;
+
+    [ObservableProperty]
+    private double _currentTaskRotationAngle;
+
+    [ObservableProperty]
+    private double _currentTaskBendingAngle;
+
+    [ObservableProperty]
+    private double _facticalSupply;
+
+    [ObservableProperty]
+    private double _facticalRotationAngle;
+
+    [ObservableProperty]
+    private double _facticalBendingAngle;
+
+    [ObservableProperty]
+    private double _factialConsole;
+
+    [ObservableProperty]
+    private bool _sendData;
+
+    [ObservableProperty]
     private bool _hasErrors;
 
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
@@ -110,6 +134,8 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         var token = _cancellationTokenSource.Token;
 
         var automaticTagsSection = _configuration.GetSection("AutomaticTags");
+        var factialSection = automaticTagsSection.GetSection("Factial");
+
         var stopErrorRequestString = automaticTagsSection
             .GetSection("StopErrors")
             .GetSection("RequestString")
@@ -117,6 +143,31 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         var cycleTimeRequestString = automaticTagsSection
             .GetSection("CycleTime")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var sendDataRequestString = automaticTagsSection
+            .GetSection("SendData")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var facticalSupplyRequestString = factialSection
+            .GetSection("Supply")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+        
+        var facticalRotationReuqestString = factialSection
+            .GetSection("Rotation")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var facticalBendingRequestString = factialSection
+            .GetSection("Bending")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var facticalConsoleRequestString = factialSection
+            .GetSection("Console")
             .GetSection("RequestString")
             .Get<string>() ?? string.Empty;
 
@@ -132,6 +183,26 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
                     CycleTime = await _configurationService
                         .ReadAsync<double>(cycleTimeRequestString)
                         .ConfigureAwait(false);
+                    SetSendData(await _configurationService
+                        .ReadAsync<bool>(sendDataRequestString)
+                        .ConfigureAwait(false), true);
+
+                    FacticalSupply = await _configurationService
+                        .ReadAsync<double>(facticalSupplyRequestString)
+                        .ConfigureAwait(false);
+
+                    FacticalRotationAngle = await _configurationService
+                        .ReadAsync<double>(facticalRotationReuqestString)
+                        .ConfigureAwait(false);
+
+                    FacticalBendingAngle = await _configurationService
+                        .ReadAsync<double>(facticalBendingRequestString)
+                        .ConfigureAwait(false);
+
+                    FactialConsole = await _configurationService
+                        .ReadAsync<double>(facticalConsoleRequestString)
+                        .ConfigureAwait(false);
+
                     await Task.Delay(150).ConfigureAwait(false);
                 }
             }
@@ -156,6 +227,84 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         _cancellationTokenSource?.Cancel();
         _cancellationTokenSource?.Dispose();
+    }
+
+    private void SetSendData(bool value, bool isUpdateTask = false)
+    {
+        SendData = value;
+        if (!isUpdateTask)
+            return;
+
+        if (SendData == true)
+            RunProgram();
+    }
+
+    private async void RunProgram()
+    {
+        // Prepare
+        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
+        var currentTaskSection = automaticTagsSection.GetSection("CurrentTask");
+        var allBendRequestString = automaticTagsSection
+            .GetSection("AllGib")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var sendDataRequestString = automaticTagsSection
+            .GetSection("SendData")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var stepNumberRequestString = automaticTagsSection
+            .GetSection("StepNumber")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var supplyRequestString = currentTaskSection
+            .GetSection("Supply")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var rotationAngleRequestString = currentTaskSection
+            .GetSection("Rotation")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        var bendingAngleRequestString = currentTaskSection
+            .GetSection("Bending")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        // Send data
+        await _configurationService
+            .WriteAsync<int>(BendingDatas.Count, allBendRequestString)
+            .ConfigureAwait(false);
+
+        foreach (var data in BendingDatas)
+        {
+            CurrentTaskSupply = data.Supply;
+            CurrentTaskRotationAngle = data.RotationAngle;
+            CurrentTaskBendingAngle = data.BendingAngle;
+
+            await _configurationService
+                .WriteAsync<int>(data.Id, stepNumberRequestString)
+                .ConfigureAwait(false);
+
+             await _configurationService
+                .WriteAsync<double>(data.Supply, supplyRequestString)
+                .ConfigureAwait(false);
+            await _configurationService
+                .WriteAsync<double>(data.RotationAngle, rotationAngleRequestString)
+                .ConfigureAwait(false);
+            await _configurationService
+                .WriteAsync<double>(data.BendingAngle, bendingAngleRequestString)
+                .ConfigureAwait(false);
+        }
+
+        // Finish
+        await _configurationService
+            .WriteAsync<bool>(false, sendDataRequestString)
+            .ConfigureAwait(false);
+        SetSendData(false);
     }
 
     public void Dispose()
