@@ -95,9 +95,6 @@ public partial class App : Application
             configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel), "Управление оснастками", "\uE8FD"); // \uEA37
             configure.AddRoute("/adjustment/edit", typeof(AdjustmentParametersViewModel), iconGlyph: "\uE90F"); // \uEC7A
             configure.AddRoute("/adjustment/edit/coordinates", typeof(AdjustmentParametersCoordinatesViewModel)); // \uEC7A \uF73D
-            //configure.AddRoute("/adjustment/first-level", typeof(AdjustmentViewModel));
-            //configure.AddRoute("/adjustment/second-level", typeof(AdjustmentViewModel));
-            //configure.AddRoute("/adjustment/third-level", typeof(AdjustmentViewModel));
             configure.AddRoute("/settings", typeof(SettingsViewModel), "Настройки", "\xE713");
             configure.AddRoute("/users", typeof(UserViewModel), iconGlyph: "\xE77B");
         });
