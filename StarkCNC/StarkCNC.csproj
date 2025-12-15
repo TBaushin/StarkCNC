@@ -157,4 +157,12 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Project 11\source\repos\StarkCNC\StarkCNC\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Project 11\source\repos\StarkCNC\StarkCNC\.editorconfig" />
+  </ItemGroup>
+
 </Project>
