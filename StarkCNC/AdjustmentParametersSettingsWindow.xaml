@@ -114,15 +114,15 @@
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Верхнее положение"
-                    TextBoxText="{Binding Adjustment.Lift.UpperPosition}"/>
+                    TextBoxText="{Binding Adjustment.Lift.UpperPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Среднее положение"
-                    TextBoxText="{Binding Adjustment.Lift.MiddlePosition}"/>
+                    TextBoxText="{Binding Adjustment.Lift.MiddlePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Нижнее положение"
-                    TextBoxText="{Binding Adjustment.Lift.LowerPosition}"/>
+                    TextBoxText="{Binding Adjustment.Lift.LowerPosition, Mode=TwoWay}"/>
             </StackPanel>
             <controls:LabeledTextBoxControl
                 x:Name="SpeedCoefficient"
