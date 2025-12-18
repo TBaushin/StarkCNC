@@ -2,7 +2,9 @@
 using StarkCNC.DTO;
 using StarkCNC.ViewModels;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace StarkCNC.Views;
 
@@ -60,6 +62,13 @@ public partial class AdjustmentParametersView : Page
             return;
 
         var value = NumberInputViewModel.ShowDialog();
-        textBox.Text = value.ToString(CultureInfo.InvariantCulture);
+
+        BindingExpression binding = BindingOperations.GetBindingExpression(textBox, TextBox.TextProperty);
+        if (binding is not null)
+        {
+            textBox.Text = value.ToString(CultureInfo.InvariantCulture);
+            binding.UpdateSource();
+            binding.UpdateTarget();
+        }
     }
 }
