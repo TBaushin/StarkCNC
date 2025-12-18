@@ -8,6 +8,7 @@ namespace StarkCNC.ViewModels;
 
 public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
 {
+    private Guid? _adjustmentId;
     private readonly IAdjustmentRepository _repository;
     private readonly ISettingsRepository _settingsRepository;
 
@@ -50,9 +51,33 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
     {
         _repository = repository;
         _settingsRepository = settingsRepository;
+        _adjustmentId = id;
 
+        UpdateAdjustment();
+    }
+
+    private async void SetSelectedAdjustment(Guid? id)
+    {
+        if (id is not Guid guid)
+            throw new ArgumentNullException(nameof(id));
+
+        var adjustment = await _repository.FindByIdAsync(guid).ConfigureAwait(false);
+        if (adjustment is null)
+            throw new InvalidOperationException("Не удалось найти оснастку");
+
+        _adjustment = adjustment;
+    }
+
+    private async void LoadSettings()
+    {
+        var settings = await _settingsRepository.GetAsync().ConfigureAwait(false);
+        IsElectricMachine = settings?.IsElectricMachine ?? false;
+    }
+
+    private async void UpdateAdjustment()
+    {
         LoadSettings();
-        SetSelectedAdjustment(id);
+        SetSelectedAdjustment(_adjustmentId);
 
         if (_adjustment is null)
             throw new InvalidOperationException("Не удалось найти оснастку");
@@ -126,24 +151,6 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
         };
     }
 
-    private async void SetSelectedAdjustment(Guid? id)
-    {
-        if (id is not Guid guid)
-            throw new ArgumentNullException(nameof(id));
-
-        var adjustment = await _repository.FindByIdAsync(guid).ConfigureAwait(false);
-        if (adjustment is null)
-            throw new InvalidOperationException("Не удалось найти оснастку");
-
-        _adjustment = adjustment;
-    }
-
-    private async void LoadSettings()
-    {
-        var settings = await _settingsRepository.GetAsync().ConfigureAwait(false);
-        IsElectricMachine = settings?.IsElectricMachine ?? false;
-    }
-
     [RelayCommand]
     private async Task EditParameters(string parameter)
     {
@@ -152,6 +159,9 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
 
         var adjustment = parametersSettingsWindow.Adjustment;
         if (adjustment.Id == _adjustment.Id)
+        {
             await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);
+            UpdateAdjustment();
+        }
     }
 }
