@@ -83,7 +83,7 @@ public class UsersDbHelper : IDbHelper
 
     private async Task<IEnumerable<User>> GetToSave() =>
         (await _context.Users.ToListAsync().ConfigureAwait(false))
-            .Where(a => _context.Entry(a).State != EntityState.Deleted);
+            .Where(u => _context.Entry(u).State != EntityState.Deleted);
 
     private static async Task Save(User user, string currentSavePath)
     {
@@ -101,5 +101,5 @@ public class UsersDbHelper : IDbHelper
 
     private async Task<IEnumerable<User>> GetToDelete() =>
         (await _context.Users.ToListAsync().ConfigureAwait(false))
-            .Where(a => _context.Entry(a).State == EntityState.Deleted);
+            .Where(u => _context.Entry(u).State == EntityState.Deleted);
 }

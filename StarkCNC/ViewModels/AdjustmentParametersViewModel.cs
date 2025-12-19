@@ -149,15 +149,13 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         if (_adjustment is null)
             return;
 
-        var dto = new DTO.AdjustmentParametersVisibleDto
-        {
-            Name = Name,
-            AdjustmentType = AdjustmentType,
-            PipeDiameter = PipeDiameter,
-            Radius = Radius
-        };
+        var adjustment = (AdjustmentParameters)_adjustment.Clone();
+        adjustment.Name = Name;
+        adjustment.Type = AdjustmentType;
+        adjustment.PipeDiameter = PipeDiameter;
+        adjustment.Radius = Radius;
 
-        var settingsWindow = new AdjustmentSettingsWindow(dto, "Редактирование оснастки");
+        var settingsWindow = new AdjustmentSettingsWindow(adjustment, "Редактирование оснастки");
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
@@ -165,9 +163,20 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
             return;
 
         Name = result.Name;
-        AdjustmentType = result.AdjustmentType;
+        AdjustmentType = result.Type;
         PipeDiameter = result.PipeDiameter;
         Radius = result.Radius;
+    }
+
+    partial void OnNameChanged(string? oldValue, string newValue)
+    {
+        if (_adjustment?.Name != newValue)
+        {
+            _adjustment?.Name = newValue;
+            UpdateAdjustment();
+            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
+            _manualConfigurationService.WriteAsync(newValue, _typeRequestString);
+        }
     }
 
     partial void OnAdjustmentTypeChanged(AdjustmentType oldValue, AdjustmentType newValue)

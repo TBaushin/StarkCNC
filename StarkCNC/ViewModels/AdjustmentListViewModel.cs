@@ -81,7 +81,7 @@ public partial class AdjustmentListViewModel : ViewModelBase
             return;
 
         var adjustment = await _adjustmentConstructor
-            .Build(result.Name, result.AdjustmentType, result.PipeDiameter, result.Radius)
+            .Build(result.Name, result.Type, result.PipeDiameter, result.Radius)
             .ConfigureAwait(false);
 
         await _repository.AddElementAsync(adjustment).ConfigureAwait(false);

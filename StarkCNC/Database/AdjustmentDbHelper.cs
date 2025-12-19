@@ -50,6 +50,8 @@ public class AdjustmentDbHelper : IDbHelper
     {
         var toSave = await GetToSave().ConfigureAwait(false);
 
+        DeleteOldFiles(toSave);
+
         foreach (var item in toSave)
         {
             var currentSavePath = _savePath + "\\Adjustments";
@@ -84,6 +86,29 @@ public class AdjustmentDbHelper : IDbHelper
     private async Task<IEnumerable<AdjustmentParameters>> GetToSave() =>
         (await _context.Adjustments.ToListAsync().ConfigureAwait(false))
             .Where(a => _context.Entry(a).State != EntityState.Deleted);
+
+    private static void DeleteOldFiles(IEnumerable<AdjustmentParameters> adjustmentMustSaved)
+    {
+        var currentSavePath = Directory.GetCurrentDirectory() + "\\Adjustments";
+
+        if (!Directory.Exists(currentSavePath))
+            return;
+
+        var files = Directory.GetFiles(currentSavePath).ToList();
+        files.ForEach(async f =>
+        {
+            var json = await File.ReadAllTextAsync(f).ConfigureAwait(false);
+            var adjustment = JsonSerializer.Deserialize<AdjustmentParameters>(json);
+            if (adjustment is not null)
+            {
+                var deleteOldUser = adjustmentMustSaved
+                    .ToList()
+                    .FirstOrDefault(a => a.Id == adjustment.Id && !a.Name.Equals(adjustment.Name, StringComparison.Ordinal));
+                if (deleteOldUser is not null)
+                    File.Delete(f);
+            }
+        });
+    }
 
     private static async Task Save(AdjustmentParameters adjustment, string currentSavePath)
     {
