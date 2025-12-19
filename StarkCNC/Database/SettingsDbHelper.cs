@@ -20,7 +20,7 @@ public class SettingsDbHelper : IDbHelper
     {
         try
         {
-            var currentSavePath = _savePath + "\\Settings";
+            var currentSavePath = $"{_savePath}\\Settings";
 
             if (!Directory.Exists(currentSavePath))
                 return;
@@ -53,11 +53,11 @@ public class SettingsDbHelper : IDbHelper
         if (toSave is null)
             return;
 
-        var currentSavePath = _savePath + "\\Settings";
+        var currentSavePath = $"{_savePath}\\Settings";
         if (!Directory.Exists(currentSavePath))
             Directory.CreateDirectory(currentSavePath);
 
-        currentSavePath += "\\" + toSave.Id + ".json";
+        currentSavePath += $"\\{toSave.Id}.json";
         await Save(toSave, currentSavePath).ConfigureAwait(false);
     }
 
@@ -68,8 +68,8 @@ public class SettingsDbHelper : IDbHelper
         if (toDelete is null)
             return;
 
-        var currentSavePath = _savePath + "\\Settings";
-        var filePath = currentSavePath + "\\" + toDelete.Id + ".json";
+        var currentSavePath = $"{_savePath}\\Settings";
+        var filePath = $"{currentSavePath}\\{toDelete.Id}.json";
         if (File.Exists(filePath))
             File.Delete(filePath);
     }

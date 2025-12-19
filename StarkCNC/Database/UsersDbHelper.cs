@@ -20,7 +20,7 @@ public class UsersDbHelper : IDbHelper
     {
         try
         {
-            var currentSavePath = _savePath + "\\Users";
+            var currentSavePath = $"{_savePath}\\Users";
 
             if (!Directory.Exists(currentSavePath))
                 return;
@@ -50,13 +50,13 @@ public class UsersDbHelper : IDbHelper
     {
         var toSave = await GetToSave().ConfigureAwait(false);
 
+        var currentSavePath = $"{_savePath}\\Users";
+        if (!Directory.Exists(currentSavePath))
+            Directory.CreateDirectory(currentSavePath);
+
         foreach (var item in toSave)
         {
-            var currentSavePath = _savePath + "\\Users";
-            if (!Directory.Exists(currentSavePath))
-                Directory.CreateDirectory(currentSavePath);
-
-            currentSavePath += "\\" + item.Id + ".json";
+            var filePath = $"{currentSavePath}\\{item.Id}.json";
             await Save(item, currentSavePath).ConfigureAwait(false);
         }
     }
@@ -65,10 +65,10 @@ public class UsersDbHelper : IDbHelper
     {
         var toDelete = await GetToDelete().ConfigureAwait(false);
 
-        var currentSavePath = _savePath + "\\Users";
+        var currentSavePath = $"{_savePath}\\Users";
         foreach (var item in toDelete)
         {
-            var filePath = currentSavePath + "\\" + item.Id + ".json";
+            var filePath = $"{currentSavePath}\\{item.Id}.json";
             if (File.Exists(filePath))
                 try
                 {

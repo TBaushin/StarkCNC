@@ -20,7 +20,7 @@ public class AdjustmentDbHelper : IDbHelper
     {
         try
         {
-            var currentSavePath = _savePath + "\\Adjustments";
+            var currentSavePath = $"{_savePath}\\Adjustments";
 
             if (!Directory.Exists(currentSavePath))
                 return;
@@ -52,13 +52,13 @@ public class AdjustmentDbHelper : IDbHelper
 
         DeleteOldFiles(toSave);
 
+        var currentSavePath = $"{_savePath}\\Adjustments";
+        if (!Directory.Exists(currentSavePath))
+            Directory.CreateDirectory(currentSavePath);
+
         foreach (var item in toSave)
         {
-            var currentSavePath = _savePath + "\\Adjustments";
-            if (!Directory.Exists(currentSavePath))
-                Directory.CreateDirectory(currentSavePath);
-
-            currentSavePath += "\\" + item.Name + ".json";
+            var filePath = $"{currentSavePath}\\{item.Name}.json";
             await Save(item, currentSavePath).ConfigureAwait(false);
         }
     }
@@ -67,10 +67,10 @@ public class AdjustmentDbHelper : IDbHelper
     {
         var toDelete = await GetToDelete().ConfigureAwait(false);
 
-        var currentSavePath = _savePath + "\\Adjustments";
+        var currentSavePath = $"{_savePath}\\Adjustments";
         foreach (var item in toDelete)
         {
-            var filePath = currentSavePath + "\\" + item.Name + ".json";
+            var filePath = $"{currentSavePath}\\{item.Name}.json";
             if (File.Exists(filePath))
                 try
                 {
@@ -87,9 +87,9 @@ public class AdjustmentDbHelper : IDbHelper
         (await _context.Adjustments.ToListAsync().ConfigureAwait(false))
             .Where(a => _context.Entry(a).State != EntityState.Deleted);
 
-    private static void DeleteOldFiles(IEnumerable<AdjustmentParameters> adjustmentMustSaved)
+    private void DeleteOldFiles(IEnumerable<AdjustmentParameters> adjustmentMustSaved)
     {
-        var currentSavePath = Directory.GetCurrentDirectory() + "\\Adjustments";
+        var currentSavePath = $"{_savePath}\\Adjustments";
 
         if (!Directory.Exists(currentSavePath))
             return;
