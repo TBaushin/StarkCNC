@@ -74,7 +74,7 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="{x:Static lang:Language.SpeedPercent}"
-                TextBoxText="{Binding Speed, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Text="{Binding Speed, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 NeedCallNumberInput="True"/>
             <Button
                 x:Name="ForwardButton"
@@ -109,7 +109,7 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Координата, мм"
-                TextBoxText="{Binding Coordinate, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Text="{Binding Coordinate, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 IsReadOnly="True"/> <!--TODO: Перевести-->
             <local:LabeledTextBoxControl
                 x:Name="RelativeDisplacementTB"
@@ -117,7 +117,7 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Отн. перемещ., мм"
-                TextBoxText="{Binding RelativeDisplacement, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Text="{Binding RelativeDisplacement, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 IsReadOnly="True"/> <!--TODO: Перевести-->
             <Button
                 x:Name="RelativeDisplacementButton"

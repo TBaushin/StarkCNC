@@ -39,7 +39,7 @@
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Смещение поворота"
-                TextBoxText="{Binding Settings.Rotation.Offset, Mode=TwoWay}"/>
+                Text="{Binding Settings.Rotation.Offset, Mode=TwoWay}"/>
             <controls:BorderedContentControl
                 Text="Скорость в автоматическом режиме">
                 <controls:BorderedContentControl.BorderedContent>
@@ -56,67 +56,67 @@
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Смещение подачи после обнуления"
-                TextBoxText="{Binding Settings.Supply.ResetedOffset, Mode=TwoWay}"/>
+                Text="{Binding Settings.Supply.ResetedOffset, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="PipeOutletCCoordinateLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Координата выхода трубы"
-                TextBoxText="{Binding Settings.Pipe.OutletCoordinate, Mode=TwoWay}"/>
+                Text="{Binding Settings.Pipe.OutletCoordinate, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="FrontSupportLiftBanLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Запрет подъёма передней поддержки"
-                TextBoxText="{Binding Settings.Support.FrontLiftBan, Mode=TwoWay}"/>
+                Text="{Binding Settings.Support.FrontLiftBan, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="MiddleSupportLiftBanLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Запрет подъёма средней поддержки"
-                TextBoxText="{Binding Settings.Support.MiddleLiftBan, Mode=TwoWay}"/>
+                Text="{Binding Settings.Support.MiddleLiftBan, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="BackSupportLiftBanLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Запрет подъёма задней поддержки"
-                TextBoxText="{Binding Settings.Support.BackLiftBan, Mode=TwoWay}"/>
+                Text="{Binding Settings.Support.BackLiftBan, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="StartRollingSupplySpeedLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Скорость подачи при начале прокатки"
-                TextBoxText="{Binding Settings.Supply.StartRollingSpeed, Mode=TwoWay}"/>
+                Text="{Binding Settings.Supply.StartRollingSpeed, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="DornLeadWithdrawalBeforeBendLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Опережение отвода дорна перед гибом"
-                TextBoxText="{Binding Settings.Dorn.LeadWithdrawalBeforeBend, Mode=TwoWay}"/>
+                Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="SupplyCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент подачи"
-                TextBoxText="{Binding Settings.Supply.Coefficient, Mode=TwoWay}"/>
+                Text="{Binding Settings.Supply.Coefficient, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="RotationCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент поворота"
-                TextBoxText="{Binding Settings.Rotation.Coefficient, Mode=TwoWay}"/>
+                Text="{Binding Settings.Rotation.Coefficient, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="ConsoleCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент консоли"
-                TextBoxText="{Binding Settings.Console.Coefficient, Mode=TwoWay}"/>
+                Text="{Binding Settings.Console.Coefficient, Mode=TwoWay}"/>
             <controls:BorderedLabeledTextBoxControl
                 x:Name="BendCoefficientLTB"
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент гиба"
-                TextBoxText="{Binding Settings.Bend.Coefficient, Mode=TwoWay}"/>
+                Text="{Binding Settings.Bend.Coefficient, Mode=TwoWay}"/>
             <controls:BorderedSwitchToggleControl
                 x:Name="BendSynchronizationCB"
                 TextContent="Синхронизация гиба по моменту/координатам"
@@ -126,7 +126,7 @@
                 NeedCallNumberInput="True"
                 IsNumericOnly="True"
                 LabelText="Коэффициент синхронизации"
-                TextBoxText="{Binding Settings.SynchronizationCoefficient, Mode=TwoWay}"/>
+                Text="{Binding Settings.SynchronizationCoefficient, Mode=TwoWay}"/>
             <controls:BorderedSwitchToggleControl
                 x:Name="AutomaticModeDornOperationCB"
                 TextContent="Работа дорна в автоматическом режиме"

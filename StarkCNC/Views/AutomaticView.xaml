@@ -45,7 +45,7 @@
                     <controls:LabeledTextBoxControl
                         Grid.Column="1"
                         IsEnabled="False"
-                        TextBoxText="{Binding CycleTime, StringFormat={}{0} сек., Mode=TwoWay}"/>
+                        Text="{Binding CycleTime, StringFormat={}{0} сек., Mode=TwoWay}"/>
                 </Grid>
                 
                 <!--Row 1-->
@@ -247,7 +247,7 @@
                     Grid.Column="1"
                     NeedCallNumberInput="True"
                     IsNumericOnly="True"
-                    TextBoxText="{Binding CountCompletedDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
+                    Text="{Binding CountCompletedDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
             </Grid>
             <Grid ColumnDefinitions="*,*">
                 <Label
@@ -258,7 +258,7 @@
                     Grid.Column="1"
                     NeedCallNumberInput="True"
                     IsNumericOnly="True"
-                    TextBoxText="{Binding TaskDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
+                    Text="{Binding TaskDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
             </Grid>
             <Grid ColumnDefinitions="*, *">
                 <Label
@@ -281,7 +281,7 @@
                     Grid.Column="1"
                     NeedCallNumberInput="True"
                     IsNumericOnly="True"
-                    TextBoxText="{Binding PipeInstallationDelay, StringFormat={}{0} сек., Mode=TwoWay}"/>
+                    Text="{Binding PipeInstallationDelay, StringFormat={}{0} сек., Mode=TwoWay}"/>
             </Grid>
         </StackPanel>
         <Grid

@@ -25,15 +25,15 @@
             <controls:LabeledTextBoxControl
                 Margin="0,0,0,16"
                 LabelText="{x:Static lang:Language.Name}"
-                TextBoxText="{Binding Result.Name, Mode=TwoWay}"/>
+                Text="{Binding Result.Name, Mode=TwoWay}"/>
             <controls:LabeledTextBoxControl
                 Margin="0,0,0,16"
                 LabelText="{x:Static lang:Language.PipeDiameter}"
-                TextBoxText="{Binding Result.PipeDiameter, Mode=TwoWay}"/>
+                Text="{Binding Result.PipeDiameter, Mode=TwoWay}"/>
             <controls:LabeledTextBoxControl
                 Margin="0,0,0,16"
                 LabelText="Радиус оснастки"
-                TextBoxText="{Binding Result.Radius, Mode=TwoWay}"/>
+                Text="{Binding Result.Radius, Mode=TwoWay}"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

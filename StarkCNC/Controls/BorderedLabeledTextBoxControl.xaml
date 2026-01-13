@@ -26,7 +26,7 @@
                 VerticalAlignment="Center"
                 MinWidth="150"
                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                Text="{Binding TextBoxText, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 PreviewMouseDown="InputTextBox_MouseDown"
                 PreviewTextInput="InputTextBox_PreviewTextInput"
                 TextChanged="InputTextBlock_TextChanged"/>

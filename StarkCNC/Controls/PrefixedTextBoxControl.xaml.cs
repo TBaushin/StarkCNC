@@ -59,7 +59,7 @@ public partial class PrefixedTextBoxControl : UserControl
 
     private void InputTextBox_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        var binding = BindingOperations.GetBindingExpression(this, LabeledTextBoxControl.TextBoxTextProperty);
+        var binding = BindingOperations.GetBindingExpression(this, PrefixedTextBoxControl.TextProperty);
 
         if (NeedCallNumberInput)
         {

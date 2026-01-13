@@ -92,21 +92,21 @@
                     LabelText="Длина трубы"
                     IsNumericOnly="True"
                     NeedCallNumberInput="True"
-                    TextBoxText="{Binding PipeLength, Mode=TwoWay}"/>
+                    Text="{Binding PipeLength, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Margin="10,0,10,0"
                     LabelText="Установка Y"
                     IsNumericOnly="True"
                     NeedCallNumberInput="True"
-                    TextBoxText="{Binding YSetup, Mode=TwoWay}"/>
+                    Text="{Binding YSetup, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="2"
                     Margin="10,0,10,0"
                     LabelText="Расчётный остаток"
                     IsNumericOnly="True"
                     NeedCallNumberInput="True"
-                    TextBoxText="{Binding EstimatedRemainingLength, Mode=TwoWay}"/>
+                    Text="{Binding EstimatedRemainingLength, Mode=TwoWay}"/>
             </Grid>
             <DataGrid
                 x:Name="BendingDatasDataGrid"
@@ -184,7 +184,7 @@
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
                                         TextChanged="Input_TextChanged"
-                                        TextBoxText="{Binding Supply,  StringFormat={}{0} мм, Mode=TwoWay}"/>
+                                        Text="{Binding Supply,  StringFormat={}{0} мм, Mode=TwoWay}"/>
                                     <controls:PrefixedTextBoxControl
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
@@ -216,7 +216,7 @@
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
                                         TextChanged="Input_TextChanged"
-                                        TextBoxText="{Binding RotationAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
+                                        Text="{Binding RotationAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
                                     <controls:PrefixedTextBoxControl
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
@@ -266,7 +266,7 @@
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
                                         TextChanged="Input_TextChanged"
-                                        TextBoxText="{Binding BendingAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
+                                        Text="{Binding BendingAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
                                     <controls:PrefixedTextBoxControl
                                         Grid.Column="0"
                                         Grid.Row="1"
@@ -308,7 +308,7 @@
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
                                         TextChanged="Input_TextChanged"
-                                        TextBoxText="{Binding BendingRadius, StringFormat={}{0} мм, Mode=TwoWay}"/>
+                                        Text="{Binding BendingRadius, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                     <ComboBox
                                         ItemsSource="{Binding Source={x:Static vm:ProgramViewModel.BendingModes}}"
                                         SelectedItem="{Binding BendingRadiusMode, Mode=TwoWay}"/>
@@ -355,7 +355,7 @@
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
                                         TextChanged="Input_TextChanged"
-                                        TextBoxText="{Binding Offset, StringFormat={}{0} мм, Mode=TwoWay}"/>
+                                        Text="{Binding Offset, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                     <controls:PrefixedTextBoxControl
                                         Grid.Column="0"
                                         Grid.Row="1"

@@ -14,8 +14,8 @@ public partial class LabeledTextBoxControl : UserControl
 {
     public static readonly DependencyProperty LabelTextProperty = DependencyProperty
         .Register(nameof(LabelText), typeof(object), typeof(LabeledTextBoxControl), new PropertyMetadata());
-    public static readonly DependencyProperty TextBoxTextProperty = DependencyProperty
-        .Register(nameof(TextBoxText), typeof(string), typeof(LabeledTextBoxControl), new PropertyMetadata());
+    public static readonly DependencyProperty TextProperty = DependencyProperty
+        .Register(nameof(Text), typeof(string), typeof(LabeledTextBoxControl), new PropertyMetadata());
     public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty
         .Register(nameof(IsReadOnly), typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata());
     public static readonly DependencyProperty NeedCallNumberInputProperty = DependencyProperty
@@ -31,10 +31,10 @@ public partial class LabeledTextBoxControl : UserControl
         set => SetValue(LabelTextProperty, value);
     }
 
-    public string TextBoxText
+    public string Text
     {
-        get => (string)GetValue(TextBoxTextProperty);
-        set => SetValue(TextBoxTextProperty, value);
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
     }
 
     public bool IsReadOnly
@@ -68,12 +68,12 @@ public partial class LabeledTextBoxControl : UserControl
 
     private void InputTextBox_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        var binding = BindingOperations.GetBindingExpression(this, LabeledTextBoxControl.TextBoxTextProperty);
+        var binding = BindingOperations.GetBindingExpression(this, LabeledTextBoxControl.TextProperty);
 
         if (NeedCallNumberInput)
         {
             var value = NumberInputViewModel.ShowDialog();
-            TextBoxText = value.ToString(CultureInfo.CurrentCulture);
+            Text = value.ToString(CultureInfo.CurrentCulture);
 
             binding.UpdateSource();
             binding.UpdateTarget();
@@ -90,7 +90,7 @@ public partial class LabeledTextBoxControl : UserControl
 
     private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
-        SetCurrentValue(TextBoxTextProperty, InputTextBox.Text);
+        SetCurrentValue(TextProperty, InputTextBox.Text);
 
         var args = new RoutedEventArgs(TextChangedEvent, this);
         RaiseEvent(args);

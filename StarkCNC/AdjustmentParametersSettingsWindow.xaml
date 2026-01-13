@@ -27,15 +27,15 @@
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Положение зоны прижима"
-                    TextBoxText="{Binding Adjustment.Supply.PressZonePosition, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Supply.PressZonePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Положение передней опасной зоны"
-                    TextBoxText="{Binding Adjustment.Supply.ForwardDangerZonePosition, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Supply.ForwardDangerZonePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Глубина губок цанги"
-                    TextBoxText="{Binding Adjustment.Supply.ColletJawsDepth, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Supply.ColletJawsDepth, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel
                 x:Name="ConsoleStackPanel"
@@ -43,19 +43,19 @@
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Положение консоли для гибки"
-                    TextBoxText="{Binding Adjustment.Console.BendPosition, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Console.BendPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Положение консоли при переходе с 1 на 2 этаж"
-                    TextBoxText="{Binding Adjustment.Console.SecondFloorPosition, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Console.SecondFloorPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Положение консоли при переходе с 2 на 3 этаж"
-                    TextBoxText=""/>
+                    Text=""/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Расстояние отъезда для поворота трубы"
-                    TextBoxText="{Binding Adjustment.Console.PipeRotationDepartureDistance, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Console.PipeRotationDepartureDistance, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel
                 x:Name="RotationStackPanel"
@@ -63,7 +63,7 @@
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Смщение поворота после поиска нуля"
-                    TextBoxText="{Binding Adjustment.Rotation.OffsetAfterZeroSearch, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Rotation.OffsetAfterZeroSearch, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel
                 x:Name="BendStackPanel"
@@ -71,15 +71,15 @@
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Ограничение переднего положения"
-                    TextBoxText="{Binding Adjustment.Bend.ForwardPositionLimitation, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Bend.ForwardPositionLimitation, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Коэффициент скорости"
-                    TextBoxText="{Binding Adjustment.Bend.SpeedCoefficient, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Bend.SpeedCoefficient, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Коэффициент замедления"
-                    TextBoxText="{Binding Adjustment.Bend.SlowdownSpeed, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Bend.SlowdownSpeed, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel
                 x:Name="SqueezeStackPanel"
@@ -87,7 +87,7 @@
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Ограничение переднего положения"
-                    TextBoxText="{Binding Adjustment.Squeeze.FrontPositionLimitation, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Squeeze.FrontPositionLimitation, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel
                 x:Name="ClampDornPressStackPanel"
@@ -96,17 +96,17 @@
                     x:Name="ForwardPosition"
                     Margin="0,0,0,16"
                     LabelText="Переднее положение"
-                    TextBoxText="{Binding ForwardPosition, Mode=TwoWay}"/>
+                    Text="{Binding ForwardPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     x:Name="MiddlePosition"
                     Margin="0,0,0,16"
                     LabelText="Среднее положение"
-                    TextBoxText="{Binding MiddlePosition, Mode=TwoWay}"/>
+                    Text="{Binding MiddlePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     x:Name="BackwardPosition"
                     Margin="0,0,0,16"
                     LabelText="Заднее положение"
-                    TextBoxText="{Binding BackwardPosition, Mode=TwoWay}"/>
+                    Text="{Binding BackwardPosition, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel
                 x:Name="LiftStackPanel"
@@ -114,21 +114,21 @@
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Верхнее положение"
-                    TextBoxText="{Binding Adjustment.Lift.UpperPosition, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Lift.UpperPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Среднее положение"
-                    TextBoxText="{Binding Adjustment.Lift.MiddlePosition, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Lift.MiddlePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Нижнее положение"
-                    TextBoxText="{Binding Adjustment.Lift.LowerPosition, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Lift.LowerPosition, Mode=TwoWay}"/>
             </StackPanel>
             <controls:LabeledTextBoxControl
                 x:Name="SpeedCoefficient"
                 Margin="0,0,0,16"
                 LabelText="Коэффициент скорости"
-                TextBoxText="{Binding SpeedCoefficient, Mode=TwoWay}"/>
+                Text="{Binding SpeedCoefficient, Mode=TwoWay}"/>
         </StackPanel>
         <Grid
             Grid.Row="1"

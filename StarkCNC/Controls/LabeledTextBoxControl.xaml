@@ -21,6 +21,6 @@
             PreviewMouseLeftButtonDown="InputTextBox_MouseDown"
             PreviewTextInput="InputTextBox_PreviewTextInput"
             TextChanged="InputTextBox_TextChanged"
-            Text="{Binding TextBoxText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
     </Grid>
 </UserControl>
