@@ -30,7 +30,7 @@ public partial class BendingDataViewModel : ViewModelBase
     /// Подача скорость Ys
     /// </summary>
     [ObservableProperty]
-    private double _supplySpeed;
+    private double _supplySpeed = 100;
 
     /// <summary>
     /// Отвод Y1
@@ -42,7 +42,7 @@ public partial class BendingDataViewModel : ViewModelBase
     /// Отвод скорость Y1b
     /// </summary>
     [ObservableProperty]
-    private double _offsetSpeed;
+    private double _offsetSpeed = 100;
 
     /// <summary>
     /// Отвод коэффициент Y2
@@ -60,7 +60,7 @@ public partial class BendingDataViewModel : ViewModelBase
     /// Гиб скорость Cs
     /// </summary>
     [ObservableProperty]
-    private double _bendingAngleSpeed;
+    private double _bendingAngleSpeed = 100;
 
     /// <summary>
     /// Гиб коэффициент Ck
@@ -90,7 +90,7 @@ public partial class BendingDataViewModel : ViewModelBase
     /// Поворот скорость Bs
     /// </summary>
     [ObservableProperty]
-    private double _rotationSpeed;
+    private double _rotationSpeed = 100;
 
     public BendingDataViewModel() { }
 
