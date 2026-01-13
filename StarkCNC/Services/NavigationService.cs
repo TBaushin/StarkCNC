@@ -13,7 +13,7 @@ public class NavigationService : INavigationService
     private object? _currentContent;
 
     public object? CurrentContent 
-    { 
+    {
         get => _currentContent; 
         set
         {
@@ -26,7 +26,7 @@ public class NavigationService : INavigationService
                 if (value is Page page)
                     Navigation?.Invoke(this, new NavigationEventArgs(page));
             }
-        } 
+        }
     }
 
     public bool CanGoBack => _history.Any();
