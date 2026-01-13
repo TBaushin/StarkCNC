@@ -6,6 +6,7 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.UoW;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
@@ -312,21 +313,41 @@ public partial class ProgramViewModel : ObservableObject
         var data = Clipboard.GetData(DataFormats.Text) as string;
         if (string.IsNullOrEmpty(data))
             return;
+        try
+        {
+            var bytes = Convert.FromBase64String(data);
+            if (bytes is null)
+                return;
 
-        var bytes = Convert.FromBase64String(data);
-        if (bytes is null)
-            return;
+            var json = Encoding.UTF8.GetString(bytes);
+            var result = JsonSerializer.Deserialize<BendingDataViewModel>(json);
 
-        var json = Encoding.UTF8.GetString(bytes);
-        var result = JsonSerializer.Deserialize<BendingDataViewModel>(json);
+            if (result is not BendingDataViewModel bd)
+                return;
 
-        if (result is not BendingDataViewModel bd)
-            return;
-
-        if (SelectedBendingData is not null)
-            BendingDatas.Insert(BendingDatas.IndexOf(SelectedBendingData) + 1, bd);
-        else
-            BendingDatas.Add(bd);
+            if (SelectedBendingData is not null)
+                BendingDatas.Insert(BendingDatas.IndexOf(SelectedBendingData) + 1, bd);
+            else
+                BendingDatas.Add(bd);
+        }
+        catch (FormatException)
+        {
+#if DEBUG
+            Debug.WriteLine($"Ошибка форматирования из буфера обмена в {nameof(ProgramViewModel)} переменной {nameof(data)}, её содержимое: {data}");
+#endif
+        }
+        catch (DecoderFallbackException)
+        {
+#if DEBUG
+            Debug.WriteLine($"Ошибка преобразовывания в текст с кодировкой UTF8 из буфера обмена в {nameof(ProgramViewModel)} переменной {nameof(data)}, её содержимое: {data}");
+#endif
+        }
+        catch (JsonException)
+        {
+#if DEBUG
+            Debug.WriteLine($"Ошибка преобразования в json текста с кодировкой UTF8 из буфера обмена в {nameof(ProgramViewModel)} переменной {nameof(data)}, её содержимое: {data}");
+#endif
+        }
     }
 
     private void UpdateEstimatedRemainingLengthAndPipeLength()
