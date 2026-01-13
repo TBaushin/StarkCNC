@@ -35,7 +35,6 @@ public partial class ProgramViewModel : ObservableObject
 
     public static IReadOnlyCollection<string> BendingModes { get; } = new List<string>()
     {
-        "Режим гибки",
         "Гибка",
         "Пробивка 1",
         "Пробивка 2",
