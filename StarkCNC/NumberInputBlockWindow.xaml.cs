@@ -92,6 +92,9 @@ public partial class NumberInputBlockWindow : Window
                 ClearLastButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
                 ClearLastButton.Command?.Execute(null);
                 break;
+            case (Decimal)Key.Escape:
+                ViewModel.CancelExitCommand?.Execute(this);
+                break;
         }
     }
 }
