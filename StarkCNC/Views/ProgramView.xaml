@@ -15,8 +15,8 @@
 
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3.5*"/>
-            <ColumnDefinition Width="2.5*"/>
+            <ColumnDefinition Width="850"/>
+            <ColumnDefinition Width="*" MinWidth="270"/>
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
@@ -114,7 +114,6 @@
                 Margin="10,0,20,10"
                 ItemsSource="{Binding BendingDatas}"
                 AutoGenerateColumns="False"
-                ColumnWidth="*"
                 HorizontalAlignment="Center"
                 VerticalGridLinesBrush="{x:Null}"
                 HeadersVisibility="Column"
@@ -163,13 +162,11 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="125">
+                    <DataGridTemplateColumn Width="90" MinWidth="90">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="27,0,0,0">
-                                    <Label
-                                        HorizontalAlignment="Center"
-                                        Content="Подача Y"/>
+                                <StackPanel>
+                                    <Label Content="Подача Y"/>
                                     <Button
                                         x:Name="SetSupplySpeedButton"
                                         Content="Speed"
@@ -195,13 +192,11 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="125">
+                    <DataGridTemplateColumn Width="90" MinWidth="90">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="27,0,0,0">
-                                    <Label
-                                        HorizontalAlignment="Center"
-                                        Content="Поворот B"/>
+                                <StackPanel>
+                                    <Label Content="Поворот B"/>
                                     <Button
                                         x:Name="SetRotationSpeedButton"
                                         Content="Speed"
@@ -227,7 +222,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="250">
+                    <DataGridTemplateColumn MinWidth="200">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <Grid
@@ -280,20 +275,18 @@
                                         Grid.Row="1"
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
-                                        Prefix="C:"
+                                        Prefix="K:"
                                         TextChanged="Input_TextChanged"
                                         Text="{Binding BendingAngleCoefficient, StringFormat={}{0}°, Mode=TwoWay}"/>
                                 </Grid>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="125">
+                    <DataGridTemplateColumn MaxWidth="160" MinWidth="160">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
-                                <StackPanel Margin="27,0,0,0">
-                                    <Label
-                                        HorizontalAlignment="Center"
-                                        Content="Радиус R"/>
+                                <StackPanel>
+                                    <Label Content="Радиус R"/>
                                     <Button
                                         x:Name="SetRadiusModeButton"
                                         Content="Режим"
@@ -310,13 +303,17 @@
                                         TextChanged="Input_TextChanged"
                                         Text="{Binding BendingRadius, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                     <ComboBox
+                                        MaxWidth="157"
+                                        MinWidth="157"
+                                        IsEditable="True"
+                                        IsTextSearchEnabled="True"
                                         ItemsSource="{Binding Source={x:Static vm:ProgramViewModel.BendingModes}}"
                                         SelectedItem="{Binding BendingRadiusMode, Mode=TwoWay}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="250">
+                    <DataGridTemplateColumn MinWidth="140">
                         <DataGridTemplateColumn.HeaderTemplate>
                             <DataTemplate>
                                 <Grid
@@ -361,15 +358,15 @@
                                         Grid.Row="1"
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
-                                        Prefix="Sp:"
+                                        Prefix="B:"
                                         TextChanged="Input_TextChanged"
-                                        Text="{Binding OffsetSpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
+                                        Text="{Binding OffsetSpeed, StringFormat={}{0}мм, Mode=TwoWay}"/>
                                     <controls:PrefixedTextBoxControl
                                         Grid.Column="1"
                                         Grid.Row="1"
                                         NeedCallNumberInput="True"
                                         IsNumericOnly="True"
-                                        Prefix="C:"
+                                        Prefix="Y2:"
                                         TextChanged="Input_TextChanged"
                                         Text="{Binding OffsetCoefficient, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                 </Grid>
