@@ -78,7 +78,7 @@ public partial class BendingDataViewModel : ViewModelBase
     /// Радиус гиба режим M
     /// </summary>
     [ObservableProperty]
-    private string _bendingRadiusMode = string.Empty;
+    private string _bendingRadiusMode = "Гибка";
 
     /// <summary>
     /// Поворот угол B
