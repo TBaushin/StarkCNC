@@ -17,6 +17,7 @@ using StarkCNC.ViewModels;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace StarkCNC;
 
@@ -43,7 +44,19 @@ public partial class App : Application
         ConfigureRoutes(_host.Services.GetRequiredService<IRouter>());
 
         InitializeComponent();
-        
+
+#if !DEBUG
+        Dispatcher.UnhandledException += (sender, args) =>
+        {
+            args.Handled = true;
+        };
+        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+        {
+            var e = args.ExceptionObject as Exception;
+            Debug.WriteLine($"Exception Happend, {e?.Message}");
+        };
+#endif
+
         MainWindow = _host.Services.GetRequiredService<MainWindow>();
         MainWindow.Visibility = Visibility.Visible;
     }
