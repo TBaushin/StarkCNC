@@ -1,13 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Globalization;
+using System.Windows;
 
 namespace StarkCNC.ViewModels;
 
 public partial class NumberInputViewModel : ObservableObject
 {
+    private string? _originalValue;
+
     [ObservableProperty]
     private string _outputValue = string.Empty;
+
+    NumberInputViewModel(string? originalValue = null)
+    {
+        _originalValue = originalValue;
+    }
 
     public void AddNumber(string number)
     {
@@ -44,18 +52,28 @@ public partial class NumberInputViewModel : ObservableObject
         OutputValue += ".";
     }
 
-    private static double TryConvertToDouble(string outputValue)
+    [RelayCommand]
+    private void CancelExit(Window window)
     {
+        OutputValue = _originalValue ?? string.Empty;
+        window.Close();
+    }
+
+    private static double TryConvertToDouble(string outputValue, string? originalValue = null)
+    {
+        if (string.IsNullOrEmpty(outputValue) && originalValue is not null)
+            outputValue = originalValue;
+
         if (Double.TryParse(outputValue, NumberStyles.Any, CultureInfo.InvariantCulture, out var result))
             return result;
         return 0;
     }
 
-    public static double ShowDialog()
+    public static double ShowDialog(string? originalValue = null)
     {
-        var viewModel = new NumberInputViewModel();
+        var viewModel = new NumberInputViewModel(originalValue);
         var window = new NumberInputBlockWindow(viewModel);
         window.ShowDialog();
-        return TryConvertToDouble(viewModel.OutputValue);
+        return TryConvertToDouble(viewModel.OutputValue, originalValue);
     }
 }

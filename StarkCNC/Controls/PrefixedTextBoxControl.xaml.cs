@@ -63,8 +63,8 @@ public partial class PrefixedTextBoxControl : UserControl
 
         if (NeedCallNumberInput)
         {
-            var value = NumberInputViewModel.ShowDialog();
-            Text = value.ToString(CultureInfo.CurrentCulture);
+            var value = NumberInputViewModel.ShowDialog(Text);
+            Text = value.ToString(CultureInfo.InvariantCulture);
 
             binding.UpdateSource();
             binding.UpdateTarget();

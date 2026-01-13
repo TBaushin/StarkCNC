@@ -61,7 +61,7 @@ public partial class AdjustmentParametersView : Page
         if (textBox is null)
             return;
 
-        var value = NumberInputViewModel.ShowDialog();
+        var value = NumberInputViewModel.ShowDialog(textBox.Text);
 
         BindingExpression binding = BindingOperations.GetBindingExpression(textBox, TextBox.TextProperty);
         if (binding is not null)

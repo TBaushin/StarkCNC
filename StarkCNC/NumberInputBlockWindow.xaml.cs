@@ -39,6 +39,8 @@ public partial class NumberInputBlockWindow : Window
 
     private void EnterButton_Click(object sender, RoutedEventArgs e)
     {
+        if (string.IsNullOrEmpty(ViewModel.OutputValue))
+            ViewModel.OutputValue = "0";
         Close();
     }
 
@@ -91,6 +93,9 @@ public partial class NumberInputBlockWindow : Window
             case (Decimal)Key.Back:
                 ClearLastButton.RaiseEvent(new RoutedEventArgs(ButtonBase.ClickEvent));
                 ClearLastButton.Command?.Execute(null);
+                break;
+            case (Decimal)Key.Escape:
+                ViewModel.CancelExitCommand?.Execute(this);
                 break;
         }
     }
