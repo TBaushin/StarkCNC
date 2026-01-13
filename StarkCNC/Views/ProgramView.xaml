@@ -112,6 +112,7 @@
                 x:Name="BendingDatasDataGrid"
                 Grid.Row="2"
                 Margin="10,0,20,10"
+                SelectedItem="{Binding SelectedBendingData}"
                 ItemsSource="{Binding BendingDatas}"
                 AutoGenerateColumns="False"
                 HorizontalAlignment="Center"
@@ -120,7 +121,8 @@
                 CanUserReorderColumns="False"
                 CanUserResizeColumns="False"
                 CanUserSortColumns="False"
-                CanUserAddRows="False">
+                CanUserAddRows="False"
+                KeyDown="BendingDatasDataGrid_KeyDown">
                 <DataGrid.Resources>
                     <ResourceDictionary>
                         <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
@@ -145,7 +147,10 @@
                         </Style>
                     </ResourceDictionary>
                 </DataGrid.Resources>
-
+                <DataGrid.InputBindings>
+                    <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding CurrentBendingDataToClipboardCommand}"/>
+                    <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding PasteBendingDataFromClipboardCommand}"/>
+                </DataGrid.InputBindings>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="39" MinWidth="39">
                         <DataGridTemplateColumn.HeaderTemplate >

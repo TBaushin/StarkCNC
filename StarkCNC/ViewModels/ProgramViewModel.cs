@@ -6,6 +6,9 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.UoW;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
+using System.Text;
+using System.Text.Json;
+using System.Windows;
 using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels;
@@ -30,6 +33,9 @@ public partial class ProgramViewModel : ObservableObject
 
     [ObservableProperty]
     private double _estimatedRemainingLength;
+
+    [ObservableProperty]
+    private BendingDataViewModel? _selectedBendingData;
 
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
 
@@ -288,6 +294,39 @@ public partial class ProgramViewModel : ObservableObject
     private void RemoveBendingData(BendingDataViewModel data)
     {
         BendingDatas.Remove(data);
+    }
+
+    [RelayCommand]
+    private void CurrentBendingDataToClipboard()
+    {
+        if (SelectedBendingData is null)
+            return;
+
+        var json = JsonSerializer.Serialize<BendingDataViewModel>(SelectedBendingData);
+        Clipboard.SetData(DataFormats.Text, Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
+    }
+
+    [RelayCommand]
+    private void PasteBendingDataFromClipboard()
+    {
+        var data = Clipboard.GetData(DataFormats.Text) as string;
+        if (string.IsNullOrEmpty(data))
+            return;
+
+        var bytes = Convert.FromBase64String(data);
+        if (bytes is null)
+            return;
+
+        var json = Encoding.UTF8.GetString(bytes);
+        var result = JsonSerializer.Deserialize<BendingDataViewModel>(json);
+
+        if (result is not BendingDataViewModel bd)
+            return;
+
+        if (SelectedBendingData is not null)
+            BendingDatas.Insert(BendingDatas.IndexOf(SelectedBendingData) + 1, bd);
+        else
+            BendingDatas.Add(bd);
     }
 
     private void UpdateEstimatedRemainingLengthAndPipeLength()

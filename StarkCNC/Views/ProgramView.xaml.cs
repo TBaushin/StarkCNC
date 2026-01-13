@@ -75,6 +75,17 @@ public partial class ProgramView : Page
 
     private void DeleteBendingDataButton_Click(object sender, System.Windows.RoutedEventArgs e)
     {
+        DeleteSelectedBendingData();
+    }
+
+    private void BendingDatasDataGrid_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == System.Windows.Input.Key.Delete)
+            DeleteSelectedBendingData();
+    }
+
+    private void DeleteSelectedBendingData()
+    {
         var item = BendingDatasDataGrid.SelectedItem as BendingDataViewModel;
         if (item is null)
             return;
