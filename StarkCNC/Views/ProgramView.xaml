@@ -305,8 +305,6 @@
                                     <ComboBox
                                         MaxWidth="157"
                                         MinWidth="157"
-                                        IsEditable="True"
-                                        IsTextSearchEnabled="True"
                                         ItemsSource="{Binding Source={x:Static vm:ProgramViewModel.BendingModes}}"
                                         SelectedItem="{Binding BendingRadiusMode, Mode=TwoWay}"/>
                                 </StackPanel>
