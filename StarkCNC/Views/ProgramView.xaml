@@ -504,7 +504,7 @@
                                     IsNumericOnly="True"
                                     Prefix="B:"
                                     TextChanged="Input_TextChanged"
-                                    Text="{Binding OffsetSpeed, StringFormat={}{0}мм, Mode=TwoWay}"/>
+                                    Text="{Binding OffsetSpeed, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                 <controls:PrefixedTextBoxControl
                                     Grid.Column="1"
                                     Grid.Row="1"

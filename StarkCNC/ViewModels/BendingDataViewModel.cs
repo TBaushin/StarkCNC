@@ -42,7 +42,7 @@ public partial class BendingDataViewModel : ViewModelBase
     /// Отвод скорость Y1b
     /// </summary>
     [ObservableProperty]
-    private double _offsetSpeed = 100;
+    private double _offsetSpeed;
 
     /// <summary>
     /// Отвод коэффициент Y2
