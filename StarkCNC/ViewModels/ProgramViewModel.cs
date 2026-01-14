@@ -346,16 +346,6 @@ public partial class ProgramViewModel : ObservableObject
         }
     }
 
-    private void BendingDatas_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        int i = 1;
-        foreach (var item in BendingDatas)
-        {
-            item.Id = i;
-            i++;
-        }
-    }
-
     private void UpdateEstimatedRemainingLengthAndPipeLength()
     {
         if (PipeLength > 0)
@@ -401,6 +391,16 @@ public partial class ProgramViewModel : ObservableObject
                 RotationAngle = data.RotationAngle,
                 RotationSpeed = data.RotationSpeed
             });
+        }
+    }
+
+    private void BendingDatas_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        int i = 1;
+        foreach (var item in BendingDatas)
+        {
+            item.Id = i;
+            i++;
         }
     }
 

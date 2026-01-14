@@ -239,16 +239,6 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             RunProgram();
     }
 
-    private void BendingDatas_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-        int i = 1;
-        foreach (var item in BendingDatas)
-        {
-            item.Id = i;
-            i++;
-        }
-    }
-
     private async void RunProgram()
     {
         // Prepare
@@ -315,6 +305,16 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             .WriteAsync<bool>(false, sendDataRequestString)
             .ConfigureAwait(false);
         SetSendData(false);
+    }
+
+    private void BendingDatas_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        int i = 1;
+        foreach (var item in BendingDatas)
+        {
+            item.Id = i;
+            i++;
+        }
     }
 
     public void Dispose()
