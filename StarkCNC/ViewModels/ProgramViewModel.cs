@@ -60,6 +60,8 @@ public partial class ProgramViewModel : ObservableObject
         _bendingModelsLoadingService = bendingModelsLoadingService;
         _unitOfWork = unitOfWork;
 
+        CurrentFilePath = _unitOfWork.CurrentFilePath;
+
         //App.ServiceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
         _bendingModelsLoadingService.PropertyChanged += (sender, args) =>
         {

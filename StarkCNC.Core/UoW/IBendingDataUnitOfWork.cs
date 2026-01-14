@@ -4,6 +4,8 @@ namespace StarkCNC.Core.UoW;
 
 public interface IBendingDataUnitOfWork
 {
+    public string CurrentFilePath { get; }
+
     public string ProgramName { get; }
 
     public ICollection<BendingData> BendingDatas { get; }
