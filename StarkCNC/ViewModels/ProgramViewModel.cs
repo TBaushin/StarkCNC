@@ -57,7 +57,6 @@ public partial class ProgramViewModel : ObservableObject
 
     public ProgramViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IBendingDataUnitOfWork unitOfWork)
     {
-
         _bendingModelsLoadingService = bendingModelsLoadingService;
         _unitOfWork = unitOfWork;
 
@@ -71,12 +70,11 @@ public partial class ProgramViewModel : ObservableObject
         };
 
         _pipe = _bendingModelsLoadingService.Pipe;
+        BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
 
-        int i = 1;
         foreach (var item in _unitOfWork.BendingDatas)
         {
-            BendingDatas.Add(new BendingDataViewModel(i, item));
-            i++;
+            BendingDatas.Add(new BendingDataViewModel(item));
         }
 
         EstimatedRemainingLength = _unitOfWork.EstimatedRemainingLength;
@@ -124,11 +122,9 @@ public partial class ProgramViewModel : ObservableObject
         {
             await _unitOfWork.ReadFileAsync(CurrentFilePath).ConfigureAwait(true);
 
-            int i = 1;
             foreach (var item in _unitOfWork.BendingDatas)
             {
-                BendingDatas.Add(new BendingDataViewModel(i, item));
-                i++;
+                BendingDatas.Add(new BendingDataViewModel(item));
             }
 
             var firstItem = _unitOfWork.BendingDatas.FirstOrDefault();
@@ -347,6 +343,16 @@ public partial class ProgramViewModel : ObservableObject
 #if DEBUG
             Debug.WriteLine($"Ошибка преобразования в json текста с кодировкой UTF8 из буфера обмена в {nameof(ProgramViewModel)} переменной {nameof(data)}, её содержимое: {data}");
 #endif
+        }
+    }
+
+    private void BendingDatas_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        int i = 1;
+        foreach (var item in BendingDatas)
+        {
+            item.Id = i;
+            i++;
         }
     }
 

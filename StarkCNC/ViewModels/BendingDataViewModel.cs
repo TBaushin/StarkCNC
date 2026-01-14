@@ -94,9 +94,8 @@ public partial class BendingDataViewModel : ViewModelBase
 
     public BendingDataViewModel() { }
 
-    public BendingDataViewModel(int id, BendingData data)
+    public BendingDataViewModel(BendingData data)
     {
-        Id = id;
         if (data is not null)
         {
             PipeLength = data.PipeLength;

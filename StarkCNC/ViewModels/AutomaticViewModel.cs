@@ -83,11 +83,11 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         ProgramName = unitOfWork.ProgramName;
 
-        int i = 0;
+        BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
+
         foreach (var item in unitOfWork.BendingDatas)
         {
-            BendingDatas.Add(new BendingDataViewModel(i, item));
-            i += 1;
+            BendingDatas.Add(new BendingDataViewModel(item));
         }
 
         StartUpdateTask();
@@ -237,6 +237,16 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         if (SendData == true)
             RunProgram();
+    }
+
+    private void BendingDatas_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+        int i = 1;
+        foreach (var item in BendingDatas)
+        {
+            item.Id = i;
+            i++;
+        }
     }
 
     private async void RunProgram()
