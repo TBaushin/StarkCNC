@@ -249,4 +249,7 @@
   <data name="Supply" xml:space="preserve">
     <value>Подача</value>
   </data>
+  <data name="InsertButton" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
 </root>
