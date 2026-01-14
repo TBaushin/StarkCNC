@@ -382,12 +382,14 @@
                                     x:Name="SetBendSpeedButton"
                                     Grid.Column="0"
                                     Grid.Row="1"
+                                    Margin="0,0,5,0"
                                     Content="Speed"
                                     Click="SetBendSpeedButton_Click"/>
                                 <Button
                                     x:Name="SetBendCoefficientButton"
                                     Grid.Column="1"
                                     Grid.Row="1"
+                                    Margin="5,0,0,0"
                                     Content="Коэффициент"
                                     Click="SetBendCoefficientButton_Click"/>
                             </Grid>
@@ -469,12 +471,14 @@
                                     x:Name="SetOffsetSpeedButton"
                                     Grid.Column="0"
                                     Grid.Row="1"
+                                    Margin="0,0,5,0"
                                     Content="B"
                                     Click="SetOffsetSpeedButton_Click"/>
                                 <Button
                                     x:Name="SetOffsetCoefficientButton"
                                     Grid.Column="1"
                                     Grid.Row="1"
+                                    Margin="5,0,0,0"
                                     Content="Y2"
                                     Click="SetOffsetCoefficientButton_Click"/>
                             </Grid>
