@@ -15,18 +15,19 @@
 
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="850"/>
-            <ColumnDefinition Width="*" MinWidth="270"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel
+            Grid.Column="0"
+            Grid.Row="0"
+            Orientation="Vertical">
             <StackPanel
-                Grid.Row="0"
                 Orientation="Horizontal"
                 HorizontalAlignment="Stretch"
                 Margin="0,0,10,0">
@@ -78,7 +79,9 @@
                 </Button>
             </StackPanel>
             <Grid
+                Grid.Column="0"
                 Grid.Row="1"
+                Grid.ColumnSpan="2"
                 HorizontalAlignment="Stretch"
                 Margin="0,0,10,10">
                 <Grid.ColumnDefinitions>
@@ -108,311 +111,10 @@
                     NeedCallNumberInput="True"
                     Text="{Binding EstimatedRemainingLength, Mode=TwoWay}"/>
             </Grid>
-            <DataGrid
-                x:Name="BendingDatasDataGrid"
-                Grid.Row="2"
-                Margin="10,0,20,10"
-                SelectedItem="{Binding SelectedBendingData}"
-                ItemsSource="{Binding BendingDatas}"
-                AutoGenerateColumns="False"
-                HorizontalAlignment="Center"
-                VerticalGridLinesBrush="{x:Null}"
-                HeadersVisibility="Column"
-                CanUserReorderColumns="False"
-                CanUserResizeColumns="False"
-                CanUserSortColumns="False"
-                CanUserAddRows="False"
-                KeyDown="BendingDatasDataGrid_KeyDown">
-                <DataGrid.Resources>
-                    <ResourceDictionary>
-                        <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Background" Value="{x:Null}"/>
-                            <Setter Property="BorderBrush" Value="{x:Null}"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="{x:Null}"/>
-                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                        <Style TargetType="{x:Type DataGridRow}">
-                            <Setter Property="Background" Value="{x:Null}"/>
-                            <Setter Property="BorderBrush" Value="{x:Null}"/>
-                            <Style.Triggers>
-                                <Trigger Property="IsSelected" Value="True">
-                                    <Setter Property="Background" Value="{x:Null}"/>
-                                    <Setter Property="BorderBrush" Value="{x:Null}"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ResourceDictionary>
-                </DataGrid.Resources>
-                <DataGrid.InputBindings>
-                    <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding CurrentBendingDataToClipboardCommand}"/>
-                    <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding PasteBendingDataFromClipboardCommand}"/>
-                </DataGrid.InputBindings>
-                <DataGrid.Columns>
-                    <DataGridTemplateColumn Width="39" MinWidth="39">
-                        <DataGridTemplateColumn.HeaderTemplate >
-                            <DataTemplate>
-                                <Label Content="№"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Label
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding Id}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="90" MinWidth="90">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Label Content="Подача Y"/>
-                                    <Button
-                                        x:Name="SetSupplySpeedButton"
-                                        Content="Speed"
-                                        Click="SetSupplySpeedButton_Click"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <controls:LabeledTextBoxControl
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding Supply,  StringFormat={}{0} мм, Mode=TwoWay}"/>
-                                    <controls:PrefixedTextBoxControl
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        Prefix="Sp:"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding SupplySpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Width="90" MinWidth="90">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Label Content="Поворот B"/>
-                                    <Button
-                                        x:Name="SetRotationSpeedButton"
-                                        Content="Speed"
-                                        Click="SetRotationSpeedButton_Click"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <controls:LabeledTextBoxControl
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding RotationAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
-                                    <controls:PrefixedTextBoxControl
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        Prefix="Sp:"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding RotationSpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="200">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Grid
-                                    ColumnDefinitions="*,*"
-                                    RowDefinitions="*,*">
-                                    <Label
-                                        Grid.Column="0"
-                                        Grid.Row="0"
-                                        Grid.ColumnSpan="2"
-                                        HorizontalAlignment="Center"
-                                        Content="Гиб C"/>
-                                    <Button
-                                        x:Name="SetBendSpeedButton"
-                                        Grid.Column="0"
-                                        Grid.Row="1"
-                                        Content="Speed"
-                                        Click="SetBendSpeedButton_Click"/>
-                                    <Button
-                                        x:Name="SetBendCoefficientButton"
-                                        Grid.Column="1"
-                                        Grid.Row="1"
-                                        Content="Коэффициент"
-                                        Click="SetBendCoefficientButton_Click"/>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid
-                                    ColumnDefinitions="*,*"
-                                    RowDefinitions="*,*">
-                                    <controls:LabeledTextBoxControl
-                                        Grid.Column="0"
-                                        Grid.Row="0"
-                                        Grid.ColumnSpan="2"
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding BendingAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
-                                    <controls:PrefixedTextBoxControl
-                                        Grid.Column="0"
-                                        Grid.Row="1"
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        Prefix="Sp:"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding BendingAngleSpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
-                                    <controls:PrefixedTextBoxControl
-                                        Grid.Column="1"
-                                        Grid.Row="1"
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        Prefix="K:"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding BendingAngleCoefficient, StringFormat={}{0}°, Mode=TwoWay}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MaxWidth="160" MinWidth="160">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <Label Content="Радиус R"/>
-                                    <Button
-                                        x:Name="SetRadiusModeButton"
-                                        Content="Режим"
-                                        Click="SetRadiusModeButton_Click"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <StackPanel>
-                                    <controls:LabeledTextBoxControl
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding BendingRadius, StringFormat={}{0} мм, Mode=TwoWay}"/>
-                                    <ComboBox
-                                        MaxWidth="157"
-                                        MinWidth="157"
-                                        ItemsSource="{Binding Source={x:Static vm:ProgramViewModel.BendingModes}}"
-                                        SelectedItem="{Binding BendingRadiusMode, Mode=TwoWay}"/>
-                                </StackPanel>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="140">
-                        <DataGridTemplateColumn.HeaderTemplate>
-                            <DataTemplate>
-                                <Grid
-                                    ColumnDefinitions="*,*"
-                                    RowDefinitions="*,*">
-                                    <Label
-                                        Grid.Column="0"
-                                        Grid.Row="0"
-                                        Grid.ColumnSpan="2"
-                                        HorizontalAlignment="Center"
-                                        Content="Отвод Y"/>
-                                    <Button
-                                        x:Name="SetOffsetSpeedButton"
-                                        Grid.Column="0"
-                                        Grid.Row="1"
-                                        Content="B"
-                                        Click="SetOffsetSpeedButton_Click"/>
-                                    <Button
-                                        x:Name="SetOffsetCoefficientButton"
-                                        Grid.Column="1"
-                                        Grid.Row="1"
-                                        Content="Y2"
-                                        Click="SetOffsetCoefficientButton_Click"/>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.HeaderTemplate>
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Grid
-                                    ColumnDefinitions="*,*"
-                                    RowDefinitions="*,*">
-                                    <controls:LabeledTextBoxControl
-                                        Grid.Column="0"
-                                        Grid.Row="0"
-                                        Grid.ColumnSpan="2"
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding Offset, StringFormat={}{0} мм, Mode=TwoWay}"/>
-                                    <controls:PrefixedTextBoxControl
-                                        Grid.Column="0"
-                                        Grid.Row="1"
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        Prefix="B:"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding OffsetSpeed, StringFormat={}{0}мм, Mode=TwoWay}"/>
-                                    <controls:PrefixedTextBoxControl
-                                        Grid.Column="1"
-                                        Grid.Row="1"
-                                        NeedCallNumberInput="True"
-                                        IsNumericOnly="True"
-                                        Prefix="Y2:"
-                                        TextChanged="Input_TextChanged"
-                                        Text="{Binding OffsetCoefficient, StringFormat={}{0} мм, Mode=TwoWay}"/>
-                                </Grid>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn MinWidth="50" Width="50">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button
-                                    x:Name="DeleteBendingDataButton"
-                                    VerticalAlignment="Stretch"
-                                    HorizontalAlignment="Stretch"
-                                    Click="DeleteBendingDataButton_Click">
-                                    <Label
-                                        VerticalAlignment="Center"
-                                        FontSize="15"
-                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        Content="&#xE74D;"/>
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <Button
-                Grid.Row="3"
-                Margin="7,0,0,10"
-                Command="{Binding AddBendingDataCommand}">
-                <StackPanel Orientation="Horizontal">
-                    <Label
-                        VerticalAlignment="Center"
-                        FontSize="10"
-                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                        Content="&#xE710;"/>
-                    <Label
-                        Margin="8,0,0,0"
-                        Content="{x:Static lang:Language.AddButton}"/>
-                </StackPanel>
-            </Button>
-        </Grid>
+        </StackPanel>
         <Border 
-            Grid.Column="1" 
+            Grid.Column="1"
+            Grid.Row="0"
             Margin="10,10,0,10"
             Padding="5,5,5,5"
             Background="{DynamicResource LayerFillColorDefaultBrush}"
@@ -420,13 +122,13 @@
             BorderThickness="1"
             CornerRadius="8,0,0,0">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
                 <helix:HelixViewport3D 
                     x:Name="BendingView"
-                    Grid.Row="0"
+                    Grid.Column="0"
                     ViewCubeHeight="175"
                     ViewCubeWidth="175"
                     ViewCubeVerticalPosition="Bottom"
@@ -451,16 +153,16 @@
                     <helix:DefaultLights/>
                 </helix:HelixViewport3D>
                 <Grid
-                    Grid.Row="1"
-                    Margin="0,10,10,5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                    Grid.Column="1"
+                    Margin="5,0,0,5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
                     <Button
                         x:Name="ZoomIn"
-                        HorizontalAlignment="Left"
-                        Grid.Column="0"
+                        VerticalAlignment="Top"
+                        Grid.Row="0"
                         Click="ZoomIn_Click">
                         <TextBlock 
                             VerticalAlignment="Center"
@@ -471,8 +173,8 @@
                     </Button>
                     <Button
                         x:Name="ZoomOut"
-                        HorizontalAlignment="Right"
-                        Grid.Column="1"
+                        VerticalAlignment="Bottom"
+                        Grid.Row="1"
                         Click="ZoomOut_Click">
                         <TextBlock 
                             VerticalAlignment="Center"
@@ -484,5 +186,308 @@
                 </Grid>
             </Grid>
         </Border>
+        <DataGrid
+            x:Name="BendingDatasDataGrid"
+            Grid.Column="0"
+            Grid.Row="1"
+            Grid.ColumnSpan="2"
+            Margin="10,0,20,10"
+            ColumnWidth="*"
+            SelectedItem="{Binding SelectedBendingData}"
+            ItemsSource="{Binding BendingDatas}"
+            AutoGenerateColumns="False"
+            HorizontalAlignment="Center"
+            VerticalGridLinesBrush="{x:Null}"
+            HeadersVisibility="Column"
+            CanUserReorderColumns="False"
+            CanUserResizeColumns="False"
+            CanUserSortColumns="False"
+            CanUserAddRows="False"
+            KeyDown="BendingDatasDataGrid_KeyDown">
+            <DataGrid.Resources>
+                <ResourceDictionary>
+                    <Style x:Key="{x:Type DataGridCell}" TargetType="{x:Type DataGridCell}">
+                        <Setter Property="Background" Value="{x:Null}"/>
+                        <Setter Property="BorderBrush" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{x:Null}"/>
+                                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                    <Style TargetType="{x:Type DataGridRow}">
+                        <Setter Property="Background" Value="{x:Null}"/>
+                        <Setter Property="BorderBrush" Value="{x:Null}"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="{x:Null}"/>
+                                <Setter Property="BorderBrush" Value="{x:Null}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </ResourceDictionary>
+            </DataGrid.Resources>
+            <DataGrid.InputBindings>
+                <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding CurrentBendingDataToClipboardCommand}"/>
+                <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding PasteBendingDataFromClipboardCommand}"/>
+            </DataGrid.InputBindings>
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Width="39" MinWidth="39">
+                    <DataGridTemplateColumn.HeaderTemplate >
+                        <DataTemplate>
+                            <Label Content="№"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Label
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Content="{Binding Id}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="Подача Y"/>
+                                <Button
+                                    x:Name="SetSupplySpeedButton"
+                                    Content="Speed"
+                                    Click="SetSupplySpeedButton_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <controls:LabeledTextBoxControl
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding Supply,  StringFormat={}{0} мм, Mode=TwoWay}"/>
+                                <controls:PrefixedTextBoxControl
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    Prefix="Sp:"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding SupplySpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="Поворот B"/>
+                                <Button
+                                    x:Name="SetRotationSpeedButton"
+                                    Content="Speed"
+                                    Click="SetRotationSpeedButton_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <controls:LabeledTextBoxControl
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding RotationAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
+                                <controls:PrefixedTextBoxControl
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    Prefix="Sp:"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding RotationSpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                RowDefinitions="*,*">
+                                <Label
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Center"
+                                    Content="Гиб C"/>
+                                <Button
+                                    x:Name="SetBendSpeedButton"
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    Content="Speed"
+                                    Click="SetBendSpeedButton_Click"/>
+                                <Button
+                                    x:Name="SetBendCoefficientButton"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Content="Коэффициент"
+                                    Click="SetBendCoefficientButton_Click"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                RowDefinitions="*,*">
+                                <controls:LabeledTextBoxControl
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding BendingAngle, StringFormat={}{0}°, Mode=TwoWay}"/>
+                                <controls:PrefixedTextBoxControl
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    Prefix="Sp:"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding BendingAngleSpeed, StringFormat={}{0}%, Mode=TwoWay}"/>
+                                <controls:PrefixedTextBoxControl
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    Prefix="K:"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding BendingAngleCoefficient, StringFormat={}{0}°, Mode=TwoWay}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="Радиус R"/>
+                                <Button
+                                    x:Name="SetRadiusModeButton"
+                                    Content="Режим"
+                                    Click="SetRadiusModeButton_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <controls:LabeledTextBoxControl
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding BendingRadius, StringFormat={}{0} мм, Mode=TwoWay}"/>
+                                <ComboBox
+                                    ItemsSource="{Binding Source={x:Static vm:ProgramViewModel.BendingModes}}"
+                                    SelectedItem="{Binding BendingRadiusMode, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                RowDefinitions="*,*">
+                                <Label
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                    HorizontalAlignment="Center"
+                                    Content="Отвод Y"/>
+                                <Button
+                                    x:Name="SetOffsetSpeedButton"
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    Content="B"
+                                    Click="SetOffsetSpeedButton_Click"/>
+                                <Button
+                                    x:Name="SetOffsetCoefficientButton"
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    Content="Y2"
+                                    Click="SetOffsetCoefficientButton_Click"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid
+                                ColumnDefinitions="*,*"
+                                RowDefinitions="*,*">
+                                <controls:LabeledTextBoxControl
+                                    Grid.Column="0"
+                                    Grid.Row="0"
+                                    Grid.ColumnSpan="2"
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding Offset, StringFormat={}{0} мм, Mode=TwoWay}"/>
+                                <controls:PrefixedTextBoxControl
+                                    Grid.Column="0"
+                                    Grid.Row="1"
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    Prefix="B:"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding OffsetSpeed, StringFormat={}{0}мм, Mode=TwoWay}"/>
+                                <controls:PrefixedTextBoxControl
+                                    Grid.Column="1"
+                                    Grid.Row="1"
+                                    NeedCallNumberInput="True"
+                                    IsNumericOnly="True"
+                                    Prefix="Y2:"
+                                    TextChanged="Input_TextChanged"
+                                    Text="{Binding OffsetCoefficient, StringFormat={}{0} мм, Mode=TwoWay}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="50">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button
+                                x:Name="DeleteBendingDataButton"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                Click="DeleteBendingDataButton_Click">
+                                <Label
+                                    VerticalAlignment="Center"
+                                    FontSize="15"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    Content="&#xE74D;"/>
+                            </Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button
+            Grid.Row="2"
+            Margin="7,0,0,10"
+            Command="{Binding AddBendingDataCommand}">
+            <StackPanel Orientation="Horizontal">
+                <Label
+                    VerticalAlignment="Center"
+                    FontSize="10"
+                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                    Content="&#xE710;"/>
+                <Label
+                    Margin="8,0,0,0"
+                    Content="{x:Static lang:Language.AddButton}"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </Page>
