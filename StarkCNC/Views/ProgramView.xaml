@@ -279,6 +279,11 @@
                             </Trigger>
                         </Style.Triggers>
                     </Style>
+                    <Style
+                        TargetType="{x:Type DataGridColumnHeader}"
+                        BasedOn="{StaticResource {x:Type DataGridColumnHeader}}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                    </Style>
                 </ResourceDictionary>
             </DataGrid.Resources>
             <DataGrid.InputBindings>
