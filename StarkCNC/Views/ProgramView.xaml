@@ -255,6 +255,7 @@
             CanUserResizeColumns="False"
             CanUserSortColumns="False"
             CanUserAddRows="False"
+            EnableRowVirtualization="True"
             KeyDown="BendingDatasDataGrid_KeyDown">
             <DataGrid.Resources>
                 <ResourceDictionary>
