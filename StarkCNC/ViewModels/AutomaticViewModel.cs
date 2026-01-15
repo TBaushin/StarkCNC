@@ -317,6 +317,33 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         }
     }
 
+    async partial void OnIsFullAtomaticChanged(bool oldValue, bool newValue)
+    {
+        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
+        var fullAutomaticRequestString = automaticTagsSection
+            .GetSection("FullAutomatic")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        await _configurationService.WriteAsync<bool>(newValue, fullAutomaticRequestString)
+            .ConfigureAwait(false);
+    }
+
+    async partial void OnPipeInstallationDelayChanged(double oldValue, double newValue)
+    {
+        if (IsFullAtomatic)
+        {
+            var automaticTagsSection = _configuration.GetSection("AutomaticTags");
+            var delayRequestString = automaticTagsSection
+                .GetSection("Delay")
+                .GetSection("RequestString")
+                .Get<string>() ?? string.Empty;
+
+            await _configurationService.WriteAsync<double>(newValue, delayRequestString)
+                .ConfigureAwait(false);
+        }
+    }
+
     public void Dispose()
     {
         Dispose(true);
