@@ -78,6 +78,9 @@ public partial class AdjustmentSettingsWindow : Window
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
+        Result?.Name = NameTextBox.Text;
+        Result?.PipeDiameter = Convert.ToDouble(PipeDiameterTextBox.Text, CultureInfo.InvariantCulture);
+        Result?.Radius = Convert.ToDouble(RadiusTextBox.Text, CultureInfo.InvariantCulture);
         Close();
     }
 

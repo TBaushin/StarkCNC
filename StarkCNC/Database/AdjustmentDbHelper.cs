@@ -59,7 +59,7 @@ public class AdjustmentDbHelper : IDbHelper
         foreach (var item in toSave)
         {
             var filePath = $"{currentSavePath}\\{item.Name}.json";
-            await Save(item, currentSavePath).ConfigureAwait(false);
+            await Save(item, filePath).ConfigureAwait(false);
         }
     }
 

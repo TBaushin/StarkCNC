@@ -57,7 +57,7 @@ public class UsersDbHelper : IDbHelper
         foreach (var item in toSave)
         {
             var filePath = $"{currentSavePath}\\{item.Id}.json";
-            await Save(item, currentSavePath).ConfigureAwait(false);
+            await Save(item, filePath).ConfigureAwait(false);
         }
     }
 

@@ -23,14 +23,17 @@
                 Margin="0,32,0,24"
                 Style="{DynamicResource TitleTextBlockStyle}"/>
             <controls:LabeledTextBoxControl
+                x:Name="NameTextBox"
                 Margin="0,0,0,16"
                 LabelText="{x:Static lang:Language.Name}"
                 Text="{Binding Result.Name, Mode=TwoWay}"/>
             <controls:LabeledTextBoxControl
+                x:Name="PipeDiameterTextBox"
                 Margin="0,0,0,16"
                 LabelText="{x:Static lang:Language.PipeDiameter}"
                 Text="{Binding Result.PipeDiameter, Mode=TwoWay}"/>
             <controls:LabeledTextBoxControl
+                x:Name="RadiusTextBox"
                 Margin="0,0,0,16"
                 LabelText="Радиус оснастки"
                 Text="{Binding Result.Radius, Mode=TwoWay}"/>
