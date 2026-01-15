@@ -1,5 +1,4 @@
 ﻿using StarkCNC.Core.Models;
-using StarkCNC.DTO;
 using StarkCNC.Helpers;
 using System.Globalization;
 using System.Windows;
@@ -47,6 +46,8 @@ public partial class AdjustmentSettingsWindow : Window
         _oldParameters = adjustment;
         DataContext = this;
 
+        InitializeComponent();
+
         if (adjustment is null)
             Result = new AdjustmentParameters()
             {
@@ -58,7 +59,6 @@ public partial class AdjustmentSettingsWindow : Window
         else
             Result = (AdjustmentParameters)adjustment.Clone();
 
-            InitializeComponent();
         TitleTextBlock.Text = Title;
 
         WindowChrome.SetWindowChrome(this,
