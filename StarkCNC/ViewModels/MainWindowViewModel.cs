@@ -2,9 +2,11 @@
 using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
+using StarkCNC.Core.UoW;
 using StarkCNC.Models;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace StarkCNC.ViewModels;
 
@@ -19,6 +21,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private readonly INavigationService _navigationService;
 
     private readonly IRouter _router;
+
+    private readonly IBendingDataUnitOfWork _bendingUnitOfWork;
 
     private readonly IAdjustmentRepository _adjustmentRepository;
 
@@ -43,11 +47,13 @@ public partial class MainWindowViewModel : ViewModelBase
         IRouter router,
         IBreadcrumbService breadcrumbService,
         IStatusService statusService,
+        IBendingDataUnitOfWork bendingUnitOfWork,
         IAdjustmentRepository adjustmentRepository,
         AdjustmentViewModel adjustmentViewModel) 
     {
         _navigationService = navigationService;
         _router = router;
+        _bendingUnitOfWork = bendingUnitOfWork;
         _adjustmentRepository = adjustmentRepository;
         _adjustmentViewModel = adjustmentViewModel;
 
@@ -84,6 +90,22 @@ public partial class MainWindowViewModel : ViewModelBase
     private void GoUsers()
     {
         _router.Navigate("/users");
+    }
+
+    [RelayCommand]
+    private void CloseApp()
+    {
+        if (_bendingUnitOfWork.HasUnsavedData)
+        {
+            var answer = MessageBox.Show(
+                "На странице программы есть несохранённые данные. Вы уверены, что хотите закрыть программу?",
+                "Есть несохранённые данные",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            if (answer == MessageBoxResult.No)
+                return;
+        }
+        App.Current.Shutdown();
     }
 
     public void UpdateCanNavigateBack()

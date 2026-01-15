@@ -170,7 +170,7 @@
                 <Button
                     x:Name="CloseButton"
                     Grid.Column="4"
-                    Click="CloseWindow"
+                    Command="{Binding CloseAppCommand}"
                     Style="{StaticResource TitleBarDefaultCloseButtonStyle}">
                     <TextBlock
                         VerticalAlignment="Center"

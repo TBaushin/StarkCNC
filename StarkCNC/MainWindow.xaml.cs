@@ -213,11 +213,6 @@ public partial class MainWindow : Window
         }
     }
 
-    private void CloseWindow(object sender, RoutedEventArgs e)
-    {
-        Application.Current.Shutdown();
-    }
-
     private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         if (WindowState != WindowState.Maximized)

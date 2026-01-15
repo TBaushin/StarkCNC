@@ -14,6 +14,8 @@ public interface IBendingDataUnitOfWork
 
     public double EstimatedRemainingLength { get; set; }
 
+    public bool HasUnsavedData { get; set; }
+
     public Task ReadFileAsync(string filePath);
 
     public Task WriteFileAsync(string filePath);

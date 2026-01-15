@@ -76,7 +76,9 @@ public partial class ProgramViewModel : ObservableObject
 
         foreach (var item in _unitOfWork.BendingDatas)
         {
-            BendingDatas.Add(new BendingDataViewModel(item));
+            var bendingDataViewModel = new BendingDataViewModel(item);
+            bendingDataViewModel.PropertyChanged += BendingDataViewModel_PropertyChanged;
+            BendingDatas.Add(bendingDataViewModel);
         }
 
         EstimatedRemainingLength = _unitOfWork.EstimatedRemainingLength;
@@ -100,6 +102,11 @@ public partial class ProgramViewModel : ObservableObject
         else
             return;
 
+        foreach (var item in BendingDatas)
+        {
+            item.PropertyChanged -= BendingDataViewModel_PropertyChanged;
+        }
+
         BendingDatas.Clear();
         UpdateBend();
     }
@@ -117,6 +124,11 @@ public partial class ProgramViewModel : ObservableObject
             CurrentFilePath = dialog.FileName;
         else
             return;
+
+        foreach (var item in BendingDatas)
+        {
+            item.PropertyChanged -= BendingDataViewModel_PropertyChanged;
+        }
 
         BendingDatas.Clear();
 
@@ -163,6 +175,7 @@ public partial class ProgramViewModel : ObservableObject
 
         UpdateBend();
         await _unitOfWork.WriteFileAsync(CurrentFilePath).ConfigureAwait(false);
+        _unitOfWork.HasUnsavedData = false;
         return true;
     }
 
@@ -182,6 +195,7 @@ public partial class ProgramViewModel : ObservableObject
         else
             BendingDatas.Add(new BendingDataViewModel() { Id = lastElement.Id + 1, PipeLength = PipeLength, YSetup = YSetup });
         UpdateBend();
+        _unitOfWork.HasUnsavedData = true;
     }
 
     [RelayCommand]
@@ -197,6 +211,7 @@ public partial class ProgramViewModel : ObservableObject
         }
 
         UpdateBend();
+        _unitOfWork.HasUnsavedData = true;
     }
 
     [RelayCommand]
@@ -212,6 +227,7 @@ public partial class ProgramViewModel : ObservableObject
         }
 
         UpdateBend();
+        _unitOfWork.HasUnsavedData = true;
     }
 
     [RelayCommand]
@@ -227,6 +243,7 @@ public partial class ProgramViewModel : ObservableObject
         }
 
         UpdateBend();
+        _unitOfWork.HasUnsavedData = true;
     }
 
     [RelayCommand]
@@ -242,6 +259,7 @@ public partial class ProgramViewModel : ObservableObject
         }
 
         UpdateBend();
+        _unitOfWork.HasUnsavedData = true;
     }
 
     [RelayCommand]
@@ -257,6 +275,7 @@ public partial class ProgramViewModel : ObservableObject
         }
 
         UpdateBend();
+        _unitOfWork.HasUnsavedData = true;
     }
 
     [RelayCommand]
@@ -272,6 +291,7 @@ public partial class ProgramViewModel : ObservableObject
         }
 
         UpdateBend();
+        _unitOfWork.HasUnsavedData = true;
     }
 
     [RelayCommand]
@@ -287,13 +307,16 @@ public partial class ProgramViewModel : ObservableObject
         }
 
         UpdateBend();
+        _unitOfWork.HasUnsavedData = false;
     }
 
     [RelayCommand]
     private void RemoveBendingData(BendingDataViewModel data)
     {
+        data.PropertyChanged -= BendingDataViewModel_PropertyChanged;
         BendingDatas.Remove(data);
         UpdateBend();
+        _unitOfWork.HasUnsavedData = true;
     }
 
     [RelayCommand]
@@ -330,6 +353,7 @@ public partial class ProgramViewModel : ObservableObject
                 BendingDatas.Add(bd);
 
             UpdateBend();
+            _unitOfWork.HasUnsavedData = true;
         }
         catch (FormatException)
         {
@@ -407,15 +431,23 @@ public partial class ProgramViewModel : ObservableObject
             item.Id = i;
             i++;
         }
+        _unitOfWork.HasUnsavedData = true;
+    }
+
+    private void BendingDataViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        _unitOfWork.HasUnsavedData = true;
     }
 
     partial void OnEstimatedRemainingLengthChanged(double oldValue, double newValue)
     {
         _unitOfWork.EstimatedRemainingLength = newValue;
+        _unitOfWork.HasUnsavedData = true;
     }
 
     partial void OnPipeLengthChanged(double oldValue, double newValue)
     {
         _unitOfWork.PipeLength = newValue;
+        _unitOfWork.HasUnsavedData = true;
     }
 }

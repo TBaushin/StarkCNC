@@ -24,6 +24,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
     public double EstimatedRemainingLength { get; set; }
 
+    public bool HasUnsavedData { get; set; }
+
     public BendingDataUnitOfWork(IGCodeService gCodeService)
     {
         _gCodeService = gCodeService;
