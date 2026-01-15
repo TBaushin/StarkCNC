@@ -306,7 +306,7 @@
             <controls:SpeedControl
                 Grid.Row="0"
                 ControlName="Подача"
-                Speed="{Binding FeedDrive.Speed}"
+                Speed="{Binding FeedDrive.Speed, Mode=TwoWay}"
                 Coordinate="{Binding FeedDrive.Coordinate}"
                 RelativeDisplacement="{Binding FeedDrive.RelativeDisplacement}"
                 ForwardCommand="{Binding FeedDrive.ForwardStartCommand}"
@@ -324,7 +324,7 @@
             <controls:SpeedControl
                 Grid.Row="2"
                 ControlName="Поворот"
-                Speed="{Binding TurnDrive.Speed}"
+                Speed="{Binding TurnDrive.Speed, Mode=TwoWay}"
                 Coordinate="{Binding TurnDrive.Coordinate}"
                 RelativeDisplacement="{Binding TurnDrive.RelativeDisplacement}"
                 ForwardCommand="{Binding TurnDrive.ForwardStartCommand}"
