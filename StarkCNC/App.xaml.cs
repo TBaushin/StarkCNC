@@ -9,6 +9,7 @@ using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.Database;
+using StarkCNC.Exceptions;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Repository;
 using StarkCNC.Services;
@@ -17,7 +18,6 @@ using StarkCNC.ViewModels;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
-using System.Windows.Threading;
 
 namespace StarkCNC;
 
@@ -46,15 +46,7 @@ public partial class App : Application
         InitializeComponent();
 
 #if !DEBUG
-        Dispatcher.UnhandledException += (sender, args) =>
-        {
-            args.Handled = true;
-        };
-        AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
-        {
-            var e = args.ExceptionObject as Exception;
-            Debug.WriteLine($"Exception Happend, {e?.Message}");
-        };
+        GlobalExceptionHandler.StartHandling();
 #endif
 
         MainWindow = _host.Services.GetRequiredService<MainWindow>();
