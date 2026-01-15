@@ -286,7 +286,7 @@ public partial class DriveParameters : ObservableObject
         IConfigurationSection? section = null;
 
         if (configurationSection is not null)
-        section = configurationSection.GetSection(sectionName);
+            section = configurationSection.GetSection(sectionName);
 
         return new DriveParameters(manualConfigurationService, autoRunUpdate)
         {

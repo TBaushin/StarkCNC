@@ -172,7 +172,7 @@ public partial class SqueezeParameters : ObservableObject
         IConfigurationSection? section = null;
 
         if (configurationSection is not null)
-            configurationSection.GetSection(sectionName);
+            section = configurationSection.GetSection(sectionName);
 
         return new SqueezeParameters(manualConfigurationService, autoRunUpdate)
         {
