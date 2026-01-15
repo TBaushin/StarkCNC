@@ -98,7 +98,7 @@ public partial class MainWindowViewModel : ViewModelBase
         if (_bendingUnitOfWork.HasUnsavedData)
         {
             var answer = MessageBox.Show(
-                "На странице программы есть несохранённые данные. Вы уверены, что хотите закрыть программу?",
+                "На странице \"Программа\" есть несохранённые данные. Вы уверены, что хотите закрыть приложение?",
                 "Есть несохранённые данные",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);
