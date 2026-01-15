@@ -161,7 +161,7 @@ public partial class ProgramViewModel : ObservableObject
                 return false;
         }
 
-        CastToModel();
+        UpdateBend();
         await _unitOfWork.WriteFileAsync(CurrentFilePath).ConfigureAwait(false);
         return true;
     }
@@ -172,7 +172,7 @@ public partial class ProgramViewModel : ObservableObject
         if (BendingDatas.Count == 0)
         {
             BendingDatas.Add(new BendingDataViewModel() { Id = 1 });
-            CastToModel();
+            UpdateBend();
             return;
         }
 
@@ -196,7 +196,7 @@ public partial class ProgramViewModel : ObservableObject
             item.SupplySpeed = firstItem.SupplySpeed;
         }
 
-        CastToModel();
+        UpdateBend();
     }
 
     [RelayCommand]
@@ -211,7 +211,7 @@ public partial class ProgramViewModel : ObservableObject
             item.RotationSpeed = firstItem.RotationSpeed;
         }
 
-        CastToModel();
+        UpdateBend();
     }
 
     [RelayCommand]
@@ -226,7 +226,7 @@ public partial class ProgramViewModel : ObservableObject
             item.BendingAngleSpeed = firstItem.BendingAngleSpeed;
         }
 
-        CastToModel();
+        UpdateBend();
     }
 
     [RelayCommand]
@@ -241,7 +241,7 @@ public partial class ProgramViewModel : ObservableObject
             item.BendingAngleCoefficient = firstItem.BendingAngleCoefficient;
         }
 
-        CastToModel();
+        UpdateBend();
     }
 
     [RelayCommand]
@@ -256,7 +256,7 @@ public partial class ProgramViewModel : ObservableObject
             item.BendingRadiusMode = firstItem.BendingRadiusMode;
         }
 
-        CastToModel();
+        UpdateBend();
     }
 
     [RelayCommand]
@@ -271,7 +271,7 @@ public partial class ProgramViewModel : ObservableObject
             item.OffsetSpeed = firstItem.OffsetSpeed;
         }
 
-        CastToModel();
+        UpdateBend();
     }
 
     [RelayCommand]
@@ -286,13 +286,14 @@ public partial class ProgramViewModel : ObservableObject
             item.OffsetCoefficient = firstItem.OffsetCoefficient;
         }
 
-        CastToModel();
+        UpdateBend();
     }
 
     [RelayCommand]
     private void RemoveBendingData(BendingDataViewModel data)
     {
         BendingDatas.Remove(data);
+        UpdateBend();
     }
 
     [RelayCommand]
@@ -327,6 +328,8 @@ public partial class ProgramViewModel : ObservableObject
                 BendingDatas.Insert(BendingDatas.IndexOf(SelectedBendingData) + 1, bd);
             else
                 BendingDatas.Add(bd);
+
+            UpdateBend();
         }
         catch (FormatException)
         {
