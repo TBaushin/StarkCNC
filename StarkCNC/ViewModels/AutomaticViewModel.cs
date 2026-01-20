@@ -11,6 +11,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 {
     private IConfiguration _configuration;
     private IManualConfigurationService _configurationService;
+    private IBendingDataUnitOfWork _unitOfWork;
 
     private bool _disposed;
 
@@ -77,11 +78,13 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     {
         _configuration = configuration;
         _configurationService = configurationService;
+        _unitOfWork = unitOfWork;
 
         if (unitOfWork is null)
             throw new ArgumentNullException(nameof(unitOfWork));
 
         ProgramName = unitOfWork.ProgramName;
+        PipeLength = unitOfWork.PipeLength;
 
         BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
 
@@ -342,6 +345,12 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             await _configurationService.WriteAsync<double>(newValue, delayRequestString)
                 .ConfigureAwait(false);
         }
+    }
+
+    partial void OnPipeLengthChanged(double oldValue, double newValue)
+    {
+        _unitOfWork.PipeLength = newValue;
+        _unitOfWork.HasUnsavedData = true;
     }
 
     public void Dispose()
