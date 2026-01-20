@@ -180,7 +180,7 @@ public partial class DriveParameters : ObservableObject
         try
         {
             Coordinate = await _manualConfigurationService
-                .ReadAsync<double>(ActualCoordinateRequestString)
+                .ReadAsync<float>(ActualCoordinateRequestString)
                 .ConfigureAwait(false);
         }
         catch (Opc.Ua.ServiceResultException)
