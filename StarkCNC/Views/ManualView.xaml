@@ -357,7 +357,10 @@
             Grid.Row="1"
             Margin="0,5,0,5"
             HorizontalAlignment="Center">
-            <Button Content="Сброс ошибок сервопривода"/> <!--TODO: Перевести-->
+            <Button
+                Visibility="{Binding HasErrors, Converter={StaticResource BoolToVisibilityConverter}}"
+                Command="{Binding ClearActuatorErrorsCommand}"
+                Content="Сброс ошибок сервопривода"/> <!--TODO: Перевести-->
         </StackPanel>
     </Grid>
 </Page>
