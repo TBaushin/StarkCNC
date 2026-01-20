@@ -279,6 +279,17 @@ public partial class DriveParameters : ObservableObject
                 .WriteAsync<float>(Convert.ToSingle(value), SpeedRequestString)
                 .ConfigureAwait(false);
         }
+
+        if (e.PropertyName == nameof(RelativeDisplacement))
+        {
+            double value = 0;
+            if (RelativeDisplacement is not null)
+                value = (double)RelativeDisplacement;
+
+            await _manualConfigurationService
+                .WriteAsync<float>(Convert.ToSingle(value), ActualRelativeDisplacementRequestString)
+                .ConfigureAwait(false);
+        }
     }
 
     public static DriveParameters InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate)

@@ -117,8 +117,8 @@
                 VerticalAlignment="Center"
                 Margin="5,0,5,0"
                 LabelText="Отн. перемещ., мм"
-                Text="{Binding RelativeDisplacement, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                IsReadOnly="True"/> <!--TODO: Перевести-->
+                Text="{Binding RelativeDisplacement, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                NeedCallNumberInput="True"/> <!--TODO: Перевести-->
             <Button
                 x:Name="RelativeDisplacementButton"
                 Grid.Column="2"
