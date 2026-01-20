@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.Configuration;
+using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.MachineCommunication.Services;
 using System.Collections.ObjectModel;
@@ -17,6 +18,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
     [ObservableProperty]
     private string _programName = string.Empty;
+
+    [ObservableProperty]
+    private string _operator = string.Empty;
 
     [ObservableProperty]
     private double _speed;
@@ -74,7 +78,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     private Task? _updateTask;
     private CancellationTokenSource? _cancellationTokenSource;
 
-    public AutomaticViewModel(IConfiguration configuration, IManualConfigurationService configurationService, IBendingDataUnitOfWork unitOfWork)
+    public AutomaticViewModel(IConfiguration configuration, IManualConfigurationService configurationService, IBendingDataUnitOfWork unitOfWork, IUserService userService)
     {
         _configuration = configuration;
         _configurationService = configurationService;
@@ -85,6 +89,8 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         ProgramName = unitOfWork.ProgramName;
         PipeLength = unitOfWork.PipeLength;
+
+        Operator = userService?.CurrentUser?.Name ?? string.Empty;
 
         BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
 

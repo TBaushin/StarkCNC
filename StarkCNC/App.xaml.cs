@@ -86,6 +86,7 @@ public partial class App : Application
 #endif
                 services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
                 services.AddSingleton<IUsersRepository, UsersRepository>();
+                services.AddSingleton<IUserService, UserService>();
             })
             .Build();
 

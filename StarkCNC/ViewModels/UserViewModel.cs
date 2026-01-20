@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using StarkCNC.Core.Repository;
+using StarkCNC.Core.Services;
 using StarkCNC.Models;
 using System.Collections.ObjectModel;
 
@@ -8,7 +8,7 @@ namespace StarkCNC.ViewModels;
 
 public partial class UserViewModel : ObservableObject
 {
-    private readonly IUsersRepository _repository;
+    private readonly IUserService _userService;
 
     [ObservableProperty]
     private ObservableCollection<User> _users = new ObservableCollection<User>();
@@ -31,16 +31,16 @@ public partial class UserViewModel : ObservableObject
     [ObservableProperty]
     private string _deletedName = string.Empty;
 
-    public UserViewModel(IUsersRepository repository)
+    public UserViewModel(IUserService userService)
     {
-        _repository = repository;
+        _userService = userService;
 
         LoadUsersAsync();
     }
 
     private async void LoadUsersAsync()
     {
-        var users = await _repository.GetAllAsync().ConfigureAwait(false);
+        var users = await _userService.GetAllAsync().ConfigureAwait(false);
         Users.Clear();
 
         foreach(var user in users)
@@ -65,7 +65,7 @@ public partial class UserViewModel : ObservableObject
         var u = new User(Guid.NewGuid(), Localization.Language.NewUser, Array.Empty<byte>());
         Users.Add(u);
         SelectedUser = Users.Last();
-        await _repository.AddElementAsync(new Core.Models.User(u.Id, u.Name, u.Image)).ConfigureAwait(false);
+        await _userService.AddElementAsync(new Core.Models.User(u.Id, u.Name, u.Image)).ConfigureAwait(false);
 
         IsReadOnly = false;
         IsEditing = true;
@@ -98,7 +98,7 @@ public partial class UserViewModel : ObservableObject
         SelectedUser = null;
 
         Users.Remove(selectedUser);
-        await _repository.RemoveElementAsync(selectedUser.Id).ConfigureAwait(false);
+        await _userService.RemoveElementAsync(selectedUser.Id).ConfigureAwait(false);
         IsReadOnly = true;
         IsEditing = false;
     }
@@ -127,12 +127,12 @@ public partial class UserViewModel : ObservableObject
             IsEditing = false;
             IsSaved = true;
 
-            var u = await _repository.FindByIdAsync(SelectedUser.Id).ConfigureAwait(false);
+            var u = await _userService.FindByIdAsync(SelectedUser.Id).ConfigureAwait(false);
             if (u is not null)
             {
                 u.Name = SelectedUser.Name;
                 u.SetImage(SelectedUser.Image);
-                await _repository.UpdateElementAsync(u).ConfigureAwait(false);
+                await _userService.UpdateElementAsync(u).ConfigureAwait(false);
             }
             await Task.Delay(2000).ContinueWith(_ => IsSaved = false, TaskScheduler.FromCurrentSynchronizationContext()).ConfigureAwait(false);
         }
@@ -145,5 +145,17 @@ public partial class UserViewModel : ObservableObject
         EditableUser = new User(SelectedUser);
         IsReadOnly = true;
         IsEditing = false;
+    }
+
+    [RelayCommand]
+    private async Task SetSelectedUserAsCurrent()
+    {
+        if (SelectedUser is null)
+            return;
+
+        var actualUser = await _userService
+            .FindByIdAsync(SelectedUser.Id)
+            .ConfigureAwait(false);
+        _userService.CurrentUser = actualUser;
     }
 }
