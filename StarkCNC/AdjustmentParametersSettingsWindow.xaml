@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:StarkCNC"
         mc:Ignorable="d"
         Title="AdjustmentParametersSettingsWindow"
-        Height="565" Width="500"
+        Height="610" Width="500"
         ResizeMode="NoResize"
         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
     <Grid Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
@@ -21,48 +21,95 @@
             x:Name="TitleTextBlock"
             Margin="0,32,0,24"
             Style="{DynamicResource TitleTextBlockStyle}"/>
-            <StackPanel
+            <controls:LabeledTextBoxControl
+                x:Name="CurrentPosition"
+                Margin="0,0,0,16"
+                LabelText="Текущее положение"
+                Text=""/>
+            <Grid
                 x:Name="SupplyStackPanel"
-                Visibility="Collapsed">
+                Visibility="Collapsed"
+                ColumnDefinitions="*,*"
+                RowDefinitions="*,*,*">
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="0"
                     Margin="0,0,0,16"
                     LabelText="Положение зоны прижима"
                     Text="{Binding Adjustment.Supply.PressZonePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="1"
                     Margin="0,0,0,16"
                     LabelText="Положение передней опасной зоны"
                     Text="{Binding Adjustment.Supply.ForwardDangerZonePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="2"
                     Margin="0,0,0,16"
                     LabelText="Глубина губок цанги"
                     Text="{Binding Adjustment.Supply.ColletJawsDepth, Mode=TwoWay}"/>
-            </StackPanel>
-            <StackPanel
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Content="Запомнить текущее положение"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="Запомнить текущее положение"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Content="Запомнить текущее положение"/>
+            </Grid>
+            <Grid
                 x:Name="ConsoleStackPanel"
-                Visibility="Collapsed">
+                Visibility="Collapsed"
+                ColumnDefinitions="*,*"
+                RowDefinitions="*,*,*,*">
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="0"
                     Margin="0,0,0,16"
                     LabelText="Положение консоли для гибки"
                     Text="{Binding Adjustment.Console.BendPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="1"
                     Margin="0,0,0,16"
                     LabelText="Положение консоли при переходе с 1 на 2 этаж"
                     Text="{Binding Adjustment.Console.SecondFloorPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="2"
                     Margin="0,0,0,16"
                     LabelText="Положение консоли при переходе с 2 на 3 этаж"
                     Text=""/>
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="3"
                     Margin="0,0,0,16"
                     LabelText="Расстояние отъезда для поворота трубы"
                     Text="{Binding Adjustment.Console.PipeRotationDepartureDistance, Mode=TwoWay}"/>
-            </StackPanel>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Content="Запомнить текущее положение"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="Запомнить текущее положение"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Content="Запомнить текущее положение"/>
+            </Grid>
             <StackPanel
                 x:Name="RotationStackPanel"
                 Visibility="Collapsed">
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
-                    LabelText="Смщение поворота после поиска нуля"
+                    LabelText="Смещение поворота после поиска нуля"
                     Text="{Binding Adjustment.Rotation.OffsetAfterZeroSearch, Mode=TwoWay}"/>
             </StackPanel>
             <StackPanel
@@ -89,41 +136,81 @@
                     LabelText="Ограничение переднего положения"
                     Text="{Binding Adjustment.Squeeze.FrontPositionLimitation, Mode=TwoWay}"/>
             </StackPanel>
-            <StackPanel
+            <Grid
                 x:Name="ClampDornPressStackPanel"
-                Visibility="Collapsed">
+                Visibility="Collapsed"
+                ColumnDefinitions="*,*"
+                RowDefinitions="*,*,*">
                 <controls:LabeledTextBoxControl
                     x:Name="ForwardPosition"
+                    Grid.Column="0"
+                    Grid.Row="0"
                     Margin="0,0,0,16"
                     LabelText="Переднее положение"
                     Text="{Binding ForwardPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     x:Name="MiddlePosition"
+                    Grid.Column="0"
+                    Grid.Row="1"
                     Margin="0,0,0,16"
                     LabelText="Среднее положение"
                     Text="{Binding MiddlePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     x:Name="BackwardPosition"
+                    Grid.Column="0"
+                    Grid.Row="2"
                     Margin="0,0,0,16"
                     LabelText="Заднее положение"
                     Text="{Binding BackwardPosition, Mode=TwoWay}"/>
-            </StackPanel>
-            <StackPanel
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Content="Запомнить текущее положение"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="Запомнить текущее положение"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Content="Запомнить текущее положение"/>
+            </Grid>
+            <Grid
                 x:Name="LiftStackPanel"
-                Visibility="Collapsed">
+                Visibility="Collapsed"
+                ColumnDefinitions="*,*"
+                RowDefinitions="*,*,*">
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="0"
                     Margin="0,0,0,16"
                     LabelText="Верхнее положение"
                     Text="{Binding Adjustment.Lift.UpperPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="1"
                     Margin="0,0,0,16"
                     LabelText="Среднее положение"
                     Text="{Binding Adjustment.Lift.MiddlePosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="2"
                     Margin="0,0,0,16"
                     LabelText="Нижнее положение"
                     Text="{Binding Adjustment.Lift.LowerPosition, Mode=TwoWay}"/>
-            </StackPanel>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Content="Запомнить текущее положение"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Content="Запомнить текущее положение"/>
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="2"
+                    Content="Запомнить текущее положение"/>
+            </Grid>
             <controls:LabeledTextBoxControl
                 x:Name="SpeedCoefficient"
                 Margin="0,0,0,16"
