@@ -258,6 +258,11 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             .GetSection("RequestString")
             .Get<string>() ?? string.Empty;
 
+        var endProgramRequestString = automaticTagsSection
+            .GetSection("EndProgram")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
         var sendDataRequestString = automaticTagsSection
             .GetSection("SendData")
             .GetSection("RequestString")
@@ -288,19 +293,21 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             .WriteAsync<int>(BendingDatas.Count, allBendRequestString)
             .ConfigureAwait(false);
 
-        foreach (var data in BendingDatas)
+        for (int step = 1; step <= BendingDatas.Count; step++)
         {
+            var data = BendingDatas[step];                
+
             CurrentTaskSupply = data.Supply;
             CurrentTaskRotationAngle = data.RotationAngle;
             CurrentTaskBendingAngle = data.BendingAngle;
 
             await _configurationService
-                .WriteAsync<int>(data.Id, stepNumberRequestString)
+                .WriteAsync<int>(step, stepNumberRequestString)
                 .ConfigureAwait(false);
 
-             await _configurationService
-                .WriteAsync<double>(data.Supply, supplyRequestString)
-                .ConfigureAwait(false);
+            await _configurationService
+               .WriteAsync<double>(data.Supply, supplyRequestString)
+               .ConfigureAwait(false);
             await _configurationService
                 .WriteAsync<double>(data.RotationAngle, rotationAngleRequestString)
                 .ConfigureAwait(false);
@@ -310,6 +317,10 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         }
 
         // Finish
+        await _configurationService
+            .WriteAsync<bool>(true, endProgramRequestString)
+            .ConfigureAwait(false);
+
         await _configurationService
             .WriteAsync<bool>(false, sendDataRequestString)
             .ConfigureAwait(false);
