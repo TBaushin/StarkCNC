@@ -78,6 +78,12 @@ public partial class AdjustmentSettingsWindow : Window
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
+        if (string.IsNullOrEmpty(NameTextBox.Text) || NameTextBox.Text.Length == 0)
+        {
+            NotFilledWarningTextBlock.Visibility = Visibility.Visible;
+            return;
+        }
+
         Result?.Name = NameTextBox.Text;
         Result?.PipeDiameter = Convert.ToDouble(PipeDiameterTextBox.Text, CultureInfo.InvariantCulture);
         Result?.Radius = Convert.ToDouble(RadiusTextBox.Text, CultureInfo.InvariantCulture);
@@ -92,5 +98,11 @@ public partial class AdjustmentSettingsWindow : Window
             Result = null;
 
         Close();
+    }
+
+    private void NameTextBox_TextChanged(object sender, RoutedEventArgs e)
+    {
+        if (NameTextBox.Text.Length > 0)
+            NotFilledWarningTextBlock.Visibility = Visibility.Collapsed;
     }
 }

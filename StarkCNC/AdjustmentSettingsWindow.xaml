@@ -22,9 +22,14 @@
                 x:Name="TitleTextBlock"
                 Margin="0,32,0,24"
                 Style="{DynamicResource TitleTextBlockStyle}"/>
+            <TextBlock
+                x:Name="NotFilledWarningTextBlock"
+                Visibility="Collapsed"
+                Text="Незаполненно поле 'Имя'" Foreground="Red"/>
             <controls:LabeledTextBoxControl
                 x:Name="NameTextBox"
                 Margin="0,0,0,16"
+                TextChanged="NameTextBox_TextChanged"
                 LabelText="{x:Static lang:Language.Name}"
                 Text="{Binding Result.Name, Mode=TwoWay}"/>
             <controls:LabeledTextBoxControl
