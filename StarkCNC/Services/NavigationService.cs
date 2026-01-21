@@ -6,9 +6,9 @@ public class NavigationService : INavigationService
 {
     private Frame? _frame;
 
-    private readonly Stack<object> _history = new Stack<object>();
+    private readonly Stack<Type> _history = new Stack<Type>();
 
-    private readonly Stack<object> _future = new Stack<object>();
+    private readonly Stack<Type> _future = new Stack<Type>();
 
     private object? _currentContent;
 
@@ -40,9 +40,9 @@ public class NavigationService : INavigationService
         if (!CanGoBack)
             return;
 
-        if (_currentContent is not null)
-            _future.Push(_currentContent);
-        CurrentContent = _history.Pop();
+        if (CurrentContent is not null)
+            _future.Push(CurrentContent.GetType());
+        CurrentContent = ViewLocator.Build(GetViewModel(_history.Pop()));
     }
 
     public void GoForward()
@@ -51,8 +51,8 @@ public class NavigationService : INavigationService
             return;
 
         if (CurrentContent is not null)
-            _history.Push(CurrentContent);
-        CurrentContent = _future.Pop();
+            _history.Push(CurrentContent.GetType());
+        CurrentContent = ViewLocator.Build(GetViewModel(_future.Pop()));
     }
 
     public void Navigate(object content)
@@ -60,7 +60,7 @@ public class NavigationService : INavigationService
         _future.Clear();
 
         if (CurrentContent is not null)
-            _history.Push(CurrentContent);
+            _history.Push(CurrentContent.GetType());
         CurrentContent = content;
     }
 
@@ -72,5 +72,15 @@ public class NavigationService : INavigationService
     private void NavigateToContent(object content)
     {
         _frame?.Navigate(content);
+    }
+
+    private static Type GetViewModel(Type type)
+    {
+        var name = type.FullName!;
+        if (name.Contains("ViewModel", StringComparison.CurrentCultureIgnoreCase))
+            return type;
+
+        var viewModelType = Type.GetType(name.Replace("View", "ViewModel", StringComparison.CurrentCultureIgnoreCase));
+        return viewModelType!;
     }
 }
