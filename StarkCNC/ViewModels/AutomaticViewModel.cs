@@ -293,10 +293,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             .WriteAsync<int>(BendingDatas.Count, allBendRequestString)
             .ConfigureAwait(false);
 
-        for (int step = 1; step <= BendingDatas.Count; step++)
+        int step = 1;
+        foreach (var data in BendingDatas)
         {
-            var data = BendingDatas[step];                
-
             CurrentTaskSupply = data.Supply;
             CurrentTaskRotationAngle = data.RotationAngle;
             CurrentTaskBendingAngle = data.BendingAngle;
@@ -314,6 +313,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             await _configurationService
                 .WriteAsync<double>(data.BendingAngle, bendingAngleRequestString)
                 .ConfigureAwait(false);
+            step += 1;
         }
 
         // Finish
