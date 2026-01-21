@@ -1,4 +1,5 @@
-﻿using StarkCNC.Core.Models;
+﻿using Microsoft.Win32;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using System.Diagnostics;
@@ -11,6 +12,9 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 {
     private static readonly string _tempFolder = Path.GetTempPath() + "\\StarkCNC";
     private const string _tempFileName = "last_used_file.txt";
+    private const string _gcodeExtension = ".gcode";
+    private const string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
+
 
     private IGCodeService _gCodeService;
 
@@ -21,6 +25,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
     public ICollection<BendingData> BendingDatas { get; } = new List<BendingData>();
 
     public double PipeLength { get; set; }
+
+    public double SetUpPoint { get; set; }
 
     public double EstimatedRemainingLength { get; set; }
 
@@ -55,6 +61,75 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
         PipeLength = result;
         return PipeLength;
+    }
+
+    public async Task CreateNewFile()
+    {
+        if (!await SaveFile().ConfigureAwait(true))
+            return;
+
+        var dialog = new SaveFileDialog();
+        dialog.DefaultExt = _gcodeExtension;
+        dialog.Filter = _gcodeFilter;
+
+        bool? result = dialog.ShowDialog();
+
+        if (result == true)
+        {
+            CurrentFilePath = dialog.FileName;
+            await SaveFile().ConfigureAwait(false);
+        }
+        else
+            return;
+    }
+
+    public async Task OpenFile()
+    {
+        var dialog = new OpenFileDialog();
+        dialog.DefaultExt = _gcodeExtension;
+        dialog.Filter = _gcodeFilter;
+
+        bool? result = dialog.ShowDialog();
+
+        if (result == true)
+        {
+            CurrentFilePath = dialog.FileName;
+            await ReadFileAsync(CurrentFilePath).ConfigureAwait(false);
+
+            var first = BendingDatas.FirstOrDefault();
+
+            PipeLength = first?.PipeLength ?? 0;
+            SetUpPoint = first?.YSetup ?? 0;
+        }
+        else
+            return;
+    }
+
+    public async Task<bool> SaveFile()
+    {
+        if (string.IsNullOrEmpty(CurrentFilePath))
+        {
+            var dialog = new SaveFileDialog();
+            dialog.DefaultExt = _gcodeExtension;
+            dialog.Filter = _gcodeFilter;
+
+            bool? result = dialog.ShowDialog();
+
+            if (result == true)
+                CurrentFilePath = dialog.FileName;
+            else
+                return false;
+        }
+
+        foreach(var data in BendingDatas)
+        {
+            data.PipeLength = PipeLength;
+            data.YSetup = SetUpPoint;
+        }
+
+        await WriteFileAsync(CurrentFilePath).ConfigureAwait(false);
+        HasUnsavedData = false;
+        return true;
     }
 
     public async Task ReadFileAsync(string filePath)
@@ -93,6 +168,11 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
         CurrentFilePath = filePath;
 
         await ReadFileAsync(filePath).ConfigureAwait(false);
+
+        var first = BendingDatas.FirstOrDefault();
+
+        PipeLength = first?.PipeLength ?? 0;
+        SetUpPoint = first?.YSetup ?? 0;
     }
 
     private static async Task SaveLastPathToProgramGCodeFile(string filePath)

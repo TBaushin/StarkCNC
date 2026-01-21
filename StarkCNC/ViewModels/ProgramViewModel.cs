@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Win32;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.UoW;
@@ -19,8 +18,6 @@ public partial class ProgramViewModel : ObservableObject
     private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
     private readonly IBendingDataUnitOfWork _unitOfWork;
    
-    private const string _gcodeExtension = ".gcode";
-    private const string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
     private readonly Visual3D _pipe;
 
     [ObservableProperty]
@@ -83,6 +80,7 @@ public partial class ProgramViewModel : ObservableObject
 
         EstimatedRemainingLength = _unitOfWork.EstimatedRemainingLength;
         PipeLength = _unitOfWork.PipeLength;
+        YSetup = _unitOfWork.SetUpPoint;
     }
 
     [RelayCommand]
@@ -91,16 +89,7 @@ public partial class ProgramViewModel : ObservableObject
         if (!await SaveFile().ConfigureAwait(true))
             return;
 
-        var dialog = new SaveFileDialog();
-        dialog.DefaultExt = _gcodeExtension;
-        dialog.Filter = _gcodeFilter;
-
-        bool? result = dialog.ShowDialog();
-
-        if (result == true)
-            CurrentFilePath = dialog.FileName;
-        else
-            return;
+        await _unitOfWork.CreateNewFile().ConfigureAwait(true);
 
         foreach (var item in BendingDatas)
         {
@@ -114,39 +103,17 @@ public partial class ProgramViewModel : ObservableObject
     [RelayCommand]
     private async Task OpenFile()
     {
-        var dialog = new OpenFileDialog();
-        dialog.DefaultExt = _gcodeExtension;
-        dialog.Filter = _gcodeFilter;
-
-        bool? result = dialog.ShowDialog();
-
-        if (result == true)
-            CurrentFilePath = dialog.FileName;
-        else
-            return;
-
-        foreach (var item in BendingDatas)
-        {
-            item.PropertyChanged -= BendingDataViewModel_PropertyChanged;
-        }
-
-        BendingDatas.Clear();
+        await _unitOfWork.OpenFile().ConfigureAwait(true);
 
         try
         {
-            await _unitOfWork.ReadFileAsync(CurrentFilePath).ConfigureAwait(true);
-
             foreach (var item in _unitOfWork.BendingDatas)
             {
                 BendingDatas.Add(new BendingDataViewModel(item));
             }
 
-            var firstItem = _unitOfWork.BendingDatas.FirstOrDefault();
-            if (firstItem is not null)
-            {
-                PipeLength = firstItem.PipeLength;
-                YSetup = firstItem.YSetup;
-            }
+            PipeLength = _unitOfWork.PipeLength;
+            YSetup = _unitOfWork.SetUpPoint;
         }
         catch (Exception)
         {
@@ -159,23 +126,11 @@ public partial class ProgramViewModel : ObservableObject
     [RelayCommand]
     private async Task<bool> SaveFile()
     {
-        if (string.IsNullOrEmpty(CurrentFilePath))
-        {
-            var dialog = new SaveFileDialog();
-            dialog.DefaultExt = _gcodeExtension;
-            dialog.Filter = _gcodeFilter;
-
-            bool? result = dialog.ShowDialog();
-
-            if (result == true)
-                CurrentFilePath = dialog.FileName;
-            else
-                return false;
-        }
+        var result = await _unitOfWork.SaveFile().ConfigureAwait(true);
+        if (!result)
+            return false;
 
         UpdateBend();
-        await _unitOfWork.WriteFileAsync(CurrentFilePath).ConfigureAwait(false);
-        _unitOfWork.HasUnsavedData = false;
         return true;
     }
 
@@ -448,6 +403,12 @@ public partial class ProgramViewModel : ObservableObject
     partial void OnPipeLengthChanged(double oldValue, double newValue)
     {
         _unitOfWork.PipeLength = newValue;
+        _unitOfWork.HasUnsavedData = true;
+    }
+
+    partial void OnYSetupChanged(double oldValue, double newValue)
+    {
+        _unitOfWork.SetUpPoint = newValue;
         _unitOfWork.HasUnsavedData = true;
     }
 }

@@ -5,7 +5,6 @@ using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.MachineCommunication.Services;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace StarkCNC.ViewModels;
 
@@ -91,8 +90,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         if (unitOfWork is null)
             throw new ArgumentNullException(nameof(unitOfWork));
 
-        ProgramName = unitOfWork.ProgramName;
-        PipeLength = unitOfWork.PipeLength;
+        ProgramName = _unitOfWork.ProgramName;
+        PipeLength = _unitOfWork.PipeLength;
+        SetUpPoint = _unitOfWork.SetUpPoint;
 
         Operator = userService?.CurrentUser?.Name ?? string.Empty;
 
@@ -383,6 +383,14 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     {
         _unitOfWork.PipeLength = newValue;
         _unitOfWork.HasUnsavedData = true;
+        _unitOfWork.SaveFile();
+    }
+
+    partial void OnSetUpPointChanged(double oldValue, double newValue)
+    {
+        _unitOfWork.SetUpPoint = newValue;
+        _unitOfWork.HasUnsavedData = false;
+        _unitOfWork.SaveFile();
     }
 
     partial void OnCountCompletedDetailsChanged(int oldValue, int newValue)

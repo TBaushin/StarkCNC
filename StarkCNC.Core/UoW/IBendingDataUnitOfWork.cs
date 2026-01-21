@@ -12,9 +12,17 @@ public interface IBendingDataUnitOfWork
 
     public double PipeLength { get; set; }
 
+    public double SetUpPoint { get; set; }
+
     public double EstimatedRemainingLength { get; set; }
 
     public bool HasUnsavedData { get; set; }
+
+    public Task CreateNewFile();
+
+    public Task OpenFile();
+
+    public Task<bool> SaveFile();
 
     public Task ReadFileAsync(string filePath);
 
