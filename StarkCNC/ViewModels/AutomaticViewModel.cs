@@ -5,6 +5,7 @@ using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.MachineCommunication.Services;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace StarkCNC.ViewModels;
 
@@ -39,6 +40,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
     [ObservableProperty]
     private int _taskDetails;
+
+    [ObservableProperty]
+    private bool _canChangeCountDetails = true;
 
     [ObservableProperty]
     private bool _isFullAtomatic;
@@ -160,6 +164,11 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             .GetSection("RequestString")
             .Get<string>() ?? string.Empty;
 
+        var countCompletedDetailsRequestString = automaticTagsSection
+            .GetSection("CountCompletedDetails")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
         var facticalSupplyRequestString = factialSection
             .GetSection("Supply")
             .GetSection("RequestString")
@@ -195,6 +204,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
                     SetSendData(await _configurationService
                         .ReadAsync<bool>(sendDataRequestString)
                         .ConfigureAwait(false), true);
+                    CountCompletedDetails = await _configurationService
+                        .ReadAsync<int>(countCompletedDetailsRequestString)
+                        .ConfigureAwait(false);
 
                     FacticalSupply = await _configurationService
                         .ReadAsync<double>(facticalSupplyRequestString)
@@ -245,7 +257,10 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             return;
 
         if (SendData == true)
+        {
+            CanChangeCountDetails = false;
             RunProgram();
+        }
     }
 
     private async void RunProgram()
@@ -368,6 +383,17 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     {
         _unitOfWork.PipeLength = newValue;
         _unitOfWork.HasUnsavedData = true;
+    }
+
+    partial void OnCountCompletedDetailsChanged(int oldValue, int newValue)
+    {
+        if (newValue >= TaskDetails)
+        {
+#if !DEBUG
+            var doneMessageBox = MessageBox.Show("Задание выполнено", "Задание выполнено", MessageBoxButton.OK, MessageBoxImage.Information);
+#endif
+            CanChangeCountDetails = true;
+        }
     }
 
     public void Dispose()

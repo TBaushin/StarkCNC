@@ -25,6 +25,7 @@ public class FakeManualConfigurationService : IManualConfigurationService
         object? result = typeof(T) switch
         {
             var t when t == typeof(bool) => GetRandomBool(),
+            var t when t == typeof(int) => GetRandomInt(),
             var t when t == typeof(double) => GetRandomDouble(),
             var t when t == typeof(float) => GetRandomFloat(),
             _ => default(T)
@@ -44,6 +45,13 @@ public class FakeManualConfigurationService : IManualConfigurationService
         var random = new Random();
         var v = random.Next(2);
         return Convert.ToBoolean(v);
+    }
+
+    private static int GetRandomInt()
+    {
+        var random = new Random();
+        var v = random.Next(100);
+        return v;
     }
 
     private static double GetRandomDouble()

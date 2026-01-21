@@ -244,10 +244,14 @@
                     VerticalAlignment="Center"
                     Content="Количество вып. деталей"/>
                 <controls:LabeledTextBoxControl
+                    x:Name="CountCompletedDetailsLabeledTextBox"
                     Grid.Column="1"
-                    NeedCallNumberInput="True"
                     IsNumericOnly="True"
-                    Text="{Binding CountCompletedDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
+                    IsReadOnly="True"
+                    PreviewMouseDown="CountCompletedDetailsLabeledTextBox_PreviewMouseDown"
+                    PreviewMouseUp="CountCompletedDetailsLabeledTextBox_PreviewMouseUp"
+                    IsEnabled="{Binding CanChangeCountDetails}"
+                    Text="{Binding CountCompletedDetails, StringFormat={}{0} шт.}"/>
             </Grid>
             <Grid ColumnDefinitions="*,*">
                 <Label
@@ -258,6 +262,7 @@
                     Grid.Column="1"
                     NeedCallNumberInput="True"
                     IsNumericOnly="True"
+                    IsEnabled="{Binding CanChangeCountDetails}"
                     Text="{Binding TaskDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
             </Grid>
             <Grid ColumnDefinitions="*, *">
