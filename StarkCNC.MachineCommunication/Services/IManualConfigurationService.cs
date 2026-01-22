@@ -1,4 +1,6 @@
-﻿namespace StarkCNC.MachineCommunication.Services;
+﻿using StarkCNC.Core.Models;
+
+namespace StarkCNC.MachineCommunication.Services;
 
 public interface IManualConfigurationService
 {
@@ -6,7 +8,7 @@ public interface IManualConfigurationService
 
     public Task ConnectAsync();
 
-    public Task WriteAsync<T>(T value, string to);
+    public Task WriteAsync<T>(T value, string to, StatusPage fromPage = StatusPage.Unknown);
 
     /// <summary>
     /// 
@@ -14,5 +16,5 @@ public interface IManualConfigurationService
     /// <typeparam name="T"></typeparam>
     /// <param name="from"></param>
     /// <returns></returns>
-    public Task<T?> ReadAsync<T>(string from);
+    public Task<T?> ReadAsync<T>(string from, StatusPage fromPage = StatusPage.Unknown);
 }
