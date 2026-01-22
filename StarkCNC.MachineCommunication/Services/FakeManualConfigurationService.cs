@@ -21,7 +21,7 @@ public class FakeManualConfigurationService : IManualConfigurationService
         _statusService.CurrentStatus = new Status("Подключение успешно");
     }
 
-    public Task<T?> ReadAsync<T>(string from)
+    public Task<T?> ReadAsync<T>(string from, StatusPage fromPage = StatusPage.Unknown)
     {
         object? result = typeof(T) switch
         {
@@ -35,7 +35,7 @@ public class FakeManualConfigurationService : IManualConfigurationService
         return Task.FromResult((T?)result);
     }
 
-    public async Task WriteAsync<T>(T value, string to)
+    public async Task WriteAsync<T>(T value, string to, StatusPage fromPage = StatusPage.Unknown)
     {
         Debug.WriteLine($"Запрос {to} со значением {value} принят");
         await Task.Delay(100);
