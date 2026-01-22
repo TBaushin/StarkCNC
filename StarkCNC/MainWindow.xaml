@@ -256,17 +256,17 @@
                                         <Label>Время</Label>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Width="*">
+                                <DataGridTextColumn Width="2*">
                                     <DataGridTextColumn.Header>
                                         <Label>Событие</Label>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Width="*">
+                                <DataGridTextColumn Width="2*">
                                     <DataGridTextColumn.Header>
                                         <Label>Страница вызова</Label>
                                     </DataGridTextColumn.Header>
                                 </DataGridTextColumn>
-                                <DataGridTextColumn Width="*">
+                                <DataGridTextColumn Width="2*">
                                     <DataGridTextColumn.Header>
                                         <Label>Тип события</Label>
                                     </DataGridTextColumn.Header>
