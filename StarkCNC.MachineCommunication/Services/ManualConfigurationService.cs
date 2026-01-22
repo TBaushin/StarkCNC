@@ -55,7 +55,7 @@ public class ManualConfigurationService : IManualConfigurationService
         RunUpdateTask();
     }
 
-    public async Task WriteAsync<T>(T value, string to)
+    public async Task WriteAsync<T>(T value, string to, StatusPage fromPage = StatusPage.Unknown)
     {
         if (!Connected)
             return;
@@ -70,11 +70,11 @@ public class ManualConfigurationService : IManualConfigurationService
 #if DEBUG
             Debug.WriteLine(Localization.Language.SendRequestErrorMessage);
 #endif
-            _statusService.CurrentStatus = new Status(Localization.Language.SendRequestErrorMessage, StatusType.Error);
+            _statusService.CurrentStatus = new Status(Localization.Language.SendRequestErrorMessage, StatusType.Error, fromPage);
         }
     }
 
-    public async Task<T?> ReadAsync<T>(string from)
+    public async Task<T?> ReadAsync<T>(string from, StatusPage fromPage = StatusPage.Unknown)
     {
         if (!Connected)
             return default;
@@ -90,7 +90,7 @@ public class ManualConfigurationService : IManualConfigurationService
 #if DEBUG
             Debug.WriteLine(Localization.Language.GetDataRequestErrorMessage + $" {from}");
 #endif
-            _statusService.CurrentStatus = new Status(Localization.Language.GetDataRequestErrorMessage + $" {from}", StatusType.Error);
+            _statusService.CurrentStatus = new Status(Localization.Language.GetDataRequestErrorMessage + $" {from}", StatusType.Error, fromPage);
         }
 
         return default;
