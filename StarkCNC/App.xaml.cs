@@ -9,7 +9,6 @@ using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.Database;
-using StarkCNC.Exceptions;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Repository;
 using StarkCNC.Services;

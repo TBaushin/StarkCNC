@@ -58,7 +58,17 @@ public partial class MainWindowViewModel : ViewModelBase
         _adjustmentViewModel = adjustmentViewModel;
 
         if (statusService is not null)
-            statusService.PropertyChanged += (_, _) => Status = statusService.Status;
+            statusService.PropertyChanged += (_, _) =>
+            {
+                Task.Run(() =>
+                {
+                    Thread.Sleep(1000);
+                    if (statusService.CurrentStatus is null || string.IsNullOrEmpty(statusService.CurrentStatus.Text))
+                        Status = string.Empty;
+                    else
+                        Status = statusService.CurrentStatus.Text;
+                });
+            };
 
         RegisterPages();
         _adjustmentPage = Pages.First(e => e.Title == "Оснастка");

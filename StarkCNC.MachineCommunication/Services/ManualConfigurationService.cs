@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OpcUaHelper;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
 using System.Diagnostics;
 
@@ -40,14 +41,14 @@ public class ManualConfigurationService : IManualConfigurationService
                 await Task.Run(async () => await _client.ConnectServer(_server))
                     .ConfigureAwait(false);
 
-                _statusService.Status = "Подключение успешно";
+                _statusService.CurrentStatus = new Status("Подключение успешно", StatusType.Success);
             }
             catch (Opc.Ua.ServiceResultException ex)
             {
 #if DEBUG
                 Debug.WriteLine(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})");
 #endif
-                _statusService.Status = Localization.Language.ConnectionErrorMessage + $" ({ex.Message})";
+                _statusService.CurrentStatus = new Status(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})", StatusType.Error);
             }
         }
 
@@ -69,7 +70,7 @@ public class ManualConfigurationService : IManualConfigurationService
 #if DEBUG
             Debug.WriteLine(Localization.Language.SendRequestErrorMessage);
 #endif
-            _statusService.Status = Localization.Language.SendRequestErrorMessage;
+            _statusService.CurrentStatus = new Status(Localization.Language.SendRequestErrorMessage, StatusType.Error);
         }
     }
 
@@ -89,7 +90,7 @@ public class ManualConfigurationService : IManualConfigurationService
 #if DEBUG
             Debug.WriteLine(Localization.Language.GetDataRequestErrorMessage + $" {from}");
 #endif
-            _statusService.Status = Localization.Language.GetDataRequestErrorMessage + $" {from}";
+            _statusService.CurrentStatus = new Status(Localization.Language.GetDataRequestErrorMessage + $" {from}", StatusType.Error);
         }
 
         return default;
@@ -106,8 +107,8 @@ public class ManualConfigurationService : IManualConfigurationService
             {
                 if (_client.Connected)
                 {
-                    if (_statusService.Status == Localization.Language.ConnectionErrorMessage)
-                        _statusService.Status = string.Empty;
+                    if (_statusService.CurrentStatus == null || _statusService.CurrentStatus.Text == Localization.Language.ConnectionErrorMessage)
+                        _statusService.CurrentStatus = null;
                 }
                 else
                 {

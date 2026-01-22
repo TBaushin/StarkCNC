@@ -1,10 +1,13 @@
-﻿using System.ComponentModel;
+﻿using StarkCNC.Core.Models;
+using System.ComponentModel;
 
 namespace StarkCNC.Core.Services;
 
 public interface IStatusService : INotifyPropertyChanged
 {
-    string Status { get; set; }
+    List<Status> History { get; }
+
+    Status? CurrentStatus { get; set; }
 
     new event PropertyChangedEventHandler? PropertyChanged;
 }

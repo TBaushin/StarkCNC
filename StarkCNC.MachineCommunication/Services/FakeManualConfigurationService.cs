@@ -1,4 +1,5 @@
-﻿using StarkCNC.Core.Services;
+﻿using StarkCNC.Core.Models;
+using StarkCNC.Core.Services;
 using System.Diagnostics;
 
 namespace StarkCNC.MachineCommunication.Services;
@@ -17,7 +18,7 @@ public class FakeManualConfigurationService : IManualConfigurationService
     public async Task ConnectAsync()
     {
         await Task.Delay(1000);
-        _statusService.Status = "Подключение успешно";
+        _statusService.CurrentStatus = new Status("Подключение успешно");
     }
 
     public Task<T?> ReadAsync<T>(string from)
