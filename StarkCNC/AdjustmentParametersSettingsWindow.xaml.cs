@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Core.Models;
+using StarkCNC.Core.Models.Adjustment;
 using System.Windows;
 using System.Windows.Shell;
 
@@ -10,6 +11,8 @@ namespace StarkCNC;
 public partial class AdjustmentParametersSettingsWindow : Window
 {
     public AdjustmentParameters Adjustment { get; set; }
+
+    public double CurrentPositionCoordinate { get; set; }
 
     public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter)
     {
@@ -98,5 +101,128 @@ public partial class AdjustmentParametersSettingsWindow : Window
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
         Close();
+    }
+
+    private void SupplyPressZoneSetCurrentPositionButton_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Supply.PressZonePosition = CurrentPositionCoordinate;
+    }
+
+    private void SupplyForwardDangerZoneSetCurrentPositionButton_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Supply.ForwardDangerZonePosition = CurrentPositionCoordinate;
+    }
+
+    private void SupplyColletJawsDepthSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Supply.ColletJawsDepth = CurrentPositionCoordinate;
+    }
+
+    private void ConsoleBendSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Console.BendPosition = CurrentPositionCoordinate;
+    }
+
+    private void ConsoleSecondFloorSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Console.SecondFloorPosition = CurrentPositionCoordinate;
+    }
+
+    private void ConsoleThirdFloorSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Console.ThirdFloorPosition = CurrentPositionCoordinate;
+    }
+
+    private void ClampDornPressForwardSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        var context = ClampDornPressStackPanel.DataContext;
+        if (context is null)
+            return;
+
+        var type = context.GetType();
+        if (type == typeof(Clamp))
+        {
+            Adjustment.Clamp.ForwardPosition = CurrentPositionCoordinate;
+            return;
+        }
+
+        if (type == typeof(Dorn))
+        {
+            Adjustment.Dorn.ForwardPosition = CurrentPositionCoordinate;
+            return;
+        }
+
+        if (type == typeof(Press))
+        {
+            Adjustment.Press.ForwardPosition = CurrentPositionCoordinate;
+            return;
+        }
+    }
+
+    private void ClampDornPressMiddleSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        var context = ClampDornPressStackPanel.DataContext;
+        if (context is null)
+            return;
+
+        var type = context.GetType();
+        if (type == typeof(Clamp))
+        {
+            Adjustment.Clamp.MiddlePosition = CurrentPositionCoordinate;
+            return;
+        }
+
+        if (type == typeof(Dorn))
+        {
+            Adjustment.Dorn.MiddlePosition = CurrentPositionCoordinate;
+            return;
+        }
+
+        if (type == typeof(Press))
+        {
+            Adjustment.Press.MiddlePosition = CurrentPositionCoordinate;
+            return;
+        }
+    }
+
+    private void ClampDornPressBackwardSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        var context = ClampDornPressStackPanel.DataContext;
+        if (context is null)
+            return;
+
+        var type = context.GetType();
+        if (type == typeof(Clamp))
+        {
+            Adjustment.Clamp.BackwardPosition = CurrentPositionCoordinate;
+            return;
+        }
+
+        if (type == typeof(Dorn))
+        {
+            Adjustment.Dorn.BackwardPosition = CurrentPositionCoordinate;
+            return;
+        }
+
+        if (type == typeof(Press))
+        {
+            Adjustment.Press.BackwardPosition = CurrentPositionCoordinate;
+            return;
+        }
+    }
+
+    private void LiftUpperSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Lift.UpperPosition = CurrentPositionCoordinate;
+    }
+
+    private void LiftMiddleSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Lift.MiddlePosition = CurrentPositionCoordinate;
+    }
+
+    private void LiftLowerSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        Adjustment.Lift.LowerPosition = CurrentPositionCoordinate;
     }
 }

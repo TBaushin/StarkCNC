@@ -25,7 +25,7 @@
                 x:Name="CurrentPosition"
                 Margin="0,0,0,16"
                 LabelText="Текущее положение"
-                Text=""/>
+                Text="{Binding CurrentPositionCoordinate}"/>
             <Grid
                 x:Name="SupplyStackPanel"
                 Visibility="Collapsed"
@@ -50,17 +50,23 @@
                     LabelText="Глубина губок цанги"
                     Text="{Binding Adjustment.Supply.ColletJawsDepth, Mode=TwoWay}"/>
                 <Button
+                    x:Name="SupplyPressZoneSetCurrentPositionButton"
                     Grid.Column="1"
                     Grid.Row="0"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="SupplyPressZoneSetCurrentPositionButton_Click"/>
                 <Button
+                    x:Name="SupplyForwardDangerZoneSetCurrentPositionButton"
                     Grid.Column="1"
                     Grid.Row="1"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="SupplyForwardDangerZoneSetCurrentPositionButton_Click"/>
                 <Button
+                    x:Name="SupplyColletJawsDepthSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="2"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="SupplyColletJawsDepthSetCurrentPosition_Click"/>
             </Grid>
             <Grid
                 x:Name="ConsoleStackPanel"
@@ -84,7 +90,7 @@
                     Grid.Row="2"
                     Margin="0,0,0,16"
                     LabelText="Положение консоли при переходе с 2 на 3 этаж"
-                    Text=""/>
+                    Text="{Binding Adjustment.Console.ThirdFloorPosition, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="0"
                     Grid.Row="3"
@@ -92,17 +98,23 @@
                     LabelText="Расстояние отъезда для поворота трубы"
                     Text="{Binding Adjustment.Console.PipeRotationDepartureDistance, Mode=TwoWay}"/>
                 <Button
+                    x:Name="ConsoleBendSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="0"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="ConsoleBendSetCurrentPosition_Click"/>
                 <Button
+                    x:Name="ConsoleSecondFloorSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="1"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="ConsoleSecondFloorSetCurrentPosition_Click"/>
                 <Button
+                    x:Name="ConsoleThirdFloorSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="2"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="ConsoleThirdFloorSetCurrentPosition_Click"/>
             </Grid>
             <StackPanel
                 x:Name="RotationStackPanel"
@@ -163,17 +175,23 @@
                     LabelText="Заднее положение"
                     Text="{Binding BackwardPosition, Mode=TwoWay}"/>
                 <Button
+                    x:Name="ClampDornPressForwardSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="0"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="ClampDornPressForwardSetCurrentPosition_Click"/>
                 <Button
+                    x:Name="ClampDornPressMiddleSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="1"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="ClampDornPressMiddleSetCurrentPosition_Click"/>
                 <Button
+                    x:Name="ClampDornPressBackwardSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="2"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="ClampDornPressBackwardSetCurrentPosition_Click"/>
             </Grid>
             <Grid
                 x:Name="LiftStackPanel"
@@ -199,17 +217,23 @@
                     LabelText="Нижнее положение"
                     Text="{Binding Adjustment.Lift.LowerPosition, Mode=TwoWay}"/>
                 <Button
+                    x:Name="LiftUpperSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="0"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="LiftUpperSetCurrentPosition_Click"/>
                 <Button
+                    x:Name="LiftMiddleSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="1"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="LiftMiddleSetCurrentPosition_Click"/>
                 <Button
+                    x:Name="LiftLowerSetCurrentPosition"
                     Grid.Column="1"
                     Grid.Row="2"
-                    Content="Запомнить текущее положение"/>
+                    Content="Запомнить текущее положение"
+                    Click="LiftLowerSetCurrentPosition_Click"/>
             </Grid>
             <controls:LabeledTextBoxControl
                 x:Name="SpeedCoefficient"
