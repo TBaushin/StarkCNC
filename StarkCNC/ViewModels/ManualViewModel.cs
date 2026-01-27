@@ -16,7 +16,9 @@ public partial class ManualViewModel : ObservableObject, IDisposable
 
     private bool _disposed;
 
-    public string ManualModeRequestString { get; set; } = string.Empty;
+    private string _manualModeRequestString = string.Empty;
+
+    public string _bendAndSqueezeRequestString = string.Empty;
 
     public DriveParameters FeedDrive { get; set; }
 
@@ -76,25 +78,26 @@ public partial class ManualViewModel : ObservableObject, IDisposable
 
         Connect();
 
-        ManualModeRequestString = App.Configuration.GetSection("MachineController").GetSection(nameof(ManualModeRequestString)).Get<string>() ?? string.Empty;
-        FeedDrive = DriveParameters.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(FeedDrive), true);
-        TurnDrive = DriveParameters.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(TurnDrive), true);
-        ConsoleDrive = DriveParameters.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(ConsoleDrive), true);
+        _manualModeRequestString = _configuration.GetSection("MachineController").GetSection(nameof(_manualModeRequestString)).Get<string>() ?? string.Empty;
+        FeedDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(FeedDrive), true);
+        TurnDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(TurnDrive), true);
+        ConsoleDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(ConsoleDrive), true);
 
-        Clamp = OutputsParametersTwoButtons.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Clamp), true);
-        Press = OutputsParametersTwoButtons.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Press), true);
-        FirstSqueeze = SqueezeParameters.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(FirstSqueeze), true);
-        Bend = OutputsParametersTwoButtons.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Bend), true);
-        Collet = OutputsParametersTwoButtons.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Collet), true);
-        Dorn = OutputsParametersTwoButtons.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Dorn), true);
-        Adjustment = OutputsParametersTwoButtons.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Adjustment), _moreThenOneLevel);
-        Punching = OutputsParametersTwoButtons.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Punching), _punchingEnabled);
+        Clamp = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Clamp), true);
+        Press = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Press), true);
+        FirstSqueeze = SqueezeParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(FirstSqueeze), true);
+        Bend = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Bend), true);
+        Collet = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Collet), true);
+        Dorn = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Dorn), true);
+        Adjustment = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Adjustment), _moreThenOneLevel);
+        Punching = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Punching), _punchingEnabled);
 
-        FirstHydraulics = OutputsParametersSwitch.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(FirstHydraulics), _firstHydraulicsEnabled);
-        SecondHydraulics = OutputsParametersSwitch.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(SecondHydraulics), _secondHydraulicsEnabled);
-        Support = OutputsParametersSwitch.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(Support));
-        DornLubricant = OutputsParametersSwitch.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(DornLubricant));
-        BendAndSqueeze = OutputsParametersSwitch.InitializeParameters(App.Configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(BendAndSqueeze));
+        FirstHydraulics = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(FirstHydraulics), _firstHydraulicsEnabled);
+        SecondHydraulics = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(SecondHydraulics), _secondHydraulicsEnabled);
+        Support = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(Support));
+        DornLubricant = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(DornLubricant));
+        
+        BendAndSqueeze = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(BendAndSqueeze));
 
         DefineFirstHydraulicsStatus();
         DefineSecondHydraulicsStatus();
@@ -113,13 +116,25 @@ public partial class ManualViewModel : ObservableObject, IDisposable
     [RelayCommand]
     private async Task ManualModeTurnOn() =>
         await _manualService
-            .WriteAsync<bool>(true, ManualModeRequestString)
+            .WriteAsync<bool>(true, _manualModeRequestString)
             .ConfigureAwait(false);
 
     [RelayCommand]
     private async Task ManualModeTurnOff() =>
         await _manualService
-            .WriteAsync<bool>(false, ManualModeRequestString)
+            .WriteAsync<bool>(false, _manualModeRequestString)
+            .ConfigureAwait(false);
+
+    [RelayCommand]
+    private async Task BendAndSqueezeRun() =>
+        await _manualService
+            .WriteAsync<bool>(true, _bendAndSqueezeRequestString)
+            .ConfigureAwait(false);
+
+    [RelayCommand]
+    private async Task BendAndSqueezeCancel() =>
+        await _manualService
+            .WriteAsync<bool>(false, _bendAndSqueezeRequestString)
             .ConfigureAwait(false);
 
     [RelayCommand]
@@ -153,36 +168,6 @@ public partial class ManualViewModel : ObservableObject, IDisposable
 
         var stopErrorRequestString = automaticTagsSection
             .GetSection("StopErrors")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var cycleTimeRequestString = automaticTagsSection
-            .GetSection("CycleTime")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var sendDataRequestString = automaticTagsSection
-            .GetSection("SendData")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var facticalSupplyRequestString = factialSection
-            .GetSection("Supply")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var facticalRotationReuqestString = factialSection
-            .GetSection("Rotation")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var facticalBendingRequestString = factialSection
-            .GetSection("Bending")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var facticalConsoleRequestString = factialSection
-            .GetSection("Console")
             .GetSection("RequestString")
             .Get<string>() ?? string.Empty;
 

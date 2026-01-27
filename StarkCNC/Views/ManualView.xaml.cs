@@ -1,5 +1,4 @@
-﻿using StarkCNC.Helpers;
-using StarkCNC.ViewModels;
+﻿using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views;
@@ -19,13 +18,6 @@ public partial class ManualView : Page
         InitializeComponent();
 
         IsVisibleChanged += ManualView_IsVisibleChanged;
-    }
-
-    private void TextBox_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
-    {
-        e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
-
-        base.OnPreviewTextInput(e);
     }
 
     private void SqueezeBackButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -48,34 +40,14 @@ public partial class ManualView : Page
         ViewModel.FirstSqueeze.ForwardCancelCommand.Execute(null);
     }
 
-    private void SupportButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        ViewModel.Support.RunCommand.Execute(null);
-    }
-
-    private void SupportButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        ViewModel.Support.CancelCommand.Execute(null);
-    }
-
-    private void DornLubricantButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        ViewModel.DornLubricant.RunCommand.Execute(null);
-    }
-
-    private void DornLubricantButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        ViewModel.DornLubricant.CancelCommand.Execute(null);
-    }
-
     private void BendAndSqueezeButton_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        ViewModel.BendAndSqueeze.RunCommand.Execute(null);
+        ViewModel.BendAndSqueezeRunCommand.Execute(null);
     }
 
     private void BendAndSqueezeButton_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
-        ViewModel.BendAndSqueeze.CancelCommand.Execute(null);
+        ViewModel.BendAndSqueezeCancelCommand.Execute(null);
     }
 
     private void ManualView_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)

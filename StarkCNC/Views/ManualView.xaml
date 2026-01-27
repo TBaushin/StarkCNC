@@ -43,36 +43,58 @@
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
                 Content="Ручной режим"/> <!--TODO: Перевести-->
-            <controls:ButtonWithIndicator
-                x:Name="FirstHydraulics"
-                HorizontalAlignment="Stretch"
+            <Grid
                 Margin="0,5,0,5"
-                IndicatorColor="{Binding FirstHydraulics.StatusColor}"
-                Command="{Binding FirstHydraulics.RunCommand}"
-                CommandCancel="{Binding FirstHydraulics.CancelCommand}"
                 Visibility="{Binding FirstHydraulicsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                <controls:ButtonWithIndicator.ButtonContent>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    x:Name="FirstHydraulicsButton"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Command="{Binding FirstHydraulics.RunCommand}">
                     <StackPanel>
-                        <Label HorizontalAlignment="Center" Content="Гидравлика 1"/> <!--TODO: Перевести-->
+                        <Label HorizontalAlignment="Center" Content="Гидравлика 1"/>
                         <Label HorizontalAlignment="Center" Content="{x:Static lang:Language.TurnOn}"/>
                     </StackPanel>
-                </controls:ButtonWithIndicator.ButtonContent>
-            </controls:ButtonWithIndicator>
-            <controls:ButtonWithIndicator
-                x:Name="SecondHydraulics"
-                HorizontalAlignment="Stretch"
+                </Button>
+                <Border Grid.Column="1" Margin="5" CornerRadius="5">
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{Binding FirstHydraulics.StatusColor}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Border>
+            </Grid>
+            <Grid
                 Margin="0,5,0,5"
-                IndicatorColor="{Binding SecondHydraulics.StatusColor}"
-                Command="{Binding SecondHydraulics.RunCommand}"
-                CommandCancel="{Binding SecondHydraulics.CancelCommand}"
                 Visibility="{Binding SecondHydraulicsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
-                <controls:ButtonWithIndicator.ButtonContent>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button
+                    x:Name="IndicatorButton"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Command="{Binding SecondHydraulics.RunCommand}">
                     <StackPanel>
-                        <Label HorizontalAlignment="Center" Content="Гидравлика 2"/> <!--TODO: Перевести-->
+                        <Label HorizontalAlignment="Center" Content="Гидравлика 2"/>
                         <Label HorizontalAlignment="Center" Content="{x:Static lang:Language.TurnOn}"/>
                     </StackPanel>
-                </controls:ButtonWithIndicator.ButtonContent>
-            </controls:ButtonWithIndicator>
+                </Button>
+                <Border Grid.Column="1" Margin="5" CornerRadius="5">
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{Binding SecondHydraulics.StatusColor}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Border>
+            </Grid>
             <Button
                 x:Name="SupportButton"
                 MinHeight="50"
@@ -80,15 +102,13 @@
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
                 Content="Поддержка вверх"
-                PreviewMouseDown="SupportButton_MouseDown"
-                PreviewMouseUp="SupportButton_MouseUp"/> <!--TODO: Перевести-->
+                Command="{Binding Support.RunCommand}"/> <!--TODO: Перевести-->
             <Button
                 x:Name="DornLubricantButton"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
-                PreviewMouseDown="DornLubricantButton_MouseDown"
-                PreviewMouseUp="DornLubricantButton_MouseUp">
+                Command="{Binding DornLubricant.RunCommand}">
                 <StackPanel>
                     <Label HorizontalAlignment="Center" Content="Смазку дорна"/> <!--TODO: Перевести-->
                     <Label HorizontalAlignment="Center" Content="{x:Static lang:Language.TurnOn}"/>

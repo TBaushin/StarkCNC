@@ -11,6 +11,8 @@ public partial class OutputsParametersSwitch : ObservableObject
 {
     private readonly IManualConfigurationService _manualConfigurationService;
 
+    private bool _status = false;
+
     public string RequestString { get; private set; } = string.Empty;
 
     [ObservableProperty]
@@ -72,22 +74,16 @@ public partial class OutputsParametersSwitch : ObservableObject
     [RelayCommand]
     private async Task Run() =>
         await _manualConfigurationService
-            .WriteAsync<bool>(true, RequestString)
-            .ConfigureAwait(false);
-
-    [RelayCommand]
-    private async Task Cancel() =>
-        await _manualConfigurationService
-            .WriteAsync<bool>(false, RequestString)
+            .WriteAsync<bool>(!_status, RequestString)
             .ConfigureAwait(false);
 
     private async Task GetStatus()
     {
-        var value = await _manualConfigurationService
+        _status = await _manualConfigurationService
             .ReadAsync<bool>(RequestString)
             .ConfigureAwait(false);
 
-        if (value)
+        if (_status)
             StatusColor = Colors.Green;
         else
             StatusColor = Colors.DarkRed;
