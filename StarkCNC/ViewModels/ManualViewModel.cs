@@ -18,7 +18,7 @@ public partial class ManualViewModel : ObservableObject, IDisposable
 
     private string _manualModeRequestString = string.Empty;
 
-    public string _bendAndSqueezeRequestString = string.Empty;
+    private string _bendAndSqueezeRequestString = string.Empty;
 
     public DriveParameters FeedDrive { get; set; }
 
@@ -49,8 +49,6 @@ public partial class ManualViewModel : ObservableObject, IDisposable
     public OutputsParametersSwitch Support { get; set; }
 
     public OutputsParametersSwitch DornLubricant { get; set; }
-
-    public OutputsParametersSwitch BendAndSqueeze { get; set; }
 
     [ObservableProperty]
     private bool _firstHydraulicsEnabled = false;
@@ -97,8 +95,6 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         Support = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(Support));
         DornLubricant = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(DornLubricant));
         
-        BendAndSqueeze = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(BendAndSqueeze));
-
         DefineFirstHydraulicsStatus();
         DefineSecondHydraulicsStatus();
         DefinePunchingStatus();
