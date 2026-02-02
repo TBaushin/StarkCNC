@@ -292,7 +292,9 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Text="{Binding SpeedCoefficient, Mode=TwoWay}"/>
-            <Grid ColumnDefinitions="*,*">
+            <Grid
+                ColumnDefinitions="*,*"
+                Margin="0,0,0,16">
                 <Button
                     x:Name="Backward"
                     Grid.Column="0"
@@ -308,6 +310,11 @@
                     HorizontalContentAlignment="Center"
                     Content="Вперёд"/>
             </Grid>
+            <Button
+                x:Name="Reset"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Content="Обнуление"/>
         </StackPanel>
         <Grid
             Grid.Row="1"
