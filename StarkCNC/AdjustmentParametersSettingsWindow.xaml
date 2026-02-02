@@ -294,12 +294,14 @@
                 Text="{Binding SpeedCoefficient, Mode=TwoWay}"/>
             <Grid ColumnDefinitions="*,*">
                 <Button
+                    x:Name="Backward"
                     Grid.Column="0"
                     Margin="0,0,10,0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
                     Content="Назад"/>
                 <Button
+                    x:Name="Forward"
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     HorizontalAlignment="Stretch"
