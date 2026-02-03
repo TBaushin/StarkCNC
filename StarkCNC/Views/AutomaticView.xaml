@@ -45,7 +45,8 @@
                     <controls:LabeledTextBoxControl
                         Grid.Column="1"
                         IsEnabled="False"
-                        Text="{Binding CycleTime, StringFormat={}{0} сек., Mode=TwoWay}"/>
+                        Text="{Binding CycleTime, StringFormat={}{0} сек., Mode=TwoWay}"
+                        Validation.ErrorTemplate="{x:Null}"/>
                 </Grid>
                 
                 <!--Row 1-->
@@ -251,7 +252,8 @@
                     PreviewMouseDown="CountCompletedDetailsLabeledTextBox_PreviewMouseDown"
                     PreviewMouseUp="CountCompletedDetailsLabeledTextBox_PreviewMouseUp"
                     IsEnabled="{Binding CanChangeCountDetails}"
-                    Text="{Binding CountCompletedDetails, StringFormat={}{0} шт.}"/>
+                    Text="{Binding CountCompletedDetails, StringFormat={}{0} шт.}"
+                    Validation.ErrorTemplate="{x:Null}"/>
             </Grid>
             <Grid ColumnDefinitions="*,*">
                 <Label
@@ -263,9 +265,10 @@
                     NeedCallNumberInput="True"
                     IsNumericOnly="True"
                     IsEnabled="{Binding CanChangeCountDetails}"
-                    Text="{Binding TaskDetails, StringFormat={}{0} шт., Mode=TwoWay}"/>
+                    Text="{Binding TaskDetails, StringFormat={}{0} шт., Mode=TwoWay}"
+                    Validation.ErrorTemplate="{x:Null}"/>
             </Grid>
-            <Grid ColumnDefinitions="*, *">
+            <Grid ColumnDefinitions="*, *" Margin="0,7,0,4">
                 <Label
                     Grid.Column="0"
                     VerticalAlignment="Center"
@@ -286,7 +289,8 @@
                     Grid.Column="1"
                     NeedCallNumberInput="True"
                     IsNumericOnly="True"
-                    Text="{Binding PipeInstallationDelay, StringFormat={}{0} сек., Mode=TwoWay}"/>
+                    Text="{Binding PipeInstallationDelay, StringFormat={}{0} сек., Mode=TwoWay}"
+                    Validation.ErrorTemplate="{x:Null}"/>
             </Grid>
         </StackPanel>
         <Border
