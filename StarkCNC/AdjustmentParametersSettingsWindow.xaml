@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:StarkCNC"
         mc:Ignorable="d"
         Title="AdjustmentParametersSettingsWindow"
-        Height="610" Width="510"
+        Height="690" Width="510"
         ResizeMode="NoResize"
         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
     <Grid Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
