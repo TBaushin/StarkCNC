@@ -77,6 +77,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     [ObservableProperty]
     private bool _hasErrors;
 
+    [ObservableProperty]
+    private bool _showInputOutputTable;
+
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
 
     private Task? _updateTask;
@@ -135,6 +138,15 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             .ConfigureAwait(false);
 
         HasErrors = false;
+    }
+
+    [RelayCommand]
+    private void ShowOrHideInputOutputTable()
+    {
+        if (ShowInputOutputTable)
+            ShowInputOutputTable = false;
+        else
+            ShowInputOutputTable = true;
     }
 
     private void StartUpdateTask()

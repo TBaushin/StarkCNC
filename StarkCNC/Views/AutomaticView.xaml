@@ -289,6 +289,82 @@
                     Text="{Binding PipeInstallationDelay, StringFormat={}{0} сек., Mode=TwoWay}"/>
             </Grid>
         </StackPanel>
+        <Border
+            Margin="18,10,0,0"
+            Grid.Column="1"
+            Grid.Row="0"
+            Background="{DynamicResource LayerOnMicaBaseAltFillColorTertiaryBrush}"
+            BorderBrush="{DynamicResource LayerOnMicaBaseAltFillColorTertiaryBrush}"
+            BorderThickness="1"
+            CornerRadius="8"
+            Visibility="{Binding ShowInputOutputTable, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid ColumnDefinitions="*,*" RowDefinitions="27,*">
+                <Button
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    HorizontalAlignment="Right"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding ShowOrHideInputOutputTableCommand}">
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="14"
+                        Text="&#xE711;"/>
+                </Button>
+                <Grid
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Margin="5,10,5,0"
+                    RowDefinitions="30,*">
+                    <Border
+                        Grid.Row="0"
+                        Padding="4"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="4,4,0,0">
+                        <Label
+                            HorizontalContentAlignment="Center"
+                            Content="Входные сигналы"/>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Margin="0,0,0,5"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="0,0,4,4">
+                        <StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </Grid>
+                <Grid
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Margin="5,10,5,0"
+                    RowDefinitions="30,*">
+                    <Border
+                        Grid.Row="0"
+                        Padding="4"
+                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="4,4,0,0">
+                        <Label
+                            HorizontalContentAlignment="Center"
+                            Content="Выходные сигналы"/>
+                    </Border>
+                    <Border
+                        Grid.Row="1"
+                        Margin="0,0,0,5"
+                        VerticalAlignment="Stretch"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                        CornerRadius="0,0,4,4">
+                        <StackPanel>
+
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Border>
         <Grid
             Grid.Column="0"
             Grid.Row="1"
@@ -369,7 +445,8 @@
                 Grid.Column="5"
                 Grid.Row="1"
                 Margin="10,0,10,0"
-                Content="Таблица входов-выходов"/>
+                Content="Таблица входов-выходов"
+                Command="{Binding ShowOrHideInputOutputTableCommand}"/>
             <Button
                 Grid.Column="6"
                 Grid.Row="1"
