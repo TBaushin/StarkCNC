@@ -622,7 +622,7 @@ public static class ControllerRequestStrings
     public static readonly string PRESS_RESET_L1 = App.Configuration.GetValue<string>("Adjustment:Press:Reset:RequestString") ?? string.Empty;
     public static readonly string PRESS_RESET_L2 = App.Configuration.GetValue<string>("Adjustment2:Press:Reset:RequestString") ?? string.Empty;
     public static readonly string PRESS_RESET_L3 = App.Configuration.GetValue<string>("Adjustment3:Press:Reset:RequestString") ?? string.Empty;
-    public static string GET_PRESS_REST(int level)
+    public static string GET_PRESS_RESET(int level)
     {
         return level switch
         {

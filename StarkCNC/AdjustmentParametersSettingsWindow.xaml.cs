@@ -21,6 +21,8 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
     private Task? _updateCurrentPositionCoordinate;
     private CancellationTokenSource? _cancellationTokenSource;
 
+    private string _parameter;
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public AdjustmentParameters Adjustment { get; set; }
@@ -41,6 +43,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         DataContext = this;
         _adjustmentService = adjustmentService;
         _manualConfigurationService = manualConfigurationService;
+        _parameter = parameter;
 
         InitializeComponent();
 
@@ -307,5 +310,101 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
     private void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private async void Reset_Click(object sender, RoutedEventArgs e)
+    {
+        var level = _adjustmentService.CurrentLevel;
+        switch (_parameter)
+        {
+            case nameof(Adjustment.Supply):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_RESET(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Console):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_RESET(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Rotation):
+                break;
+            case nameof(Adjustment.Bend):
+                break;
+            case nameof(Adjustment.Squeeze):
+                break;
+            case nameof(Adjustment.Clamp):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_RESET(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Dorn):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_RESET(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Press):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_RESET(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Lift):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_RESET(level)).ConfigureAwait(true);
+                break;
+        }
+    }
+
+    private async void Backward_Click(object sender, RoutedEventArgs e)
+    {
+        var level = _adjustmentService.CurrentLevel;
+        switch (_parameter)
+        {
+            case nameof(Adjustment.Supply):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_BACKWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Console):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_BACKWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Rotation):
+                break;
+            case nameof(Adjustment.Bend):
+                break;
+            case nameof(Adjustment.Squeeze):
+                break;
+            case nameof(Adjustment.Clamp):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_BACKWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Dorn):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_BACKWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Press):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_BACKWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Lift):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_BACKWARD(level)).ConfigureAwait(true);
+                break;
+        }
+    }
+
+    private async void Forward_Click(object sender, RoutedEventArgs e)
+    {
+        var level = _adjustmentService.CurrentLevel;
+        switch (_parameter)
+        {
+            case nameof(Adjustment.Supply):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_FORWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Console):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_FORWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Rotation):
+                break;
+            case nameof(Adjustment.Bend):
+                break;
+            case nameof(Adjustment.Squeeze):
+                break;
+            case nameof(Adjustment.Clamp):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_FORWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Dorn):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_FORWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Press):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_FORWARD(level)).ConfigureAwait(true);
+                break;
+            case nameof(Adjustment.Lift):
+                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_FORWARD(level)).ConfigureAwait(true);
+                break;
+        }
     }
 }

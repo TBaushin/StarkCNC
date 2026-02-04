@@ -311,20 +311,23 @@
                     Margin="0,0,10,0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
-                    Content="Назад"/>
+                    Content="Назад"
+                    Click="Backward_Click"/>
                 <Button
                     x:Name="Forward"
                     Grid.Column="1"
                     Margin="10,0,0,0"
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
-                    Content="Вперёд"/>
+                    Content="Вперёд"
+                    Click="Forward_Click"/>
             </Grid>
             <Button
                 x:Name="Reset"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
-                Content="Обнуление"/>
+                Content="Обнуление"
+                Click="Reset_Click"/>
         </StackPanel>
         <Grid
             Grid.Row="1"
