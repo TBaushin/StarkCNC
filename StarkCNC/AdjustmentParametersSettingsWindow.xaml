@@ -312,7 +312,8 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
                     Content="Назад"
-                    Click="Backward_Click"/>
+                    PreviewMouseDown="Backward_PreviewMouseDown"
+                    PreviewMouseUp="Backward_PreviewMouseUp"/>
                 <Button
                     x:Name="Forward"
                     Grid.Column="1"
@@ -320,7 +321,8 @@
                     HorizontalAlignment="Stretch"
                     HorizontalContentAlignment="Center"
                     Content="Вперёд"
-                    Click="Forward_Click"/>
+                    PreviewMouseDown="Forward_PreviewMouseDown"
+                    PreviewMouseUp="Forward_PreviewMouseUp"/>
             </Grid>
             <Button
                 x:Name="Reset"
