@@ -85,6 +85,7 @@ public partial class App : Application
                 services.AddSingleton<IManualConfigurationService, ManualConfigurationService>();
 #endif
                 services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
+                services.AddSingleton<IAdjustmentService, AdjustmentService>();
                 services.AddSingleton<IUsersRepository, UsersRepository>();
                 services.AddSingleton<IUserService, UserService>();
             })

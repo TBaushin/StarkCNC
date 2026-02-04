@@ -1,5 +1,9 @@
 ﻿using StarkCNC.Core.Models;
-using StarkCNC.Core.Models.Adjustment;
+using StarkCNC.Core.Services;
+using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Utilities;
+using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Shell;
 
@@ -8,16 +12,35 @@ namespace StarkCNC;
 /// <summary>
 /// Interaction logic for AdjustmentParametersSettingsWindow.xaml
 /// </summary>
-public partial class AdjustmentParametersSettingsWindow : Window
+public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropertyChanged
 {
+    private IAdjustmentService _adjustmentService;
+    private IManualConfigurationService _manualConfigurationService;
+    private double _currentPositionCoordinate;
+
+    private Task? _updateCurrentPositionCoordinate;
+    private CancellationTokenSource? _cancellationTokenSource;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     public AdjustmentParameters Adjustment { get; set; }
 
-    public double CurrentPositionCoordinate { get; set; }
+    public double CurrentPositionCoordinate
+    {
+        get => _currentPositionCoordinate;
+        set
+        {
+            _currentPositionCoordinate = value;
+            OnPropertyChanged(nameof(CurrentPositionCoordinate));
+        }
+    }
 
-    public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter)
+    public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter, IAdjustmentService adjustmentService, IManualConfigurationService manualConfigurationService)
     {
         Adjustment = adjustment;
         DataContext = this;
+        _adjustmentService = adjustmentService;
+        _manualConfigurationService = manualConfigurationService;
 
         InitializeComponent();
 
@@ -46,11 +69,47 @@ public partial class AdjustmentParametersSettingsWindow : Window
                 SupplyStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Supply;
                 TitleTextBlock.Text = "Подача";
+                _cancellationTokenSource = new CancellationTokenSource();
+                _updateCurrentPositionCoordinate = Task.Run(async () =>
+                {
+                    try
+                    {
+                        while (!_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            CurrentPositionCoordinate = await _manualConfigurationService
+                                .ReadAsync<double>(ControllerRequestStrings.GET_SUPPLY_CURRENT_POSITION(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false);
+                            Thread.Sleep(150);
+                        }
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // ignore
+                    }                    
+                }, _cancellationTokenSource.Token);
                 break;
             case nameof(Adjustment.Console):
                 ConsoleStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Console;
                 TitleTextBlock.Text = "Консоль";
+                _cancellationTokenSource = new CancellationTokenSource();
+                _updateCurrentPositionCoordinate = Task.Run(async () =>
+                {
+                    try
+                    {
+                        while (!_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            CurrentPositionCoordinate = await _manualConfigurationService
+                                .ReadAsync<double>(ControllerRequestStrings.GET_CONSOLE_CURRENT_POSITION(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false);
+                            Thread.Sleep(150);
+                        }
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // ignore
+                    }
+                }, _cancellationTokenSource.Token);
                 break;
             case nameof(Adjustment.Rotation):
                 RotationStackPanel.Visibility = Visibility.Visible;
@@ -72,157 +131,181 @@ public partial class AdjustmentParametersSettingsWindow : Window
                 ClampDornPressStackPanel.DataContext = Adjustment.Clamp;
                 SpeedCoefficient.DataContext = Adjustment.Clamp;
                 TitleTextBlock.Text = "Зажим";
+                _cancellationTokenSource = new CancellationTokenSource();
+                _updateCurrentPositionCoordinate = Task.Run(async () =>
+                {
+                    try
+                    {
+                        while (!_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            CurrentPositionCoordinate = await _manualConfigurationService
+                                .ReadAsync<double>(ControllerRequestStrings.GET_CLAMP_CURRENT_POSITION(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false);
+                            Thread.Sleep(150);
+                        }
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // ignore
+                    }
+                }, _cancellationTokenSource.Token);
                 break;
             case nameof(Adjustment.Dorn):
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
                 ClampDornPressStackPanel.DataContext = Adjustment.Dorn;
                 SpeedCoefficient.DataContext = Adjustment.Dorn;
                 TitleTextBlock.Text = "Дорн";
+                _cancellationTokenSource = new CancellationTokenSource();
+                _updateCurrentPositionCoordinate = Task.Run(async () =>
+                {
+                    try
+                    {
+                        while (!_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            CurrentPositionCoordinate = await _manualConfigurationService
+                                .ReadAsync<double>(ControllerRequestStrings.GET_DORN_CURRENT_POSITION(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false);
+                            Thread.Sleep(150);
+                        }
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // ignore
+                    }
+                }, _cancellationTokenSource.Token);
                 break;
             case nameof(Adjustment.Press):
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
                 ClampDornPressStackPanel.DataContext = Adjustment.Press;
                 SpeedCoefficient.DataContext = Adjustment.Press;
                 TitleTextBlock.Text = "Прижим";
+                _cancellationTokenSource = new CancellationTokenSource();
+                _updateCurrentPositionCoordinate = Task.Run(async () =>
+                {
+                    try
+                    {
+                        while (!_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            CurrentPositionCoordinate = await _manualConfigurationService
+                                .ReadAsync<double>(ControllerRequestStrings.GET_PRESS_CURRENT_POSITION(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false);
+                            Thread.Sleep(150);
+                        }
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // Ignore
+                    }
+                }, _cancellationTokenSource.Token);
                 break;
             case nameof(Adjustment.Lift):
                 LiftStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Lift;
                 TitleTextBlock.Text = "Подъём";
+                _cancellationTokenSource = new CancellationTokenSource();
+                _updateCurrentPositionCoordinate = Task.Run(async () =>
+                {
+                    try
+                    {
+                        while (!_cancellationTokenSource.IsCancellationRequested)
+                        {
+                            CurrentPositionCoordinate = await _manualConfigurationService
+                                .ReadAsync<double>(ControllerRequestStrings.GET_LIFT_CURRENT_POSITION(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false);
+                            Thread.Sleep(150);
+                        }
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        // Ignore
+                    }
+                }, _cancellationTokenSource.Token);
                 break;
         }
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
+        if (_updateCurrentPositionCoordinate is not null && _cancellationTokenSource is not null)
+        {
+            _cancellationTokenSource.Cancel();
+        }
+
         Close();
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
+        if (_updateCurrentPositionCoordinate is not null && _cancellationTokenSource is not null)
+        {
+            _cancellationTokenSource.Cancel();
+        }
+
         Close();
     }
 
     private void SupplyPressZoneSetCurrentPositionButton_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Supply.PressZonePosition = CurrentPositionCoordinate;
+        SupplyPressZone.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void SupplyForwardDangerZoneSetCurrentPositionButton_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Supply.ForwardDangerZonePosition = CurrentPositionCoordinate;
+        SupplyForwardDangerZonePosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void SupplyColletJawsDepthSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Supply.ColletJawsDepth = CurrentPositionCoordinate;
+        SupplyColletJawsDepth.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void ConsoleBendSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Console.BendPosition = CurrentPositionCoordinate;
+        ConsoleBendPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void ConsoleSecondFloorSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Console.SecondFloorPosition = CurrentPositionCoordinate;
+        ConsoleSecondFloorPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void ConsoleThirdFloorSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Console.ThirdFloorPosition = CurrentPositionCoordinate;
+        ConsoleThirdFloorPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void ClampDornPressForwardSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        var context = ClampDornPressStackPanel.DataContext;
-        if (context is null)
-            return;
-
-        var type = context.GetType();
-        if (type == typeof(Clamp))
-        {
-            Adjustment.Clamp.ForwardPosition = CurrentPositionCoordinate;
-            return;
-        }
-
-        if (type == typeof(Dorn))
-        {
-            Adjustment.Dorn.ForwardPosition = CurrentPositionCoordinate;
-            return;
-        }
-
-        if (type == typeof(Press))
-        {
-            Adjustment.Press.ForwardPosition = CurrentPositionCoordinate;
-            return;
-        }
+        ForwardPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void ClampDornPressMiddleSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        var context = ClampDornPressStackPanel.DataContext;
-        if (context is null)
-            return;
-
-        var type = context.GetType();
-        if (type == typeof(Clamp))
-        {
-            Adjustment.Clamp.MiddlePosition = CurrentPositionCoordinate;
-            return;
-        }
-
-        if (type == typeof(Dorn))
-        {
-            Adjustment.Dorn.MiddlePosition = CurrentPositionCoordinate;
-            return;
-        }
-
-        if (type == typeof(Press))
-        {
-            Adjustment.Press.MiddlePosition = CurrentPositionCoordinate;
-            return;
-        }
+        MiddlePosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void ClampDornPressBackwardSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        var context = ClampDornPressStackPanel.DataContext;
-        if (context is null)
-            return;
-
-        var type = context.GetType();
-        if (type == typeof(Clamp))
-        {
-            Adjustment.Clamp.BackwardPosition = CurrentPositionCoordinate;
-            return;
-        }
-
-        if (type == typeof(Dorn))
-        {
-            Adjustment.Dorn.BackwardPosition = CurrentPositionCoordinate;
-            return;
-        }
-
-        if (type == typeof(Press))
-        {
-            Adjustment.Press.BackwardPosition = CurrentPositionCoordinate;
-            return;
-        }
+        BackwardPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void LiftUpperSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Lift.UpperPosition = CurrentPositionCoordinate;
+        LiftUpperPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void LiftMiddleSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Lift.MiddlePosition = CurrentPositionCoordinate;
+        LiftMiddlePosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
     private void LiftLowerSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
-        Adjustment.Lift.LowerPosition = CurrentPositionCoordinate;
+        LiftLowerPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
+    }
+
+    private void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

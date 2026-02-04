@@ -1,16 +1,21 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
+using StarkCNC.Core.Services;
 using StarkCNC.DTO;
+using StarkCNC.MachineCommunication.Services;
 
 namespace StarkCNC.ViewModels;
 
 public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
 {
     private Guid? _adjustmentId;
-    private readonly IAdjustmentRepository _repository;
+    private readonly IAdjustmentService _adjustmentService;
     private readonly ISettingsRepository _settingsRepository;
+    private readonly IConfiguration _configuration;
+    private readonly IManualConfigurationService _manualConfigurationService;
 
     private AdjustmentParameters _adjustment;
 
@@ -45,12 +50,16 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
     private AdjustmentParametersSupplyVisibleDto _supply;
 
     public AdjustmentParametersCoordinatesViewModel(
-        IAdjustmentRepository repository,
+        IAdjustmentService serivce,
         ISettingsRepository settingsRepository,
+        IConfiguration configuration,
+        IManualConfigurationService manualConfigurationService,
         Guid? id)
     {
-        _repository = repository;
+        _adjustmentService = serivce;
         _settingsRepository = settingsRepository;
+        _configuration = configuration;
+        _manualConfigurationService = manualConfigurationService;
         _adjustmentId = id;
 
         UpdateAdjustment();
@@ -61,7 +70,7 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
         if (id is not Guid guid)
             throw new ArgumentNullException(nameof(id));
 
-        var adjustment = await _repository.FindByIdAsync(guid).ConfigureAwait(false);
+        var adjustment = await _adjustmentService.FindByIdAsync(guid).ConfigureAwait(false);
         if (adjustment is null)
             throw new InvalidOperationException("Не удалось найти оснастку");
 
@@ -154,13 +163,13 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
     [RelayCommand]
     private async Task EditParameters(string parameter)
     {
-        var parametersSettingsWindow = new AdjustmentParametersSettingsWindow(_adjustment, parameter);
+        var parametersSettingsWindow = new AdjustmentParametersSettingsWindow(_adjustment, parameter, _adjustmentService, _manualConfigurationService);
         parametersSettingsWindow.ShowDialog();
 
         var adjustment = parametersSettingsWindow.Adjustment;
         if (adjustment.Id == _adjustment.Id)
         {
-            await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);
+            await _adjustmentService.UpdateElementAsync(adjustment).ConfigureAwait(false);
             UpdateAdjustment();
         }
     }
