@@ -33,7 +33,8 @@
                     Margin="0,0,0,16"
                     IsReadOnly="True"
                     Foreground="Red"
-                    Text="{Binding CurrentPositionCoordinate}"/>
+                    HorizontalAlignment="Left"
+                    Text="{Binding CurrentPositionCoordinate, StringFormat=N2}"/>
             </Grid>
             <Grid
                 x:Name="SupplyStackPanel"
