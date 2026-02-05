@@ -21,13 +21,20 @@
                 x:Name="TitleTextBlock"
                 Margin="0,32,0,24"
                 Style="{DynamicResource TitleTextBlockStyle}"/>
-            <controls:LabeledTextBoxControl
-                x:Name="CurrentPosition"
-                Margin="0,0,0,16"
-                LabelText="Текущее положение"
-                IsReadOnly="True"
-                IsNumericOnly="True"
-                Text="{Binding CurrentPositionCoordinate}"/>
+            <Grid Margin="0,0,0,15" ColumnDefinitions="*,2*">
+                <Label
+                    Grid.Column="0"
+                    Margin="0,5,0,0"
+                    VerticalContentAlignment="Stretch"
+                    Content="Текущее положение:"/>
+                <TextBox
+                    x:Name="CurrentPosition"
+                    Grid.Column="1"
+                    Margin="0,0,0,16"
+                    IsReadOnly="True"
+                    Foreground="Red"
+                    Text="{Binding CurrentPositionCoordinate}"/>
+            </Grid>
             <Grid
                 x:Name="SupplyStackPanel"
                 Visibility="Collapsed"
