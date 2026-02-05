@@ -158,12 +158,24 @@
             <StackPanel
                 x:Name="BendStackPanel"
                 Visibility="Collapsed">
-                <controls:LabeledTextBoxControl
-                    Margin="0,0,0,16"
-                    LabelText="Ограничение переднего положения"
-                    IsNumericOnly="True"
-                    NeedCallNumberInput="True"
-                    Text="{Binding Adjustment.Bend.ForwardPositionLimitation, Mode=TwoWay}"/>
+                <Grid ColumnDefinitions="*,*">
+                    <controls:LabeledTextBoxControl
+                        x:Name="BendForwardPosition"
+                        Grid.Column="0"
+                        Margin="0,0,0,16"
+                        LabelText="Ограничение переднего положения"
+                        IsNumericOnly="True"
+                        NeedCallNumberInput="True"
+                        Text="{Binding Adjustment.Bend.ForwardPositionLimitation, Mode=TwoWay}"/>
+                    <Button
+                        x:Name="BendForwardPositionSetCurrentPosition"
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        Margin="0,7,0,0"
+                        Content="Запомнить текущее положение"
+                        Click="BendForwardPositionSetCurrentPosition_Click"/>
+                </Grid>
+                
                 <controls:LabeledTextBoxControl
                     Margin="0,0,0,16"
                     LabelText="Коэффициент скорости"

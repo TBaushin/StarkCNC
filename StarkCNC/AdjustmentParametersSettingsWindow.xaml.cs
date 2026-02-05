@@ -277,6 +277,11 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         ConsoleThirdFloorPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
+    private void BendForwardPositionSetCurrentPosition_Click(object sender, RoutedEventArgs e)
+    {
+        BendForwardPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
+    }
+
     private void ClampDornPressForwardSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
         ForwardPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
