@@ -257,11 +257,6 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         SupplyForwardDangerZonePosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
     }
 
-    private void SupplyColletJawsDepthSetCurrentPosition_Click(object sender, RoutedEventArgs e)
-    {
-        SupplyColletJawsDepth.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
-    }
-
     private void ConsoleBendSetCurrentPosition_Click(object sender, RoutedEventArgs e)
     {
         ConsoleBendPosition.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);

@@ -82,13 +82,6 @@
                     Margin="0,7,0,0"
                     Content="Запомнить текущее положение"
                     Click="SupplyForwardDangerZoneSetCurrentPositionButton_Click"/>
-                <Button
-                    x:Name="SupplyColletJawsDepthSetCurrentPosition"
-                    Grid.Column="1"
-                    Grid.Row="2"
-                    Margin="0,7,0,0"
-                    Content="Запомнить текущее положение"
-                    Click="SupplyColletJawsDepthSetCurrentPosition_Click"/>
             </Grid>
             <Grid
                 x:Name="ConsoleStackPanel"
