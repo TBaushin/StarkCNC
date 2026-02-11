@@ -90,6 +90,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_SUPPLY_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -114,6 +123,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_CONSOLE_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -154,6 +172,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_CLAMP_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -179,6 +206,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_DORN_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -204,6 +240,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_PRESS_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -228,6 +273,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_LIFT_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
