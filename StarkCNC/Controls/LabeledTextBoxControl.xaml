@@ -3,24 +3,47 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:helpers="clr-namespace:StarkCNC.Helpers"
              xmlns:local="clr-namespace:StarkCNC.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Label
-            Grid.Row="0"
-            Content="{Binding LabelText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        <TextBox
-            x:Name="InputTextBox"
-            Grid.Row="1"
-            IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
-            PreviewMouseLeftButtonDown="InputTextBox_MouseDown"
-            PreviewTextInput="InputTextBox_PreviewTextInput"
-            TextChanged="InputTextBox_TextChanged"
-            Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-    </Grid>
+    <UserControl.Resources>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </UserControl.Resources>
+    <StackPanel>
+        <Grid Visibility="{Binding TopToBottomVisible, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label
+                Grid.Row="0"
+                Content="{Binding LabelText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <TextBox
+                x:Name="InputTextBox"
+                Grid.Row="1"
+                IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                PreviewMouseLeftButtonDown="InputTextBox_MouseDown"
+                PreviewTextInput="InputTextBox_PreviewTextInput"
+                TextChanged="InputTextBox_TextChanged"
+                Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </Grid>
+        <Grid Visibility="{Binding LeftToRightVisible, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Label
+                Grid.Column="0"
+                Content="{Binding LabelText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+            <TextBox
+                x:Name="InputTextBox2"
+                Grid.Column="1"
+                IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                PreviewMouseLeftButtonDown="InputTextBox_MouseDown"
+                PreviewTextInput="InputTextBox_PreviewTextInput"
+                TextChanged="InputTextBox_TextChanged"
+                Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        </Grid>
+    </StackPanel>
 </UserControl>
