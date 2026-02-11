@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:StarkCNC"
         mc:Ignorable="d"
         Title="AdjustmentParametersSettingsWindow"
-        Height="690" Width="510"
+        Height="690" Width="530"
         ResizeMode="NoResize"
         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
     <StackPanel Margin="20,0,20,0">
@@ -34,7 +34,7 @@
         <Grid
             x:Name="SupplyStackPanel"
             Visibility="Collapsed"
-            ColumnDefinitions="*,*"
+            ColumnDefinitions="*,0.6*"
             RowDefinitions="*,*,*">
             <controls:LabeledTextBoxControl
                 x:Name="SupplyPressZone"
@@ -45,7 +45,7 @@
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
                 LabelText="Положение зоны прижима"
-                Text="{Binding Adjustment.Supply.PressZonePosition, Mode=TwoWay}"/>
+                Text="{Binding Adjustment.Supply.PressZonePosition, Mode=TwoWay, StringFormat=N2}"/>
             <controls:LabeledTextBoxControl
                 x:Name="SupplyForwardDangerZonePosition"
                 Grid.Column="0"
@@ -55,7 +55,7 @@
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
                 LabelText="Положение передней опасной зоны"
-                Text="{Binding Adjustment.Supply.ForwardDangerZonePosition, Mode=TwoWay}"/>
+                Text="{Binding Adjustment.Supply.ForwardDangerZonePosition, Mode=TwoWay, StringFormat=N2}"/>
             <controls:LabeledTextBoxControl
                 x:Name="SupplyColletJawsDepth"
                 Grid.Column="0"
@@ -65,12 +65,12 @@
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
                 LabelText="Глубина губок цанги"
-                Text="{Binding Adjustment.Supply.ColletJawsDepth, Mode=TwoWay}"/>
+                Text="{Binding Adjustment.Supply.ColletJawsDepth, Mode=TwoWay, StringFormat=N2}"/>
             <Button
                 x:Name="SupplyPressZoneSetCurrentPositionButton"
                 Grid.Column="1"
                 Grid.Row="0"
-                Margin="0,7,0,0"
+                Margin="0,-13,0,0"
                 HorizontalAlignment="Right"
                 Click="SupplyPressZoneSetCurrentPositionButton_Click">
                 <Button.Content>
@@ -85,7 +85,7 @@
                 x:Name="SupplyForwardDangerZoneSetCurrentPositionButton"
                 Grid.Column="1"
                 Grid.Row="1"
-                Margin="0,7,0,0"
+                Margin="0,-7,0,0"
                 HorizontalAlignment="Right"
                 Click="SupplyForwardDangerZoneSetCurrentPositionButton_Click">
                 <Button.Content>
@@ -100,7 +100,7 @@
         <Grid
             x:Name="ConsoleStackPanel"
             Visibility="Collapsed"
-            ColumnDefinitions="*,*"
+            ColumnDefinitions="*,0.6*"
             RowDefinitions="*,*,*,*">
             <controls:LabeledTextBoxControl
                 x:Name="ConsoleBendPosition"
@@ -111,7 +111,7 @@
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
                 LabelText="Положение консоли для гибки"
-                Text="{Binding Adjustment.Console.BendPosition, Mode=TwoWay}"/>
+                Text="{Binding Adjustment.Console.BendPosition, Mode=TwoWay, StringFormat=N2}"/>
             <controls:LabeledTextBoxControl
                 x:Name="ConsoleSecondFloorPosition"
                 Grid.Column="0"
@@ -120,7 +120,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding Adjustment.Console.SecondFloorPosition, Mode=TwoWay}">
+                Text="{Binding Adjustment.Console.SecondFloorPosition, Mode=TwoWay, StringFormat=N2}">
                 <controls:LabeledTextBoxControl.LabelText>
                     <TextBlock>
                         <Run Text="Положение консоли при переходе"/>
@@ -137,7 +137,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding Adjustment.Console.ThirdFloorPosition, Mode=TwoWay}">
+                Text="{Binding Adjustment.Console.ThirdFloorPosition, Mode=TwoWay, StringFormat=N2}">
                 <controls:LabeledTextBoxControl.LabelText>
                     <TextBlock>
                         <Run Text="Положение консоли при переходе"/>
@@ -154,7 +154,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding Adjustment.Console.PipeRotationDepartureDistance, Mode=TwoWay}">
+                Text="{Binding Adjustment.Console.PipeRotationDepartureDistance, Mode=TwoWay, StringFormat=N2}">
                 <controls:LabeledTextBoxControl.LabelText>
                     <TextBlock>
                         <Run Text="Расстояние отъезда"/>
@@ -167,7 +167,7 @@
                 x:Name="ConsoleBendSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="0"
-                Margin="0,7,0,0"
+                Margin="0,-13,0,0"
                 HorizontalAlignment="Right"
                 Click="ConsoleBendSetCurrentPosition_Click">
                 <Button.Content>
@@ -182,7 +182,7 @@
                 x:Name="ConsoleSecondFloorSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="1"
-                Margin="0,25,0,0"
+                Margin="0,-12,0,0"
                 HorizontalAlignment="Right"
                 Click="ConsoleSecondFloorSetCurrentPosition_Click">
                 <Button.Content>
@@ -197,7 +197,7 @@
                 x:Name="ConsoleThirdFloorSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="2"
-                Margin="0,25,0,0"
+                Margin="0,-13,0,0"
                 HorizontalAlignment="Right"
                 Click="ConsoleThirdFloorSetCurrentPosition_Click">
                 <Button.Content>
@@ -217,12 +217,15 @@
                 LabelText="Смещение поворота после поиска нуля"
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
-                Text="{Binding Adjustment.Rotation.OffsetAfterZeroSearch, Mode=TwoWay}"/>
+                Direction="LeftToRigth"
+                Text="{Binding Adjustment.Rotation.OffsetAfterZeroSearch, Mode=TwoWay, StringFormat=N2}"/>
         </StackPanel>
         <StackPanel
             x:Name="BendStackPanel"
             Visibility="Collapsed">
-            <Grid ColumnDefinitions="*,*">
+            <Grid
+                ColumnDefinitions="*,0.6*"
+                RowDefinitions="*,*,*">
                 <controls:LabeledTextBoxControl
                     x:Name="BendForwardPosition"
                     Grid.Column="0"
@@ -231,11 +234,11 @@
                     IsNumericOnly="True"
                     NeedCallNumberInput="True"
                     Direction="LeftToRigth"
-                    Text="{Binding Adjustment.Bend.ForwardPositionLimitation, Mode=TwoWay}"/>
+                    Text="{Binding Adjustment.Bend.ForwardPositionLimitation, Mode=TwoWay, StringFormat=N2}"/>
                 <Button
                     x:Name="BendForwardPositionSetCurrentPosition"
                     Grid.Column="1"
-                    Grid.Row="2"
+                    Grid.Row="0"
                     Margin="0,7,0,0"
                     HorizontalAlignment="Right"
                     Click="BendForwardPositionSetCurrentPosition_Click">
@@ -247,22 +250,25 @@
                         </TextBlock>
                     </Button.Content>
                 </Button>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Margin="0,0,0,16"
+                    LabelText="Коэффициент скорости"
+                    IsNumericOnly="True"
+                    NeedCallNumberInput="True"
+                    Direction="LeftToRigth"
+                    Text="{Binding Adjustment.Bend.SpeedCoefficient, Mode=TwoWay, StringFormat=N2}"/>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="2"
+                    Margin="0,0,0,16"
+                    LabelText="Коэффициент замедления"
+                    IsNumericOnly="True"
+                    NeedCallNumberInput="True"
+                    Direction="LeftToRigth"
+                    Text="{Binding Adjustment.Bend.SlowdownSpeed, Mode=TwoWay, StringFormat=N2}"/>
             </Grid>
-
-            <controls:LabeledTextBoxControl
-                Margin="0,0,0,16"
-                LabelText="Коэффициент скорости"
-                IsNumericOnly="True"
-                NeedCallNumberInput="True"
-                Direction="LeftToRigth"
-                Text="{Binding Adjustment.Bend.SpeedCoefficient, Mode=TwoWay}"/>
-            <controls:LabeledTextBoxControl
-                Margin="0,0,0,16"
-                LabelText="Коэффициент замедления"
-                IsNumericOnly="True"
-                NeedCallNumberInput="True"
-                Direction="LeftToRigth"
-                Text="{Binding Adjustment.Bend.SlowdownSpeed, Mode=TwoWay}"/>
         </StackPanel>
         <StackPanel
             x:Name="SqueezeStackPanel"
@@ -273,12 +279,12 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding Adjustment.Squeeze.FrontPositionLimitation, Mode=TwoWay}"/>
+                Text="{Binding Adjustment.Squeeze.FrontPositionLimitation, Mode=TwoWay, StringFormat=N2}"/>
         </StackPanel>
         <Grid
             x:Name="ClampDornPressStackPanel"
             Visibility="Collapsed"
-            ColumnDefinitions="*,*"
+            ColumnDefinitions="*,0.6*"
             RowDefinitions="*,*,*">
             <controls:LabeledTextBoxControl
                 x:Name="ForwardPosition"
@@ -289,7 +295,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding ForwardPosition, Mode=TwoWay}"/>
+                Text="{Binding ForwardPosition, Mode=TwoWay, StringFormat=N2}"/>
             <controls:LabeledTextBoxControl
                 x:Name="MiddlePosition"
                 Grid.Column="0"
@@ -299,7 +305,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding MiddlePosition, Mode=TwoWay}"/>
+                Text="{Binding MiddlePosition, Mode=TwoWay, StringFormat=N2}"/>
             <controls:LabeledTextBoxControl
                 x:Name="BackwardPosition"
                 Grid.Column="0"
@@ -309,7 +315,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding BackwardPosition, Mode=TwoWay}"/>
+                Text="{Binding BackwardPosition, Mode=TwoWay, StringFormat=N2}"/>
             <Button
                 x:Name="ClampDornPressForwardSetCurrentPosition"
                 Grid.Column="1"
@@ -359,7 +365,7 @@
         <Grid
             x:Name="LiftStackPanel"
             Visibility="Collapsed"
-            ColumnDefinitions="*,*"
+            ColumnDefinitions="*,0.6*"
             RowDefinitions="*,*,*">
             <controls:LabeledTextBoxControl
                 x:Name="LiftUpperPosition"
@@ -370,7 +376,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding Adjustment.Lift.UpperPosition, Mode=TwoWay}"/>
+                Text="{Binding Adjustment.Lift.UpperPosition, Mode=TwoWay, StringFormat=N2}"/>
             <controls:LabeledTextBoxControl
                 x:Name="LiftMiddlePosition"
                 Grid.Column="0"
@@ -380,7 +386,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding Adjustment.Lift.MiddlePosition, Mode=TwoWay}"/>
+                Text="{Binding Adjustment.Lift.MiddlePosition, Mode=TwoWay, StringFormat=N2}"/>
             <controls:LabeledTextBoxControl
                 x:Name="LiftLowerPosition"
                 Grid.Column="0"
@@ -390,7 +396,7 @@
                 IsNumericOnly="True"
                 NeedCallNumberInput="True"
                 Direction="LeftToRigth"
-                Text="{Binding Adjustment.Lift.LowerPosition, Mode=TwoWay}"/>
+                Text="{Binding Adjustment.Lift.LowerPosition, Mode=TwoWay, StringFormat=N2}"/>
             <Button
                 x:Name="LiftUpperSetCurrentPosition"
                 Grid.Column="1"
@@ -437,14 +443,17 @@
                 </Button.Content>
             </Button>
         </Grid>
-        <controls:LabeledTextBoxControl
-            x:Name="SpeedCoefficient"
-            Margin="0,0,0,16"
-            LabelText="Коэффициент скорости"
-            IsNumericOnly="True"
-            NeedCallNumberInput="True"
-            Direction="LeftToRigth"
-            Text="{Binding SpeedCoefficient, Mode=TwoWay}"/>
+        <Grid x:Name="SpeedCoefficientGrid">
+            <controls:LabeledTextBoxControl
+                x:Name="SpeedCoefficient"
+                Grid.Column="0"
+                Margin="0,0,0,16"
+                LabelText="Коэффициент скорости"
+                IsNumericOnly="True"
+                NeedCallNumberInput="True"
+                Direction="LeftToRigth"
+                Text="{Binding SpeedCoefficient, Mode=TwoWay, StringFormat=N2}"/>
+        </Grid>
         <Grid
             ColumnDefinitions="*,*"
             Margin="0,0,0,16">

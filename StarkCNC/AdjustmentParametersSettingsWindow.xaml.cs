@@ -5,6 +5,7 @@ using StarkCNC.Utilities;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shell;
 
@@ -69,11 +70,13 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
 
     private void ShowParamatersEdits(string parameter)
     {
+        SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
         switch (parameter)
         {
             case nameof(Adjustment.Supply):
                 SupplyStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Supply;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Подача";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -97,6 +100,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Console):
                 ConsoleStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Console;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Консоль";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -136,6 +140,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
                 ClampDornPressStackPanel.DataContext = Adjustment.Clamp;
                 SpeedCoefficient.DataContext = Adjustment.Clamp;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Зажим";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -160,6 +165,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
                 ClampDornPressStackPanel.DataContext = Adjustment.Dorn;
                 SpeedCoefficient.DataContext = Adjustment.Dorn;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Дорн";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -184,6 +190,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
                 ClampDornPressStackPanel.DataContext = Adjustment.Press;
                 SpeedCoefficient.DataContext = Adjustment.Press;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Прижим";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -207,6 +214,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Lift):
                 LiftStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Lift;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Подъём";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>

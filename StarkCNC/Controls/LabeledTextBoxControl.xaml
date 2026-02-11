@@ -31,18 +31,22 @@
         <Grid Visibility="{Binding LeftToRightVisible, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="0.3*"/>
             </Grid.ColumnDefinitions>
             <Label
                 Grid.Column="0"
+                VerticalAlignment="Center"
                 Content="{Binding LabelText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             <TextBox
                 x:Name="InputTextBox2"
                 Grid.Column="1"
+                MinWidth="50"
                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 PreviewMouseLeftButtonDown="InputTextBox_MouseDown"
                 PreviewTextInput="InputTextBox_PreviewTextInput"
                 TextChanged="InputTextBox_TextChanged"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
                 Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </Grid>
     </StackPanel>
