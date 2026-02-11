@@ -431,6 +431,38 @@
             ColumnDefinitions="*,*"
             Margin="0,0,0,16">
             <Button
+                x:Name="Reset"
+                Grid.Column="0"
+                Margin="0,0,10,0"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Content="Обнуление"
+                Click="Reset_Click"/>
+            <Border
+                Grid.Column="1"
+                Margin="10,5,5,5"
+                CornerRadius="5"
+                HorizontalAlignment="Left">
+                <Rectangle Width="12">
+                    <Rectangle.Fill>
+                        <SolidColorBrush
+                            x:Name="ResetIndicator"
+                            Color="{Binding ResetIndicatorColor}"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+            </Border>
+            <Label
+                Grid.Column="1"
+                HorizontalAlignment="Center"
+                VerticalContentAlignment="Center"
+                Foreground="Green"
+                Content="Выполнено"/>
+        </Grid>
+
+        <Grid
+            ColumnDefinitions="*,*"
+            Margin="0,0,0,16">
+            <Button
                 x:Name="Backward"
                 Grid.Column="0"
                 Margin="0,0,10,0"
@@ -449,11 +481,6 @@
                 PreviewMouseDown="Forward_PreviewMouseDown"
                 PreviewMouseUp="Forward_PreviewMouseUp"/>
         </Grid>
-        <Button
-            x:Name="Reset"
-            HorizontalAlignment="Stretch"
-            HorizontalContentAlignment="Center"
-            Content="Обнуление"
-            Click="Reset_Click"/>
+
     </StackPanel>
 </Window>

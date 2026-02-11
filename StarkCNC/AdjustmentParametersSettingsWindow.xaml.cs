@@ -5,6 +5,7 @@ using StarkCNC.Utilities;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Shell;
 
 namespace StarkCNC;
@@ -36,6 +37,8 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             OnPropertyChanged(nameof(CurrentPositionCoordinate));
         }
     }
+
+    public Color ResetIndicatorColor { get; set; } = Brushes.Red.Color;
 
     public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter, IAdjustmentService adjustmentService, IManualConfigurationService manualConfigurationService)
     {
