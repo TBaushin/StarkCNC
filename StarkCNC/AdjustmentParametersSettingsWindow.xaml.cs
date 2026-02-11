@@ -40,6 +40,8 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
     }
 
     public Color ResetIndicatorColor { get; set; } = Brushes.Red.Color;
+    public Color BackwardIndicatorColor { get; set; } = Brushes.Red.Color;
+    public Color ForwardIndicatorColor { get; set; } = Brushes.Red.Color;
 
     public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter, IAdjustmentService adjustmentService, IManualConfigurationService manualConfigurationService)
     {

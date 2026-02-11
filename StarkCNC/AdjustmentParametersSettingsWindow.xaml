@@ -489,24 +489,50 @@
         <Grid
             ColumnDefinitions="*,*"
             Margin="0,0,0,16">
-            <Button
-                x:Name="Backward"
-                Grid.Column="0"
-                Margin="0,0,10,0"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Center"
-                Content="Назад"
-                PreviewMouseDown="Backward_PreviewMouseDown"
-                PreviewMouseUp="Backward_PreviewMouseUp"/>
-            <Button
-                x:Name="Forward"
-                Grid.Column="1"
-                Margin="10,0,0,0"
-                HorizontalAlignment="Stretch"
-                HorizontalContentAlignment="Center"
-                Content="Вперёд"
-                PreviewMouseDown="Forward_PreviewMouseDown"
-                PreviewMouseUp="Forward_PreviewMouseUp"/>
+            <Grid
+                ColumnDefinitions="*,10*"
+                Grid.Column="0">
+                <Border Grid.Column="1" Margin="5" CornerRadius="5">
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <SolidColorBrush
+                                x:Name="BackwardIndicator"
+                                Color="{Binding BackwardIndicatorColor}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Border>
+                <Button
+                    x:Name="Backward"
+                    Grid.Column="1"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Content="Назад"
+                    PreviewMouseDown="Backward_PreviewMouseDown"
+                    PreviewMouseUp="Backward_PreviewMouseUp"/>
+            </Grid>
+            <Grid
+                ColumnDefinitions="10*,*"
+                Grid.Column="1">
+                <Button
+                    x:Name="Forward"
+                    Grid.Column="0"
+                    Margin="10,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Content="Вперёд"
+                    PreviewMouseDown="Forward_PreviewMouseDown"
+                    PreviewMouseUp="Forward_PreviewMouseUp"/>
+                <Border Grid.Column="1" Margin="5" CornerRadius="5">
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <SolidColorBrush
+                                x:Name="Indicator"
+                                Color="{Binding ForwardIndicatorColor}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Border>
+            </Grid>
         </Grid>
 
     </StackPanel>
