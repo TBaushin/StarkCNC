@@ -68,15 +68,29 @@
                 Grid.Column="1"
                 Grid.Row="0"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="SupplyPressZoneSetCurrentPositionButton_Click"/>
+                Click="SupplyPressZoneSetCurrentPositionButton_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
             <Button
                 x:Name="SupplyForwardDangerZoneSetCurrentPositionButton"
                 Grid.Column="1"
                 Grid.Row="1"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="SupplyForwardDangerZoneSetCurrentPositionButton_Click"/>
+                Click="SupplyForwardDangerZoneSetCurrentPositionButton_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
         </Grid>
         <Grid
             x:Name="ConsoleStackPanel"
@@ -145,22 +159,46 @@
                 Grid.Column="1"
                 Grid.Row="0"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="ConsoleBendSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="ConsoleBendSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
             <Button
                 x:Name="ConsoleSecondFloorSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="1"
                 Margin="0,25,0,0"
-                Content="Запомнить текущее положение"
-                Click="ConsoleSecondFloorSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="ConsoleSecondFloorSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
             <Button
                 x:Name="ConsoleThirdFloorSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="2"
                 Margin="0,25,0,0"
-                Content="Запомнить текущее положение"
-                Click="ConsoleThirdFloorSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="ConsoleThirdFloorSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
         </Grid>
         <StackPanel
             x:Name="RotationStackPanel"
@@ -189,8 +227,16 @@
                     Grid.Column="1"
                     Grid.Row="2"
                     Margin="0,7,0,0"
-                    Content="Запомнить текущее положение"
-                    Click="BendForwardPositionSetCurrentPosition_Click"/>
+                    HorizontalAlignment="Right"
+                    Click="BendForwardPositionSetCurrentPosition_Click">
+                    <Button.Content>
+                        <TextBlock TextAlignment="Center">
+                            <Run Text="Запомнить"/>
+                            <LineBreak/>
+                            <Run Text="текущее положение"/>
+                        </TextBlock>
+                    </Button.Content>
+                </Button>
             </Grid>
 
             <controls:LabeledTextBoxControl
@@ -253,22 +299,46 @@
                 Grid.Column="1"
                 Grid.Row="0"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="ClampDornPressForwardSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="ClampDornPressForwardSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
             <Button
                 x:Name="ClampDornPressMiddleSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="1"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="ClampDornPressMiddleSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="ClampDornPressMiddleSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
             <Button
                 x:Name="ClampDornPressBackwardSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="2"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="ClampDornPressBackwardSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="ClampDornPressBackwardSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
         </Grid>
         <Grid
             x:Name="LiftStackPanel"
@@ -307,22 +377,46 @@
                 Grid.Column="1"
                 Grid.Row="0"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="LiftUpperSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="LiftUpperSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
             <Button
                 x:Name="LiftMiddleSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="1"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="LiftMiddleSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="LiftMiddleSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
             <Button
                 x:Name="LiftLowerSetCurrentPosition"
                 Grid.Column="1"
                 Grid.Row="2"
                 Margin="0,7,0,0"
-                Content="Запомнить текущее положение"
-                Click="LiftLowerSetCurrentPosition_Click"/>
+                HorizontalAlignment="Right"
+                Click="LiftLowerSetCurrentPosition_Click">
+                <Button.Content>
+                    <TextBlock TextAlignment="Center">
+                        <Run Text="Запомнить"/>
+                        <LineBreak/>
+                        <Run Text="текущее положение"/>
+                    </TextBlock>
+                </Button.Content>
+            </Button>
         </Grid>
         <controls:LabeledTextBoxControl
             x:Name="SpeedCoefficient"
