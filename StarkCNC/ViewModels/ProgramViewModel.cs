@@ -286,12 +286,6 @@ public partial class ProgramViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void CopyBendingDataToClipboard()
-    {
-
-    }
-
-    [RelayCommand]
     private void PasteBendingDataFromClipboard()
     {
         var data = Clipboard.GetData(DataFormats.Text) as string;
@@ -308,6 +302,10 @@ public partial class ProgramViewModel : ObservableObject
 
             if (result is not BendingDataViewModel bd)
                 return;
+
+            var cuted = BendingDatas.FirstOrDefault(i => i.IsCuted);
+            if (cuted is not null)
+                BendingDatas.Remove(cuted);
 
             if (SelectedBendingData is not null)
                 BendingDatas.Insert(BendingDatas.IndexOf(SelectedBendingData) + 1, bd);
@@ -335,6 +333,22 @@ public partial class ProgramViewModel : ObservableObject
             Debug.WriteLine($"Ошибка преобразования в json текста с кодировкой UTF8 из буфера обмена в {nameof(ProgramViewModel)} переменной {nameof(data)}, её содержимое: {data}");
 #endif
         }
+    }
+
+    [RelayCommand]
+    private void CutBendingDataToClipboard()
+    {
+        foreach (var item in BendingDatas)
+        {
+            if (item.IsCuted)
+                item.IsCuted = false;
+        }
+
+        if (SelectedBendingData is null)
+            return;
+
+        SelectedBendingData.IsCuted = true;
+        CurrentBendingDataToClipboard();
     }
 
     private void UpdateEstimatedRemainingLengthAndPipeLength()
