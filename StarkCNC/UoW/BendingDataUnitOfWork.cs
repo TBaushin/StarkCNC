@@ -168,7 +168,10 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
         CurrentFilePath = filePath;
 
-        await ReadFileAsync(filePath).ConfigureAwait(false);
+        if (File.Exists(CurrentFilePath))
+            await ReadFileAsync(filePath).ConfigureAwait(false);
+        else
+            CurrentFilePath = string.Empty;
 
         var first = BendingDatas.FirstOrDefault();
 

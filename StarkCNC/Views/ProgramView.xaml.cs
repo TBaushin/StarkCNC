@@ -92,4 +92,9 @@ public partial class ProgramView : Page
 
         ViewModel.RemoveBendingDataCommand.Execute(item);
     }
+
+    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ViewModel.UpdateBend();
+    }
 }

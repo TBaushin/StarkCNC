@@ -437,8 +437,9 @@
                                     TextChanged="Input_TextChanged"
                                     Text="{Binding BendingRadius, StringFormat={}{0} мм, Mode=TwoWay}"/>
                                 <ComboBox
+                                    SelectionChanged="ComboBox_SelectionChanged"
                                     ItemsSource="{Binding Source={x:Static vm:ProgramViewModel.BendingModes}}"
-                                    SelectedItem="{Binding BendingRadiusMode, Mode=TwoWay}"/>
+                                    SelectedItem="{Binding BendingRadiusMode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
