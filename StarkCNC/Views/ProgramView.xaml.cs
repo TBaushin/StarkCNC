@@ -118,7 +118,7 @@ public partial class ProgramView : Page
         scrollViewer.LineDown();
     }
 
-    private ScrollViewer? GetInternalScrollViewer(DependencyObject element)
+    private static ScrollViewer? GetInternalScrollViewer(DependencyObject element)
     {
         if (element is ScrollViewer scrollViewer)
             return scrollViewer;
