@@ -135,6 +135,21 @@
             <Button
                 Grid.Row="2"
                 Margin="7,0,0,10"
+                Command="{Binding CurrentBendingDataToClipboardCommand}">
+                <StackPanel Orientation="Horizontal">
+                    <Label
+                        VerticalAlignment="Center"
+                        FontSize="10"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Content=""/>
+                    <Label
+                        Margin="8,0,0,0"
+                        Content="Копировать"/>
+                </StackPanel>
+            </Button>
+            <Button
+                Grid.Row="2"
+                Margin="7,0,0,10"
                 Command="{Binding PasteBendingDataFromClipboardCommand}">
                 <StackPanel Orientation="Horizontal">
                     <Label

@@ -286,6 +286,12 @@ public partial class ProgramViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private void CopyBendingDataToClipboard()
+    {
+
+    }
+
+    [RelayCommand]
     private void PasteBendingDataFromClipboard()
     {
         var data = Clipboard.GetData(DataFormats.Text) as string;
