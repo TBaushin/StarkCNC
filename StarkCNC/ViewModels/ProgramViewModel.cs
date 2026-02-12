@@ -107,6 +107,7 @@ public partial class ProgramViewModel : ObservableObject
 
         try
         {
+            BendingDatas.Clear();
             foreach (var item in _unitOfWork.BendingDatas)
             {
                 BendingDatas.Add(new BendingDataViewModel(item));
