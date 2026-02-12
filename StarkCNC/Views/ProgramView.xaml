@@ -280,6 +280,15 @@
                                 <Setter Property="Background" Value="{StaticResource AccentFillColorSelectedTextBackgroundBrush}"/>
                                 <Setter Property="BorderBrush" Value="{StaticResource AccentFillColorSelectedTextBackgroundBrush}"/>
                             </Trigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsSelected}" Value="True"/>
+                                    <Condition Binding="{Binding IsCuted}" Value="True"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Background" Value="{StaticResource AccentFillColorSelectedTextBackgroundBrush}"/>
+                                <Setter Property="BorderBrush" Value="{StaticResource AccentFillColorSelectedTextBackgroundBrush}"/>
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </MultiDataTrigger>
                         </Style.Triggers>
                     </Style>
                     <Style
