@@ -257,10 +257,12 @@
             Grid.Column="0"
             Grid.Row="2"
             Grid.ColumnSpan="2"
-            Margin="10,0,20,10"
+            Margin="10,0,0,10"
             ColumnDefinitions="*,50">
             <DataGrid
                 x:Name="BendingDatasDataGrid"
+                Grid.Column="0"
+                Margin="0,0,10,0"
                 ColumnWidth="*"
                 SelectedItem="{Binding SelectedBendingData}"
                 ItemsSource="{Binding BendingDatas}"
@@ -548,18 +550,26 @@
                 <Button
                     x:Name="dgUp"
                     Grid.Row="0"
-                    VerticalAlignment="Top"
+                    VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     Click="dgUp_Click">
-                    UP
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        FontSize="30"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE74A;"/>
                 </Button>
                 <Button
                     x:Name="dgDown"
                     Grid.Row="1"
-                    VerticalAlignment="Bottom"
+                    VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     Click="dgDown_Click">
-                    DN
+                    <TextBlock 
+                        VerticalAlignment="Center"
+                        FontSize="30"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Text="&#xE74B;"/>
                 </Button>
             </Grid>
         </Grid>
