@@ -20,6 +20,8 @@ public partial class PrefixedTextBoxControl : UserControl
         .Register(nameof(NeedCallNumberInput), typeof(bool), typeof(PrefixedTextBoxControl), new PropertyMetadata());
     public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty
         .Register(nameof(IsNumericOnly), typeof(bool), typeof(PrefixedTextBoxControl), new PropertyMetadata(false));
+    public static readonly DependencyProperty IsReadOnlyProperty = DependencyProperty
+        .Register(nameof(IsReadOnly), typeof(bool), typeof(PrefixedTextBoxControl), new PropertyMetadata(false));
     public static readonly RoutedEvent TextChangedEvent = EventManager.
         RegisterRoutedEvent(nameof(TextChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(PrefixedTextBoxControl));
 
@@ -44,6 +46,12 @@ public partial class PrefixedTextBoxControl : UserControl
     {
         get => (bool)GetValue(IsNumericOnlyProperty);
         set => SetValue(IsNumericOnlyProperty, value);
+    }
+
+    public bool IsReadOnly
+    {
+        get => (bool)GetValue(IsReadOnlyProperty);
+        set => SetValue(IsReadOnlyProperty, value);
     }
 
     public event RoutedEventHandler TextChanged

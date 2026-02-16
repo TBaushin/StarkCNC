@@ -44,6 +44,7 @@
                 Height="31"
                 Background="Transparent"
                 Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 PreviewMouseDown="InputTextBox_PreviewMouseDown"
                 PreviewTextInput="InputTextBox_PreviewTextInput"
                 TextChanged="InputTextBox_TextChanged"

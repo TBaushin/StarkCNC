@@ -1,5 +1,7 @@
 ﻿using StarkCNC.ViewModels;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace StarkCNC.Views;
 
@@ -91,5 +93,44 @@ public partial class ProgramView : Page
             return;
 
         ViewModel.RemoveBendingDataCommand.Execute(item);
+    }
+
+    private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ViewModel.UpdateBend();
+    }
+
+    private void dgUp_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var scrollViewer = GetInternalScrollViewer(BendingDatasDataGrid);
+        if (scrollViewer is null)
+            return;
+
+        scrollViewer.LineUp();
+    }
+
+    private void dgDown_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var scrollViewer = GetInternalScrollViewer(BendingDatasDataGrid);
+        if (scrollViewer is null)
+            return;
+
+        scrollViewer.LineDown();
+    }
+
+    private static ScrollViewer? GetInternalScrollViewer(DependencyObject element)
+    {
+        if (element is ScrollViewer scrollViewer)
+            return scrollViewer;
+
+        for (int i = 0; i < VisualTreeHelper.GetChildrenCount(element); i++)
+        {
+            var child = VisualTreeHelper.GetChild(element, i);
+            var result = GetInternalScrollViewer(child);
+            if (result is not null)
+                return result;
+        }
+
+        return null;
     }
 }

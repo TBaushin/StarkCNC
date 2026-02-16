@@ -5,6 +5,8 @@ using StarkCNC.Utilities;
 using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shell;
 
 namespace StarkCNC;
@@ -37,6 +39,10 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         }
     }
 
+    public Color ResetIndicatorColor { get; set; } = Brushes.Red.Color;
+    public Color BackwardIndicatorColor { get; set; } = Brushes.Red.Color;
+    public Color ForwardIndicatorColor { get; set; } = Brushes.Red.Color;
+
     public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter, IAdjustmentService adjustmentService, IManualConfigurationService manualConfigurationService)
     {
         Adjustment = adjustment;
@@ -66,11 +72,13 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
 
     private void ShowParamatersEdits(string parameter)
     {
+        SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
         switch (parameter)
         {
             case nameof(Adjustment.Supply):
                 SupplyStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Supply;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Подача";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -82,6 +90,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_SUPPLY_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -94,6 +111,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Console):
                 ConsoleStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Console;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Консоль";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -105,6 +123,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_CONSOLE_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -133,6 +160,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
                 ClampDornPressStackPanel.DataContext = Adjustment.Clamp;
                 SpeedCoefficient.DataContext = Adjustment.Clamp;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Зажим";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -144,6 +172,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_CLAMP_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -157,6 +194,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
                 ClampDornPressStackPanel.DataContext = Adjustment.Dorn;
                 SpeedCoefficient.DataContext = Adjustment.Dorn;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Дорн";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -168,6 +206,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_DORN_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -181,6 +228,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
                 ClampDornPressStackPanel.DataContext = Adjustment.Press;
                 SpeedCoefficient.DataContext = Adjustment.Press;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Прижим";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -192,6 +240,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_PRESS_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }
@@ -204,6 +261,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Lift):
                 LiftStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Lift;
+                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Подъём";
                 _cancellationTokenSource = new CancellationTokenSource();
                 _updateCurrentPositionCoordinate = Task.Run(async () =>
@@ -215,6 +273,15 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                             CurrentPositionCoordinate = await _manualConfigurationService
                                 .ReadAsync<double>(ControllerRequestStrings.GET_LIFT_CURRENT_POSITION(_adjustmentService.CurrentLevel))
                                 .ConfigureAwait(false);
+                            ResetIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_RESET(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            BackwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_BACKWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
+                            ForwardIndicatorColor = await _manualConfigurationService
+                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_FORWARD(_adjustmentService.CurrentLevel))
+                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
                             Thread.Sleep(150);
                         }
                     }

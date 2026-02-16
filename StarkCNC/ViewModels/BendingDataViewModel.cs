@@ -92,6 +92,9 @@ public partial class BendingDataViewModel : ViewModelBase
     [ObservableProperty]
     private double _rotationSpeed = 100;
 
+    [ObservableProperty]
+    private bool _isCuted = false;
+
     public BendingDataViewModel() { }
 
     public BendingDataViewModel(BendingData data)

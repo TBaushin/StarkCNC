@@ -93,6 +93,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
         if (result == true)
         {
+            BendingDatas.Clear();
             CurrentFilePath = dialog.FileName;
             await ReadFileAsync(CurrentFilePath).ConfigureAwait(false);
 
@@ -167,7 +168,10 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
         CurrentFilePath = filePath;
 
-        await ReadFileAsync(filePath).ConfigureAwait(false);
+        if (File.Exists(CurrentFilePath))
+            await ReadFileAsync(filePath).ConfigureAwait(false);
+        else
+            CurrentFilePath = string.Empty;
 
         var first = BendingDatas.FirstOrDefault();
 

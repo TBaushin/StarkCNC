@@ -94,7 +94,7 @@ public class GCodeService : IGCodeService
             if (item.Contains('=', StringComparison.CurrentCulture))
             {
                 var keyValue = item.Split('=', StringSplitOptions.RemoveEmptyEntries);
-                if (keyValue.Length == 2 || keyValue[0] != "M")
+                if (keyValue.Length == 2 && keyValue[0] != "M")
                 {
                     var key = keyValue[0];
                     var valueString = keyValue[1];
