@@ -291,6 +291,12 @@
                                     <Setter Property="BorderBrush" Value="{StaticResource AccentFillColorSelectedTextBackgroundBrush}"/>
                                     <Setter Property="Opacity" Value="0.5"/>
                                 </MultiDataTrigger>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsCuted}" Value="True"/>
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Opacity" Value="0.5"/>
+                                </MultiDataTrigger>
                             </Style.Triggers>
                         </Style>
                         <Style
@@ -300,16 +306,7 @@
                         </Style>
                     </ResourceDictionary>
                 </DataGrid.Resources>
-                <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsCuted}" Value="True">
-                                <Setter Property="Opacity" Value="1"/>
-                                <Setter Property="Background" Value="LightGray"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.RowStyle>
+
                 <DataGrid.InputBindings>
                     <KeyBinding Key="C" Modifiers="Ctrl" Command="{Binding CurrentBendingDataToClipboardCommand}"/>
                     <KeyBinding Key="V" Modifiers="Ctrl" Command="{Binding PasteBendingDataFromClipboardCommand}"/>
