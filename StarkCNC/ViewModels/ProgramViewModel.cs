@@ -281,6 +281,9 @@ public partial class ProgramViewModel : ObservableObject
         if (SelectedBendingData is null)
             return;
 
+        var cuted = BendingDatas.Where(bd => bd.IsCuted).ToList();
+        cuted.ForEach(c => c.IsCuted = false);
+
         var json = JsonSerializer.Serialize<BendingDataViewModel>(SelectedBendingData);
         Clipboard.SetData(DataFormats.Text, Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
     }
@@ -306,6 +309,9 @@ public partial class ProgramViewModel : ObservableObject
             var cuted = BendingDatas.FirstOrDefault(i => i.IsCuted);
             if (cuted is not null)
                 BendingDatas.Remove(cuted);
+
+            if (bd.IsCuted)
+                bd.IsCuted = false;
 
             if (SelectedBendingData is not null)
                 BendingDatas.Insert(BendingDatas.IndexOf(SelectedBendingData) + 1, bd);
@@ -348,7 +354,8 @@ public partial class ProgramViewModel : ObservableObject
             return;
 
         SelectedBendingData.IsCuted = true;
-        CurrentBendingDataToClipboard();
+        var json = JsonSerializer.Serialize<BendingDataViewModel>(SelectedBendingData);
+        Clipboard.SetData(DataFormats.Text, Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
     }
 
     private void UpdateEstimatedRemainingLengthAndPipeLength()
