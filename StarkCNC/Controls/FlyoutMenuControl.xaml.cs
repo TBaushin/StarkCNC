@@ -106,7 +106,9 @@ public partial class FlyoutMenuControl : UserControl
             return;
 
         _selectedItem = navItem;
-        _selectedItem.NavigationCommand.Execute(null);
+        
+        if (!MenuIsOpen)
+            _selectedItem.NavigationCommand.Execute(null);
     }
 
     private void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -123,7 +125,9 @@ public partial class FlyoutMenuControl : UserControl
             return;
 
         _selectedItem = navItem;
-        _selectedItem.NavigationCommand.Execute(null);
+
+        if (MenuIsOpen)
+            _selectedItem.NavigationCommand.Execute(null);
     }
 
     private void MenuButton_Click(object sender, RoutedEventArgs e)
