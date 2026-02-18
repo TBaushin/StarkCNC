@@ -6,16 +6,19 @@ public class Router : IRouter, IRouteBuilder
 {
     private readonly INavigationService _navigationService;
     private readonly Dictionary<string, Route> _routes = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Stack<KeyValuePair<Route?, object[]?>> _history = new Stack<KeyValuePair<Route?, object[]?>>();
 
-    private Route? _currentRoute;
+    private KeyValuePair<Route?, object[]?> _currentRoute;
 
-    public Route? CurrentRoute => _currentRoute;
+    public Route? CurrentRoute => _currentRoute.Key;
+
+    public bool CanGoBack => _history.Any();
 
     public Router(INavigationService navigationService)
     {
         _navigationService = navigationService;
 
-        _navigationService.Navigation += _navigationService_Navigation;
+        //_navigationService.Navigation += _navigationService_Navigation;
     }
 
     public void AddRoute(string route, Type type, string? title = null, string? iconGlyph = null)
@@ -47,6 +50,27 @@ public class Router : IRouter, IRouteBuilder
         if (page is null)
             return null;
 
+        if (CurrentRoute is not null)
+            _history.Push(_currentRoute);
+
+        _currentRoute = new KeyValuePair<Route?, object[]?>(route, parameters);
+        _navigationService.Navigate(page);
+        return page;
+    }
+
+    public object? GoBack()
+    {
+        if (_history.Count == 0)
+            return null;
+
+        var route = _history.Pop();
+        if (route.Key is null)
+            return null;
+
+        var page = ViewLocator.Build(route.Key.Type, route.Value);
+        if (page is null)
+            return null;
+
         _currentRoute = route;
         _navigationService.Navigate(page);
         return page;
@@ -59,20 +83,4 @@ public class Router : IRouter, IRouteBuilder
 
     public Route? GetRoute(string path) =>
         _routes.TryGetValue(path, out var route) ? route : null;
-
-    private void _navigationService_Navigation(object? sender, NavigationEventArgs e)
-    {
-        var pageType = e.Page?.GetType();
-        if (pageType is null)
-            return;
-
-        foreach (var kv in _routes)
-        {
-            if (kv.Value.Type.Name == pageType.Name + "Model")
-            {
-                _currentRoute = kv.Value;
-                break;
-            }
-        }
-    }
 }

@@ -97,13 +97,7 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void Back()
     {
-        _navigationService.GoBack();
-    }
-
-    [RelayCommand]
-    private void Forward()
-    {
-        _navigationService.GoForward();
+        _router.GoBack();
     }
 
     [RelayCommand]
@@ -136,7 +130,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public void UpdateCanNavigateBack()
     {
-        CanNavigateBack = _navigationService.CanGoBack;
+        CanNavigateBack = _router.CanGoBack;
     }
 
     public ViewData? GetNavigationItem(string title)
