@@ -18,6 +18,7 @@
         SizeChanged="Window_SizeChanged">
     <Window.Resources>
         <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
+        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <Style x:Key="TitleBarDefaultButtonStyle" TargetType="Button">
             <Setter Property="MinWidth" Value="48"/>
             <Setter Property="MinHeight" Value="32"/>
@@ -186,13 +187,14 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="56"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Border
                     Margin="10,16,10,5"
                     Grid.Column="1"
                     Grid.Row="0"
+                    Visibility="{Binding ShowStatus, Converter={StaticResource BoolToVisibilityConverter}}"
                     Background="{DynamicResource LayerFillColorDefaultBrush}"
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
@@ -220,7 +222,6 @@
                             Content="История"
                             Click="HistoryButton_Click"/>
                     </Grid>
-
                 </Border>
 
                 <Border

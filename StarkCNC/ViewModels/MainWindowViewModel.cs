@@ -40,6 +40,9 @@ public partial class MainWindowViewModel : ViewModelBase
     private string _status = string.Empty;
 
     [ObservableProperty]
+    private bool _showStatus;
+
+    [ObservableProperty]
     private object _breadcrumb;
 
     public MainWindowViewModel(
@@ -58,7 +61,9 @@ public partial class MainWindowViewModel : ViewModelBase
         _adjustmentViewModel = adjustmentViewModel;
 
         if (statusService is not null)
-            statusService.PropertyChanged += (_, _) =>
+        {
+            ShowStatus = statusService.ShowStatus;
+            statusService.PropertyChanged += (sender, args) =>
             {
                 Task.Run(() =>
                 {
@@ -68,14 +73,25 @@ public partial class MainWindowViewModel : ViewModelBase
                     else
                         Status = statusService.CurrentStatus.Text;
                 });
+
+                if (args.PropertyName == nameof(statusService.ShowStatus))
+                    ShowStatus = statusService.ShowStatus;
             };
+        }
 
         RegisterPages();
         _adjustmentPage = Pages.First(e => e.Title == "Оснастка");
         AdjustmentUpdateChildElements();
 
         _adjustmentViewModel.SetUpAdjustments.CollectionChanged += SetUpAdjustments_CollectionChanged;
-        _navigationService.Navigation += (_, _) => Breadcrumb = breadcrumbService.VisibleObject;
+        _navigationService.Navigation += (_, _) =>
+        {
+            if (_router.CurrentRoute == _router.GetRoute("/program"))
+                statusService?.ShowStatus = false;
+            else
+                statusService?.ShowStatus = true;
+            Breadcrumb = breadcrumbService.VisibleObject;
+        };
     }
 
     [RelayCommand]
