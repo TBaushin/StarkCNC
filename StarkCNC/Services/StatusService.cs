@@ -8,6 +8,8 @@ public class StatusService : IStatusService
 {
     private Status? _status;
 
+    private bool _showStatus = true;
+
     public List<Status> History { get; } = new List<Status>();
 
     public Status? CurrentStatus
@@ -23,6 +25,16 @@ public class StatusService : IStatusService
                 History.Add(value);
                 OnCollectionChanged();
             }
+        }
+    }
+
+    public bool ShowStatus
+    {
+        get => _showStatus;
+        set
+        {
+            _showStatus = value;
+            OnPropertyChanged(nameof(ShowStatus));
         }
     }
 

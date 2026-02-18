@@ -9,5 +9,7 @@ public interface IStatusService : INotifyPropertyChanged
 
     Status? CurrentStatus { get; set; }
 
+    bool ShowStatus { get; set; }
+
     new event PropertyChangedEventHandler? PropertyChanged;
 }
