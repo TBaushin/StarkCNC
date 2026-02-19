@@ -5,7 +5,6 @@ using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.MachineCommunication.Services;
 using System.Collections.ObjectModel;
-using System.Windows;
 
 namespace StarkCNC.ViewModels;
 
