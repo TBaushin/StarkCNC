@@ -10,7 +10,7 @@
       d:DataContext="{d:DesignInstance vm:AutomaticViewModel}"
       mc:Ignorable="d"
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="AutomaticView">
+      Title="Автомат">
     <Page.Resources>
         <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
