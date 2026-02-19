@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Utilities;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -91,9 +92,6 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         _configurationService = configurationService;
         _unitOfWork = unitOfWork;
 
-        if (unitOfWork is null)
-            throw new ArgumentNullException(nameof(unitOfWork));
-
         ProgramName = _unitOfWork.ProgramName;
         PipeLength = _unitOfWork.PipeLength;
         SetUpPoint = _unitOfWork.SetUpPoint;
@@ -102,7 +100,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
 
-        foreach (var item in unitOfWork.BendingDatas)
+        foreach (var item in _unitOfWork.BendingDatas)
         {
             BendingDatas.Add(new BendingDataViewModel(item));
         }
@@ -113,28 +111,16 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     [RelayCommand(AllowConcurrentExecutions = true)]
     private async Task SetAutomaticMode()
     {
-        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
-        var turnOnRequestString = automaticTagsSection
-            .GetSection("TurnOn")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
         await _configurationService
-            .WriteAsync(true, turnOnRequestString)
+            .WriteAsync(true, ControllerRequestStrings.AUTOMATIC_TAGS_TURN_ON)
             .ConfigureAwait(false);
     }
 
     [RelayCommand(AllowConcurrentExecutions = true)]
     private async Task ClearActuatorErrors()
     {
-        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
-        var clearActuatorErrorsRequestString = automaticTagsSection
-            .GetSection("ClearActuatorErrors")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
         await _configurationService
-            .WriteAsync(true, clearActuatorErrorsRequestString)
+            .WriteAsync(true, ControllerRequestStrings.ERRORS_CLEAR_ACTUATOR_ERRORS)
             .ConfigureAwait(false);
 
         HasErrors = false;
@@ -161,26 +147,6 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         var automaticTagsSection = _configuration.GetSection("AutomaticTags");
         var factialSection = automaticTagsSection.GetSection("Factial");
-
-        var stopErrorRequestString = automaticTagsSection
-            .GetSection("StopErrors")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var cycleTimeRequestString = automaticTagsSection
-            .GetSection("CycleTime")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var sendDataRequestString = automaticTagsSection
-            .GetSection("SendData")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var countCompletedDetailsRequestString = automaticTagsSection
-            .GetSection("CountCompletedDetails")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
 
         var facticalSupplyRequestString = factialSection
             .GetSection("Supply")
@@ -209,16 +175,16 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
                 while (!token.IsCancellationRequested)
                 {
                     HasErrors = await _configurationService
-                        .ReadAsync<bool>(stopErrorRequestString)
+                        .ReadAsync<bool>(ControllerRequestStrings.ERRORS_HAS_ERRORS)
                         .ConfigureAwait(false);
                     CycleTime = await _configurationService
-                        .ReadAsync<double>(cycleTimeRequestString)
+                        .ReadAsync<double>(ControllerRequestStrings.AUTOMATIC_TAGS_CYCLE_TIME)
                         .ConfigureAwait(false);
                     SetSendData(await _configurationService
-                        .ReadAsync<bool>(sendDataRequestString)
+                        .ReadAsync<bool>(ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA)
                         .ConfigureAwait(false), true);
                     CountCompletedDetails = await _configurationService
-                        .ReadAsync<int>(countCompletedDetailsRequestString)
+                        .ReadAsync<int>(ControllerRequestStrings.AUTOMATIC_TAGS_COUNT_COMPLETED_DETAILS)
                         .ConfigureAwait(false);
 
                     FacticalSupply = await _configurationService
@@ -281,25 +247,6 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         // Prepare
         var automaticTagsSection = _configuration.GetSection("AutomaticTags");
         var currentTaskSection = automaticTagsSection.GetSection("CurrentTask");
-        var allBendRequestString = automaticTagsSection
-            .GetSection("AllGib")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var endProgramRequestString = automaticTagsSection
-            .GetSection("EndProgram")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var sendDataRequestString = automaticTagsSection
-            .GetSection("SendData")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        var stepNumberRequestString = automaticTagsSection
-            .GetSection("StepNumber")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
 
         var supplyRequestString = currentTaskSection
             .GetSection("Supply")
@@ -318,7 +265,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         // Send data
         await _configurationService
-            .WriteAsync<int>(BendingDatas.Count, allBendRequestString)
+            .WriteAsync<int>(BendingDatas.Count, ControllerRequestStrings.AUTOMATIC_TAGS_ALL_BEND)
             .ConfigureAwait(false);
 
         int step = 1;
@@ -329,7 +276,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             CurrentTaskBendingAngle = data.BendingAngle;
 
             await _configurationService
-                .WriteAsync<int>(step, stepNumberRequestString)
+                .WriteAsync<int>(step, ControllerRequestStrings.AUTOMATIC_TAGS_STEP_NUMBER)
                 .ConfigureAwait(false);
 
             await _configurationService
@@ -346,11 +293,11 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         // Finish
         await _configurationService
-            .WriteAsync<bool>(true, endProgramRequestString)
+            .WriteAsync<bool>(true, ControllerRequestStrings.AUTOMATIC_TAGS_END_PROGRAM)
             .ConfigureAwait(false);
 
         await _configurationService
-            .WriteAsync<bool>(false, sendDataRequestString)
+            .WriteAsync<bool>(false, ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA)
             .ConfigureAwait(false);
         SetSendData(false);
     }
@@ -367,13 +314,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
     async partial void OnIsFullAtomaticChanged(bool oldValue, bool newValue)
     {
-        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
-        var fullAutomaticRequestString = automaticTagsSection
-            .GetSection("FullAutomatic")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        await _configurationService.WriteAsync<bool>(newValue, fullAutomaticRequestString)
+        await _configurationService.WriteAsync<bool>(newValue, ControllerRequestStrings.AUTOMATIC_TAGS_FULL_AUTOMATIC)
             .ConfigureAwait(false);
     }
 
@@ -381,13 +322,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     {
         if (IsFullAtomatic)
         {
-            var automaticTagsSection = _configuration.GetSection("AutomaticTags");
-            var delayRequestString = automaticTagsSection
-                .GetSection("Delay")
-                .GetSection("RequestString")
-                .Get<string>() ?? string.Empty;
-
-            await _configurationService.WriteAsync<double>(newValue, delayRequestString)
+            await _configurationService.WriteAsync<double>(newValue, ControllerRequestStrings.AUTOMATIC_TAGS_DELAY)
                 .ConfigureAwait(false);
         }
     }
