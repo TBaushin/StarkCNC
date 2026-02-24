@@ -96,7 +96,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         PipeLength = _unitOfWork.PipeLength;
         SetUpPoint = _unitOfWork.SetUpPoint;
 
-        Operator = userService?.CurrentUser?.Name ?? string.Empty;
+        Operator = userService?.CurrentUser?.UserName ?? string.Empty;
 
         BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
 
