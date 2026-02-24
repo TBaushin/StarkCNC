@@ -1,5 +1,7 @@
 ﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +30,8 @@ public partial class App : Application
 {
     private static IHost _host = RegisterServices();
 
+    private static DirectoryInfo _directory = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "secrets"));
+
     public static IConfiguration Configuration { get; private set; } = ConfigureStartup();
 
     public App()
@@ -40,6 +44,7 @@ public partial class App : Application
         });
 
         ViewLocator.Initialize(_host.Services);
+        AppJsonContext.Initialize(Configuration);
 
         ConfigureRoutes(_host.Services.GetRequiredService<IRouter>());
 
@@ -63,6 +68,16 @@ public partial class App : Application
         Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
+                services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source=mydb.sql"));
+                // Настройка Identity
+                services.AddIdentity<IdentityUser, IdentityRole>(opt => opt.SignIn.RequireConfirmedAccount = false)
+                    .AddEntityFrameworkStores<AppDbContext>()
+                    .AddDefaultTokenProviders();
+                services.AddHttpContextAccessor();
+                services.AddDataProtection()
+                    .PersistKeysToFileSystem(_directory)
+                    .SetApplicationName("StarkCNC");
+
                 services.AddDbContext<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IRouter, Router>();

@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
+using StarkCNC.Database.Helpers;
 
 namespace StarkCNC.Database;
 
 public class AppJsonContext : DbContext
 {
+    private static IConfiguration _configuration;
+
     private readonly string _savePath;
 
     private readonly List<IDbHelper> _helpers;
@@ -49,9 +52,20 @@ public class AppJsonContext : DbContext
         return r;
     }
 
+    public static void Initialize(IConfiguration configuration)
+    {
+        _configuration = configuration;
+    }
+
+    public static AppJsonContext Initialize(IConfiguration configuration, DbContextOptions<AppJsonContext> options)
+    {
+        _configuration = configuration;
+        return new AppJsonContext(options);
+    }
+
     private static string GetSavePath()
     {
-        var section = App.Configuration.GetSection("SaveParameters");
+        var section = _configuration.GetSection("SaveParameters");
         if (section is null)
             return AppDomain.CurrentDomain.BaseDirectory;
 

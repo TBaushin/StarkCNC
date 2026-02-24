@@ -133,6 +133,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StarkCNC.Core\StarkCNC.Core.csproj" />
+    <ProjectReference Include="..\StarkCNC.Database\StarkCNC.Database.csproj" />
     <ProjectReference Include="..\StarkCNC.MachineCommunication\StarkCNC.MachineCommunication.csproj" />
   </ItemGroup>
 

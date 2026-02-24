@@ -1,4 +1,4 @@
-﻿namespace StarkCNC.Database;
+﻿namespace StarkCNC.Database.Helpers;
 
 public interface IDbHelper
 {

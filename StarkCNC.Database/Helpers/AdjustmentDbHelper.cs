@@ -3,7 +3,7 @@ using StarkCNC.Core.Models;
 using System.IO;
 using System.Text.Json;
 
-namespace StarkCNC.Database;
+namespace StarkCNC.Database.Helpers;
 
 public class AdjustmentDbHelper : IDbHelper
 {
