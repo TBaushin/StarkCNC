@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics.CodeAnalysis;
 
 namespace StarkCNC.Utilities;
 
+[SuppressMessage("Usage", "CA1707", Justification = "Специально сделано, чтоб выделить")]
 public static class ControllerRequestStrings
 {
     public static readonly string REQUEST = App.Configuration.GetValue<string>("MachineController:RequestString") ?? string.Empty;

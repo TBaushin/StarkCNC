@@ -28,9 +28,9 @@ namespace StarkCNC;
 /// </summary>
 public partial class App : Application
 {
-    private static IHost _host = RegisterServices();
-
     private static DirectoryInfo _directory = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "secrets"));
+
+    private static IHost _host = RegisterServices();
 
     public static IConfiguration Configuration { get; private set; } = ConfigureStartup();
 
@@ -64,8 +64,12 @@ public partial class App : Application
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .Build();
 
-    private static IHost RegisterServices() =>
-        Host.CreateDefaultBuilder()
+    private static IHost RegisterServices()
+    {
+        if (!_directory.Exists)
+            _directory.Create();
+
+        return Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
                 services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source=mydb.sql"));
@@ -105,6 +109,7 @@ public partial class App : Application
                 services.AddSingleton<IUserService, UserService>();
             })
             .Build();
+    }
 
     private static void ConfigureRoutes(IRouter router) =>
         router.ConfigureRoutes(configure =>

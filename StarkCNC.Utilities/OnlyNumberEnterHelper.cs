@@ -1,4 +1,4 @@
-﻿namespace StarkCNC.Helpers;
+﻿namespace StarkCNC.Utilities;
 
 public static class OnlyNumberEnterHelper
 {

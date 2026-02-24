@@ -2,9 +2,9 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace StarkCNC.Helpers;
+namespace StarkCNC.Utilities;
 
-internal class AdjustmentTypeToStringConverter : IValueConverter
+public class AdjustmentTypeToStringConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

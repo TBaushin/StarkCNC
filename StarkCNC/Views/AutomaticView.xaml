@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
-      xmlns:helpers="clr-namespace:StarkCNC.Helpers"
+      xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
       xmlns:local="clr-namespace:StarkCNC.Views"
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       d:DataContext="{d:DesignInstance vm:AutomaticViewModel}"
@@ -12,7 +12,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Автомат">
     <Page.Resources>
-        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
 
     <Grid ColumnDefinitions="4*,3*" RowDefinitions="9*,*">

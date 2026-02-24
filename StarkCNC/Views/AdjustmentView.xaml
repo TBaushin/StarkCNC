@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
-      xmlns:helpers="clr-namespace:StarkCNC.Helpers"
+      xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:local="clr-namespace:StarkCNC.Views"
       d:DataContext="{d:DesignInstance vm:AdjustmentViewModel}"
@@ -13,7 +13,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="{x:Static lang:Language.AdjustmentPageTitle}">
     <Page.Resources>
-        <helpers:AdjustmentTypeToStringConverter x:Key="AdjustmentTypeToStringConverter"/>
+        <utilities:AdjustmentTypeToStringConverter x:Key="AdjustmentTypeToStringConverter"/>
     </Page.Resources>
 
     <ScrollViewer>
