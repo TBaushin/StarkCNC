@@ -10,10 +10,21 @@ namespace StarkCNC.Controls;
 /// </summary>
 public partial class SwitchToggleControl : UserControl
 {
+    public static readonly DependencyProperty TextContentProperty = DependencyProperty
+        .Register(nameof(TextContent), typeof(string), typeof(SwitchToggleControl), new PropertyMetadata());
     public static readonly DependencyProperty IsCheckedProperty = DependencyProperty
         .Register(nameof(IsChecked), typeof(bool), typeof(SwitchToggleControl), new PropertyMetadata(false, OnIsCheckedChanged));
     public static readonly RoutedEvent ClickEvent = EventManager
         .RegisterRoutedEvent(nameof(Click), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(SwitchToggleControl));
+
+    public string TextContent
+    {
+        get => (string)GetValue(TextContentProperty);
+        set
+        {
+            SetValue(TextContentProperty, value);
+        }
+    }
 
     public bool IsChecked
     {

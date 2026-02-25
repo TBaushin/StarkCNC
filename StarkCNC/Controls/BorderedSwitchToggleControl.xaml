@@ -11,20 +11,12 @@
         Margin="8,4,8,4"
         CornerRadius="4"
         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-        <Grid Margin="20,10,20,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Label
-                Grid.Column="0"
-                VerticalAlignment="Center"
-                Content="{Binding TextContent, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-            <local:SwitchToggleControl
-                Grid.Column="1"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Center"
-                IsChecked="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
-        </Grid>
+        <local:SwitchToggleControl
+            Grid.Column="1"
+            Margin="20,10,20,10"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Center"
+            TextContent="{Binding TextContent, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            IsChecked="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
     </Border>
 </UserControl>
