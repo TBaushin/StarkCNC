@@ -12,12 +12,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>General.resx</DependentUpon>
     </Compile>
+    <Compile Update="SwitchToggle.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SwitchToggle.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="General.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>General.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="SwitchToggle.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>SwitchToggle.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 

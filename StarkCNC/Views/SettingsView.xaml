@@ -45,7 +45,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="0"
-                            TextContent="Вкл."
                             IsChecked="{Binding}"/>
                         <controls:LabeledTextBoxControl
                             Grid.Column="2"
@@ -69,7 +68,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="1"
-                            TextContent="Вкл."
                             IsChecked="{Binding Settings.Dorn.LubricantTurnOn, Mode=TwoWay}"/>
                     </Grid>
                 </StackPanel>
@@ -100,7 +98,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="0"
-                            TextContent="Вкл."
                             IsChecked="{Binding}"/>
                         <controls:LabeledTextBoxControl
                             Grid.Column="2"
@@ -119,7 +116,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="1"
-                            TextContent="Вкл."
                             IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
                     </Grid>
                 </StackPanel>
@@ -150,7 +146,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="0"
-                            TextContent="Вкл."
                             IsChecked="{Binding}"/>
                         <Button
                             Grid.Column="2"
@@ -169,7 +164,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="1"
-                            TextContent="Вкл."
                             IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
                         <Button
                             Grid.Column="2"
@@ -241,7 +235,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="0"
-                            TextContent="Вкл."
                             IsChecked="{Binding}"/>
                         <Label
                             Grid.Column="0"
@@ -250,7 +243,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="1"
-                            TextContent="Вкл."
                             IsChecked="{Binding Settings.IsPunchingCylinder, Mode=TwoWay}"/>
                         <Label
                             Grid.Column="0"
@@ -267,7 +259,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="3"
-                            TextContent="Вкл."
                             IsChecked="{Binding Settings.IsElectricBendingDrive, Mode=TwoWay}"/>
                         <Label
                             Grid.Column="0"
@@ -276,7 +267,6 @@
                         <controls:SwitchToggleControl
                             Grid.Column="1"
                             Grid.Row="4"
-                            TextContent="Вкл."
                             IsChecked="{Binding}"/>
                     </Grid>
                 </StackPanel>

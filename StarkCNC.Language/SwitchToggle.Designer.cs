@@ -22,14 +22,14 @@ namespace StarkCNC.Language {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class General {
+    public class SwitchToggle {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal General() {
+        internal SwitchToggle() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace StarkCNC.Language {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StarkCNC.Language.General", typeof(General).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("StarkCNC.Language.SwitchToggle", typeof(SwitchToggle).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,74 +61,20 @@ namespace StarkCNC.Language {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add.
+        ///   Looks up a localized string similar to Off.
         /// </summary>
-        public static string Add {
+        public static string Off {
             get {
-                return ResourceManager.GetString("Add", resourceCulture);
+                return ResourceManager.GetString("Off", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Apply.
+        ///   Looks up a localized string similar to On.
         /// </summary>
-        public static string Apply {
+        public static string On {
             get {
-                return ResourceManager.GetString("Apply", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Back.
-        /// </summary>
-        public static string Back {
-            get {
-                return ResourceManager.GetString("Back", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Cancel.
-        /// </summary>
-        public static string Cancel {
-            get {
-                return ResourceManager.GetString("Cancel", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create.
-        /// </summary>
-        public static string Create {
-            get {
-                return ResourceManager.GetString("Create", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Delete.
-        /// </summary>
-        public static string Delete {
-            get {
-                return ResourceManager.GetString("Delete", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit.
-        /// </summary>
-        public static string Edit {
-            get {
-                return ResourceManager.GetString("Edit", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string Save {
-            get {
-                return ResourceManager.GetString("Save", resourceCulture);
+                return ResourceManager.GetString("On", resourceCulture);
             }
         }
     }

@@ -33,6 +33,7 @@ public partial class SwitchToggleControl : UserControl
         {
             SetValue(IsCheckedProperty, value);
             ChangePosition();
+            SetText();
         }
     }
 
@@ -42,6 +43,7 @@ public partial class SwitchToggleControl : UserControl
     {
         InitializeComponent();
         ChangePosition();
+        SetText();
         MouseLeftButtonDown += SwitchToggleControl_MouseLeftButtonDown;
     }
 
@@ -57,6 +59,21 @@ public partial class SwitchToggleControl : UserControl
     private void SwitchToggleControl_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         IsChecked = !IsChecked;
+    }
+
+    private void SetText()
+    {
+        bool isStandard = TextContent == StarkCNC.Language.SwitchToggle.On
+            || TextContent == StarkCNC.Language.SwitchToggle.Off
+            || string.IsNullOrEmpty(TextContent);
+
+        if (!isStandard)
+            return;
+
+        if (IsChecked)
+            TextContent = StarkCNC.Language.SwitchToggle.On;
+        else
+            TextContent = StarkCNC.Language.SwitchToggle.Off;
     }
 
     private void ChangePosition()
