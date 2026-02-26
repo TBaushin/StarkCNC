@@ -9,6 +9,7 @@
     <Grid ColumnDefinitions="*,Auto">
         <Label
             Grid.Column="0"
+            Margin="0,0,5,0"
             VerticalAlignment="Center"
             Content="{Binding TextContent, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Border
