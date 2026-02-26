@@ -19,73 +19,62 @@
         <Grid
             Grid.Row="1"
             ColumnDefinitions="*,*,*">
-            <Border
-                Grid.Column="0"
-                Margin="8,4,8,4"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                <StackPanel
-                    Margin="5,0,5,0"
-                    Orientation="Vertical">
-                    <Label
-                        HorizontalAlignment="Center"
-                        FontSize="16"
-                        Content="Дорн"/>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto,Auto">
-                            <Label
-                                Grid.Column="0"
-                                Grid.Row="0"
-                                VerticalAlignment="Center">
-                                <TextBlock
-                                    TextWrapping="WrapWithOverflow"
-                                    Text="Выдвижение дорна в автомате"/>
-                            </Label>
-                            <controls:SwitchToggleControl
-                                Grid.Column="1"
-                                IsChecked="{Binding}"/>
-                            <controls:LabeledTextBoxControl
-                                Grid.Column="2"
-                                Direction="TopToBottom"
-                                Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
-                                <controls:LabeledTextBoxControl.LabelText>
-                                    <TextBlock
+            <controls:BorderedContentControl ChangeColorOnHover="False">
+                <controls:BorderedContentControl.BorderedContent>
+                    <StackPanel
+                        Margin="5,0,5,0"
+                        Orientation="Vertical">
+                        <Label
+                            HorizontalAlignment="Center"
+                            FontSize="16"
+                            Content="Дорн"/>
+                        <controls:BorderedContentControl ChangeColorOnHover="True">
+                            <controls:BorderedContentControl.BorderedContent>
+                                <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
+                                    <Label
+                                        Grid.Column="0"
+                                        Grid.Row="0"
+                                        VerticalAlignment="Center">
+                                        <TextBlock
+                                            TextWrapping="WrapWithOverflow"
+                                            Text="Выдвижение дорна в автомате"/>
+                                    </Label>
+                                    <controls:SwitchToggleControl
+                                        Grid.Column="1"
+                                        Margin="5"
+                                        IsChecked="{Binding}"/>
+                                    <controls:LabeledTextBoxControl
+                                        Grid.Column="2"
+                                        Direction="TopToBottom"
+                                        Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
+                                        <controls:LabeledTextBoxControl.LabelText>
+                                            <TextBlock
+                                                TextWrapping="WrapWithOverflow"
+                                                Text="Опережение дорна (градусы)"/>
+                                        </controls:LabeledTextBoxControl.LabelText>
+                                    </controls:LabeledTextBoxControl>
+                                </Grid>
+                            </controls:BorderedContentControl.BorderedContent>
+                        </controls:BorderedContentControl>
+                        <controls:BorderedContentControl MinHeight="50" ChangeColorOnHover="True">
+                            <controls:BorderedContentControl.BorderedContent>
+                                <Grid Margin="5" ColumnDefinitions="*,Auto">
+                                    <Label
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center">
+                                        <TextBlock
                                         TextWrapping="WrapWithOverflow"
-                                        Text="Опережение дорна (градусы)"/>
-                                </controls:LabeledTextBoxControl.LabelText>
-                            </controls:LabeledTextBoxControl>
-                        </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <Label
-                                Grid.Column="0"
-                                VerticalAlignment="Center">
-                                <TextBlock
-                                    TextWrapping="WrapWithOverflow"
-                                    Text="Смазка дорна в автомате"/>
-                            </Label>
-                            <controls:SwitchToggleControl
-                                Grid.Column="1"
-                                IsChecked="{Binding Settings.Dorn.LubricantTurnOn, Mode=TwoWay}"/>
-                        </Grid>
-                    </Border>
-                </StackPanel>
-            </Border>
+                                        Text="Смазка дорна в автомате"/>
+                                    </Label>
+                                    <controls:SwitchToggleControl
+                                    Grid.Column="1"
+                                    IsChecked="{Binding Settings.Dorn.LubricantTurnOn, Mode=TwoWay}"/>
+                                </Grid>
+                            </controls:BorderedContentControl.BorderedContent>
+                        </controls:BorderedContentControl>
+                    </StackPanel>
+                </controls:BorderedContentControl.BorderedContent>
+            </controls:BorderedContentControl>
             <Border
                 Grid.Column="1"
                 Margin="8,4,8,4"
@@ -600,54 +589,40 @@
             ColumnDefinitions="*,*,*">
             <Grid
                 Grid.Column="0"
-                Grid.ColumnSpan="2"
-                Margin="0,0,10,0"
-                ColumnDefinitions="0.1*,*,0.25*,0.25*,0.25*"
+                Grid.Row="0"
+                Margin="8,0,8,5"
+                ColumnDefinitions="0.2*,*"
                 RowDefinitions="*,*,*,*,*">
                 <!--Левые заголовки таблицы-->
                 <Label
                     Grid.Column="0"
                     Grid.Row="1"
+                    VerticalAlignment="Center"
                     Content="Подача"/>
                 <Label
                     Grid.Column="0"
                     Grid.Row="2"
+                    VerticalAlignment="Center"
                     Content="Поворот"/>
                 <Label
                     Grid.Column="0"
                     Grid.Row="3"
+                    VerticalAlignment="Center"
                     Content="Консоль"/>
                 <Label
                     Grid.Column="0"
                     Grid.Row="4"
+                    VerticalAlignment="Center"
                     Content="Гиб"/>
-                
-                <!--Верхние заголовки таблицы-->
+
+                <!--Первый верхний заголовок таблицы-->
                 <Label
                     Grid.Column="1"
                     Grid.Row="0"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Content="Коэффициент скорости"/>
-                <Label
-                    Grid.Column="2"
-                    Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="Ускорение"/>
-                <Label
-                    Grid.Column="3"
-                    Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="Торможение"/>
-                <Label
-                    Grid.Column="4"
-                    Grid.Row="0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="Jerk"/>
-
+                
                 <!--Контент-->
                 <Border
                     Grid.Column="1"
@@ -659,90 +634,133 @@
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="1"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="2"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="3"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="4"
+                    Margin="5"
                     Text=""/>
+            </Grid>
+            <Grid
+                Grid.Column="1"
+                Margin="8,0,8,5"
+                ColumnDefinitions="*,*,*"
+                RowDefinitions="*,*,*,*,*">
 
-                <Border
+                <!--Верхние заголовки таблицы-->
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Ускорение"/>
+                <Label
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Торможение"/>
+                <Label
                     Grid.Column="2"
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Jerk"/>
+
+                <!--Контент-->
+                <Border
+                    Grid.Column="0"
                     Grid.Row="1"
                     Grid.RowSpan="4"
                     Margin="0,4,0,4"
                     CornerRadius="4"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="2"
+                    Grid.Column="0"
                     Grid.Row="1"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="2"
+                    Grid.Column="0"
                     Grid.Row="2"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="2"
+                    Grid.Column="0"
                     Grid.Row="3"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="2"
+                    Grid.Column="0"
                     Grid.Row="4"
+                    Margin="5"
                     Text=""/>
 
                 <Border
-                    Grid.Column="3"
+                    Grid.Column="1"
                     Grid.Row="1"
                     Grid.RowSpan="4"
                     Margin="0,4,0,4"
                     CornerRadius="4"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="3"
+                    Grid.Column="1"
                     Grid.Row="1"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="3"
+                    Grid.Column="1"
                     Grid.Row="2"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="3"
+                    Grid.Column="1"
                     Grid.Row="3"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="3"
+                    Grid.Column="1"
                     Grid.Row="4"
+                    Margin="5"
                     Text=""/>               
 
                 <Border
-                    Grid.Column="4"
+                    Grid.Column="2"
                     Grid.Row="1"
                     Grid.RowSpan="4"
                     Margin="0,4,0,4"
                     CornerRadius="4"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="4"
+                    Grid.Column="2"
                     Grid.Row="1"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="4"
+                    Grid.Column="2"
                     Grid.Row="2"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="4"
+                    Grid.Column="2"
                     Grid.Row="3"
+                    Margin="5"
                     Text=""/>
                 <controls:LabeledTextBoxControl
-                    Grid.Column="4"
+                    Grid.Column="2"
                     Grid.Row="4"
+                    Margin="5"
                     Text=""/>               
             </Grid>
         </Grid>

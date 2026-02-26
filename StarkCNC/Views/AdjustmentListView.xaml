@@ -18,40 +18,58 @@
             Grid.Row="2"
             Margin="0,0,15,0"
             Orientation="Vertical">
-            <controls:BorderedContentControl Text="Добавление новой оснастки">
-                <controls:BorderedContentControl.BorderedContent>
+            <controls:BorderedContentControl>
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    Margin="20,10,20,10">
+                    <Label
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Content="Добавление новой оснастки"/>
                     <Button
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
                         Style="{DynamicResource AccentButtonStyle}"
                         Content="{x:Static lang:Language.AddButton}"
                         Command="{Binding CreateAdjustmentCommand}"/>
-                </controls:BorderedContentControl.BorderedContent>
+                </Grid>
             </controls:BorderedContentControl>
             <ItemsControl
                 ItemsSource="{Binding Adjustments}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <controls:BorderedContentControl
-                            Text="{Binding Name}">
+                        <controls:BorderedContentControl MinHeight="80">
                             <controls:BorderedContentControl.BorderedContent>
-                                <Grid Margin="10,0,0,0" VerticalAlignment="Center">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <Button
-                                        Grid.Column="0"
-                                        Margin="0,0,6,0"
-                                        Click="DeleteButton_Click"
-                                        Content="{x:Static lang:Language.DeleteButton}"/>
+                                <Grid
+                                    ColumnDefinitions="*,Auto"
+                                    Margin="20,10,20,10">
                                     <Label
-                                        Grid.Column="1"
-                                        Margin="4,0,4,0"
-                                        FontSize="20"
+                                        Grid.Column="0"
                                         VerticalAlignment="Center"
-                                        Cursor="Hand"
-                                        FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                        Content="&#xE76C;"
-                                        PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown"/>
+                                        Content="{Binding Name}"/>
+                                    <Grid
+                                        Grid.Column="1"
+                                        Margin="10,0,0,0"
+                                        VerticalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button
+                                            Grid.Column="0"
+                                            Margin="0,0,6,0"
+                                            Click="DeleteButton_Click"
+                                            Content="{x:Static lang:Language.DeleteButton}"/>
+                                        <Label
+                                            Grid.Column="1"
+                                            Margin="4,0,4,0"
+                                            FontSize="20"
+                                            VerticalAlignment="Center"
+                                            Cursor="Hand"
+                                            FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                            Content="&#xE76C;"
+                                            PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown"/>
+                                    </Grid>
                                 </Grid>
                             </controls:BorderedContentControl.BorderedContent>
                         </controls:BorderedContentControl>
