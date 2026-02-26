@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace StarkCNC.Controls;
 
@@ -94,5 +95,13 @@ public partial class BorderedLabeledTextBoxControl : UserControl
 
         var args = new RoutedEventArgs(TextChangedEvent, this);
         RaiseEvent(args);
+    }
+
+    private void InputTextBlock_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            InputTextBlock.MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
+        }
     }
 }

@@ -25,6 +25,7 @@
                 IsReadOnly="{Binding IsReadOnly, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 PreviewMouseLeftButtonDown="InputTextBox_MouseDown"
                 PreviewTextInput="InputTextBox_PreviewTextInput"
+                PreviewKeyDown="InputTextBox_PreviewKeyDown"
                 TextChanged="InputTextBox_TextChanged"
                 Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         </Grid>

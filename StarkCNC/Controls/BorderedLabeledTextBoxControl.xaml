@@ -29,7 +29,8 @@
                 Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"
                 PreviewMouseDown="InputTextBox_MouseDown"
                 PreviewTextInput="InputTextBox_PreviewTextInput"
-                TextChanged="InputTextBlock_TextChanged"/>
+                TextChanged="InputTextBlock_TextChanged"
+                PreviewKeyDown="InputTextBlock_PreviewKeyDown"/>
         </Grid>
     </Border>
 </UserControl>
