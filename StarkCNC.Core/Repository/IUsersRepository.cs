@@ -1,20 +1,20 @@
-﻿using StarkCNC.Core.Models;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace StarkCNC.Core.Repository;
 
 public interface IUsersRepository
 {
-    Task<User?> AddElementAsync(User user);
+    Task<IdentityUser?> AddElementAsync(IdentityUser user);
 
     Task RemoveElementAsync(Guid id);
 
-    Task RemoveElementAsync(User user);
+    Task RemoveElementAsync(IdentityUser user);
 
-    Task UpdateElementAsync(User user);
+    Task UpdateElementAsync(IdentityUser user);
 
-    Task<IEnumerable<User>> FindByNameAsync(string name);
+    Task<IdentityUser?> FindByNameAsync(string name);
 
-    Task<User?> FindByIdAsync(Guid id);
+    Task<IdentityUser?> FindByIdAsync(Guid id);
 
-    Task<IEnumerable<User>> GetAllAsync();
+    Task<IEnumerable<IdentityUser>> GetAllAsync();
 }

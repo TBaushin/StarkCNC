@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace StarkCNC.Helpers;
+namespace StarkCNC.Utilities;
 
 public static class VisualFinder
 {

@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Microsoft.AspNetCore.Identity;
 using StarkCNC.Core.Services;
 using StarkCNC.Models;
 using System.Collections.ObjectModel;
@@ -45,7 +46,7 @@ public partial class UserViewModel : ObservableObject
 
         foreach(var user in users)
         {
-            Users.Add(new User(user.Id, user.Name, user.Image?.ToArray() ?? Array.Empty<byte>()));
+            Users.Add(new User(Guid.Parse(user.Id), user.UserName, Array.Empty<byte>()));
         }
     }
 
@@ -62,10 +63,12 @@ public partial class UserViewModel : ObservableObject
     [RelayCommand]
     private async Task AddUser()
     {
-        var u = new User(Guid.NewGuid(), Localization.Language.NewUser, Array.Empty<byte>());
-        Users.Add(u);
         SelectedUser = Users.Last();
-        await _userService.AddElementAsync(new Core.Models.User(u.Id, u.Name, u.Image)).ConfigureAwait(false);
+        var user = await _userService.AddElementAsync(new IdentityUser(Localization.Language.NewUser)).ConfigureAwait(false);
+        if (user is not null)
+        {
+            Users.Add(new User(Guid.Parse(user.Id), user.UserName, Array.Empty<byte>()));
+        }
 
         IsReadOnly = false;
         IsEditing = true;
@@ -130,8 +133,8 @@ public partial class UserViewModel : ObservableObject
             var u = await _userService.FindByIdAsync(SelectedUser.Id).ConfigureAwait(false);
             if (u is not null)
             {
-                u.Name = SelectedUser.Name;
-                u.SetImage(SelectedUser.Image);
+                u.UserName = SelectedUser.Name;
+                //u.SetImage(SelectedUser.Image);
                 await _userService.UpdateElementAsync(u).ConfigureAwait(false);
             }
             await Task.Delay(2000).ContinueWith(_ => IsSaved = false, TaskScheduler.FromCurrentSynchronizationContext()).ConfigureAwait(false);

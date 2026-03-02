@@ -1,5 +1,7 @@
 ﻿using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,6 +28,8 @@ namespace StarkCNC;
 /// </summary>
 public partial class App : Application
 {
+    private static DirectoryInfo _directory = new DirectoryInfo(Path.Combine(Environment.CurrentDirectory, "secrets"));
+
     private static IHost _host = RegisterServices();
 
     public static IConfiguration Configuration { get; private set; } = ConfigureStartup();
@@ -40,6 +44,7 @@ public partial class App : Application
         });
 
         ViewLocator.Initialize(_host.Services);
+        AppJsonContext.Initialize(Configuration);
 
         ConfigureRoutes(_host.Services.GetRequiredService<IRouter>());
 
@@ -59,10 +64,24 @@ public partial class App : Application
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .Build();
 
-    private static IHost RegisterServices() =>
-        Host.CreateDefaultBuilder()
+    private static IHost RegisterServices()
+    {
+        if (!_directory.Exists)
+            _directory.Create();
+
+        return Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
+                services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source=mydb.sql"));
+                // Настройка Identity
+                services.AddIdentity<IdentityUser, IdentityRole>(opt => opt.SignIn.RequireConfirmedAccount = false)
+                    .AddEntityFrameworkStores<AppDbContext>()
+                    .AddDefaultTokenProviders();
+                services.AddHttpContextAccessor();
+                services.AddDataProtection()
+                    .PersistKeysToFileSystem(_directory)
+                    .SetApplicationName("StarkCNC");
+
                 services.AddDbContext<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IRouter, Router>();
@@ -90,6 +109,7 @@ public partial class App : Application
                 services.AddSingleton<IUserService, UserService>();
             })
             .Build();
+    }
 
     private static void ConfigureRoutes(IRouter router) =>
         router.ConfigureRoutes(configure =>

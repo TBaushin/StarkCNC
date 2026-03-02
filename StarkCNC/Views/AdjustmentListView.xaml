@@ -18,22 +18,38 @@
             Grid.Row="2"
             Margin="0,0,15,0"
             Orientation="Vertical">
-            <controls:BorderedContentControl Text="Добавление новой оснастки">
-                <controls:BorderedContentControl.BorderedContent>
+            <controls:BorderedControl>
+                <Grid
+                    ColumnDefinitions="*,Auto"
+                    Margin="20,10,20,10">
+                    <Label
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Content="Добавление новой оснастки"/>
                     <Button
+                        Grid.Column="1"
+                        VerticalAlignment="Center"
                         Style="{DynamicResource AccentButtonStyle}"
                         Content="{x:Static lang:Language.AddButton}"
                         Command="{Binding CreateAdjustmentCommand}"/>
-                </controls:BorderedContentControl.BorderedContent>
-            </controls:BorderedContentControl>
+                </Grid>
+            </controls:BorderedControl>
             <ItemsControl
                 ItemsSource="{Binding Adjustments}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <controls:BorderedContentControl
-                            Text="{Binding Name}">
-                            <controls:BorderedContentControl.BorderedContent>
-                                <Grid Margin="10,0,0,0" VerticalAlignment="Center">
+                        <controls:BorderedControl MinHeight="80" ChangeColorOnHover="True">
+                            <Grid
+                                ColumnDefinitions="*,Auto"
+                                Margin="20,10,20,10">
+                                <Label
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center"
+                                    Content="{Binding Name}"/>
+                                <Grid
+                                    Grid.Column="1"
+                                    Margin="10,0,0,0"
+                                    VerticalAlignment="Center">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                         <ColumnDefinition Width="Auto"/>
@@ -53,8 +69,8 @@
                                         Content="&#xE76C;"
                                         PreviewMouseLeftButtonDown="Label_PreviewMouseLeftButtonDown"/>
                                 </Grid>
-                            </controls:BorderedContentControl.BorderedContent>
-                        </controls:BorderedContentControl>
+                            </Grid>
+                        </controls:BorderedControl>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>

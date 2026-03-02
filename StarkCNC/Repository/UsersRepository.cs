@@ -1,59 +1,52 @@
-﻿using Microsoft.EntityFrameworkCore;
-using StarkCNC.Core.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using StarkCNC.Core.Repository;
-using StarkCNC.Database;
+using System.Diagnostics;
 
 namespace StarkCNC.Repository;
 
 public class UsersRepository : IUsersRepository
 {
-    private readonly AppJsonContext _context;
+    private UserManager<IdentityUser> _userManager;
+    private RoleManager<IdentityRole> _roleManager;
 
-    public UsersRepository(AppJsonContext context)
+    public UsersRepository(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
     {
-        _context = context;
+        _userManager = userManager;
+        _roleManager = roleManager;
     }
 
-    public async Task<User?> AddElementAsync(User user)
+    public async Task<IdentityUser?> AddElementAsync(IdentityUser user)
     {
-        await _context.AddAsync(user).ConfigureAwait(false);
-        await _context.SaveChangesAsync().ConfigureAwait(false);
+        var result = await _userManager.CreateAsync(user, "").ConfigureAwait(false);
+        if (result.Errors.Any())
+        {
+            Debug.WriteLine(result.Errors.ToList().Select(e => e.Code + " " + e.Description));
+            return null;
+        }
 
         return user;
     }
 
-    public async Task<User?> FindByIdAsync(Guid id) =>
-        await _context.Users.FirstOrDefaultAsync(u => u.Id == id).ConfigureAwait(false);
+    public async Task<IdentityUser?> FindByIdAsync(Guid id) =>
+        await _userManager.FindByIdAsync(id.ToString()).ConfigureAwait(false);
 
-    public async Task<IEnumerable<User>> FindByNameAsync(string name) =>
-        await _context.Users.Where(u => u.Name.Contains(name, StringComparison.CurrentCulture)).ToListAsync().ConfigureAwait(false);
+    public async Task<IdentityUser?> FindByNameAsync(string name) =>
+        await _userManager.FindByNameAsync(name).ConfigureAwait(false);
 
-    public async Task<IEnumerable<User>> GetAllAsync() =>
-        await _context.Users.ToListAsync().ConfigureAwait(false);
+    public async Task<IEnumerable<IdentityUser>> GetAllAsync() =>
+        await _userManager.Users.ToListAsync().ConfigureAwait(false);
 
     public async Task RemoveElementAsync(Guid id)
     {
-        var item = _context.Users.FirstOrDefault(u => u.Id == id);
-        if (item is not null)
-        {
-            _context.Remove(item);
-            await _context.SaveChangesAsync().ConfigureAwait(false);
-        }
+        var user = await FindByIdAsync(id).ConfigureAwait(false);
+        if (user is not null)
+            await _userManager.DeleteAsync(user).ConfigureAwait(false);
     }
 
-    public async Task RemoveElementAsync(User user)
-    {
-        _context.Remove(user);
-        await _context.SaveChangesAsync().ConfigureAwait(false);
-    }
+    public async Task RemoveElementAsync(IdentityUser user) =>
+        await _userManager.DeleteAsync(user).ConfigureAwait(false);
 
-    public async Task UpdateElementAsync(User user)
-    {
-        if (user is null)
-            throw new ArgumentNullException(nameof(user));
-
-        _context.Entry(user).State = EntityState.Modified;
-
-        await _context.SaveChangesAsync().ConfigureAwait(false);
-    }
+    public async Task UpdateElementAsync(IdentityUser user) =>
+        await _userManager.UpdateAsync(user).ConfigureAwait(false);
 }

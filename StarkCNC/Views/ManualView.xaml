@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
-      xmlns:helpers="clr-namespace:StarkCNC.Helpers"
+      xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
       xmlns:local="clr-namespace:StarkCNC.Views"
@@ -17,7 +17,7 @@
             <Setter Property="Margin" Value="0,5,0,5"/>
             <Setter Property="MinHeight" Value="50"/>
         </Style>
-        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Page.Resources>
     <Grid>
         <Grid.ColumnDefinitions>

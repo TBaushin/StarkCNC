@@ -48,6 +48,7 @@
                 PreviewMouseDown="InputTextBox_PreviewMouseDown"
                 PreviewTextInput="InputTextBox_PreviewTextInput"
                 TextChanged="InputTextBox_TextChanged"
+                PreviewKeyDown="InputTextBox_PreviewKeyDown"
                 Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
     </Border>

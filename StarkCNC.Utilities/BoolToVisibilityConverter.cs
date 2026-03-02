@@ -2,12 +2,12 @@
 using System.Windows;
 using System.Windows.Data;
 
-namespace StarkCNC.Helpers;
+namespace StarkCNC.Utilities;
 
 /// <summary>
 /// Converts an bool to Visibility.Collapsed
 /// </summary>
-internal sealed class BoolToVisibilityConverter : IValueConverter
+public sealed class BoolToVisibilityConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

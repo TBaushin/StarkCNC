@@ -2,9 +2,9 @@ using StarkCNC.Core.Models;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace StarkCNC.Helpers;
+namespace StarkCNC.Utilities;
 
-internal class FloorTypeToStringConverter : IValueConverter
+public class FloorTypeToStringConverter : IValueConverter
 {
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {

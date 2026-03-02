@@ -4,7 +4,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:models="clr-namespace:StarkCNC.Models"
-      xmlns:helpers="clr-namespace:StarkCNC.Helpers"
+      xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
       xmlns:local="clr-namespace:StarkCNC.Views"
       xmlns:viewmodels="clr-namespace:StarkCNC.ViewModels"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
@@ -15,8 +15,8 @@
       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
       Title="UserView">
     <Page.Resources>
-        <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
-        <helpers:BytesToBitmapConverter x:Key="BytesToBitmapConverter"/>
+        <utilities:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
+        <utilities:BytesToBitmapConverter x:Key="BytesToBitmapConverter"/>
 
         <Style TargetType="Label" x:Key="GenericLabelStyle">
             <Setter Property="Opacity" Value="0.67"/>

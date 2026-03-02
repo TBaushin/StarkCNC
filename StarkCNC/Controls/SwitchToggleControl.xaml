@@ -6,10 +6,20 @@
              xmlns:local="clr-namespace:StarkCNC.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Border
-        x:Name="SwitchBorder"
-        MouseEnter="SwitchBorder_MouseEnter"
-        MouseLeave="SwitchBorder_MouseLeave">
-        <Ellipse x:Name="SwitchEllipse"/>
-    </Border>
+    <Grid ColumnDefinitions="*,Auto">
+        <Label
+            Grid.Column="0"
+            Margin="0,0,5,0"
+            VerticalAlignment="Center"
+            Content="{Binding TextContent, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+        <Border
+            x:Name="SwitchBorder"
+            Grid.Column="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"
+            MouseEnter="SwitchBorder_MouseEnter"
+            MouseLeave="SwitchBorder_MouseLeave">
+            <Ellipse x:Name="SwitchEllipse"/>
+        </Border>
+    </Grid>
 </UserControl>

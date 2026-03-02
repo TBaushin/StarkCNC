@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:vm="clr-namespace:StarkCNC.ViewModels"
-        xmlns:helpers="clr-namespace:StarkCNC.Helpers"
+        xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
         xmlns:lang="clr-namespace:StarkCNC.Localization"
         xmlns:controls="clr-namespace:StarkCNC.Controls"
         xmlns:local="clr-namespace:StarkCNC"
@@ -17,8 +17,8 @@
         KeyDown="Window_KeyDown"
         SizeChanged="Window_SizeChanged">
     <Window.Resources>
-        <helpers:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
-        <helpers:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <utilities:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
+        <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <Style x:Key="TitleBarDefaultButtonStyle" TargetType="Button">
             <Setter Property="MinWidth" Value="48"/>
             <Setter Property="MinHeight" Value="32"/>

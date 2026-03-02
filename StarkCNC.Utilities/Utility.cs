@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 
-namespace StarkCNC.Helpers;
+namespace StarkCNC.Utilities;
 
-internal static class Utility
+public static class Utility
 {
     public static bool IsBackdropSupported()
     {

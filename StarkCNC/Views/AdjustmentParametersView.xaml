@@ -5,7 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:svg="http://sharpvectors.codeplex.com/svgc/"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
-      xmlns:helpers="clr-namespace:StarkCNC.Helpers"
+      xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
       xmlns:local="clr-namespace:StarkCNC.Views"
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       d:DataContext="{d:DesignInstance vm:AdjustmentListViewModel}"
@@ -18,7 +18,7 @@
             <Setter Property="Margin" Value="0,5,0,5"/>
             <Setter Property="MinHeight" Value="50"/>
         </Style>
-        <helpers:AdjustmentTypeToStringConverter x:Key="AdjustmentTypeToStringConverter"/>
+        <utilities:AdjustmentTypeToStringConverter x:Key="AdjustmentTypeToStringConverter"/>
     </Page.Resources>
     <StackPanel>
         <Border
