@@ -19,7 +19,7 @@
         </ResourceDictionary>
     </Page.Resources>
     
-    <Grid RowDefinitions="Auto,0.65*,Auto,*,0.85*">
+    <Grid RowDefinitions="Auto,0.65*,Auto,*,0.8*">
         <Label
             Grid.Row="0"
             Margin="10,5,0,5"
@@ -90,38 +90,38 @@
                         FontSize="16"
                         Content="Настройки гибки"/>
                     <controls:BorderedControl ChangeColorOnHover="True">
-                            <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
-                                <Label
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center">
-                                    <TextBlock
-                                        TextWrapping="WrapWithOverflow"
-                                        Text="Принудительное проталкивание трубы при гибке в автомате"/>
-                                </Label>
-                                <controls:SwitchToggleControl
-                                    Grid.Column="1"
-                                    Margin="5"
-                                    IsChecked="False"/>
-                                <controls:LabeledTextBoxControl
-                                    Grid.Column="2"
-                                    Direction="TopToBottom"
-                                    LabelText="Коэффициент"
-                                    Text="{Binding Settings.Bend.Coefficient}"/>
-                            </Grid>
+                        <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
+                            <Label
+                                Grid.Column="0"
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Принудительное проталкивание трубы при гибке в автомате"/>
+                            </Label>
+                            <controls:SwitchToggleControl
+                                Grid.Column="1"
+                                Margin="5"
+                                IsChecked="False"/>
+                            <controls:LabeledTextBoxControl
+                                Grid.Column="2"
+                                Direction="TopToBottom"
+                                LabelText="Коэффициент"
+                                Text="{Binding Settings.Bend.Coefficient}"/>
+                        </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl>
-                            <Grid Margin="5" ColumnDefinitions="*,Auto">
-                                <Label
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center">
-                                    <TextBlock
-                                        TextWrapping="WrapWithOverflow"
-                                        Text="Синхронизация гиба и подачи в наладке"/>
-                                </Label>
-                                <controls:SwitchToggleControl
-                                    Grid.Column="1"
-                                    IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
-                            </Grid>
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                            <Label
+                                Grid.Column="0"
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Синхронизация гиба и подачи в наладке"/>
+                            </Label>
+                            <controls:SwitchToggleControl
+                                Grid.Column="1"
+                                IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
+                        </Grid>
                     </controls:BorderedControl>
                 </StackPanel>
             </controls:BorderedControl>
@@ -506,13 +506,14 @@
         </Grid>
         <Grid
             Grid.Row="4"
+            Margin="0,5,0,0"
             ColumnDefinitions="*,*,*">
             <Grid
                 Grid.Column="0"
                 Grid.Row="0"
                 Margin="8,0,8,5"
                 ColumnDefinitions="0.2*,*"
-                RowDefinitions="*,*,*,*,*">
+                RowDefinitions="Auto,*,*,*,*">
                 <!--Левые заголовки таблицы-->
                 <Label
                     Grid.Column="0"
@@ -576,7 +577,7 @@
                 Grid.Column="1"
                 Margin="8,0,8,5"
                 ColumnDefinitions="*,*,*"
-                RowDefinitions="*,*,*,*,*">
+                RowDefinitions="Auto,*,*,*,*">
 
                 <!--Верхние заголовки таблицы-->
                 <Label
