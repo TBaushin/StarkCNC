@@ -139,9 +139,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Controls\BorderedContentControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Controls\BorderedLabeledTextBoxControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

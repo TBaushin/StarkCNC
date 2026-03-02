@@ -19,67 +19,61 @@
         <Grid
             Grid.Row="1"
             ColumnDefinitions="*,*,*">
-            <controls:BorderedContentControl ChangeColorOnHover="False">
-                <controls:BorderedContentControl.BorderedContent>
-                    <StackPanel
-                        Margin="5,0,5,0"
-                        Orientation="Vertical">
-                        <Label
-                            HorizontalAlignment="Center"
-                            FontSize="16"
-                            Content="Дорн"/>
-                        <controls:BorderedContentControl ChangeColorOnHover="True">
-                            <controls:BorderedContentControl.BorderedContent>
-                                <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
-                                    <Label
-                                        Grid.Column="0"
-                                        Grid.Row="0"
-                                        VerticalAlignment="Center">
-                                        <TextBlock
-                                            TextWrapping="WrapWithOverflow"
-                                            Text="Выдвижение дорна в автомате"/>
-                                    </Label>
-                                    <controls:SwitchToggleControl
-                                        Grid.Column="1"
-                                        Margin="5"
-                                        IsChecked="{Binding}"/>
-                                    <controls:LabeledTextBoxControl
-                                        Grid.Column="2"
-                                        Direction="TopToBottom"
-                                        Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
-                                        <controls:LabeledTextBoxControl.LabelText>
-                                            <TextBlock
-                                                TextWrapping="WrapWithOverflow"
-                                                Text="Опережение дорна (градусы)"/>
-                                        </controls:LabeledTextBoxControl.LabelText>
-                                    </controls:LabeledTextBoxControl>
-                                </Grid>
-                            </controls:BorderedContentControl.BorderedContent>
-                        </controls:BorderedContentControl>
-                        <controls:BorderedContentControl MinHeight="50" ChangeColorOnHover="True">
-                            <controls:BorderedContentControl.BorderedContent>
-                                <Grid Margin="5" ColumnDefinitions="*,Auto">
-                                    <Label
+            <controls:BorderedControl
+                Grid.Column="0"
+                ChangeColorOnHover="False">
+                <StackPanel
+                    Margin="5,0,5,0"
+                    Orientation="Vertical">
+                    <Label
+                        HorizontalAlignment="Center"
+                        FontSize="16"
+                        Content="Дорн"/>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
+                            <Label
                                     Grid.Column="0"
+                                    Grid.Row="0"
                                     VerticalAlignment="Center">
-                                        <TextBlock
+                                <TextBlock
                                         TextWrapping="WrapWithOverflow"
-                                        Text="Смазка дорна в автомате"/>
-                                    </Label>
-                                    <controls:SwitchToggleControl
+                                        Text="Выдвижение дорна в автомате"/>
+                            </Label>
+                            <controls:SwitchToggleControl
                                     Grid.Column="1"
-                                    IsChecked="{Binding Settings.Dorn.LubricantTurnOn, Mode=TwoWay}"/>
-                                </Grid>
-                            </controls:BorderedContentControl.BorderedContent>
-                        </controls:BorderedContentControl>
-                    </StackPanel>
-                </controls:BorderedContentControl.BorderedContent>
-            </controls:BorderedContentControl>
-            <Border
+                                    Margin="5"
+                                    IsChecked="False"/>
+                            <controls:LabeledTextBoxControl
+                                    Grid.Column="2"
+                                    Direction="TopToBottom"
+                                    Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
+                                <controls:LabeledTextBoxControl.LabelText>
+                                    <TextBlock
+                                            TextWrapping="WrapWithOverflow"
+                                            Text="Опережение дорна (градусы)"/>
+                                </controls:LabeledTextBoxControl.LabelText>
+                            </controls:LabeledTextBoxControl>
+                        </Grid>
+                    </controls:BorderedControl>
+                    <controls:BorderedControl MinHeight="50" ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                            <Label
+                                Grid.Column="0"
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Смазка дорна в автомате"/>
+                            </Label>
+                            <controls:SwitchToggleControl
+                                Grid.Column="1"
+                                IsChecked="{Binding Settings.Dorn.LubricantTurnOn, Mode=TwoWay}"/>
+                        </Grid>
+                    </controls:BorderedControl>
+                </StackPanel>
+            </controls:BorderedControl>
+            <controls:BorderedControl
                 Grid.Column="1"
-                Margin="8,4,8,4"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
                     Orientation="Vertical">
@@ -87,60 +81,45 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Настройки гибки"/>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto,Auto">
-                            <Label
-                                Grid.Column="0"
-                                VerticalAlignment="Center">
-                                <TextBlock
-                                    TextWrapping="WrapWithOverflow"
-                                    Text="Принудительное проталкивание трубы при гибке в автомате"/>
-                            </Label>
-                            <controls:SwitchToggleControl
-                                Grid.Column="1"
-                                IsChecked="{Binding}"/>
-                            <controls:LabeledTextBoxControl
-                                Grid.Column="2"
-                                Direction="TopToBottom"
-                                LabelText="Коэффициент"
-                                Text="{Binding Settings.Bend.Coefficient}"/>
-                        </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
-                            <Label
-                                Grid.Column="0"
-                                VerticalAlignment="Center">
-                                <TextBlock
-                                    TextWrapping="WrapWithOverflow"
-                                    Text="Синхронизация гиба и подачи в наладке"/>
-                            </Label>
-                            <controls:SwitchToggleControl
-                                Grid.Column="1"
-                                IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
-                        </Grid>
-                    </Border>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                            <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
+                                <Label
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center">
+                                    <TextBlock
+                                        TextWrapping="WrapWithOverflow"
+                                        Text="Принудительное проталкивание трубы при гибке в автомате"/>
+                                </Label>
+                                <controls:SwitchToggleControl
+                                    Grid.Column="1"
+                                    Margin="5"
+                                    IsChecked="False"/>
+                                <controls:LabeledTextBoxControl
+                                    Grid.Column="2"
+                                    Direction="TopToBottom"
+                                    LabelText="Коэффициент"
+                                    Text="{Binding Settings.Bend.Coefficient}"/>
+                            </Grid>
+                    </controls:BorderedControl>
+                    <controls:BorderedControl>
+                            <Grid Margin="5" ColumnDefinitions="*,Auto">
+                                <Label
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center">
+                                    <TextBlock
+                                        TextWrapping="WrapWithOverflow"
+                                        Text="Синхронизация гиба и подачи в наладке"/>
+                                </Label>
+                                <controls:SwitchToggleControl
+                                    Grid.Column="1"
+                                    IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
+                            </Grid>
+                    </controls:BorderedControl>
                 </StackPanel>
-            </Border>
-            <Border
+            </controls:BorderedControl>
+            <controls:BorderedControl
                 Grid.Column="2"
-                Margin="8,4,8,4"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
                     Orientation="Vertical">
@@ -148,48 +127,35 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Настройки позиционирования"/>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,0.25*,0.13*">
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,0.25*,0.13*">
                             <Label
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            VerticalAlignment="Center">
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                VerticalAlignment="Center">
                                 <TextBlock
-                                TextWrapping="WrapWithOverflow"
-                                Text="Режим перехвтата (трубы выставляется по торцу зажима)"/>
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Режим перехвтата (трубы выставляется по торцу зажима)"/>
                             </Label>
                             <controls:SwitchToggleControl
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            IsChecked="{Binding}"/>
+                                Grid.Column="1"
+                                Grid.Row="0"
+                                Margin="5"
+                                IsChecked="{Binding}"/>
                             <Button
-                            Grid.Column="2"
-                            Grid.Row="0">
-                                <TextBlock 
-                                VerticalAlignment="Center"
-                                Margin="0,4,0,0"
-                                FontSize="10"
-                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                Text="&#xE8F2;"/>
+                                Grid.Column="2"
+                                Grid.Row="0">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Margin="0,4,0,0"
+                                    FontSize="10"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    Text="&#xE8F2;"/>
                             </Button>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,0.25*,0.13*">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,0.25*,0.13*">
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="1"
@@ -197,6 +163,7 @@
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 Grid.Row="1"
+                                Margin="5"
                                 IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
                             <Button
                                 Grid.Column="2"
@@ -209,9 +176,9 @@
                                     Text="&#xE8F2;"/>
                             </Button>
                         </Grid>
-                    </Border>
-                </StackPanel>
-            </Border>
+                    </controls:BorderedControl>
+                    </StackPanel>
+            </controls:BorderedControl>
         </Grid>
         <Label
             Grid.Row="2"
@@ -221,46 +188,36 @@
             Grid.Row="3"
             ColumnDefinitions="*,*,*"
             RowDefinitions="Auto,*">
-            <Border
+            <controls:BorderedControl
                 Grid.Column="0"
                 Grid.Row="0"
-                Margin="8,4,8,4"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                ChangeColorOnHover="False">
                 <StackPanel
-                    Margin="5,0,5,0"
+                    Margin="5,0,5,10"
                     Orientation="Vertical">
                     <Label
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Координаты"/>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="0"
+                                VerticalAlignment="Center"
                                 Content="Координата выхода трубы"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Text="{Binding Settings.Pipe.OutletCoordinate}"/>
                         </Grid>
-                    </Border>
+                    </controls:BorderedControl>
                 </StackPanel>
-            </Border>
-            <Border
+            </controls:BorderedControl>
+            <controls:BorderedControl
                 Grid.Column="0"
                 Grid.Row="1"
-                Margin="8,4,8,4"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
                     Orientation="Vertical">
@@ -268,100 +225,68 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Конфигурация"/>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Многоуровневый станок"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="С пробивочным цилиндром"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding Settings.IsPunchingCylinder, Mode=TwoWay}"/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Расстояние от оси гиба до штока пробивки"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Полностью электрический"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding Settings.IsElectricBendingDrive, Mode=TwoWay}"/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Абсолютные координаты узлов"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
                         </Grid>
-                    </Border>
+                    </controls:BorderedControl>
                 </StackPanel>
-            </Border>
-            <Border
+            </controls:BorderedControl>
+            <controls:BorderedControl
                 Grid.Column="1"
                 Grid.Row="0"
                 Grid.RowSpan="2"
-                Margin="8,4,8,4"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
                     Orientation="Vertical">
@@ -369,51 +294,33 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Настройки поддержки"/>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Координата запрета подъёма переднего ролика поддержки, мм"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text="{Binding Settings.Support.FrontLiftBan, Mode=TwoWay}"/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl>
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Координата запрета подъёма 2 ролика поддержки, мм"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Координата запрета подъёма 3 ролика поддержки, мм"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
@@ -426,163 +333,114 @@
                                 LabelText="Сзади"
                                 Text=""/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Координата запрета подъёма 4 ролика поддержки, мм"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Запрет прижима при поднятой поддержке"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
                         </Grid>
-                    </Border>
-                </StackPanel>
-            </Border>
-            <Border
+                    </controls:BorderedControl>
+                    </StackPanel>
+                
+            </controls:BorderedControl>
+            <controls:BorderedControl
                 Grid.Column="2"
                 Grid.Row="0"
                 Grid.RowSpan="2"
-                Margin="8,4,8,4"
-                CornerRadius="4"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                ChangeColorOnHover="False">
                 <StackPanel
-                    Margin="5,0,5,0"
-                    Orientation="Vertical">
+                        Margin="5,0,5,0"
+                        Orientation="Vertical">
                     <Label
-                        HorizontalAlignment="Center"
-                        FontSize="16"
-                        Content="Доп настройки"/>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                            HorizontalAlignment="Center"
+                            FontSize="16"
+                            Content="Доп настройки"/>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Время работы дожима назад после срабатывания датчика, с"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Скорость подачи при выходе гиба на угол для прокатки"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Движение прижима на неполный ход"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Движение гидравлики без датчиков"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
+                                VerticalAlignment="Center"
                                 Content="Отображать кнопку &quot;Полный автомат&quot;"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
                         </Grid>
-                    </Border>
-                    <Border
-                        Margin="0,4,0,4"
-                        Padding="5"
-                        MinHeight="45"
-                        CornerRadius="4"
-                        MouseEnter="Border_MouseEnter"
-                        MouseLeave="Border_MouseLeave"
-                        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
-                        <Grid ColumnDefinitions="*,Auto">
+                    </controls:BorderedControl>
+                    <controls:BorderedControl ChangeColorOnHover="True">
+                        <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="5"
+                                VerticalAlignment="Center"
                                 Content="Инвертирование датчиков зажима"/>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 Grid.Row="5"
                                 IsChecked="{Binding}"/>
                         </Grid>
-                    </Border>
+                    </controls:BorderedControl>
                 </StackPanel>
-            </Border>
+            </controls:BorderedControl>
         </Grid>
         <Grid
             Grid.Row="4"
