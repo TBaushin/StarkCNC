@@ -141,7 +141,7 @@
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Margin="5"
-                                IsChecked="{Binding}"/>
+                                IsChecked="False"/>
                             <Button
                                 Grid.Column="2"
                                 Grid.Row="0">
@@ -158,8 +158,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,0.25*,0.13*">
                             <Label
                                 Grid.Column="0"
-                                Grid.Row="1"
-                                Content="Смещение консоли для установки трубы"/>
+                                Grid.Row="1">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Смещение консоли для установки трубы"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 Grid.Row="1"
@@ -204,8 +207,11 @@
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="0"
-                                VerticalAlignment="Center"
-                                Content="Координата выхода трубы"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Координата выхода трубы"/>
+                            </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Grid.Row="0"
@@ -229,19 +235,25 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Многоуровневый станок"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Многоуровневый станок"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
-                                IsChecked="{Binding}"/>
+                                IsChecked="False"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="С пробивочным цилиндром"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="С пробивочным цилиндром"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding Settings.IsPunchingCylinder, Mode=TwoWay}"/>
@@ -251,8 +263,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Расстояние от оси гиба до штока пробивки"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Расстояние от оси гиба до штока пробивки"/>
+                            </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
@@ -262,8 +277,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Полностью электрический"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Полностью электрический"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding Settings.IsElectricBendingDrive, Mode=TwoWay}"/>
@@ -273,8 +291,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Абсолютные координаты узлов"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Абсолютные координаты узлов"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
@@ -298,8 +319,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Координата запрета подъёма переднего ролика поддержки, мм"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Координата запрета подъёма переднего ролика поддержки, мм"/>
+                            </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text="{Binding Settings.Support.FrontLiftBan, Mode=TwoWay}"/>
@@ -309,8 +333,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Координата запрета подъёма 2 ролика поддержки, мм"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Координата запрета подъёма 2 ролика поддержки, мм"/>
+                            </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
@@ -320,8 +347,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Координата запрета подъёма 3 ролика поддержки, мм"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Координата запрета подъёма 3 ролика поддержки, мм"/>
+                            </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Direction="TopToBottom"
@@ -338,8 +368,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Координата запрета подъёма 4 ролика поддержки, мм"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Координата запрета подъёма 4 ролика поддержки, мм"/>
+                            </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
@@ -349,8 +382,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Запрет прижима при поднятой поддержке"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Запрет прижима при поднятой поддержке"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
@@ -375,8 +411,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Время работы дожима назад после срабатывания датчика, с"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Время работы дожима назад после срабатывания датчика, с"/>
+                            </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
@@ -386,8 +425,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Скорость подачи при выходе гиба на угол для прокатки"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Скорость подачи при выходе гиба на угол для прокатки"/>
+                            </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Text=""/>
@@ -397,8 +439,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Движение прижима на неполный ход"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Движение прижима на неполный ход"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
@@ -408,8 +453,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Движение гидравлики без датчиков"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Движение гидравлики без датчиков"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
@@ -419,8 +467,11 @@
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
-                                VerticalAlignment="Center"
-                                Content="Отображать кнопку &quot;Полный автомат&quot;"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Отображать кнопку &quot;Полный автомат&quot;"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 IsChecked="{Binding}"/>
@@ -431,8 +482,11 @@
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="5"
-                                VerticalAlignment="Center"
-                                Content="Инвертирование датчиков зажима"/>
+                                VerticalAlignment="Center">
+                                <TextBlock
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Инвертирование датчиков зажима"/>
+                            </Label>
                             <controls:SwitchToggleControl
                                 Grid.Column="1"
                                 Grid.Row="5"
