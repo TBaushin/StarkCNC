@@ -11,6 +11,14 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="SettingsView">
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style TargetType="controls:LabeledTextBoxControl">
+                <Setter Property="MinWidth" Value="55"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+    
     <Grid RowDefinitions="Auto,0.65*,Auto,*,0.85*">
         <Label
             Grid.Row="0"
