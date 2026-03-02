@@ -32,12 +32,12 @@
                     <controls:BorderedControl ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
                             <Label
-                                    Grid.Column="0"
-                                    Grid.Row="0"
-                                    VerticalAlignment="Center">
+                                Grid.Column="0"
+                                Grid.Row="0"
+                                VerticalAlignment="Center">
                                 <TextBlock
-                                        TextWrapping="WrapWithOverflow"
-                                        Text="Выдвижение дорна в автомате"/>
+                                    TextWrapping="WrapWithOverflow"
+                                    Text="Выдвижение дорна в автомате"/>
                             </Label>
                             <controls:SwitchToggleControl
                                     Grid.Column="1"
@@ -49,8 +49,8 @@
                                     Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
                                 <controls:LabeledTextBoxControl.LabelText>
                                     <TextBlock
-                                            TextWrapping="WrapWithOverflow"
-                                            Text="Опережение дорна (градусы)"/>
+                                        TextWrapping="WrapWithOverflow"
+                                        Text="Опережение дорна (градусы)"/>
                                 </controls:LabeledTextBoxControl.LabelText>
                             </controls:LabeledTextBoxControl>
                         </Grid>
@@ -365,12 +365,12 @@
                 Grid.RowSpan="2"
                 ChangeColorOnHover="False">
                 <StackPanel
-                        Margin="5,0,5,0"
-                        Orientation="Vertical">
+                    Margin="5,0,5,0"
+                    Orientation="Vertical">
                     <Label
-                            HorizontalAlignment="Center"
-                            FontSize="16"
-                            Content="Доп настройки"/>
+                        HorizontalAlignment="Center"
+                        FontSize="16"
+                        Content="Доп настройки"/>
                     <controls:BorderedControl ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
