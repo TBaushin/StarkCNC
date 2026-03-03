@@ -29,6 +29,7 @@
             ColumnDefinitions="*,*,*">
             <controls:BorderedControl
                 Grid.Column="0"
+                Margin="0,0,-4,0"
                 ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
@@ -89,6 +90,7 @@
             </controls:BorderedControl>
             <controls:BorderedControl
                 Grid.Column="1"
+                Margin="-4,0,-4,0"
                 ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
@@ -141,6 +143,7 @@
             </controls:BorderedControl>
             <controls:BorderedControl
                 Grid.Column="2"
+                Margin="-4,0,0,0"
                 ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
@@ -216,6 +219,7 @@
             ColumnDefinitions="*,*,*">
             <controls:BorderedControl
                 Grid.Column="0"
+                Margin="0,0,-4,0"
                 ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
@@ -328,6 +332,7 @@
             </controls:BorderedControl>
             <controls:BorderedControl
                 Grid.Column="1"
+                Margin="-4,0,-4,0"
                 ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
@@ -429,6 +434,7 @@
             </controls:BorderedControl>
             <controls:BorderedControl
                 Grid.Column="2"
+                Margin="-4,0,0,0"
                 ChangeColorOnHover="False">
                 <StackPanel
                     Margin="5,0,5,0"
@@ -547,7 +553,7 @@
             <Grid
                 Grid.Column="0"
                 Grid.Row="0"
-                Margin="8,0,8,5"
+                Margin="8,0,4,5"
                 ColumnDefinitions="0.2*,*"
                 RowDefinitions="Auto,*,*,*,*">
                 <!--Левые заголовки таблицы-->
@@ -610,7 +616,7 @@
             </Grid>
             <Grid
                 Grid.Column="1"
-                Margin="8,0,8,5"
+                Margin="4,0,4,5"
                 ColumnDefinitions="*,*,*"
                 RowDefinitions="Auto,*,*,*,*">
 
