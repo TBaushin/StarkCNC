@@ -149,9 +149,6 @@
     <Compile Update="Controls\BorderedLabeledTextBoxControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\BorderedSwitchToggleControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Controls\ButtonWithIndicator.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -165,9 +162,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\PersonPicture.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Controls\SwitchToggleControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Localization\Language.Designer.cs">

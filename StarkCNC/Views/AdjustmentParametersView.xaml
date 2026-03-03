@@ -185,9 +185,9 @@
                         <Label Content="Перемещение прижимного вкладыша во время гибки в автомате."/>
                         <Label Content="Используется для улучшения качества гиба и предотвращения протягивания трубы."/>
                     </StackPanel>
-                    <controls:SwitchToggleControl
+                    <controls:ToggleSwitchControl
                         Grid.Column="2"
-                        IsChecked="{Binding SqueezeTurnOn}"/>
+                        IsChecked="{Binding SqueezeTurnOn, Mode=TwoWay}"/>
                 </Grid>
             </Border>
         </StackPanel>

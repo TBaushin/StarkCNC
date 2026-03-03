@@ -29,7 +29,7 @@
             <Label Content="{Binding FloorText, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
             <Label x:Name="SelectedAdjustmentLabel"/>
         </StackPanel>
-        <local:SwitchToggleControl
+        <local:ToggleSwitchControl
             Grid.Column="2"
             IsChecked="{Binding IsChecked, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=UserControl}}"/>
         <Label

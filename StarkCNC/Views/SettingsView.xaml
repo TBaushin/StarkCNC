@@ -51,15 +51,15 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Выдвижение дорна в автомате"/>
                             </Label>
-                            <controls:SwitchToggleControl
-                                    Grid.Column="1"
-                                    Margin="5"
-                                    IsChecked="False"/>
+                            <controls:ToggleSwitchControl
+                                Grid.Column="1"
+                                Margin="5"
+                                IsChecked="False"/>
                             <controls:LabeledTextBoxControl
-                                    Grid.Column="2"
-                                    MaxWidth="120"
-                                    Direction="TopToBottom"
-                                    Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
+                                Grid.Column="2"
+                                MaxWidth="120"
+                                Direction="TopToBottom"
+                                Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
                                 <controls:LabeledTextBoxControl.LabelText>
                                     <TextBlock
                                         TextWrapping="WrapWithOverflow"
@@ -81,7 +81,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Смазка дорна в автомате"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="{Binding Settings.Dorn.LubricantTurnOn, Mode=TwoWay}"/>
                         </Grid>
@@ -111,7 +111,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Принудительное проталкивание трубы при гибке в автомате"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Margin="5"
                                 IsChecked="False"/>
@@ -134,7 +134,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Синхронизация гиба и подачи в наладке"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
                         </Grid>
@@ -165,7 +165,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Режим перехвтата (трубы выставляется по торцу зажима)"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Margin="5"
@@ -194,7 +194,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Смещение консоли для установки трубы"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Margin="5"
@@ -258,7 +258,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Многоуровневый станок"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="False"/>
                         </Grid>
@@ -274,7 +274,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="С пробивочным цилиндром"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="{Binding Settings.IsPunchingCylinder, Mode=TwoWay}"/>
                         </Grid>
@@ -306,7 +306,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Полностью электрический"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="{Binding Settings.IsElectricBendingDrive, Mode=TwoWay}"/>
                         </Grid>
@@ -323,7 +323,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Абсолютные координаты узлов"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="False"/>
                         </Grid>
@@ -425,7 +425,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Запрет прижима при поднятой поддержке"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="False"/>
                         </Grid>
@@ -487,7 +487,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Движение прижима на неполный ход"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="False"/>
                         </Grid>
@@ -503,7 +503,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Движение гидравлики без датчиков"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="False"/>
                         </Grid>
@@ -519,7 +519,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Отображать кнопку &quot;Полный автомат&quot;"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 IsChecked="False"/>
                         </Grid>
@@ -537,7 +537,7 @@
                                     TextWrapping="WrapWithOverflow"
                                     Text="Инвертирование датчиков зажима"/>
                             </Label>
-                            <controls:SwitchToggleControl
+                            <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Grid.Row="5"
                                 IsChecked="False"/>

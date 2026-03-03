@@ -85,6 +85,8 @@ public class ToggleSwitchControl : Control
             return;
 
         border.PreviewMouseLeftButtonDown += Border_PreviewMouseLeftButtonDown;
+
+        UpdateText();
     }
 
     private void Border_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -94,13 +96,13 @@ public class ToggleSwitchControl : Control
 
     void UpdateText()
     {
-        var isDefault = (Text == "Вкл." || Text == "Выкл." || string.IsNullOrEmpty(Text)) && ShowText == true;
+        var isDefault = (Text == StarkCNC.Language.SwitchToggle.On || Text == StarkCNC.Language.SwitchToggle.Off || string.IsNullOrEmpty(Text)) && ShowText == true;
         if (!isDefault)
             return;
 
         if (IsChecked)
-            Text = "Вкл.";
+            Text = StarkCNC.Language.SwitchToggle.On;
         else
-            Text = "Выкл.";
+            Text = StarkCNC.Language.SwitchToggle.Off;
     }
 }
