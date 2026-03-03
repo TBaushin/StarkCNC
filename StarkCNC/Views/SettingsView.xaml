@@ -246,7 +246,7 @@
                     <controls:BorderedControl
                         IsOneBorder="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -262,7 +262,7 @@
                     <controls:BorderedControl
                         IsOneBorder="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -278,7 +278,7 @@
                     <controls:BorderedControl
                         IsOneBorder="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -294,7 +294,7 @@
                     <controls:BorderedControl
                         IsOneBorder="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -311,7 +311,7 @@
                         IsOneBorder="True"
                         IsLast="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -412,7 +412,7 @@
                         IsOneBorder="True"
                         IsLast="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -473,7 +473,7 @@
                     <controls:BorderedControl
                         IsOneBorder="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -489,7 +489,7 @@
                     <controls:BorderedControl
                         IsOneBorder="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -505,7 +505,7 @@
                     <controls:BorderedControl
                         IsOneBorder="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 VerticalAlignment="Center">
@@ -522,7 +522,7 @@
                         IsOneBorder="True"
                         IsLast="True"
                         ChangeColorOnHover="True">
-                        <Grid Margin="5" ColumnDefinitions="*,Auto">
+                        <Grid Margin="5" MinHeight="33" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
                                 Grid.Row="5"
