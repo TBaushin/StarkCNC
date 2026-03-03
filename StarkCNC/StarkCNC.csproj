@@ -24,6 +24,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Helpers\**" />
+    <EmbeddedResource Remove="Helpers\**" />
+    <None Remove="Helpers\**" />
+    <Page Remove="Helpers\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="3d_models\Gib.stl" />
     <None Remove="3d_models\Karetka.stl" />
     <None Remove="3d_models\Konsol.stl" />
@@ -189,10 +196,6 @@
 
   <ItemGroup>
     <None Include="C:\Users\Project 11\source\repos\StarkCNC\StarkCNC\.editorconfig" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Helpers\" />
   </ItemGroup>
 
 </Project>

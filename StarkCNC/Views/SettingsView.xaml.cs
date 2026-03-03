@@ -19,22 +19,4 @@ public partial class SettingsView : Page
 
         InitializeComponent();
     }
-
-    private void Border_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
-    {
-        var border = sender as Border;
-        if (border is null)
-            return;
-
-        border.Background = (Brush)FindResource("CardBackgroundFillColorSecondaryBrush");
-    }
-
-    private void Border_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
-    {
-        var border = sender as Border;
-        if (border is null)
-            return;
-
-        border.Background = (Brush)FindResource("CardBackgroundFillColorDefaultBrush");
-    }
 }

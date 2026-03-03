@@ -8,13 +8,21 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:BorderedControl}">
+                    <Grid RowDefinitions="*,Auto">
                     <Border
                         x:Name="MainBorder"
+                            Grid.Row="0"
                         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         CornerRadius="4"
                         Margin="8,4,8,4">
                         <ContentPresenter/>
                     </Border>
+                        <Separator
+                            x:Name="MainSeparator"
+                            Grid.Row="1"
+                            Margin="4,0,4,0"
+                            Visibility="Collapsed"/>
+                    </Grid>
                     
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -27,6 +35,63 @@
                                     TargetName="MainBorder"
                                     Property="Background"
                                     Value="{DynamicResource CardBackgroundFillColorSecondaryBrush}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsOneBorder" Value="True"/>
+                                <Condition Property="IsFirst" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter
+                                    TargetName="MainBorder"
+                                    Property="Margin"
+                                    Value="8,4,8,0"/>
+                                <Setter
+                                    TargetName="MainBorder"
+                                    Property="CornerRadius"
+                                    Value="4,4,0,0"/>
+                                <Setter
+                                    TargetName="MainSeparator"
+                                    Property="Visibility"
+                                    Value="Visible"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsOneBorder" Value="True"/>
+                                <Condition Property="IsLast" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter
+                                    TargetName="MainBorder"
+                                    Property="Margin"
+                                    Value="8,0,8,4"/>
+                                <Setter
+                                    TargetName="MainBorder"
+                                    Property="CornerRadius"
+                                    Value="0,0,4,4"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsOneBorder" Value="True"/>
+                                <Condition Property="IsFirst" Value="False"/>
+                                <Condition Property="IsLast" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter
+                                    TargetName="MainBorder"
+                                    Property="Margin"
+                                    Value="8,0,8,0"/>
+                                <Setter
+                                    TargetName="MainBorder"
+                                    Property="CornerRadius"
+                                    Value="0"/>
+                                <Setter
+                                    TargetName="MainSeparator"
+                                    Property="Visibility"
+                                    Value="Visible"/>
                             </MultiTrigger.Setters>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>

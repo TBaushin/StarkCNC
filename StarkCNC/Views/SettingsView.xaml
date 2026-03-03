@@ -18,7 +18,7 @@
             </Style>
         </ResourceDictionary>
     </Page.Resources>
-    
+
     <Grid RowDefinitions="Auto,0.65*,Auto,*,0.8*">
         <Label
             Grid.Row="0"
@@ -37,7 +37,10 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Дорн"/>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsFirst="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
                             <Label
                                 Grid.Column="0"
@@ -53,6 +56,7 @@
                                     IsChecked="False"/>
                             <controls:LabeledTextBoxControl
                                     Grid.Column="2"
+                                    MaxWidth="120"
                                     Direction="TopToBottom"
                                     Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
                                 <controls:LabeledTextBoxControl.LabelText>
@@ -63,7 +67,11 @@
                             </controls:LabeledTextBoxControl>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl MinHeight="50" ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        MinHeight="50"
+                        IsOneBorder="True"
+                        IsLast="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -89,7 +97,10 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Настройки гибки"/>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsFirst="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
                             <Label
                                 Grid.Column="0"
@@ -109,7 +120,10 @@
                                 Text="{Binding Settings.Bend.Coefficient}"/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl>
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsLast="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -135,7 +149,10 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Настройки позиционирования"/>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsFirst="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,0.25*,0.13*">
                             <Label
                                 Grid.Column="0"
@@ -162,7 +179,10 @@
                             </Button>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsLast="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,0.25*,0.13*">
                             <Label
                                 Grid.Column="0"
@@ -188,7 +208,7 @@
                             </Button>
                         </Grid>
                     </controls:BorderedControl>
-                    </StackPanel>
+                </StackPanel>
             </controls:BorderedControl>
         </Grid>
         <Label
@@ -239,7 +259,10 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Конфигурация"/>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsFirst="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -253,7 +276,9 @@
                                 IsChecked="False"/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -267,7 +292,9 @@
                                 IsChecked="{Binding Settings.IsPunchingCylinder, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -281,7 +308,9 @@
                                 Text=""/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -295,7 +324,10 @@
                                 IsChecked="{Binding Settings.IsElectricBendingDrive, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsLast="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -323,7 +355,10 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Настройки поддержки"/>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsFirst="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -337,7 +372,9 @@
                                 Text="{Binding Settings.Support.FrontLiftBan, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl>
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -351,7 +388,9 @@
                                 Text=""/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto,Auto">
                             <Label
                                 Grid.Column="0"
@@ -372,7 +411,9 @@
                                 Text=""/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -386,7 +427,10 @@
                                 Text=""/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsLast="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -400,8 +444,7 @@
                                 IsChecked="False"/>
                         </Grid>
                     </controls:BorderedControl>
-                    </StackPanel>
-                
+                </StackPanel>
             </controls:BorderedControl>
             <controls:BorderedControl
                 Grid.Column="2"
@@ -415,7 +458,10 @@
                         HorizontalAlignment="Center"
                         FontSize="16"
                         Content="Доп настройки"/>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsFirst="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -429,7 +475,9 @@
                                 Text=""/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -443,7 +491,9 @@
                                 Text=""/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -457,7 +507,9 @@
                                 IsChecked="False"/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -471,7 +523,9 @@
                                 IsChecked="False"/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
@@ -485,7 +539,10 @@
                                 IsChecked="False"/>
                         </Grid>
                     </controls:BorderedControl>
-                    <controls:BorderedControl ChangeColorOnHover="True">
+                    <controls:BorderedControl
+                        IsOneBorder="True"
+                        IsLast="True"
+                        ChangeColorOnHover="True">
                         <Grid Margin="5" ColumnDefinitions="*,Auto">
                             <Label
                                 Grid.Column="0"
