@@ -1,81 +1,148 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
-using StarkCNC.DTO;
-using StarkCNC.Utilities;
-using System.Globalization;
 
 namespace StarkCNC.ViewModels;
 
 public partial class SettingsViewModel : ObservableObject
 {
     private ISettingsRepository _settingsRepository;
-    private static FloorTypeToStringConverter _floorTypeToStringConverter = new FloorTypeToStringConverter();
-
-    public IReadOnlyCollection<string> Types { get; } = new List<string>()
-    {
-        (string)_floorTypeToStringConverter.Convert(FloorType.SingleLevel, typeof(string), null, CultureInfo.CurrentCulture),
-        (string)_floorTypeToStringConverter.Convert(FloorType.TwoLevel, typeof(string), null, CultureInfo.CurrentCulture),
-        (string)_floorTypeToStringConverter.Convert(FloorType.ThreeLevel, typeof(string), null, CultureInfo.CurrentCulture)
-    };
+    private Settings _settings;
 
     [ObservableProperty]
-    private SettingsDto _settings;
+    private bool _dornAutomatic;
 
     [ObservableProperty]
-    private string _selectedType = string.Empty;
+    private double _dornLeadWithdrawalBeforeBend;
+
+    [ObservableProperty]
+    private bool _dornLubricantTurnOn;
+
+    [ObservableProperty]
+    private bool _bendSynchronization;
+
+    [ObservableProperty]
+    private bool _synchronizationCoefficient;
+
+    [ObservableProperty]
+    private bool _bendAndSupplySynchronization;
+
+    [ObservableProperty]
+    private bool _interceptionMode;
+
+    [ObservableProperty]
+    private bool _consoleOutletForPipeInstalling;
+
+    [ObservableProperty]
+    private double _pipeOutletCoordinate;
+
+    [ObservableProperty]
+    private bool _singleLeveled;
+
+    [ObservableProperty]
+    private bool _withPunchingCylinder;
+
+    [ObservableProperty]
+    private double _distanceFromBendingToPunching;
+
+    [ObservableProperty]
+    private double _isElectricBendingDrive;
+
+    [ObservableProperty]
+    private bool _absoluteUnitCoordinate;
+
+    [ObservableProperty]
+    private double _supportFirstLiftBan;
+
+    [ObservableProperty]
+    private double _supportSecondLiftBan;
+
+    [ObservableProperty]
+    private double _supportThirdLiftBanRear;
+
+    [ObservableProperty]
+    private double _supportThirdLiftBanFront;
+
+    [ObservableProperty]
+    private double _supportFourthLiftBan;
+
+    [ObservableProperty]
+    private bool _banPressWhenSupportIsLifted;
+
+    [ObservableProperty]
+    private double _squeezeWorkTime;
+
+    [ObservableProperty]
+    private double _supplyStartRollingSpeed;
+
+    [ObservableProperty]
+    private bool _incompleteClampMovement;
+
+    [ObservableProperty]
+    private bool _hydraulicMovementWithoutSensors;
+
+    [ObservableProperty]
+    private bool _showButtonFullAutomatic;
+
+    [ObservableProperty]
+    private bool _invertClampSensors;
+
+    [ObservableProperty]
+    private double _supplyCoefficient;
+
+    [ObservableProperty]
+    private double _rotationCoefficient;
+
+    [ObservableProperty]
+    private double _consoleCoefficient;
+
+    [ObservableProperty]
+    private double _bendCoefficient;
+
+    [ObservableProperty]
+    private double _supplyAcceleration;
+
+    [ObservableProperty]
+    private double _rotationAcceleration;
+
+    [ObservableProperty]
+    private double _consoleAcceleration;
+
+    [ObservableProperty]
+    private double _bendAcceleration;
+
+    [ObservableProperty]
+    private double _supplyBraking;
+
+    [ObservableProperty]
+    private double _rotationBraking;
+
+    [ObservableProperty]
+    private double _consoleBraking;
+
+    [ObservableProperty]
+    private double _bendBraking;
+
+    [ObservableProperty]
+    private double _supplyJerk;
+
+    [ObservableProperty]
+    private double _rotationJerk;
+
+    [ObservableProperty]
+    private double _consoleJerk;
+
+    [ObservableProperty]
+    private double _bendJerk;
 
     public SettingsViewModel(ISettingsRepository settingsRepository)
     {
         _settingsRepository = settingsRepository;
 
         var settings = _settingsRepository.GetAsync().Result;
-        SettingsDto? settingsDto = null;
-        if (settings is not null)
-            settingsDto = settings.ToDto();
-
-        if (settingsDto is null)
-            settingsDto = SettingsDto.CreateFromConfiguration();
-
-        if (settingsDto is not null)
-            Settings = settingsDto;
-
-        SelectedType = (string)_floorTypeToStringConverter.Convert(Settings.FloorType, typeof(string), null, CultureInfo.CurrentCulture);
-
-        Settings.PropertyChanged += Settings_PropertyChanged;
-
-        PropertyChanged += SettingsViewModel_PropertyChanged;
-    }
-
-    [RelayCommand]
-    private async Task SaveOrUpdateSettings()
-    {
-        Settings? item = Settings.Parse(Settings.Id);
-
-        if (item is not null)
-        {
-            if (_settingsRepository.Count() == 0)
-            {
-                var settings = await _settingsRepository.AddElementAsync(item).ConfigureAwait(false);
-                if (settings is not null)
-                    Settings = settings.ToDto();
-            }
-            else
-                await _settingsRepository.UpdateElementAsync(item).ConfigureAwait(false);
-        }
-    }
-
-    private void Settings_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        SaveOrUpdateSettingsCommand.Execute(null);
-    }
-
-    private void SettingsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        if (e.PropertyName == nameof(SelectedType))
-        {
-            Settings.FloorType = (FloorType)_floorTypeToStringConverter.ConvertBack(SelectedType, typeof(FloorType), null, CultureInfo.CurrentCulture);
-        }
+        if (settings is null)
+            _settings = new Settings();
+        else
+            _settings = settings;
     }
 }

@@ -54,12 +54,12 @@
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Margin="5"
-                                IsChecked="False"/>
+                                IsChecked="{Binding DornAutomatic, Mode=TwoWay}"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="2"
                                 MaxWidth="120"
                                 Direction="TopToBottom"
-                                Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend}">
+                                Text="{Binding DornLeadWithdrawalBeforeBend, Mode=TwoWay}">
                                 <controls:LabeledTextBoxControl.LabelText>
                                     <TextBlock
                                         TextWrapping="WrapWithOverflow"
@@ -83,7 +83,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="{Binding Settings.Dorn.LubricantTurnOn, Mode=TwoWay}"/>
+                                IsChecked="{Binding DornLubricantTurnOn, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                 </StackPanel>
@@ -114,12 +114,12 @@
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Margin="5"
-                                IsChecked="False"/>
+                                IsChecked="{Binding BendSynchronization, Mode=TwoWay}"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="2"
                                 Direction="TopToBottom"
                                 LabelText="Коэффициент"
-                                Text="{Binding Settings.Bend.Coefficient}"/>
+                                Text="{Binding SynchronizationCoefficient, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -136,7 +136,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
+                                IsChecked="{Binding BendAndSupplySynchronization, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                 </StackPanel>
@@ -169,7 +169,7 @@
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Margin="5"
-                                IsChecked="False"/>
+                                IsChecked="{Binding InterceptionMode, Mode=TwoWay}"/>
                             <Button
                                 Grid.Column="2"
                                 Grid.Row="0">
@@ -198,7 +198,7 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Margin="5"
-                                IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
+                                IsChecked="{Binding ConsoleOutletForPipeInstalling, Mode=TwoWay}"/>
                             <Button
                                 Grid.Column="2"
                                 Grid.Row="1">
@@ -244,7 +244,7 @@
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Grid.Row="0"
-                                Text="{Binding Settings.Pipe.OutletCoordinate}"/>
+                                Text="{Binding PipeOutletCoordinate, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -260,7 +260,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="False"/>
+                                IsChecked="{Binding SingleLeveled, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -276,7 +276,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="{Binding Settings.IsPunchingCylinder, Mode=TwoWay}"/>
+                                IsChecked="{Binding WithPunchingCylinder, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -292,7 +292,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
-                                Text=""/>
+                                Text="{Binding DistanceFromBendingToPunching, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -308,7 +308,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="{Binding Settings.IsElectricBendingDrive, Mode=TwoWay}"/>
+                                IsChecked="{Binding IsElectricBendingDrive, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -325,7 +325,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="False"/>
+                                IsChecked="{Binding AbsoluteUnitCoordinate, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                 </StackPanel>
@@ -355,7 +355,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
-                                Text="{Binding Settings.Support.FrontLiftBan, Mode=TwoWay}"/>
+                                Text="{Binding SupportFirstLiftBan, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -371,7 +371,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
-                                Text=""/>
+                                Text="{Binding SupportSecondLiftBan, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -388,13 +388,13 @@
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Direction="TopToBottom"
-                                LabelText="Впереди"
-                                Text=""/>
+                                LabelText="Сзади"
+                                Text="{Binding SupportThirdLiftBanRear, Mode=TwoWay}"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="2"
                                 Direction="TopToBottom"
-                                LabelText="Сзади"
-                                Text=""/>
+                                LabelText="Впереди"
+                                Text="{Binding SupportThirdLiftBanFront, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -410,7 +410,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
-                                Text=""/>
+                                Text="{Binding SupportFourthLiftBan, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -427,7 +427,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="False"/>
+                                IsChecked="{Binding BanPressWhenSupportIsLifted, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                 </StackPanel>
@@ -457,7 +457,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
-                                Text=""/>
+                                Text="{Binding SqueezeWorkTime, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -473,7 +473,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
-                                Text=""/>
+                                Text="{Binding SupplyStartRollingSpeed, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -489,7 +489,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="False"/>
+                                IsChecked="{Binding IncompleteClampMovement, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -505,7 +505,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="False"/>
+                                IsChecked="{Binding HydraulicMovementWithoutSensors, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -521,7 +521,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="False"/>
+                                IsChecked="{Binding ShowButtonFullAutomatic, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -540,7 +540,7 @@
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Grid.Row="5"
-                                IsChecked="False"/>
+                                IsChecked="{Binding InvertClampSensors, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                 </StackPanel>
@@ -585,7 +585,7 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Content="Коэффициент скорости"/>
-                
+
                 <!--Контент-->
                 <Border
                     Grid.Column="1"
@@ -597,22 +597,22 @@
                     Grid.Column="1"
                     Grid.Row="1"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding SupplyCoefficient, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="2"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding RotationCoefficient, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="3"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding ConsoleCoefficient, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="4"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding BendCoefficient, Mode=TwoWay}"/>
             </Grid>
             <Grid
                 Grid.Column="1"
@@ -651,22 +651,22 @@
                     Grid.Column="0"
                     Grid.Row="1"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding SupplyAcceleration, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="0"
                     Grid.Row="2"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding RotationAcceleration, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="0"
                     Grid.Row="3"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding ConsoleAcceleration, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="0"
                     Grid.Row="4"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding BendAcceleration, Mode=TwoWay}"/>
 
                 <Border
                     Grid.Column="1"
@@ -677,22 +677,22 @@
                     Grid.Column="1"
                     Grid.Row="1"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding BendBraking, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="2"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding RotationBraking, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="3"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding ConsoleBraking, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="4"
                     Margin="5,0,5,0"
-                    Text=""/>               
+                    Text="{Binding BendBraking, Mode=TwoWay}"/>
 
                 <Border
                     Grid.Column="2"
@@ -704,153 +704,23 @@
                     Grid.Column="2"
                     Grid.Row="1"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding SupplyJerk, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="2"
                     Grid.Row="2"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding RotationJerk, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="2"
                     Grid.Row="3"
                     Margin="5,0,5,0"
-                    Text=""/>
+                    Text="{Binding ConsoleJerk, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="2"
                     Grid.Row="4"
                     Margin="5,0,5,0"
-                    Text=""/>               
+                    Text="{Binding BendJerk, Mode=TwoWay}"/>
             </Grid>
         </Grid>
     </Grid>
-    <!--<ScrollViewer>
-        <StackPanel Margin="0,0,15,0">
-            <controls:BorderedSwitchToggleControl
-                TextContent="Электрический привод гиба"
-                IsChecked="{Binding Settings.IsElectricBendingDrive, Mode=TwoWay}"/> TODO: Перевести
-            <controls:BorderedSwitchToggleControl
-                TextContent="С пробивочным цилиндром"
-                IsChecked="{Binding Settings.IsPunchingCylinder, Mode=TwoWay}"/> TODO: Перевести
-            <controls:BorderedSwitchToggleControl
-                TextContent="Полностью электрический станок"
-                IsChecked="{Binding Settings.IsElectricMachine, Mode=TwoWay}"/> TODO: Перевести
-
-            <controls:BorderedContentControl
-                Text="{x:Static lang:Language.LevelsCount}">
-                <controls:BorderedContentControl.BorderedContent>
-                    <ComboBox
-                        VerticalAlignment="Center"
-                        MinWidth="150"
-                        ItemsSource="{Binding Types}"
-                        SelectedItem="{Binding SelectedType}"/>
-                </controls:BorderedContentControl.BorderedContent>
-            </controls:BorderedContentControl>
-
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="ResetRotationOffsetLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Смещение поворота"
-                Text="{Binding Settings.Rotation.Offset, Mode=TwoWay}"/>
-            <controls:BorderedContentControl
-                Text="Скорость в автоматическом режиме">
-                <controls:BorderedContentControl.BorderedContent>
-                    <Slider
-                        VerticalAlignment="Center"
-                        MinWidth="270"
-                        Minimum="0"
-                        Maximum="100"
-                        Value="{Binding Settings.Speed, Mode=TwoWay}"/>
-                </controls:BorderedContentControl.BorderedContent>
-            </controls:BorderedContentControl>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="ResetSupplyOffsetLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Смещение подачи после обнуления"
-                Text="{Binding Settings.Supply.ResetedOffset, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="PipeOutletCCoordinateLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Координата выхода трубы"
-                Text="{Binding Settings.Pipe.OutletCoordinate, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="FrontSupportLiftBanLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Запрет подъёма передней поддержки"
-                Text="{Binding Settings.Support.FrontLiftBan, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="MiddleSupportLiftBanLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Запрет подъёма средней поддержки"
-                Text="{Binding Settings.Support.MiddleLiftBan, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="BackSupportLiftBanLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Запрет подъёма задней поддержки"
-                Text="{Binding Settings.Support.BackLiftBan, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="StartRollingSupplySpeedLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Скорость подачи при начале прокатки"
-                Text="{Binding Settings.Supply.StartRollingSpeed, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="DornLeadWithdrawalBeforeBendLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Опережение отвода дорна перед гибом"
-                Text="{Binding Settings.Dorn.LeadWithdrawalBeforeBend, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="SupplyCoefficientLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Коэффициент подачи"
-                Text="{Binding Settings.Supply.Coefficient, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="RotationCoefficientLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Коэффициент поворота"
-                Text="{Binding Settings.Rotation.Coefficient, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="ConsoleCoefficientLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Коэффициент консоли"
-                Text="{Binding Settings.Console.Coefficient, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="BendCoefficientLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Коэффициент гиба"
-                Text="{Binding Settings.Bend.Coefficient, Mode=TwoWay}"/>
-            <controls:BorderedSwitchToggleControl
-                x:Name="BendSynchronizationCB"
-                TextContent="Синхронизация гиба по моменту/координатам"
-                IsChecked="{Binding Settings.Bend.Synchronization, Mode=TwoWay}"/>
-            <controls:BorderedLabeledTextBoxControl
-                x:Name="SynchronizationCoefficientLTB"
-                NeedCallNumberInput="True"
-                IsNumericOnly="True"
-                LabelText="Коэффициент синхронизации"
-                Text="{Binding Settings.SynchronizationCoefficient, Mode=TwoWay}"/>
-            <controls:BorderedSwitchToggleControl
-                x:Name="AutomaticModeDornOperationCB"
-                TextContent="Работа дорна в автоматическом режиме"
-                IsChecked="{Binding Settings.Dorn.Automatic, Mode=TwoWay}"/>
-            <controls:BorderedSwitchToggleControl
-                x:Name="DornLubricantCB"
-                TextContent="Смазка дорна"
-                IsChecked="{Binding Settings.Dorn.LubricantTurnOn, Mode=TwoWay}"/>
-            <controls:BorderedSwitchToggleControl
-                x:Name="InterceptionModeCB"
-                TextContent="Режим перехвата"
-                IsChecked="{Binding Settings.InterceptionMode, Mode=TwoWay}"/>
-        </StackPanel>
-    </ScrollViewer>-->
 </Page>
