@@ -1,8 +1,6 @@
 ﻿using StarkCNC.Core.Models;
-using StarkCNC.DTO;
 using StarkCNC.ViewModels;
 using System.Globalization;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
@@ -23,16 +21,6 @@ public partial class AdjustmentParametersView : Page
         InitializeComponent();
 
         SetVisibilityForRollingAndWindingStackPanels();
-    }
-
-    private void SelectedAdjustment_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        var adjustment = sender as AdjustmentParametersDto;
-        if (adjustment is null)
-            return;
-
-        if (e.PropertyName == "Type")
-            SetVisibilityForRollingAndWindingStackPanels();
     }
 
     private void SetVisibilityForRollingAndWindingStackPanels()

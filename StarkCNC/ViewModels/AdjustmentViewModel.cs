@@ -135,36 +135,6 @@ public partial class AdjustmentViewModel : ObservableObject
         });
     }
 
-    private async Task<AdjustmentParametersDto?> SaveOrUpdateSettings(AdjustmentParametersDto adjustment)
-    {
-        AdjustmentParameters? item = adjustment.Parse(adjustment.Id);
-
-        if (item is not null)
-        {
-            if (_repository.Count() == 0)
-            {
-                var settings = await _repository.AddElementAsync(item).ConfigureAwait(false);
-                if (settings is not null)
-                    return settings.ToDto();
-            }
-            else
-                await _repository.UpdateElementAsync(item).ConfigureAwait(false);
-
-            return item.ToDto();
-        }
-
-        return null;
-    }
-
-    private async void Adjustment_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-        var adjustment = sender as AdjustmentParametersDto;
-        if (adjustment is null)
-            return;
-
-        await SaveOrUpdateSettings(adjustment).ConfigureAwait(false);
-    }
-
     partial void OnFirstFloorEnabledChanged(bool oldValue, bool newValue)
     {
         var adjustment = SetUpAdjustments.FirstOrDefault(a => a.InstalledLevel == 1);
