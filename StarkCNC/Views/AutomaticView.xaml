@@ -13,6 +13,9 @@
       Title="Автомат">
     <Page.Resources>
         <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <Style TargetType="controls:LabelWithIndicatorControl">
+            <Setter Property="FontSize" Value="12.5"/>
+        </Style>
     </Page.Resources>
 
     <Grid ColumnDefinitions="4*,3*" RowDefinitions="18*,*,*">
@@ -294,19 +297,20 @@
             </Grid>
         </StackPanel>
         <Border
-            Margin="18,10,0,0"
+            Margin="18,0,0,0"
             Grid.Column="1"
             Grid.Row="0"
-            Grid.RowSpan="2"
+            Grid.RowSpan="3"
             Background="{DynamicResource LayerOnMicaBaseAltFillColorTertiaryBrush}"
             BorderBrush="{DynamicResource LayerOnMicaBaseAltFillColorTertiaryBrush}"
             BorderThickness="1"
             CornerRadius="8"
+            Panel.ZIndex="1"
             Visibility="{Binding ShowInputOutputTable, Converter={StaticResource BoolToVisibilityConverter}}">
             <Grid ColumnDefinitions="*,*,41">
                 <Button
                     Grid.Column="2"
-                    Margin="0,10,5,0"
+                    Margin="0,5,5,0"
                     HorizontalAlignment="Right"
                     HorizontalContentAlignment="Center"
                     VerticalAlignment="Top"
@@ -319,7 +323,7 @@
                 </Button>
                 <Grid
                     Grid.Column="0"
-                    Margin="5,10,5,0"
+                    Margin="5,5,5,0"
                     RowDefinitions="30,*">
                     <Border
                         Grid.Row="0"
@@ -468,7 +472,7 @@
                 </Grid>
                 <Grid
                     Grid.Column="1"
-                    Margin="5,10,5,0"
+                    Margin="5,5,5,0"
                     RowDefinitions="30,*">
                     <Border
                         Grid.Row="0"
