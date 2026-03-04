@@ -1,5 +1,4 @@
-﻿using StarkCNC.Services;
-using StarkCNC.Core.Calculations;
+﻿using StarkCNC.Core.Calculations;
 using System.Windows.Media.Media3D;
 
 namespace StarkCNC.Models;

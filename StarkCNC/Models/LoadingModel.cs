@@ -1,6 +1,4 @@
-﻿using StarkCNC.Services;
-
-namespace StarkCNC.Models;
+﻿namespace StarkCNC.Models;
 
 internal class LoadingModel
 {

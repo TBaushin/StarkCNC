@@ -1,4 +1,4 @@
-﻿namespace StarkCNC.Services;
+﻿namespace StarkCNC.Models;
 
 public enum ModelType
 {
