@@ -25,6 +25,8 @@ public partial class LabeledTextBoxControl : UserControl
         .Register(nameof(IsNumericOnly), typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata(false));
     public static readonly DependencyProperty DirectionProperty = DependencyProperty
         .Register(nameof(Direction), typeof(DirectionEnum), typeof(LabeledTextBoxControl), new PropertyMetadata(DirectionEnum.TopToBottom));
+    public static readonly DependencyProperty CommandProperty = DependencyProperty
+        .Register(nameof(Command), typeof(ICommand), typeof(LabeledTextBoxControl), new PropertyMetadata());
     public static readonly RoutedEvent TextChangedEvent = EventManager.
         RegisterRoutedEvent(nameof(TextChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(LabeledTextBoxControl));
 
@@ -64,6 +66,12 @@ public partial class LabeledTextBoxControl : UserControl
         set => SetValue(DirectionProperty, value);
     }
 
+    public ICommand Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
     public bool LeftToRightVisible => Direction == DirectionEnum.LeftToRigth;
     public bool TopToBottomVisible => Direction == DirectionEnum.TopToBottom;
 
@@ -100,13 +108,17 @@ public partial class LabeledTextBoxControl : UserControl
             e.Handled = !OnlyNumberEnterHelper.IsTextAllowed(e.Text);
     }
 
-    private void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    private async void InputTextBox_TextChanged(object sender, TextChangedEventArgs e)
     {
         var tb = (TextBox)sender;
         SetCurrentValue(TextProperty, tb.Text);
 
         var args = new RoutedEventArgs(TextChangedEvent, this);
         RaiseEvent(args);
+
+        await ICommandControl
+            .ExecuteCommand(Command)
+            .ConfigureAwait(true);
     }
 
     private void InputTextBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)

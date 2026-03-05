@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StarkCNC.Controls;
 
@@ -40,6 +42,8 @@ public class ToggleSwitchControl : Control
         .Register(nameof(ShowText), typeof(bool), typeof(ToggleSwitchControl), new PropertyMetadata(true));
     public static readonly DependencyProperty IsCheckedProperty = DependencyProperty
         .Register(nameof(IsChecked), typeof(bool), typeof(ToggleSwitchControl), new PropertyMetadata(false));
+    public static readonly DependencyProperty CommandProperty = DependencyProperty
+        .Register(nameof(Command), typeof(ICommand), typeof(ToggleSwitchControl), new PropertyMetadata());
     public static readonly RoutedEvent OnCheckedChangedEvent = EventManager
         .RegisterRoutedEvent(nameof(OnCheckedChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ToggleSwitchControl));
 
@@ -69,6 +73,12 @@ public class ToggleSwitchControl : Control
         }
     }
 
+    public ICommand Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
+
     public event RoutedEventHandler? OnCheckedChanged;
 
     static ToggleSwitchControl()
@@ -89,9 +99,13 @@ public class ToggleSwitchControl : Control
         UpdateText();
     }
 
-    private void Border_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    private async void Border_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         IsChecked = !IsChecked;
+
+        await ICommandControl
+            .ExecuteCommand(Command)
+            .ConfigureAwait(true);
     }
 
     void UpdateText()
