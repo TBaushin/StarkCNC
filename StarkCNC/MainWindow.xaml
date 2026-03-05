@@ -19,14 +19,15 @@
     <Window.Resources>
         <utilities:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
         <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
-        <Style x:Key="TitleBarDefaultButtonStyle" TargetType="Button">
+        
+        <Style x:Key="BorderlessButtonStyle" TargetType="Button">
             <Setter Property="MinWidth" Value="48"/>
             <Setter Property="MinHeight" Value="32"/>
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Border.CornerRadius" Value="{StaticResource ControlCornerRadius}"/>
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
-            <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -35,6 +36,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="{TemplateBinding Border.CornerRadius}"
                             SnapsToDevicePixels="True">
                             <ContentPresenter
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -47,6 +49,9 @@
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource ControlAltFillColorTertiaryBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="{DynamicResource ControlAltFillColorQuarternaryBrush}"/>
                 </Trigger>
                 <MultiDataTrigger>
@@ -58,6 +63,11 @@
                     <Setter Property="Foreground" Value="{DynamicResource SystemColorHighlightTextColorBrush}"/>
                 </MultiDataTrigger>
             </Style.Triggers>
+        </Style>
+
+        <Style x:Key="TitleBarDefaultButtonStyle" BasedOn="{StaticResource BorderlessButtonStyle}" TargetType="Button">
+            <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
+            <Setter Property="Border.CornerRadius" Value="0"/>
         </Style>
 
         <Style x:Key="TitleBarDefaultCloseButtonStyle" BasedOn="{StaticResource TitleBarDefaultButtonStyle}" TargetType="Button">
@@ -99,21 +109,16 @@
                 <Button
                     x:Name="BackButton"
                     Grid.Column="0"
-                    Height="32"
-                    Width="40"
-                    Margin="4,0"
+                    Height="36"
+                    MinWidth="36"
+                    Margin="8,0"
                     VerticalAlignment="Center"
                     AutomationProperties.Name="Back"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
+                    Style="{StaticResource BorderlessButtonStyle}"
                     Command="{Binding BackCommand}"
                     IsEnabled="{Binding CanNavigateBack}"
                     WindowChrome.IsHitTestVisibleInChrome="True"
                     ToolTipService.ToolTip="{x:Static lang:Language.BackButton}">
-                    <Button.Resources>
-                        <SolidColorBrush x:Key="ButtonBackgroundDisabled" Color="Transparent"/>
-                        <SolidColorBrush x:Key="ButtonBorderBrushDisabled" Color="Transparent"/>
-                    </Button.Resources>
                     <TextBlock
                         VerticalAlignment="Center"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
