@@ -80,7 +80,7 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
     private async void LoadSettings()
     {
         var settings = await _settingsRepository.GetAsync().ConfigureAwait(false);
-        IsElectricMachine = settings?.IsElectricMachine ?? false;
+        IsElectricMachine = settings?.IsElectricBendingDrive ?? false;
     }
 
     private async void UpdateAdjustment()

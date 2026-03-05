@@ -1,148 +1,594 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
+using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Utilities;
 
 namespace StarkCNC.ViewModels;
 
 public partial class SettingsViewModel : ObservableObject
 {
-    private ISettingsRepository _settingsRepository;
-    private Settings _settings;
+    ISettingsRepository _settingsRepository;
+    IManualConfigurationService _manualConfigurationService;
+    Settings _settings;
 
     [ObservableProperty]
-    private bool _dornAutomatic;
+    bool _dornAutomatic;
 
     [ObservableProperty]
-    private double _dornLeadWithdrawalBeforeBend;
+    double _dornLeadWithdrawalBeforeBend;
 
     [ObservableProperty]
-    private bool _dornLubricantTurnOn;
+    bool _dornLubricantTurnOn;
 
     [ObservableProperty]
-    private bool _bendSynchronization;
+    bool _bendSynchronization;
 
     [ObservableProperty]
-    private bool _synchronizationCoefficient;
+    double _bendSynchronizationCoefficient;
 
     [ObservableProperty]
-    private bool _bendAndSupplySynchronization;
+    bool _bendAndSupplySynchronization;
 
     [ObservableProperty]
-    private bool _interceptionMode;
+    bool _interceptionMode;
 
     [ObservableProperty]
-    private bool _consoleOutletForPipeInstalling;
+    bool _consoleOutletForPipeInstalling;
 
     [ObservableProperty]
-    private double _pipeOutletCoordinate;
+    double _pipeOutletCoordinate;
 
     [ObservableProperty]
-    private bool _singleLeveled;
+    bool _multiLeveled;
 
     [ObservableProperty]
-    private bool _withPunchingCylinder;
+    bool _withPunchingCylinder;
 
     [ObservableProperty]
-    private double _distanceFromBendingToPunching;
+    double _distanceFromBendingToPunching;
 
     [ObservableProperty]
-    private double _isElectricBendingDrive;
+    bool _isElectricBendingDrive;
 
     [ObservableProperty]
-    private bool _absoluteUnitCoordinate;
+    bool _absoluteUnitCoordinate;
 
     [ObservableProperty]
-    private double _supportFirstLiftBan;
+    double _supportFirstLiftBan;
 
     [ObservableProperty]
-    private double _supportSecondLiftBan;
+    double _supportSecondLiftBan;
 
     [ObservableProperty]
-    private double _supportThirdLiftBanRear;
+    double _supportThirdLiftBanRear;
 
     [ObservableProperty]
-    private double _supportThirdLiftBanFront;
+    double _supportThirdLiftBanFront;
 
     [ObservableProperty]
-    private double _supportFourthLiftBan;
+    double _supportFourthLiftBan;
 
     [ObservableProperty]
-    private bool _banPressWhenSupportIsLifted;
+    bool _banPressWhenSupportIsLifted;
 
     [ObservableProperty]
-    private double _squeezeWorkTime;
+    double _squeezeWorkTime;
 
     [ObservableProperty]
-    private double _supplyStartRollingSpeed;
+    double _supplyStartRollingSpeed;
 
     [ObservableProperty]
-    private bool _incompleteClampMovement;
+    bool _incompleteClampMovement;
 
     [ObservableProperty]
-    private bool _hydraulicMovementWithoutSensors;
+    bool _hydraulicMovementWithoutSensors;
 
     [ObservableProperty]
-    private bool _showButtonFullAutomatic;
+    bool _showButtonFullAutomatic;
 
     [ObservableProperty]
-    private bool _invertClampSensors;
+    bool _invertClampSensors;
 
     [ObservableProperty]
-    private double _supplyCoefficient;
+    double _supplyCoefficient;
 
     [ObservableProperty]
-    private double _rotationCoefficient;
+    double _rotationCoefficient;
 
     [ObservableProperty]
-    private double _consoleCoefficient;
+    double _consoleCoefficient;
 
     [ObservableProperty]
-    private double _bendCoefficient;
+    double _bendCoefficient;
 
     [ObservableProperty]
-    private double _supplyAcceleration;
+    double _supplyAcceleration;
 
     [ObservableProperty]
-    private double _rotationAcceleration;
+    double _rotationAcceleration;
 
     [ObservableProperty]
-    private double _consoleAcceleration;
+    double _consoleAcceleration;
 
     [ObservableProperty]
-    private double _bendAcceleration;
+    double _bendAcceleration;
 
     [ObservableProperty]
-    private double _supplyBraking;
+    double _supplyBraking;
 
     [ObservableProperty]
-    private double _rotationBraking;
+    double _rotationBraking;
 
     [ObservableProperty]
-    private double _consoleBraking;
+    double _consoleBraking;
 
     [ObservableProperty]
-    private double _bendBraking;
+    double _bendBraking;
 
     [ObservableProperty]
-    private double _supplyJerk;
+    double _supplyJerk;
 
     [ObservableProperty]
-    private double _rotationJerk;
+    double _rotationJerk;
 
     [ObservableProperty]
-    private double _consoleJerk;
+    double _consoleJerk;
 
     [ObservableProperty]
-    private double _bendJerk;
+    double _bendJerk;
 
-    public SettingsViewModel(ISettingsRepository settingsRepository)
+    public SettingsViewModel(ISettingsRepository settingsRepository, IManualConfigurationService manualConfigurationService)
     {
         _settingsRepository = settingsRepository;
+        _manualConfigurationService = manualConfigurationService;
 
         var settings = _settingsRepository.GetAsync().Result;
         if (settings is null)
-            _settings = new Settings();
+        {
+            settings = new Settings();
+            settings.Id = Guid.NewGuid();
+            _settings = _settingsRepository
+                .AddElementAsync(settings)
+                .GetAwaiter()
+                .GetResult() ?? settings;
+        }
         else
             _settings = settings;
+
+        ReadData();
+
+        PropertyChanged += SettingsViewModel_PropertyChanged;
+    }
+
+    void ReadData()
+    {
+        DornAutomatic = _settings.DornAutomatic;
+        DornLeadWithdrawalBeforeBend = _settings.DornLeadWithdrawalBeforeBend;
+        DornLubricantTurnOn = _settings.DornLubricantTurnOn;
+        BendSynchronization = _settings.BendSynchronization;
+        BendSynchronizationCoefficient = _settings.BendSynchronizationCoefficient;
+        BendAndSupplySynchronization = _settings.BendAndSupplySynchronization;
+        InterceptionMode = _settings.InterceptionMode;
+        ConsoleOutletForPipeInstalling = _settings.ConsoleOutletForPipeInstalling;
+        PipeOutletCoordinate = _settings.PipeOutletCoordinate;
+        MultiLeveled = _settings.MultiLeveled;
+        WithPunchingCylinder = _settings.WithPunchingCylinder;
+        DistanceFromBendingToPunching = _settings.DistanceFromBendingToPunching;
+        IsElectricBendingDrive = _settings.IsElectricBendingDrive;
+        AbsoluteUnitCoordinate = _settings.AbsoluteUnitCoordinate;
+        SupportFirstLiftBan = _settings.SupportFirstLiftBan;
+        SupportSecondLiftBan = _settings.SupportSecondLiftBan;
+        SupportThirdLiftBanRear = _settings.SupportThirdLiftBanRear;
+        SupportThirdLiftBanFront = _settings.SupportThirdLiftBanFront;
+        SupportFourthLiftBan = _settings.SupportFourthLiftBan;
+        BanPressWhenSupportIsLifted = _settings.BanPressWhenSupportIsLifted;
+        SqueezeWorkTime = _settings.SqueezeWorkTime;
+        SupplyStartRollingSpeed = _settings.SupplyStartRollingSpeed;
+        IncompleteClampMovement = _settings.IncompleteClampMovement;
+        HydraulicMovementWithoutSensors = _settings.HydraulicMovementWithoutSensors;
+        ShowButtonFullAutomatic = _settings.ShowButtonFullAutomatic;
+        InvertClampSensors = _settings.InvertClampSensors;
+        SupplyCoefficient = _settings.SupplyCoefficient;
+        RotationCoefficient = _settings.RotationCoefficient;
+        ConsoleCoefficient = _settings.ConsoleCoefficient;
+        BendCoefficient = _settings.BendCoefficient;
+        SupplyAcceleration = _settings.SupplyAcceleration;
+        RotationAcceleration = _settings.RotationAcceleration;
+        ConsoleAcceleration = _settings.ConsoleAcceleration;
+        BendAcceleration = _settings.BendAcceleration;
+        SupplyBraking = _settings.SupplyBraking;
+        RotationBraking = _settings.RotationBraking;
+        ConsoleBraking = _settings.ConsoleBraking;
+        BendBraking = _settings.BendBraking;
+        SupplyJerk = _settings.SupplyJerk;
+        RotationJerk = _settings.RotationJerk;
+        ConsoleJerk = _settings.ConsoleJerk;
+        BendJerk = _settings.BendJerk;
+    }
+
+    async void SettingsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        _settings.DornAutomatic = DornAutomatic;
+        _settings.DornLeadWithdrawalBeforeBend = DornLeadWithdrawalBeforeBend;
+        _settings.DornLubricantTurnOn = DornLubricantTurnOn;
+        _settings.BendSynchronization = BendSynchronization;
+        _settings.BendSynchronizationCoefficient = BendSynchronizationCoefficient;
+        _settings.BendAndSupplySynchronization = BendAndSupplySynchronization;
+        _settings.InterceptionMode = InterceptionMode;
+        _settings.ConsoleOutletForPipeInstalling = ConsoleOutletForPipeInstalling;
+        _settings.PipeOutletCoordinate = PipeOutletCoordinate;
+        _settings.MultiLeveled = MultiLeveled;
+        _settings.WithPunchingCylinder = WithPunchingCylinder;
+        _settings.DistanceFromBendingToPunching = DistanceFromBendingToPunching;
+        _settings.IsElectricBendingDrive = IsElectricBendingDrive;
+        _settings.AbsoluteUnitCoordinate = AbsoluteUnitCoordinate;
+        _settings.SupportFirstLiftBan = SupportFirstLiftBan;
+        _settings.SupportSecondLiftBan = SupportSecondLiftBan;
+        _settings.SupportThirdLiftBanRear = SupportThirdLiftBanRear;
+        _settings.SupportThirdLiftBanFront = SupportThirdLiftBanFront;
+        _settings.SupportFourthLiftBan = SupportFourthLiftBan;
+        _settings.BanPressWhenSupportIsLifted = BanPressWhenSupportIsLifted;
+        _settings.SqueezeWorkTime = SqueezeWorkTime;
+        _settings.SupplyStartRollingSpeed = SupplyStartRollingSpeed;
+        _settings.IncompleteClampMovement = IncompleteClampMovement;
+        _settings.HydraulicMovementWithoutSensors = HydraulicMovementWithoutSensors;
+        _settings.ShowButtonFullAutomatic = ShowButtonFullAutomatic;
+        _settings.InvertClampSensors = InvertClampSensors;
+        _settings.SupplyCoefficient = SupplyCoefficient;
+        _settings.RotationCoefficient = RotationCoefficient;
+        _settings.ConsoleCoefficient = ConsoleCoefficient;
+        _settings.BendCoefficient = BendCoefficient;
+        _settings.SupplyAcceleration = SupplyAcceleration;
+        _settings.RotationAcceleration = RotationAcceleration;
+        _settings.ConsoleAcceleration = ConsoleAcceleration;
+        _settings.BendAcceleration = BendAcceleration;
+        _settings.SupplyBraking = SupplyBraking;
+        _settings.RotationBraking = RotationBraking;
+        _settings.ConsoleBraking = ConsoleBraking;
+        _settings.BendBraking = BendBraking;
+        _settings.SupplyJerk = SupplyJerk;
+        _settings.RotationJerk = RotationJerk;
+        _settings.ConsoleJerk = ConsoleJerk;
+        _settings.BendJerk = BendJerk;
+
+        await _settingsRepository.UpdateElementAsync(_settings).ConfigureAwait(false);
+    }
+
+    [RelayCommand]
+    async Task DornAutomaticSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(DornAutomatic, ControllerRequestStrings.DORN_AUTOMATIC)
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task DornLeadWithdrawalBeforeBendSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(DornLeadWithdrawalBeforeBend, ControllerRequestStrings.DORN_LEAD_WITHDRAWAL_BEFORE_BEND)
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task DornLubricantTurnOnSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(DornLubricantTurnOn, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task BendSynchronizationSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(BendSynchronization, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task BendSynchronizationCoefficientSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(BendSynchronizationCoefficient, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task BendAndSupplySynchronizationSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(BendAndSupplySynchronization, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task InterceptionModeSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(InterceptionMode, ControllerRequestStrings.SETTINGS_INTERCEPTION_MODE)
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task ConsoleOutletForPipeInstallingSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(ConsoleOutletForPipeInstalling, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task PipeOutletCoordinateSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(PipeOutletCoordinate, ControllerRequestStrings.PIPE_OUTLET_COORDINATE)
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task MultiLeveledSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(!MultiLeveled, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task WithPunchingCylinderSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(WithPunchingCylinder, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task DistanceFromBendingToPunchingSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(DistanceFromBendingToPunching, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task IsElectricBendingDriveSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(IsElectricBendingDrive, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task AbsoluteUnitCoordinateSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(AbsoluteUnitCoordinate, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupportFirstLiftBanSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupportFirstLiftBan, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupportSecondLiftBanSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupportSecondLiftBan, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupportThirdLiftBanRearSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupportThirdLiftBanRear, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupportThirdLiftBanFrontSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupportThirdLiftBanFront, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupportFourthLiftBanSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupportFourthLiftBan, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task BanPressWhenSupportIsLiftedSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(BanPressWhenSupportIsLifted, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SqueezeWorkTimeSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SqueezeWorkTime, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupplyStartRollingSpeedSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupplyStartRollingSpeed, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task IncompleteClampMovementSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(IncompleteClampMovement, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task HydraulicMovementWithoutSensorsSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(HydraulicMovementWithoutSensors, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task ShowButtonFullAutomaticSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(ShowButtonFullAutomatic, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task InvertClampSensorsSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(InvertClampSensors, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupplyCoefficientSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupplyCoefficient, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task RotationCoefficientSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(RotationCoefficient, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task ConsoleCoefficientSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(ConsoleCoefficient, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task BendCoefficientSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(BendCoefficient, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupplyAccelerationSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupplyAcceleration, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task RotationAccelerationSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(RotationAcceleration, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task ConsoleAccelerationSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(ConsoleAcceleration, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task BendAccelerationSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(BendAcceleration, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupplyBrakingSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupplyBraking, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task RotationBrakingSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(RotationBraking, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task ConsoleBrakingSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(ConsoleBraking, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task BendBrakingSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(BendBraking, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task SupplyJerkSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(SupplyJerk, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task RotationJerkSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(RotationJerk, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task ConsoleJerkSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(ConsoleJerk, "")
+            .ConfigureAwait(true);
+    }
+
+    [RelayCommand]
+    async Task BendJerkSend()
+    {
+        await _manualConfigurationService
+            .WriteAsync(BendJerk, "")
+            .ConfigureAwait(true);
     }
 }

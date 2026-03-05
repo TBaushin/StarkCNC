@@ -208,7 +208,7 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         if (_settings is null)
             return;
 
-        if (_settings.IsElectricMachine)
+        if (_settings.IsElectricBendingDrive)
         {
             FirstHydraulicsEnabled = false;
             FirstHydraulics.StopUpdateTask();
@@ -225,7 +225,7 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         if (_settings is null)
             return;
 
-        if (_settings.IsElectricMachine || _settings.IsElectricBendingDrive)
+        if (_settings.IsElectricBendingDrive || _settings.IsElectricBendingDrive)
         {
             SecondHydraulicsEnabled = false;
             SecondHydraulics.StopUpdateTask();
@@ -242,7 +242,7 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         if (_settings is null)
             return;
 
-        if (_settings.IsPunchingCylinder)
+        if (_settings.WithPunchingCylinder)
         {
             PunchingEnabled = false;
             Punching.StopUpdateTask();
@@ -256,16 +256,11 @@ public partial class ManualViewModel : ObservableObject, IDisposable
 
     private void DefineMoreThanOneLevelStatus()
     {
-        if (_settings?.FloorType != FloorType.SingleLevel)
-        {
-            MoreThenOneLevel = true;
+        MoreThenOneLevel = _settings?.MultiLeveled ?? false;
+        if (MoreThenOneLevel)
             Adjustment.StartUpdateTask();
-        }
         else
-        {
-            MoreThenOneLevel = false;
             Adjustment.StopUpdateTask();
-        }
     }
 
     public void Dispose()

@@ -31,14 +31,7 @@ public class SettingsRepository : ISettingsRepository
         if (settings is null)
             throw new ArgumentNullException(nameof(settings));
 
-        var local = await FindByIdAsync(settings.Id).ConfigureAwait(false);
-        if (local is not null)
-        {
-            _context.Entry(local).CurrentValues.SetValues(settings);
-            UpdateLocalEntry(settings, local);
-        }
-        else
-            _context.Entry(settings).State = EntityState.Modified;
+        _context.Entry(settings).State = EntityState.Modified;
 
         await _context.SaveChangesAsync().ConfigureAwait(false);
     }
@@ -51,15 +44,4 @@ public class SettingsRepository : ISettingsRepository
 
     public int Count() =>
         _context.Settings.Count();
-
-    private void UpdateLocalEntry(Settings settings, Settings local)
-    {
-        _context.Entry(local.Bend).CurrentValues.SetValues(settings.Bend);
-        _context.Entry(local.Dorn).CurrentValues.SetValues(settings.Dorn);
-        _context.Entry(local.Rotation).CurrentValues.SetValues(settings.Rotation);
-        _context.Entry(local.Support).CurrentValues.SetValues(settings.Support);
-        _context.Entry(local.Supply).CurrentValues.SetValues(settings.Supply);
-        _context.Entry(local.Console).CurrentValues.SetValues(settings.Console);
-        _context.Entry(local.Pipe).CurrentValues.SetValues(settings.Pipe);
-    }
 }

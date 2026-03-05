@@ -15,6 +15,8 @@
         <ResourceDictionary>
             <Style TargetType="controls:LabeledTextBoxControl">
                 <Setter Property="MinWidth" Value="55"/>
+                <Setter Property="IsNumericOnly" Value="True"/>
+                <Setter Property="NeedCallNumberInput" Value="True"/>
             </Style>
         </ResourceDictionary>
     </Page.Resources>
@@ -54,11 +56,13 @@
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Margin="5"
+                                Command="{Binding DornAutomaticSendCommand}"
                                 IsChecked="{Binding DornAutomatic, Mode=TwoWay}"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="2"
                                 MaxWidth="120"
                                 Direction="TopToBottom"
+                                Command="{Binding DornLeadWithdrawalBeforeBendSendCommand}"
                                 Text="{Binding DornLeadWithdrawalBeforeBend, Mode=TwoWay}">
                                 <controls:LabeledTextBoxControl.LabelText>
                                     <TextBlock
@@ -83,6 +87,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding DornLubricantTurnOnSendCommand}"
                                 IsChecked="{Binding DornLubricantTurnOn, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -114,12 +119,14 @@
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Margin="5"
+                                Command="{Binding BendSynchronizationSendCommand}"
                                 IsChecked="{Binding BendSynchronization, Mode=TwoWay}"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="2"
                                 Direction="TopToBottom"
                                 LabelText="Коэффициент"
-                                Text="{Binding SynchronizationCoefficient, Mode=TwoWay}"/>
+                                Command="{Binding BendSynchronizationCoefficientSendCommand}"
+                                Text="{Binding BendSynchronizationCoefficient, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -136,6 +143,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding BendAndSupplySynchronizationSendCommand}"
                                 IsChecked="{Binding BendAndSupplySynchronization, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -169,6 +177,7 @@
                                 Grid.Column="1"
                                 Grid.Row="0"
                                 Margin="5"
+                                Command="{Binding InterceptionModeSendCommand}"
                                 IsChecked="{Binding InterceptionMode, Mode=TwoWay}"/>
                             <Button
                                 Grid.Column="2"
@@ -198,6 +207,7 @@
                                 Grid.Column="1"
                                 Grid.Row="1"
                                 Margin="5"
+                                Command="{Binding ConsoleOutletForPipeInstallingSendCommand}"
                                 IsChecked="{Binding ConsoleOutletForPipeInstalling, Mode=TwoWay}"/>
                             <Button
                                 Grid.Column="2"
@@ -244,6 +254,7 @@
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Grid.Row="0"
+                                Command="{Binding PipeOutletCoordinateSendCommand}"
                                 Text="{Binding PipeOutletCoordinate, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -260,7 +271,8 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                IsChecked="{Binding SingleLeveled, Mode=TwoWay}"/>
+                                Command="{Binding MultiLeveledSendCommand}"
+                                IsChecked="{Binding MultiLeveled, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl
@@ -276,6 +288,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding WithPunchingCylinderSendCommand}"
                                 IsChecked="{Binding WithPunchingCylinder, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -292,6 +305,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
+                                Command="{Binding DistanceFromBendingToPunchingSendCommand}"
                                 Text="{Binding DistanceFromBendingToPunching, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -308,6 +322,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding IsElectricBendingDriveSendCommand}"
                                 IsChecked="{Binding IsElectricBendingDrive, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -325,6 +340,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding AbsoluteUnitCoordinateSendCommand}"
                                 IsChecked="{Binding AbsoluteUnitCoordinate, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -355,6 +371,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
+                                Command="{Binding SupportFirstLiftBanSendCommand}"
                                 Text="{Binding SupportFirstLiftBan, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -371,6 +388,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
+                                Command="{Binding SupportSecondLiftBanSendCommand}"
                                 Text="{Binding SupportSecondLiftBan, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -389,11 +407,13 @@
                                 Grid.Column="1"
                                 Direction="TopToBottom"
                                 LabelText="Сзади"
+                                Command="{Binding SupportThirdLiftBanRearSendCommand}"
                                 Text="{Binding SupportThirdLiftBanRear, Mode=TwoWay}"/>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="2"
                                 Direction="TopToBottom"
                                 LabelText="Впереди"
+                                Command="{Binding SupportThirdLiftBanFrontSendCommand}"
                                 Text="{Binding SupportThirdLiftBanFront, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -410,6 +430,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
+                                Command="{Binding SupportFourthLiftBanSendCommand}"
                                 Text="{Binding SupportFourthLiftBan, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -427,6 +448,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding BanPressWhenSupportIsLiftedSendCommand}"
                                 IsChecked="{Binding BanPressWhenSupportIsLifted, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -457,6 +479,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
+                                Command="{Binding SqueezeWorkTimeSendCommand}"
                                 Text="{Binding SqueezeWorkTime, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -473,6 +496,7 @@
                             </Label>
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
+                                Command="{Binding SupplyStartRollingSpeedSendCommand}"
                                 Text="{Binding SupplyStartRollingSpeed, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -489,6 +513,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding IncompleteClampMovementSendCommand}"
                                 IsChecked="{Binding IncompleteClampMovement, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -505,6 +530,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding HydraulicMovementWithoutSensorsSendCommand}"
                                 IsChecked="{Binding HydraulicMovementWithoutSensors, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -521,6 +547,7 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
+                                Command="{Binding ShowButtonFullAutomaticSendCommand}"
                                 IsChecked="{Binding ShowButtonFullAutomatic, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -540,6 +567,7 @@
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
                                 Grid.Row="5"
+                                Command="{Binding InvertClampSensorsSendCommand}"
                                 IsChecked="{Binding InvertClampSensors, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
@@ -597,21 +625,25 @@
                     Grid.Column="1"
                     Grid.Row="1"
                     Margin="5,0,5,0"
+                    Command="{Binding SupplyCoefficientSendCommand}"
                     Text="{Binding SupplyCoefficient, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="2"
                     Margin="5,0,5,0"
+                    Command="{Binding RotationCoefficientSendCommand}"
                     Text="{Binding RotationCoefficient, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="3"
                     Margin="5,0,5,0"
+                    Command="{Binding ConsoleCoefficientSendCommand}"
                     Text="{Binding ConsoleCoefficient, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="4"
                     Margin="5,0,5,0"
+                    Command="{Binding BendCoefficientSendCommand}"
                     Text="{Binding BendCoefficient, Mode=TwoWay}"/>
             </Grid>
             <Grid
@@ -651,21 +683,25 @@
                     Grid.Column="0"
                     Grid.Row="1"
                     Margin="5,0,5,0"
+                    Command="{Binding SupplyAccelerationSendCommand}"
                     Text="{Binding SupplyAcceleration, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="0"
                     Grid.Row="2"
                     Margin="5,0,5,0"
+                    Command="{Binding RotationAccelerationSendCommand}"
                     Text="{Binding RotationAcceleration, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="0"
                     Grid.Row="3"
                     Margin="5,0,5,0"
+                    Command="{Binding ConsoleAccelerationSendCommand}"
                     Text="{Binding ConsoleAcceleration, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="0"
                     Grid.Row="4"
                     Margin="5,0,5,0"
+                    Command="{Binding BendAccelerationSendCommand}"
                     Text="{Binding BendAcceleration, Mode=TwoWay}"/>
 
                 <Border
@@ -677,21 +713,25 @@
                     Grid.Column="1"
                     Grid.Row="1"
                     Margin="5,0,5,0"
-                    Text="{Binding BendBraking, Mode=TwoWay}"/>
+                    Command="{Binding SupplyBrakingSendCommand}"
+                    Text="{Binding SupplyBraking, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="2"
                     Margin="5,0,5,0"
+                    Command="{Binding RotationBrakingSendCommand}"
                     Text="{Binding RotationBraking, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="3"
                     Margin="5,0,5,0"
+                    Command="{Binding ConsoleBrakingSendCommand}"
                     Text="{Binding ConsoleBraking, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
                     Grid.Row="4"
                     Margin="5,0,5,0"
+                    Command="{Binding BendBrakingSendCommand}"
                     Text="{Binding BendBraking, Mode=TwoWay}"/>
 
                 <Border
@@ -704,21 +744,25 @@
                     Grid.Column="2"
                     Grid.Row="1"
                     Margin="5,0,5,0"
+                    Command="{Binding SupplyJerkSendCommand}"
                     Text="{Binding SupplyJerk, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="2"
                     Grid.Row="2"
                     Margin="5,0,5,0"
+                    Command="{Binding RotationJerkSendCommand}"
                     Text="{Binding RotationJerk, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="2"
                     Grid.Row="3"
                     Margin="5,0,5,0"
+                    Command="{Binding ConsoleJerkSendCommand}"
                     Text="{Binding ConsoleJerk, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="2"
                     Grid.Row="4"
                     Margin="5,0,5,0"
+                    Command="{Binding BendJerkSendCommand}"
                     Text="{Binding BendJerk, Mode=TwoWay}"/>
             </Grid>
         </Grid>

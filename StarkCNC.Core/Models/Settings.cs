@@ -1,121 +1,54 @@
-using StarkCNC.Core.Models.SettingsParameters;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace StarkCNC.Core.Models;
 
-public class Settings : ICloneable
+public class Settings
 {
     [Key]
     public Guid Id { get; set; }
 
-    public FloorType FloorType { get; set; }
-
-    public bool IsElectricBendingDrive { get; set; }
-
-    public bool IsPunchingCylinder { get; set; }
-
-    public bool IsElectricMachine { get; set; }
-
-    public double Speed { get; set; }
-
-    public double SynchronizationCoefficient { get; set; }
-    
+    public bool DornAutomatic { get; set; }
+    public double DornLeadWithdrawalBeforeBend { get; set; }
+    public bool DornLubricantTurnOn { get; set; }
+    public bool BendSynchronization { get; set; }
+    public double BendSynchronizationCoefficient { get; set; } = 1;
+    public bool BendAndSupplySynchronization { get; set; }
     public bool InterceptionMode { get; set; }
-
-    public Guid BendId { get; set; }
-
-    [ForeignKey(nameof(BendId))]
-    public Bend Bend { get; set; }
-
-    public Guid DornId { get; set; }
-
-    [ForeignKey(nameof(DornId))]
-    public Dorn Dorn { get; set; }
-
-    public Guid RotationId { get; set; }
-
-    [ForeignKey(nameof(RotationId))]
-    public Rotation Rotation { get; set; }
-
-    public Guid SupportId { get; set; }
-
-    [ForeignKey(nameof(SupportId))]
-    public Support Support { get; set; }
-
-    public Guid SupplyId { get; set; }
-
-    [ForeignKey(nameof(SupplyId))]
-    public Supply Supply { get; set; }
-
-    public Guid ConsoleId { get; set; }
-
-    [ForeignKey(nameof(ConsoleId))]
-    public StarkCNC.Core.Models.SettingsParameters.Console Console { get; set; }
-
-    public Guid PipeId { get; set; }
-
-    [ForeignKey(nameof(PipeId))]
-    public Pipe Pipe { get; set; }
+    public bool ConsoleOutletForPipeInstalling { get; set; }
+    public double PipeOutletCoordinate { get; set; } = 3000;
+    public bool MultiLeveled { get; set; }
+    public bool WithPunchingCylinder { get; set; }
+    public double DistanceFromBendingToPunching { get; set; } = 40;
+    public bool IsElectricBendingDrive { get; set; }
+    public bool AbsoluteUnitCoordinate { get; set; }
+    public double SupportFirstLiftBan { get; set; } = 2000.1;
+    public double SupportSecondLiftBan { get; set; }
+    public double SupportThirdLiftBanRear { get; set; }
+    public double SupportThirdLiftBanFront { get; set; }
+    public double SupportFourthLiftBan { get; set; }
+    public bool BanPressWhenSupportIsLifted { get; set; }
+    public double SqueezeWorkTime { get; set; } = 0.5;
+    public double SupplyStartRollingSpeed { get; set; } = 99.0;
+    public bool IncompleteClampMovement { get; set; }
+    public bool HydraulicMovementWithoutSensors { get; set; }
+    public bool ShowButtonFullAutomatic { get; set; }
+    public bool InvertClampSensors { get; set; }
+    public double SupplyCoefficient { get; set; } = 4.65;
+    public double RotationCoefficient { get; set; } = 1.6;
+    public double ConsoleCoefficient { get; set; } = 2;
+    public double BendCoefficient { get; set; } = 2;
+    public double SupplyAcceleration { get; set; } = 2000;
+    public double RotationAcceleration { get; set; } = 2000;
+    public double ConsoleAcceleration { get; set; } = 2000;
+    public double BendAcceleration { get; set; } = 2000;
+    public double SupplyBraking { get; set; } = 2000;
+    public double RotationBraking { get; set; } = 2000;
+    public double ConsoleBraking { get; set; } = 2000;
+    public double BendBraking { get; set; } = 2000;
+    public double SupplyJerk { get; set; } = 10000;
+    public double RotationJerk { get; set; } = 10000;
+    public double ConsoleJerk { get; set; } = 10000;
+    public double BendJerk { get; set; } = 10000;
 
     public Settings() { }
-
-    public Settings(
-        Guid id,
-        FloorType floorType,
-        bool isElectricBendingDrive,
-        bool isPunchingCylinder,
-        bool isElectricMachine,
-        double speed,
-        double synchronizationCoefficient,
-        bool interceptionMode,
-        Bend bend,
-        Dorn dorn,
-        Rotation rotation,
-        Support support,
-        Supply supply,
-        StarkCNC.Core.Models.SettingsParameters.Console console,
-        Pipe pipe)
-    {
-        Id = id;
-        FloorType = floorType;
-        IsElectricBendingDrive = isElectricBendingDrive;
-        IsPunchingCylinder = isPunchingCylinder;
-        IsElectricMachine = isElectricMachine;
-        Speed = speed;
-        SynchronizationCoefficient = synchronizationCoefficient;
-        InterceptionMode = interceptionMode;
-        Bend = bend;
-        BendId = Bend.Id;
-        Dorn = dorn;
-        DornId = Dorn.Id;
-        Rotation = rotation;
-        RotationId = Rotation.Id;
-        Support = support;
-        SupportId = support.Id;
-        Supply = supply;
-        SupplyId = Supply.Id;
-        Console = console;
-        ConsoleId = Console.Id;
-        Pipe = pipe;
-        PipeId = Pipe.Id;
-    }
-
-    public object Clone() =>
-        new Settings(
-            Id,
-            FloorType,
-            IsElectricBendingDrive,
-            IsPunchingCylinder,
-            IsElectricMachine,
-            Speed,
-            SynchronizationCoefficient,
-            InterceptionMode,
-            (Bend)Bend.Clone(),
-            (Dorn)Dorn.Clone(),
-            (Rotation)Rotation.Clone(),
-            (Support)Support.Clone(),
-            (Supply)Supply.Clone(),
-            (StarkCNC.Core.Models.SettingsParameters.Console)Console.Clone(),
-            (Pipe)Pipe.Clone());
 }
