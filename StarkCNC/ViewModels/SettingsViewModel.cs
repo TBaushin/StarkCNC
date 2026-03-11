@@ -332,7 +332,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task MultiLeveledSend()
     {
         await _manualConfigurationService
-            .WriteAsync(!MultiLeveled, "")
+            .WriteAsync(MultiLeveled, "")
             .ConfigureAwait(true);
     }
 
