@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Configuration;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 
 namespace StarkCNC.Utilities;
 
@@ -9,30 +8,30 @@ public static class ControllerRequestStrings
 {
     private static readonly IConfiguration Configuration = new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile("appsettings.v2.json", optional: false, reloadOnChange: true)
         .Build();
 
-    public static readonly string REQUEST = Configuration.GetValue<string>("MachineController:RequestString") ?? string.Empty;
+    public static readonly string REQUEST = GetValue("Connection:RequestString");
 
-    public static readonly string MANUALMODE = Configuration.GetValue<string>("MachineController:ManualModeRequestString") ?? string.Empty;
+    public static readonly string MANUAL_MODE = GetValue("RequestStrings:Manual:ManualMode");
     
     // œŒƒ¿◊¿
-    public static readonly string SUPPLY_FORWARD = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:ForwardRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_BACKWARD = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:BackwardRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_ACTUAL_COORDINATE = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:ActualCoordinateRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_ACTUAL_RELATIVE_DISPLACEMENT = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:ActualRelativeDisplacementRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_RESET = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:ResetRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_SPEED = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:SpeedRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_TORQUE = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:TorqueRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_REAR_POSITION = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:RearPositionRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_FRONT_POSITION = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:FrontPositionRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_RELATIVE_DISPLACEMENT = Configuration.GetValue<string>("MachineController:Drive:FeedDrive:RelativeDispositionRequestString") ?? string.Empty;
-    public static readonly string SUPPLY_RESETED_OFFSET = Configuration.GetValue<string>("Settings:Supply:ResetedOffset:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_START_ROLLING_SPEED = Configuration.GetValue<string>("Settings:Supply:StartRollingSpeed:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_COEFFICIENT = Configuration.GetValue<string>("Settings::Supply:Coefficient:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_PRESS_ZONE_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Supply:PressZonePosition:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_PRESS_ZONE_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Supply:PressZonePosition:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_PRESS_ZONE_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Supply:PressZonePosition:RequestString") ?? string.Empty;
+    public static readonly string SUPPLY_FORWARD = GetValue("RequestStrings:Supply:Forward");
+    public static readonly string SUPPLY_BACKWARD = GetValue("RequestStrings:Supply:Backward");
+    public static readonly string SUPPLY_ACTUAL_COORDINATE = GetValue("RequestStrings:Supply:ActualCoordinate");
+    public static readonly string SUPPLY_ACTUAL_RELATIVE_DISPLACEMENT = GetValue("RequestStrings:Supply:ActualRelativeDisplacement");
+    public static readonly string SUPPLY_RESET = GetValue("RequestStrings:Supply:Reset");
+    public static readonly string SUPPLY_SPEED = GetValue("RequestStrings:Supply:Speed");
+    public static readonly string SUPPLY_TORQUE = GetValue("RequestStrings:Supply:Torque");
+    public static readonly string SUPPLY_REAR_POSITION = GetValue("RequestStrings:Supply:RearPosition");
+    public static readonly string SUPPLY_FRONT_POSITION = GetValue("RequestStrings:Supply:FrontPosition");
+    public static readonly string SUPPLY_RELATIVE_DISPLACEMENT = GetValue("RequestStrings:Supply:RelativeDisposition");
+    public static readonly string SUPPLY_RESETED_OFFSET = GetValue("RequestStrings:Supply:ResetedOffset");
+    public static readonly string SUPPLY_START_ROLLING_SPEED = GetValue("RequestStrings:Supply:StartRollingSpeed");
+    public static readonly string SUPPLY_COEFFICIENT = GetValue("RequestStrings:Supply:Coefficient");
+    public static readonly string SUPPLY_PRESS_ZONE_POSITION_L1 = GetValue("RequestStrings:Supply:PressZonePositionL1");
+    public static readonly string SUPPLY_PRESS_ZONE_POSITION_L2 = GetValue("RequestStrings:Supply:PressZonePositionL2");
+    public static readonly string SUPPLY_PRESS_ZONE_POSITION_L3 = GetValue("RequestStrings:Supply:PressZonePositionL3");
     public static string GET_SUPPLY_PRESS_ZONE_POSITION(int level)
     {
         return level switch
@@ -43,9 +42,9 @@ public static class ControllerRequestStrings
             _ => SUPPLY_PRESS_ZONE_POSITION_L1
         };
     }
-    public static readonly string SUPPLY_FORWARD_DANGER_ZONE_L1 = Configuration.GetValue<string>("Adjustment:Supply:ForwardDangerZone:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_FORWARD_DANGER_ZONE_L2 = Configuration.GetValue<string>("Adjustment2:Supply:ForwardDangerZone:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_FORWARD_DANGER_ZONE_L3 = Configuration.GetValue<string>("Adjustment3:Supply:ForwardDangerZone:RequestString") ?? string.Empty;
+    public static readonly string SUPPLY_FORWARD_DANGER_ZONE_L1 = GetValue("RequestStrings:Supply:ForwardDangerZoneL1");
+    public static readonly string SUPPLY_FORWARD_DANGER_ZONE_L2 = GetValue("RequestStrings:Supply:ForwardDangerZoneL2");
+    public static readonly string SUPPLY_FORWARD_DANGER_ZONE_L3 = GetValue("RequestStrings:Supply:ForwardDangerZoneL3");
     public static string GET_SUPPLY_FORWARD_DANGER_ZONE(int level)
     {
         return level switch
@@ -56,9 +55,9 @@ public static class ControllerRequestStrings
             _ => SUPPLY_FORWARD_DANGER_ZONE_L1
         };
     }
-    public static readonly string SUPPLY_COLLET_JAWS_DEPTH_L1 = Configuration.GetValue<string>("Adjustment:Supply:ColletJawsDepth:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_COLLET_JAWS_DEPTH_L2 = Configuration.GetValue<string>("Adjustment2:Supply:ColletJawsDepth:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_COLLET_JAWS_DEPTH_L3 = Configuration.GetValue<string>("Adjustment3:Supply:ColletJawsDepth:RequestString") ?? string.Empty;
+    public static readonly string SUPPLY_COLLET_JAWS_DEPTH_L1 = GetValue("RequestStrings:Supply:ColletJawsDepthL1");
+    public static readonly string SUPPLY_COLLET_JAWS_DEPTH_L2 = GetValue("RequestStrings:Supply:ColletJawsDepthL2");
+    public static readonly string SUPPLY_COLLET_JAWS_DEPTH_L3 = GetValue("RequestStrings:Supply:ColletJawsDepthL3");
     public static string GET_SUPPLY_COLLET_JAWS_DEPTH(int level)
     {
         return level switch
@@ -69,9 +68,9 @@ public static class ControllerRequestStrings
             _ => SUPPLY_COLLET_JAWS_DEPTH_L1
         };
     }
-    public static readonly string SUPPLY_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Supply:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment2:Supply:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment3:Supply:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string SUPPLY_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Supply:SpeedCoefficientL1");
+    public static readonly string SUPPLY_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Supply:SpeedCoefficientL2");
+    public static readonly string SUPPLY_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Supply:SpeedCoefficientL3");
     public static string GET_SUPPLY_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -82,11 +81,11 @@ public static class ControllerRequestStrings
             _ => SUPPLY_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string SUPPLY_VALUE = Configuration.GetValue<string>("Program:Supply:Value:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_FACTICAL_POSITION = Configuration.GetValue<string>("AutomaticTags:Factical:Supply:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_CURRENT_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Supply:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_CURRENT_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Supply:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_CURRENT_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Supply:CurrentPosition:RequestString") ?? string.Empty;
+    public static readonly string SUPPLY_VALUE = GetValue("RequestStrings:Supply:Value");
+    public static readonly string SUPPLY_FACTICAL_POSITION = GetValue("RequestStrings:Supply:Factical");
+    public static readonly string SUPPLY_CURRENT_POSITION_L1 = GetValue("RequestStrings:Supply:CurrentPositionL1");
+    public static readonly string SUPPLY_CURRENT_POSITION_L2 = GetValue("RequestStrings:Supply:CurrentPositionL2");
+    public static readonly string SUPPLY_CURRENT_POSITION_L3 = GetValue("RequestStrings:Supply:CurrentPositionL3");
     public static string GET_SUPPLY_CURRENT_POSITION(int level)
     {
         return level switch
@@ -97,9 +96,9 @@ public static class ControllerRequestStrings
             _ => SUPPLY_CURRENT_POSITION_L1
         };
     }
-    public static readonly string SUPPLY_FORWARD_L1 = Configuration.GetValue<string>("Adjustment:Supply:Forward:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_FORWARD_L2 = Configuration.GetValue<string>("Adjustment2:Supply:Forward:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_FORWARD_L3 = Configuration.GetValue<string>("Adjustment3:Supply:Forward:RequestString") ?? string.Empty;
+    public static readonly string SUPPLY_FORWARD_L1 = GetValue("RequestStrings:Supply:ForwardL1");
+    public static readonly string SUPPLY_FORWARD_L2 = GetValue("RequestStrings:Supply:ForwardL2");
+    public static readonly string SUPPLY_FORWARD_L3 = GetValue("RequestStrings:Supply:ForwardL3");
     public static string GET_SUPPLY_FORWARD(int level)
     {
         return level switch
@@ -110,9 +109,9 @@ public static class ControllerRequestStrings
             _ => SUPPLY_FORWARD_L1
         };
     }
-    public static readonly string SUPPLY_BACKWARD_L1 = Configuration.GetValue<string>("Adjustment:Supply:Backward:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_BACKWARD_L2 = Configuration.GetValue<string>("Adjustment2:Supply:Backward:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_BACKWARD_L3 = Configuration.GetValue<string>("Adjustment3:Supply:Backward:RequestString") ?? string.Empty;
+    public static readonly string SUPPLY_BACKWARD_L1 = GetValue("RequestStrings:Supply:BackwardL1");
+    public static readonly string SUPPLY_BACKWARD_L2 = GetValue("RequestStrings:Supply:BackwardL2");
+    public static readonly string SUPPLY_BACKWARD_L3 = GetValue("RequestStrings:Supply:BackwardL3");
     public static string GET_SUPPLY_BACKWARD(int level)
     {
         return level switch
@@ -123,9 +122,9 @@ public static class ControllerRequestStrings
             _ => SUPPLY_BACKWARD_L1
         };
     }
-    public static readonly string SUPPLY_RESET_L1 = Configuration.GetValue<string>("Adjustment:Supply:Reset:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_RESET_L2 = Configuration.GetValue<string>("Adjustment2:Supply:Reset:RequestString") ?? string.Empty;
-    public static readonly string SUPPLY_RESET_L3 = Configuration.GetValue<string>("Adjustment3:Supply:Reset:RequestString") ?? string.Empty;
+    public static readonly string SUPPLY_RESET_L1 = GetValue("RequestStrings:Supply:ResetL1");
+    public static readonly string SUPPLY_RESET_L2 = GetValue("RequestStrings:Supply:ResetL2");
+    public static readonly string SUPPLY_RESET_L3 = GetValue("RequestStrings:Supply:ResetL3");
     public static string GET_SUPPLY_RESET(int level)
     {
         return level switch
@@ -136,12 +135,15 @@ public static class ControllerRequestStrings
             _ => SUPPLY_RESET_L1
         };
     }
+    public static readonly string SUPPLY_BACKWARD_SENSOR = GetValue("RequestStrings:Supply:BackwardSensor");
+    public static readonly string SUPPLY_RESET_SENSOR = GetValue("RequestStrings:Supply:ResetSensor");
 
-    public static readonly string ROTATION_OFFSET = Configuration.GetValue<string>("Settings:Rotation:Offset:RequestString") ?? string.Empty;
-    public static readonly string ROTATION_COEFFICIENT = Configuration.GetValue<string>("Settings:Rotation:Coefficient:RequestString") ?? string.Empty;
-    public static readonly string ROTATION_OFFSET_AFTER_ZERO_SEARCH_L1 = Configuration.GetValue<string>("Adjustment:Rotation:OffsetAfterZeroSearch:RequestString") ?? string.Empty;
-    public static readonly string ROTATION_OFFSET_AFTER_ZERO_SEARCH_L2 = Configuration.GetValue<string>("Adjustment2:Rotation:OffsetAfterZeroSearch:RequestString") ?? string.Empty;
-    public static readonly string ROTATION_OFFSET_AFTER_ZERO_SEARCH_L3 = Configuration.GetValue<string>("Adjustment3:Rotation:OffsetAfterZeroSearch:RequestString") ?? string.Empty;
+    // œŒ¬Œ–Œ“
+    public static readonly string ROTATION_OFFSET = GetValue("RequestStrings:Rotation:Offset");
+    public static readonly string ROTATION_COEFFICIENT = GetValue("RequestStrings:Rotation:Coefficient");
+    public static readonly string ROTATION_OFFSET_AFTER_ZERO_SEARCH_L1 = GetValue("RequestStrings:Rotation:OffsetAfterZeroSearchL1");
+    public static readonly string ROTATION_OFFSET_AFTER_ZERO_SEARCH_L2 = GetValue("RequestStrings:Rotation:OffsetAfterZeroSearchL2");
+    public static readonly string ROTATION_OFFSET_AFTER_ZERO_SEARCH_L3 = GetValue("RequestStrings:Rotation:OffsetAfterZeroSearchL3");
     public static string GET_ROTATION_OFFSET_AFTER_ZERO_SEARCH(int level)
     {
         return level switch
@@ -152,9 +154,9 @@ public static class ControllerRequestStrings
             _ => ROTATION_OFFSET_AFTER_ZERO_SEARCH_L1
         };
     }
-    public static readonly string ROTATION_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Rotation:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string ROTATION_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment2:Rotation:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string ROTATION_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment3:Rotation:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string ROTATION_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Rotation:SpeedCoefficientL1");
+    public static readonly string ROTATION_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Rotation:SpeedCoefficientL2");
+    public static readonly string ROTATION_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Rotation:SpeedCoefficientL3");
     public static string GET_ROTATION_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -165,24 +167,26 @@ public static class ControllerRequestStrings
             _ => ROTATION_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string ROTATION_VALUE = Configuration.GetValue<string>("Program:Rotation:Value:RequestString") ?? string.Empty;
-    public static readonly string ROTATION_FACTICAL_POSITION = Configuration.GetValue<string>("AutomaticTags:Factical:Rotation:RequestString") ?? string.Empty;
+    public static readonly string ROTATION_VALUE = GetValue("RequestStrings:Rotation:Value");
+    public static readonly string ROTATION_FACTICAL_POSITION = GetValue("RequestStrings:Rotation:Factical");
+    public static readonly string ROTATION_RESET_SENSOR = GetValue("RequestStrings:Rotation:ResetSensor");
+    public static readonly string ROTATION_BRAKING_OUTPUT_SIGNAL = GetValue("RequestStrings:Rotation:BrakingOutputSignal");
 
     //  ŒÕ—ŒÀ‹
-    public static readonly string CONSOLE_FORWARD = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:ForwardRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_BACKWARD = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:BackwardRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_ACTUAL_COORDINATE = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:ActualCoordinateRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_ACTUAL_RELATIVE_DISPLACEMENT = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:ActualRelativeDisplacementRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_RESET = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:ResetRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_SPEED = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:SpeedRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_TORQUE = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:TorqueRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_REAR_POSITION = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:RearPositionRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_FRONT_POSITION = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:FrontPositionRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_RELATIVE_DISPLACEMENT = Configuration.GetValue<string>("MachineController:Drive:ConsoleDrive:RelativeDisplacementRequestString") ?? string.Empty;
-    public static readonly string CONSOLE_COEFFICIENT = Configuration.GetValue<string>("Settings:Console:Coefficient:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_BEND_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Console:BendPosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_BEND_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Console:BendPosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_BEND_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Console:BendPosition:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_FORWARD = GetValue("RequestStrings:Console:Forward");
+    public static readonly string CONSOLE_BACKWARD = GetValue("RequestStrings:Console:Backward");
+    public static readonly string CONSOLE_ACTUAL_COORDINATE = GetValue("RequestStrings:Console:ActualCoordinate");
+    public static readonly string CONSOLE_ACTUAL_RELATIVE_DISPLACEMENT = GetValue("RequestStrings:Console:ActualRelativeDisplacement");
+    public static readonly string CONSOLE_RESET = GetValue("RequestStrings:Console:Reset");
+    public static readonly string CONSOLE_SPEED = GetValue("RequestStrings:Console:Speed");
+    public static readonly string CONSOLE_TORQUE = GetValue("RequestStrings:Console:Torque");
+    public static readonly string CONSOLE_REAR_POSITION = GetValue("RequestStrings:Console:RearPosition");
+    public static readonly string CONSOLE_FRONT_POSITION = GetValue("RequestStrings:Console:FrontPosition");
+    public static readonly string CONSOLE_RELATIVE_DISPLACEMENT = GetValue("RequestStrings:Console:RelativeDisplacement");
+    public static readonly string CONSOLE_COEFFICIENT = GetValue("RequestStrings:Console:Coefficient");
+    public static readonly string CONSOLE_BEND_POSITION_L1 = GetValue("RequestStrings:Console:BendPositionL1");
+    public static readonly string CONSOLE_BEND_POSITION_L2 = GetValue("RequestStrings:Console:BendPositionL2");
+    public static readonly string CONSOLE_BEND_POSITION_L3 = GetValue("RequestStrings:Console:BendPositionL3");
     public static string GET_CONSOLE_BEND_POSITION(int level)
     {
         return level switch
@@ -193,9 +197,9 @@ public static class ControllerRequestStrings
             _ => CONSOLE_BEND_POSITION_L1
         };
     }
-    public static readonly string CONSOLE_SECOND_FLOOR_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Console:SecondFloorPosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_SECOND_FLOOR_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Console:SecondFloorPosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_SECOND_FLOOR_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Console:SecondFloorPosition:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_SECOND_FLOOR_POSITION_L1 = GetValue("RequestStrings:Console:SecondFloorPositionL1");
+    public static readonly string CONSOLE_SECOND_FLOOR_POSITION_L2 = GetValue("RequestStrings:Console:SecondFloorPositionL2");
+    public static readonly string CONSOLE_SECOND_FLOOR_POSITION_L3 = GetValue("RequestStrings:Console:SecondFloorPositionL3");
     public static string GET_CONSOLE_SECOND_FLOOR_POSITION(int level)
     {
         return level switch
@@ -206,9 +210,9 @@ public static class ControllerRequestStrings
             _ => CONSOLE_SECOND_FLOOR_POSITION_L1
         };
     }
-    public static readonly string CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Console:SecondFloorIntermediatePosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Console:SecondFloorIntermediatePosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Console:SecondFloorIntermediatePosition:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION_L1 = GetValue("RequestStrings:Console:SecondFloorIntermediatePositionL1");
+    public static readonly string CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION_L2 = GetValue("RequestStrings:Console:SecondFloorIntermediatePositionL2");
+    public static readonly string CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION_L3 = GetValue("RequestStrings:Console:SecondFloorIntermediatePositionL3");
     public static string GET_CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION(int level)
     {
         return level switch
@@ -219,9 +223,9 @@ public static class ControllerRequestStrings
             _ => CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION_L1
         };
     }
-    public static readonly string CONSOLE_THIRD_FLOOR_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Console:ThirdFloorPosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_THIRD_FLOOR_POSITION_L2 = Configuration.GetValue<string>("Adjustmen2:Console:ThirdFloorPosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_THIRD_FLOOR_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Console:ThirdFloorPosition:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_THIRD_FLOOR_POSITION_L1 = GetValue("RequestStrings:Console:ThirdFloorPositionL1");
+    public static readonly string CONSOLE_THIRD_FLOOR_POSITION_L2 = GetValue("RequestStrings:Console:ThirdFloorPositionL2");
+    public static readonly string CONSOLE_THIRD_FLOOR_POSITION_L3 = GetValue("RequestStrings:Console:ThirdFloorPositionL3");
     public static string GET_CONSOLE_THIRD_FLOOR_POSITION(int level)
     {
         return level switch
@@ -232,9 +236,9 @@ public static class ControllerRequestStrings
             _ => CONSOLE_THIRD_FLOOR_POSITION_L1
         };
     }
-    public static readonly string CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE_L1 = Configuration.GetValue<string>("Adjustment:Console:PipeRotationDepartureDistance:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE_L2 = Configuration.GetValue<string>("Adjustment2:Console:PipeRotationDepartureDistance:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE_L3 = Configuration.GetValue<string>("Adjustment3:Console:PipeRotationDepartureDistance:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE_L1 = GetValue("RequestStrings:Console:PipeRotationDepartureDistanceL1");
+    public static readonly string CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE_L2 = GetValue("RequestStrings:Console:PipeRotationDepartureDistanceL2");
+    public static readonly string CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE_L3 = GetValue("RequestStrings:Console:PipeRotationDepartureDistanceL3");
     public static string GET_CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE(int level)
     {
         return level switch
@@ -245,9 +249,9 @@ public static class ControllerRequestStrings
             _ => CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE_L1
         };
     }
-    public static readonly string CONSOLE_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Console:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment2:Console:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment3:Console:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Console:SpeedCoefficientL1");
+    public static readonly string CONSOLE_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Console:SpeedCoefficientL2");
+    public static readonly string CONSOLE_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Console:SpeedCoefficientL3");
     public static string GET_CONSOLE_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -258,10 +262,10 @@ public static class ControllerRequestStrings
             _ => CONSOLE_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string CONSOLE_FACTICAL_POSITION = Configuration.GetValue<string>("AutomaticTags:Factical:Console:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_CURRENT_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Console:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_CURRENT_POSITION_L2 = Configuration.GetValue<string>("Adjustment:Console:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_CURRENT_POSITION_L3 = Configuration.GetValue<string>("Adjustment:Console:CurrentPosition:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_FACTICAL_POSITION = GetValue("AutomaticTags:Factical:Console");
+    public static readonly string CONSOLE_CURRENT_POSITION_L1 = GetValue("RequestStrings:Console:CurrentPositionL1");
+    public static readonly string CONSOLE_CURRENT_POSITION_L2 = GetValue("RequestStrings:Console:CurrentPositionL2");
+    public static readonly string CONSOLE_CURRENT_POSITION_L3 = GetValue("RequestStrings:Console:CurrentPositionL3");
     public static string GET_CONSOLE_CURRENT_POSITION(int level)
     {
         return level switch
@@ -272,9 +276,9 @@ public static class ControllerRequestStrings
             _ => CONSOLE_CURRENT_POSITION_L1
         };
     }
-    public static readonly string CONSOLE_FORWARD_L1 = Configuration.GetValue<string>("Adjustment:Console:Forward:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_FORWARD_L2 = Configuration.GetValue<string>("Adjustment2:Console:Forward:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_FORWARD_L3 = Configuration.GetValue<string>("Adjustment3:Console:Forward:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_FORWARD_L1 = GetValue("RequestStrings:Console:ForwardL1");
+    public static readonly string CONSOLE_FORWARD_L2 = GetValue("RequestStrings:Console:ForwardL2");
+    public static readonly string CONSOLE_FORWARD_L3 = GetValue("RequestStrings:Console:ForwardL3");
     public static string GET_CONSOLE_FORWARD(int level)
     {
         return level switch
@@ -285,9 +289,9 @@ public static class ControllerRequestStrings
             _ => CONSOLE_FORWARD_L1
         };
     }
-    public static readonly string CONSOLE_BACKWARD_L1 = Configuration.GetValue<string>("Adjustment:Console:Backward:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_BACKWARD_L2 = Configuration.GetValue<string>("Adjustment2:Console:Backward:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_BACKWARD_L3 = Configuration.GetValue<string>("Adjustment3:Console:Backward:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_BACKWARD_L1 = GetValue("RequestStrings:Console:BackwardL1");
+    public static readonly string CONSOLE_BACKWARD_L2 = GetValue("RequestStrings:Console:BackwardL2");
+    public static readonly string CONSOLE_BACKWARD_L3 = GetValue("RequestStrings:Console:BackwardL3");
     public static string GET_CONSOLE_BACKWARD(int level)
     {
         return level switch
@@ -298,9 +302,9 @@ public static class ControllerRequestStrings
             _ => CONSOLE_BACKWARD_L1
         };
     }
-    public static readonly string CONSOLE_RESET_L1 = Configuration.GetValue<string>("Adjustment:Console:Reset:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_RESET_L2 = Configuration.GetValue<string>("Adjustment2:Console:Reset:RequestString") ?? string.Empty;
-    public static readonly string CONSOLE_RESET_L3 = Configuration.GetValue<string>("Adjustment3:Console:Reset:RequestString") ?? string.Empty;
+    public static readonly string CONSOLE_RESET_L1 = GetValue("RequestStrings:Console:ResetL1");
+    public static readonly string CONSOLE_RESET_L2 = GetValue("RequestStrings:Console:ResetL2");
+    public static readonly string CONSOLE_RESET_L3 = GetValue("RequestStrings:Console:ResetL3");
     public static string GET_CONSOLE_RESET(int level)
     {
         return level switch
@@ -311,25 +315,27 @@ public static class ControllerRequestStrings
             _ => CONSOLE_RESET_L1
         };
     }
+    public static readonly string CONSOLE_FORWARD_SENSOR = GetValue("RequestStrings:Console:ForwardSensor");
+    public static readonly string CONSOLE_BACKWARD_SENSOR = GetValue("RequestStrings:Console:BackwardSensor");
 
     // √»¡
-    public static readonly string BEND_FORWARD = Configuration.GetValue<string>("MachineController:Drive:BendDrive:ForwardRequestString") ?? string.Empty;
-    public static readonly string BEND_BACKWARD = Configuration.GetValue<string>("MachineController:Drive:BendDrive:BackwardRequestString") ?? string.Empty;
-    public static readonly string BEND_ACTUAL_COORDINATE = Configuration.GetValue<string>("MachineController:Drive:BendDrive:ActualCoordinateRequestString") ?? string.Empty;
-    public static readonly string BEND_ACTUAL_RELATIVE_DISPLACEMENT = Configuration.GetValue<string>("MachineController:Drive:BendDrive:ActualRelativeDisplacementRequestString") ?? string.Empty;
-    public static readonly string BEND_RESET = Configuration.GetValue<string>("MachineController:Drive:BendDrive:ResetRequestString") ?? string.Empty;
-    public static readonly string BEND_SPEED = Configuration.GetValue<string>("MachineController:Drive:BendDrive:SpeedRequestString") ?? string.Empty;
-    public static readonly string BEND_TORQUE = Configuration.GetValue<string>("MachineController:Drive:BendDrive:TorqueRequestString") ?? string.Empty;
-    public static readonly string BEND_REAR_POSITION = Configuration.GetValue<string>("MachineController:Drive:BendDrive:RearPositionRequestString") ?? string.Empty; // ƒÛ·Î¸ ‚ MachineController:OutputsFB:Bend:RearPositionRequestString
-    public static readonly string BEND_FRONT_POSITION = Configuration.GetValue<string>("MachineController:Drive:BendDrive:FrontPositionRequestString") ?? string.Empty; // ƒÛ·Î¸ ‚ MachineController:OutputsFB:Bend:FrontPositionRequestString
-    public static readonly string BEND_RELATIVE_DISPLACEMENT = Configuration.GetValue<string>("MachineController:Drive:BendDrive:RelativeDisplacementRequestString") ?? string.Empty;
-    public static readonly string BEND_FORWARD_BUTTON = Configuration.GetValue<string>("MachineController:OutputsFB:Bend:ForwardRequestString") ?? string.Empty;
-    public static readonly string BEND_BACKWARD_BUTTON = Configuration.GetValue<string>("MachineController:OutputsFB:Bend:BackwardButton") ?? string.Empty;
-    public static readonly string BEND_COEFFICIENT = Configuration.GetValue<string>("Settings:Bend:Coefficient:RequestString") ?? string.Empty;
-    public static readonly string BEND_SYNCHRONIZATION = Configuration.GetValue<string>("Settings:Bend:Synchronization:RequestString") ?? string.Empty;
-    public static readonly string BEND_FORWARD_POSITION_LIMITATION_L1 = Configuration.GetValue<string>("Adjustment:Bend:ForwardPositionLimitation:RequestString") ?? string.Empty;
-    public static readonly string BEND_FORWARD_POSITION_LIMITATION_L2 = Configuration.GetValue<string>("Adjustment2:Bend:ForwardPositionLimitation:RequestString") ?? string.Empty;
-    public static readonly string BEND_FORWARD_POSITION_LIMITATION_L3 = Configuration.GetValue<string>("Adjustment3:Bend:ForwardPositionLimitation:RequestString") ?? string.Empty;
+    public static readonly string BEND_FORWARD = GetValue("RequestStrings:Bend:Forward");
+    public static readonly string BEND_BACKWARD = GetValue("RequestStrings:Bend:Backward");
+    public static readonly string BEND_ACTUAL_COORDINATE = GetValue("RequestStrings:Bend:ActualCoordinate");
+    public static readonly string BEND_ACTUAL_RELATIVE_DISPLACEMENT = GetValue("RequestStrings:Bend:ActualRelativeDisplacement");
+    public static readonly string BEND_RESET = GetValue("RequestStrings:Bend:Reset");
+    public static readonly string BEND_SPEED = GetValue("RequestStrings:Bend:Speed");
+    public static readonly string BEND_TORQUE = GetValue("RequestStrings:Bend:Torque");
+    public static readonly string BEND_REAR_POSITION = GetValue("RequestStrings:Bend:RearPosition");
+    public static readonly string BEND_FRONT_POSITION = GetValue("RequestStrings:Bend:FrontPosition");
+    public static readonly string BEND_RELATIVE_DISPLACEMENT = GetValue("RequestStrings:Bend:RelativeDisplacement");
+    public static readonly string BEND_FORWARD_BUTTON = GetValue("RequestStrings:Bend:Forward");
+    public static readonly string BEND_BACKWARD_BUTTON = GetValue("RequestStrings:Bend:BackwardButton");
+    public static readonly string BEND_COEFFICIENT = GetValue("Settings:Bend:Coefficient");
+    public static readonly string BEND_SYNCHRONIZATION = GetValue("Settings:Bend:Synchronization");
+    public static readonly string BEND_FORWARD_POSITION_LIMITATION_L1 = GetValue("RequestStrings:Bend:ForwardPositionLimitationL1");
+    public static readonly string BEND_FORWARD_POSITION_LIMITATION_L2 = GetValue("RequestStrings:Bend:ForwardPositionLimitationL2");
+    public static readonly string BEND_FORWARD_POSITION_LIMITATION_L3 = GetValue("RequestStrings:Bend:ForwardPositionLimitationL3");
     public static string GET_BEND_FORWARD_POSITION_LIMITATION(int level)
     {
         return level switch
@@ -340,9 +346,9 @@ public static class ControllerRequestStrings
             _ => BEND_FORWARD_POSITION_LIMITATION_L1
         };
     }
-    public static readonly string BEND_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Bend:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string BEND_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment2:Bend:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string BEND_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment3:Bend:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string BEND_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Bend:SpeedCoefficientL1");
+    public static readonly string BEND_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Bend:SpeedCoefficientL2");
+    public static readonly string BEND_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Bend:SpeedCoefficientL3");
     public static string GET_BEND_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -353,9 +359,9 @@ public static class ControllerRequestStrings
             _ => BEND_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string BEND_SLOWDOWN_SPEED_L1 = Configuration.GetValue<string>("Adjustment:Bend:SlowdownSpeed:RequestString") ?? string.Empty;
-    public static readonly string BEND_SLOWDOWN_SPEED_L2 = Configuration.GetValue<string>("Adjustment2:Bend:SlowdownSpeed:RequestString") ?? string.Empty;
-    public static readonly string BEND_SLOWDOWN_SPEED_L3 = Configuration.GetValue<string>("Adjustment3:Bend:SlowdownSpeed:RequestString") ?? string.Empty;
+    public static readonly string BEND_SLOWDOWN_SPEED_L1 = GetValue("RequestStrings:Bend:SlowdownSpeedL1");
+    public static readonly string BEND_SLOWDOWN_SPEED_L2 = GetValue("RequestStrings:Bend:SlowdownSpeedL2");
+    public static readonly string BEND_SLOWDOWN_SPEED_L3 = GetValue("RequestStrings:Bend:SlowdownSpeedL3");
     public static string GET_BEND_SLOWDOWN_SPEED(int level)
     {
         return level switch
@@ -366,17 +372,21 @@ public static class ControllerRequestStrings
             _ => BEND_SLOWDOWN_SPEED_L1
         };
     }
-    public static readonly string BEND_VALUE = Configuration.GetValue<string>("Program:Bend:Value:RequestString") ?? string.Empty;
-    public static readonly string BEND_FACTICAL_POSITION = Configuration.GetValue<string>("AutomaticTags:Bending:Factical:RequestString") ?? string.Empty;
+    public static readonly string BEND_VALUE = GetValue("RequestStrings:Bend:Value");
+    public static readonly string BEND_FACTICAL_POSITION = GetValue("RequestStrings:Bend:FacticalPosition");
+    public static readonly string BEND_FORWARD_SENSOR = GetValue("RequestStrings:Bend:ForwardSensor");
+    public static readonly string BEND_BACKWARD_SENSOR = GetValue("RequestStrings:Bend:BackwardSensor");
+    public static readonly string BEND_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Bend:ForwardOutputSignal");
+    public static readonly string BEND_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Bend:BackwardOutputSignal");
 
     // «¿∆»Ã
-    public static readonly string CLAMP_FORWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Clamp:ForwardRequestString") ?? string.Empty;
-    public static readonly string CLAMP_BACKWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Clamp:BackwardRequestString") ?? string.Empty;
-    public static readonly string CLAMP_REAR_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Clamp:RearPositionRequestString") ?? string.Empty;
-    public static readonly string CLAMP_FRONT_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Clamp:FrontPositionRequestString") ?? string.Empty;
-    public static readonly string CLAMP_DEEP_L1 = Configuration.GetValue<string>("Adjustment:Clamp:Deep:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_DEEP_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:Deep:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_DEEP_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:Deep:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_FORWARD = GetValue("RequestStrings:Clamp:Forward");
+    public static readonly string CLAMP_BACKWARD = GetValue("RequestStrings:Clamp:Backward");
+    public static readonly string CLAMP_REAR_POSITION = GetValue("RequestStrings:Clamp:RearPosition");
+    public static readonly string CLAMP_FRONT_POSITION = GetValue("RequestStrings:Clamp:FrontPosition");
+    public static readonly string CLAMP_DEEP_L1 = GetValue("RequestStrings:Clamp:DeepL1");
+    public static readonly string CLAMP_DEEP_L2 = GetValue("RequestStrings:Clamp:DeepL2");
+    public static readonly string CLAMP_DEEP_L3 = GetValue("RequestStrings:Clamp:DeepL3");
     public static string GET_CLAMP_DEEP(int level)
     {
         return level switch
@@ -387,9 +397,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_DEEP_L1
         };
     }
-    public static readonly string CLAMP_LENGTH_L1 = Configuration.GetValue<string>("Adjustment:Clamp:Length:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_LENGTH_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:Length:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_LENGTH_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:Length:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_LENGTH_L1 = GetValue("RequestStrings:Clamp:LengthL1");
+    public static readonly string CLAMP_LENGTH_L2 = GetValue("RequestStrings:Clamp:LengthL2");
+    public static readonly string CLAMP_LENGTH_L3 = GetValue("RequestStrings:Clamp:LengthL3");
     public static string GET_CLAMP_LENGTH(int level)
     {
         return level switch
@@ -400,9 +410,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_LENGTH_L1
         };
     }
-    public static readonly string CLAMP_FORWARD_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Clamp:ForwardPosition:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_FORWARD_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:ForwardPosition:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_FORWARD_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:ForwardPosition:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_FORWARD_POSITION_L1 = GetValue("RequestStrings:Clamp:ForwardPositionL1");
+    public static readonly string CLAMP_FORWARD_POSITION_L2 = GetValue("RequestStrings:Clamp:ForwardPositionL2");
+    public static readonly string CLAMP_FORWARD_POSITION_L3 = GetValue("RequestStrings:Clamp:ForwardPositionL3");
     public static string GET_CLAMP_FORWARD_POSITION(int level)
     {
         return level switch
@@ -413,9 +423,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_FORWARD_POSITION_L1
         };
     }
-    public static readonly string CLAMP_MIDDLE_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Clamp:MiddlePosition:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_MIDDLE_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:MiddlePosition:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_MIDDLE_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:MiddlePosition:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_MIDDLE_POSITION_L1 = GetValue("RequestStrings:Clamp:MiddlePositionL1");
+    public static readonly string CLAMP_MIDDLE_POSITION_L2 = GetValue("RequestStrings:Clamp:MiddlePositionL2");
+    public static readonly string CLAMP_MIDDLE_POSITION_L3 = GetValue("RequestStrings:Clamp:MiddlePositionL3");
     public static string GET_CLAMP_MIDDLE_POSITION(int level)
     {
         return level switch
@@ -426,9 +436,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_MIDDLE_POSITION_L1
         };
     }
-    public static readonly string CLAMP_BACKWARD_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Clamp:BackwardPosition:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_BACKWARD_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:BackwardPosition:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_BACKWARD_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:BackwardPosition:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_BACKWARD_POSITION_L1 = GetValue("RequestStrings:Clamp:BackwardPositionL1");
+    public static readonly string CLAMP_BACKWARD_POSITION_L2 = GetValue("RequestStrings:Clamp:BackwardPositionL2");
+    public static readonly string CLAMP_BACKWARD_POSITION_L3 = GetValue("RequestStrings:Clamp:BackwardPositionL3");
     public static string GET_CLAMP_BACKWARD_POSITION(int level)
     {
         return level switch
@@ -439,9 +449,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_BACKWARD_POSITION_L1
         };
     }
-    public static readonly string CLAMP_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Clamp:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Clamp:SpeedCoefficientL1");
+    public static readonly string CLAMP_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Clamp:SpeedCoefficientL2");
+    public static readonly string CLAMP_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Clamp:SpeedCoefficientL3");
     public static string GET_CLAMP_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -452,9 +462,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string CLAMP_CURRENT_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Clamp:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_CURRENT_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_CURRENT_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:CurrentPosition:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_CURRENT_POSITION_L1 = GetValue("RequestStrings:Clamp:CurrentPositionL1");
+    public static readonly string CLAMP_CURRENT_POSITION_L2 = GetValue("RequestStrings:Clamp:CurrentPositionL2");
+    public static readonly string CLAMP_CURRENT_POSITION_L3 = GetValue("RequestStrings:Clamp:CurrentPositionL3");
     public static string GET_CLAMP_CURRENT_POSITION(int level)
     {
         return level switch
@@ -465,9 +475,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_CURRENT_POSITION_L1
         };
     }
-    public static readonly string CLAMP_FORWARD_L1 = Configuration.GetValue<string>("Adjustment:Clamp:Forward:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_FORWARD_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:Forward:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_FORWARD_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:Forward:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_FORWARD_L1 = GetValue("RequestStrings:Clamp:ForwardL1");
+    public static readonly string CLAMP_FORWARD_L2 = GetValue("RequestStrings:Clamp:ForwardL2");
+    public static readonly string CLAMP_FORWARD_L3 = GetValue("RequestStrings:Clamp:ForwardL3");
     public static string GET_CLAMP_FORWARD(int level)
     {
         return level switch
@@ -478,9 +488,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_FORWARD_L1
         };
     }
-    public static readonly string CLAMP_BACKWARD_L1 = Configuration.GetValue<string>("Adjustment:Clamp:Backward:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_BACKWARD_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:Backward:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_BACKWARD_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:Backward:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_BACKWARD_L1 = GetValue("RequestStrings:Clamp:BackwardL1");
+    public static readonly string CLAMP_BACKWARD_L2 = GetValue("RequestStrings:Clamp:BackwardL2");
+    public static readonly string CLAMP_BACKWARD_L3 = GetValue("RequestStrings:Clamp:BackwardL3");
     public static string GET_CLAMP_BACKWARD(int level)
     {
         return level switch
@@ -491,9 +501,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_BACKWARD_L1
         };
     }
-    public static readonly string CLAMP_RESET_L1 = Configuration.GetValue<string>("Adjustment:Clamp:Reset:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_RESET_L2 = Configuration.GetValue<string>("Adjustment2:Clamp:Reset:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_RESET_L3 = Configuration.GetValue<string>("Adjustment3:Clamp:Reset:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_RESET_L1 = GetValue("RequestStrings:Clamp:ResetL1");
+    public static readonly string CLAMP_RESET_L2 = GetValue("RequestStrings:Clamp:ResetL2");
+    public static readonly string CLAMP_RESET_L3 = GetValue("RequestStrings:Clamp:ResetL3");
     public static string GET_CLAMP_RESET(int level)
     {
         return level switch
@@ -504,15 +514,19 @@ public static class ControllerRequestStrings
             _ => CLAMP_RESET_L1
         };
     }
+    public static readonly string CLAMP_FORWARD_SENSOR = GetValue("RequestStrings:Clamp:ForwardSensor");
+    public static readonly string CLAMP_BACKWARD_SENSOR = GetValue("RequestStrings:Clamp:BackwardSensor");
+    public static readonly string CLAMP_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Clamp:ForwardOutputSignal");
+    public static readonly string CLAMP_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Clamp:BackwardOutputSignal");
 
     // œ–»∆»Ã
-    public static readonly string PRESS_FORWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Press:ForwardRequestString") ?? string.Empty;
-    public static readonly string PRESS_BACKWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Press:BackwardRequestString") ?? string.Empty;
-    public static readonly string PRESS_REAR_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Press:RearPositionRequestString") ?? string.Empty;
-    public static readonly string PRESS_FRONT_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Press:FrontPosition") ?? string.Empty;
-    public static readonly string PRESS_DANGER_ZONE_COORDINATE_L1 = Configuration.GetValue<string>("Adjustment:Press:DangerZoneCoordinate:RequestString") ?? string.Empty;
-    public static readonly string PRESS_DANGER_ZONE_COORDINATE_L2 = Configuration.GetValue<string>("Adjustment2:Press:DangerZoneCoordinate:RequestString") ?? string.Empty;
-    public static readonly string PRESS_DANGER_ZONE_COORDINATE_L3 = Configuration.GetValue<string>("Adjustment3:Press:DangerZoneCoordinate:RequestString") ?? string.Empty;
+    public static readonly string PRESS_FORWARD = GetValue("RequestStrings:Press:Forward");
+    public static readonly string PRESS_BACKWARD = GetValue("RequestStrings:Press:Backward");
+    public static readonly string PRESS_REAR_POSITION = GetValue("RequestStrings:Press:RearPosition");
+    public static readonly string PRESS_FRONT_POSITION = GetValue("RequestStrings:Press:FrontPosition");
+    public static readonly string PRESS_DANGER_ZONE_COORDINATE_L1 = GetValue("RequestStrings:Press:DangerZoneCoordinateL1");
+    public static readonly string PRESS_DANGER_ZONE_COORDINATE_L2 = GetValue("RequestStrings:Press:DangerZoneCoordinateL2");
+    public static readonly string PRESS_DANGER_ZONE_COORDINATE_L3 = GetValue("RequestStrings:Press:DangerZoneCoordinateL3");
     public static string GET_PRESS_DANGER_ZONE_COORDINATE(int level)
     {
         return level switch
@@ -523,9 +537,9 @@ public static class ControllerRequestStrings
             _ => PRESS_DANGER_ZONE_COORDINATE_L1
         };
     }
-    public static readonly string PRESS_LENGTH_L1 = Configuration.GetValue<string>("Adjustment:Press:Length:RequestString") ?? string.Empty;
-    public static readonly string PRESS_LENGTH_L2 = Configuration.GetValue<string>("Adjustment2:Press:Length:RequestString") ?? string.Empty;
-    public static readonly string PRESS_LENGTH_L3 = Configuration.GetValue<string>("Adjustment3:Press:Length:RequestString") ?? string.Empty;
+    public static readonly string PRESS_LENGTH_L1 = GetValue("RequestStrings:Press:LengthL1");
+    public static readonly string PRESS_LENGTH_L2 = GetValue("RequestStrings:Press:LengthL2");
+    public static readonly string PRESS_LENGTH_L3 = GetValue("RequestStrings:Press:LengthL3");
     public static string GET_PRESS_LENGTH(int level)
     {
         return level switch
@@ -536,9 +550,9 @@ public static class ControllerRequestStrings
             _ => PRESS_LENGTH_L1
         };
     }
-    public static readonly string PRESS_FORWARD_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Press:ForwardPosition:RequestString") ?? string.Empty;
-    public static readonly string PRESS_FORWARD_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Press:ForwardPosition:RequestString") ?? string.Empty;
-    public static readonly string PRESS_FORWARD_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Press:ForwardPosition:RequestString") ?? string.Empty;
+    public static readonly string PRESS_FORWARD_POSITION_L1 = GetValue("RequestStrings:Press:ForwardPositionL1");
+    public static readonly string PRESS_FORWARD_POSITION_L2 = GetValue("RequestStrings:Press:ForwardPositionL2");
+    public static readonly string PRESS_FORWARD_POSITION_L3 = GetValue("RequestStrings:Press:ForwardPositionL3");
     public static string GET_PRESS_FORWARD_POSITION(int level)
     {
         return level switch
@@ -549,9 +563,9 @@ public static class ControllerRequestStrings
             _ => PRESS_FORWARD_POSITION_L1
         };
     }
-    public static readonly string PRESS_MIDDLE_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Press:MiddlePosition:RequestString") ?? string.Empty;
-    public static readonly string PRESS_MIDDLE_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Press:MiddlePosition:RequestString") ?? string.Empty;
-    public static readonly string PRESS_MIDDLE_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Press:MiddlePosition:RequestString") ?? string.Empty;
+    public static readonly string PRESS_MIDDLE_POSITION_L1 = GetValue("RequestStrings:Press:MiddlePositionL1");
+    public static readonly string PRESS_MIDDLE_POSITION_L2 = GetValue("RequestStrings:Press:MiddlePositionL2");
+    public static readonly string PRESS_MIDDLE_POSITION_L3 = GetValue("RequestStrings:Press:MiddlePositionL3");
     public static string GET_PRESS_MIDDLE_POSITION(int level)
     {
         return level switch
@@ -562,9 +576,9 @@ public static class ControllerRequestStrings
             _ => PRESS_MIDDLE_POSITION_L1
         };
     }
-    public static readonly string PRESS_BACKWARD_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Press:BackwardPosition:RequestString") ?? string.Empty;
-    public static readonly string PRESS_BACKWARD_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Press:BackwardPosition:RequestString") ?? string.Empty;
-    public static readonly string PRESS_BACKWARD_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Press:BackwardPosition:RequestString") ?? string.Empty;
+    public static readonly string PRESS_BACKWARD_POSITION_L1 = GetValue("RequestStrings:Press:BackwardPositionL1");
+    public static readonly string PRESS_BACKWARD_POSITION_L2 = GetValue("RequestStrings:Press:BackwardPositionL2");
+    public static readonly string PRESS_BACKWARD_POSITION_L3 = GetValue("RequestStrings:Press:BackwardPositionL3");
     public static string GET_PRESS_BACKWARD_POSITION(int level)
     {
         return level switch
@@ -575,9 +589,9 @@ public static class ControllerRequestStrings
             _ => PRESS_BACKWARD_POSITION_L1
         };
     }
-    public static readonly string PRESS_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Press:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string PRESS_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment2:Press:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string PRESS_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment3:Press:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string PRESS_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Press:SpeedCoefficientL1");
+    public static readonly string PRESS_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Press:SpeedCoefficientL2");
+    public static readonly string PRESS_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Press:SpeedCoefficientL3");
     public static string GET_PRESS_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -588,9 +602,9 @@ public static class ControllerRequestStrings
             _ => PRESS_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string PRESS_CURRENT_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Press:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string PRESS_CURRENT_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Press:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string PRESS_CURRENT_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Press:CurrentPosition:RequestString") ?? string.Empty;
+    public static readonly string PRESS_CURRENT_POSITION_L1 = GetValue("RequestStrings:Press:CurrentPositionL1");
+    public static readonly string PRESS_CURRENT_POSITION_L2 = GetValue("RequestStrings:Press:CurrentPositionL2");
+    public static readonly string PRESS_CURRENT_POSITION_L3 = GetValue("RequestStrings:Press:CurrentPositionL3");
     public static string GET_PRESS_CURRENT_POSITION(int level)
     {
         return level switch
@@ -601,9 +615,9 @@ public static class ControllerRequestStrings
             _ => PRESS_CURRENT_POSITION_L1
         };
     }
-    public static readonly string PRESS_FORWARD_L1 = Configuration.GetValue<string>("Adjustment:Press:Forward:RequestString") ?? string.Empty;
-    public static readonly string PRESS_FORWARD_L2 = Configuration.GetValue<string>("Adjustment2:Press:Forward:RequestString") ?? string.Empty;
-    public static readonly string PRESS_FORWARD_L3 = Configuration.GetValue<string>("Adjustment3:Press:Forward:RequestString") ?? string.Empty;
+    public static readonly string PRESS_FORWARD_L1 = GetValue("RequestStrings:Press:ForwardL1");
+    public static readonly string PRESS_FORWARD_L2 = GetValue("RequestStrings:Press:ForwardL2");
+    public static readonly string PRESS_FORWARD_L3 = GetValue("RequestStrings:Press:ForwardL3");
     public static string GET_PRESS_FORWARD(int level)
     {
         return level switch
@@ -614,9 +628,9 @@ public static class ControllerRequestStrings
             _ => PRESS_FORWARD_L1
         };
     }
-    public static readonly string PRESS_BACKWARD_L1 = Configuration.GetValue<string>("Adjustment:Press:Backward:RequestString") ?? string.Empty;
-    public static readonly string PRESS_BACKWARD_L2 = Configuration.GetValue<string>("Adjustment2:Press:Backward:RequestString") ?? string.Empty;
-    public static readonly string PRESS_BACKWARD_L3 = Configuration.GetValue<string>("Adjustment3:Press:Backward:RequestString") ?? string.Empty;
+    public static readonly string PRESS_BACKWARD_L1 = GetValue("RequestStrings:Press:BackwardL1");
+    public static readonly string PRESS_BACKWARD_L2 = GetValue("RequestStrings:Press:BackwardL2");
+    public static readonly string PRESS_BACKWARD_L3 = GetValue("RequestStrings:Press:BackwardL3");
     public static string GET_PRESS_BACKWARD(int level)
     {
         return level switch
@@ -627,9 +641,9 @@ public static class ControllerRequestStrings
             _ => PRESS_BACKWARD_L1
         };
     }
-    public static readonly string PRESS_RESET_L1 = Configuration.GetValue<string>("Adjustment:Press:Reset:RequestString") ?? string.Empty;
-    public static readonly string PRESS_RESET_L2 = Configuration.GetValue<string>("Adjustment2:Press:Reset:RequestString") ?? string.Empty;
-    public static readonly string PRESS_RESET_L3 = Configuration.GetValue<string>("Adjustment3:Press:Reset:RequestString") ?? string.Empty;
+    public static readonly string PRESS_RESET_L1 = GetValue("RequestStrings:Press:ResetL1");
+    public static readonly string PRESS_RESET_L2 = GetValue("RequestStrings:Press:ResetL2");
+    public static readonly string PRESS_RESET_L3 = GetValue("RequestStrings:Press:ResetL3");
     public static string GET_PRESS_RESET(int level)
     {
         return level switch
@@ -640,31 +654,39 @@ public static class ControllerRequestStrings
             _ => PRESS_RESET_L1,
         };
     }
+    public static readonly string PRESS_FORWARD_SENSOR = GetValue("RequestStrings:Press:ForwardSensor");
+    public static readonly string PRESS_BACKWARD_SENSOR = GetValue("RequestStrings:Press:BackwardSensor");
+    public static readonly string PRESS_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Press:ForwardOutputSignal");
+    public static readonly string PRESS_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Press:BackwardOutputSignal");
 
     // œ≈–¬€… ƒŒ∆»Ã
-    public static readonly string FIRST_SQUEEZE_FORWARD = Configuration.GetValue<string>("MachineController:OutputsFB:FirstSqueeze:ForwardRequestString") ?? string.Empty;
-    public static readonly string FIRST_SQUEEZE_BACKWARD = Configuration.GetValue<string>("MachineController:OutputsFB:FirstSqueeze:BackwardRequestString") ?? string.Empty;
-    public static readonly string FIRST_SQUEEZE_REAR_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:FirstSqueeze:RearPositionRequestString") ?? string.Empty;
-    public static readonly string FIRST_SQUEEZE_FRONT_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:FirstSqueeze:FrontPositionRequestString") ?? string.Empty;
-    public static readonly string FIRST_SQUEEZE_REAR_SECOND_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:FirstSqueeze:RearSecondPositionReqeustString") ?? string.Empty;
-    public static readonly string FIRST_SQUEEZE_FRONT_SECOND_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:FirstSqueeze:FrontSecondPositionRequestString") ?? string.Empty;
+    public static readonly string FIRST_SQUEEZE_FORWARD = GetValue("RequestStrings:FirstSqueeze:Forward");
+    public static readonly string FIRST_SQUEEZE_BACKWARD = GetValue("RequestStrings:FirstSqueeze:Backward");
+    public static readonly string FIRST_SQUEEZE_REAR_POSITION = GetValue("RequestStrings:FirstSqueeze:RearPosition");
+    public static readonly string FIRST_SQUEEZE_FRONT_POSITION = GetValue("RequestStrings:FirstSqueeze:FrontPosition");
+    public static readonly string FIRST_SQUEEZE_REAR_SECOND_POSITION = GetValue("RequestStrings:FirstSqueeze:RearSecondPosition");
+    public static readonly string FIRST_SQUEEZE_FRONT_SECOND_POSITION = GetValue("RequestStrings:FirstSqueeze:FrontSecondPosition");
 
     // ÷¿Õ√¿
-    public static readonly string COLLET_FORWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Collet:ForwardRequestString") ?? string.Empty;
-    public static readonly string COLLET_BACKWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Collet:BackwardRequestString") ?? string.Empty;
-    public static readonly string COLLET_REAR_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Collet:RearPositionRequestString") ?? string.Empty;
-    public static readonly string COLLET_FRONT_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Collet:FrontPositionRequestString") ?? string.Empty;
+    public static readonly string COLLET_FORWARD = GetValue("RequestStrings:Collet:Forward");
+    public static readonly string COLLET_BACKWARD = GetValue("RequestStrings:Collet:Backward");
+    public static readonly string COLLET_REAR_POSITION = GetValue("RequestStrings:Collet:RearPosition");
+    public static readonly string COLLET_FRONT_POSITION = GetValue("RequestStrings:Collet:FrontPosition");
+    public static readonly string COLLET_FORWARD_SENSOR = GetValue("RequestStrings:Collet:ForwardSensor");
+    public static readonly string COLLET_BACKWARD_SENSOR = GetValue("RequestStrings:Collet:BackwardSensor");
+    public static readonly string COLLET_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:ForwardOutputSignal");
+    public static readonly string COLLET_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:BackwardOutputSignal");
 
     // ƒŒ–Õ
-    public static readonly string DORN_FORWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Dorn:ForwardRequestString") ?? string.Empty;
-    public static readonly string DORN_BACKWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Dorn:BackwardRequestString") ?? string.Empty;
-    public static readonly string DORN_REAR_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Dorn:RearPositionRequestString") ?? string.Empty;
-    public static readonly string DORN_FRONT_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Dorn:FrontPositionRequestString") ?? string.Empty;
-    public static readonly string DORN_AUTOMATIC = Configuration.GetValue<string>("Settings:Dorn:Automatic:RequestString") ?? string.Empty;
-    public static readonly string DORN_LEAD_WITHDRAWAL_BEFORE_BEND = Configuration.GetValue<string>("Settings:Dorn:LeadWithdrawalBeforeBend:RequestString") ?? string.Empty;
-    public static readonly string DORN_FORWARD_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Dorn:ForwardPosition:RequestString") ?? string.Empty;
-    public static readonly string DORN_FORWARD_POSITION_L2 = Configuration.GetValue<string>("Adjustment:Dorn:ForwardPosition:RequestString") ?? string.Empty;
-    public static readonly string DORN_FORWARD_POSITION_L3 = Configuration.GetValue<string>("Adjustment:Dorn:ForwardPosition:RequestString") ?? string.Empty;
+    public static readonly string DORN_FORWARD = GetValue("RequestStrings:Dorn:Forward");
+    public static readonly string DORN_BACKWARD = GetValue("RequestStrings:Dorn:Backward");
+    public static readonly string DORN_REAR_POSITION = GetValue("RequestStrings:Dorn:RearPosition");
+    public static readonly string DORN_FRONT_POSITION = GetValue("RequestStrings:Dorn:FrontPosition");
+    public static readonly string DORN_AUTOMATIC = GetValue("RequestStrings:Dorn:Automatic");
+    public static readonly string DORN_LEAD_WITHDRAWAL_BEFORE_BEND = GetValue("RequestStrings:Dorn:LeadWithdrawalBeforeBend");
+    public static readonly string DORN_FORWARD_POSITION_L1 = GetValue("RequestStrings:Dorn:ForwardPositionL1");
+    public static readonly string DORN_FORWARD_POSITION_L2 = GetValue("RequestStrings:Dorn:ForwardPositionL2");
+    public static readonly string DORN_FORWARD_POSITION_L3 = GetValue("RequestStrings:Dorn:ForwardPositionL3");
     public static string GET_DORN_FORWARD_POSITION(int level)
     {
         return level switch
@@ -675,9 +697,9 @@ public static class ControllerRequestStrings
             _ => DORN_FORWARD_POSITION_L1
         };
     }
-    public static readonly string DORN_MIDDLE_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Dorn:MiddlePosition:RequestString") ?? string.Empty;
-    public static readonly string DORN_MIDDLE_POSITION_L2 = Configuration.GetValue<string>("Adjustment:Dorn:MiddlePosition:RequestString") ?? string.Empty;
-    public static readonly string DORN_MIDDLE_POSITION_L3 = Configuration.GetValue<string>("Adjustment:Dorn:MiddlePosition:RequestString") ?? string.Empty;
+    public static readonly string DORN_MIDDLE_POSITION_L1 = GetValue("RequestStrings:Dorn:MiddlePositionL1");
+    public static readonly string DORN_MIDDLE_POSITION_L2 = GetValue("RequestStrings:Dorn:MiddlePositionL2");
+    public static readonly string DORN_MIDDLE_POSITION_L3 = GetValue("RequestStrings:Dorn:MiddlePositionL3");
     public static string GET_DORN_MIDDLE_POSITION(int level)
     {
         return level switch
@@ -688,9 +710,9 @@ public static class ControllerRequestStrings
             _ => DORN_MIDDLE_POSITION_L1
         };
     }
-    public static readonly string DORN_BACKWARD_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Dorn:BackwardPosition:RequestString") ?? string.Empty;
-    public static readonly string DORN_BACKWARD_POSITION_L2 = Configuration.GetValue<string>("Adjustment:Dorn:BackwardPosition:RequestString") ?? string.Empty;
-    public static readonly string DORN_BACKWARD_POSITION_L3 = Configuration.GetValue<string>("Adjustment:Dorn:BackwardPosition:RequestString") ?? string.Empty;
+    public static readonly string DORN_BACKWARD_POSITION_L1 = GetValue("RequestStrings:Dorn:BackwardPositionL1");
+    public static readonly string DORN_BACKWARD_POSITION_L2 = GetValue("RequestStrings:Dorn:BackwardPositionL2");
+    public static readonly string DORN_BACKWARD_POSITION_L3 = GetValue("RequestStrings:Dorn:BackwardPositionL3");
     public static string GET_DORN_BACKWARD_POSITION(int level)
     {
         return level switch
@@ -701,9 +723,9 @@ public static class ControllerRequestStrings
             _ => DORN_BACKWARD_POSITION_L1
         };
     }
-    public static readonly string DORN_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Dorn:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string DORN_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment:Dorn:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string DORN_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment:Dorn:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string DORN_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Dorn:SpeedCoefficientL1");
+    public static readonly string DORN_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Dorn:SpeedCoefficientL2");
+    public static readonly string DORN_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Dorn:SpeedCoefficientL3");
     public static string GET_DORN_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -714,9 +736,9 @@ public static class ControllerRequestStrings
             _ => DORN_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string DORN_CURRENT_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Dorn:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string DORN_CURRENT_POSITION_L2 = Configuration.GetValue<string>("Adjustment:Dorn:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string DORN_CURRENT_POSITION_L3 = Configuration.GetValue<string>("Adjustment:Dorn:CurrentPosition:RequestString") ?? string.Empty;
+    public static readonly string DORN_CURRENT_POSITION_L1 = GetValue("RequestStrings:Dorn:CurrentPositionL1");
+    public static readonly string DORN_CURRENT_POSITION_L2 = GetValue("RequestStrings:Dorn:CurrentPositionL2");
+    public static readonly string DORN_CURRENT_POSITION_L3 = GetValue("RequestStrings:Dorn:CurrentPositionL3");
     public static string GET_DORN_CURRENT_POSITION(int level)
     {
         return level switch
@@ -727,9 +749,9 @@ public static class ControllerRequestStrings
             _ => DORN_CURRENT_POSITION_L1
         };
     }
-    public static readonly string DORN_FORWARD_L1 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
-    public static readonly string DORN_FORWARD_L2 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
-    public static readonly string DORN_FORWARD_L3 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
+    public static readonly string DORN_FORWARD_L1 = GetValue("RequestStrings:Dorn:ForwardL1");
+    public static readonly string DORN_FORWARD_L2 = GetValue("RequestStrings:Dorn:ForwardL2");
+    public static readonly string DORN_FORWARD_L3 = GetValue("RequestStrings:Dorn:ForwardL3");
     public static string GET_DORN_FORWARD(int level)
     {
         return level switch
@@ -740,9 +762,9 @@ public static class ControllerRequestStrings
             _ => DORN_FORWARD_L1
         };
     }
-    public static readonly string DORN_BACKWARD_L1 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
-    public static readonly string DORN_BACKWARD_L2 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
-    public static readonly string DORN_BACKWARD_L3 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
+    public static readonly string DORN_BACKWARD_L1 = GetValue("RequestStrings:Dorn:BackwardL1");
+    public static readonly string DORN_BACKWARD_L2 = GetValue("RequestStrings:Dorn:BackwardL2");
+    public static readonly string DORN_BACKWARD_L3 = GetValue("RequestStrings:Dorn:BackwardL3");
     public static string GET_DORN_BACKWARD(int level)
     {
         return level switch
@@ -753,9 +775,9 @@ public static class ControllerRequestStrings
             _ => DORN_BACKWARD_L1
         };
     }
-    public static readonly string DORN_RESET_L1 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
-    public static readonly string DORN_RESET_L2 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
-    public static readonly string DORN_RESET_L3 = Configuration.GetValue<string>("Adjustment:Dorn:RequestString") ?? string.Empty;
+    public static readonly string DORN_RESET_L1 = GetValue("RequestStrings:Dorn:ResetL1");
+    public static readonly string DORN_RESET_L2 = GetValue("RequestStrings:Dorn:ResetL2");
+    public static readonly string DORN_RESET_L3 = GetValue("RequestStrings:Dorn:ResetL3");
     public static string GET_DORN_RESET(int level)
     {
         return level switch
@@ -766,16 +788,20 @@ public static class ControllerRequestStrings
             _ => DORN_RESET_L1
         };
     }
+    public static readonly string DORN_FORWARD_SENSOR = GetValue("RequestStrings:Dorn:ForwardSensor");
+    public static readonly string DORN_BACKWARD_SENSOR = GetValue("RequestStrings:Dorn:BackwardSensor");
+    public static readonly string DORN_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Dorn:ForwardOutputSignal");
+    public static readonly string DORN_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Dorn:BackwardOutputSignal");
 
     // Œ—Õ¿—“ ¿
-    public static readonly string ADJUSTMENT_FORWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Adjustment:ForwardRequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_BACKWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Adjustment:BackwardRequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_REAR_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Adjustment:RearPositionRequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_FRONT_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Adjustment:CenterPositionRequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_CENTER_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Adjustment:FrontPositionRequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_TYPE_L1 = Configuration.GetValue<string>("Adjustment:AdjustmentType:RequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_TYPE_L2 = Configuration.GetValue<string>("Adjustment2:AdjustmentType:RequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_TYPE_L3 = Configuration.GetValue<string>("Adjustment3:AdjustmentType:RequestString") ?? string.Empty;
+    public static readonly string ADJUSTMENT_FORWARD = GetValue("RequestStrings:Adjustment:Forward");
+    public static readonly string ADJUSTMENT_BACKWARD = GetValue("RequestStrings:Adjustment:Backward");
+    public static readonly string ADJUSTMENT_REAR_POSITION = GetValue("RequestStrings:Adjustment:RearPosition");
+    public static readonly string ADJUSTMENT_FRONT_POSITION = GetValue("RequestStrings:Adjustment:CenterPosition");
+    public static readonly string ADJUSTMENT_CENTER_POSITION = GetValue("RequestStrings:Adjustment:FrontPosition");
+    public static readonly string ADJUSTMENT_TYPE_L1 = GetValue("RequestStrings:Adjustment:AdjustmentTypeL1");
+    public static readonly string ADJUSTMENT_TYPE_L2 = GetValue("RequestStrings:Adjustment:AdjustmentTypeL2");
+    public static readonly string ADJUSTMENT_TYPE_L3 = GetValue("RequestStrings:Adjustment:AdjustmentTypeL3");
     public static string GET_ADJUSTMENT_TYPE(int level)
     {
         return level switch
@@ -786,9 +812,9 @@ public static class ControllerRequestStrings
             _ => ADJUSTMENT_TYPE_L1
         };
     }
-    public static readonly string ADJUSTMENT_PIPE_DIAMETER_L1 = Configuration.GetValue<string>("Adjustment:PipeDiameter:RequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_PIPE_DIAMETER_L2 = Configuration.GetValue<string>("Adjustment2:PipeDiameter:RequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_PIPE_DIAMETER_L3 = Configuration.GetValue<string>("Adjustment3:PipeDiameter:RequestString") ?? string.Empty;
+    public static readonly string ADJUSTMENT_PIPE_DIAMETER_L1 = GetValue("RequestStrings:Adjustment:PipeDiameterL1");
+    public static readonly string ADJUSTMENT_PIPE_DIAMETER_L2 = GetValue("RequestStrings:Adjustment:PipeDiameterL2");
+    public static readonly string ADJUSTMENT_PIPE_DIAMETER_L3 = GetValue("RequestStrings:Adjustment:PipeDiameterL3");
     public static string GET_ADJUSTMENT_PIPE_DIAMETER(int level)
     {
         return level switch
@@ -799,9 +825,9 @@ public static class ControllerRequestStrings
             _ => ADJUSTMENT_PIPE_DIAMETER_L1
         };
     }
-    public static readonly string ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE_L1 = Configuration.GetValue<string>("Adjustment:ForwardDangerZoneCoordinate:RequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE_L2 = Configuration.GetValue<string>("Adjustment2:ForwardDangerZoneCoordinate:RequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE_L3 = Configuration.GetValue<string>("Adjustment3:ForwardDangerZoneCoordinate:RequestString") ?? string.Empty;
+    public static readonly string ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE_L1 = GetValue("RequestStrings:Adjustment:ForwardDangerZoneCoordinateL1");
+    public static readonly string ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE_L2 = GetValue("RequestStrings:Adjustment:ForwardDangerZoneCoordinateL2");
+    public static readonly string ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE_L3 = GetValue("RequestStrings:Adjustment:ForwardDangerZoneCoordinateL3");
     public static string GET_ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE(int level)
     {
         return level switch
@@ -812,9 +838,9 @@ public static class ControllerRequestStrings
             _ => ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE_L1
         };
     }
-    public static readonly string ADJUSTMENT_DISTANCE_FROM_CENTER_L1 = Configuration.GetValue<string>("Adjustment:DistanceFromCenter:RequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_DISTANCE_FROM_CENTER_L2 = Configuration.GetValue<string>("Adjustment2:DistanceFromCenter:RequestString") ?? string.Empty;
-    public static readonly string ADJUSTMENT_DISTANCE_FROM_CENTER_L3 = Configuration.GetValue<string>("Adjustment3:DistanceFromCenter:RequestString") ?? string.Empty;
+    public static readonly string ADJUSTMENT_DISTANCE_FROM_CENTER_L1 = GetValue("RequestStrings:Adjustment:DistanceFromCenterL1");
+    public static readonly string ADJUSTMENT_DISTANCE_FROM_CENTER_L2 = GetValue("RequestStrings:Adjustment:DistanceFromCenterL2");
+    public static readonly string ADJUSTMENT_DISTANCE_FROM_CENTER_L3 = GetValue("RequestStrings:Adjustment:DistanceFromCenterL3");
     public static string GET_ADJUSTMENT_DISTANCE_FROM_CENTER(int level)
     {
         return level switch
@@ -825,43 +851,60 @@ public static class ControllerRequestStrings
             _ => ADJUSTMENT_DISTANCE_FROM_CENTER_L1
         };
     }
+    public static readonly string ADJUSTMENT_UPPER_SENSOR = GetValue("RequestStrings:Adjustment:UpperSensor");
+    public static readonly string ADJUSTMENT_MIDDLE_SENSOR = GetValue("RequestStrings:Adjustment:MiddleSensor");
+    public static readonly string ADJUSTMENT_LOWER_SENSOR = GetValue("RequestStrings:Adjustment:LowerSensor");
+    public static readonly string ADJUSTMENT_UP_OUTPUT_SIGNAL = GetValue("RequestStrings:Adjustment:UpOutputSignal");
+    public static readonly string ADJUSTMENT_DOWN_OUTPUT_SIGNAL = GetValue("RequestStrings:Adjustment:DownOutputSignal");
 
     // œ–Œ¡»¬ ¿
-    public static readonly string PUNCHING_FORWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Punching:ForwardRequestString") ?? string.Empty;
-    public static readonly string PUNCHING_BACKWARD = Configuration.GetValue<string>("MachineController:OutputsFB:Punching:BackwardRequestString") ?? string.Empty;
-    public static readonly string PUNCHING_REAR_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Punching:RearPositionRequestString") ?? string.Empty;
-    public static readonly string PUNCHING_FRONT_POSITION = Configuration.GetValue<string>("MachineController:OutputsFB:Punching:FrontPositionRequestString") ?? string.Empty;
+    public static readonly string PUNCHING_FORWARD = GetValue("RequestStrings:Punching:Forward");
+    public static readonly string PUNCHING_BACKWARD = GetValue("RequestStrings:Punching:Backward");
+    public static readonly string PUNCHING_REAR_POSITION = GetValue("RequestStrings:Punching:RearPosition");
+    public static readonly string PUNCHING_FRONT_POSITION = GetValue("RequestStrings:Punching:FrontPosition");
+    public static readonly string PUNCHING_FORWARD_SENSOR = GetValue("RequestStrings:Punching:ForwardSensor");
+    public static readonly string PUNCHING_BACKWARD_SENSOR = GetValue("RequestStrings:Punching:BackwardSensor");
+    public static readonly string PUNCHING_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Punching:ForwardOutputSignal");
+    public static readonly string PUNCHING_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Punching:BackwardOutputSignal");
 
     // √»ƒ–¿¬À» ¿
-    public static readonly string FIRST_HYDRAULICS_VALUE = Configuration.GetValue<string>("MachineController:OutputsFB:FirstHydraulics:RequestString") ?? string.Empty;
-    public static readonly string SECOND_HYDRAULICS_VALUE = Configuration.GetValue<string>("MachineController:OutputsFB:SecondHydraulics:RequestString") ?? string.Empty;
+    public static readonly string FIRST_HYDRAULICS_VALUE = GetValue("RequestStrings:FirstHydraulics:Value");
+    public static readonly string SECOND_HYDRAULICS_VALUE = GetValue("RequestStrings:SecondHydraulics:Value");
+    public static readonly string FIRST_HYDRAULICS_OUTPUT_SIGNAL = GetValue("RequestStrings:FirstHydraulics:OutputSignal");
+    public static readonly string SECOND_HYDRAULICS_OUTPUT_SIGNAL = GetValue("RequestStrings:SecondHydraulics:OutputSignal");
     
     // œŒƒƒ≈–∆ ¿
-    public static readonly string SUPPORT_VALUE = Configuration.GetValue<string>("MachineController:OutputsFB:Support:RequestString") ?? string.Empty;
-    public static readonly string SUPPORT_FRONT_LIFT_BAN = Configuration.GetValue<string>("Settings:Support:FrontLiftBan:RequestString") ?? string.Empty;
-    public static readonly string SUPPORT_MIDDLE_LIFT_BAN = Configuration.GetValue<string>("Settings:Support:MiddleLiftBan:RequestString") ?? string.Empty;
-    public static readonly string SUPPORT_BACK_LIFT_BAN = Configuration.GetValue<string>("Settings:Support:BackLiftBan:RequestString") ?? string.Empty;
+    public static readonly string SUPPORT_VALUE = GetValue("RequestStrings:Support:Value");
+    public static readonly string SUPPORT_FRONT_LIFT_BAN = GetValue("RequestStrings:Support:FrontLiftBan");
+    public static readonly string SUPPORT_MIDDLE_LIFT_BAN = GetValue("RequestStrings:Support:MiddleLiftBan");
+    public static readonly string SUPPORT_BACK_LIFT_BAN = GetValue("RequestStrings:Support:BackLiftBan");
+    public static readonly string SUPPORT_LOWER_SENSOR = GetValue("RequestStrings:Support:LowerSensor");
+    public static readonly string FIRST_SUPPORT_UP_OUTPUT_SIGNAL = GetValue("RequestStrings:Support:FirstUpOutputSignal");
+    public static readonly string SECOND_SUPPORT_UP_OUTPUT_SIGNAL = GetValue("RequestStrings:Support:SecondUpOutputSignal");
+    public static readonly string THIRD_SUPPORT_UP_OUTPUT_SIGNAL = GetValue("RequestStrings:Support:ThirdUpOutputSignal");
+    public static readonly string FOURTH_SUPPORT_UP_OUTPUT_SIGNAL = GetValue("RequestStrings:Support:ForthUpSignal");
 
     // —Ã¿« ¿ ƒŒ–Õ¿
-    public static readonly string DORN_LUBRICANT_TURN_ON = Configuration.GetValue<string>("MachineController:OutputsFB:DornLubricant:RequestString") ?? string.Empty;
-    public static readonly string DORN_LUBRICANT_LUBRICANT_TURN_ON = Configuration.GetValue<string>("Settings:Dorn:LubricantTurnOn:RequestString") ?? string.Empty;
+    public static readonly string DORN_LUBRICANT_TURN_ON = GetValue("RequestStrings:DornLubricant:TurnOn");
+    public static readonly string DORN_LUBRICANT_LUBRICANT_TURN_ON = GetValue("RequestStrings:DornLubricant:LubricantTurnOn");
+    public static readonly string DORN_LUBRICANT_OUTPUT_SIGNAL = GetValue("RequestStrings:DornLubricant:OutputSignal");
 
     // √»¡ » ƒŒ∆»Ã
-    public static readonly string BEND_AND_SQUEEZE_VALUE = Configuration.GetValue<string>("MachineController:OutputsFB:BendAndSqueeze:RequestString") ?? string.Empty;
+    public static readonly string BEND_AND_SQUEEZE_VALUE = GetValue("RequestStrings:BendAndSqueeze:Value");
 
     // Œÿ»¡ »
-    public static readonly string ERRORS_CLEAR_ACTUATOR_ERRORS = Configuration.GetValue<string>("MachineController:ClearActuatorErrors:RequestString") ?? string.Empty;
-    public static readonly string ERRORS_HAS_ERRORS = Configuration.GetValue<string>("MachineController:StopErrors:RequestString") ?? string.Empty;
+    public static readonly string ERRORS_CLEAR_ACTUATOR_ERRORS = GetValue("RequestStrings:Errors:ClearActuatorErrors");
+    public static readonly string ERRORS_HAS_ERRORS = GetValue("RequestStrings:Errors:StopErrors");
 
     // “–”¡¿
-    public static readonly string PIPE_OUTLET_COORDINATE = Configuration.GetValue<string>("Settings:Pipe:OutletCoordinate:RequestString") ?? string.Empty;
-    public static readonly string PIPE_INSTALLATION_COORDINATE = Configuration.GetValue<string>("Program:Pipe:InstallationCoordinate:RequestString") ?? string.Empty;
-    public static readonly string PIPE_LENGTH = Configuration.GetValue<string>("Program:Pipe:Length:RequestString") ?? string.Empty;
+    public static readonly string PIPE_OUTLET_COORDINATE = GetValue("RequestStrings:Pipe:OutletCoordinate");
+    public static readonly string PIPE_INSTALLATION_COORDINATE = GetValue("RequestStrings:Pipe:InstallationCoordinate");
+    public static readonly string PIPE_LENGTH = GetValue("RequestStrings:Pipe:Length");
 
     // √»¡Œ◊Õ€… –ŒÀ» 
-    public static readonly string BEND_ROLLER_RADIUS_L1 = Configuration.GetValue<string>("Adjustment:BendRoller:Radius:RequestString") ?? string.Empty;
-    public static readonly string BEND_ROLLER_RADIUS_L2 = Configuration.GetValue<string>("Adjustment2:BendRoller:Radius:RequestString") ?? string.Empty;
-    public static readonly string BEND_ROLLER_RADIUS_L3 = Configuration.GetValue<string>("Adjustment3:BendRoller:Radius:RequestString") ?? string.Empty;
+    public static readonly string BEND_ROLLER_RADIUS_L1 = GetValue("RequestStrings:BendRoller:RadiusL1");
+    public static readonly string BEND_ROLLER_RADIUS_L2 = GetValue("RequestStrings:BendRoller:RadiusL2");
+    public static readonly string BEND_ROLLER_RADIUS_L3 = GetValue("RequestStrings:BendRoller:RadiusL3");
     public static string GET_BEND_ROLLER_RADIUS(int level)
     {
         return level switch
@@ -872,9 +915,9 @@ public static class ControllerRequestStrings
             _ => BEND_ROLLER_RADIUS_L1
         };
     }
-    public static readonly string BEND_ROLLER_OUTER_RADIUS_L1 = Configuration.GetValue<string>("Adjustment:BendRoller:OuterRadius:RequestString") ?? string.Empty;
-    public static readonly string BEND_ROLLER_OUTER_RADIUS_L2 = Configuration.GetValue<string>("Adjustment2:BendRoller:OuterRadius:RequestString") ?? string.Empty;
-    public static readonly string BEND_ROLLER_OUTER_RADIUS_L3 = Configuration.GetValue<string>("Adjustment3:BendRoller:OuterRadius:RequestString") ?? string.Empty;
+    public static readonly string BEND_ROLLER_OUTER_RADIUS_L1 = GetValue("RequestStrings:BendRoller:OuterRadiusL1");
+    public static readonly string BEND_ROLLER_OUTER_RADIUS_L2 = GetValue("RequestStrings:BendRoller:OuterRadiusL2");
+    public static readonly string BEND_ROLLER_OUTER_RADIUS_L3 = GetValue("RequestStrings:BendRoller:OuterRadiusL3");
     public static string GET_BEND_ROLLER_OUTER_RADIUS(int level)
     {
         return level switch
@@ -887,9 +930,9 @@ public static class ControllerRequestStrings
     }
 
     // «¿∆»ÃÕŒ… –ŒÀ» 
-    public static readonly string CLAMP_ROLLER_OUTER_RADIUS_L1 = Configuration.GetValue<string>("Adjustment:ClampRoller:OuterRadius:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_ROLLER_OUTER_RADIUS_L2 = Configuration.GetValue<string>("Adjustment2:ClampRoller:OuterRadius:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_ROLLER_OUTER_RADIUS_L3 = Configuration.GetValue<string>("Adjustment3:ClampRoller:OuterRadius:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_ROLLER_OUTER_RADIUS_L1 = GetValue("RequestStrings:ClampRoller:OuterRadiusL1");
+    public static readonly string CLAMP_ROLLER_OUTER_RADIUS_L2 = GetValue("RequestStrings:ClampRoller:OuterRadiusL2");
+    public static readonly string CLAMP_ROLLER_OUTER_RADIUS_L3 = GetValue("RequestStrings:ClampRoller:OuterRadiusL3");
     public static string GET_CLAMP_ROLLER_OUTER_RADIUS(int level)
     {
         return level switch
@@ -900,9 +943,9 @@ public static class ControllerRequestStrings
             _ => CLAMP_ROLLER_OUTER_RADIUS_L1
         };
     }
-    public static readonly string CLAMP_ROLLER_INNER_RADIUS_L1 = Configuration.GetValue<string>("Adjustment:ClampRoller:InnerRadius:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_ROLLER_INNER_RADIUS_L2 = Configuration.GetValue<string>("Adjustment2:ClampRoller:InnerRadius:RequestString") ?? string.Empty;
-    public static readonly string CLAMP_ROLLER_INNER_RADIUS_L3 = Configuration.GetValue<string>("Adjustment3:ClampRoller:InnerRadius:RequestString") ?? string.Empty;
+    public static readonly string CLAMP_ROLLER_INNER_RADIUS_L1 = GetValue("RequestStrings:ClampRoller:InnerRadiusL1");
+    public static readonly string CLAMP_ROLLER_INNER_RADIUS_L2 = GetValue("RequestStrings:ClampRoller:InnerRadiusL2");
+    public static readonly string CLAMP_ROLLER_INNER_RADIUS_L3 = GetValue("RequestStrings:ClampRoller:InnerRadiusL3");
     public static string GET_CLAMP_ROLLER_INNTER_RADIUS(int level)
     {
         return level switch
@@ -915,9 +958,9 @@ public static class ControllerRequestStrings
     }
 
     // ƒŒ∆»Ã
-    public static readonly string SQUEEZE_TURN_ON_L1 = Configuration.GetValue<string>("Adjustment:Squeeze:TurnOn:RequestString") ?? string.Empty;
-    public static readonly string SQUEEZE_TURN_ON_L2 = Configuration.GetValue<string>("Adjustment2:Squeeze:TurnOn:RequestString") ?? string.Empty;
-    public static readonly string SQUEEZE_TURN_ON_L3 = Configuration.GetValue<string>("Adjustment3:Squeeze:TurnOn:RequestString") ?? string.Empty;
+    public static readonly string SQUEEZE_TURN_ON_L1 = GetValue("RequestStrings:Squeeze:TurnOnL1");
+    public static readonly string SQUEEZE_TURN_ON_L2 = GetValue("RequestStrings:Squeeze:TurnOnL2");
+    public static readonly string SQUEEZE_TURN_ON_L3 = GetValue("RequestStrings:Squeeze:TurnOnL3");
     public static string GET_SQUEEZE_TURN_ON(int level)
     {
         return level switch
@@ -928,9 +971,9 @@ public static class ControllerRequestStrings
             _ => SQUEEZE_TURN_ON_L1
         };
     }
-    public static readonly string SQUEEZE_FRONT_POSITION_LIMITATION_L1 = Configuration.GetValue<string>("Adjustment:Squeeze:FrontPositionLimitation:RequestString") ?? string.Empty;
-    public static readonly string SQUEEZE_FRONT_POSITION_LIMITATION_L2 = Configuration.GetValue<string>("Adjustment2:Squeeze:FrontPositionLimitation:RequestString") ?? string.Empty;
-    public static readonly string SQUEEZE_FRONT_POSITION_LIMITATION_L3 = Configuration.GetValue<string>("Adjustment3:Squeeze:FrontPositionLimitation:RequestString") ?? string.Empty;
+    public static readonly string SQUEEZE_FRONT_POSITION_LIMITATION_L1 = GetValue("RequestStrings:Squeeze:FrontPositionLimitationL1");
+    public static readonly string SQUEEZE_FRONT_POSITION_LIMITATION_L2 = GetValue("RequestStrings:Squeeze:FrontPositionLimitationL2");
+    public static readonly string SQUEEZE_FRONT_POSITION_LIMITATION_L3 = GetValue("RequestStrings:Squeeze:FrontPositionLimitationL3");
     public static string GET_SQUEEZE_FRONT_POSITION_LIMITATION(int level)
     {
         return level switch
@@ -941,9 +984,9 @@ public static class ControllerRequestStrings
             _ => SQUEEZE_FRONT_POSITION_LIMITATION_L1
         };
     }
-    public static readonly string SQUEEZE_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Squeeze:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string SQUEEZE_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment2:Squeeze:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string SQUEEZE_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment3:Squeeze:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string SQUEEZE_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Squeeze:SpeedCoefficientL1");
+    public static readonly string SQUEEZE_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Squeeze:SpeedCoefficientL2");
+    public static readonly string SQUEEZE_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Squeeze:SpeedCoefficientL3");
     public static string GET_SQUEEZE_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -954,11 +997,17 @@ public static class ControllerRequestStrings
             _ => SQUEEZE_SPEED_COEFFICIENT_L1
         };
     }
+    public static readonly string FIRST_SQUEEZE_FORWARD_SENSOR = GetValue("RequestStrings:Squeeze:FirstForwardSensor");
+    public static readonly string FIRST_SQUEEZE_BACKWARD_SENSOR = GetValue("RequestStrings:Squeeze:FirstBackwardSensor");
+    public static readonly string SECOND_SQUEEZE_FORWARD_SENSOR = GetValue("RequestStrings:Squeeze:SecondForwardSensor");
+    public static readonly string SECOND_SQUEEZE_BACKWARD_SENSOR = GetValue("RequestStrings:Squeeze:SecondBackwardSensor");
+    public static readonly string FIRST_SQUEEZE_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Squeeze:FirstForwardOutputSignal");
+    public static readonly string FIRST_SQUEEZE_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Squeeze:FirstBackwardOutputSignal");
 
     // œŒƒ⁄®Ã
-    public static readonly string LIFT_UPPER_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Lift:UpperPosition:RequestString") ?? string.Empty;
-    public static readonly string LIFT_UPPER_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Lift:UpperPosition:RequestString") ?? string.Empty;
-    public static readonly string LIFT_UPPER_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Lift:UpperPosition:RequestString") ?? string.Empty;
+    public static readonly string LIFT_UPPER_POSITION_L1 = GetValue("RequestStrings:Lift:UpperPositionL1");
+    public static readonly string LIFT_UPPER_POSITION_L2 = GetValue("RequestStrings:Lift:UpperPositionL2");
+    public static readonly string LIFT_UPPER_POSITION_L3 = GetValue("RequestStrings:Lift:UpperPositionL3");
     public static string GET_LIFT_UPPER_POSITION(int level)
     {
         return level switch
@@ -969,9 +1018,9 @@ public static class ControllerRequestStrings
             _ => LIFT_UPPER_POSITION_L1
         };
     }
-    public static readonly string LIFT_MIDDLE_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Lift:MiddlePosition:RequestString") ?? string.Empty;
-    public static readonly string LIFT_MIDDLE_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Lift:MiddlePosition:RequestString") ?? string.Empty;
-    public static readonly string LIFT_MIDDLE_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Lift:MiddlePosition:RequestString") ?? string.Empty;
+    public static readonly string LIFT_MIDDLE_POSITION_L1 = GetValue("RequestStrings:Lift:MiddlePositionL1");
+    public static readonly string LIFT_MIDDLE_POSITION_L2 = GetValue("RequestStrings:Lift:MiddlePositionL2");
+    public static readonly string LIFT_MIDDLE_POSITION_L3 = GetValue("RequestStrings:Lift:MiddlePositionL3");
     public static string GET_LIFT_MIDDLE_POSITION(int level)
     {
         return level switch
@@ -982,9 +1031,9 @@ public static class ControllerRequestStrings
             _ => LIFT_MIDDLE_POSITION_L1
         };
     }
-    public static readonly string LIFT_LOWER_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Lift:LowerPosition:RequestString") ?? string.Empty;
-    public static readonly string LIFT_LOWER_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Lift:LowerPosition:RequestString") ?? string.Empty;
-    public static readonly string LIFT_LOWER_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Lift:LowerPosition:RequestString") ?? string.Empty;
+    public static readonly string LIFT_LOWER_POSITION_L1 = GetValue("RequestStrings:Lift:LowerPositionL1");
+    public static readonly string LIFT_LOWER_POSITION_L2 = GetValue("RequestStrings:Lift:LowerPositionL2");
+    public static readonly string LIFT_LOWER_POSITION_L3 = GetValue("RequestStrings:Lift:LowerPositionL3");
     public static string GET_LIFT_LOWER_POSITION(int level)
     {
         return level switch
@@ -995,9 +1044,9 @@ public static class ControllerRequestStrings
             _ => LIFT_LOWER_POSITION_L1
         };
     }
-    public static readonly string LIFT_SPEED_COEFFICIENT_L1 = Configuration.GetValue<string>("Adjustment:Lift:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string LIFT_SPEED_COEFFICIENT_L2 = Configuration.GetValue<string>("Adjustment2:Lift:SpeedCoefficient:RequestString") ?? string.Empty;
-    public static readonly string LIFT_SPEED_COEFFICIENT_L3 = Configuration.GetValue<string>("Adjustment3:Lift:SpeedCoefficient:RequestString") ?? string.Empty;
+    public static readonly string LIFT_SPEED_COEFFICIENT_L1 = GetValue("RequestStrings:Lift:SpeedCoefficientL1");
+    public static readonly string LIFT_SPEED_COEFFICIENT_L2 = GetValue("RequestStrings:Lift:SpeedCoefficientL2");
+    public static readonly string LIFT_SPEED_COEFFICIENT_L3 = GetValue("RequestStrings:Lift:SpeedCoefficientL3");
     public static string GET_LIFT_SPEED_COEFFICIENT(int level)
     {
         return level switch
@@ -1008,9 +1057,9 @@ public static class ControllerRequestStrings
             _ => LIFT_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string LIFT_CURRENT_POSITION_L1 = Configuration.GetValue<string>("Adjustment:Lift:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string LIFT_CURRENT_POSITION_L2 = Configuration.GetValue<string>("Adjustment2:Lift:CurrentPosition:RequestString") ?? string.Empty;
-    public static readonly string LIFT_CURRENT_POSITION_L3 = Configuration.GetValue<string>("Adjustment3:Lift:CurrentPosition:RequestString") ?? string.Empty;
+    public static readonly string LIFT_CURRENT_POSITION_L1 = GetValue("RequestStrings:Lift:CurrentPositionL1");
+    public static readonly string LIFT_CURRENT_POSITION_L2 = GetValue("RequestStrings:Lift:CurrentPositionL2");
+    public static readonly string LIFT_CURRENT_POSITION_L3 = GetValue("RequestStrings:Lift:CurrentPositionL3");
     public static string GET_LIFT_CURRENT_POSITION(int level)
     {
         return level switch
@@ -1021,9 +1070,9 @@ public static class ControllerRequestStrings
             _ => LIFT_CURRENT_POSITION_L1
         };
     }
-    public static readonly string LIFT_FORWARD_L1 = Configuration.GetValue<string>("Adjustment:Lift:Forward:RequestString") ?? string.Empty;
-    public static readonly string LIFT_FORWARD_L2 = Configuration.GetValue<string>("Adjustment2:Lift:Forward:RequestString") ?? string.Empty;
-    public static readonly string LIFT_FORWARD_L3 = Configuration.GetValue<string>("Adjustment3:Lift:Forward:RequestString") ?? string.Empty;
+    public static readonly string LIFT_FORWARD_L1 = GetValue("RequestStrings:Lift:ForwardL1");
+    public static readonly string LIFT_FORWARD_L2 = GetValue("RequestStrings:Lift:ForwardL2");
+    public static readonly string LIFT_FORWARD_L3 = GetValue("RequestStrings:Lift:ForwardL3");
     public static string GET_LIFT_FORWARD(int level)
     {
         return level switch
@@ -1034,9 +1083,9 @@ public static class ControllerRequestStrings
             _ => LIFT_FORWARD_L1
         };
     }
-    public static readonly string LIFT_BACKWARD_L1 = Configuration.GetValue<string>("Adjustment:Lift:Backward:RequestString") ?? string.Empty;
-    public static readonly string LIFT_BACKWARD_L2 = Configuration.GetValue<string>("Adjustment:Lift:Backward:RequestString") ?? string.Empty;
-    public static readonly string LIFT_BACKWARD_L3 = Configuration.GetValue<string>("Adjustment:Lift:Backward:RequestString") ?? string.Empty;
+    public static readonly string LIFT_BACKWARD_L1 = GetValue("RequestStrings:Lift:BackwardL1");
+    public static readonly string LIFT_BACKWARD_L2 = GetValue("RequestStrings:Lift:BackwardL2");
+    public static readonly string LIFT_BACKWARD_L3 = GetValue("RequestStrings:Lift:BackwardL3");
     public static string GET_LIFT_BACKWARD(int level)
     {
         return level switch
@@ -1047,9 +1096,9 @@ public static class ControllerRequestStrings
             _ => LIFT_BACKWARD_L1
         };
     }
-    public static readonly string LIFT_RESET_L1 = Configuration.GetValue<string>("Adjustment:Lift:Reset:RequestString") ?? string.Empty;
-    public static readonly string LIFT_RESET_L2 = Configuration.GetValue<string>("Adjustmen2:Lift:Reset:RequestString") ?? string.Empty;
-    public static readonly string LIFT_RESET_L3 = Configuration.GetValue<string>("Adjustmen3:Lift:Reset:RequestString") ?? string.Empty;
+    public static readonly string LIFT_RESET_L1 = GetValue("RequestStrings:Lift:ResetL1");
+    public static readonly string LIFT_RESET_L2 = GetValue("RequestStrings:Lift:ResetL2");
+    public static readonly string LIFT_RESET_L3 = GetValue("RequestStrings:Lift:ResetL3");
     public static string GET_LIFT_RESET(int level)
     {
         return level switch
@@ -1061,30 +1110,61 @@ public static class ControllerRequestStrings
         };
     }
 
-    // œ–Œ√–¿ÃÃ¿
-    public static readonly string PROGRAM_RADIUS = Configuration.GetValue<string>("Program:Radius:RequestString") ?? string.Empty;
-    public static readonly string PROGRAM_FUNCTION = Configuration.GetValue<string>("Program:Function:RequestString") ?? string.Empty;
-    public static readonly string PROGRAM_COEFFICIENT = Configuration.GetValue<string>("Program:Coefficient:RequestString") ?? string.Empty;
-    public static readonly string PROGRAM_SPEED = Configuration.GetValue<string>("Program:Speed:RequestString") ?? string.Empty;
-    
     // Œ“¬Œƒ
-    public static readonly string OUTLET_FORWARD = Configuration.GetValue<string>("Program:Outlet:Forward:RequestString") ?? string.Empty;
-    public static readonly string OUTLET_BACKWARD = Configuration.GetValue<string>("Program:Outlet:Backward:RequestString") ?? string.Empty;
-    public static readonly string OUTLET_ROTATION = Configuration.GetValue<string>("Program:Outlet:Rotation:RequestString") ?? string.Empty;
+    public static readonly string OUTLET_FORWARD = GetValue("RequestStrings:Outlet:Forward");
+    public static readonly string OUTLET_BACKWARD = GetValue("RequestStrings:Outlet:Backward");
+    public static readonly string OUTLET_ROTATION = GetValue("RequestStrings:Outlet:Rotation");
+
+    // œ≈ƒ¿À‹
+    public static readonly string PEDAL_SENSOR = GetValue("RequestStrings:Pedal:Sensor");
+
+    //  ÕŒœ ¿ —“Œœ
+    public static readonly string STOP_BUTTON_SENSOR = GetValue("RequestStrings:StopButton:Sensor");
+
+    //  ÕŒœ ¿ —“¿–“
+    public static readonly string START_BUTTON_SENSOR = GetValue("RequestStrings:StartButton:Sensor");
+
+    // ¿¬“ŒÃ¿“ «¿Ÿ»“€ ›À≈ “–ŒÃŒ“Œ–Œ¬
+    public static readonly string ELECTRIC_MOTORS_BREAKER_SENSOR = GetValue("RequestStrings:ElectricMotorsBreaker:Sensor");
+
+    // «¿Ÿ»“Õ¿ﬂ œ¿Õ≈À‹
+    public static readonly string FORWARD_PROTECTION_PANEL_SENSOR = GetValue("RequestStrings:ProtectionPanel:ForwardSensor");
+    public static readonly string BACKWARD_PROTECTION_PANEL_SENSOR = GetValue("RequestStrings:ProtectionPanel:BackwardSensor");
+
+    // “”Ã¡À≈– — Œ–Œ—“»
+    public static readonly string SPEED_TUMBLER_LEFTWARD_SENSOR = GetValue("RequestStrings:SpeedTumbler:FirstOutputSignal");
+    public static readonly string SPEED_TUMBLER_RIGHTWARD_SENSOR = GetValue("RequestStrings:SpeedTumbler:SecondOutputSignal");
+
+    //  À¿œ¿Õ
+    public static readonly string FIRST_VALVE_OUPUT_SIGNAL = GetValue("RequestStrings:Valve:FirstOutputSignal");
+    public static readonly string SECOND_VALVE_OUTPUT_SIGNAL = GetValue("RequestStrings:Valve:SecondOutputSignal");
+
+    // Õ¿œ–¿¬ÀﬂﬁŸ»≈
+    public static readonly string GUIDE_LUBRICANT_OUTPUT_SIGNAL = GetValue("RequestStrings:Guide:OutputSignal");
+
+    // œ–Œ√–¿ÃÃ¿
+    public static readonly string PROGRAM_RADIUS = GetValue("RequestStrings:Program:Radius");
+    public static readonly string PROGRAM_FUNCTION = GetValue("RequestStrings:Program:Function");
+    public static readonly string PROGRAM_COEFFICIENT = GetValue("RequestStrings:Program:Coefficient");
+    public static readonly string PROGRAM_SPEED = GetValue("RequestStrings:Program:Speed");
 
     // Õ¿—“–Œ… »
-    public static readonly string SETTINGS_SPEED = Configuration.GetValue<string>("Settings:Speed:RequestString") ?? string.Empty;
-    public static readonly string SETTINGS_CYNCHRONIZATION_COEFFICIENT = Configuration.GetValue<string>("Settings:SynchronizationCoefficient:RequestString") ?? string.Empty;
-    public static readonly string SETTINGS_INTERCEPTION_MODE = Configuration.GetValue<string>("Settings:InterceptionMode:RequestString") ?? string.Empty;
+    public static readonly string SETTINGS_SPEED = GetValue("RequestStrings:Settings:Speed");
+    public static readonly string SETTINGS_CYNCHRONIZATION_COEFFICIENT = GetValue("RequestStrings:Settings:SynchronizationCoefficient");
+    public static readonly string SETTINGS_INTERCEPTION_MODE = GetValue("RequestStrings:Settings:InterceptionMode");
+    public static readonly string SETTINGS_SINGLE_LEVELED = GetValue("RequestStrings:Settings:SingleLeveled");
 
     // ¿¬“ŒÃ¿“
-    public static readonly string AUTOMATIC_TAGS_TURN_ON = Configuration.GetValue<string>("AutomaticTags:TurnOn:RequestString") ?? string.Empty;
-    public static readonly string AUTOMATIC_TAGS_CYCLE_TIME = Configuration.GetValue<string>("AutomaticTags:CycleTime:RequestString") ?? string.Empty;
-    public static readonly string AUTOMATIC_TAGS_SEND_DATA = Configuration.GetValue<string>("AutomaticTags:SendData:RequestString") ?? string.Empty;
-    public static readonly string AUTOMATIC_TAGS_END_PROGRAM = Configuration.GetValue<string>("AutomaticTags:EndProgram:RequestString") ?? string.Empty;
-    public static readonly string AUTOMATIC_TAGS_STEP_NUMBER = Configuration.GetValue<string>("AutomaticTags:StepNumber:RequestString") ?? string.Empty;
-    public static readonly string AUTOMATIC_TAGS_ALL_BEND = Configuration.GetValue<string>("AutomaticTags:AllBend:RequestString") ?? string.Empty;
-    public static readonly string AUTOMATIC_TAGS_FULL_AUTOMATIC = Configuration.GetValue<string>("AutomaticTags:FullAutomatic:RequestString") ?? string.Empty;
-    public static readonly string AUTOMATIC_TAGS_DELAY = Configuration.GetValue<string>("AutomaticTags:Delay:RequestString") ?? string.Empty;
-    public static readonly string AUTOMATIC_TAGS_COUNT_COMPLETED_DETAILS = Configuration.GetValue<string>("AutomaticTags:CountCompletedDetails:RequestString") ?? string.Empty;
+    public static readonly string AUTOMATIC_TAGS_TURN_ON = GetValue("RequestStrings:AutomaticTags:TurnOn");
+    public static readonly string AUTOMATIC_TAGS_CYCLE_TIME = GetValue("RequestStrings:AutomaticTags:CycleTime");
+    public static readonly string AUTOMATIC_TAGS_SEND_DATA = GetValue("RequestStrings:AutomaticTags:SendData");
+    public static readonly string AUTOMATIC_TAGS_END_PROGRAM = GetValue("RequestStrings:AutomaticTags:EndProgram");
+    public static readonly string AUTOMATIC_TAGS_STEP_NUMBER = GetValue("RequestStrings:AutomaticTags:StepNumber");
+    public static readonly string AUTOMATIC_TAGS_ALL_BEND = GetValue("RequestStrings:AutomaticTags:AllBend");
+    public static readonly string AUTOMATIC_TAGS_FULL_AUTOMATIC = GetValue("RequestStrings:AutomaticTags:FullAutomatic");
+    public static readonly string AUTOMATIC_TAGS_DELAY = GetValue("RequestStrings:AutomaticTags:Delay");
+    public static readonly string AUTOMATIC_TAGS_COUNT_COMPLETED_DETAILS = GetValue("RequestStrings:AutomaticTags:CountCompletedDetails");
+
+    private static string GetValue(string key) =>
+        Configuration.GetValue<string>(key) ?? string.Empty;
 }

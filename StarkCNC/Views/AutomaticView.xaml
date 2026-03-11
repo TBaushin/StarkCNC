@@ -51,7 +51,7 @@
                         Text="{Binding CycleTime, StringFormat={}{0} сек., Mode=TwoWay}"
                         Validation.ErrorTemplate="{x:Null}"/>
                 </Grid>
-                
+
                 <!--Row 1-->
                 <Grid
                     Grid.Column="0"
@@ -364,13 +364,13 @@
                                 Text="Дожим зад. датчик"/>
                             <Separator/>
                             <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.MultiLeveled, Converter={StaticResource BoolToVisibilityConverter}}"
                                 IsActive="{Binding SecondSqueezeForwardSensorStatus}"
                                 Text="Дожим 2 пер. датчик"/>
-                            <!--TODO: Скрывать когда не многоуровневый-->
                             <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.MultiLeveled, Converter={StaticResource BoolToVisibilityConverter}}"
                                 IsActive="{Binding SecondSqueezeBackwardSensorStatus}"
                                 Text="Дожим 2 зад. датчик"/>
-                            <!--TODO: Скрывать когда не многоуровневый-->
                             <Separator/>
                             <controls:LabelWithIndicatorControl
                                 IsActive="{Binding DornForwardSensorStatus}"
@@ -399,13 +399,6 @@
                             <controls:LabelWithIndicatorControl
                                 IsActive="{Binding ConsoleBackwardSensorStatus}"
                                 Text="Консоль зад. датчик"/>
-                            <Separator/>
-                            <controls:LabelWithIndicatorControl
-                                IsActive="{Binding SqueezeForwardSensorStatus}"
-                                Text="Дожим пер. датчик"/>
-                            <controls:LabelWithIndicatorControl
-                                IsActive="{Binding SqueezeBackwardSensorStatus}"
-                                Text="Дожим зад.датчик"/>
                             <Separator/>
                             <controls:LabelWithIndicatorControl
                                 IsActive="{Binding SupplyBackwardSensorStatus}"
@@ -451,21 +444,21 @@
                                 Text="Кнопка &quot;Старт&quot;"/>
                             <Separator/>
                             <controls:LabelWithIndicatorControl
-                                IsActive="{Binding ElectricMotorsBreakerStatus}"
+                                IsActive="{Binding ElectricMotorsBreakerSensorStatus}"
                                 Text="Авт. защиты эл.моторов"/>
                             <Separator/>
                             <controls:LabelWithIndicatorControl
-                                IsActive="{Binding BackwardProtectionPanelStatus}"
+                                IsActive="{Binding BackwardProtectionPanelSensorStatus}"
                                 Text="Задняя защит. панель"/>
                             <controls:LabelWithIndicatorControl
-                                IsActive="{Binding ForwardProtectionPanelStatus}"
+                                IsActive="{Binding ForwardProtectionPanelSensorStatus}"
                                 Text="Передняя защит. панель"/>
                             <Separator/>
                             <controls:LabelWithIndicatorControl
-                                IsActive="{Binding SpeedTumblerLeftwardStatus}"
+                                IsActive="{Binding SpeedTumblerLeftwardSensorStatus}"
                                 Text="Тумблер скорости влево"/>
                             <controls:LabelWithIndicatorControl
-                                IsActive="{Binding SpeedTumblerRightwardStatus}"
+                                IsActive="{Binding SpeedTumblerRightwardSensorStatus}"
                                 Text="Тумблер скорости вправо"/>
                         </StackPanel>
                     </Border>
@@ -491,7 +484,110 @@
                         BorderBrush="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                         CornerRadius="0,0,4,4">
                         <StackPanel>
-
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding ClampForwardOutputSignalStatus}"
+                                Text="Зажим вперёд"/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding ClampForwardOutputSignalStatus}"
+                                Text="Зажим назад"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding PressForwardOutputSignalStatus}"
+                                Text="Прижим вперёд"/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding PressForwardOutputSignalStatus}"
+                                Text="Прижим назад"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding SqueezeForwardOutputSignalStatus}"
+                                Text="Дожим вперёд"/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding SqueezeForwardOutputSignalStatus}"
+                                Text="Дожим назад"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.MultiLeveled, Converter={StaticResource BoolToVisibilityConverter}}"
+                                IsActive="{Binding AdjustmentUpOutputSignalStatus}"
+                                Text="Оснастка вверх"/>
+                            <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.MultiLeveled, Converter={StaticResource BoolToVisibilityConverter}}"
+                                IsActive="{Binding AdjustmentDownOutputSignalStatus}"
+                                Text="Оснастка вниз"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.WithPunchingCylinder, Converter={StaticResource BoolToVisibilityConverter}}"
+                                IsActive="{Binding PunchingForwardOutputSignalStatus}"
+                                Text="Пробивка вперёд"/>
+                            <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.WithPunchingCylinder, Converter={StaticResource BoolToVisibilityConverter}}"
+                                IsActive="{Binding PunchingForwardOutputSignalStatus}"
+                                Text="Пробивка назад"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding FirstHydraulicsOutputSignalStatus}"
+                                Text="Гидростанция 1"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding FirstValveOutputSignalStatus}"
+                                Text="Клапан 1"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding DornForwardOutputSignalStatus}"
+                                Text="Дорн вперёд"/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding DornBackwardOutputSignalStatus}"
+                                Text="Дорн назад"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.IsElectricBendingDrive, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='invert'}"
+                                IsActive="{Binding BendForwardOutputSignalStatus}"
+                                Text="Гиб вперёд"/>
+                            <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.IsElectricBendingDrive, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='invert'}"
+                                IsActive="{Binding BendForwardOutputSignalStatus}"
+                                Text="Гиб назад"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding ColletForwardOutputSignalStatus}"
+                                Text="Цанга зажим"/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding ColletForwardOutputSignalStatus}"
+                                Text="Цанга разжим"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.IsElectricBendingDrive, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='invert'}"
+                                IsActive="{Binding SecondHydraulicsOutputSignalStatus}"
+                                Text="Гидростанция 2"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                Visibility="{Binding Settings.IsElectricBendingDrive, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='invert'}"
+                                IsActive="{Binding SecondValveOutputSignalStatus}"
+                                Text="Клапан 2"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding FirstSupportUpOutputSignalStatus}"
+                                Text="Поддержка 1 вверх"/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding SecondSupportUpOutputSignalStatus}"
+                                Text="Поддержка 2 вверх"/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding ThirdSupportUpOutputSignalStatus}"
+                                Text="Поддержка 3 вверх"/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding FourthSupportUpOutputSignalStatus}"
+                                Text="Поддержка 4 вверх"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding RotationBrakingOutputSignalStatus}"
+                                Text="Расторможение поворота"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding GuideLubricantOutputSignalStatus}"
+                                Text="Смазка направляющих"/>
+                            <Separator/>
+                            <controls:LabelWithIndicatorControl
+                                IsActive="{Binding DornLubricantOutputSignalStatus}"
+                                Text="Смазка дорна"/>
                         </StackPanel>
                     </Border>
                 </Grid>
