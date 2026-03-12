@@ -35,7 +35,7 @@ public class BendingData
     /// <summary>
     /// Отвод коэффициент Y2
     /// </summary>
-    public double OffsetCoefficient;
+    public double OffsetCoefficient { get; set; }
 
     /// <summary>
     /// Угол гиба C
