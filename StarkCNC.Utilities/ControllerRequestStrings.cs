@@ -137,6 +137,9 @@ public static class ControllerRequestStrings
     }
     public static readonly string SUPPLY_BACKWARD_SENSOR = GetValue("RequestStrings:Supply:BackwardSensor");
     public static readonly string SUPPLY_RESET_SENSOR = GetValue("RequestStrings:Supply:ResetSensor");
+    public static readonly string SUPPLY_ACCELERATION = GetValue("RequestString:Supply:Acceleration");
+    public static readonly string SUPPLY_BRAKING = GetValue("RequestString:Supply:Braking");
+    public static readonly string SUPPLY_JERK = GetValue("RequestString:Supply:Jerk");
 
     // œŒ¬Œ–Œ“
     public static readonly string ROTATION_OFFSET = GetValue("RequestStrings:Rotation:Offset");
@@ -171,6 +174,9 @@ public static class ControllerRequestStrings
     public static readonly string ROTATION_FACTICAL_POSITION = GetValue("RequestStrings:Rotation:Factical");
     public static readonly string ROTATION_RESET_SENSOR = GetValue("RequestStrings:Rotation:ResetSensor");
     public static readonly string ROTATION_BRAKING_OUTPUT_SIGNAL = GetValue("RequestStrings:Rotation:BrakingOutputSignal");
+    public static readonly string ROTATION_ACCELERATION = GetValue("RequestString:Rotation:Acceleration");
+    public static readonly string ROTATION_BRAKING = GetValue("RequestString:Rotation:Braking");
+    public static readonly string ROTATION_JERK = GetValue("RequestString:Rotation:Jerk");
 
     //  ŒÕ—ŒÀ‹
     public static readonly string CONSOLE_FORWARD = GetValue("RequestStrings:Console:Forward");
@@ -317,6 +323,10 @@ public static class ControllerRequestStrings
     }
     public static readonly string CONSOLE_FORWARD_SENSOR = GetValue("RequestStrings:Console:ForwardSensor");
     public static readonly string CONSOLE_BACKWARD_SENSOR = GetValue("RequestStrings:Console:BackwardSensor");
+    public static readonly string CONSOLE_OUTLET_FOR_PIPE_INSTALLING = GetValue("RequestStrings:Console:OutletForPipeInstalling");
+    public static readonly string CONSOLE_ACCELERATION = GetValue("RequestString:Console:Acceleration");
+    public static readonly string CONSOLE_BRAKING = GetValue("RequestString:Console:Braking");
+    public static readonly string CONSOLE_JERK = GetValue("RequestString:Console:Jerk");
 
     // √»¡
     public static readonly string BEND_FORWARD = GetValue("RequestStrings:Bend:Forward");
@@ -331,8 +341,8 @@ public static class ControllerRequestStrings
     public static readonly string BEND_RELATIVE_DISPLACEMENT = GetValue("RequestStrings:Bend:RelativeDisplacement");
     public static readonly string BEND_FORWARD_BUTTON = GetValue("RequestStrings:Bend:Forward");
     public static readonly string BEND_BACKWARD_BUTTON = GetValue("RequestStrings:Bend:BackwardButton");
-    public static readonly string BEND_COEFFICIENT = GetValue("Settings:Bend:Coefficient");
-    public static readonly string BEND_SYNCHRONIZATION = GetValue("Settings:Bend:Synchronization");
+    public static readonly string BEND_COEFFICIENT = GetValue("RequestStrings:Bend:Coefficient");
+    public static readonly string BEND_SYNCHRONIZATION = GetValue("RequestStrings:Bend:Synchronization");
     public static readonly string BEND_FORWARD_POSITION_LIMITATION_L1 = GetValue("RequestStrings:Bend:ForwardPositionLimitationL1");
     public static readonly string BEND_FORWARD_POSITION_LIMITATION_L2 = GetValue("RequestStrings:Bend:ForwardPositionLimitationL2");
     public static readonly string BEND_FORWARD_POSITION_LIMITATION_L3 = GetValue("RequestStrings:Bend:ForwardPositionLimitationL3");
@@ -378,6 +388,9 @@ public static class ControllerRequestStrings
     public static readonly string BEND_BACKWARD_SENSOR = GetValue("RequestStrings:Bend:BackwardSensor");
     public static readonly string BEND_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Bend:ForwardOutputSignal");
     public static readonly string BEND_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Bend:BackwardOutputSignal");
+    public static readonly string BEND_ACCELERATION = GetValue("RequestString:Bend:Acceleration");
+    public static readonly string BEND_BRAKING = GetValue("RequestString:Bend:Braking");
+    public static readonly string BEND_JERK = GetValue("RequestString:Bend:Jerk");
 
     // «¿∆»Ã
     public static readonly string CLAMP_FORWARD = GetValue("RequestStrings:Clamp:Forward");
@@ -518,6 +531,7 @@ public static class ControllerRequestStrings
     public static readonly string CLAMP_BACKWARD_SENSOR = GetValue("RequestStrings:Clamp:BackwardSensor");
     public static readonly string CLAMP_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Clamp:ForwardOutputSignal");
     public static readonly string CLAMP_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Clamp:BackwardOutputSignal");
+    public static readonly string CLAMP_INVERT_SENSORS = GetValue("RequestStrings:Clamp:InvertSensors");
 
     // œ–»∆»Ã
     public static readonly string PRESS_FORWARD = GetValue("RequestStrings:Press:Forward");
@@ -658,6 +672,7 @@ public static class ControllerRequestStrings
     public static readonly string PRESS_BACKWARD_SENSOR = GetValue("RequestStrings:Press:BackwardSensor");
     public static readonly string PRESS_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Press:ForwardOutputSignal");
     public static readonly string PRESS_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Press:BackwardOutputSignal");
+    public static readonly string PRESS_INCOMPLETE_MOVEMENT = GetValue("RequestStrings:Press:IncompleteMovement");
 
     // œ≈–¬€… ƒŒ∆»Ã
     public static readonly string FIRST_SQUEEZE_FORWARD = GetValue("RequestStrings:FirstSqueeze:Forward");
@@ -872,7 +887,8 @@ public static class ControllerRequestStrings
     public static readonly string SECOND_HYDRAULICS_VALUE = GetValue("RequestStrings:SecondHydraulics:Value");
     public static readonly string FIRST_HYDRAULICS_OUTPUT_SIGNAL = GetValue("RequestStrings:FirstHydraulics:OutputSignal");
     public static readonly string SECOND_HYDRAULICS_OUTPUT_SIGNAL = GetValue("RequestStrings:SecondHydraulics:OutputSignal");
-    
+    public static readonly string HYDRAULICS_MOVEMENT_WITHOUT_SENSORS = GetValue("RequestStrings:Hydraulics:MovementWithoutSensors");
+
     // œŒƒƒ≈–∆ ¿
     public static readonly string SUPPORT_VALUE = GetValue("RequestStrings:Support:Value");
     public static readonly string SUPPORT_FRONT_LIFT_BAN = GetValue("RequestStrings:Support:FrontLiftBan");
@@ -883,6 +899,12 @@ public static class ControllerRequestStrings
     public static readonly string SECOND_SUPPORT_UP_OUTPUT_SIGNAL = GetValue("RequestStrings:Support:SecondUpOutputSignal");
     public static readonly string THIRD_SUPPORT_UP_OUTPUT_SIGNAL = GetValue("RequestStrings:Support:ThirdUpOutputSignal");
     public static readonly string FOURTH_SUPPORT_UP_OUTPUT_SIGNAL = GetValue("RequestStrings:Support:ForthUpSignal");
+    public static readonly string SUPPORT_FIRST_COORDINATE_BAN = GetValue("RequestStrings:Support:FirstCoordinateBan");
+    public static readonly string SUPPORT_SECOND_COORDINATE_BAN = GetValue("RequestStrings:Support:SecondCoordinateBan");
+    public static readonly string SUPPORT_THIRD_FORWARD_COORDINATE_BAN = GetValue("RequestStrings:Support:ThirdForwardCoordinateBan");
+    public static readonly string SUPPORT_THIRD_BACKWARD_COORDINATE_BAN = GetValue("RequestStrings:Support:ThirdBackwardCoordinateBan");
+    public static readonly string SUPPORT_FOURTH_COORDINATE_BAN = GetValue("RequestStrings:Support:FourthCoordinateBan");
+    public static readonly string SUPPORT_BAN_PRESS = GetValue("RequestStrings:Support:BanPress");
 
     // —Ã¿« ¿ ƒŒ–Õ¿
     public static readonly string DORN_LUBRICANT_TURN_ON = GetValue("RequestStrings:DornLubricant:TurnOn");
@@ -891,6 +913,11 @@ public static class ControllerRequestStrings
 
     // √»¡ » ƒŒ∆»Ã
     public static readonly string BEND_AND_SQUEEZE_VALUE = GetValue("RequestStrings:BendAndSqueeze:Value");
+
+    // √»¡ » œŒƒ¿◊¿
+    public static readonly string BEND_AND_SUPPLY_PUSHING_ENABLE = GetValue("RequestStrings:BendAndSupply:PushingEnable");
+    public static readonly string BEND_AND_SUPPLY_COEFFICIENT = GetValue("RequestStrings:BendAndSupply:Coefficient");
+    public static readonly string BEND_AND_SUPPLY_SYNCHRONIZATION = GetValue("RequestStrings:BendAndSupply:Synchronization");
 
     // Œÿ»¡ »
     public static readonly string ERRORS_CLEAR_ACTUATOR_ERRORS = GetValue("RequestStrings:Errors:ClearActuatorErrors");
@@ -1003,6 +1030,7 @@ public static class ControllerRequestStrings
     public static readonly string SECOND_SQUEEZE_BACKWARD_SENSOR = GetValue("RequestStrings:Squeeze:SecondBackwardSensor");
     public static readonly string FIRST_SQUEEZE_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Squeeze:FirstForwardOutputSignal");
     public static readonly string FIRST_SQUEEZE_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Squeeze:FirstBackwardOutputSignal");
+    public static readonly string SQUEEZE_WORK_TIME = GetValue("RequestStrings:Squeeze:WorkTime");
 
     // œŒƒ⁄®Ã
     public static readonly string LIFT_UPPER_POSITION_L1 = GetValue("RequestStrings:Lift:UpperPositionL1");
@@ -1153,6 +1181,8 @@ public static class ControllerRequestStrings
     public static readonly string SETTINGS_CYNCHRONIZATION_COEFFICIENT = GetValue("RequestStrings:Settings:SynchronizationCoefficient");
     public static readonly string SETTINGS_INTERCEPTION_MODE = GetValue("RequestStrings:Settings:InterceptionMode");
     public static readonly string SETTINGS_SINGLE_LEVELED = GetValue("RequestStrings:Settings:SingleLeveled");
+    public static readonly string SETTINGS_WITH_PUNCHING_CYLINDER = GetValue("RequestStrings:Settings:WithPunchingCylinder");
+    public static readonly string SETTINGS_DISTANCE_FROM_BENDING_TO_PUNCHING = GetValue("RequestStrings:Settings:DistanceFromBendingToPunching");
 
     // ¿¬“ŒÃ¿“
     public static readonly string AUTOMATIC_TAGS_TURN_ON = GetValue("RequestStrings:AutomaticTags:TurnOn");

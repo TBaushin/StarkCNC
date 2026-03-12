@@ -29,7 +29,7 @@ public class Settings
     public bool BanPressWhenSupportIsLifted { get; set; }
     public double SqueezeWorkTime { get; set; } = 0.5;
     public double SupplyStartRollingSpeed { get; set; } = 99.0;
-    public bool IncompleteClampMovement { get; set; }
+    public bool IncompletePressMovement { get; set; }
     public bool HydraulicMovementWithoutSensors { get; set; }
     public bool ShowButtonFullAutomatic { get; set; }
     public bool InvertClampSensors { get; set; }

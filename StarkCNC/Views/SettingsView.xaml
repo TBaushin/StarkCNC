@@ -513,8 +513,8 @@
                             </Label>
                             <controls:ToggleSwitchControl
                                 Grid.Column="1"
-                                Command="{Binding IncompleteClampMovementSendCommand}"
-                                IsChecked="{Binding IncompleteClampMovement, Mode=TwoWay}"/>
+                                Command="{Binding IncompletePressMovementSendCommand}"
+                                IsChecked="{Binding IncompletePressMovement, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>
                     <controls:BorderedControl

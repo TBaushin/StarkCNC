@@ -80,7 +80,7 @@ public partial class SettingsViewModel : ObservableObject
     double _supplyStartRollingSpeed;
 
     [ObservableProperty]
-    bool _incompleteClampMovement;
+    bool _incompletePressMovement;
 
     [ObservableProperty]
     bool _hydraulicMovementWithoutSensors;
@@ -186,7 +186,7 @@ public partial class SettingsViewModel : ObservableObject
         BanPressWhenSupportIsLifted = _settings.BanPressWhenSupportIsLifted;
         SqueezeWorkTime = _settings.SqueezeWorkTime;
         SupplyStartRollingSpeed = _settings.SupplyStartRollingSpeed;
-        IncompleteClampMovement = _settings.IncompleteClampMovement;
+        IncompletePressMovement = _settings.IncompletePressMovement;
         HydraulicMovementWithoutSensors = _settings.HydraulicMovementWithoutSensors;
         ShowButtonFullAutomatic = _settings.ShowButtonFullAutomatic;
         InvertClampSensors = _settings.InvertClampSensors;
@@ -232,7 +232,7 @@ public partial class SettingsViewModel : ObservableObject
         _settings.BanPressWhenSupportIsLifted = BanPressWhenSupportIsLifted;
         _settings.SqueezeWorkTime = SqueezeWorkTime;
         _settings.SupplyStartRollingSpeed = SupplyStartRollingSpeed;
-        _settings.IncompleteClampMovement = IncompleteClampMovement;
+        _settings.IncompletePressMovement = IncompletePressMovement;
         _settings.HydraulicMovementWithoutSensors = HydraulicMovementWithoutSensors;
         _settings.ShowButtonFullAutomatic = ShowButtonFullAutomatic;
         _settings.InvertClampSensors = InvertClampSensors;
@@ -276,7 +276,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task DornLubricantTurnOnSend()
     {
         await _manualConfigurationService
-            .WriteAsync(DornLubricantTurnOn, "")
+            .WriteAsync(DornLubricantTurnOn, ControllerRequestStrings.DORN_LUBRICANT_LUBRICANT_TURN_ON)
             .ConfigureAwait(true);
     }
 
@@ -284,7 +284,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task BendSynchronizationSend()
     {
         await _manualConfigurationService
-            .WriteAsync(BendSynchronization, "")
+            .WriteAsync(BendSynchronization, ControllerRequestStrings.BEND_AND_SUPPLY_PUSHING_ENABLE)
             .ConfigureAwait(true);
     }
 
@@ -292,7 +292,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task BendSynchronizationCoefficientSend()
     {
         await _manualConfigurationService
-            .WriteAsync(BendSynchronizationCoefficient, "")
+            .WriteAsync(BendSynchronizationCoefficient, ControllerRequestStrings.BEND_AND_SUPPLY_COEFFICIENT)
             .ConfigureAwait(true);
     }
 
@@ -300,7 +300,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task BendAndSupplySynchronizationSend()
     {
         await _manualConfigurationService
-            .WriteAsync(BendAndSupplySynchronization, "")
+            .WriteAsync(BendAndSupplySynchronization, ControllerRequestStrings.BEND_AND_SUPPLY_SYNCHRONIZATION)
             .ConfigureAwait(true);
     }
 
@@ -316,7 +316,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task ConsoleOutletForPipeInstallingSend()
     {
         await _manualConfigurationService
-            .WriteAsync(ConsoleOutletForPipeInstalling, "")
+            .WriteAsync(ConsoleOutletForPipeInstalling, ControllerRequestStrings.CONSOLE_OUTLET_FOR_PIPE_INSTALLING)
             .ConfigureAwait(true);
     }
 
@@ -332,7 +332,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task MultiLeveledSend()
     {
         await _manualConfigurationService
-            .WriteAsync(MultiLeveled, "")
+            .WriteAsync(MultiLeveled, ControllerRequestStrings.SETTINGS_SINGLE_LEVELED)
             .ConfigureAwait(true);
     }
 
@@ -340,7 +340,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task WithPunchingCylinderSend()
     {
         await _manualConfigurationService
-            .WriteAsync(WithPunchingCylinder, "")
+            .WriteAsync(WithPunchingCylinder, ControllerRequestStrings.SETTINGS_WITH_PUNCHING_CYLINDER)
             .ConfigureAwait(true);
     }
 
@@ -348,7 +348,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task DistanceFromBendingToPunchingSend()
     {
         await _manualConfigurationService
-            .WriteAsync(DistanceFromBendingToPunching, "")
+            .WriteAsync(DistanceFromBendingToPunching, ControllerRequestStrings.SETTINGS_DISTANCE_FROM_BENDING_TO_PUNCHING)
             .ConfigureAwait(true);
     }
 
@@ -372,7 +372,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupportFirstLiftBanSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupportFirstLiftBan, "")
+            .WriteAsync(SupportFirstLiftBan, ControllerRequestStrings.SUPPORT_FIRST_COORDINATE_BAN)
             .ConfigureAwait(true);
     }
 
@@ -380,7 +380,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupportSecondLiftBanSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupportSecondLiftBan, "")
+            .WriteAsync(SupportSecondLiftBan, ControllerRequestStrings.SUPPORT_SECOND_COORDINATE_BAN)
             .ConfigureAwait(true);
     }
 
@@ -388,7 +388,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupportThirdLiftBanRearSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupportThirdLiftBanRear, "")
+            .WriteAsync(SupportThirdLiftBanRear, ControllerRequestStrings.SUPPORT_THIRD_BACKWARD_COORDINATE_BAN)
             .ConfigureAwait(true);
     }
 
@@ -396,7 +396,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupportThirdLiftBanFrontSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupportThirdLiftBanFront, "")
+            .WriteAsync(SupportThirdLiftBanFront, ControllerRequestStrings.SUPPORT_THIRD_FORWARD_COORDINATE_BAN)
             .ConfigureAwait(true);
     }
 
@@ -404,7 +404,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupportFourthLiftBanSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupportFourthLiftBan, "")
+            .WriteAsync(SupportFourthLiftBan, ControllerRequestStrings.SUPPORT_FOURTH_COORDINATE_BAN)
             .ConfigureAwait(true);
     }
 
@@ -412,7 +412,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task BanPressWhenSupportIsLiftedSend()
     {
         await _manualConfigurationService
-            .WriteAsync(BanPressWhenSupportIsLifted, "")
+            .WriteAsync(BanPressWhenSupportIsLifted, ControllerRequestStrings.SUPPORT_BAN_PRESS)
             .ConfigureAwait(true);
     }
 
@@ -420,7 +420,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SqueezeWorkTimeSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SqueezeWorkTime, "")
+            .WriteAsync(SqueezeWorkTime, ControllerRequestStrings.SQUEEZE_WORK_TIME)
             .ConfigureAwait(true);
     }
 
@@ -428,15 +428,15 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupplyStartRollingSpeedSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupplyStartRollingSpeed, "")
+            .WriteAsync(SupplyStartRollingSpeed, ControllerRequestStrings.SUPPLY_START_ROLLING_SPEED)
             .ConfigureAwait(true);
     }
 
     [RelayCommand]
-    async Task IncompleteClampMovementSend()
+    async Task IncompletePressMovementSend()
     {
         await _manualConfigurationService
-            .WriteAsync(IncompleteClampMovement, "")
+            .WriteAsync(IncompletePressMovement, ControllerRequestStrings.PRESS_INCOMPLETE_MOVEMENT)
             .ConfigureAwait(true);
     }
 
@@ -444,7 +444,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task HydraulicMovementWithoutSensorsSend()
     {
         await _manualConfigurationService
-            .WriteAsync(HydraulicMovementWithoutSensors, "")
+            .WriteAsync(HydraulicMovementWithoutSensors, ControllerRequestStrings.HYDRAULICS_MOVEMENT_WITHOUT_SENSORS)
             .ConfigureAwait(true);
     }
 
@@ -460,7 +460,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task InvertClampSensorsSend()
     {
         await _manualConfigurationService
-            .WriteAsync(InvertClampSensors, "")
+            .WriteAsync(InvertClampSensors, ControllerRequestStrings.CLAMP_INVERT_SENSORS)
             .ConfigureAwait(true);
     }
 
@@ -468,7 +468,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupplyCoefficientSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupplyCoefficient, "")
+            .WriteAsync(SupplyCoefficient, ControllerRequestStrings.SUPPLY_COEFFICIENT)
             .ConfigureAwait(true);
     }
 
@@ -476,7 +476,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task RotationCoefficientSend()
     {
         await _manualConfigurationService
-            .WriteAsync(RotationCoefficient, "")
+            .WriteAsync(RotationCoefficient, ControllerRequestStrings.ROTATION_COEFFICIENT)
             .ConfigureAwait(true);
     }
 
@@ -484,7 +484,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task ConsoleCoefficientSend()
     {
         await _manualConfigurationService
-            .WriteAsync(ConsoleCoefficient, "")
+            .WriteAsync(ConsoleCoefficient, ControllerRequestStrings.CONSOLE_COEFFICIENT)
             .ConfigureAwait(true);
     }
 
@@ -492,7 +492,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task BendCoefficientSend()
     {
         await _manualConfigurationService
-            .WriteAsync(BendCoefficient, "")
+            .WriteAsync(BendCoefficient, ControllerRequestStrings.BEND_COEFFICIENT)
             .ConfigureAwait(true);
     }
 
@@ -500,7 +500,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupplyAccelerationSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupplyAcceleration, "")
+            .WriteAsync(SupplyAcceleration, ControllerRequestStrings.SUPPLY_ACCELERATION)
             .ConfigureAwait(true);
     }
 
@@ -508,7 +508,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task RotationAccelerationSend()
     {
         await _manualConfigurationService
-            .WriteAsync(RotationAcceleration, "")
+            .WriteAsync(RotationAcceleration, ControllerRequestStrings.ROTATION_ACCELERATION)
             .ConfigureAwait(true);
     }
 
@@ -516,7 +516,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task ConsoleAccelerationSend()
     {
         await _manualConfigurationService
-            .WriteAsync(ConsoleAcceleration, "")
+            .WriteAsync(ConsoleAcceleration, ControllerRequestStrings.CONSOLE_ACCELERATION)
             .ConfigureAwait(true);
     }
 
@@ -524,7 +524,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task BendAccelerationSend()
     {
         await _manualConfigurationService
-            .WriteAsync(BendAcceleration, "")
+            .WriteAsync(BendAcceleration, ControllerRequestStrings.BEND_ACCELERATION)
             .ConfigureAwait(true);
     }
 
@@ -532,7 +532,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupplyBrakingSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupplyBraking, "")
+            .WriteAsync(SupplyBraking, ControllerRequestStrings.SUPPLY_BRAKING)
             .ConfigureAwait(true);
     }
 
@@ -540,7 +540,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task RotationBrakingSend()
     {
         await _manualConfigurationService
-            .WriteAsync(RotationBraking, "")
+            .WriteAsync(RotationBraking, ControllerRequestStrings.ROTATION_BRAKING)
             .ConfigureAwait(true);
     }
 
@@ -548,7 +548,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task ConsoleBrakingSend()
     {
         await _manualConfigurationService
-            .WriteAsync(ConsoleBraking, "")
+            .WriteAsync(ConsoleBraking, ControllerRequestStrings.CONSOLE_BRAKING)
             .ConfigureAwait(true);
     }
 
@@ -556,7 +556,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task BendBrakingSend()
     {
         await _manualConfigurationService
-            .WriteAsync(BendBraking, "")
+            .WriteAsync(BendBraking, ControllerRequestStrings.BEND_BRAKING)
             .ConfigureAwait(true);
     }
 
@@ -564,7 +564,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task SupplyJerkSend()
     {
         await _manualConfigurationService
-            .WriteAsync(SupplyJerk, "")
+            .WriteAsync(SupplyJerk, ControllerRequestStrings.SUPPLY_JERK)
             .ConfigureAwait(true);
     }
 
@@ -572,7 +572,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task RotationJerkSend()
     {
         await _manualConfigurationService
-            .WriteAsync(RotationJerk, "")
+            .WriteAsync(RotationJerk, ControllerRequestStrings.ROTATION_JERK)
             .ConfigureAwait(true);
     }
 
@@ -580,7 +580,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task ConsoleJerkSend()
     {
         await _manualConfigurationService
-            .WriteAsync(ConsoleJerk, "")
+            .WriteAsync(ConsoleJerk, ControllerRequestStrings.CONSOLE_JERK)
             .ConfigureAwait(true);
     }
 
@@ -588,7 +588,7 @@ public partial class SettingsViewModel : ObservableObject
     async Task BendJerkSend()
     {
         await _manualConfigurationService
-            .WriteAsync(BendJerk, "")
+            .WriteAsync(BendJerk, ControllerRequestStrings.BEND_JERK)
             .ConfigureAwait(true);
     }
 }
