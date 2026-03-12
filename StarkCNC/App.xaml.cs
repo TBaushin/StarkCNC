@@ -11,7 +11,9 @@ using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.Database;
+#if !DEBUG
 using StarkCNC.Exceptions;
+#endif
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Repository;
 using StarkCNC.Services;

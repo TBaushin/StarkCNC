@@ -8,6 +8,9 @@ using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Utilities;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+#if !DEBUG
+using System.Windows;
+#endif
 
 namespace StarkCNC.ViewModels;
 
