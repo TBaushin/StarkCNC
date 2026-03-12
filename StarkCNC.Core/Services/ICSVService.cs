@@ -7,7 +7,7 @@ namespace StarkCNC.Core.Services;
 
 public interface ICSVService
 {
-    public static async Task Export(string filepath, List<BendingData> data)
+    public static async Task Export(string filepath, IEnumerable<BendingData> data)
     {
         var csvBuilder = new StringBuilder();
 
@@ -45,7 +45,7 @@ public interface ICSVService
         await File.WriteAllTextAsync(filepath, csvBuilder.ToString(), Encoding.UTF8);
     }
 
-    public static async Task<List<BendingData>> Import(string filepath)
+    public static async Task<IEnumerable<BendingData>> Import(string filepath)
     {
         if (!IsCSV(filepath))
             throw new FileFormatException($"Файл {new FileInfo(filepath).Name} не в формате csv или его не существует");

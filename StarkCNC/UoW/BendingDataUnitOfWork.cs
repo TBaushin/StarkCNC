@@ -12,11 +12,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 {
     private static readonly string _tempFolder = Path.GetTempPath() + "\\StarkCNC";
     private const string _tempFileName = "last_used_file.txt";
-    private const string _gcodeExtension = ".gcode";
-    private const string _gcodeFilter = "GCode (.gc, .g, .gcode, .txt)|*.gc;*.g;*.gcode;*.txt;";
-
-
-    private IGCodeService _gCodeService;
+    private const string _csvExtension = ".csv";
+    private const string _csvFilter = "CSV (.csv)|*.csv;";
 
     public string CurrentFilePath { get; private set; } = string.Empty;
 
@@ -32,10 +29,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
     public bool HasUnsavedData { get; set; }
 
-    public BendingDataUnitOfWork(IGCodeService gCodeService)
+    public BendingDataUnitOfWork()
     {
-        _gCodeService = gCodeService;
-
         Initialize();
     }
 
@@ -69,8 +64,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
             return;
 
         var dialog = new SaveFileDialog();
-        dialog.DefaultExt = _gcodeExtension;
-        dialog.Filter = _gcodeFilter;
+        dialog.DefaultExt = _csvExtension;
+        dialog.Filter = _csvFilter;
 
         bool? result = dialog.ShowDialog();
 
@@ -86,8 +81,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
     public async Task OpenFile()
     {
         var dialog = new OpenFileDialog();
-        dialog.DefaultExt = _gcodeExtension;
-        dialog.Filter = _gcodeFilter;
+        dialog.DefaultExt = _csvExtension;
+        dialog.Filter = _csvFilter;
 
         bool? result = dialog.ShowDialog();
 
@@ -111,8 +106,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
         if (string.IsNullOrEmpty(CurrentFilePath))
         {
             var dialog = new SaveFileDialog();
-            dialog.DefaultExt = _gcodeExtension;
-            dialog.Filter = _gcodeFilter;
+            dialog.DefaultExt = _csvExtension;
+            dialog.Filter = _csvFilter;
 
             bool? result = dialog.ShowDialog();
 
@@ -139,7 +134,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
         CurrentFilePath = filePath;
         ProgramName = Path.GetFileNameWithoutExtension(filePath);
-        var data = await _gCodeService.ReadAsync(filePath).ConfigureAwait(false);
+        var data = await ICSVService.Import(filePath).ConfigureAwait(false);
         if (data is null)
             return;
 
@@ -153,7 +148,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
     public async Task WriteFileAsync(string filePath)
     {
-        await _gCodeService.SaveAsync(filePath, BendingDatas).ConfigureAwait(false);
+        await ICSVService.Export(filePath, BendingDatas).ConfigureAwait(false);
         CurrentFilePath = filePath;
         ProgramName = Path.GetFileNameWithoutExtension(filePath);
 
@@ -163,7 +158,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
     private async void Initialize()
     {
         var filePath = await ReadLastPathToProgramGCodeFile().ConfigureAwait(false);
-        if (string.IsNullOrEmpty(filePath))
+        if (string.IsNullOrEmpty(filePath) || new FileInfo(filePath).Extension != ".csv")
             return;
 
         CurrentFilePath = filePath;
