@@ -1,7 +1,7 @@
-﻿using StarkCNC.Core.Models;
+﻿using CsvHelper;
+using StarkCNC.Core.Models;
 using System.Globalization;
 using System.IO;
-using System.Text;
 
 namespace StarkCNC.Core.Services;
 
@@ -9,78 +9,28 @@ public interface ICSVService
 {
     public static async Task Export(string filepath, IEnumerable<BendingData> data)
     {
-        var csvBuilder = new StringBuilder();
-
-        string header = "type,podacha,povorot,gib,speed,koef,vibeg,radius_Gibki,m,dlinaTrubi,ust_Trubi," +
-                        string.Join(",", Enumerable.Range(3, 48).Select(n => $"param{n}"));
-
-        csvBuilder.Append(header).Append("\n\r");
-
+        using var writer = new StreamWriter(filepath);
+        using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        var csvData = new List<BendingDataCSV>();
         foreach (var item in data)
         {
-            var line = string.Format(CultureInfo.InvariantCulture,
-                "{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}," +
-                "{11},{12},{13},{14},{15},{16},{17},{18},{19},{20}," +
-                "{21},{22},{23},{24},{25},{26},{27},{28},{29},{30}," +
-                "{31},{32},{33},{34},{35},{36},{37},{38},{39},{40}," +
-                "{41},{42},{43},{44},{45},{46},{47},{48},{49},{50}," +
-                "{51},{52},{53},{54},{55},{56},{57},{58}",
-
-                item.BendingAngleCoefficient,
-                item.Supply,
-                item.Offset,
-                item.BendingAngle,
-                item.SupplySpeed,
-                item.OffsetSpeed,
-                item.OffsetCoefficient,
-                item.BendingAngleSpeed,
-                0,
-                item.PipeLength,
-                item.YSetup,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-            );
-            csvBuilder.Append(line).Append("\n\r");
+            csvData.Add(BendingDataCSV.FromBendingData(item));
         }
-
-        await File.WriteAllTextAsync(filepath, csvBuilder.ToString(), Encoding.UTF8);
+        await csv.WriteRecordsAsync(csvData).ConfigureAwait(false);
     }
 
-    public static async Task<IEnumerable<BendingData>> Import(string filepath)
+    public static IEnumerable<BendingData> Import(string filepath)
     {
         if (!IsCSV(filepath))
             throw new FileFormatException($"Файл {new FileInfo(filepath).Name} не в формате csv или его не существует");
 
-        var fileText = await File.ReadAllTextAsync(filepath).ConfigureAwait(false);
-        if (string.IsNullOrEmpty(fileText))
-            throw new FileLoadException($"Не удалось прочесть файл {new FileInfo(filepath).Name}");
-
+        using var reader = new StreamReader(filepath);
+        using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
+        var bdCSV = csvReader.GetRecords<BendingDataCSV>();
         var data = new List<BendingData>();
-        var lines = fileText.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-        for (int i = 1; i < lines.Length; i++)
+        foreach (var item in bdCSV)
         {
-            var values = lines[i].Split(',');
-            if (values.Length > 59)
-                throw new FileFormatException($"Файл {new FileInfo(filepath).Name} имеет неверный формат. Столбцов должно быть не больше 59, а найдено {values.Length}");
-
-
-            var bdCSV = new BendingDataCSV(
-                Convert.ToDouble(values[0]),Convert.ToDouble(values[1]), Convert.ToDouble(values[2]), Convert.ToDouble(values[3]),
-                Convert.ToDouble(values[4]), Convert.ToDouble(values[5]), Convert.ToDouble(values[6]), Convert.ToDouble(values[7]),
-                Convert.ToInt32(values[8]), Convert.ToDouble(values[9]), Convert.ToDouble(values[10]), Convert.ToDouble(values[11]),
-                Convert.ToDouble(values[12]), Convert.ToDouble(values[13]), Convert.ToDouble(values[14]), Convert.ToDouble(values[15]),
-                Convert.ToDouble(values[16]), Convert.ToDouble(values[17]), Convert.ToDouble(values[18]), Convert.ToDouble(values[19]),
-                Convert.ToDouble(values[20]), Convert.ToDouble(values[21]), Convert.ToDouble(values[22]), Convert.ToDouble(values[23]),
-                Convert.ToDouble(values[24]), Convert.ToDouble(values[25]), Convert.ToDouble(values[26]), Convert.ToDouble(values[27]),
-                Convert.ToDouble(values[28]), Convert.ToDouble(values[29]), Convert.ToDouble(values[30]), Convert.ToDouble(values[31]),
-                Convert.ToDouble(values[32]), Convert.ToDouble(values[33]), Convert.ToDouble(values[34]), Convert.ToDouble(values[35]),
-                Convert.ToDouble(values[36]), Convert.ToDouble(values[37]), Convert.ToDouble(values[38]), Convert.ToDouble(values[39]),
-                Convert.ToDouble(values[40]), Convert.ToDouble(values[41]), Convert.ToDouble(values[42]), Convert.ToDouble(values[43]),
-                Convert.ToDouble(values[44]), Convert.ToDouble(values[45]), Convert.ToDouble(values[46]), Convert.ToDouble(values[47]),
-                Convert.ToDouble(values[48]), Convert.ToDouble(values[49]), Convert.ToDouble(values[50]), Convert.ToDouble(values[51]),
-                Convert.ToDouble(values[52]), Convert.ToDouble(values[53]), Convert.ToDouble(values[54]), Convert.ToDouble(values[55]),
-                Convert.ToDouble(values[56]), Convert.ToDouble(values[57]), Convert.ToDouble(values[58]));
-
-            data.Add(bdCSV.ToBendingData());
+            data.Add(item.ToBendingData());
         }
 
         return data;
@@ -115,4 +65,7 @@ internal record struct BendingDataCSV(double type, double podacha, double povoro
             RotationAngle = 0,
             RotationSpeed = 0
         };
+
+    public static BendingDataCSV FromBendingData(BendingData data) =>
+        new BendingDataCSV(0, data.Supply, data.Offset, data.BendingAngle, data.SupplySpeed, data.OffsetSpeed, data.OffsetCoefficient, data.BendingRadius, 0, data.PipeLength, data.YSetup, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 }
