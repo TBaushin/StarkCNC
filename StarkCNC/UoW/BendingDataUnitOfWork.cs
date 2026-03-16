@@ -134,7 +134,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
         CurrentFilePath = filePath;
         ProgramName = Path.GetFileNameWithoutExtension(filePath);
-        var data = await ICSVService.Import(filePath).ConfigureAwait(false);
+        var data = ICSVService.Import(filePath);
         if (data is null)
             return;
 
