@@ -5,14 +5,12 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
-using StarkCNC.Repository;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
-using System.Windows.Data;
 using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels;
