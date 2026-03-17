@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Text.Json;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels;
@@ -42,7 +43,7 @@ public partial class ProgramViewModel : ObservableObject
 
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
 
-    public List<string> BendingModes { get; set; } = new List<string>();
+    public static ICollection<string> BendingModes { get; } = new List<string>();
 
     public Visual3D Pipe
     {
@@ -90,15 +91,18 @@ public partial class ProgramViewModel : ObservableObject
 
     private async void GenerateBendingModes()
     {
+        BendingModes.Clear();
         var settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
+
         BendingModes.Add("Гибка");
+
         if (settings is not null && settings.WithPunchingCylinder)
         {
             BendingModes.Add("Пробивка 1");
             BendingModes.Add("Пробивка 2");
         }
 
-            BendingModes.Add("Перехват");
+        BendingModes.Add("Перехват");
 
         if (_adjustmentService.FirstLevelAdjustment is not null && _adjustmentService.FirstLevelAdjustment.Type == AdjustmentType.Rolling) // TODO: AdjustmentService должен иметь CurrentAdjustment!
             BendingModes.Add("Спираль");
