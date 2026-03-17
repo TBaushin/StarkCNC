@@ -92,7 +92,7 @@ public partial class FlyoutMenuControl : UserControl
             lvItemFromPage.IsSelected = true;
     }
 
-    private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private async void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         if (e.AddedItems.Count < 1)
             return;
@@ -106,10 +106,10 @@ public partial class FlyoutMenuControl : UserControl
             return;
 
         _selectedItem = navItem;
-        _selectedItem.NavigationCommand.Execute(null);
+        await ICommandControl.ExecuteCommand(_selectedItem.NavigationCommand).ConfigureAwait(true);
     }
 
-    private void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    private async void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
         if (e.NewValue is bool selected && selected != true)
             return;
@@ -123,7 +123,7 @@ public partial class FlyoutMenuControl : UserControl
             return;
 
         _selectedItem = navItem;
-        _selectedItem.NavigationCommand.Execute(null);
+        await ICommandControl.ExecuteCommand(_selectedItem.NavigationCommand).ConfigureAwait(true);
     }
 
     private void MenuButton_Click(object sender, RoutedEventArgs e)

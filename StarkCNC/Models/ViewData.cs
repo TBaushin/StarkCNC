@@ -1,12 +1,12 @@
 ﻿using CommunityToolkit.Mvvm.Input;
-using StarkCNC.Core.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace StarkCNC.Models;
 
 public class ViewData
 {
-    public IRelayCommand NavigationCommand { get; }
+    public ICommand NavigationCommand { get; }
 
     public string Title { get; set; }
 
