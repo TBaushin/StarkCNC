@@ -2,7 +2,10 @@
 using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
+using StarkCNC.Core.Repository;
+using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
+using StarkCNC.Repository;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -17,6 +20,8 @@ public partial class ProgramViewModel : ObservableObject
 {
     private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
     private readonly IBendingDataUnitOfWork _unitOfWork;
+    private readonly ISettingsRepository _settingsRepository;
+    private readonly IAdjustmentService _adjustmentService;
    
     private readonly Visual3D _pipe;
 
@@ -37,25 +42,23 @@ public partial class ProgramViewModel : ObservableObject
 
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
 
-    public static IReadOnlyCollection<string> BendingModes { get; } = new List<string>()
-    {
-        "Гибка",
-        "Пробивка 1",
-        "Пробивка 2",
-        "Перехват",
-        "Спираль",
-        "Гибка с уездом"
-    };
+    public List<string> BendingModes { get; set; } = new List<string>();
 
     public Visual3D Pipe
     {
         get => _pipe;
     }
 
-    public ProgramViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IBendingDataUnitOfWork unitOfWork)
+    public ProgramViewModel(
+        IBendingModelsLoadingService bendingModelsLoadingService,
+        IBendingDataUnitOfWork unitOfWork,
+        ISettingsRepository settingsRepository,
+        IAdjustmentService adjustmentService)
     {
         _bendingModelsLoadingService = bendingModelsLoadingService;
         _unitOfWork = unitOfWork;
+        _settingsRepository = settingsRepository;
+        _adjustmentService = adjustmentService;
 
         CurrentFilePath = _unitOfWork.CurrentFilePath;
 
@@ -81,6 +84,26 @@ public partial class ProgramViewModel : ObservableObject
         EstimatedRemainingLength = _unitOfWork.EstimatedRemainingLength;
         PipeLength = _unitOfWork.PipeLength;
         YSetup = _unitOfWork.SetUpPoint;
+
+        GenerateBendingModes();
+    }
+
+    private async void GenerateBendingModes()
+    {
+        var settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
+        BendingModes.Add("Гибка");
+        if (settings is not null && settings.WithPunchingCylinder)
+        {
+            BendingModes.Add("Пробивка 1");
+            BendingModes.Add("Пробивка 2");
+        }
+
+            BendingModes.Add("Перехват");
+
+        if (_adjustmentService.FirstLevelAdjustment is not null && _adjustmentService.FirstLevelAdjustment.Type == AdjustmentType.Rolling) // TODO: AdjustmentService должен иметь CurrentAdjustment!
+            BendingModes.Add("Спираль");
+
+        BendingModes.Add("Гибка с уездом");
     }
 
     [RelayCommand]
