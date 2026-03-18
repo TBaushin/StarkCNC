@@ -310,13 +310,13 @@ public partial class ProgramViewModel : ObservableObject
         cuted.ForEach(c => c.IsCuted = false);
 
         var json = JsonSerializer.Serialize<BendingDataViewModel>(SelectedBendingData);
-        Clipboard.SetData(DataFormats.Text, Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
+        Clipboard.SetData(DataFormats.Text, Convert.ToBase64String(Encoding.UTF8.GetBytes(json))); // TODO: Устарел, использовать SetDataAsJson https://learn.microsoft.com/ru-ru/dotnet/desktop/winforms/migration/clipboard-dataobject-net10
     }
 
     [RelayCommand]
     private void PasteBendingDataFromClipboard()
     {
-        var data = Clipboard.GetData(DataFormats.Text) as string;
+        var data = Clipboard.GetData(DataFormats.Text) as string; // TODO: Устарел, использовать TryGetData https://learn.microsoft.com/ru-ru/dotnet/desktop/winforms/migration/clipboard-dataobject-net10
         if (string.IsNullOrEmpty(data))
             return;
         try
@@ -380,7 +380,7 @@ public partial class ProgramViewModel : ObservableObject
 
         SelectedBendingData.IsCuted = true;
         var json = JsonSerializer.Serialize<BendingDataViewModel>(SelectedBendingData);
-        Clipboard.SetData(DataFormats.Text, Convert.ToBase64String(Encoding.UTF8.GetBytes(json)));
+        Clipboard.SetData(DataFormats.Text, Convert.ToBase64String(Encoding.UTF8.GetBytes(json))); // TODO: Устарел, использовать SetDataAsJson https://learn.microsoft.com/ru-ru/dotnet/desktop/winforms/migration/clipboard-dataobject-net10
     }
 
     private void UpdateEstimatedRemainingLengthAndPipeLength()
