@@ -4,7 +4,7 @@ namespace StarkCNC.Utilities;
 
 public static class RolePermissions
 {
-    public static readonly Dictionary<Roles, Roles[]> CanUpdate = new Dictionary<Roles, Roles[]>()
+    public static readonly Dictionary<Roles, Roles[]> CanUpdate = new Dictionary<Roles, Roles[]>() // TODO: Можно сделать как поле Role что-то типа IEnumerable<Role> CanUpdate { get; set; }
     {
         { Roles.Service, new[] { Roles.Administrator, Roles.Operator, Roles.Service } },
         { Roles.Administrator, new[] { Roles.Operator } },
