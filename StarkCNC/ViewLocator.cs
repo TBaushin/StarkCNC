@@ -40,4 +40,10 @@ public static class ViewLocator
         {
             Content = new Label() { Content = $"Not Found: {name}" }
         };
+
+    public static Page NoAccess() =>
+        new Page
+        {
+            Content = new Label { Content = "Нет доступа к запрашиваемой странице" }
+        };
 }

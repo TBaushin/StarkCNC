@@ -1,4 +1,6 @@
-﻿namespace StarkCNC.Core.Services;
+﻿using StarkCNC.Core.Models;
+
+namespace StarkCNC.Core.Services;
 
 public class Route
 {
@@ -8,13 +10,16 @@ public class Route
 
     public Type Type { get; }
 
-    public string IconGlyph { get;}
+    public string IconGlyph { get; }
 
-    public Route(string path, Type type, string title, string iconGlyph)
+    public Roles[] RolesHasAccess { get; }
+
+    public Route(string path, Type type, string title, string iconGlyph, Roles[] rolesHasAccess)
     {
         Path = path;
         Type = type;
         Title = title;
         IconGlyph = iconGlyph;
+        RolesHasAccess = rolesHasAccess;
     }
 }

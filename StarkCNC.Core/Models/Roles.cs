@@ -2,6 +2,7 @@
 
 public enum Roles
 {
+    None,
     Operator,
     Administrator,
     Service

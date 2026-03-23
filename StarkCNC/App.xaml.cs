@@ -137,11 +137,11 @@ public partial class App : Application
             configure.AddRoute("/visualization", typeof(VisualizationViewModel), "Визуализация", "\xE809"); // \xF158
             configure.AddRoute("/program", typeof(ProgramViewModel), "Программа", "\xF259");
             configure.AddRoute("/automatic", typeof(AutomaticViewModel), "Автомат", "\uF8A6");
-            configure.AddRoute("/adjustment", typeof(AdjustmentViewModel), "Оснастка", "\uE835");
-            configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel), "Управление оснастками", "\uE8FD"); // \uEA37
-            configure.AddRoute("/adjustment/edit", typeof(AdjustmentParametersViewModel), iconGlyph: "\uE90F"); // \uEC7A
-            configure.AddRoute("/adjustment/edit/coordinates", typeof(AdjustmentParametersCoordinatesViewModel)); // \uEC7A \uF73D
-            configure.AddRoute("/settings", typeof(SettingsViewModel), "Настройки", "\xE713");
+            configure.AddRoute("/adjustment", typeof(AdjustmentViewModel), "Оснастка", "\uE835", new Roles[] { Roles.Service });
+            configure.AddRoute("/adjustment/list", typeof(AdjustmentListViewModel), "Управление оснастками", "\uE8FD", new Roles[] { Roles.Service }); // \uEA37
+            configure.AddRoute("/adjustment/edit", typeof(AdjustmentParametersViewModel), iconGlyph: "\uE90F", rolesHasAccess: new Roles[] { Roles.Service }); // \uEC7A
+            configure.AddRoute("/adjustment/edit/coordinates", typeof(AdjustmentParametersCoordinatesViewModel), rolesHasAccess: new Roles[] { Roles.Service }); // \uEC7A \uF73D
+            configure.AddRoute("/settings", typeof(SettingsViewModel), "Настройки", "\xE713", new Roles[] { Roles.Service, Roles.Administrator });
             configure.AddRoute("/users", typeof(UserViewModel), iconGlyph: "\xE77B");
         });
 }
