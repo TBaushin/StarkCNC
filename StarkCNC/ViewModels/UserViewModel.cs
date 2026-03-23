@@ -33,6 +33,9 @@ public partial class UserViewModel : ViewModelBase
     private string _password;
 
     [ObservableProperty]
+    private string _newPassword;
+
+    [ObservableProperty]
     private string? _formsErrors;
 
     [ObservableProperty]
@@ -154,6 +157,20 @@ public partial class UserViewModel : ViewModelBase
 
         try
         {
+            if (!await _userService.CheckPasswordWhenChange(SelectedUser, Password).ConfigureAwait(true))
+            {
+                FormsErrors = "Неверный пароль пользователя";
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(NewPassword))
+            {
+                if (!CheckUserDataIsValidAndShowErrors(NewPassword))
+                    return;
+
+                await _userService.ChangePassword(SelectedUser, Password, NewPassword).ConfigureAwait(true);
+            }
+
             await _userService.UpdateUser(SelectedUser).ConfigureAwait(true);
         }
         catch (InvalidOperationException ex)
@@ -278,10 +295,22 @@ public partial class UserViewModel : ViewModelBase
         }
     }
 
-    private bool CheckUserDataIsValidAndShowErrors() // TODO: Guard Clauses
+    private bool CheckUserDataIsValidAndShowErrors(string? newPassword = null) // TODO: Guard Clauses
     {
         var userNameEmpty = string.IsNullOrEmpty(UserName);
-        var passwordEmpty = string.IsNullOrEmpty(Password);
+        string password;
+        bool passwordEmpty;
+        if (newPassword is null)
+        {
+            password = Password;
+            passwordEmpty = string.IsNullOrEmpty(Password);
+        }
+        else
+        {
+            password = newPassword;
+            passwordEmpty = string.IsNullOrEmpty(newPassword);
+        }
+
         if (userNameEmpty && passwordEmpty)
         {
             FormsErrors = "Заполните имя пользователя и пароль";
@@ -292,12 +321,12 @@ public partial class UserViewModel : ViewModelBase
             FormsErrors = "Заполните имя пользователя";
             return false;
         }
-        if (passwordEmpty)
+        if (passwordEmpty && newPassword is null)
         {
             FormsErrors = "Заполните пароль";
             return false;
         }
-        if (Password.Length <= 6)
+        if (password.Length <= 6)
         {
             FormsErrors = "Пароль должен содержать больше 6 символов";
             return false;

@@ -72,6 +72,21 @@ public class UserService : IUserService
         return true;
     }
 
+    public async Task<bool> CheckPasswordWhenChange(string username, string currentPassword)
+    {
+        var user = await FindUserByName(username).ConfigureAwait(false);
+        if (user is null)
+            return false;
+
+        return await CheckPasswordWhenChange(user, currentPassword).ConfigureAwait(false);
+    }
+
+    public async Task<bool> CheckPasswordWhenChange(User user, string currentPassword)
+    {
+        var userManager = _serviceProvider.GetRequiredService<UserManager<User>>();
+        return await userManager.CheckPasswordAsync(user, currentPassword).ConfigureAwait(false);
+    }
+
     public async Task AddRole(string role)
     {
         var identityRole = new IdentityRole(role);

@@ -59,4 +59,13 @@ public partial class UserView : Page
 
         ViewModel.Password = pb.Password;
     }
+
+    private void NewPasswordPB_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var pb = sender as PasswordBox;
+        if (pb is null)
+            return;
+
+        ViewModel.NewPassword = pb.Password;
+    }
 }

@@ -135,13 +135,22 @@
                                     Text="{Binding UserName}"
                                     IsReadOnly="{Binding IsReadOnly}"/>
                                 <Label
-                                    Content="Пароль"
+                                    Content="Текущий пароль пользователя"
                                     Style="{StaticResource GenericLabelStyle}"
                                     Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
                                     FontWeight="SemiBold"/>
                                 <PasswordBox
                                     Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
                                     PasswordChanged="PasswordBox_PasswordChanged"/>
+                                <Label
+                                    Content="Новый пароль пользователя (необязательно)"
+                                    Style="{StaticResource GenericLabelStyle}"
+                                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    FontWeight="SemiBold"/>
+                                <PasswordBox
+                                    x:Name="NewPasswordPB"
+                                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    PasswordChanged="NewPasswordPB_PasswordChanged"/>
                             </StackPanel>
                             <Button
                                 Grid.Row="1"

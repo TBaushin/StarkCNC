@@ -15,6 +15,10 @@ public interface IUserService
 
     public Task<bool> Login(User user, string password);
 
+    public Task<bool> CheckPasswordWhenChange(string username, string currentPassword);
+
+    public Task<bool> CheckPasswordWhenChange(User user, string currentPassword);
+
     public Task AddRole(string role);
 
     public Task AddRole(IdentityRole role);
