@@ -1,13 +1,13 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Identity;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
-using StarkCNC.Models;
 using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
 
-public partial class UserViewModel : ObservableObject
+public partial class UserViewModel : ViewModelBase
 {
     private readonly IUserService _userService;
 
@@ -15,10 +15,28 @@ public partial class UserViewModel : ObservableObject
     private ObservableCollection<User> _users = new ObservableCollection<User>();
 
     [ObservableProperty]
+    private ObservableCollection<IdentityRole> _roles = new ObservableCollection<IdentityRole>();
+
+    [ObservableProperty]
     private User? _selectedUser;
 
     [ObservableProperty]
-    private User? _editableUser;
+    private string _selectedUserRoles;
+
+    [ObservableProperty]
+    private bool _currentUserIsAdmin;
+
+    [ObservableProperty]
+    private string _userName;
+
+    [ObservableProperty]
+    private string _password;
+
+    [ObservableProperty]
+    private string? _formsErrors;
+
+    [ObservableProperty]
+    private RightBlockStatus _rightBlockShowingStatus;
 
     [ObservableProperty]
     private bool _isEditing;
@@ -27,10 +45,7 @@ public partial class UserViewModel : ObservableObject
     private bool _isReadOnly = true;
 
     [ObservableProperty]
-    private bool _isSaved;
-
-    [ObservableProperty]
-    private string _deletedName = string.Empty;
+    private bool _isThisUserAuthorized;
 
     public UserViewModel(IUserService userService)
     {
@@ -41,124 +56,274 @@ public partial class UserViewModel : ObservableObject
 
     private async void LoadUsersAsync()
     {
-        var users = await _userService.GetAllAsync().ConfigureAwait(false);
+        var users = await _userService.GetAllUsersAsync().ConfigureAwait(true);
         Users.Clear();
 
-        foreach(var user in users)
+        foreach (var user in users)
         {
-            Users.Add(new User(Guid.Parse(user.Id), user.UserName, Array.Empty<byte>()));
+            Users.Add(user);
         }
     }
 
-    partial void OnSelectedUserChanged(User? oldValue, User? newValue)
+    partial void OnSelectedUserChanged(User? value)
     {
-        if (SelectedUser is not null && SelectedUser != EditableUser)
+        UserName = string.Empty;
+
+        if (SelectedUser is not null)
         {
-            EditableUser = new User(SelectedUser);
-            IsReadOnly = true;
-            IsEditing = false;
+            UserName = SelectedUser.UserName ?? string.Empty;
+            SelectedUserRoles = _userService.GetUserRole(UserName).Result?.Name ?? "Оператор";
+
+            var currentUser = _userService.CurrentUser;
+            if (currentUser is not null && SelectedUser.Equals(currentUser))
+                IsThisUserAuthorized = true;
+            else
+                IsThisUserAuthorized = false;
         }
+
+        Password = string.Empty;
+
+        ClearErrors();
     }
 
     [RelayCommand]
-    private async Task AddUser()
+    private void AddUser()
     {
-        SelectedUser = Users.Last();
-        var user = await _userService.AddElementAsync(new IdentityUser(Localization.Language.NewUser)).ConfigureAwait(false);
-        if (user is not null)
-        {
-            Users.Add(new User(Guid.Parse(user.Id), user.UserName, Array.Empty<byte>()));
-        }
+        ClearErrors();
 
-        IsReadOnly = false;
-        IsEditing = true;
-    }
-
-    private CancellationTokenSource cancelTokenSource = new();
-    private Task displayMessageTask = Task.CompletedTask;
-    partial void OnDeletedNameChanged(string? oldValue, string newValue)
-    {
-        if (string.IsNullOrEmpty(newValue))
+        if (_userService.CurrentUser is null)
         {
+            FormsErrors = "Вы не авторизованы и не можете создавать пользователей";
             return;
         }
 
-        cancelTokenSource = new();
-        displayMessageTask = Task.Delay(2000, cancelTokenSource.Token).ContinueWith(_ =>
-        {
-            DeletedName = string.Empty;
-        }, TaskScheduler.FromCurrentSynchronizationContext());
+        RightBlockShowingStatus = RightBlockStatus.Creation;
+
+        UserName = string.Empty;
+        Password = string.Empty;
     }
 
     [RelayCommand]
-    private async Task RemoveUser(User selectedUser)
+    private async Task RemoveUser()
     {
-        cancelTokenSource.Cancel();
-        await displayMessageTask.ConfigureAwait(false);
+        ClearErrors();
 
-        DeletedName = selectedUser.Name;
+        if (SelectedUser is null || string.IsNullOrEmpty(SelectedUser.UserName))
+            return;
 
-        SelectedUser = null;
-
-        Users.Remove(selectedUser);
-        await _userService.RemoveElementAsync(selectedUser.Id).ConfigureAwait(false);
-        IsReadOnly = true;
-        IsEditing = false;
-    }
-
-    [RelayCommand]
-    private void EditUserStart()
-    {
-        if (SelectedUser != null)
-        {
-            EditableUser = new User(SelectedUser);
-            IsReadOnly = false;
-            IsEditing = true;
-        }
-    }
-
-    [RelayCommand]
-    private async Task EditUserCommit()
-    {
-        if (EditableUser != null && SelectedUser != null)
-        {
-            int index = Users.IndexOf(SelectedUser);
-            Users.RemoveAt(index);
-            Users.Insert(index, EditableUser);
-            SelectedUser = Users[index];
-            IsReadOnly = true;
-            IsEditing = false;
-            IsSaved = true;
-
-            var u = await _userService.FindByIdAsync(SelectedUser.Id).ConfigureAwait(false);
-            if (u is not null)
+        var user = await _userService.FindUserByName(SelectedUser.UserName).ConfigureAwait(true);
+        if (user is not null)
+            try
             {
-                u.UserName = SelectedUser.Name;
-                //u.SetImage(SelectedUser.Image);
-                await _userService.UpdateElementAsync(u).ConfigureAwait(false);
+                await _userService.RemoveUser(user).ConfigureAwait(true);
             }
-            await Task.Delay(2000).ContinueWith(_ => IsSaved = false, TaskScheduler.FromCurrentSynchronizationContext()).ConfigureAwait(false);
-        }
+            catch (InvalidOperationException ex)
+            {
+                FormsErrors = ex.Message;
+                return;
+            }
+
+        LoadUsersAsync();
     }
 
     [RelayCommand]
-    private void EditUserCancel()
+    private void EditUser()
     {
-        EditableUser = null;
-        EditableUser = new User(SelectedUser);
-        IsReadOnly = true;
-        IsEditing = false;
+        ClearErrors();
+
+        if (_userService.CurrentUser is null)
+        {
+            FormsErrors = "Вы не вошли в аккаунт и не можете изменять пользователей";
+            return;
+        }
+
+        EnableEditing(true);
     }
 
     [RelayCommand]
-    private async Task SetSelectedUserAsCurrent()
+    private async Task UserChangesCommit()
     {
         if (SelectedUser is null)
             return;
 
-        var actualUser = await _userService
-            .FindByIdAsync(SelectedUser.Id)
-            .ConfigureAwait(false);
-        _userService.CurrentUser = actualUser;
+        if (!CheckUserDataIsValidAndShowErrors())
+            return;
+
+        var oldUserName = SelectedUser.UserName;
+        SelectedUser.UserName = UserName;
+
+        try
+        {
+            await _userService.UpdateUser(SelectedUser).ConfigureAwait(true);
+        }
+        catch (InvalidOperationException ex)
+        {
+            FormsErrors = ex.Message;
+            SelectedUser.UserName = oldUserName;
+            UserName = oldUserName ?? string.Empty;
+            EnableEditing(false);
+            return;
+        }
+
+        EnableEditing(false);
+
+        LoadUsersAsync();
     }
+
+    [RelayCommand]
+    private void CancelUserChanges()
+    {
+        ClearErrors();
+
+        UserName = SelectedUser?.UserName ?? string.Empty;
+
+        EnableEditing(false);
+    }
+
+    [RelayCommand]
+    private async Task CreateUserSave()
+    {
+        ClearErrors();
+
+        if (!CheckUserDataIsValidAndShowErrors())
+            return;
+
+        ClearErrors();
+
+        try
+        {
+            await _userService.Register(UserName, Password).ConfigureAwait(true);
+        }
+        catch (InvalidOperationException ex)
+        {
+            FormsErrors = ex.Message;
+            return;
+        }
+
+        UserName = string.Empty;
+        Password = string.Empty;
+
+        RightBlockShowingStatus = RightBlockStatus.Details;
+
+        LoadUsersAsync();
+    }
+
+    [RelayCommand]
+    private void CreateUserCancel()
+    {
+        ClearErrors();
+
+        UserName = SelectedUser?.UserName ?? string.Empty;
+        Password = string.Empty;
+
+        ClearErrors();
+
+        RightBlockShowingStatus = RightBlockStatus.Details;
+    }
+
+    [RelayCommand]
+    private void SetSelectedUserAsCurrentOperator()
+    {
+        ClearErrors();
+
+        RightBlockShowingStatus = RightBlockStatus.Authorization;
+    }
+
+    [RelayCommand]
+    private async Task Authorization()
+    {
+        ClearErrors();
+
+        if (SelectedUser is null)
+            return;
+
+        if (Password is null)
+        {
+            FormsErrors = "Введите пароль";
+            return;
+        }
+
+        var result = await _userService.Login(UserName, Password).ConfigureAwait(true);
+        if (!result)
+        {
+            FormsErrors = "Неверный пароль";
+            return;
+        }
+
+        LoadRolesAsync();
+        ClearErrors();
+        IsThisUserAuthorized = true;
+        RightBlockShowingStatus = RightBlockStatus.Details;
+    }
+
+    [RelayCommand]
+    private void AuthorizationCancel()
+    {
+        ClearErrors();
+
+        RightBlockShowingStatus = RightBlockStatus.Details;
+    }
+
+    private void EnableEditing(bool value)
+    {
+        if (value)
+        {
+            IsEditing = true;
+            IsReadOnly = false;
+        }
+        else
+        {
+            IsEditing = false;
+            IsReadOnly = true;
+        }
+    }
+
+    private bool CheckUserDataIsValidAndShowErrors() // TODO: Guard Clauses
+    {
+        var userNameEmpty = string.IsNullOrEmpty(UserName);
+        var passwordEmpty = string.IsNullOrEmpty(Password);
+        if (userNameEmpty && passwordEmpty)
+        {
+            FormsErrors = "Заполните имя пользователя и пароль";
+            return false;
+        }
+        if (userNameEmpty)
+        {
+            FormsErrors = "Заполните имя пользователя";
+            return false;
+        }
+        if (passwordEmpty)
+        {
+            FormsErrors = "Заполните пароль";
+            return false;
+        }
+        if (Password.Length <= 6)
+        {
+            FormsErrors = "Пароль должен содержать больше 6 символов";
+            return false;
+        }
+
+        return true;
+    }
+
+    private void ClearErrors() =>
+        FormsErrors = null;
+
+    private async void LoadRolesAsync()
+    {
+        Roles.Clear();
+
+        var roles = await _userService.GetAllAvailableRoles().ConfigureAwait(true);
+        foreach (var item in roles)
+        {
+            Roles.Add(item);
+        }
+    }
+}
+
+public enum RightBlockStatus
+{
+    Details,
+    Creation,
+    Authorization
 }

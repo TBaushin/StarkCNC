@@ -276,12 +276,11 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     private Task? _updateInputOutputSignals;
     private CancellationTokenSource? _cancellationTokenSourceInputOutputSignals;
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable. Выполняется в Initialize()
     public AutomaticViewModel(IManualConfigurationService configurationService, IBendingDataUnitOfWork unitOfWork, IUserService userService, ISettingsRepository settingsRepository)
     {
         _configurationService = configurationService;
         _unitOfWork = unitOfWork;
-
-        Settings = settingsRepository?.GetAsync().Result ?? new Settings();
 
         ProgramName = _unitOfWork.ProgramName;
         PipeLength = _unitOfWork.PipeLength;
@@ -289,14 +288,27 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
         Operator = userService?.CurrentUser?.UserName ?? string.Empty;
 
-        BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
-
+        int i = 1;
         foreach (var item in _unitOfWork.BendingDatas)
         {
-            BendingDatas.Add(new BendingDataViewModel(item));
+            BendingDatas.Add(new BendingDataViewModel(item) { Id = i });
+            i++;
         }
 
+        BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
+
+        Initialize(settingsRepository);
+
         StartUpdateTask();
+    }
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable. Выполняется в Initialize()
+
+    private async void Initialize(ISettingsRepository? settingsRepository)
+    {
+        if (settingsRepository is null)
+            throw new ArgumentNullException(nameof(settingsRepository));
+
+        Settings = await settingsRepository.GetAsync().ConfigureAwait(true) ?? new Settings();
     }
 
     [RelayCommand(AllowConcurrentExecutions = true)]

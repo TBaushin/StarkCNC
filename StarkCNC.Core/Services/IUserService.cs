@@ -1,22 +1,49 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using StarkCNC.Core.Models;
 
 namespace StarkCNC.Core.Services;
 
 public interface IUserService
 {
-    IdentityUser? CurrentUser { get; set; }
+    public User? CurrentUser { get; }
 
-    Task<IdentityUser?> AddElementAsync(IdentityUser user);
+    public IdentityRole? CurrentUserRole { get; }
 
-    Task RemoveElementAsync(Guid id);
+    public Task<User?> Register(string username, string password, string? role = null);
 
-    Task RemoveElementAsync(IdentityUser user);
+    public Task<bool> Login(string username, string password);
 
-    Task UpdateElementAsync(IdentityUser user);
+    public Task<bool> Login(User user, string password);
 
-    Task<IdentityUser?> FindByNameAsync(string name);
+    public Task AddRole(string role);
 
-    Task<IdentityUser?> FindByIdAsync(Guid id);
+    public Task AddRole(IdentityRole role);
 
-    Task<IEnumerable<IdentityUser>> GetAllAsync();
+    public Task RemoveUser(string username);
+
+    public Task RemoveUser(User user);
+
+    public Task RemoveRole(string role);
+
+    public Task RemoveRole(IdentityRole role);
+
+    public Task ChangePassword(string username, string currentPassword, string newPassword);
+
+    public Task ChangePassword(User user, string currentPassword, string newPassword);
+
+    public Task UpdateUser(string currentUsername, string? newUsername = null, IReadOnlyCollection<byte>? image = null);
+
+    public Task UpdateUser(User user);
+
+    public Task UpdateRole(IdentityRole role);
+
+    public Task<User?> FindUserByName(string name);
+
+    public Task<IdentityRole?> GetUserRole(string username);
+
+    public Task<IdentityRole?> GetUserRole(User user);
+
+    public Task<IEnumerable<User>> GetAllUsersAsync();
+
+    public Task<IEnumerable<IdentityRole>> GetAllAvailableRoles();
 }

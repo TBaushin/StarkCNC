@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\StarkCNC.Core\StarkCNC.Core.csproj" />
+    <ProjectReference Include="..\StarkCNC.Utilities\StarkCNC.Utilities.csproj" />
   </ItemGroup>
 
 </Project>

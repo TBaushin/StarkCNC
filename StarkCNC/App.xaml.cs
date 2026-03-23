@@ -7,10 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StarkCNC.Controls;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.Database;
+using StarkCNC.Database.Seeders;
 #if !DEBUG
 using StarkCNC.Exceptions;
 #endif
@@ -60,6 +62,14 @@ public partial class App : Application
         MainWindow.Visibility = Visibility.Visible;
     }
 
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
+        await IdentitySeeder.SeedRolesAsync(_host.Services.GetRequiredService<RoleManager<IdentityRole>>()).ConfigureAwait(true);
+        await IdentitySeeder.SeedAdminAsync(_host.Services.GetRequiredService<UserManager<User>>()).ConfigureAwait(true);
+    }
+
     private static IConfiguration ConfigureStartup() =>
         new ConfigurationBuilder()
         .SetBasePath(Directory.GetCurrentDirectory())
@@ -74,9 +84,18 @@ public partial class App : Application
         return Host.CreateDefaultBuilder()
             .ConfigureServices((context, services) =>
             {
-                services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source=mydb.sql"));
+                services.AddDbContext<AppDbContext>(opt => opt.UseSqlite("Data Source=StarkCNC.sql"));
                 // Настройка Identity
-                services.AddIdentity<IdentityUser, IdentityRole>(opt => opt.SignIn.RequireConfirmedAccount = false)
+                services.AddIdentity<User, IdentityRole>(opt =>
+                    {
+                        opt.SignIn.RequireConfirmedAccount = false;
+                        opt.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+абвгдёежзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ ";
+                        opt.Password.RequireDigit = false;
+                        opt.Password.RequireLowercase = false;
+                        opt.Password.RequireUppercase = false;
+                        opt.Password.RequireNonAlphanumeric = false;
+                        opt.Password.RequiredUniqueChars = 0;
+                    })
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
                 services.AddHttpContextAccessor();
@@ -90,7 +109,6 @@ public partial class App : Application
                 services.AddSingleton<IBreadcrumbService, BreadcrumbService>();
                 services.AddSingleton<IStatusService, StatusService>();
                 services.AddSingleton<ISettingsRepository, SettingsRepository>();
-                services.AddSingleton<IGCodeService, GCodeService>();
                 services.AddTransient<AdjustmentParametersConstructor>();
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
@@ -107,7 +125,6 @@ public partial class App : Application
 #endif
                 services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
                 services.AddSingleton<IAdjustmentService, AdjustmentService>();
-                services.AddSingleton<IUsersRepository, UsersRepository>();
                 services.AddSingleton<IUserService, UserService>();
             })
             .Build();

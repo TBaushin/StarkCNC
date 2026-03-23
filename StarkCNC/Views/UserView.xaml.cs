@@ -1,5 +1,5 @@
-﻿using StarkCNC.ViewModels;
-using System.Windows;
+﻿using StarkCNC.Utilities;
+using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
 namespace StarkCNC.Views;
@@ -17,39 +17,46 @@ public partial class UserView : Page
         DataContext = ViewModel;
 
         InitializeComponent();
+
+        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
+
+        if (UserListView.Items.Count > 0)
+            UserListView.SelectedItem = UserListView.Items[0];
     }
 
-    private void EditButton_Click(object sender, RoutedEventArgs e)
+    private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        ExecuteButtonCommand(sender);
+        if (e.PropertyName == nameof(ViewModel.SelectedUser))
+        {
+            var pbs = VisualFinder.FindVisualChildren<PasswordBox>(MainGrid);
+            foreach (var item in pbs)
+            {
+                if (item is null)
+                    continue;
 
-        SaveButton.Focus();
+                item.Clear();
+            }
+        }
+
+        if (e.PropertyName == nameof(ViewModel.RightBlockShowingStatus))
+        {
+            var pbs = VisualFinder.FindVisualChildren<PasswordBox>(MainGrid);
+            foreach (var item in pbs)
+            {
+                if (item is null)
+                    continue;
+
+                item.Clear();
+            }
+        }
     }
 
-    private void SaveButton_Click(object sender, RoutedEventArgs e)
+    private void PasswordBox_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
     {
-        ExecuteButtonCommand(sender);
-
-        EditButton.Focus();
-    }
-
-    private void CancelButton_Click(object sender, RoutedEventArgs e)
-    {
-        ExecuteButtonCommand(sender);
-
-        EditButton.Focus();
-    }
-
-    private static void ExecuteButtonCommand(object sender)
-    {
-        var button = sender as Button;
-        if (button is null)
+        var pb = sender as PasswordBox;
+        if (pb is null)
             return;
 
-        var command = button.Command;
-        var commandParameter = button.CommandParameter;
-
-        if (command is not null && command.CanExecute(commandParameter))
-            command.Execute(commandParameter);
+        ViewModel.Password = pb.Password;
     }
 }

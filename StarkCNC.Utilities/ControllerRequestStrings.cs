@@ -11,6 +11,8 @@ public static class ControllerRequestStrings
         .AddJsonFile("appsettings.v2.json", optional: false, reloadOnChange: true)
         .Build();
 
+    public static readonly string DEFAULT_USER_PASSWORD = GetValue("Settings:DefaultUserPassword");
+
     public static readonly string REQUEST = GetValue("Connection:RequestString");
 
     public static readonly string MANUAL_MODE = GetValue("RequestStrings:Manual:ManualMode");

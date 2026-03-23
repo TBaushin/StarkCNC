@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:models="clr-namespace:StarkCNC.Models"
+      xmlns:models="clr-namespace:StarkCNC.Core.Models;assembly=StarkCNC.Core"
       xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
       xmlns:local="clr-namespace:StarkCNC.Views"
       xmlns:viewmodels="clr-namespace:StarkCNC.ViewModels"
@@ -16,6 +16,7 @@
       Title="UserView">
     <Page.Resources>
         <utilities:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
+        <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <utilities:BytesToBitmapConverter x:Key="BytesToBitmapConverter"/>
 
         <Style TargetType="Label" x:Key="GenericLabelStyle">
@@ -23,160 +24,106 @@
             <Setter Property="FontWeight" Value="SemiBold"/>
             <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
         </Style>
-    </Page.Resources>
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" MaxHeight="280"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
 
-        <Grid x:Name="UserListGrid" Grid.Column="0" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <ListView
-                x:Name="UserList"
-                Grid.Row="0"
-                Width="300"
-                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                ItemsSource="{Binding Users, Mode=TwoWay}"
-                SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
-                SelectionMode="Single">
-                <ListView.ItemTemplate>
-                    <DataTemplate DataType="{x:Type models:User}">
-                        <Grid Margin="8,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="*"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <controls:PersonPicture
-                                x:Name="PreviewUserPicture"
-                                Grid.RowSpan="2"
-                                Width="32"
-                                Height="32"
-                                Margin="6"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Bottom"
-                                PictureSource="{Binding Image, Converter={StaticResource BytesToBitmapConverter}}"
-                                DisplayName="{Binding Name}"/>
-                            <TextBlock
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                Margin="12,6,0,0"
-                                Text="{Binding Name, Mode=OneWay}"/>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <Button
-                x:Name="NewUserButton"
-                Grid.Row="1"
-                Margin="10"
-                HorizontalAlignment="Center"
-                Command="{Binding AddUserCommand}"
-                Content="{x:Static lang:Language.AddNewUserButton}"
-                Style="{DynamicResource AccentButtonStyle}"/> <!--TODO: Добавить иконки-->
-        </Grid>
-
-        <Grid x:Name="UserDetailsGrid" Grid.Column="1" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-
-            <Grid
-                x:Name="UserDetailHeader"
-                Grid.Row="0"
-                Margin="20,10,20,10"
-                Visibility="{Binding SelectedUser, Converter={StaticResource EmptyToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="5*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <controls:PersonPicture
-                    x:Name="EditableUserPicture"
-                    Grid.Column="0"
+        <DataTemplate x:Key="UserDetailTemplate">
+            <Grid RowDefinitions="Auto,*">
+                <Grid
                     Grid.Row="0"
-                    Width="96"
-                    Height="96"
-                    Margin="12"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    PictureSource="{Binding SelectedUser.Image, Converter={StaticResource BytesToBitmapConverter}}"
-                    DisplayName="{Binding SelectedUser.Name}"/>
-                <StackPanel
-                    x:Name="UserDetailHeaderPanel"
-                    Grid.Column="1"
-                    Grid.Row="0"
-                    Orientation="Vertical"
-                    VerticalAlignment="Center">
-                    <Label Content="{x:Static lang:Language.Username}"/>
-                    <TextBlock
-                        x:Name="UserDetailHeaderNameBox"
-                        FontSize="24"
-                        Text="{Binding SelectedUser.Name}"/>
-                </StackPanel>
-                <Button Grid.Column="2" Grid.Row="1">
-                    <Button.Content>
-                        <StackPanel Orientation="Horizontal">
+                    ColumnDefinitions="Auto,*,Auto"
+                    RowDefinitions="Auto,Auto,5*,*"
+                    Visibility="{Binding SelectedUser, Converter={StaticResource EmptyToVisibilityConverter}}">
+                    <Border
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        Grid.ColumnSpan="3"
+                        MinHeight="40"
+                        CornerRadius="5"
+                        Background="{StaticResource SystemFillColorSuccessBackgroundBrush}"
+                        Visibility="{Binding IsThisUserAuthorized, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Label
+                            Margin="5"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="Вы авторизованы под этим пользователем"/>
+                    </Border>
+                    <Border
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        Grid.ColumnSpan="3"
+                        MinHeight="40"
+                        CornerRadius="5"
+                        Background="{StaticResource SystemFillColorCriticalBackgroundBrush}"
+                        Visibility="{Binding FormsErrors, Converter={StaticResource EmptyToVisibilityConverter}}">
+                        <Label
+                            Margin="5"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding FormsErrors}"/>
+                    </Border>
+                    <controls:PersonPictureControl
+                        Grid.Column="0"
+                        Grid.Row="2"
+                        Width="96"
+                        Height="96"
+                        Margin="12"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        PictureSource="{Binding SelectedUser.Image, Converter={StaticResource BytesToBitmapConverter}}"
+                        DisplayName="{Binding SelectedUser.UserName}"/>
+                    <Grid
+                        Grid.Column="1"
+                        Grid.Row="2"
+                        ColumnDefinitions="*,*">
+                        <StackPanel
+                            Grid.Column="0"
+                            Orientation="Vertical"
+                            VerticalAlignment="Center">
+                            <Label Content="{x:Static lang:Language.Username}"/>
                             <TextBlock
-                                VerticalAlignment="Center"
-                                Margin="0,4,0,0"
-                                FontFamily="{StaticResource SymbolThemeFontFamily}"
-                                FontSize="10"
-                                Text="&#xE898;"/>
-                            <TextBlock
-                                Margin="8,0,0,0"
-                                Text="{x:Static lang:Language.UploadImage}"/>
+                                FontSize="24"
+                                Text="{Binding SelectedUser.UserName}"/>
                         </StackPanel>
-                    </Button.Content>
-                </Button>
-            </Grid>
-
-            <Grid
-                x:Name="UserDetailFormGrid"
-                Grid.Row="1"
-                Margin="20,10,20,10"
-                Visibility="{Binding SelectedUser, Converter={StaticResource EmptyToVisibilityConverter}}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <ScrollViewer Grid.Column="1" Focusable="False">
-                    <Grid Margin="20,0,20,0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid x:Name="NameInputGrid" Grid.Row="0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
+                        <StackPanel
+                            Grid.Column="1"
+                            Orientation="Vertical"
+                            VerticalAlignment="Center">
+                            <Label Content="Роль пользователя"/>
+                            <TextBlock
+                                FontSize="24"
+                                Text="{Binding SelectedUserRoles}"/>
+                        </StackPanel>
+                    </Grid>
+                    <Button
+                        Grid.Column="2"
+                        Grid.Row="3"
+                        Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}">
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    Margin="0,4,0,0"
+                                    FontFamily="{StaticResource SymbolThemeFontFamily}"
+                                    FontSize="10"
+                                    Text="&#xE898;"/>
+                                <TextBlock
+                                    Margin="8,0,0,0"
+                                    Text="{x:Static lang:Language.UploadImage}"/>
+                            </StackPanel>
+                        </Button.Content>
+                    </Button>
+                </Grid>
+                <Grid
+                    Grid.Row="1"
+                    ColumnDefinitions="Auto,*"
+                    Visibility="{Binding SelectedUser, Converter={StaticResource EmptyToVisibilityConverter}}">
+                    <ScrollViewer Grid.Column="1" Focusable="False">
+                        <Grid Margin="20,0,20,0" RowDefinitions="*,Auto">
                             <StackPanel
-                                x:Name="FirstNamePanel"
-                                Grid.Column="0"
+                                Grid.Row="0"
                                 Margin="0,0,10,0"
                                 Orientation="Vertical">
                                 <Label
@@ -185,51 +132,272 @@
                                     FontWeight="SemiBold"/>
                                 <TextBox
                                     Margin="0,5,0,15"
-                                    Text="{Binding EditableUser.Name}"
+                                    Text="{Binding UserName}"
                                     IsReadOnly="{Binding IsReadOnly}"/>
+                                <Label
+                                    Content="Пароль"
+                                    Style="{StaticResource GenericLabelStyle}"
+                                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    FontWeight="SemiBold"/>
+                                <PasswordBox
+                                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    PasswordChanged="PasswordBox_PasswordChanged"/>
+                            </StackPanel>
+                            <Button
+                                Grid.Row="1"
+                                HorizontalAlignment="Left"
+                                Command="{Binding SetSelectedUserAsCurrentOperatorCommand}"
+                                Visibility="{Binding IsThisUserAuthorized, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='invert'}"
+                                Content="Установить как текущего оператора"/>
+                            <StackPanel
+                                Grid.Row="1"
+                                HorizontalAlignment="Right" 
+                                Orientation="Horizontal">
+                                <Button
+                                    Margin="10"
+                                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='invert'}"
+                                    Command="{Binding EditUserCommand}"
+                                    Content="{x:Static lang:Language.EditButton}"/> <!--TODO: Добавить иконки-->
+                                <Button
+                                    Margin="10"
+                                    Command="{Binding RemoveUserCommand}"
+                                    CommandParameter="{Binding SelectedUser}"
+                                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter='invert'}"
+                                    Content="{x:Static lang:Language.DeleteButton}"/> <!--TODO: Добавить иконки-->
+                                <Button
+                                    Margin="10"
+                                    Command="{Binding UserChangesCommitCommand}"
+                                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Content="{x:Static lang:Language.SaveButton}"/> <!--TODO: Добавить иконки-->
+                                <Button
+                                    Margin="10"
+                                    Command="{Binding CancelUserChangesCommand}"
+                                    Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
+                                    Content="{x:Static lang:Language.CancelButton}"/> <!--TODO: Добавить иконки-->
                             </StackPanel>
                         </Grid>
-
-                        <Button
-                            Grid.Row="1"
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="CreateUserTemplate">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <TextBlock
+                    Grid.Row="0"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Создание пользователя"/>
+                <StackPanel
+                    Grid.Row="1"
+                    Orientation="Vertical">
+                    <Border
+                        MinHeight="40"
+                        CornerRadius="5"
+                        Visibility="{Binding FormsErrors, Converter={StaticResource EmptyToVisibilityConverter}}"
+                        Background="{StaticResource SystemFillColorCriticalBackgroundBrush}">
+                        <Label
+                            Margin="5"
+                            FontSize="16"
+                            FontWeight="SemiBold"
                             HorizontalAlignment="Left"
-                            Command="{Binding SetSelectedUserAsCurrentCommand}"
-                            Content="Установить как текущего оператора"/>
-
+                            VerticalAlignment="Center"
+                            Content="{Binding FormsErrors}"/>
+                    </Border>
+                    <Label
+                        Content="{x:Static lang:Language.Username}"
+                        Style="{StaticResource GenericLabelStyle}"
+                        FontWeight="SemiBold"/>
+                    <TextBox
+                        Margin="0,5,0,15"
+                        Text="{Binding UserName}"/>
+                    <Label
+                        Style="{StaticResource GenericLabelStyle}"
+                        FontWeight="SemiBold"
+                        Content="Пароль"/>
+                    <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                    <Button
+                        Margin="10"
+                        Command="{Binding CreateUserSaveCommand}"
+                        Content="{x:Static lang:Language.SaveButton}"/> <!--TODO: Добавить иконки-->
+                    <Button
+                        Margin="10"
+                        Command="{Binding CreateUserCancelCommand}"
+                        Content="{x:Static lang:Language.CancelButton}"/> <!--TODO: Добавить иконки-->
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="AuthUserTemplate">
+            <Grid RowDefinitions="Auto,Auto,*,Auto">
+                <TextBlock
+                    Grid.Row="0"
+                    Style="{StaticResource TitleTextBlockStyle}"
+                    Text="Авторизация"/>
+                <Grid
+                    Grid.Row="1"
+                    ColumnDefinitions="Auto,*,Auto"
+                    Visibility="{Binding SelectedUser, Converter={StaticResource EmptyToVisibilityConverter}}">
+                    <controls:PersonPictureControl
+                        Grid.Column="0"
+                        Width="96"
+                        Height="96"
+                        Margin="12"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        PictureSource="{Binding SelectedUser.Image, Converter={StaticResource BytesToBitmapConverter}}"
+                        DisplayName="{Binding SelectedUser.UserName}"/>
+                    <Grid
+                        Grid.Column="1"
+                        ColumnDefinitions="*,*">
                         <StackPanel
-                            Grid.Row="1"
-                            HorizontalAlignment="Right" 
-                            Orientation="Horizontal">
-                            <Button
-                                x:Name="EditButton"
-                                Margin="10"
-                                Command="{Binding EditUserStartCommand}"
-                                Visibility="{Binding IsReadOnly, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Click="EditButton_Click"
-                                Content="{x:Static lang:Language.EditButton}"/> <!--TODO: Добавить иконки-->
-                            <Button
-                                Margin="10"
-                                Command="{Binding RemoveUserCommand}"
-                                CommandParameter="{Binding SelectedUser}"
-                                Visibility="{Binding IsReadOnly, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Content="{x:Static lang:Language.DeleteButton}"/> <!--TODO: Добавить иконки-->
-                            <Button
-                                x:Name="SaveButton"
-                                Margin="10"
-                                Command="{Binding EditUserCommitCommand}"
-                                Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Click="SaveButton_Click"
-                                Content="{x:Static lang:Language.SaveButton}"/> <!--TODO: Добавить иконки-->
-                            <Button
-                                Margin="10"
-                                Command="{Binding EditUserCancelCommand}"
-                                Visibility="{Binding IsEditing, Converter={StaticResource BooleanToVisibilityConverter}}"
-                                Click="CancelButton_Click"
-                                Content="{x:Static lang:Language.CancelButton}"/> <!--TODO: Добавить иконки-->
+                            Grid.Column="0"
+                            Orientation="Vertical"
+                            VerticalAlignment="Center">
+                            <Label Content="{x:Static lang:Language.Username}"/>
+                            <TextBlock
+                                FontSize="24"
+                                Text="{Binding SelectedUser.UserName}"/>
+                        </StackPanel>
+                        <StackPanel
+                            Grid.Column="1"
+                            Orientation="Vertical"
+                            VerticalAlignment="Center">
+                            <Label Content="Роль пользователя"/>
+                            <TextBlock
+                                FontSize="24"
+                                Text="{Binding SelectedUserRoles}"/>
                         </StackPanel>
                     </Grid>
-                </ScrollViewer>
+                </Grid>
+                <StackPanel
+                    Grid.Row="2"
+                    Orientation="Vertical">
+                    <Border
+                        MinHeight="40"
+                        CornerRadius="5"
+                        Visibility="{Binding FormsErrors, Converter={StaticResource EmptyToVisibilityConverter}}"
+                        Background="{StaticResource SystemFillColorCriticalBackgroundBrush}">
+                        <Label
+                            Margin="5"
+                            FontSize="16"
+                            FontWeight="SemiBold"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{Binding FormsErrors}"/>
+                    </Border>
+                    <Label
+                        Content="{x:Static lang:Language.Username}"
+                        Style="{StaticResource GenericLabelStyle}"
+                        FontWeight="SemiBold"/>
+                    <TextBox
+                        Margin="0,5,0,15"
+                        IsReadOnly="True"
+                        Text="{Binding UserName}"/>
+                    <Label
+                        Style="{StaticResource GenericLabelStyle}"
+                        FontWeight="SemiBold"
+                        Content="Пароль"/>
+                    <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"/>
+                </StackPanel>
+                <StackPanel
+                    Grid.Row="3"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+                    <Button
+                        Margin="10"
+                        Command="{Binding AuthorizationCommand}"
+                        Content="Войти"/> <!--TODO: Добавить иконки-->
+                    <Button
+                        Margin="10"
+                        Command="{Binding AuthorizationCancelCommand}"
+                        Content="{x:Static lang:Language.CancelButton}"/> <!--TODO: Добавить иконки-->
+                </StackPanel>
             </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid x:Name="MainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" MaxHeight="280"/>
+            <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+        <Grid
+            Grid.Column="0"
+            Grid.RowSpan="2"
+            RowDefinitions="*,Auto">
+            <Border
+                Grid.Row="0"
+                CornerRadius="5"
+                Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+                <ListView
+                    x:Name="UserListView"
+                    Grid.Row="0"
+                    Margin="5"
+                    Width="300"
+                    ItemsSource="{Binding Users, Mode=TwoWay}"
+                    SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
+                    SelectionMode="Single">
+                    <ListView.ItemTemplate>
+                        <DataTemplate DataType="{x:Type models:User}">
+                            <Grid
+                                Margin="8,0"
+                                ColumnDefinitions="Auto,*"
+                                RowDefinitions="*,*">
+                                <controls:PersonPicture
+                                    Grid.RowSpan="2"
+                                    Width="32"
+                                    Height="32"
+                                    Margin="6"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Bottom"
+                                    PictureSource="{Binding Image, Converter={StaticResource BytesToBitmapConverter}}"
+                                    DisplayName="{Binding UserName}"/>
+                                <TextBlock
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Margin="12,6,0,0"
+                                    Text="{Binding UserName, Mode=OneWay}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </Border>
+            <Button
+                Grid.Row="1"
+                Margin="10"
+                HorizontalAlignment="Center"
+                Command="{Binding AddUserCommand}"
+                Content="{x:Static lang:Language.AddNewUserButton}"
+                Style="{DynamicResource AccentButtonStyle}"/> <!--TODO: Добавить иконки-->
         </Grid>
+        <ContentControl
+            Grid.Column="1"
+            Grid.RowSpan="2"
+            Margin="20,10,20,0"
+            Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Setter Property="ContentTemplate" Value="{StaticResource UserDetailTemplate}"/>
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding RightBlockShowingStatus}" Value="Details">
+                            <Setter Property="ContentTemplate" Value="{StaticResource UserDetailTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RightBlockShowingStatus}" Value="Creation">
+                            <Setter Property="ContentTemplate" Value="{StaticResource CreateUserTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding RightBlockShowingStatus}" Value="Authorization">
+                            <Setter Property="ContentTemplate" Value="{StaticResource AuthUserTemplate}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
     </Grid>
 </Page>
