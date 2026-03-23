@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shell;
 using System.Windows.Threading;
+using System.Windows.Data;
 
 namespace StarkCNC;
 
@@ -41,6 +42,14 @@ public partial class MainWindow : Window
         UpdateMainWindowVisuals();
 
         FlyoutMenu = new FlyoutMenuControl();
+        BindingOperations.SetBinding(
+            FlyoutMenu,
+            FlyoutMenuControl.CurrentUserNameProperty,
+            new Binding(nameof(viewModel.CurrentUserName)) { Source = viewModel });
+        BindingOperations.SetBinding(
+            FlyoutMenu,
+            FlyoutMenuControl.PagesProperty,
+            new Binding(nameof(viewModel.Pages)) { Source = viewModel });
         FlyoutMenu.Pages = ViewModel.Pages;
         FlyoutMenu.MenuIsOpen = true;
         Grid.SetRowSpan(FlyoutMenu, 2);

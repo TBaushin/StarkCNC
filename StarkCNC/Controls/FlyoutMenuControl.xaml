@@ -89,11 +89,14 @@
                     Command="{Binding GoUsersCommand}">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock
-                            Margin="0,4,0,0"
+                            VerticalAlignment="Center"
                             FontSize="15"
                             FontFamily="{StaticResource SymbolThemeFontFamily}"
                             Text="&#xE77B;"/>
-                        <TextBlock Margin="8,0,0,0"/>
+                        <TextBlock
+                            Margin="8,0,0,0"
+                            VerticalAlignment="Center"
+                            Text="{Binding CurrentUserName}"/>
                     </StackPanel>
                 </Button>
             </StackPanel>

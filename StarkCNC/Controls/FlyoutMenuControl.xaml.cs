@@ -20,6 +20,9 @@ public partial class FlyoutMenuControl : UserControl
     public static readonly DependencyProperty MenuIsOpenProperty = DependencyProperty
         .Register(nameof(MenuIsOpen), typeof(bool), typeof(FlyoutMenuControl));
 
+    public static readonly DependencyProperty CurrentUserNameProperty = DependencyProperty
+        .Register(nameof(CurrentUserName), typeof(string), typeof(FlyoutMenuControl));
+
     public IEnumerable<ViewData> Pages 
     { 
         get => (IEnumerable<ViewData>)GetValue(PagesProperty); 
@@ -33,6 +36,12 @@ public partial class FlyoutMenuControl : UserControl
         {
             SetValue(MenuIsOpenProperty, value);
         }
+    }
+
+    public string CurrentUserName
+    {
+        get => (string)GetValue(CurrentUserNameProperty);
+        set => SetValue(CurrentUserNameProperty, value);
     }
 
     public event RoutedPropertyChangedEventHandler<object>? SelectedItemChanged;

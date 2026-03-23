@@ -45,6 +45,9 @@ public partial class MainWindowViewModel : ViewModelBase
     [ObservableProperty]
     private object _breadcrumb;
 
+    [ObservableProperty]
+    private string _currentUserName;
+
     public MainWindowViewModel(
         INavigationService navigationService,
         IRouter router,
@@ -52,6 +55,7 @@ public partial class MainWindowViewModel : ViewModelBase
         IStatusService statusService,
         IBendingDataUnitOfWork bendingUnitOfWork,
         IAdjustmentRepository adjustmentRepository,
+        IUserService userService,
         AdjustmentViewModel adjustmentViewModel) 
     {
         _navigationService = navigationService;
@@ -92,6 +96,15 @@ public partial class MainWindowViewModel : ViewModelBase
                 statusService?.ShowStatus = true;
             Breadcrumb = breadcrumbService.VisibleObject;
         };
+
+        Task.Run(() =>
+        {
+            while (true)
+            {
+                CurrentUserName = userService?.CurrentUser?.UserName ?? string.Empty;
+                Task.Delay(150);
+            }
+        });
     }
 
     [RelayCommand]
