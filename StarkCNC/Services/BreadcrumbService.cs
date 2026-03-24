@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using StarkCNC.Core.Services;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -53,7 +54,7 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
         for (int i = 0; i < _breadcrumbsTitles.Count; i++)
         {
             var pageTitle = _breadcrumbsTitles[i];
-            var label = new Label() { Content = pageTitle, Cursor = Cursors.Hand };
+            var label = new TextBlock() { Text = pageTitle, Style = App.Current.TryFindResource("SubtitleTextBlockStyle") as Style, Cursor = Cursors.Hand };
             label.PreviewMouseLeftButtonDown += (s, e) =>
             {
                 var segments = _router.CurrentRoute?.Path.Split('/', StringSplitOptions.RemoveEmptyEntries) ?? Array.Empty<string>();
@@ -81,7 +82,15 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
             sp.Children.Add(label);
 
             if (i < _breadcrumbsTitles.Count - 1)
-                sp.Children.Add(new Label() { Content = "\xE76C", FontFamily =  App.Current.TryFindResource("SymbolThemeFontFamily") as FontFamily });
+                sp.Children.Add(
+                    new Label()
+                    {
+                        Content = "\xE76C",
+                        FontFamily =  App.Current.TryFindResource("SymbolThemeFontFamily") as FontFamily,
+                        VerticalAlignment = VerticalAlignment.Bottom,
+                        FontWeight = FontWeights.Bold,
+                        Margin = new Thickness(5, 0, 5, 0)
+                    });
         }
 
         VisibleObject = sp;
