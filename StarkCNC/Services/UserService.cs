@@ -239,6 +239,31 @@ public class UserService : IUserService
             .ConfigureAwait(false);
     }
 
+    public async Task SetUserRole(string username, string roleName)
+    {
+        var roleManager = _serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+        var user = await FindUserByName(username).ConfigureAwait(false);
+        var role = await roleManager.FindByNameAsync(roleName).ConfigureAwait(false);
+        if (user is null)
+            return;
+        if (role is null)
+            return;
+
+        await SetUserRole(user, role).ConfigureAwait(false);
+    }
+
+    public async Task SetUserRole(User user, IdentityRole role)
+    {
+        var userManager = _serviceProvider.GetRequiredService<UserManager<User>>();
+
+        var currentUserRole = await GetUserRole(user).ConfigureAwait(false);
+        if (currentUserRole is not null)
+            await userManager.RemoveFromRoleAsync(user, currentUserRole.Name).ConfigureAwait(false);
+
+        await userManager.AddToRoleAsync(user, role.Name).ConfigureAwait(false);
+    }
+
     public async Task<IEnumerable<User>> GetAllUsersAsync()
     {
         var userManager = _serviceProvider.GetRequiredService<UserManager<User>>();

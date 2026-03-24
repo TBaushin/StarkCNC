@@ -36,6 +36,9 @@ public partial class UserViewModel : ViewModelBase
     private string _newPassword;
 
     [ObservableProperty]
+    private IdentityRole? _newRole;
+
+    [ObservableProperty]
     private string? _formsErrors;
 
     [ObservableProperty]
@@ -170,6 +173,9 @@ public partial class UserViewModel : ViewModelBase
 
                 await _userService.ChangePassword(SelectedUser, Password, NewPassword).ConfigureAwait(true);
             }
+
+            if (NewRole is not null)
+                await _userService.SetUserRole(SelectedUser, NewRole).ConfigureAwait(false);
 
             await _userService.UpdateUser(SelectedUser).ConfigureAwait(true);
         }

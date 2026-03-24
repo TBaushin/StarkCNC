@@ -47,6 +47,10 @@ public interface IUserService
 
     public Task<IdentityRole?> GetUserRole(User user);
 
+    public Task SetUserRole(string username, string roleName);
+
+    public Task SetUserRole(User user, IdentityRole role);
+
     public Task<IEnumerable<User>> GetAllUsersAsync();
 
     public Task<IEnumerable<IdentityRole>> GetAllAvailableRoles();
