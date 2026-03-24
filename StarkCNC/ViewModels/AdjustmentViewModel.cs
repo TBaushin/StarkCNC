@@ -75,7 +75,7 @@ public partial class AdjustmentViewModel : ObservableObject
         if (firstFloorAdjustment is null)
             return;
 
-        _router.Navigate("/adjustment/edit", firstFloorAdjustment.Id);
+        _router.Navigate("/adjustment/list/edit", firstFloorAdjustment.Id);
     }
 
     [RelayCommand]
@@ -85,7 +85,7 @@ public partial class AdjustmentViewModel : ObservableObject
         if (firstFloorAdjustment is null)
             return;
 
-        _router.Navigate("/adjustment/edit", firstFloorAdjustment.Id);
+        _router.Navigate("/adjustment/list/edit", firstFloorAdjustment.Id);
     }
 
     [RelayCommand]
@@ -95,7 +95,7 @@ public partial class AdjustmentViewModel : ObservableObject
         if (firstFloorAdjustment is null)
             return;
 
-        _router.Navigate("/adjustment/edit", firstFloorAdjustment.Id);
+        _router.Navigate("/adjustment/list/edit", firstFloorAdjustment.Id);
     }
 
     private async void UpdateAdjustments()

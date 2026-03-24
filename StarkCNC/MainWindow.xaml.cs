@@ -52,7 +52,7 @@ public partial class MainWindow : Window
             new Binding(nameof(viewModel.Pages)) { Source = viewModel });
         FlyoutMenu.Pages = ViewModel.Pages;
         FlyoutMenu.MenuIsOpen = true;
-        Grid.SetRowSpan(FlyoutMenu, 2);
+        Grid.SetRowSpan(FlyoutMenu, 3);
         PageGrid.Children.Add(FlyoutMenu);
 
         navigationService.SetFrame(RootContentFrame);

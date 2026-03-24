@@ -120,7 +120,7 @@ public partial class AdjustmentListViewModel : ViewModelBase
         var adjustmentToEdit = adjustmentsToEdit.FirstOrDefault();
         if (adjustmentToEdit is not null)
         {
-            _router.Navigate("/adjustment/edit", adjustmentToEdit.Id);
+            _router.Navigate("/adjustment/list/edit", adjustmentToEdit.Id);
         }
     }
 

@@ -247,7 +247,10 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <StackPanel x:Name="Breadcrumbs"/>
+                        <StackPanel
+                            x:Name="Breadcrumbs"
+                            Grid.Column="0"
+                            Grid.Row="0"/>
                         <DataGrid
                             x:Name="StatusHistoryDataGrid"
                             Grid.Column="2"

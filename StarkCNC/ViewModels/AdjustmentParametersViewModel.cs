@@ -140,7 +140,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     [RelayCommand]
     private void GoToSettingCoordinates()
     {
-        _router.Navigate("/adjustment/edit/coordinates", _adjustment?.Id);
+        _router.Navigate("/adjustment/list/edit/coordinates", _adjustment?.Id);
     }
 
     [RelayCommand]

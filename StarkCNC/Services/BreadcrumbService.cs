@@ -35,7 +35,7 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
         {
             current += $"/{segment}";
 
-            var route = _router.GetRoute(segment);
+            var route = _router.GetRoute(current);
             if (route is null)
                 continue;
 
@@ -81,7 +81,7 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
             sp.Children.Add(label);
 
             if (i < _breadcrumbsTitles.Count - 1)
-                sp.Children.Add(new Label() { Content = "&#xE76C;", FontFamily =  App.Current.TryFindResource("SymbolThemeFontFamily") as FontFamily });
+                sp.Children.Add(new Label() { Content = "\xE76C", FontFamily =  App.Current.TryFindResource("SymbolThemeFontFamily") as FontFamily });
         }
 
         VisibleObject = sp;
