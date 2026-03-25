@@ -38,8 +38,7 @@ public class ManualConfigurationService : IManualConfigurationService
         {
             try
             {
-                await Task.Run(async () => await _client.ConnectServer(_server))
-                    .ConfigureAwait(false);
+                await _client.ConnectServer(_server).ConfigureAwait(false);
 
                 _statusService.CurrentStatus = new Status("Подключение успешно", StatusType.Success);
             }
@@ -62,8 +61,7 @@ public class ManualConfigurationService : IManualConfigurationService
 
         try
         {
-            await Task.Run(async () => await _client.WriteNodeAsync<T>(_requestString + to, value))
-                .ConfigureAwait(false);
+            await _client.WriteNodeAsync<T>(_requestString + to, value).ConfigureAwait(false);
         }
         catch (Exception)
         {
@@ -81,9 +79,8 @@ public class ManualConfigurationService : IManualConfigurationService
 
         try
         {
-            var a = await  _client.ReadNodeAsync<T>(_requestString + from)
+            return await _client.ReadNodeAsync<T>(_requestString + from)
                 .ConfigureAwait(false);
-            return a;
         }
         catch (Exception)
         {
