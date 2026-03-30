@@ -1,4 +1,5 @@
-﻿using StarkCNC.Utilities;
+﻿using StarkCNC.Controls;
+using StarkCNC.Utilities;
 using StarkCNC.ViewModels;
 using System.Windows.Controls;
 
@@ -28,7 +29,7 @@ public partial class UserView : Page
     {
         if (e.PropertyName == nameof(ViewModel.SelectedUser))
         {
-            var pbs = VisualFinder.FindVisualChildren<PasswordBox>(MainGrid);
+            var pbs = VisualFinder.FindVisualChildren<PasswordTextBox>(MainGrid);
             foreach (var item in pbs)
             {
                 if (item is null)
@@ -40,7 +41,7 @@ public partial class UserView : Page
 
         if (e.PropertyName == nameof(ViewModel.RightBlockShowingStatus))
         {
-            var pbs = VisualFinder.FindVisualChildren<PasswordBox>(MainGrid);
+            var pbs = VisualFinder.FindVisualChildren<PasswordTextBox>(MainGrid);
             foreach (var item in pbs)
             {
                 if (item is null)
@@ -49,23 +50,5 @@ public partial class UserView : Page
                 item.Clear();
             }
         }
-    }
-
-    private void PasswordBox_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
-    {
-        var pb = sender as PasswordBox;
-        if (pb is null)
-            return;
-
-        ViewModel.Password = pb.Password;
-    }
-
-    private void NewPasswordPB_PasswordChanged(object sender, System.Windows.RoutedEventArgs e)
-    {
-        var pb = sender as PasswordBox;
-        if (pb is null)
-            return;
-
-        ViewModel.NewPassword = pb.Password;
     }
 }

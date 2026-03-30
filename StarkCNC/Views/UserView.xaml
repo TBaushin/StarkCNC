@@ -139,18 +139,18 @@
                                     Style="{StaticResource GenericLabelStyle}"
                                     Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
                                     FontWeight="SemiBold"/>
-                                <PasswordBox
+                                <controls:PasswordTextBox
                                     Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
-                                    PasswordChanged="PasswordBox_PasswordChanged"/>
+                                    Password="{Binding Password, Mode=TwoWay}"/>
                                 <Label
                                     Content="Новый пароль пользователя (необязательно)"
                                     Style="{StaticResource GenericLabelStyle}"
                                     Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
                                     FontWeight="SemiBold"/>
-                                <PasswordBox
+                                <controls:PasswordTextBox
                                     x:Name="NewPasswordPB"
                                     Visibility="{Binding IsEditing, Converter={StaticResource BoolToVisibilityConverter}}"
-                                    PasswordChanged="NewPasswordPB_PasswordChanged"/>
+                                    Password="{Binding NewPassword, Mode=TwoWay}"/>
                                 <Label
                                     Content="Роль пользователя"
                                     Style="{StaticResource GenericLabelStyle}"
@@ -231,7 +231,7 @@
                         Style="{StaticResource GenericLabelStyle}"
                         FontWeight="SemiBold"
                         Content="Пароль"/>
-                    <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"/>
+                    <controls:PasswordTextBox Password="{Binding Password, Mode=TwoWay}"/>
                 </StackPanel>
                 <StackPanel
                     Grid.Row="2"
@@ -318,7 +318,7 @@
                         Style="{StaticResource GenericLabelStyle}"
                         FontWeight="SemiBold"
                         Content="Пароль"/>
-                    <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"/>
+                    <controls:PasswordTextBox Password="{Binding Password, Mode=TwoWay}"/>
                 </StackPanel>
                 <StackPanel
                     Grid.Row="3"
