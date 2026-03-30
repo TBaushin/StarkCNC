@@ -12,6 +12,7 @@ public static class ControllerRequestStrings
         .Build();
 
     public static readonly string DEFAULT_USER_PASSWORD = GetValue("Settings:DefaultUserPassword");
+    public static readonly string EMPTY_PASSWORD = GetValue("Settings:EmptyPassword");
 
     public static readonly string REQUEST = GetValue("Connection:RequestString");
 

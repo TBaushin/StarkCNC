@@ -233,6 +233,13 @@
                         FontWeight="SemiBold"
                         Content="Пароль"/>
                     <controls:PasswordTextBox Password="{Binding Password, Mode=TwoWay}"/>
+                    <Label
+                        Content="Роль пользователя"
+                        Style="{StaticResource GenericLabelStyle}"
+                        FontWeight="SemiBold"/>
+                    <ComboBox
+                        SelectedItem="{Binding NewRole, Mode=TwoWay}"
+                        ItemsSource="{Binding Roles}"/>
                 </StackPanel>
                 <StackPanel
                     Grid.Row="2"

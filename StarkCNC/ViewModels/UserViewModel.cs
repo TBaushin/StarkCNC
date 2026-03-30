@@ -3,6 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Identity;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
+using StarkCNC.Utilities;
 using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
@@ -152,7 +153,14 @@ public partial class UserViewModel : ViewModelBase
         if (SelectedUser is null)
             return;
 
-        if (!CheckUserDataIsValidAndShowErrors())
+        bool canHasEmptyPassword = await CanHasDefaultPassword().ConfigureAwait(true);
+        string password = "";
+        if (string.IsNullOrEmpty(Password) && canHasEmptyPassword)
+            password = ControllerRequestStrings.EMPTY_PASSWORD;
+        else
+            password = Password;
+
+        if (!CheckUserDataIsValidAndShowErrors(UserName, password))
             return;
 
         var oldUserName = SelectedUser.UserName;
@@ -160,7 +168,7 @@ public partial class UserViewModel : ViewModelBase
 
         try
         {
-            if (!await _userService.CheckPasswordWhenChange(SelectedUser, Password).ConfigureAwait(true))
+            if (!await _userService.CheckPasswordWhenChange(SelectedUser, password).ConfigureAwait(true))
             {
                 FormsErrors = "Неверный пароль пользователя";
                 return;
@@ -168,14 +176,23 @@ public partial class UserViewModel : ViewModelBase
 
             if (!string.IsNullOrEmpty(NewPassword))
             {
-                if (!CheckUserDataIsValidAndShowErrors(NewPassword))
+                if (!CheckUserDataIsValidAndShowErrors(UserName, password, NewPassword))
                     return;
 
-                await _userService.ChangePassword(SelectedUser, Password, NewPassword).ConfigureAwait(true);
+                await _userService.ChangePassword(SelectedUser, password, NewPassword).ConfigureAwait(true);
             }
 
             if (NewRole is not null)
-                await _userService.SetUserRole(SelectedUser, NewRole).ConfigureAwait(false);
+            {
+                var role = RolePermissions.IdentityRoleToRoles(NewRole.Name);
+                if (password == ControllerRequestStrings.EMPTY_PASSWORD && string.IsNullOrEmpty(NewPassword) && role != Core.Models.Roles.Operator)
+                {
+                    FormsErrors = "Вы не можете установить новую роль для этого пользователя, т.к. у него не установлен пароль";
+                    return;
+                }
+                else
+                    await _userService.SetUserRole(SelectedUser, NewRole).ConfigureAwait(false);
+            }
 
             await _userService.UpdateUser(SelectedUser).ConfigureAwait(true);
         }
@@ -208,14 +225,23 @@ public partial class UserViewModel : ViewModelBase
     {
         ClearErrors();
 
-        if (!CheckUserDataIsValidAndShowErrors())
+        bool canHasEmptyPassword = await CanHasDefaultPassword(NewRole).ConfigureAwait(true);
+        string password = "";
+        if (string.IsNullOrEmpty(Password) && canHasEmptyPassword)
+            password = ControllerRequestStrings.EMPTY_PASSWORD;
+        else
+            password = Password;
+
+        if (!CheckUserDataIsValidAndShowErrors(UserName, password))
             return;
 
         ClearErrors();
 
         try
         {
-            await _userService.Register(UserName, Password).ConfigureAwait(true);
+            var user = await _userService.Register(UserName, password).ConfigureAwait(true);
+            if (user is not null)
+                await _userService.SetUserRole(user, NewRole).ConfigureAwait(true);
         }
         catch (InvalidOperationException ex)
         {
@@ -260,13 +286,27 @@ public partial class UserViewModel : ViewModelBase
         if (SelectedUser is null)
             return;
 
-        if (Password is null)
+        bool canHasDefaultPassword = await CanHasDefaultPassword().ConfigureAwait(true);
+        string password;
+        if (string.IsNullOrEmpty(Password))
         {
-            FormsErrors = "Введите пароль";
-            return;
+            if (!canHasDefaultPassword)
+            {
+                FormsErrors = "Введите пароль";
+                return;
+            }
+            else
+            {
+                password = ControllerRequestStrings.EMPTY_PASSWORD;
+            }
+        }
+        else
+        {
+            password = Password;
         }
 
-        var result = await _userService.Login(UserName, Password).ConfigureAwait(true);
+
+        var result = await _userService.Login(UserName, password).ConfigureAwait(true);
         if (!result)
         {
             FormsErrors = "Неверный пароль";
@@ -301,15 +341,57 @@ public partial class UserViewModel : ViewModelBase
         }
     }
 
-    private bool CheckUserDataIsValidAndShowErrors(string? newPassword = null) // TODO: Guard Clauses
+    private async Task<bool> CanHasDefaultPassword(IdentityRole? newRole = null)
     {
-        var userNameEmpty = string.IsNullOrEmpty(UserName);
+        Roles role = Core.Models.Roles.Service;
+
+        if (newRole is not null)
+        {
+            role = RolePermissions.IdentityRoleToRoles(newRole.Name);
+            if (role == Core.Models.Roles.Operator)
+                return true;
+            else
+                return false;
+        }
+
+        if (SelectedUser is not null)
+        {
+            var roleIdentity = await _userService.GetUserRole(SelectedUser).ConfigureAwait(true);
+            if (roleIdentity is not null)
+                role = RolePermissions.IdentityRoleToRoles(roleIdentity.Name);
+
+            if (role == Core.Models.Roles.Operator)
+                return true;
+
+            return false;
+        }
+
+        if (UserName is not null)
+        {
+            var user = await _userService.FindUserByName(UserName).ConfigureAwait(true);
+            if (user is not null)
+            {
+                var roleIdentity = await _userService.GetUserRole(user).ConfigureAwait(true);
+                if (roleIdentity is not null)
+                    role = RolePermissions.IdentityRoleToRoles(roleIdentity.Name);
+
+                if (role == Core.Models.Roles.Operator)
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool CheckUserDataIsValidAndShowErrors(string userName, string currentPassword, string? newPassword = null) // TODO: Guard Clauses
+    {
+        var userNameEmpty = string.IsNullOrEmpty(userName);
         string password;
         bool passwordEmpty;
         if (newPassword is null)
         {
-            password = Password;
-            passwordEmpty = string.IsNullOrEmpty(Password);
+            password = currentPassword;
+            passwordEmpty = string.IsNullOrEmpty(currentPassword);
         }
         else
         {
