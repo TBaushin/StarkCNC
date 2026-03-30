@@ -51,4 +51,28 @@ public partial class UserView : Page
             }
         }
     }
+
+    private async void EditUserGrid_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key != System.Windows.Input.Key.Enter)
+            return;
+
+        await ViewModel.UserChangesCommitCommand.ExecuteAsync(null).ConfigureAwait(true);
+    }
+
+    private async void CreateUserGrid_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key != System.Windows.Input.Key.Enter)
+            return;
+
+        await ViewModel.CreateUserSaveCommand.ExecuteAsync(null).ConfigureAwait(true);
+    }
+
+    private async void AuthUserGrid_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key != System.Windows.Input.Key.Enter)
+            return;
+
+        await ViewModel.AuthorizationCommand.ExecuteAsync(null).ConfigureAwait(true);
+    }
 }

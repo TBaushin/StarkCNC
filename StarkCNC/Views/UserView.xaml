@@ -119,6 +119,7 @@
                 <Grid
                     Grid.Row="1"
                     ColumnDefinitions="Auto,*"
+                    KeyDown="EditUserGrid_KeyDown"
                     Visibility="{Binding SelectedUser, Converter={StaticResource EmptyToVisibilityConverter}}">
                     <ScrollViewer Grid.Column="1" Focusable="False">
                         <Grid Margin="20,0,20,0" RowDefinitions="*,Auto">
@@ -199,7 +200,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="CreateUserTemplate">
-            <Grid RowDefinitions="Auto,*,Auto">
+            <Grid RowDefinitions="Auto,*,Auto" KeyDown="CreateUserGrid_KeyDown">
                 <TextBlock
                     Grid.Row="0"
                     Style="{StaticResource TitleTextBlockStyle}"
@@ -249,7 +250,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="AuthUserTemplate">
-            <Grid RowDefinitions="Auto,Auto,*,Auto">
+            <Grid RowDefinitions="Auto,Auto,*,Auto" KeyDown="AuthUserGrid_KeyDown">
                 <TextBlock
                     Grid.Row="0"
                     Style="{StaticResource TitleTextBlockStyle}"
