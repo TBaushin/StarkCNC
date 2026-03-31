@@ -327,6 +327,9 @@
                         FontWeight="SemiBold"
                         Content="Пароль"/>
                     <controls:PasswordTextBox Password="{Binding Password, Mode=TwoWay}"/>
+                    <CheckBox
+                        IsChecked="{Binding SaveSession, Mode=TwoWay}"
+                        Content="Сохранить вход"/>
                 </StackPanel>
                 <StackPanel
                     Grid.Row="3"

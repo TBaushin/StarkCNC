@@ -11,9 +11,9 @@ public interface IUserService
 
     public Task<User?> Register(string username, string password, string? role = null);
 
-    public Task<bool> Login(string username, string password);
+    public Task<bool> Login(string username, string password, bool saveSession = false);
 
-    public Task<bool> Login(User user, string password);
+    public Task<bool> Login(User user, string password, bool saveSession = false);
 
     public Task<bool> CheckPasswordWhenChange(string username, string currentPassword);
 

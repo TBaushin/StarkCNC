@@ -54,6 +54,9 @@ public partial class UserViewModel : ViewModelBase
     [ObservableProperty]
     private bool _isThisUserAuthorized;
 
+    [ObservableProperty]
+    private bool _saveSession;
+
     public UserViewModel(IUserService userService)
     {
         _userService = userService;
@@ -306,7 +309,7 @@ public partial class UserViewModel : ViewModelBase
         }
 
 
-        var result = await _userService.Login(UserName, password).ConfigureAwait(true);
+        var result = await _userService.Login(UserName, password, SaveSession).ConfigureAwait(true);
         if (!result)
         {
             FormsErrors = "Неверный пароль";

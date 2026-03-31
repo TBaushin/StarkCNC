@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Win32;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
 using StarkCNC.Database;
@@ -11,6 +12,7 @@ namespace StarkCNC.Services;
 public class UserService : IUserService
 {
     private IServiceProvider _serviceProvider;
+    private const string _registryKey = "Software\\StarkCNC";
 
     public User CurrentUser { get; private set; }
 
@@ -21,6 +23,8 @@ public class UserService : IUserService
     public UserService(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
+
+        OpenSession().GetAwaiter().GetResult();
     }
 
     public async Task<User?> Register(string username, string password, string? role = null)
@@ -50,16 +54,16 @@ public class UserService : IUserService
         return resUser;
     }
 
-    public async Task<bool> Login(string username, string password)
+    public async Task<bool> Login(string username, string password, bool saveSession = false)
     {
         var user = await FindUserByName(username).ConfigureAwait(false);
         if (user is null)
             return false;
 
-        return await Login(user, password).ConfigureAwait(false);
+        return await Login(user, password, saveSession).ConfigureAwait(false);
     }
 
-    public async Task<bool> Login(User user, string password)
+    public async Task<bool> Login(User user, string password, bool saveSession = false)
     {
         var userManager = _serviceProvider.GetRequiredService<UserManager<User>>();
         bool isPasswordValid = await userManager.CheckPasswordAsync(user, password).ConfigureAwait(false);
@@ -68,6 +72,11 @@ public class UserService : IUserService
 
         CurrentUser = user;
         CurrentUserRole = await GetUserRole(user).ConfigureAwait(false);
+
+        if (saveSession)
+            await SaveSession(user, password).ConfigureAwait(false);
+        else
+            ClearSession();
 
         return true;
     }
@@ -313,4 +322,48 @@ public class UserService : IUserService
 
     //    return RolePermissions.RoleHasModifyPermission(_currentUserRole, roleItemToUpdate);
     //}
+
+    private static async Task SaveSession(User user, string password)
+    {
+        var userData = new UserData() { User = user, Password = password };
+        var result = await Cryptography.EncryptAsync(userData).ConfigureAwait(false);
+
+        var registry = Registry.CurrentUser.OpenSubKey(_registryKey, true);
+        if (registry is null)
+            registry = Registry.CurrentUser.CreateSubKey(_registryKey);
+
+        registry.SetValue("Session", result);
+    }
+
+    private static void ClearSession()
+    {
+        var registry = Registry.CurrentUser.OpenSubKey(_registryKey, true);
+        if (registry is null)
+            return;
+
+        registry.SetValue("Session", string.Empty);
+    }
+
+    private async Task OpenSession()
+    {
+        var registry = Registry.CurrentUser.OpenSubKey(_registryKey, false);
+        if (registry is null)
+            return;
+
+        var session = registry.GetValue("Session") as string;
+        if (string.IsNullOrEmpty(session))
+            return;
+
+        var userData = await Cryptography.DecryptAsync<UserData>(session).ConfigureAwait(false);
+        if (userData is null)
+            return;
+
+        await Login(userData.User, userData.Password, true).ConfigureAwait(false);
+    }
+
+    private class UserData
+    {
+        public User User { get; set; }
+        public string Password { get; set; }
+    }
 }
