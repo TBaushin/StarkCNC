@@ -128,7 +128,7 @@
     <PackageReference Include="Gcode.Utils" Version="0.2.21" />
     <PackageReference Include="HelixToolkit" Version="3.1.2" />
     <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.27.3" />
-    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0" />
+    <PackageReference Include="LiveChartsCore.SkiaSharpView.WPF" Version="2.0.0-rc5.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
