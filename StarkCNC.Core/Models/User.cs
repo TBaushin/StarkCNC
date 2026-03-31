@@ -12,4 +12,7 @@ public class User : IdentityUser
             return false;
         return this.UserName == user.UserName && this.Id == user.Id;
     }
+
+    public override int GetHashCode() =>
+        base.GetHashCode();
 }
