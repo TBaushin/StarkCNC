@@ -7,21 +7,22 @@ namespace StarkCNC.Repository;
 
 public class SettingsRepository : ISettingsRepository
 {
-    private AppJsonContext _context;
+    private IDbContextFactory<AppJsonContext> _contextFactory;
 
-    public SettingsRepository(AppJsonContext context)
+    public SettingsRepository(IDbContextFactory<AppJsonContext> contextFactory)
     {
-        _context = context;
+        _contextFactory = contextFactory;
     }
 
     public async Task<Settings?> AddElementAsync(Settings settings)
     {
-        var canBeSave = await _context.Settings.AnyAsync().ConfigureAwait(false);
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        var canBeSave = await context.Settings.AnyAsync().ConfigureAwait(false);
         if (canBeSave)
             return null;
 
-        await _context.AddAsync(settings).ConfigureAwait(false);
-        await _context.SaveChangesAsync().ConfigureAwait(false);
+        await context.AddAsync(settings).ConfigureAwait(false);
+        await context.SaveChangesAsync().ConfigureAwait(false);
 
         return settings;
     }
@@ -31,17 +32,28 @@ public class SettingsRepository : ISettingsRepository
         if (settings is null)
             throw new ArgumentNullException(nameof(settings));
 
-        _context.Entry(settings).State = EntityState.Modified;
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
 
-        await _context.SaveChangesAsync().ConfigureAwait(false);
+        context.Entry(settings).State = EntityState.Modified;
+
+        await context.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public async Task<Settings?> GetAsync() =>
-        await _context.Settings.FirstOrDefaultAsync().ConfigureAwait(false);
+    public async Task<Settings?> GetAsync()
+    {
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Settings.FirstOrDefaultAsync().ConfigureAwait(false);
+    }
 
-    public async Task<Settings?> FindByIdAsync(Guid id) =>
-        await _context.Settings.FirstOrDefaultAsync(s => s.Id == id).ConfigureAwait(false);
+    public async Task<Settings?> FindByIdAsync(Guid id)
+    {
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Settings.FirstOrDefaultAsync(s => s.Id == id).ConfigureAwait(false);
+    }
 
-    public int Count() =>
-        _context.Settings.Count();
+    public int Count()
+    {
+        var context = _contextFactory.CreateDbContext();
+        return context.Settings.Count();
+    }
 }

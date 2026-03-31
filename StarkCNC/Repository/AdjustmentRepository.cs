@@ -7,35 +7,38 @@ namespace StarkCNC.Repository;
 
 public class AdjustmentRepository : IAdjustmentRepository
 {
-    private AppJsonContext _context;
+    private IDbContextFactory<AppJsonContext> _contextFactory;
 
-    public AdjustmentRepository(AppJsonContext context)
+    public AdjustmentRepository(IDbContextFactory<AppJsonContext> contextFactory)
     {
-        _context = context;
+        _contextFactory = contextFactory;
     }
 
     public async Task<AdjustmentParameters?> AddElementAsync(AdjustmentParameters adjustment)
     {
-        await _context.AddAsync(adjustment).ConfigureAwait(false);
-        await _context.SaveChangesAsync().ConfigureAwait(false);
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        await context.AddAsync(adjustment).ConfigureAwait(false);
+        await context.SaveChangesAsync().ConfigureAwait(false);
 
         return adjustment;
     }
 
     public async Task RemoveElementAsync(Guid id)
     {
-        var item = _context.Adjustments.FirstOrDefault(a => a.Id == id);
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        var item = context.Adjustments.FirstOrDefault(a => a.Id == id);
         if (item is not null)
         {
-            _context.Remove(item);
-            await _context.SaveChangesAsync().ConfigureAwait(false);
+            context.Remove(item);
+            await context.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 
     public async Task RemoveElementAsync(AdjustmentParameters adjustment)
     {
-        _context.Remove(adjustment);
-        await _context.SaveChangesAsync().ConfigureAwait(false);
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        context.Remove(adjustment);
+        await context.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task UpdateElementAsync(AdjustmentParameters adjustment)
@@ -43,57 +46,81 @@ public class AdjustmentRepository : IAdjustmentRepository
         if (adjustment is null)
             throw new ArgumentNullException(nameof(adjustment));
 
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+
         var local = await FindByIdAsync(adjustment.Id).ConfigureAwait(false);
         if (local is not null)
         {
-            _context.Entry(local).CurrentValues.SetValues(adjustment);
-            UpdateLocalEntry(adjustment, local);
+            context.Entry(local).CurrentValues.SetValues(adjustment);
+            await UpdateLocalEntry(adjustment, local).ConfigureAwait(false);
         }
         else
-            _context.Entry(adjustment).State = EntityState.Modified;
+            context.Entry(adjustment).State = EntityState.Modified;
 
-        await _context.SaveChangesAsync().ConfigureAwait(false);
+        await context.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public async Task<IEnumerable<AdjustmentParameters>> FindByNameAsync(string name) =>
-        await _context.Adjustments.Where(a => a.Name.Contains(name, StringComparison.CurrentCulture)).ToListAsync().ConfigureAwait(false);
+    public async Task<IEnumerable<AdjustmentParameters>> FindByNameAsync(string name)
+    {
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Adjustments.Where(a => a.Name.Contains(name, StringComparison.CurrentCulture)).ToListAsync().ConfigureAwait(false);
+    }
 
-    public async Task<AdjustmentParameters?> FindByIdAsync(Guid id) =>
-        await _context.Adjustments.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
+    public async Task<AdjustmentParameters?> FindByIdAsync(Guid id)
+    {
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Adjustments.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
+    }
 
-    public int Count() => _context.Adjustments.Count();
+    public int Count()
+    {
+        var context = _contextFactory.CreateDbContext();
+        return context.Adjustments.Count();
+    }
 
-    public async Task<IEnumerable<AdjustmentParameters>> GetAllAsync() => await _context.Adjustments.ToListAsync().ConfigureAwait(false);
+    public async Task<IEnumerable<AdjustmentParameters>> GetAllAsync()
+    {
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Adjustments.ToListAsync().ConfigureAwait(false);
+    }
 
     public async Task SetLevelAsync(Guid id, int level)
     {
-        var item = await _context.Adjustments.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        var item = await context.Adjustments.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
         if (item is null)
             return;
 
         item.InstalledLevel = level;
-        _context.Entry(item).State = EntityState.Modified;
-        await _context.SaveChangesAsync().ConfigureAwait(false);
+        context.Entry(item).State = EntityState.Modified;
+        await context.SaveChangesAsync().ConfigureAwait(false);
     }
 
-    public async Task<AdjustmentParameters?> GetAdjustmentWithLevelAsync(int level) =>
-        await _context.Adjustments.FirstOrDefaultAsync(a => a.InstalledLevel == level).ConfigureAwait(false);
-
-    public async Task<IEnumerable<AdjustmentParameters>> GetAdjustmentsWithLevelAsync() =>
-        await _context.Adjustments.Where(a => a.InstalledLevel > 0).ToListAsync().ConfigureAwait(false);
-
-    private void UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local)
+    public async Task<AdjustmentParameters?> GetAdjustmentWithLevelAsync(int level)
     {
-        _context.Entry(local.Bend).CurrentValues.SetValues(item.Bend);
-        _context.Entry(local.BendRoller).CurrentValues.SetValues(item.BendRoller);
-        _context.Entry(local.Clamp).CurrentValues.SetValues(item.Clamp);
-        _context.Entry(local.ClampRoller).CurrentValues.SetValues(item.ClampRoller);
-        _context.Entry(local.Console).CurrentValues.SetValues(item.Console);
-        _context.Entry(local.Dorn).CurrentValues.SetValues(item.Dorn);
-        _context.Entry(local.Lift).CurrentValues.SetValues(item.Lift);
-        _context.Entry(local.Press).CurrentValues.SetValues(item.Press);
-        _context.Entry(local.Rotation).CurrentValues.SetValues(item.Rotation);
-        _context.Entry(local.Squeeze).CurrentValues.SetValues(item.Squeeze);
-        _context.Entry(local.Supply).CurrentValues.SetValues(item.Supply);
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Adjustments.FirstOrDefaultAsync(a => a.InstalledLevel == level).ConfigureAwait(false);
+    }
+
+    public async Task<IEnumerable<AdjustmentParameters>> GetAdjustmentsWithLevelAsync()
+    {
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Adjustments.Where(a => a.InstalledLevel > 0).ToListAsync().ConfigureAwait(false);
+    }
+
+    private async Task UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local)
+    {
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        context.Entry(local.Bend).CurrentValues.SetValues(item.Bend);
+        context.Entry(local.BendRoller).CurrentValues.SetValues(item.BendRoller);
+        context.Entry(local.Clamp).CurrentValues.SetValues(item.Clamp);
+        context.Entry(local.ClampRoller).CurrentValues.SetValues(item.ClampRoller);
+        context.Entry(local.Console).CurrentValues.SetValues(item.Console);
+        context.Entry(local.Dorn).CurrentValues.SetValues(item.Dorn);
+        context.Entry(local.Lift).CurrentValues.SetValues(item.Lift);
+        context.Entry(local.Press).CurrentValues.SetValues(item.Press);
+        context.Entry(local.Rotation).CurrentValues.SetValues(item.Rotation);
+        context.Entry(local.Squeeze).CurrentValues.SetValues(item.Squeeze);
+        context.Entry(local.Supply).CurrentValues.SetValues(item.Supply);
     }
 }

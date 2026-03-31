@@ -103,7 +103,7 @@ public partial class App : Application
                     .PersistKeysToFileSystem(_directory)
                     .SetApplicationName("StarkCNC");
 
-                services.AddDbContext<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
+                services.AddDbContextFactory<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
                 services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IRouter, Router>();
                 services.AddSingleton<IBreadcrumbService, BreadcrumbService>();
