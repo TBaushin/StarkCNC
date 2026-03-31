@@ -62,6 +62,9 @@ public partial class UserViewModel : ViewModelBase
         _userService = userService;
 
         LoadUsersAsync();
+
+        if (_userService.CurrentUser is not null)
+            SelectedUser = _userService.CurrentUser;
     }
 
     private async void LoadUsersAsync()
