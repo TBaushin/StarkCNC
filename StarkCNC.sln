@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.3.11512.155 d18.3
+VisualStudioVersion = 18.3.11512.155
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarkCNC", "StarkCNC\StarkCNC.csproj", "{D467C43B-986D-4E2B-B08A-8F9D60F7D299}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarkCNC.Language", "StarkCNC.Language\StarkCNC.Language.csproj", "{4ACC86DD-9E51-4544-BFB4-40D762E5D47E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarkCNC.Utilities", "StarkCNC.Utilities\StarkCNC.Utilities.csproj", "{352BD304-F0B6-4485-BCF7-FC752D0B996F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StarkCNC.Utilities.Tests", "StarkCNC.Utilities.Tests\StarkCNC.Utilities.Tests.csproj", "{2A8C9713-CF3C-49DC-A268-DEB40E875F03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{352BD304-F0B6-4485-BCF7-FC752D0B996F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{352BD304-F0B6-4485-BCF7-FC752D0B996F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{352BD304-F0B6-4485-BCF7-FC752D0B996F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2A8C9713-CF3C-49DC-A268-DEB40E875F03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A8C9713-CF3C-49DC-A268-DEB40E875F03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A8C9713-CF3C-49DC-A268-DEB40E875F03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A8C9713-CF3C-49DC-A268-DEB40E875F03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

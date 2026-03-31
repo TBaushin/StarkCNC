@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="appsettings.v2.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="appsettings.v2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\StarkCNC.Utilities\StarkCNC.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>
