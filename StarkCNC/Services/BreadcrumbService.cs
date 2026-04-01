@@ -10,22 +10,20 @@ namespace StarkCNC.Services;
 public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
 {
     private readonly IRouter _router;
-    private readonly INavigationService _navigationService;
 
     private readonly List<string> _breadcrumbsTitles = new();
 
     [ObservableProperty]
     private object _visibleObject;
 
-    public BreadcrumbService(IRouter router, INavigationService navigationService)
+    public BreadcrumbService(IRouter router)
     {
         _router = router;
-        _navigationService = navigationService;
 
-        _navigationService.Navigation += _navigationService_Navigation;
+        _router.Navigated += _router_Navigation;
     }
 
-    private void _navigationService_Navigation(object? sender, NavigationEventArgs e)
+    private void _router_Navigation(object? sender, NavigationEventArgs e)
     {
         _breadcrumbsTitles.Clear();
 

@@ -2,7 +2,6 @@
 using StarkCNC.Controls;
 using StarkCNC.Core.Services;
 using StarkCNC.Utilities;
-using StarkCNC.Services;
 using StarkCNC.ViewModels;
 using System.Globalization;
 using System.Windows;
@@ -23,15 +22,12 @@ public partial class MainWindow : Window
 
     public FlyoutMenuControl FlyoutMenu { get; set; }
 
-    public MainWindow(INavigationService navigationService, IRouter router, MainWindowViewModel viewModel)
+    public MainWindow(IRouter router, MainWindowViewModel viewModel)
     {
-        if (navigationService is null)
-            throw new ArgumentNullException(nameof(navigationService));
-
         if (router is null)
             throw new ArgumentNullException(nameof(router));
 
-        navigationService.Navigation += OnNavigation;
+        router.Navigated += OnNavigation;
 
         ViewModel = viewModel;
         DataContext = ViewModel;
@@ -55,7 +51,7 @@ public partial class MainWindow : Window
         Grid.SetRowSpan(FlyoutMenu, 3);
         PageGrid.Children.Add(FlyoutMenu);
 
-        navigationService.SetFrame(RootContentFrame);
+        router.SetFrame(RootContentFrame);
 
         WindowChrome.SetWindowChrome(this,
             new WindowChrome

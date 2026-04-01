@@ -4,7 +4,6 @@ using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.Models;
-using StarkCNC.Services;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -17,8 +16,6 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [ObservableProperty]
     private ViewData? _selectedPage;
-
-    private readonly INavigationService _navigationService;
 
     private readonly IRouter _router;
 
@@ -49,7 +46,6 @@ public partial class MainWindowViewModel : ViewModelBase
     private string _currentUserName;
 
     public MainWindowViewModel(
-        INavigationService navigationService,
         IRouter router,
         IBreadcrumbService breadcrumbService,
         IStatusService statusService,
@@ -58,7 +54,6 @@ public partial class MainWindowViewModel : ViewModelBase
         IUserService userService,
         AdjustmentViewModel adjustmentViewModel) 
     {
-        _navigationService = navigationService;
         _router = router;
         _bendingUnitOfWork = bendingUnitOfWork;
         _adjustmentRepository = adjustmentRepository;
@@ -88,7 +83,7 @@ public partial class MainWindowViewModel : ViewModelBase
         AdjustmentUpdateChildElements();
 
         _adjustmentViewModel.SetUpAdjustments.CollectionChanged += SetUpAdjustments_CollectionChanged;
-        _navigationService.Navigation += (_, _) =>
+        _router.Navigated += (_, _) =>
         {
             if (_router.CurrentRoute == _router.GetRoute("/program"))
                 statusService?.ShowStatus = false;
@@ -110,13 +105,7 @@ public partial class MainWindowViewModel : ViewModelBase
     [RelayCommand]
     private void Back()
     {
-        _navigationService.GoBack();
-    }
-
-    [RelayCommand]
-    private void Forward()
-    {
-        _navigationService.GoForward();
+        _router.GoBack();
     }
 
     [RelayCommand]
@@ -149,7 +138,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     public void UpdateCanNavigateBack()
     {
-        CanNavigateBack = _navigationService.CanGoBack;
+        CanNavigateBack = _router.CanGoBack;
     }
 
     public ViewData? GetNavigationItem(string title)

@@ -103,7 +103,6 @@ public partial class App : Application
                     .SetApplicationName("StarkCNC");
 
                 services.AddDbContextFactory<AppJsonContext>(opt => opt.UseInMemoryDatabase("StarkCNC"));
-                services.AddSingleton<INavigationService, NavigationService>();
                 services.AddSingleton<IRouter, Router>();
                 services.AddSingleton<IBreadcrumbService, BreadcrumbService>();
                 services.AddSingleton<IStatusService, StatusService>();
