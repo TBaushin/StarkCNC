@@ -16,7 +16,7 @@ public class SettingsRepository : ISettingsRepository
 
     public async Task<Settings?> AddElementAsync(Settings settings)
     {
-        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
         var canBeSave = await context.Settings.AnyAsync().ConfigureAwait(false);
         if (canBeSave)
             return null;
@@ -32,28 +32,38 @@ public class SettingsRepository : ISettingsRepository
         if (settings is null)
             throw new ArgumentNullException(nameof(settings));
 
-        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
 
-        context.Entry(settings).State = EntityState.Modified;
+        var exists = await context.Settings.FirstOrDefaultAsync(s => s.Id == settings.Id).ConfigureAwait(false);
+        if (exists is null)
+            return;
+
+        context.Entry(exists).CurrentValues.SetValues(settings);
 
         await context.SaveChangesAsync().ConfigureAwait(false);
     }
 
     public async Task<Settings?> GetAsync()
     {
-        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
-        return await context.Settings.FirstOrDefaultAsync().ConfigureAwait(false);
+        using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Settings
+            .AsNoTracking()
+            .FirstOrDefaultAsync()
+            .ConfigureAwait(false);
     }
 
     public async Task<Settings?> FindByIdAsync(Guid id)
     {
-        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
-        return await context.Settings.FirstOrDefaultAsync(s => s.Id == id).ConfigureAwait(false);
+        using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        return await context.Settings
+            .AsNoTracking()
+            .FirstOrDefaultAsync(s => s.Id == id)
+            .ConfigureAwait(false);
     }
 
     public int Count()
     {
-        var context = _contextFactory.CreateDbContext();
+        using var context = _contextFactory.CreateDbContext();
         return context.Settings.Count();
     }
 }

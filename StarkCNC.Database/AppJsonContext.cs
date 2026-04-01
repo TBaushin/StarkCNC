@@ -7,74 +7,58 @@ namespace StarkCNC.Database;
 
 public class AppJsonContext : DbContext
 {
-    private static IConfiguration _configuration;
+    private static readonly IConfiguration _configuration = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetCurrentDirectory())
+        .AddJsonFile("appsettings.v2.json", optional: false, reloadOnChange: true)
+        .Build();
 
-    private readonly string _savePath;
-
-    private readonly List<IDbHelper> _helpers;
+    private static readonly string basePath = GetSavePath();
 
     public DbSet<AdjustmentParameters> Adjustments { get; set; }
 
     public DbSet<Settings> Settings { get; set; }
 
-    public DbSet<User> Users { get; set; }
-
     public AppJsonContext(DbContextOptions<AppJsonContext> options) : base(options)
     {
-        _savePath = GetSavePath();
-
         Database.EnsureCreated();
 
-        _helpers = new List<IDbHelper>()
+        var existingAdnjustments = Adjustments?.Select(a => a.Id).ToHashSet() ?? new HashSet<Guid>();
+        foreach (var element in IDbHelper.Read<AdjustmentParameters>($"{basePath}\\Adjustments"))
         {
-            new AdjustmentDbHelper(_savePath, this),
-            new SettingsDbHelper(_savePath, this),
-            new UsersDbHelper(_savePath, this)
-        };
+            if (!existingAdnjustments.Contains(element.Id))
+                Adjustments?.Add(element);
+        }
 
-        try
+        var exsistingSettings = Settings?.Select(s => s.Id).ToHashSet() ?? new HashSet<Guid>();
+        foreach (var element in IDbHelper.Read<Settings>($"{basePath}\\Settings"))
         {
-            _helpers.ForEach(e => e.Read());
+            if (!exsistingSettings.Contains(element.Id))
+                Settings?.Add(element);
         }
-        catch
-        {
-            // Ignore
-        }
+
+        SaveChanges();
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        _helpers.ForEach(async e => await e.Delete().ConfigureAwait(false));
         var r = await base.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        var adjustments = await Adjustments.AsNoTracking().IncludeAll(this).ToListAsync().ConfigureAwait(false);
+        var settings = await Settings.AsNoTracking().IncludeAll(this).ToListAsync().ConfigureAwait(false);
 
-        _helpers.ForEach(async e => await e.Save().ConfigureAwait(false));
+        await IDbHelper.Delete($"{basePath}\\Adjustments", adjustments, e => e.Id).ConfigureAwait(false);
+        await IDbHelper.Delete($"{basePath}\\Settings", settings, e => e.Id).ConfigureAwait(false);
+
+        await IDbHelper.Save($"{basePath}\\Adjustments", adjustments).ConfigureAwait(false);
+        await IDbHelper.Save($"{basePath}\\Settings", settings).ConfigureAwait(false);
 
         return r;
     }
 
-    public static void Initialize(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
-    public static AppJsonContext Initialize(IConfiguration configuration, DbContextOptions<AppJsonContext> options)
-    {
-        _configuration = configuration;
-        return new AppJsonContext(options);
-    }
-
     private static string GetSavePath()
     {
-        var section = _configuration.GetSection("SaveParameters");
-        if (section is null)
-            return AppDomain.CurrentDomain.BaseDirectory;
-
-        var savePath = string.Empty;
-        savePath = section.GetSection("Path").Get<string>();
-
+        var savePath = _configuration.GetValue<string>("Settings:SaveParameters:Path") ?? string.Empty;
         if (string.IsNullOrEmpty(savePath))
             return AppDomain.CurrentDomain.BaseDirectory;
-        else
-            return savePath;
+        return savePath;
     }
 }

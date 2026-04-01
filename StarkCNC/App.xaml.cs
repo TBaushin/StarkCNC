@@ -48,7 +48,6 @@ public partial class App : Application
         });
 
         ViewLocator.Initialize(_host.Services);
-        AppJsonContext.Initialize(Configuration);
 
         ConfigureRoutes(_host.Services.GetRequiredService<IRouter>());
 

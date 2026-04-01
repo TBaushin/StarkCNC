@@ -54,7 +54,7 @@ public partial class AdjustmentListViewModel : ViewModelBase
 
     public async void LoadAdjustmentsAsync()
     {
-        var adjustments = await _repository.GetAllAsync().ConfigureAwait(false);
+        var adjustments = await _repository.GetAllAsync().ConfigureAwait(true);
         Adjustments.Clear();
 
         foreach (var adjustment in adjustments)
@@ -73,7 +73,7 @@ public partial class AdjustmentListViewModel : ViewModelBase
     [RelayCommand]
     private async Task CreateAdjustment()
     {
-        var settingsWindow = new AdjustmentSettingsWindow(null);
+        var settingsWindow = new AdjustmentSettingsWindow(null, _adjustmentConstructor);
         settingsWindow.ShowDialog();
         var result = settingsWindow.Result;
 
@@ -82,9 +82,9 @@ public partial class AdjustmentListViewModel : ViewModelBase
 
         var adjustment = await _adjustmentConstructor
             .Build(result.Name, result.Type, result.PipeDiameter, result.Radius)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
 
-        await _repository.AddElementAsync(adjustment).ConfigureAwait(false);
+        await _repository.AddElementAsync(adjustment).ConfigureAwait(true);
 
         LoadAdjustmentsAsync();
     }
@@ -95,14 +95,14 @@ public partial class AdjustmentListViewModel : ViewModelBase
         if (adjustment is null)
             return;
 
-        var adjustmentsToDelete = await _repository.FindByNameAsync(adjustment.Name).ConfigureAwait(false);
+        var adjustmentsToDelete = await _repository.FindByNameAsync(adjustment.Name).ConfigureAwait(true);
         if (adjustmentsToDelete is null)
             return;
 
         var adjustmentToDelete = adjustmentsToDelete.FirstOrDefault();
         if (adjustmentToDelete is not null)
         {
-            await _repository.RemoveElementAsync(adjustmentToDelete.Id).ConfigureAwait(false);
+            await _repository.RemoveElementAsync(adjustmentToDelete.Id).ConfigureAwait(true);
             LoadAdjustmentsAsync();
         }
     }
@@ -113,7 +113,7 @@ public partial class AdjustmentListViewModel : ViewModelBase
         if (adjustment is null)
             return;
 
-        var adjustmentsToEdit = await _repository.FindByNameAsync(adjustment.Name).ConfigureAwait(false);
+        var adjustmentsToEdit = await _repository.FindByNameAsync(adjustment.Name).ConfigureAwait(true);
         if (adjustmentsToEdit is null)
             return;
 

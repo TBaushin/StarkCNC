@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Core.Models;
+using StarkCNC.Services;
 using StarkCNC.Utilities;
 using System.Globalization;
 using System.Windows;
@@ -41,19 +42,13 @@ public partial class AdjustmentSettingsWindow : Window
         }
     }
 
-    public AdjustmentSettingsWindow(AdjustmentParameters? adjustment, string Title = "Добавление новой оснастки")
+    public AdjustmentSettingsWindow(AdjustmentParameters? adjustment, AdjustmentParametersConstructor constructor, string Title = "Добавление новой оснастки")
     {
         _oldParameters = adjustment;
         DataContext = this;
 
         if (adjustment is null)
-            Result = new AdjustmentParameters()
-            {
-                Name = string.Empty,
-                Type = AdjustmentType.Winding,
-                PipeDiameter = 0,
-                Radius = 0
-            };
+            Result = constructor.Build(string.Empty, AdjustmentType.Winding, 0, 0).Result;
         else
             Result = (AdjustmentParameters)adjustment.Clone();
 

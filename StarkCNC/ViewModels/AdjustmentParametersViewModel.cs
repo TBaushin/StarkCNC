@@ -5,6 +5,7 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Services;
 
 namespace StarkCNC.ViewModels;
 
@@ -13,6 +14,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     private readonly IRouter _router;
     private IAdjustmentRepository _repository;
     private IManualConfigurationService _manualConfigurationService;
+    private AdjustmentParametersConstructor _constructor;
 
     private AdjustmentParameters? _adjustment;
 
@@ -68,11 +70,13 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         IRouter router,
         IAdjustmentRepository repository,
         IManualConfigurationService manualConfigurationService,
+        AdjustmentParametersConstructor constructor,
         Guid? id)
     {
         _router = router;
         _repository = repository;
         _manualConfigurationService = manualConfigurationService;
+        _constructor = constructor;
         ReadRequestsFromConfiguration();
         SetSelectedAdjustment(id);
     }
@@ -155,7 +159,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         adjustment.PipeDiameter = PipeDiameter;
         adjustment.Radius = Radius;
 
-        var settingsWindow = new AdjustmentSettingsWindow(adjustment, "Редактирование оснастки");
+        var settingsWindow = new AdjustmentSettingsWindow(adjustment, _constructor, "Редактирование оснастки");
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;
