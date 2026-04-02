@@ -358,7 +358,7 @@ public class UserService : IUserService
         if (userData is null)
             return;
 
-        await Login(userData.User, userData.Password, true).ConfigureAwait(false);
+        await Login(userData.User.UserName, userData.Password, true).ConfigureAwait(false);
     }
 
     private class UserData
