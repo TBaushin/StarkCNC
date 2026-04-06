@@ -1,9 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Identity;
+using Opc.Ua.Server;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
 using StarkCNC.Utilities;
+using StarkCNC.Windows;
 using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
@@ -280,52 +282,50 @@ public partial class UserViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void SetSelectedUserAsCurrentOperator()
+    private void ShowAuthorizationWindow()
     {
         ClearErrors();
 
-        RightBlockShowingStatus = RightBlockStatus.Authorization;
+        var auth = new AuthorizationWindow(this);
+        auth.Show();
     }
 
-    [RelayCommand]
-    private async Task Authorization()
+    public async Task<string> Authorization(string username, string password, bool saveSession = false)
     {
         ClearErrors();
 
-        if (SelectedUser is null)
-            return;
+        if (string.IsNullOrEmpty(username))
+            return "Укажите пользователя";
 
-        bool canHasDefaultPassword = await CanHasDefaultPassword().ConfigureAwait(true);
-        string password;
-        if (string.IsNullOrEmpty(Password))
+        bool canHasDefaultPassword = await CanHasDefaultPassword(username).ConfigureAwait(true);
+        string validPassword;
+        if (string.IsNullOrEmpty(password))
         {
             if (!canHasDefaultPassword)
             {
-                FormsErrors = "Введите пароль";
-                return;
+                return "Введите пароль";
             }
             else
             {
-                password = ControllerRequestStrings.EMPTY_PASSWORD;
+                validPassword = ControllerRequestStrings.EMPTY_PASSWORD;
             }
         }
         else
         {
-            password = Password;
+            validPassword = password;
         }
 
 
-        var result = await _userService.Login(UserName, password, SaveSession).ConfigureAwait(true);
+        var result = await _userService.Login(username, validPassword, saveSession).ConfigureAwait(true);
         if (!result)
-        {
-            FormsErrors = "Неверный пароль";
-            return;
-        }
+            return "Неверный пароль";
 
+        SelectedUser = _userService.CurrentUser;
         LoadRolesAsync();
         ClearErrors();
         IsThisUserAuthorized = true;
         RightBlockShowingStatus = RightBlockStatus.Details;
+        return "";
     }
 
     [RelayCommand]
@@ -392,6 +392,23 @@ public partial class UserViewModel : ViewModelBase
         return false;
     }
 
+    public async Task<bool> CanHasDefaultPassword(string username)
+    {
+        Roles role = Core.Models.Roles.Service;
+        var user = await _userService.FindUserByName(username).ConfigureAwait(true);
+        if (user is not null)
+        {
+            var roleIdentity = await _userService.GetUserRole(user).ConfigureAwait(true);
+            if (roleIdentity is not null)
+                role = RolePermissions.IdentityRoleToRoles(roleIdentity.Name);
+
+            if (role == Core.Models.Roles.Operator)
+                return true;
+        }
+
+        return false;
+    }
+
     private bool CheckUserDataIsValidAndShowErrors(string userName, string currentPassword, string? newPassword = null) // TODO: Guard Clauses
     {
         var userNameEmpty = string.IsNullOrEmpty(userName);
@@ -450,6 +467,5 @@ public partial class UserViewModel : ViewModelBase
 public enum RightBlockStatus
 {
     Details,
-    Creation,
-    Authorization
+    Creation
 }
