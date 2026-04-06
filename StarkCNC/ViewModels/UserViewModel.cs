@@ -317,7 +317,7 @@ public partial class UserViewModel : ViewModelBase
 
         var result = await _userService.Login(username, validPassword, saveSession).ConfigureAwait(true);
         if (!result)
-            return "Неверный пароль";
+            return "Неверное имя пользователя или пароль";
 
         SelectedUser = _userService.CurrentUser;
         LoadRolesAsync();
