@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.Identity;
-using Opc.Ua.Server;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Services;
 using StarkCNC.Utilities;
@@ -326,14 +325,6 @@ public partial class UserViewModel : ViewModelBase
         IsThisUserAuthorized = true;
         RightBlockShowingStatus = RightBlockStatus.Details;
         return "";
-    }
-
-    [RelayCommand]
-    private void AuthorizationCancel()
-    {
-        ClearErrors();
-
-        RightBlockShowingStatus = RightBlockStatus.Details;
     }
 
     private void EnableEditing(bool value)
