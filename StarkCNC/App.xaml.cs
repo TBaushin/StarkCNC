@@ -111,7 +111,6 @@ public partial class App : Application
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
                 services.AddTransient<AdjustmentViewModel>();
-                services.AddSingleton<FlyoutMenuControl>();
                 services.AddTransient<IBendingModelsLoadingService, BendingModelsLoadingService>();
                 services.AddSingleton<IBendingDataUnitOfWork, BendingDataUnitOfWork>();
 #if DEBUG
