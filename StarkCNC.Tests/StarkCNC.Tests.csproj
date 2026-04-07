@@ -32,7 +32,7 @@
 
   <ItemGroup>
     <Folder Include="Fakes\Repositories\" />
-    <Folder Include="Services\" />
+    <Folder Include="Repositories\" />
   </ItemGroup>
 
   <ItemGroup>
