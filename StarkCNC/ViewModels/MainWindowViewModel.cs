@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
@@ -40,6 +41,9 @@ public partial class MainWindowViewModel : ViewModelBase
     private bool _showStatus;
 
     [ObservableProperty]
+    private ObservableCollection<Status> _history = new ObservableCollection<Status>();
+
+    [ObservableProperty]
     private object _breadcrumb;
 
     [ObservableProperty]
@@ -75,6 +79,19 @@ public partial class MainWindowViewModel : ViewModelBase
 
                 if (args.PropertyName == nameof(statusService.ShowStatus))
                     ShowStatus = statusService.ShowStatus;
+            };
+
+            statusService.NotifyCollectionChanged += (sender, args) =>
+            {
+                if (args.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add &&
+                    args.NewItems?.Count > 0)
+                {
+                    foreach (var item in args.NewItems)
+                    {
+                        if (item is Status status)
+                            History.Add(status);
+                    }
+                }                    
             };
         }
 

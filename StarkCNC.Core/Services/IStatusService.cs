@@ -1,4 +1,5 @@
 ﻿using StarkCNC.Core.Models;
+using System.Collections.Specialized;
 using System.ComponentModel;
 
 namespace StarkCNC.Core.Services;
@@ -12,4 +13,6 @@ public interface IStatusService : INotifyPropertyChanged
     bool ShowStatus { get; set; }
 
     new event PropertyChangedEventHandler? PropertyChanged;
+
+    new event NotifyCollectionChangedEventHandler? NotifyCollectionChanged;
 }

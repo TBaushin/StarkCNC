@@ -23,7 +23,7 @@ public class StatusService : IStatusService
             if (value is not null)
             {
                 History.Add(value);
-                OnCollectionChanged();
+                OnCollectionChanged(value);
             }
         }
     }
@@ -47,8 +47,8 @@ public class StatusService : IStatusService
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    private void OnCollectionChanged()
+    private void OnCollectionChanged(Status newItem)
     {
-        NotifyCollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add));
+        NotifyCollectionChanged?.Invoke(History, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItem));
     }
 }
