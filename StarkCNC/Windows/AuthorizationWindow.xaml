@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:controls="clr-namespace:StarkCNC.Controls"
         xmlns:local="clr-namespace:StarkCNC.Windows"
         mc:Ignorable="d"
         Title="AuthorizationWindow"
@@ -54,7 +55,7 @@
                 <Label
                     Grid.Row="0"
                     Content="Пароль"/>
-                <PasswordBox
+                <controls:PasswordTextBox
                     x:Name="Password"
                     Grid.Row="1"
                     Margin="0,0,0,10"/>
