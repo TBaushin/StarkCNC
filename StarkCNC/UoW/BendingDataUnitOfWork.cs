@@ -143,7 +143,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
             BendingDatas.Add(d);
         }
 
-        await SaveLastPathToProgramGCodeFile(filePath).ConfigureAwait(false);
+        await SaveLastPathToProgramCSVFile(filePath).ConfigureAwait(false);
     }
 
     public async Task WriteFileAsync(string filePath)
@@ -152,12 +152,12 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
         CurrentFilePath = filePath;
         ProgramName = Path.GetFileNameWithoutExtension(filePath);
 
-        await SaveLastPathToProgramGCodeFile(filePath).ConfigureAwait(false);
+        await SaveLastPathToProgramCSVFile(filePath).ConfigureAwait(false);
     }
 
     private async void Initialize()
     {
-        var filePath = await ReadLastPathToProgramGCodeFile().ConfigureAwait(false);
+        var filePath = await ReadLastPathToProgramCSVFile().ConfigureAwait(false);
         if (string.IsNullOrEmpty(filePath) || new FileInfo(filePath).Extension != ".csv")
             return;
 
@@ -174,7 +174,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
         SetUpPoint = first?.YSetup ?? 0;
     }
 
-    private static async Task SaveLastPathToProgramGCodeFile(string filePath)
+    private static async Task SaveLastPathToProgramCSVFile(string filePath)
     {
         if (!Directory.Exists(_tempFolder))
             Directory.CreateDirectory(_tempFolder);
@@ -186,7 +186,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
         await File.WriteAllTextAsync(tempFullPath, data).ConfigureAwait(false);
     }
 
-    private static async Task<string?> ReadLastPathToProgramGCodeFile()
+    private static async Task<string?> ReadLastPathToProgramCSVFile()
     {
         if (!Directory.Exists(_tempFolder))
             return null;
