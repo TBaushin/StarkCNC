@@ -48,7 +48,7 @@ public partial class RegistrationWindowViewModel : ViewModelBase
 
         try
         {
-            await _userService.Register(username, password, role?.Name).ConfigureAwait(true);
+            await _userService.Register(username, validPassword, role?.Name).ConfigureAwait(true);
         }
         catch (InvalidOperationException ex)
         {
