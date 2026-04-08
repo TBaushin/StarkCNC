@@ -76,6 +76,12 @@ public partial class AuthorizationWindow : Window
 
     private void Window_Closing(object sender,  System.ComponentModel.CancelEventArgs e)
     {
+        if (!ViewModel.AtStart)
+        {
+            e.Cancel = false;
+            return;
+        }
+            
         if (isAuthorized)
         {
             e.Cancel = false;

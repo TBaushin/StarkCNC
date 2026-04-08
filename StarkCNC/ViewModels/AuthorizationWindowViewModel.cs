@@ -17,16 +17,19 @@ public partial class AuthorizationWindowViewModel : ViewModelBase
 
     public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
 
-    private AuthorizationWindowViewModel(IUserService userService, User? authorizedUser, bool canCreateOrDeleteUsers, IEnumerable<User> users)
+    public bool AtStart { get; }
+
+    private AuthorizationWindowViewModel(IUserService userService, User? authorizedUser, bool canCreateOrDeleteUsers, IEnumerable<User> users, bool atStart = false)
     {
         _userService = userService;
         _authorizedUser = authorizedUser;
         CanCreateOrDeleteUsers = canCreateOrDeleteUsers;
+        AtStart = atStart;
         foreach (var item in users)
             Users.Add(item);
     }
 
-    public static async Task<AuthorizationWindowViewModel> InitializeAsync(IUserService userService)
+    public static async Task<AuthorizationWindowViewModel> InitializeAsync(IUserService userService, bool atStart = false)
     {
         if (userService is null)
             throw new ArgumentNullException(nameof(userService));
@@ -34,7 +37,7 @@ public partial class AuthorizationWindowViewModel : ViewModelBase
         var authorizedUser = userService.CurrentUser;
         bool canCreateOrDeleteUsers = await CanManageUsers(userService, authorizedUser).ConfigureAwait(false);
         var users = await userService.GetAllUsersAsync().ConfigureAwait(false);
-        return new AuthorizationWindowViewModel(userService, authorizedUser, canCreateOrDeleteUsers, users);
+        return new AuthorizationWindowViewModel(userService, authorizedUser, canCreateOrDeleteUsers, users, atStart);
     }
 
     private static async Task<bool> CanManageUsers(IUserService userService, User? authorizedUser)

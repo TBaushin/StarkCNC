@@ -151,7 +151,7 @@ public partial class App : Application
         if (userService.CurrentUser is not null)
             return;
 
-        var vm = await AuthorizationWindowViewModel.InitializeAsync(userService).ConfigureAwait(true);
+        var vm = await AuthorizationWindowViewModel.InitializeAsync(userService, true).ConfigureAwait(true);
         var authorization = new AuthorizationWindow(vm);
         authorization.ShowDialog();
         if (userService.CurrentUser is null)

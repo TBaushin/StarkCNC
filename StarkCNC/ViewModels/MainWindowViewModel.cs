@@ -5,6 +5,7 @@ using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.Models;
+using StarkCNC.Windows;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Threading;
@@ -26,6 +27,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private readonly IBendingDataUnitOfWork _bendingUnitOfWork;
 
     private readonly IAdjustmentRepository _adjustmentRepository;
+
+    private readonly IUserService _userService;
 
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
@@ -65,6 +68,7 @@ public partial class MainWindowViewModel : ViewModelBase
         _bendingUnitOfWork = bendingUnitOfWork;
         _adjustmentRepository = adjustmentRepository;
         _adjustmentViewModel = adjustmentViewModel;
+        _userService = userService;
 
         if (statusService is not null)
         {
@@ -135,9 +139,11 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void GoUsers()
+    private async Task GoUsers()
     {
-        _router.Navigate("/users");
+        var viewModel = await AuthorizationWindowViewModel.InitializeAsync(_userService).ConfigureAwait(true);
+        var window = new AuthorizationWindow(viewModel);
+        window.ShowDialog();
     }
 
     [RelayCommand]
