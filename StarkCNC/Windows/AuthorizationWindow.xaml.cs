@@ -10,27 +10,57 @@ namespace StarkCNC.Windows;
 /// </summary>
 public partial class AuthorizationWindow : Window
 {
-    private UserViewModel ViewModel;
+    private AuthorizationWindowViewModel ViewModel;
+    private bool isAuthorized = false;
 
-    public AuthorizationWindow(UserViewModel viewModel)
+    public AuthorizationWindow(AuthorizationWindowViewModel viewModel)
     {
         ViewModel = viewModel;
+        DataContext = ViewModel;
 
         InitializeComponent();
     }
 
+    private void ShowError(string error)
+    {
+        ErrorsForm.Visibility = Visibility.Visible;
+        ErrorsText.Content = error;
+    }
+
+    private async void RegisterUserButton_Click(object sender, RoutedEventArgs e)
+    {
+        Hide();
+
+        await ViewModel.RegisterNewUser().ConfigureAwait(true);
+
+        Show();
+    }
+
+    private async void DeleteButton_Click(object sender, RoutedEventArgs e)
+    {
+        User? selectedUser = Login.SelectedItem as User;
+
+        var error = await ViewModel.DeleteSelectedUser(selectedUser).ConfigureAwait(true);
+        if (!string.IsNullOrEmpty(error))
+            ShowError(error);
+    }
+
     private async void AuthButton_Click(object sender, RoutedEventArgs e)
     {
+        User? selectedUser = Login.SelectedItem as User;
+
         bool saveSession = false;
         if (RememberAuth.IsChecked is bool remember)
             saveSession = remember;
 
-        var error = await ViewModel.Authorization(Login.Text, Password.Password, saveSession).ConfigureAwait(true);
+        var error = await ViewModel.Authorization(selectedUser, Password.Password, saveSession).ConfigureAwait(true);
         if (string.IsNullOrEmpty(error))
+        {
+            isAuthorized = true;
             Close();
+        }
 
-        ErrorsForm.Visibility = Visibility.Visible;
-        ErrorsText.Content = error;
+        ShowError(error);
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -38,9 +68,24 @@ public partial class AuthorizationWindow : Window
         Close();
     }
 
-    private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    private void Window_KeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Enter)
             AuthButton_Click(new object(), new RoutedEventArgs());
+    }
+
+    private void Window_Closing(object sender,  System.ComponentModel.CancelEventArgs e)
+    {
+        if (isAuthorized)
+        {
+            e.Cancel = false;
+            return;
+        }
+
+        var result = MessageBox.Show("Закрыть программу?", "Закрыть программу?", MessageBoxButton.OKCancel, MessageBoxImage.Question);
+        if (result == MessageBoxResult.OK)
+            e.Cancel = false;
+        else
+            e.Cancel = true;
     }
 }

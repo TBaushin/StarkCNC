@@ -21,6 +21,7 @@ using StarkCNC.Repository;
 using StarkCNC.Services;
 using StarkCNC.UoW;
 using StarkCNC.ViewModels;
+using StarkCNC.Windows;
 using System.Diagnostics;
 using System.IO;
 using System.Windows;
@@ -58,6 +59,9 @@ public partial class App : Application
 #endif
 
         MainWindow = _host.Services.GetRequiredService<MainWindow>();
+
+        RunAuthorization(_host.Services.GetRequiredService<IUserService>());
+
         MainWindow.Visibility = Visibility.Visible;
     }
 
@@ -141,4 +145,16 @@ public partial class App : Application
             configure.AddRoute("/settings", typeof(SettingsViewModel), "Настройки", "\xE713", new Roles[] { Roles.Service, Roles.Administrator });
             configure.AddRoute("/users", typeof(UserViewModel), "Пользователи", iconGlyph: "\xE77B");
         });
+
+    private async void RunAuthorization(IUserService userService)
+    {
+        if (userService.CurrentUser is not null)
+            return;
+
+        var vm = await AuthorizationWindowViewModel.InitializeAsync(userService).ConfigureAwait(true);
+        var authorization = new AuthorizationWindow(vm);
+        authorization.ShowDialog();
+        if (userService.CurrentUser is null)
+            Shutdown();
+    }
 }

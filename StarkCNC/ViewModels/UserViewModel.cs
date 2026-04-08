@@ -281,11 +281,11 @@ public partial class UserViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void ShowAuthorizationWindow()
+    private async Task ShowAuthorizationWindow()
     {
         ClearErrors();
 
-        var auth = new AuthorizationWindow(this);
+        var auth = new AuthorizationWindow(await AuthorizationWindowViewModel.InitializeAsync(_userService).ConfigureAwait(true));
         auth.Show();
     }
 

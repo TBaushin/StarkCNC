@@ -7,11 +7,14 @@ using StarkCNC.Core.UoW;
 using StarkCNC.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace StarkCNC.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private readonly Dispatcher _dispatcher = Application.Current.Dispatcher;
+
     [ObservableProperty]
     private string _title = "StarkCNC";
 
@@ -89,7 +92,7 @@ public partial class MainWindowViewModel : ViewModelBase
                     foreach (var item in args.NewItems)
                     {
                         if (item is Status status)
-                            History.Add(status);
+                            _dispatcher.Invoke(() => History.Add(status));
                     }
                 }                    
             };
