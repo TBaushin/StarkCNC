@@ -98,6 +98,7 @@ public partial class App : Application
                         opt.Password.RequireUppercase = false;
                         opt.Password.RequireNonAlphanumeric = false;
                         opt.Password.RequiredUniqueChars = 0;
+                        opt.Password.RequiredLength = 0;
                     })
                     .AddEntityFrameworkStores<AppDbContext>()
                     .AddDefaultTokenProviders();
