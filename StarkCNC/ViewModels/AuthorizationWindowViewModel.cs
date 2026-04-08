@@ -4,6 +4,7 @@ using StarkCNC.Core.Services;
 using StarkCNC.Utilities;
 using StarkCNC.Windows;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace StarkCNC.ViewModels;
 
@@ -96,13 +97,18 @@ public partial class AuthorizationWindowViewModel : ViewModelBase
         if (selectedUser is null)
             return "Не выбран пользователь для удаления";
 
-        try
+        var sureDelete = MessageBox.Show("Вы уверены, что хотите удалить пользователя?", "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Question);
+        if (sureDelete == MessageBoxResult.Yes)
         {
-            await _userService.RemoveUser(selectedUser).ConfigureAwait(true);
-        }
-        catch (InvalidOperationException ex)
-        {
-            return ex.Message;
+
+            try
+            {
+                await _userService.RemoveUser(selectedUser).ConfigureAwait(true);
+            }
+            catch (InvalidOperationException ex)
+            {
+                return ex.Message;
+            }
         }
 
         Users.Clear();
