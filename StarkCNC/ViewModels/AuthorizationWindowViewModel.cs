@@ -100,7 +100,6 @@ public partial class AuthorizationWindowViewModel : ViewModelBase
         var sureDelete = MessageBox.Show("Вы уверены, что хотите удалить пользователя?", "Удаление пользователя", MessageBoxButton.YesNo, MessageBoxImage.Question);
         if (sureDelete == MessageBoxResult.Yes)
         {
-
             try
             {
                 await _userService.RemoveUser(selectedUser).ConfigureAwait(true);
