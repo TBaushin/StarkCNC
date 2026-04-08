@@ -27,9 +27,16 @@ public partial class AuthorizationWindow : Window
         ErrorsText.Content = error;
     }
 
+    private void HideErrors()
+    {
+        ErrorsForm.Visibility = Visibility.Collapsed;
+        ErrorsText.Content = string.Empty;
+    }
+
     private async void RegisterUserButton_Click(object sender, RoutedEventArgs e)
     {
         Hide();
+        HideErrors();
 
         await ViewModel.RegisterNewUser().ConfigureAwait(true);
 
@@ -43,6 +50,8 @@ public partial class AuthorizationWindow : Window
         var error = await ViewModel.DeleteSelectedUser(selectedUser).ConfigureAwait(true);
         if (!string.IsNullOrEmpty(error))
             ShowError(error);
+        else
+            HideErrors();
     }
 
     private async void AuthButton_Click(object sender, RoutedEventArgs e)
