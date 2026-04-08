@@ -8,7 +8,7 @@ public static class IdentitySeeder
 {
     public static async Task SeedAdminAsync(UserManager<User> userManager)
     {
-        var user = new User() { UserName = "Default" };
+        var user = new User() { UserName = "Сервис" };
         if (await userManager.FindByNameAsync(user.UserName).ConfigureAwait(false) is not null)
             return;
         

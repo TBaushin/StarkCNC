@@ -131,7 +131,7 @@ public class UserService : IUserService
         if (!CanUserUpdate(user, RolePermissions.IdentityRoleToRoles(userRole?.Name)))
             throw new InvalidOperationException("Ваш уровень доступа не позволяет вам удалять пользователей данного уровня доступа");
 
-        if (user.UserName == "Default")
+        if (user.UserName == "Сервис")
             throw new InvalidOperationException("Нельзя удалить пользователя по умолчанию");
 
         var userManager = _serviceProvider.GetRequiredService<UserManager<User>>();
