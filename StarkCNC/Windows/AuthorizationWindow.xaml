@@ -10,6 +10,7 @@
         Title="AuthorizationWindow"
         Height="450"
         Width="400"
+        WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Topmost="True"
         Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
