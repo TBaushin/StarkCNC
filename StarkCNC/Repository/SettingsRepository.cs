@@ -1,17 +1,44 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Database;
+using StarkCNC.Database.Helpers;
 
 namespace StarkCNC.Repository;
 
 public class SettingsRepository : ISettingsRepository
 {
     private IDbContextFactory<AppJsonContext> _contextFactory;
+    private readonly string basePath;
 
-    public SettingsRepository(IDbContextFactory<AppJsonContext> contextFactory)
+    public SettingsRepository(IDbContextFactory<AppJsonContext> contextFactory, IConfiguration configuration)
     {
         _contextFactory = contextFactory;
+
+        basePath = GetSavePath(configuration);
+        Initialize();
+    }
+
+    private async void Initialize()
+    {
+        var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        var exsistingSettings = context.Settings?.Select(s => s.Id).ToHashSet() ?? new HashSet<Guid>();
+        foreach (var element in IDbHelper.Read<Settings>($"{basePath}\\Settings"))
+        {
+            if (!exsistingSettings.Contains(element.Id))
+                context.Settings?.Add(element);
+        }
+
+        await context.SaveChangesAsync().ConfigureAwait(false);
+    }
+
+    private static string GetSavePath(IConfiguration configuration)
+    {
+        var savePath = configuration.GetValue<string>("Settings:SaveParameters:Path") ?? string.Empty;
+        if (string.IsNullOrEmpty(savePath))
+            return AppDomain.CurrentDomain.BaseDirectory;
+        return savePath;
     }
 
     public async Task<Settings?> AddElementAsync(Settings settings)

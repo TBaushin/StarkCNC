@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Database;
@@ -9,10 +10,34 @@ namespace StarkCNC.Repository;
 public class AdjustmentRepository : IAdjustmentRepository
 {
     private IDbContextFactory<AppJsonContext> _contextFactory;
+    private readonly string basePath;
 
-    public AdjustmentRepository(IDbContextFactory<AppJsonContext> contextFactory)
+    public AdjustmentRepository(IDbContextFactory<AppJsonContext> contextFactory, IConfiguration configuration)
     {
         _contextFactory = contextFactory;
+        basePath = GetSavePath(configuration);
+        Initialize();
+    }
+
+    private async void Initialize()
+    {
+        using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
+        var existingAdnjustments = context.Adjustments?.Select(a => a.Id).ToHashSet() ?? new HashSet<Guid>();
+        foreach (var element in IDbHelper.Read<AdjustmentParameters>($"{basePath}\\Adjustments"))
+        {
+            if (!existingAdnjustments.Contains(element.Id))
+                context.Adjustments?.Add(element);
+        }
+
+        await context.SaveChangesAsync().ConfigureAwait(false);
+    }
+
+    private static string GetSavePath(IConfiguration configuration)
+    {
+        var savePath = configuration.GetValue<string>("Settings:SaveParameters:Path") ?? string.Empty;
+        if (string.IsNullOrEmpty(savePath))
+            return AppDomain.CurrentDomain.BaseDirectory;
+        return savePath;
     }
 
     public async Task<AdjustmentParameters?> AddElementAsync(AdjustmentParameters adjustment)

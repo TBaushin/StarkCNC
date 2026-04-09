@@ -21,22 +21,6 @@ public class AppJsonContext : DbContext
     public AppJsonContext(DbContextOptions<AppJsonContext> options) : base(options)
     {
         Database.EnsureCreated();
-
-        var existingAdnjustments = Adjustments?.Select(a => a.Id).ToHashSet() ?? new HashSet<Guid>();
-        foreach (var element in IDbHelper.Read<AdjustmentParameters>($"{basePath}\\Adjustments"))
-        {
-            if (!existingAdnjustments.Contains(element.Id))
-                Adjustments?.Add(element);
-        }
-
-        var exsistingSettings = Settings?.Select(s => s.Id).ToHashSet() ?? new HashSet<Guid>();
-        foreach (var element in IDbHelper.Read<Settings>($"{basePath}\\Settings"))
-        {
-            if (!exsistingSettings.Contains(element.Id))
-                Settings?.Add(element);
-        }
-
-        SaveChanges();
     }
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
