@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
+using StarkCNC.Core.Services;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Utilities;
 
@@ -12,6 +13,9 @@ public partial class SettingsViewModel : ObservableObject
     ISettingsRepository _settingsRepository;
     IManualConfigurationService _manualConfigurationService;
     Settings _settings;
+
+    [ObservableProperty]
+    bool _isServiceUserRole;
 
     [ObservableProperty]
     bool _dornAutomatic;
@@ -139,7 +143,7 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty]
     double _bendJerk;
 
-    public SettingsViewModel(ISettingsRepository settingsRepository, IManualConfigurationService manualConfigurationService)
+    public SettingsViewModel(ISettingsRepository settingsRepository, IManualConfigurationService manualConfigurationService, IUserService userService)
     {
         _settingsRepository = settingsRepository;
         _manualConfigurationService = manualConfigurationService;
@@ -158,6 +162,24 @@ public partial class SettingsViewModel : ObservableObject
             _settings = settings;
 
         ReadData();
+
+        Task.Run(() =>
+        {
+            while (true)
+            {
+                if (userService.CurrentUser is not null && userService.CurrentUserRole is not null)
+                {
+                    if (RolePermissions.IdentityRoleToRoles(userService.CurrentUserRole.Name) == Roles.Service)
+                        IsServiceUserRole = true;
+                    else
+                        IsServiceUserRole = false;
+                }
+                else
+                    IsServiceUserRole = false;
+
+                Task.Delay(150);
+            }
+        });
 
         PropertyChanged += SettingsViewModel_PropertyChanged;
     }

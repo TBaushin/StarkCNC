@@ -5,6 +5,7 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:vm="clr-namespace:StarkCNC.ViewModels"
       xmlns:controls="clr-namespace:StarkCNC.Controls"
+      xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
       xmlns:lang="clr-namespace:StarkCNC.Localization"
       xmlns:local="clr-namespace:StarkCNC.Views"
       d:DataContext="{d:DesignInstance vm:SettingsViewModel}"
@@ -18,6 +19,7 @@
                 <Setter Property="IsNumericOnly" Value="True"/>
                 <Setter Property="NeedCallNumberInput" Value="True"/>
             </Style>
+            <utilities:BoolToVisibilityConverter x:Key="BoolToVibilityConverter"/>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -226,7 +228,8 @@
         </Grid>
         <Grid
             Grid.Row="2"
-            ColumnDefinitions="*,*,*">
+            ColumnDefinitions="*,*,*"
+            Visibility="{Binding IsServiceUserRole, Converter={StaticResource BoolToVibilityConverter}}">
             <controls:BorderedControl
                 Grid.Column="0"
                 Margin="0,0,-4,0"
@@ -577,7 +580,8 @@
         <Grid
             Grid.Row="3"
             Margin="0,5,0,0"
-            ColumnDefinitions="*,*,*">
+            ColumnDefinitions="*,*,*"
+            Visibility="{Binding IsServiceUserRole, Converter={StaticResource BoolToVibilityConverter}}">
             <Grid
                 Grid.Column="0"
                 Grid.Row="0"
