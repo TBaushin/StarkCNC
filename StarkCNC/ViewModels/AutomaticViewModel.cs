@@ -34,7 +34,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     private double _speed;
 
     [ObservableProperty]
-    private double _cycleTime;
+    private float _cycleTime;
 
     [ObservableProperty]
     private double _pipeLength;
@@ -73,7 +73,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     private double _facticalRotationAngle;
 
     [ObservableProperty]
-    private double _facticalBendingAngle;
+    private float _facticalBendingAngle;
 
     [ObservableProperty]
     private double _factialConsole;
@@ -358,7 +358,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
                         .ReadAsync<bool>(ControllerRequestStrings.ERRORS_HAS_ERRORS)
                         .ConfigureAwait(false);
                     CycleTime = await _configurationService
-                        .ReadAsync<double>(ControllerRequestStrings.AUTOMATIC_TAGS_CYCLE_TIME)
+                        .ReadAsync<float>(ControllerRequestStrings.AUTOMATIC_TAGS_CYCLE_TIME)
                         .ConfigureAwait(false);
                     SetSendData(await _configurationService
                         .ReadAsync<bool>(ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA)
@@ -376,7 +376,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
                         .ConfigureAwait(false);
 
                     FacticalBendingAngle = await _configurationService
-                        .ReadAsync<double>(ControllerRequestStrings.BEND_FACTICAL_POSITION)
+                        .ReadAsync<float>(ControllerRequestStrings.BEND_FACTICAL_POSITION)
                         .ConfigureAwait(false);
 
                     FactialConsole = await _configurationService
