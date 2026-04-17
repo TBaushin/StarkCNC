@@ -55,23 +55,20 @@ public class ManualConfigurationService : IManualConfigurationService
 
     public async Task ConnectAsync()
     {
-        if (CanConnect)
+        try
         {
-            try
-            {
-                await _client.ConnectServer(_server).ConfigureAwait(false);
+            await _client.ConnectServer(_server).ConfigureAwait(false);
 
-                _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
+            _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
 
-                _statusService.CurrentStatus = new Status("Подключение успешно", StatusType.Success);
-            }
-            catch (Opc.Ua.ServiceResultException ex)
-            {
+            _statusService.CurrentStatus = new Status("Подключение успешно", StatusType.Success);
+        }
+        catch (Opc.Ua.ServiceResultException ex)
+        {
 #if DEBUG
-                Debug.WriteLine(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})");
+            Debug.WriteLine(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})");
 #endif
-                _statusService.CurrentStatus = new Status(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})", StatusType.Error);
-            }
+            _statusService.CurrentStatus = new Status(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})", StatusType.Error);
         }
 
         RunUpdateTask();
@@ -83,7 +80,6 @@ public class ManualConfigurationService : IManualConfigurationService
             _client.Disconnect();
 
         _server = server;
-        _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
         await ConnectAsync().ConfigureAwait(false);
     }
 
@@ -156,23 +152,26 @@ public class ManualConfigurationService : IManualConfigurationService
 
     private void RunUpdateTask()
     {
-        _timer = new DispatcherTimer(
-            TimeSpan.FromSeconds(5),
-            DispatcherPriority.Normal,
-            async (_, _) =>
-            {
-                if (_client.Connected)
+        if (_timer is null)
+        {
+            _timer = new DispatcherTimer(
+                TimeSpan.FromSeconds(5),
+                DispatcherPriority.Normal,
+                async (_, _) =>
                 {
-                    if (_statusService.CurrentStatus == null || _statusService.CurrentStatus.Text == Localization.Language.ConnectionErrorMessage)
-                        _statusService.CurrentStatus = null;
-                }
-                else
-                {
-                    await ConnectAsync().ConfigureAwait(false);
-                }
-            },
-            Application.Current.Dispatcher);
-        _timer.Start();
+                    if (_client.Connected)
+                    {
+                        if (_statusService.CurrentStatus == null || _statusService.CurrentStatus.Text == Localization.Language.ConnectionErrorMessage)
+                            _statusService.CurrentStatus = null;
+                    }
+                    else
+                    {
+                        await ConnectAsync().ConfigureAwait(false);
+                    }
+                },
+                Application.Current.Dispatcher);
+            _timer.Start();
+        }
     }
 
     private static string? FindControllerName(ISession session, NodeId nodeId)

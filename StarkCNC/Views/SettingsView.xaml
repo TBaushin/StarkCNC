@@ -796,7 +796,7 @@
                             <controls:LabeledTextBoxControl
                                 Grid.Column="1"
                                 Grid.Row="0"
-                                Command="{Binding Server}"
+                                Command="{Binding ServerReconnectCommand}"
                                 IsNumericOnly="False"
                                 NeedCallNumberInput="False"
                                 Text="{Binding Server, Mode=TwoWay}"/>
