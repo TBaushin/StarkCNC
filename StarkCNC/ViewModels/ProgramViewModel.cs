@@ -28,13 +28,13 @@ public partial class ProgramViewModel : ObservableObject
     private string _currentFilePath = string.Empty;
 
     [ObservableProperty]
-    private double _pipeLength;
+    private float _pipeLength;
 
     [ObservableProperty]
-    private double _ySetup;
+    private float _ySetup;
 
     [ObservableProperty]
-    private double _estimatedRemainingLength;
+    private float _estimatedRemainingLength;
 
     [ObservableProperty]
     private BendingDataViewModel? _selectedBendingData;
@@ -399,7 +399,7 @@ public partial class ProgramViewModel : ObservableObject
     {
         CastToModel();
         UpdateEstimatedRemainingLengthAndPipeLength();
-        double pipeDiameter = 50;
+        float pipeDiameter = 50;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
         _bendingModelsLoadingService
@@ -447,19 +447,19 @@ public partial class ProgramViewModel : ObservableObject
         _unitOfWork.HasUnsavedData = true;
     }
 
-    partial void OnEstimatedRemainingLengthChanged(double oldValue, double newValue)
+    partial void OnEstimatedRemainingLengthChanged(float oldValue, float newValue)
     {
         _unitOfWork.EstimatedRemainingLength = newValue;
         _unitOfWork.HasUnsavedData = true;
     }
 
-    partial void OnPipeLengthChanged(double oldValue, double newValue)
+    partial void OnPipeLengthChanged(float oldValue, float newValue)
     {
         _unitOfWork.PipeLength = newValue;
         _unitOfWork.HasUnsavedData = true;
     }
 
-    partial void OnYSetupChanged(double oldValue, double newValue)
+    partial void OnYSetupChanged(float oldValue, float newValue)
     {
         _unitOfWork.SetUpPoint = newValue;
         _unitOfWork.HasUnsavedData = true;

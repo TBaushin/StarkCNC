@@ -8,9 +8,10 @@ using System.Windows.Media;
 
 namespace StarkCNC.Models;
 
-public partial class DriveParameters : ObservableObject
+public partial class DriveParameters : ObservableObject, IDisposable
 {
     private readonly IManualConfigurationService _manualConfigurationService;
+    private bool _disposed;
 
     [ObservableProperty]
     private double? _speed = 0;
@@ -50,64 +51,33 @@ public partial class DriveParameters : ObservableObject
 
     public string RelativeDispositionRequestString { get; private set; } = string.Empty;
 
-    private Task? _updateTask;
-    private CancellationTokenSource? _cancellationTokenSource;
-
     public DriveParameters(IManualConfigurationService manualConfigurationService, bool autoRunUpdate)
     {
         _manualConfigurationService = manualConfigurationService;
 
-        if (autoRunUpdate)
-            StartUpdateTask();
+        Subscribe();
 
         PropertyChanged += DriveParameters_PropertyChanged;
     }
 
-    public void StartUpdateTask()
+    public void Subscribe()
     {
-        if (TaskIsRunning())
-            return;
-
-        _cancellationTokenSource?.Dispose();
-
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
-
-        _updateTask = Task.Run(async () =>
-        {
-            try
-            {
-                while (!token.IsCancellationRequested)
-                {
-                    await GetSpeed().ConfigureAwait(false);
-                    await GetCoordinate().ConfigureAwait(false);
-                    await GetRelativeDisplacement().ConfigureAwait(false);
-                    await GetTorque().ConfigureAwait(false);
-                    await GetRearPosition().ConfigureAwait(false);
-                    await GetFrontPosition().ConfigureAwait(false);
-                    await Task.Delay(150).ConfigureAwait(false);
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                // Нормально: задача отменена
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"UpdateTask error: {ex}");
-            }
-        }, token);
+        _manualConfigurationService.Subscribe<float>(SpeedRequestString, value => Speed = value);
+        _manualConfigurationService.Subscribe<float>(ActualCoordinateRequestString, value => Coordinate = value);
+        _manualConfigurationService.Subscribe<float>(ActualRelativeDisplacementRequestString, value => RelativeDisplacement = value);
+        _manualConfigurationService.Subscribe<float>(TorqueRequestString, value => Torque = value);
+        _manualConfigurationService.Subscribe<bool>(RearPositionRequestString, value => RearPosition = value ? Colors.Green : Colors.DarkRed);
+        _manualConfigurationService.Subscribe<bool>(FrontPositionRequestString, value => FrontPosition = value ? Colors.Green : Colors.DarkRed);
     }
 
-    private bool TaskIsRunning() =>
-        _updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted;
-
-    public void StopUpdateTask()
+    public void Unsubscribe()
     {
-        if (_updateTask is null)
-            return;
-
-        _cancellationTokenSource?.Cancel();
+        _manualConfigurationService.Unsubscribe(SpeedRequestString);
+        _manualConfigurationService.Unsubscribe(ActualCoordinateRequestString);
+        _manualConfigurationService.Unsubscribe(ActualRelativeDisplacementRequestString);
+        _manualConfigurationService.Unsubscribe(TorqueRequestString);
+        _manualConfigurationService.Unsubscribe(RearPositionRequestString);
+        _manualConfigurationService.Unsubscribe(FrontPositionRequestString);
     }
 
     [RelayCommand]
@@ -312,5 +282,25 @@ public partial class DriveParameters : ObservableObject
             FrontPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(FrontPositionRequestString)),
             RelativeDispositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RelativeDispositionRequestString))
         };
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing)
+        {
+            Unsubscribe();
+            PropertyChanged -= DriveParameters_PropertyChanged;
+        }
+
+        _disposed = true;
     }
 }

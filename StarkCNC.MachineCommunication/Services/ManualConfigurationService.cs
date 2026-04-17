@@ -1,8 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Opc.Ua;
+using Opc.Ua.Client;
 using OpcUaHelper;
 using StarkCNC.Core.Models;
+using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using System.Diagnostics;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace StarkCNC.MachineCommunication.Services;
 
@@ -10,26 +15,42 @@ public class ManualConfigurationService : IManualConfigurationService
 {
     private readonly IStatusService _statusService;
 
-    private readonly string _server;
-    private readonly string _requestString;
+    private string _server;
+    private string _requestString;
     private readonly OpcUaClient _client;
 
-    private Task? _connectStatusTask;
+    private DispatcherTimer _timer;
 
     public bool Connected => _client.Connected;
 
     private bool CanConnect =>
         !string.IsNullOrEmpty(_server) && !string.IsNullOrEmpty(_requestString);
 
-    public ManualConfigurationService(IConfiguration configuration, IStatusService statusService)
+    public ManualConfigurationService(IConfiguration configuration, ISettingsRepository settingsRepository, IStatusService statusService)
     {
-        _statusService = statusService;
-        var section = configuration.GetSection("MachineController");
+        if (configuration is null)
+            throw new ArgumentNullException(nameof(configuration));
 
-        _requestString = section.GetSection("RequestString").Get<string>() ?? string.Empty;
-        _server = section.GetSection("Server").Get<string>() ?? string.Empty;
+        if (settingsRepository is null)
+            throw new ArgumentNullException(nameof(settingsRepository));
+
+        _statusService = statusService;
 
         _client = new OpcUaClient();
+
+        var settings = settingsRepository.Get();
+        if (settings is null || string.IsNullOrEmpty(settings.Server))
+        {
+            var section = configuration.GetSection("MachineController");
+
+            _requestString = section.GetSection("RequestString").Get<string>() ?? string.Empty;
+            _server = section.GetSection("Server").Get<string>() ?? string.Empty;
+        }
+        else
+        {
+            _server = settings.Server;
+            _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
+        }
     }
 
     public async Task ConnectAsync()
@@ -52,6 +73,16 @@ public class ManualConfigurationService : IManualConfigurationService
         }
 
         RunUpdateTask();
+    }
+
+    public async Task UpdateConnection(string server)
+    {
+        if (_client.Connected)
+            _client.Disconnect();
+
+        _server = server;
+        _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
+        await ConnectAsync().ConfigureAwait(false);
     }
 
     public async Task WriteAsync<T>(T value, string to, StatusPage fromPage = StatusPage.Unknown)
@@ -92,15 +123,41 @@ public class ManualConfigurationService : IManualConfigurationService
 
         return default;
     }
-  
-    private void RunUpdateTask()
+
+    public void Subscribe<T>(string to, Action<T> setValue)
     {
-        if (_connectStatusTask is not null)
+        if (_client is null || !_client.Connected)
             return;
 
-        _connectStatusTask = Task.Run(async () =>
+        _client.AddSubscription(to, _requestString + to, (_, _, args) =>
         {
-            while (true)
+            var notification = args.NotificationValue as MonitoredItemNotification;
+            if (notification is null)
+                return;
+
+            var raw = notification.Value.WrappedValue.Value;
+            if (raw is T result)
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    setValue(result);
+                });
+        });
+    }
+
+    public void Unsubscribe(string from)
+    {
+        if (_client is null || !_client.Connected)
+            return;
+
+        _client.RemoveSubscription(from);
+    }
+
+    private void RunUpdateTask()
+    {
+        _timer = new DispatcherTimer(
+            TimeSpan.FromSeconds(5),
+            DispatcherPriority.Normal,
+            async (_, _) =>
             {
                 if (_client.Connected)
                 {
@@ -111,9 +168,50 @@ public class ManualConfigurationService : IManualConfigurationService
                 {
                     await ConnectAsync().ConfigureAwait(false);
                 }
+            },
+            Application.Current.Dispatcher);
+        _timer.Start();
+    }
 
-                await Task.Delay(5000).ConfigureAwait(false);
+    private static string? FindControllerName(ISession session, NodeId nodeId)
+    {
+        string controllerName = string.Empty;
+        session.Browse(
+            null,
+            null,
+            nodeId,
+            0,
+            BrowseDirection.Forward,
+            ReferenceTypeIds.HierarchicalReferences,
+            true,
+            (uint)(NodeClass.Object | NodeClass.Variable),
+            out var cp,
+            out var refs);
+
+        foreach (var r in refs)
+        {
+            if (!r.BrowseName.Name.Contains("DeviceSet", StringComparison.InvariantCultureIgnoreCase))
+                continue;
+
+            var childId = ExpandedNodeId.ToNodeId(r.NodeId, session.NamespaceUris);
+            if (childId is not null)
+            {
+                session.Browse(
+                    null,
+                    null,
+                    childId,
+                    0,
+                    BrowseDirection.Forward,
+                    ReferenceTypeIds.HierarchicalReferences,
+                    true,
+                    (uint)(NodeClass.Object | NodeClass.Variable),
+                    out var cpChild,
+                    out var refsChild);
+                if (refsChild.Count > 0)
+                    return refsChild[0].BrowseName.Name;
             }
-        });
+        }
+
+        return controllerName;
     }
 }

@@ -7,68 +7,37 @@ using System.Windows.Media;
 
 namespace StarkCNC.Models;
 
-public partial class OutputsParametersSwitch : ObservableObject
+public partial class OutputsParametersSwitch : ObservableObject, IDisposable
 {
     private readonly IManualConfigurationService _manualConfigurationService;
+    private bool _disposed;
 
-    private bool _status = false;
+    private bool _status;
 
     public string RequestString { get; private set; } = string.Empty;
 
     [ObservableProperty]
     private Color _statusColor;
 
-    private Task? _updateTask;
-    private CancellationTokenSource? _cancellationTokenSource;
-
     public OutputsParametersSwitch(IManualConfigurationService manualConfigurationService, bool autoRunUpdate = false)
     {
         _manualConfigurationService = manualConfigurationService;
 
-        if (autoRunUpdate)
-            StartUpdateTask();
+        Subscribe();
     }
 
-    public void StartUpdateTask()
+    public void Subscribe()
     {
-        if (TaskIsRunning())
-            return;
-
-        _cancellationTokenSource?.Dispose();
-
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
-
-        _updateTask = Task.Run(async () =>
+        _manualConfigurationService.Subscribe<bool>(RequestString, value =>
         {
-            try
-            {
-                while (!token.IsCancellationRequested)
-                {
-                    await GetStatus().ConfigureAwait(false);
-                    await Task.Delay(150, token).ConfigureAwait(false);
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                // Нормально: задача отменена
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"UpdateTask error: {ex}");
-            }
-        }, token);
+            _status = value;
+            StatusColor = value ? Colors.Green : Colors.DarkRed;
+        });
     }
 
-    private bool TaskIsRunning() =>
-        _updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted;
-
-    public void StopUpdateTask()
+    public void Unsubscribe()
     {
-        if (_updateTask is null)
-            return;
-
-        _cancellationTokenSource?.Cancel();
+        _manualConfigurationService.Unsubscribe(RequestString);
     }
 
     [RelayCommand]
@@ -76,18 +45,6 @@ public partial class OutputsParametersSwitch : ObservableObject
         await _manualConfigurationService
             .WriteAsync<bool>(!_status, RequestString)
             .ConfigureAwait(false);
-
-    private async Task GetStatus()
-    {
-        _status = await _manualConfigurationService
-            .ReadAsync<bool>(RequestString)
-            .ConfigureAwait(false);
-
-        if (_status)
-            StatusColor = Colors.Green;
-        else
-            StatusColor = Colors.DarkRed;
-    }
 
     public static OutputsParametersSwitch InitializeParameters(IConfigurationSection configurationSection, IManualConfigurationService manualConfigurationService, string sectionName, bool autoRunUpdate = false)
     {
@@ -100,5 +57,24 @@ public partial class OutputsParametersSwitch : ObservableObject
         {
             RequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RequestString))
         };
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing)
+        {
+            Unsubscribe();
+        }
+
+        _disposed = true;
     }
 }

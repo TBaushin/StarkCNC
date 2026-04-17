@@ -7,6 +7,8 @@ public class Settings
     [Key]
     public Guid Id { get; set; }
 
+    public string Server { get; set; } = string.Empty;
+
     public bool DornAutomatic { get; set; }
     public double DornLeadWithdrawalBeforeBend { get; set; }
     public bool DornLubricantTurnOn { get; set; }

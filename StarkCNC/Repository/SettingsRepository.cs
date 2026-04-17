@@ -79,6 +79,14 @@ public class SettingsRepository : ISettingsRepository
             .ConfigureAwait(false);
     }
 
+    public Settings? Get()
+    {
+        using var context = _contextFactory.CreateDbContext();
+        return context.Settings
+            .AsNoTracking()
+            .FirstOrDefault();
+    }
+
     public async Task<Settings?> FindByIdAsync(Guid id)
     {
         using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);

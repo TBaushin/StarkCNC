@@ -72,6 +72,8 @@ public class Router : IRouter, IRouteBuilder
         _currentRoute = route;
         _currentRouteParams = parameters;
 
+        ClearMemory();
+
         _frame.Navigate(page);
         Navigated?.Invoke(this, new NavigationEventArgs(page.Title, page));
 
@@ -91,6 +93,8 @@ public class Router : IRouter, IRouteBuilder
 
         _currentRoute = previos.Key;
         _currentRouteParams = previos.Value;
+
+        ClearMemory();
 
         _frame.Navigate(page);
         Navigated?.Invoke(this, new NavigationEventArgs(page.Title, page));
@@ -149,4 +153,18 @@ public class Router : IRouter, IRouteBuilder
             "ОПЕРАТОР" => Roles.Operator,
             _ => Roles.Operator
         };
+
+    private void ClearMemory()
+    {
+        var page = _frame.Content as Page;
+        if (page is null)
+            return;
+
+        var disposable = page.DataContext as IDisposable;
+        if (disposable is null)
+            return;
+
+        disposable.Dispose();
+        page.DataContext = null;
+    }
 }

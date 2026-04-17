@@ -17,4 +17,8 @@ public interface IManualConfigurationService
     /// <param name="from"></param>
     /// <returns></returns>
     public Task<T?> ReadAsync<T>(string from, StatusPage fromPage = StatusPage.Unknown);
+
+    public void Subscribe<T>(string to, Action<T> setValue);
+
+    public void Unsubscribe(string from);
 }

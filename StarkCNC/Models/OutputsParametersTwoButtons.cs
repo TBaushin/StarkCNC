@@ -7,9 +7,10 @@ using System.Windows.Media;
 
 namespace StarkCNC.Models;
 
-public partial class OutputsParametersTwoButtons : ObservableObject
+public partial class OutputsParametersTwoButtons : ObservableObject, IDisposable
 {
     private readonly IManualConfigurationService _manualConfigurationService;
+    private bool _disposed;
 
     [ObservableProperty]
     private Color _rearPosition = Colors.DarkRed;
@@ -25,58 +26,23 @@ public partial class OutputsParametersTwoButtons : ObservableObject
 
     public string FrontPositionRequestString { get; private set; } = string.Empty;
 
-    private Task? _updateTask;
-    private CancellationTokenSource? _cancellationTokenSource;
-
     public OutputsParametersTwoButtons(IManualConfigurationService manualConfigurationService, bool autoRunUpdate) 
     {
         _manualConfigurationService = manualConfigurationService;
 
-        if (autoRunUpdate)
-            StartUpdateTask();
+        Subscribe();
     }
 
-    public void StartUpdateTask()
+    public void Subscribe()
     {
-        if (TaskIsRunning())
-            return;
-
-        _cancellationTokenSource?.Dispose();
-
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
-
-        _updateTask = Task.Run(async () =>
-        {
-            try
-            {
-                while (!token.IsCancellationRequested)
-                {
-                    await GetRearPosition().ConfigureAwait(false);
-                    await GetFrontPosition().ConfigureAwait(false);
-                    await Task.Delay(150, token).ConfigureAwait(false);
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                // Нормально: задача отменена
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"UpdateTask error: {ex}");
-            }
-        }, token);
+        _manualConfigurationService.Subscribe<bool>(RearPositionRequestString, value => RearPosition = value ? Colors.Green : Colors.DarkRed);
+        _manualConfigurationService.Subscribe<bool>(FrontPositionRequestString, value => FrontPosition = value ? Colors.Green : Colors.DarkRed);
     }
 
-    private bool TaskIsRunning() =>
-        _updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted;
-
-    public void StopUpdateTask()
+    public void Unsubscribe()
     {
-        if (_updateTask is null)
-            return;
-
-        _cancellationTokenSource?.Cancel();
+        _manualConfigurationService.Unsubscribe(RearPositionRequestString);
+        _manualConfigurationService.Unsubscribe(FrontPositionRequestString);
     }
 
     [RelayCommand]
@@ -157,5 +123,24 @@ public partial class OutputsParametersTwoButtons : ObservableObject
             RearPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(RearPositionRequestString)),
             FrontPositionRequestString = ConfigurationReaderService.GetRequestStringFromConfiguration(section, nameof(FrontPositionRequestString))
         };
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing)
+        {
+            Unsubscribe();
+        }
+
+        _disposed = true;
     }
 }

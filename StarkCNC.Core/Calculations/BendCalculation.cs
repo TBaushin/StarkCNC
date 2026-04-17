@@ -25,7 +25,7 @@ public static class QuaternionExtensions
 public static class WireBuilder
 {
     // Возвращает список 3D-точек маршрута провода по списку сегментов
-    public static ICollection<Point3D> BuildWirePath(ICollection<BendingData> bendingDatas, double diameter, int bendSteps = 16)
+    public static ICollection<Point3D> BuildWirePath(ICollection<BendingData> bendingDatas, float diameter, int bendSteps = 16)
     {
         List<BendingData> segments = new List<BendingData>();
         foreach (var data in bendingDatas)

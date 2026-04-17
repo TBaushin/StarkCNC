@@ -21,11 +21,11 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
     public ICollection<BendingData> BendingDatas { get; } = new List<BendingData>();
 
-    public double PipeLength { get; set; }
+    public float PipeLength { get; set; }
 
-    public double SetUpPoint { get; set; }
+    public float SetUpPoint { get; set; }
 
-    public double EstimatedRemainingLength { get; set; }
+    public float EstimatedRemainingLength { get; set; }
 
     public bool HasUnsavedData { get; set; }
 
@@ -34,24 +34,24 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
         Initialize();
     }
 
-    public double CalculateEstimatedRemainingLength()
+    public float CalculateEstimatedRemainingLength()
     {
-        double result = PipeLength;
+        float result = PipeLength;
         foreach (var data in BendingDatas)
         {
-            result -= data.Supply + (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle);
+            result -= Convert.ToSingle(data.Supply + (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle));
         }
 
         EstimatedRemainingLength = result;
         return EstimatedRemainingLength;
     }
 
-    public double CalculatePipeLength()
+    public float CalculatePipeLength()
     {
-        double result = EstimatedRemainingLength;
+        float result = EstimatedRemainingLength;
         foreach (var data in BendingDatas)
         {
-            result += data.Supply - (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle);
+            result += Convert.ToSingle(data.Supply - (2 * Math.PI * data.BendingRadius / 360 * data.BendingAngle));
         }
 
         PipeLength = result;

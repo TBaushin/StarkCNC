@@ -17,11 +17,8 @@ namespace StarkCNC;
 public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropertyChanged
 {
     private IAdjustmentService _adjustmentService;
-    private IManualConfigurationService _manualConfigurationService;
-    private double _currentPositionCoordinate;
-
-    private Task? _updateCurrentPositionCoordinate;
-    private CancellationTokenSource? _cancellationTokenSource;
+    private IManualConfigurationService _configurationService;
+    private float _currentPositionCoordinate;
 
     private string _parameter;
 
@@ -29,7 +26,7 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
 
     public AdjustmentParameters Adjustment { get; set; }
 
-    public double CurrentPositionCoordinate
+    public float CurrentPositionCoordinate
     {
         get => _currentPositionCoordinate;
         set
@@ -43,12 +40,12 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
     public Color BackwardIndicatorColor { get; set; } = Brushes.Red.Color;
     public Color ForwardIndicatorColor { get; set; } = Brushes.Red.Color;
 
-    public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter, IAdjustmentService adjustmentService, IManualConfigurationService manualConfigurationService)
+    public AdjustmentParametersSettingsWindow(AdjustmentParameters adjustment, string parameter, IAdjustmentService adjustmentService, IManualConfigurationService configurationService)
     {
         Adjustment = adjustment;
         DataContext = this;
         _adjustmentService = adjustmentService;
-        _manualConfigurationService = manualConfigurationService;
+        _configurationService = configurationService;
         _parameter = parameter;
 
         InitializeComponent();
@@ -80,66 +77,20 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 SpeedCoefficient.DataContext = Adjustment.Supply;
                 SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Подача";
-                _cancellationTokenSource = new CancellationTokenSource();
-                _updateCurrentPositionCoordinate = Task.Run(async () =>
-                {
-                    try
-                    {
-                        while (!_cancellationTokenSource.IsCancellationRequested)
-                        {
-                            CurrentPositionCoordinate = await _manualConfigurationService
-                                .ReadAsync<double>(ControllerRequestStrings.GET_SUPPLY_CURRENT_POSITION(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false);
-                            ResetIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_RESET(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            BackwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_BACKWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            ForwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_SUPPLY_FORWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            Thread.Sleep(150);
-                        }
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        // ignore
-                    }                    
-                }, _cancellationTokenSource.Token);
+                _configurationService.Subscribe<float>(ControllerRequestStrings.GET_SUPPLY_CURRENT_POSITION(_adjustmentService.CurrentLevel), value => CurrentPositionCoordinate = value);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_SUPPLY_RESET(_adjustmentService.CurrentLevel), value => ResetIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_SUPPLY_BACKWARD(_adjustmentService.CurrentLevel), value => BackwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_SUPPLY_FORWARD(_adjustmentService.CurrentLevel), value => ForwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
                 break;
             case nameof(Adjustment.Console):
                 ConsoleStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Console;
                 SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Консоль";
-                _cancellationTokenSource = new CancellationTokenSource();
-                _updateCurrentPositionCoordinate = Task.Run(async () =>
-                {
-                    try
-                    {
-                        while (!_cancellationTokenSource.IsCancellationRequested)
-                        {
-                            CurrentPositionCoordinate = await _manualConfigurationService
-                                .ReadAsync<double>(ControllerRequestStrings.GET_CONSOLE_CURRENT_POSITION(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false);
-                            ResetIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_RESET(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            BackwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_BACKWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            ForwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_CONSOLE_FORWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            Thread.Sleep(150);
-                        }
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        // ignore
-                    }
-                }, _cancellationTokenSource.Token);
+                _configurationService.Subscribe<float>(ControllerRequestStrings.GET_CONSOLE_CURRENT_POSITION(_adjustmentService.CurrentLevel), value => CurrentPositionCoordinate = value);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_CONSOLE_RESET(_adjustmentService.CurrentLevel), value => ResetIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_CONSOLE_BACKWARD(_adjustmentService.CurrentLevel), value => BackwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_CONSOLE_FORWARD(_adjustmentService.CurrentLevel), value => ForwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
                 break;
             case nameof(Adjustment.Rotation):
                 RotationStackPanel.Visibility = Visibility.Visible;
@@ -162,33 +113,10 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 SpeedCoefficient.DataContext = Adjustment.Clamp;
                 SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Зажим";
-                _cancellationTokenSource = new CancellationTokenSource();
-                _updateCurrentPositionCoordinate = Task.Run(async () =>
-                {
-                    try
-                    {
-                        while (!_cancellationTokenSource.IsCancellationRequested)
-                        {
-                            CurrentPositionCoordinate = await _manualConfigurationService
-                                .ReadAsync<double>(ControllerRequestStrings.GET_CLAMP_CURRENT_POSITION(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false);
-                            ResetIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_RESET(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            BackwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_BACKWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            ForwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_CLAMP_FORWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            Thread.Sleep(150);
-                        }
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        // ignore
-                    }
-                }, _cancellationTokenSource.Token);
+                _configurationService.Subscribe<float>(ControllerRequestStrings.GET_CLAMP_CURRENT_POSITION(_adjustmentService.CurrentLevel), value => CurrentPositionCoordinate = value);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_CLAMP_RESET(_adjustmentService.CurrentLevel), value => ResetIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_CLAMP_BACKWARD(_adjustmentService.CurrentLevel), value => BackwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_CLAMP_FORWARD(_adjustmentService.CurrentLevel), value => ForwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
                 break;
             case nameof(Adjustment.Dorn):
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
@@ -196,33 +124,10 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 SpeedCoefficient.DataContext = Adjustment.Dorn;
                 SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Дорн";
-                _cancellationTokenSource = new CancellationTokenSource();
-                _updateCurrentPositionCoordinate = Task.Run(async () =>
-                {
-                    try
-                    {
-                        while (!_cancellationTokenSource.IsCancellationRequested)
-                        {
-                            CurrentPositionCoordinate = await _manualConfigurationService
-                                .ReadAsync<double>(ControllerRequestStrings.GET_DORN_CURRENT_POSITION(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false);
-                            ResetIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_RESET(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            BackwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_BACKWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            ForwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_DORN_FORWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            Thread.Sleep(150);
-                        }
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        // ignore
-                    }
-                }, _cancellationTokenSource.Token);
+                _configurationService.Subscribe<float>(ControllerRequestStrings.GET_DORN_CURRENT_POSITION(_adjustmentService.CurrentLevel), value => CurrentPositionCoordinate = value);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_DORN_RESET(_adjustmentService.CurrentLevel), value => ResetIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_DORN_BACKWARD(_adjustmentService.CurrentLevel), value => BackwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_DORN_FORWARD(_adjustmentService.CurrentLevel), value => ForwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
                 break;
             case nameof(Adjustment.Press):
                 ClampDornPressStackPanel.Visibility = Visibility.Visible;
@@ -230,87 +135,74 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 SpeedCoefficient.DataContext = Adjustment.Press;
                 SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Прижим";
-                _cancellationTokenSource = new CancellationTokenSource();
-                _updateCurrentPositionCoordinate = Task.Run(async () =>
-                {
-                    try
-                    {
-                        while (!_cancellationTokenSource.IsCancellationRequested)
-                        {
-                            CurrentPositionCoordinate = await _manualConfigurationService
-                                .ReadAsync<double>(ControllerRequestStrings.GET_PRESS_CURRENT_POSITION(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false);
-                            ResetIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_RESET(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            BackwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_BACKWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            ForwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_PRESS_FORWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            Thread.Sleep(150);
-                        }
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        // Ignore
-                    }
-                }, _cancellationTokenSource.Token);
+                _configurationService.Subscribe<float>(ControllerRequestStrings.GET_PRESS_CURRENT_POSITION(_adjustmentService.CurrentLevel), value => CurrentPositionCoordinate = value);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_PRESS_RESET(_adjustmentService.CurrentLevel), value => ResetIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_PRESS_BACKWARD(_adjustmentService.CurrentLevel), value => BackwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_PRESS_FORWARD(_adjustmentService.CurrentLevel), value => ForwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
                 break;
             case nameof(Adjustment.Lift):
                 LiftStackPanel.Visibility = Visibility.Visible;
                 SpeedCoefficient.DataContext = Adjustment.Lift;
                 SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Подъём";
-                _cancellationTokenSource = new CancellationTokenSource();
-                _updateCurrentPositionCoordinate = Task.Run(async () =>
-                {
-                    try
-                    {
-                        while (!_cancellationTokenSource.IsCancellationRequested)
-                        {
-                            CurrentPositionCoordinate = await _manualConfigurationService
-                                .ReadAsync<double>(ControllerRequestStrings.GET_LIFT_CURRENT_POSITION(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false);
-                            ResetIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_RESET(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            BackwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_BACKWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            ForwardIndicatorColor = await _manualConfigurationService
-                                .ReadAsync<bool>(ControllerRequestStrings.GET_LIFT_FORWARD(_adjustmentService.CurrentLevel))
-                                .ConfigureAwait(false) ? Brushes.Green.Color : Brushes.Red.Color;
-                            Thread.Sleep(150);
-                        }
-                    }
-                    catch (TaskCanceledException)
-                    {
-                        // Ignore
-                    }
-                }, _cancellationTokenSource.Token);
+                _configurationService.Subscribe<float>(ControllerRequestStrings.GET_LIFT_CURRENT_POSITION(_adjustmentService.CurrentLevel), value => CurrentPositionCoordinate = value);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_LIFT_RESET(_adjustmentService.CurrentLevel), value => ResetIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_LIFT_BACKWARD(_adjustmentService.CurrentLevel), value => BackwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_LIFT_FORWARD(_adjustmentService.CurrentLevel), value => ForwardIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
+                break;
+        }
+    }
+
+    private void Unsubscribe()
+    {
+        switch (_parameter)
+        {
+            case nameof(Adjustment.Supply):
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_SUPPLY_CURRENT_POSITION(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_SUPPLY_RESET(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_SUPPLY_BACKWARD(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_SUPPLY_FORWARD(_adjustmentService.CurrentLevel));
+                break;
+            case nameof(Adjustment.Console):
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_CONSOLE_CURRENT_POSITION(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_CONSOLE_RESET(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_CONSOLE_BACKWARD(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_CONSOLE_FORWARD(_adjustmentService.CurrentLevel));
+                break;
+            case nameof(Adjustment.Clamp):
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_CLAMP_CURRENT_POSITION(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_CLAMP_RESET(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_CLAMP_BACKWARD(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_CLAMP_FORWARD(_adjustmentService.CurrentLevel));
+                break;
+            case nameof(Adjustment.Dorn):
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_DORN_CURRENT_POSITION(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_DORN_RESET(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_DORN_BACKWARD(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_DORN_FORWARD(_adjustmentService.CurrentLevel));
+                break;
+            case nameof(Adjustment.Press):
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_PRESS_CURRENT_POSITION(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_PRESS_RESET(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_PRESS_BACKWARD(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_PRESS_FORWARD(_adjustmentService.CurrentLevel));
+                break;
+            case nameof(Adjustment.Lift):
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_LIFT_CURRENT_POSITION(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_LIFT_RESET(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_LIFT_BACKWARD(_adjustmentService.CurrentLevel));
+                _configurationService.Unsubscribe(ControllerRequestStrings.GET_LIFT_FORWARD(_adjustmentService.CurrentLevel));
                 break;
         }
     }
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_updateCurrentPositionCoordinate is not null && _cancellationTokenSource is not null)
-        {
-            _cancellationTokenSource.Cancel();
-        }
-
         Close();
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)
     {
-        if (_updateCurrentPositionCoordinate is not null && _cancellationTokenSource is not null)
-        {
-            _cancellationTokenSource.Cancel();
-        }
-
         Close();
     }
 
@@ -385,10 +277,10 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         switch (_parameter)
         {
             case nameof(Adjustment.Supply):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_RESET(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_RESET(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Console):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_RESET(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_RESET(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Rotation):
                 break;
@@ -397,16 +289,16 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Squeeze):
                 break;
             case nameof(Adjustment.Clamp):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_RESET(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_RESET(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Dorn):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_RESET(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_RESET(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Press):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_RESET(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_RESET(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Lift):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_RESET(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_RESET(level)).ConfigureAwait(true);
                 break;
         }
     }
@@ -417,10 +309,10 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         switch (_parameter)
         {
             case nameof(Adjustment.Supply):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Console):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Rotation):
                 break;
@@ -429,16 +321,16 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Squeeze):
                 break;
             case nameof(Adjustment.Clamp):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Dorn):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Press):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Lift):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_BACKWARD(level)).ConfigureAwait(true);
                 break;
         }
     }
@@ -449,10 +341,10 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         switch (_parameter)
         {
             case nameof(Adjustment.Supply):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_SUPPLY_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_SUPPLY_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Console):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_CONSOLE_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_CONSOLE_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Rotation):
                 break;
@@ -461,16 +353,16 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Squeeze):
                 break;
             case nameof(Adjustment.Clamp):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_CLAMP_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_CLAMP_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Dorn):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_DORN_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_DORN_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Press):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_PRESS_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_PRESS_BACKWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Lift):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_LIFT_BACKWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_LIFT_BACKWARD(level)).ConfigureAwait(true);
                 break;
         }
     }
@@ -481,10 +373,10 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         switch (_parameter)
         {
             case nameof(Adjustment.Supply):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_SUPPLY_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Console):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_CONSOLE_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Rotation):
                 break;
@@ -493,16 +385,16 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Squeeze):
                 break;
             case nameof(Adjustment.Clamp):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_CLAMP_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Dorn):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_DORN_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Press):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_PRESS_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Lift):
-                await _manualConfigurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(true, ControllerRequestStrings.GET_LIFT_FORWARD(level)).ConfigureAwait(true);
                 break;
         }
     }
@@ -513,10 +405,10 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         switch (_parameter)
         {
             case nameof(Adjustment.Supply):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_SUPPLY_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_SUPPLY_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Console):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_CONSOLE_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_CONSOLE_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Rotation):
                 break;
@@ -525,17 +417,22 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
             case nameof(Adjustment.Squeeze):
                 break;
             case nameof(Adjustment.Clamp):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_CLAMP_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_CLAMP_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Dorn):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_DORN_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_DORN_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Press):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_PRESS_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_PRESS_FORWARD(level)).ConfigureAwait(true);
                 break;
             case nameof(Adjustment.Lift):
-                await _manualConfigurationService.WriteAsync(false, ControllerRequestStrings.GET_LIFT_FORWARD(level)).ConfigureAwait(true);
+                await _configurationService.WriteAsync(false, ControllerRequestStrings.GET_LIFT_FORWARD(level)).ConfigureAwait(true);
                 break;
         }
+    }
+
+    private void Window_Closing(object sender, CancelEventArgs e)
+    {
+        Unsubscribe();
     }
 }

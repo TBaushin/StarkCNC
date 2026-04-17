@@ -12,67 +12,67 @@ public partial class BendingDataViewModel : ViewModelBase
     /// Длина трубы
     /// </summary>
     [ObservableProperty]
-    private double _pipeLength;
+    private float _pipeLength;
 
     /// <summary>
     /// Установка Y
     /// </summary>
     [ObservableProperty]
-    private double _ySetup;
+    private float _ySetup;
 
     /// <summary>
     /// Подача Y
     /// </summary>
     [ObservableProperty]
-    private double _supply;
+    private float _supply;
 
     /// <summary>
     /// Подача скорость Ys
     /// </summary>
     [ObservableProperty]
-    private double _supplySpeed = 100;
+    private float _supplySpeed = 100;
 
     /// <summary>
     /// Отвод Y1
     /// </summary>
     [ObservableProperty]
-    private double _offset;
+    private float _offset;
 
     /// <summary>
     /// Отвод скорость Y1b
     /// </summary>
     [ObservableProperty]
-    private double _offsetSpeed;
+    private float _offsetSpeed;
 
     /// <summary>
     /// Отвод коэффициент Y2
     /// </summary>
     [ObservableProperty]
-    private double _offsetCoefficient;
+    private float _offsetCoefficient;
 
     /// <summary>
     /// Гиб угол C
     /// </summary>
     [ObservableProperty]
-    private double _bendingAngle;
+    private float _bendingAngle;
 
     /// <summary>
     /// Гиб скорость Cs
     /// </summary>
     [ObservableProperty]
-    private double _bendingAngleSpeed = 100;
+    private float _bendingAngleSpeed = 100;
 
     /// <summary>
     /// Гиб коэффициент Ck
     /// </summary>
     [ObservableProperty]
-    private double _bendingAngleCoefficient;
+    private float _bendingAngleCoefficient;
 
     /// <summary>
     /// Радиус гиба R
     /// </summary>
     [ObservableProperty]
-    private double _bendingRadius;
+    private float _bendingRadius;
 
     /// <summary>
     /// Радиус гиба режим M
@@ -84,13 +84,13 @@ public partial class BendingDataViewModel : ViewModelBase
     /// Поворот угол B
     /// </summary>
     [ObservableProperty]
-    private double _rotationAngle;
+    private float _rotationAngle;
 
     /// <summary>
     /// Поворот скорость Bs
     /// </summary>
     [ObservableProperty]
-    private double _rotationSpeed = 100;
+    private float _rotationSpeed = 100;
 
     [ObservableProperty]
     private bool _isCuted = false;

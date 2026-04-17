@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using StarkCNC.Controls;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;

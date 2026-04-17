@@ -5,14 +5,18 @@ using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Utilities;
+using System.Windows;
+using System.Windows.Threading;
 
 namespace StarkCNC.ViewModels;
 
-public partial class SettingsViewModel : ObservableObject
+public partial class SettingsViewModel : ViewModelBase, IDisposable
 {
     ISettingsRepository _settingsRepository;
     IManualConfigurationService _manualConfigurationService;
     Settings _settings;
+    private bool _disposed;
+    private DispatcherTimer _timer;
 
     [ObservableProperty]
     bool _isServiceUserRole;
@@ -148,7 +152,7 @@ public partial class SettingsViewModel : ObservableObject
         _settingsRepository = settingsRepository;
         _manualConfigurationService = manualConfigurationService;
 
-        var settings = _settingsRepository.GetAsync().Result;
+        var settings = _settingsRepository.Get();
         if (settings is null)
         {
             settings = new Settings();
@@ -163,23 +167,27 @@ public partial class SettingsViewModel : ObservableObject
 
         ReadData();
 
-        Task.Run(() =>
-        {
-            while (true)
+        _timer = new DispatcherTimer(
+            TimeSpan.FromMilliseconds(250),
+            DispatcherPriority.Normal,
+            (_, _) =>
             {
+                bool newValue;
                 if (userService.CurrentUser is not null && userService.CurrentUserRole is not null)
                 {
                     if (RolePermissions.IdentityRoleToRoles(userService.CurrentUserRole.Name) == Roles.Service)
-                        IsServiceUserRole = true;
+                        newValue = true;
                     else
-                        IsServiceUserRole = false;
+                        newValue = false;
                 }
                 else
-                    IsServiceUserRole = false;
+                    newValue = false;
 
-                Task.Delay(150);
-            }
-        });
+                if (IsServiceUserRole != newValue)
+                    IsServiceUserRole = newValue;
+            },
+            Application.Current.Dispatcher);
+        _timer.Start();
 
         PropertyChanged += SettingsViewModel_PropertyChanged;
     }
@@ -612,5 +620,24 @@ public partial class SettingsViewModel : ObservableObject
         await _manualConfigurationService
             .WriteAsync(BendJerk, ControllerRequestStrings.BEND_JERK)
             .ConfigureAwait(true);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing)
+        {
+            _timer.Stop();
+        }
+
+        _disposed = true;
     }
 }

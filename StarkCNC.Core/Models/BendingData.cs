@@ -5,57 +5,57 @@ public class BendingData
     /// <summary>
     /// Длина трубы L
     /// </summary>
-    public double PipeLength { get; set; }
+    public float PipeLength { get; set; }
 
     /// <summary>
     /// Установка Y Y0
     /// </summary>
-    public double YSetup { get; set; }
+    public float YSetup { get; set; }
 
     /// <summary>
     /// Подача Y
     /// </summary>
-    public double Supply { get; set; }
+    public float Supply { get; set; }
 
     /// <summary>
     /// Подача скорость Ys
     /// </summary>
-    public double SupplySpeed { get; set; }
+    public float SupplySpeed { get; set; }
 
     /// <summary>
     /// Отвод Y1
     /// </summary>
-    public double Offset { get; set; }
+    public float Offset { get; set; }
 
     /// <summary>
     /// Отвод скорость Y1b
     /// </summary>
-    public double OffsetSpeed { get; set; }
+    public float OffsetSpeed { get; set; }
 
     /// <summary>
     /// Отвод коэффициент Y2
     /// </summary>
-    public double OffsetCoefficient { get; set; }
+    public float OffsetCoefficient { get; set; }
 
     /// <summary>
     /// Угол гиба C
     /// </summary>
-    public double BendingAngle { get; set; }
+    public float BendingAngle { get; set; }
 
     /// <summary>
     /// Гиб скорость Cs
     /// </summary>
-    public double BendingAngleSpeed { get; set; }
+    public float BendingAngleSpeed { get; set; }
 
     /// <summary>
     /// Гиб коэффициент Ck
     /// </summary>
-    public double BendingAngleCoefficient { get; set; }
+    public float BendingAngleCoefficient { get; set; }
 
     /// <summary>
     /// Радиус гиба R
     /// </summary>
-    public double BendingRadius { get; set; }
+    public float BendingRadius { get; set; }
 
     /// <summary>
     /// Радиус гиба режим M
@@ -65,12 +65,12 @@ public class BendingData
     /// <summary>
     /// Угол поворота B
     /// </summary>
-    public double RotationAngle { get; set; }
+    public float RotationAngle { get; set; }
 
     /// <summary>
     /// Поворот скорость Bs
     /// </summary>
-    public double RotationSpeed { get; set; }
+    public float RotationSpeed { get; set; }
 
     public BendingData Copy() =>
         new BendingData

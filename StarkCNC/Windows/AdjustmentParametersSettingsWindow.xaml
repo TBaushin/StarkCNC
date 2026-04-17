@@ -10,7 +10,8 @@
         Title="AdjustmentParametersSettingsWindow"
         Height="690" Width="530"
         ResizeMode="NoResize"
-        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}">
+        Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+        Closing="Window_Closing">
     <StackPanel Margin="20,0,20,0">
         <TextBlock
             x:Name="TitleTextBlock"

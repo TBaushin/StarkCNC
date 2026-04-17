@@ -65,9 +65,6 @@ public partial class ManualViewModel : ObservableObject, IDisposable
     [ObservableProperty]
     private bool _hasErrors = false;
 
-    private Task? _updateTask;
-    private CancellationTokenSource? _cancellationTokenSource;
-
     public ManualViewModel(IConfiguration configuration, IManualConfigurationService manualService, ISettingsRepository settingsRepository)
     {
         _configuration = configuration;
@@ -100,13 +97,39 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         DefinePunchingStatus();
         DefineMoreThanOneLevelStatus();
 
-        StartUpdateTask();
+        Subscribe();
     }
 
     private async void Connect()
     {
         if (!_manualService.Connected)
             await _manualService.ConnectAsync().ConfigureAwait(false);
+    }
+
+    private void Subscribe()
+    {
+        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
+        var factialSection = automaticTagsSection.GetSection("Factial");
+
+        var stopErrorRequestString = automaticTagsSection
+            .GetSection("StopErrors")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        _manualService.Subscribe<bool>(stopErrorRequestString, value => HasErrors = value);
+    }
+
+    private void Unsubscribe()
+    {
+        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
+        var factialSection = automaticTagsSection.GetSection("Factial");
+
+        var stopErrorRequestString = automaticTagsSection
+            .GetSection("StopErrors")
+            .GetSection("RequestString")
+            .Get<string>() ?? string.Empty;
+
+        _manualService.Unsubscribe(stopErrorRequestString);
     }
 
     [RelayCommand]
@@ -149,60 +172,6 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         HasErrors = false;
     }
 
-    private void StartUpdateTask()
-    {
-        if (TaskIsRunning())
-            return;
-
-        _cancellationTokenSource?.Dispose();
-
-        _cancellationTokenSource = new CancellationTokenSource();
-        var token = _cancellationTokenSource.Token;
-
-        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
-        var factialSection = automaticTagsSection.GetSection("Factial");
-
-        var stopErrorRequestString = automaticTagsSection
-            .GetSection("StopErrors")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        _updateTask = Task.Run(async () =>
-        {
-            try
-            {
-                while (!token.IsCancellationRequested)
-                {
-                    HasErrors = await _manualService
-                        .ReadAsync<bool>(stopErrorRequestString)
-                        .ConfigureAwait(false);
-
-                    await Task.Delay(150).ConfigureAwait(false);
-                }
-            }
-            catch (TaskCanceledException)
-            {
-                // Нормально: задача отменена
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"UpdateTask error: {ex}");
-            }
-        }, token);
-    }
-
-    private bool TaskIsRunning() =>
-        _updateTask is not null && !_updateTask.IsCompleted && !_updateTask.IsCanceled && !_updateTask.IsFaulted;
-
-    private void StopUpdateTask()
-    {
-        if (_updateTask is null)
-            return;
-
-        _cancellationTokenSource?.Cancel();
-        _cancellationTokenSource?.Dispose();
-    }
-
     private void DefineFirstHydraulicsStatus()
     {
         if (_settings is null)
@@ -211,12 +180,12 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         if (_settings.IsElectricBendingDrive)
         {
             FirstHydraulicsEnabled = false;
-            FirstHydraulics.StopUpdateTask();
+            FirstHydraulics.Unsubscribe();
         }
         else
         {
             FirstHydraulicsEnabled = true;
-            FirstHydraulics.StartUpdateTask();
+            FirstHydraulics.Subscribe();
         }
     }
 
@@ -228,12 +197,12 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         if (_settings.IsElectricBendingDrive || _settings.IsElectricBendingDrive)
         {
             SecondHydraulicsEnabled = false;
-            SecondHydraulics.StopUpdateTask();
+            SecondHydraulics.Unsubscribe();
         }
         else
         {
             SecondHydraulicsEnabled = true;
-            SecondHydraulics.StartUpdateTask();
+            SecondHydraulics.Subscribe();
         }
     }
 
@@ -245,12 +214,12 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         if (_settings.WithPunchingCylinder)
         {
             PunchingEnabled = false;
-            Punching.StopUpdateTask();
+            Punching.Unsubscribe();
         }
         else
         {
             PunchingEnabled = true;
-            Punching.StartUpdateTask();
+            Punching.Subscribe();
         }
     }
 
@@ -258,9 +227,9 @@ public partial class ManualViewModel : ObservableObject, IDisposable
     {
         MoreThenOneLevel = _settings?.MultiLeveled ?? false;
         if (MoreThenOneLevel)
-            Adjustment.StartUpdateTask();
+            Adjustment.Subscribe();
         else
-            Adjustment.StopUpdateTask();
+            Adjustment.Unsubscribe();
     }
 
     public void Dispose()
@@ -275,7 +244,27 @@ public partial class ManualViewModel : ObservableObject, IDisposable
             return;
 
         if (disposing)
-            StopUpdateTask();
+        {
+            FeedDrive.Dispose();
+            TurnDrive.Dispose();
+            ConsoleDrive.Dispose();
+
+            Clamp.Dispose();
+            Press.Dispose();
+            FirstSqueeze.Dispose();
+            Bend.Dispose();
+            Collet.Dispose();
+            Dorn.Dispose();
+            Adjustment.Dispose();
+            Punching.Dispose();
+
+            FirstHydraulics.Dispose();
+            SecondHydraulics.Dispose();
+            Support.Dispose();
+            DornLubricant.Dispose();
+
+            Unsubscribe();
+        }
 
         _disposed = true;
     }

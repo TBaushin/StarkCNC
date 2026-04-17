@@ -10,11 +10,11 @@ public interface IBendingDataUnitOfWork
 
     public ICollection<BendingData> BendingDatas { get; }
 
-    public double PipeLength { get; set; }
+    public float PipeLength { get; set; }
 
-    public double SetUpPoint { get; set; }
+    public float SetUpPoint { get; set; }
 
-    public double EstimatedRemainingLength { get; set; }
+    public float EstimatedRemainingLength { get; set; }
 
     public bool HasUnsavedData { get; set; }
 
@@ -28,7 +28,7 @@ public interface IBendingDataUnitOfWork
 
     public Task WriteFileAsync(string filePath);
 
-    public double CalculateEstimatedRemainingLength();
+    public float CalculateEstimatedRemainingLength();
 
-    public double CalculatePipeLength();
+    public float CalculatePipeLength();
 }

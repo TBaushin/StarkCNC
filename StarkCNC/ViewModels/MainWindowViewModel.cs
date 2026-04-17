@@ -15,6 +15,8 @@ namespace StarkCNC.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     private readonly Dispatcher _dispatcher = Application.Current.Dispatcher;
+    private DispatcherTimer _timer;
+    private bool _disposed;
 
     [ObservableProperty]
     private string _title = "StarkCNC";
@@ -116,14 +118,17 @@ public partial class MainWindowViewModel : ViewModelBase
             Breadcrumb = breadcrumbService.VisibleObject;
         };
 
-        Task.Run(() =>
-        {
-            while (true)
+        _timer = new DispatcherTimer(
+            TimeSpan.FromMilliseconds(250),
+            DispatcherPriority.Normal,
+            (_, _) =>
             {
-                CurrentUserName = userService?.CurrentUser?.UserName ?? string.Empty;
-                Task.Delay(150);
-            }
-        });
+                var newValue = userService?.CurrentUser?.UserName ?? string.Empty;
+                if (CurrentUserName != newValue)
+                    CurrentUserName = newValue;
+            },
+            Application.Current.Dispatcher);
+        _timer.Start();
     }
 
     [RelayCommand]
@@ -211,5 +216,24 @@ public partial class MainWindowViewModel : ViewModelBase
     private void SetUpAdjustments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
         AdjustmentUpdateChildElements();
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (_disposed)
+            return;
+
+        if (disposing)
+        {
+            _timer.Stop();
+        }
+
+        _disposed = true;
     }
 }

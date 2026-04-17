@@ -12,5 +12,7 @@ public interface ISettingsRepository
 
     Task<Settings?> GetAsync();
 
+    Settings? Get();
+
     int Count();
 }
