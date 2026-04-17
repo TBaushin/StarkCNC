@@ -5,10 +5,17 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+	  
+  <PropertyGroup>
+	<AnalysisMode>all</AnalysisMode>
+	<EnableNETAnalyzers>true</EnableNETAnalyzers>
+	<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+	<AnalysisLevel>6.0-all</AnalysisLevel>
+  </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.5" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.6" />
     <PackageReference Include="OpcUaHelper" Version="2.2.1" />
   </ItemGroup>
 
