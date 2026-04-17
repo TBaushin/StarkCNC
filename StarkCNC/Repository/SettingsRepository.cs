@@ -30,7 +30,7 @@ public class SettingsRepository : ISettingsRepository
                 context.Settings?.Add(element);
         }
 
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await SaveChangesAsync(context).ConfigureAwait(false);
     }
 
     private static string GetSavePath(IConfiguration configuration)
@@ -49,7 +49,7 @@ public class SettingsRepository : ISettingsRepository
             return null;
 
         await context.AddAsync(settings).ConfigureAwait(false);
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await SaveChangesAsync(context).ConfigureAwait(false);
 
         return settings;
     }
@@ -67,7 +67,7 @@ public class SettingsRepository : ISettingsRepository
 
         context.Entry(exists).CurrentValues.SetValues(settings);
 
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await SaveChangesAsync(context).ConfigureAwait(false);
     }
 
     public async Task<Settings?> GetAsync()
@@ -100,5 +100,14 @@ public class SettingsRepository : ISettingsRepository
     {
         using var context = _contextFactory.CreateDbContext();
         return context.Settings.Count();
+    }
+
+    private async Task SaveChangesAsync(AppJsonContext context)
+    {
+        await context.SaveChangesAsync().ConfigureAwait(false);
+        var settings = await context.Settings.AsNoTracking().IncludeAll(context).ToListAsync().ConfigureAwait(false);
+        await IDbHelper.Delete($"{basePath}\\Settings", settings, e => e.Id).ConfigureAwait(false);
+        await IDbHelper.Save($"{basePath}\\Settings", settings).ConfigureAwait(false);
+
     }
 }

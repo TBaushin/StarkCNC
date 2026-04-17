@@ -71,8 +71,6 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         _manualService = manualService;
         _settings = settingsRepository?.GetAsync().Result;
 
-        Connect();
-
         _manualModeRequestString = _configuration.GetSection("MachineController").GetSection(nameof(_manualModeRequestString)).Get<string>() ?? string.Empty;
         FeedDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(FeedDrive), true);
         TurnDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(TurnDrive), true);
@@ -91,19 +89,13 @@ public partial class ManualViewModel : ObservableObject, IDisposable
         SecondHydraulics = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(SecondHydraulics), _secondHydraulicsEnabled);
         Support = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(Support));
         DornLubricant = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(DornLubricant));
-        
+
         DefineFirstHydraulicsStatus();
         DefineSecondHydraulicsStatus();
         DefinePunchingStatus();
         DefineMoreThanOneLevelStatus();
 
         Subscribe();
-    }
-
-    private async void Connect()
-    {
-        if (!_manualService.Connected)
-            await _manualService.ConnectAsync().ConfigureAwait(false);
     }
 
     private void Subscribe()

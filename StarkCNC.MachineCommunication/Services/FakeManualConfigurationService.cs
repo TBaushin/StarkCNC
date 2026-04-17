@@ -27,6 +27,11 @@ public class FakeManualConfigurationService : IManualConfigurationService
         _statusService.CurrentStatus = new Status("Подключение успешно");
     }
 
+    public async Task UpdateConnection(string server)
+    {
+        await ConnectAsync().ConfigureAwait(true);
+    }
+
     public Task<T?> ReadAsync<T>(string from, StatusPage fromPage = StatusPage.Unknown)
     {
         object? result = typeof(T) switch

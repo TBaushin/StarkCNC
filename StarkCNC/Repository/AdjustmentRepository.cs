@@ -29,7 +29,7 @@ public class AdjustmentRepository : IAdjustmentRepository
                 context.Adjustments?.Add(element);
         }
 
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await SaveChangesAsync(context).ConfigureAwait(false);
     }
 
     private static string GetSavePath(IConfiguration configuration)
@@ -44,7 +44,7 @@ public class AdjustmentRepository : IAdjustmentRepository
     {
         using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
         await context.AddAsync(adjustment).ConfigureAwait(false);
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await SaveChangesAsync(context).ConfigureAwait(false);
 
         return adjustment;
     }
@@ -56,7 +56,7 @@ public class AdjustmentRepository : IAdjustmentRepository
         if (item is not null)
         {
             context.Remove(item);
-            await context.SaveChangesAsync().ConfigureAwait(false);
+            await SaveChangesAsync(context).ConfigureAwait(false);
         }
     }
 
@@ -64,7 +64,7 @@ public class AdjustmentRepository : IAdjustmentRepository
     {
         using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
         context.Remove(adjustment);
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await SaveChangesAsync(context).ConfigureAwait(false);
     }
 
     public async Task UpdateElementAsync(AdjustmentParameters adjustment)
@@ -83,7 +83,7 @@ public class AdjustmentRepository : IAdjustmentRepository
         else
             context.Entry(adjustment).State = EntityState.Modified;
 
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await SaveChangesAsync(context).ConfigureAwait(false);
     }
 
     public async Task<IEnumerable<AdjustmentParameters>> FindByNameAsync(string name)
@@ -132,7 +132,7 @@ public class AdjustmentRepository : IAdjustmentRepository
 
         item.InstalledLevel = level;
         context.Entry(item).State = EntityState.Modified;
-        await context.SaveChangesAsync().ConfigureAwait(false);
+        await SaveChangesAsync(context).ConfigureAwait(false);
     }
 
     public async Task<AdjustmentParameters?> GetAdjustmentWithLevelAsync(int level)
@@ -170,5 +170,13 @@ public class AdjustmentRepository : IAdjustmentRepository
         context.Entry(local.Rotation).CurrentValues.SetValues(item.Rotation);
         context.Entry(local.Squeeze).CurrentValues.SetValues(item.Squeeze);
         context.Entry(local.Supply).CurrentValues.SetValues(item.Supply);
+    }
+
+    private async Task SaveChangesAsync(AppJsonContext context)
+    {
+        await context.SaveChangesAsync().ConfigureAwait(false);
+        var adjustments = await context.Adjustments.AsNoTracking().IncludeAll(context).ToListAsync().ConfigureAwait(false);
+        await IDbHelper.Delete($"{basePath}\\Adjustments", adjustments, e => e.Id).ConfigureAwait(false);
+        await IDbHelper.Save($"{basePath}\\Adjustments", adjustments).ConfigureAwait(false);
     }
 }

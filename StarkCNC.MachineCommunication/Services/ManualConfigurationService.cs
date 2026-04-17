@@ -49,7 +49,7 @@ public class ManualConfigurationService : IManualConfigurationService
         else
         {
             _server = settings.Server;
-            _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
+            _requestString = string.Empty;
         }
     }
 
@@ -60,6 +60,8 @@ public class ManualConfigurationService : IManualConfigurationService
             try
             {
                 await _client.ConnectServer(_server).ConfigureAwait(false);
+
+                _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
 
                 _statusService.CurrentStatus = new Status("Подключение успешно", StatusType.Success);
             }

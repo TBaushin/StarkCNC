@@ -22,6 +22,9 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     bool _isServiceUserRole;
 
     [ObservableProperty]
+    string _server;
+
+    [ObservableProperty]
     bool _dornAutomatic;
 
     [ObservableProperty]
@@ -194,6 +197,7 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
 
     void ReadData()
     {
+        Server = _settings.Server;
         DornAutomatic = _settings.DornAutomatic;
         DornLeadWithdrawalBeforeBend = _settings.DornLeadWithdrawalBeforeBend;
         DornLubricantTurnOn = _settings.DornLubricantTurnOn;
@@ -240,6 +244,7 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
 
     async void SettingsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
+        _settings.Server = Server;
         _settings.DornAutomatic = DornAutomatic;
         _settings.DornLeadWithdrawalBeforeBend = DornLeadWithdrawalBeforeBend;
         _settings.DornLubricantTurnOn = DornLubricantTurnOn;
@@ -284,6 +289,14 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
         _settings.BendJerk = BendJerk;
 
         await _settingsRepository.UpdateElementAsync(_settings).ConfigureAwait(false);
+    }
+
+    [RelayCommand]
+    async Task ServerReconnect()
+    {
+        await _manualConfigurationService
+            .UpdateConnection(Server)
+            .ConfigureAwait(true);
     }
 
     [RelayCommand]

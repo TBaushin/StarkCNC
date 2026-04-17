@@ -4,6 +4,7 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
+using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
 using StarkCNC.Windows;
 using System.Collections.ObjectModel;
@@ -64,8 +65,12 @@ public partial class MainWindowViewModel : ViewModelBase
         IBendingDataUnitOfWork bendingUnitOfWork,
         IAdjustmentRepository adjustmentRepository,
         IUserService userService,
+        IManualConfigurationService configurationService,
         AdjustmentViewModel adjustmentViewModel) 
     {
+        if (configurationService is null)
+            throw new ArgumentNullException(nameof(configurationService));
+
         _router = router;
         _bendingUnitOfWork = bendingUnitOfWork;
         _adjustmentRepository = adjustmentRepository;
@@ -104,6 +109,8 @@ public partial class MainWindowViewModel : ViewModelBase
             };
         }
 
+        Connect(configurationService);
+
         RegisterPages();
         _adjustmentPage = Pages.First(e => e.Title == "Оснастка");
         AdjustmentUpdateChildElements();
@@ -129,6 +136,12 @@ public partial class MainWindowViewModel : ViewModelBase
             },
             Application.Current.Dispatcher);
         _timer.Start();
+    }
+
+    private async void Connect(IManualConfigurationService configurationService)
+    {
+        if (!configurationService.Connected)
+            await configurationService.ConnectAsync().ConfigureAwait(false);
     }
 
     [RelayCommand]
