@@ -1,5 +1,6 @@
 ﻿using StarkCNC.ViewModels;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace StarkCNC.Views;
 
@@ -26,5 +27,17 @@ public partial class SettingsView : Page
 
         ViewModel.Server = tb.Text;
         ViewModel.ServerReconnectCommand.Execute(null);
+    }
+
+    private void TextBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            var tb = sender as TextBox;
+            if (tb is null)
+                return;
+
+            tb.MoveFocus(new TraversalRequest(FocusNavigationDirection.Down));
+        }    
     }
 }
