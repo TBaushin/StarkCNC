@@ -791,14 +791,13 @@
                                 VerticalAlignment="Center">
                                 <TextBlock
                                     TextWrapping="WrapWithOverflow"
-                                    Text="Сервер"/>
+                                    Text="IP контроллера"/>
                             </Label>
-                            <controls:LabeledTextBoxControl
+                            <TextBox
                                 Grid.Column="1"
                                 Grid.Row="0"
-                                Command="{Binding ServerReconnectCommand}"
-                                IsNumericOnly="False"
-                                NeedCallNumberInput="False"
+                                MinWidth="200"
+                                LostFocus="TextBox_LostFocus"
                                 Text="{Binding Server, Mode=TwoWay}"/>
                         </Grid>
                     </controls:BorderedControl>

@@ -23,9 +23,6 @@ public class ManualConfigurationService : IManualConfigurationService
 
     public bool Connected => _client.Connected;
 
-    private bool CanConnect =>
-        !string.IsNullOrEmpty(_server) && !string.IsNullOrEmpty(_requestString);
-
     public ManualConfigurationService(IConfiguration configuration, ISettingsRepository settingsRepository, IStatusService statusService)
     {
         if (configuration is null)
@@ -57,7 +54,14 @@ public class ManualConfigurationService : IManualConfigurationService
     {
         try
         {
-            await _client.ConnectServer(_server).ConfigureAwait(false);
+            string server = string.Empty;
+            if (!_server.StartsWith("opc.tcp://", StringComparison.InvariantCulture))
+                server = "opc.tcp://";
+            server += _server;
+            if (!_server.EndsWith(":4840", StringComparison.InvariantCulture))
+                server += ":4840";
+
+            await _client.ConnectServer(server).ConfigureAwait(false);
 
             _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
 

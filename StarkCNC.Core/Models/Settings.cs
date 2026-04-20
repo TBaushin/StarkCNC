@@ -7,7 +7,7 @@ public class Settings
     [Key]
     public Guid Id { get; set; }
 
-    public string Server { get; set; } = string.Empty;
+    public string Server { get; set; } = "192.168.1.3";
 
     public bool DornAutomatic { get; set; }
     public double DornLeadWithdrawalBeforeBend { get; set; }

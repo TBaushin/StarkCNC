@@ -17,4 +17,14 @@ public partial class SettingsView : Page
 
         InitializeComponent();
     }
+
+    private void TextBox_LostFocus(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var tb = sender as TextBox;
+        if (tb is null)
+            return;
+
+        ViewModel.Server = tb.Text;
+        ViewModel.ServerReconnectCommand.Execute(null);
+    }
 }
