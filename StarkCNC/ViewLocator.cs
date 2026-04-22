@@ -6,6 +6,7 @@ namespace StarkCNC;
 public static class ViewLocator
 {
     private static IServiceProvider? _serviceProvider;
+    private static readonly Dictionary<Type, Type> _viewCache = new();
 
     public static void Initialize(IServiceProvider serviceProvider)
     {
@@ -20,11 +21,16 @@ public static class ViewLocator
         if (type is null)
             return null;
 
-        var name = type.FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
-        var pageType = Type.GetType(name);
+        if (!_viewCache.TryGetValue(type, out var pageType))
+        {
+            var name = type.FullName!.Replace("ViewModel", "View", StringComparison.Ordinal);
+            pageType = Type.GetType(name);
 
-        if (pageType is null)
-            return GenerateNotFoundPage(name);
+            if (pageType is null)
+                return GenerateNotFoundPage(name);
+
+            _viewCache[type] = pageType;
+        }
 
         var viewModel = parameters is not null && parameters.Length > 0
             ? ActivatorUtilities.CreateInstance(_serviceProvider, type, parameters)
