@@ -6,6 +6,7 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using System.Diagnostics;
+using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -170,7 +171,21 @@ public class ManualConfigurationService : IManualConfigurationService
                     }
                     else
                     {
-                        await ConnectAsync().ConfigureAwait(false);
+                        bool serverIsRunning = false;
+
+                        try
+                        {
+                            using var pinger = new Ping();
+                            var reply = pinger.Send(_server);
+                            serverIsRunning = reply.Status == IPStatus.Success;
+                        }
+                        catch (PingException)
+                        {
+                            // Ignore
+                        }
+
+                        if (serverIsRunning)
+                            await ConnectAsync().ConfigureAwait(false);
                     }
                 },
                 Application.Current.Dispatcher);
