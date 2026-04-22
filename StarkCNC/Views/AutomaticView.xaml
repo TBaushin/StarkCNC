@@ -15,6 +15,7 @@
     <Page.Resources>
         <ResourceDictionary>
             <utilities:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+            <utilities:UnitConverter x:Key="UnitConverter"/>
             <Style TargetType="controls:LabelWithIndicatorControl">
                 <Setter Property="FontSize" Value="12.5"/>
             </Style>
@@ -51,7 +52,7 @@
                     <controls:LabeledTextBoxControl
                         Grid.Column="1"
                         IsEnabled="False"
-                        Text="{Binding CycleTime, StringFormat={}{0} сек., Mode=TwoWay}"
+                        Text="{Binding CycleTime, Converter={StaticResource UnitConverter}, ConverterParameter='сек.', Mode=TwoWay}"
                         Validation.ErrorTemplate="{x:Null}"/>
                 </Grid>
 
@@ -258,7 +259,7 @@
                     PreviewMouseDown="CountCompletedDetailsLabeledTextBox_PreviewMouseDown"
                     PreviewMouseUp="CountCompletedDetailsLabeledTextBox_PreviewMouseUp"
                     IsEnabled="{Binding CanChangeCountDetails}"
-                    Text="{Binding CountCompletedDetails, StringFormat={}{0} шт.}"
+                    Text="{Binding CountCompletedDetails, Converter={StaticResource UnitConverter}, ConverterParameter='шт.'}"
                     Validation.ErrorTemplate="{x:Null}"/>
             </Grid>
             <Grid ColumnDefinitions="*,*">
@@ -271,7 +272,7 @@
                     NeedCallNumberInput="True"
                     IsNumericOnly="True"
                     IsEnabled="{Binding CanChangeCountDetails}"
-                    Text="{Binding TaskDetails, StringFormat={}{0} шт., Mode=TwoWay}"
+                    Text="{Binding TaskDetails, Converter={StaticResource UnitConverter}, ConverterParameter='шт.', Mode=TwoWay}"
                     Validation.ErrorTemplate="{x:Null}"/>
             </Grid>
             <Grid ColumnDefinitions="*, *" Margin="0,7,0,4">
@@ -295,7 +296,7 @@
                     Grid.Column="1"
                     NeedCallNumberInput="True"
                     IsNumericOnly="True"
-                    Text="{Binding PipeInstallationDelay, StringFormat={}{0} сек., Mode=TwoWay}"
+                    Text="{Binding PipeInstallationDelay, Converter={StaticResource UnitConverter}, ConverterParameter='сек.', Mode=TwoWay}"
                     Validation.ErrorTemplate="{x:Null}"/>
             </Grid>
         </StackPanel>
