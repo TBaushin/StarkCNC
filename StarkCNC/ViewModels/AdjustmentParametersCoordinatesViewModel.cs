@@ -61,32 +61,35 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
         _configuration = configuration;
         _manualConfigurationService = manualConfigurationService;
         _adjustmentId = id;
-
-        UpdateAdjustment();
     }
 
-    private async void SetSelectedAdjustment(Guid? id)
+    private async Task SetSelectedAdjustment(Guid? id)
     {
         if (id is not Guid guid)
             throw new ArgumentNullException(nameof(id));
 
-        var adjustment = await _adjustmentService.FindByIdAsync(guid).ConfigureAwait(false);
+        var adjustment = await _adjustmentService.FindByIdAsync(guid).ConfigureAwait(true);
         if (adjustment is null)
             throw new InvalidOperationException("Не удалось найти оснастку");
 
         _adjustment = adjustment;
     }
 
-    private async void LoadSettings()
+    public async Task InitializeAsync()
     {
-        var settings = await _settingsRepository.GetAsync().ConfigureAwait(false);
+        await UpdateAdjustment().ConfigureAwait(true);
+    }
+
+    private async Task LoadSettings()
+    {
+        var settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
         IsElectricMachine = settings?.IsElectricBendingDrive ?? false;
     }
 
-    private async void UpdateAdjustment()
+    private async Task UpdateAdjustment()
     {
-        LoadSettings();
-        SetSelectedAdjustment(_adjustmentId);
+        await LoadSettings().ConfigureAwait(true);
+        await SetSelectedAdjustment(_adjustmentId).ConfigureAwait(true);
 
         if (_adjustment is null)
             throw new InvalidOperationException("Не удалось найти оснастку");
@@ -169,8 +172,8 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
         var adjustment = parametersSettingsWindow.Adjustment;
         if (adjustment.Id == _adjustment.Id)
         {
-            await _adjustmentService.UpdateElementAsync(adjustment).ConfigureAwait(false);
-            UpdateAdjustment();
+            await _adjustmentService.UpdateElementAsync(adjustment).ConfigureAwait(true);
+            await UpdateAdjustment().ConfigureAwait(true);
         }
     }
 }

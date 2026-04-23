@@ -7,9 +7,7 @@ using StarkCNC.Core.UoW;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Utilities;
 using System.Collections.ObjectModel;
-#if !DEBUG
 using System.Windows;
-#endif
 
 namespace StarkCNC.ViewModels;
 
@@ -17,6 +15,8 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 {
     private IManualConfigurationService _configurationService;
     private IBendingDataUnitOfWork _unitOfWork;
+    private IUserService _userService;
+    private ISettingsRepository _settingsRepository;
 
     private bool _disposed;
 
@@ -91,35 +91,49 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
 
-    public AutomaticViewModel(IManualConfigurationService configurationService, IBendingDataUnitOfWork unitOfWork, IUserService userService, ISettingsRepository settingsRepository)
+    public AutomaticViewModel(
+        IManualConfigurationService configurationService,
+        IBendingDataUnitOfWork unitOfWork,
+        IUserService userService,
+        ISettingsRepository settingsRepository)
     {
-        if (settingsRepository is null)
-            throw new ArgumentNullException(nameof(settingsRepository));
-
         _configurationService = configurationService;
         _unitOfWork = unitOfWork;
+        _userService = userService;
+        _settingsRepository = settingsRepository;
 
+        BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
+    }
+
+    public async Task InitializeAsync()
+    {
         ProgramName = _unitOfWork.ProgramName;
         PipeLength = _unitOfWork.PipeLength;
         SetUpPoint = _unitOfWork.SetUpPoint;
 
-        Operator = userService?.CurrentUser?.UserName ?? string.Empty;
+        await LoadBendingData().ConfigureAwait(true);
 
-        int i = 1;
-        foreach (var item in _unitOfWork.BendingDatas)
-        {
-            BendingDatas.Add(new BendingDataViewModel(item) { Id = i });
-            i++;
-        }
+        Operator = _userService.CurrentUser?.UserName ?? string.Empty;
 
-        BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
-
-        Settings = settingsRepository.Get() ?? new Settings();
+        Settings = await _settingsRepository.GetAsync().ConfigureAwait(true) ?? new Settings();
 
         Subscribe();
 
-        TableViewModel = new InputOutputTableViewModel(configurationService, settingsRepository);
+        TableViewModel = new InputOutputTableViewModel(_configurationService, _settingsRepository);
         TableViewModel.ShowOrHideInputOutputTableCommand = ShowOrHideInputOutputTableCommand;
+    }
+
+    private async Task LoadBendingData()
+    {
+        var list = _unitOfWork.BendingDatas
+            .Select((item, index) => new BendingDataViewModel(item) { Id = index + 1 })
+            .ToList();
+
+        await Application.Current.Dispatcher.InvokeAsync(() =>
+        {
+            BendingDatas.Clear();
+            list.ForEach(item => BendingDatas.Add(item));
+        });
     }
 
     [RelayCommand(AllowConcurrentExecutions = true)]
@@ -197,7 +211,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         // Send data
         await _configurationService
             .WriteAsync<int>(BendingDatas.Count, ControllerRequestStrings.AUTOMATIC_TAGS_ALL_BEND)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
 
         int step = 1;
         foreach (var data in BendingDatas)
@@ -208,28 +222,28 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
 
             await _configurationService
                 .WriteAsync<int>(step, ControllerRequestStrings.AUTOMATIC_TAGS_STEP_NUMBER)
-                .ConfigureAwait(false);
+                .ConfigureAwait(true);
 
             await _configurationService
                .WriteAsync<float>(data.Supply, ControllerRequestStrings.SUPPLY_VALUE)
-               .ConfigureAwait(false);
+               .ConfigureAwait(true);
             await _configurationService
                 .WriteAsync<float>(data.RotationAngle, ControllerRequestStrings.ROTATION_VALUE)
-                .ConfigureAwait(false);
+                .ConfigureAwait(true);
             await _configurationService
                 .WriteAsync<float>(data.BendingAngle, ControllerRequestStrings.BEND_VALUE)
-                .ConfigureAwait(false);
+                .ConfigureAwait(true);
             step += 1;
         }
 
         // Finish
         await _configurationService
             .WriteAsync<bool>(true, ControllerRequestStrings.AUTOMATIC_TAGS_END_PROGRAM)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
 
         await _configurationService
             .WriteAsync<bool>(false, ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
         SetSendData(false);
     }
 
@@ -246,7 +260,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     async partial void OnIsFullAtomaticChanged(bool oldValue, bool newValue)
     {
         await _configurationService.WriteAsync<bool>(newValue, ControllerRequestStrings.AUTOMATIC_TAGS_FULL_AUTOMATIC)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
     }
 
     async partial void OnPipeInstallationDelayChanged(float oldValue, float newValue)
@@ -254,7 +268,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         if (IsFullAtomatic)
         {
             await _configurationService.WriteAsync<float>(newValue, ControllerRequestStrings.AUTOMATIC_TAGS_DELAY)
-                .ConfigureAwait(false);
+                .ConfigureAwait(true);
         }
     }
 

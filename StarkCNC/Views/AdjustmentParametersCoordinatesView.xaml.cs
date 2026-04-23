@@ -15,6 +15,8 @@ public partial class AdjustmentParametersCoordinatesView : Page
         ViewModel = viewModel;
         DataContext = ViewModel;
 
+        Loaded += async (_, _) => await ViewModel.InitializeAsync().ConfigureAwait(true);
+
         InitializeComponent();
 
         ViewModel.PropertyChanged += Settings_PropertyChanged;

@@ -61,17 +61,20 @@ public partial class UserViewModel : ViewModelBase
     public UserViewModel(IUserService userService)
     {
         _userService = userService;
+    }
 
-        LoadUsersAsync();
+    public async Task InitializeAsync()
+    {
+        await LoadUsersAsync().ConfigureAwait(true);
 
         if (_userService.CurrentUser is not null)
         {
             SelectedUser = _userService.CurrentUser;
-            LoadRolesAsync();
+            await LoadRolesAsync().ConfigureAwait(true);
         }
     }
 
-    private async void LoadUsersAsync()
+    private async Task LoadUsersAsync()
     {
         var users = await _userService.GetAllUsersAsync().ConfigureAwait(true);
         Users.Clear();
@@ -140,7 +143,7 @@ public partial class UserViewModel : ViewModelBase
                 return;
             }
 
-        LoadUsersAsync();
+        await LoadUsersAsync().ConfigureAwait(true);
     }
 
     [RelayCommand]
@@ -217,7 +220,7 @@ public partial class UserViewModel : ViewModelBase
 
         EnableEditing(false);
 
-        LoadUsersAsync();
+        await LoadUsersAsync().ConfigureAwait(true);
     }
 
     [RelayCommand]
@@ -264,7 +267,7 @@ public partial class UserViewModel : ViewModelBase
 
         RightBlockShowingStatus = RightBlockStatus.Details;
 
-        LoadUsersAsync();
+        await LoadUsersAsync().ConfigureAwait(true);
     }
 
     [RelayCommand]
@@ -320,7 +323,7 @@ public partial class UserViewModel : ViewModelBase
             return "Неверное имя пользователя или пароль";
 
         SelectedUser = _userService.CurrentUser;
-        LoadRolesAsync();
+        await LoadRolesAsync().ConfigureAwait(true);
         ClearErrors();
         IsThisUserAuthorized = true;
         RightBlockShowingStatus = RightBlockStatus.Details;
@@ -443,7 +446,7 @@ public partial class UserViewModel : ViewModelBase
     private void ClearErrors() =>
         FormsErrors = null;
 
-    private async void LoadRolesAsync()
+    private async Task LoadRolesAsync()
     {
         Roles.Clear();
 

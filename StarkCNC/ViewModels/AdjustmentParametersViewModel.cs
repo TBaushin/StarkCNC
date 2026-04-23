@@ -15,6 +15,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     private IAdjustmentRepository _repository;
     private IManualConfigurationService _manualConfigurationService;
     private AdjustmentParametersConstructor _constructor;
+    private Guid? _id;
 
     private AdjustmentParameters? _adjustment;
 
@@ -77,16 +78,21 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         _repository = repository;
         _manualConfigurationService = manualConfigurationService;
         _constructor = constructor;
-        ReadRequestsFromConfiguration();
-        SetSelectedAdjustment(id);
+        _id = id;
     }
 
-    private async void SetSelectedAdjustment(Guid? id)
+    public async Task InitializeAsync()
+    {
+        await SetSelectedAdjustment(_id).ConfigureAwait(true);
+        ReadRequestsFromConfiguration();
+    }
+
+    private async Task SetSelectedAdjustment(Guid? id)
     {
         if (id is not Guid guid)
             throw new ArgumentNullException(nameof(id));
 
-        var adjustment = await _repository.FindByIdAsync(guid).ConfigureAwait(false);
+        var adjustment = await _repository.FindByIdAsync(guid).ConfigureAwait(true);
         if (adjustment is not null)
         {
             _adjustment = adjustment;
@@ -172,121 +178,121 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         Radius = result.Radius;
     }
 
-    partial void OnNameChanged(string? oldValue, string newValue)
+    async partial void OnNameChanged(string? oldValue, string newValue)
     {
         if (_adjustment?.Name != newValue)
         {
             _adjustment?.Name = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _typeRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _typeRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnAdjustmentTypeChanged(AdjustmentType oldValue, AdjustmentType newValue)
+    async partial void OnAdjustmentTypeChanged(AdjustmentType oldValue, AdjustmentType newValue)
     {
         if (_adjustment?.Type != newValue)
         {
             _adjustment?.Type = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _typeRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _typeRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnPipeDiameterChanged(double oldValue, double newValue)
+    async partial void OnPipeDiameterChanged(double oldValue, double newValue)
     {
         if (_adjustment?.PipeDiameter != newValue)
         {
             _adjustment?.PipeDiameter = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _pipeDiameterRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _pipeDiameterRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnRadiusChanged(double oldValue, double newValue)
+    async partial void OnRadiusChanged(double oldValue, double newValue)
     {
         if (_adjustment?.Radius != newValue)
         {
             _adjustment?.Radius = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _radiusRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _radiusRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnDistanceFromCenterChanged(double oldValue, double newValue)
+    async partial void OnDistanceFromCenterChanged(double oldValue, double newValue)
     {
         if (_adjustment?.DistanceFromCenter != newValue)
         {
             _adjustment?.DistanceFromCenter = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _distanceFromCenterRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _distanceFromCenterRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnClampLengthChanged(double oldValue, double newValue)
+    async partial void OnClampLengthChanged(double oldValue, double newValue)
     {
         if (_adjustment?.Clamp.Length != newValue)
         {
             _adjustment?.Clamp.Length = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _clampLengthRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _clampLengthRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnPressLengthChanged(double oldValue, double newValue)
+    async partial void OnPressLengthChanged(double oldValue, double newValue)
     {
         if (_adjustment?.Press.Length != newValue)
         {
             _adjustment?.Press.Length = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _pressLengthRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _pressLengthRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnSqueezeTurnOnChanged(bool oldValue, bool newValue)
+    async partial void OnSqueezeTurnOnChanged(bool oldValue, bool newValue)
     {
         if (_adjustment?.Squeeze.TurnOn != newValue)
         {
             _adjustment?.Squeeze.TurnOn = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _squeezeTurnOnRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _squeezeTurnOnRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnClampRollerOuterRadiusChanged(double oldValue, double newValue)
+    async partial void OnClampRollerOuterRadiusChanged(double oldValue, double newValue)
     {
         if (_adjustment?.ClampRoller.OuterRadius != newValue)
         {
             _adjustment?.ClampRoller.OuterRadius = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _clampRollerOuterRadiusRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _clampRollerOuterRadiusRequestString).ConfigureAwait(true);
         }
     }
 
-    partial void OnClampRollerInnerRadiusChanged(double oldValue, double newValue)
+    async partial void OnClampRollerInnerRadiusChanged(double oldValue, double newValue)
     {
         if (_adjustment?.ClampRoller.InnerRadius != newValue)
         {
             _adjustment?.ClampRoller.InnerRadius = newValue;
-            UpdateAdjustment();
+            await UpdateAdjustment().ConfigureAwait(true);
             // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            _manualConfigurationService.WriteAsync(newValue, _clampRollerInnerRadiusRequestString);
+            await _manualConfigurationService.WriteAsync(newValue, _clampRollerInnerRadiusRequestString).ConfigureAwait(true);
         }
     }
 
-    private async void UpdateAdjustment()
+    private async Task UpdateAdjustment()
     {
         if (_adjustment is null)
             return;
 
-        await _repository.UpdateElementAsync(_adjustment).ConfigureAwait(false);
+        await _repository.UpdateElementAsync(_adjustment).ConfigureAwait(true);
     }
 }

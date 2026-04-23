@@ -83,11 +83,14 @@ public partial class ProgramViewModel : ObservableObject
         EstimatedRemainingLength = _unitOfWork.EstimatedRemainingLength;
         PipeLength = _unitOfWork.PipeLength;
         YSetup = _unitOfWork.SetUpPoint;
-
-        GenerateBendingModes();
     }
 
-    private async void GenerateBendingModes()
+    public async Task InitializeAsync()
+    {
+        await GenerateBendingModes().ConfigureAwait(true);
+    }
+
+    private async Task GenerateBendingModes()
     {
         BendingModes.Clear();
         var settings = await _settingsRepository.GetAsync().ConfigureAwait(true);

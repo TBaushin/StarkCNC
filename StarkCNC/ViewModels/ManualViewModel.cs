@@ -128,25 +128,25 @@ public partial class ManualViewModel : ObservableObject, IDisposable
     private async Task ManualModeTurnOn() =>
         await _manualService
             .WriteAsync<bool>(true, _manualModeRequestString)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
 
     [RelayCommand]
     private async Task ManualModeTurnOff() =>
         await _manualService
             .WriteAsync<bool>(false, _manualModeRequestString)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
 
     [RelayCommand]
     private async Task BendAndSqueezeRun() =>
         await _manualService
             .WriteAsync<bool>(true, _bendAndSqueezeRequestString)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
 
     [RelayCommand]
     private async Task BendAndSqueezeCancel() =>
         await _manualService
             .WriteAsync<bool>(false, _bendAndSqueezeRequestString)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
 
     [RelayCommand]
     private async Task ClearActuatorErrors()
@@ -159,7 +159,7 @@ public partial class ManualViewModel : ObservableObject, IDisposable
 
         await _manualService
             .WriteAsync(true, clearActuatorErrorsRequestString)
-            .ConfigureAwait(false);
+            .ConfigureAwait(true);
 
         HasErrors = false;
     }

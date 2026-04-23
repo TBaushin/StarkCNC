@@ -3,7 +3,6 @@ using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
-using StarkCNC.DTO;
 using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
@@ -33,10 +32,12 @@ public partial class AdjustmentViewModel : ObservableObject
     {
         _router = router;
         _repository = adjustmentRepository;
+    }
 
-        UpdateAdjustments();
-
-        GetSetUpAdjustments();
+    public async Task InitializeAsync()
+    {
+        await UpdateAdjustments().ConfigureAwait(true);
+        await GetSetUpAdjustments().ConfigureAwait(true);
     }
 
     public void SelectAdjustment(AdjustmentParameters adjustment)
@@ -62,10 +63,10 @@ public partial class AdjustmentViewModel : ObservableObject
     {
         if (SelectedAdjustment is not null && SelectedAdjustment.Id is Guid id)
         {
-            await _repository.SetLevelAsync(id, level).ConfigureAwait(false);
+            await _repository.SetLevelAsync(id, level).ConfigureAwait(true);
         }
 
-        GetSetUpAdjustments();
+        await GetSetUpAdjustments().ConfigureAwait(true);
     }
 
     [RelayCommand]
@@ -98,21 +99,21 @@ public partial class AdjustmentViewModel : ObservableObject
         _router.Navigate("/adjustment/list/edit", firstFloorAdjustment.Id);
     }
 
-    private async void UpdateAdjustments()
+    private async Task UpdateAdjustments()
     {
         Adjustments.Clear();
-        var adjustments = await _repository.GetAllAsync().ConfigureAwait(false);
+        var adjustments = await _repository.GetAllAsync().ConfigureAwait(true);
         foreach (var item in adjustments)
         {
             Adjustments.Add(item);
         }
     }
 
-    private async void GetSetUpAdjustments()
+    private async Task GetSetUpAdjustments()
     {
         SetUpAdjustments.Clear();
         var adjustmentsWithLevel = await _repository
-            .GetAdjustmentsWithLevelAsync().ConfigureAwait(false);
+            .GetAdjustmentsWithLevelAsync().ConfigureAwait(true);
         adjustmentsWithLevel.ToList().ForEach(awl =>
         {
             Adjustments
@@ -135,7 +136,7 @@ public partial class AdjustmentViewModel : ObservableObject
         });
     }
 
-    partial void OnFirstFloorEnabledChanged(bool oldValue, bool newValue)
+    async partial void OnFirstFloorEnabledChanged(bool oldValue, bool newValue)
     {
         var adjustment = SetUpAdjustments.FirstOrDefault(a => a.InstalledLevel == 1);
         if (adjustment is not null)
@@ -143,7 +144,7 @@ public partial class AdjustmentViewModel : ObservableObject
             adjustment.IsEnabled = newValue;
             try
             {
-                _repository.UpdateElementAsync(adjustment).GetAwaiter().GetResult();
+                await _repository.UpdateElementAsync(adjustment).ConfigureAwait(true);
             }
             catch
             {
@@ -152,7 +153,7 @@ public partial class AdjustmentViewModel : ObservableObject
         }
     }
 
-    partial void OnSecondFloorEnabledChanged(bool oldValue, bool newValue)
+    async partial void OnSecondFloorEnabledChanged(bool oldValue, bool newValue)
     {
         var adjustment = SetUpAdjustments.FirstOrDefault(a => a.InstalledLevel == 2);
         if (adjustment is not null)
@@ -160,7 +161,7 @@ public partial class AdjustmentViewModel : ObservableObject
             adjustment.IsEnabled = newValue;
             try
             {
-                _repository.UpdateElementAsync(adjustment).GetAwaiter().GetResult();
+                await _repository.UpdateElementAsync(adjustment).ConfigureAwait(true);
             }
             catch
             {
@@ -169,7 +170,7 @@ public partial class AdjustmentViewModel : ObservableObject
         }
     }
 
-    partial void OnThirdFloorEnabledChanged(bool oldValue, bool newValue)
+    async partial void OnThirdFloorEnabledChanged(bool oldValue, bool newValue)
     {
         var adjustment = SetUpAdjustments.FirstOrDefault(a => a.InstalledLevel == 3);
         if (adjustment is not null)
@@ -177,7 +178,7 @@ public partial class AdjustmentViewModel : ObservableObject
             adjustment.IsEnabled = newValue;
             try
             {
-                _repository.UpdateElementAsync(adjustment).GetAwaiter().GetResult();
+                await _repository.UpdateElementAsync(adjustment).ConfigureAwait(true);
             }
             catch
             {

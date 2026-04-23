@@ -32,6 +32,8 @@ public partial class MainWindow : Window
         ViewModel = viewModel;
         DataContext = ViewModel;
 
+        Loaded += async (_, _) => await ViewModel.InitializeAsync().ConfigureAwait(true);
+
         InitializeComponent();
 
         UpdateWindowBackground();

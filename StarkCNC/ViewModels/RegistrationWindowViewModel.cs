@@ -58,7 +58,7 @@ public partial class RegistrationWindowViewModel : ViewModelBase
         return string.Empty;
     }
 
-    private bool CanHasDefaultPassword(IdentityRole? role)
+    private static bool CanHasDefaultPassword(IdentityRole? role)
     {
         if (role is null)
             return true;

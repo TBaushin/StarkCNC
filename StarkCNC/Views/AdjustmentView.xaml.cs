@@ -22,6 +22,8 @@ public partial class AdjustmentView : Page
         ViewModel = viewModel;
         DataContext = ViewModel;
 
+        Loaded += async (_, _) => await ViewModel.InitializeAsync().ConfigureAwait(true);
+
         InitializeComponent();
 
         InitializeLevels();

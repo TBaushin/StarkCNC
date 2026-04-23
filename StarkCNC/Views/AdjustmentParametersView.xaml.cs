@@ -18,6 +18,8 @@ public partial class AdjustmentParametersView : Page
         ViewModel = viewModel;
         DataContext = ViewModel;
 
+        Loaded += async (_, _) => await ViewModel.InitializeAsync().ConfigureAwait(true);
+
         InitializeComponent();
 
         SetVisibilityForRollingAndWindingStackPanels();

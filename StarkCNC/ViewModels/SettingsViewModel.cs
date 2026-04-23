@@ -13,6 +13,7 @@ namespace StarkCNC.ViewModels;
 public partial class SettingsViewModel : ViewModelBase, IDisposable
 {
     ISettingsRepository _settingsRepository;
+    IUserService _userService;
     IManualConfigurationService _manualConfigurationService;
     Settings _settings;
     private bool _disposed;
@@ -154,16 +155,21 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     {
         _settingsRepository = settingsRepository;
         _manualConfigurationService = manualConfigurationService;
+        _userService = userService;
 
-        var settings = _settingsRepository.Get();
+        PropertyChanged += SettingsViewModel_PropertyChanged;
+    }
+
+    public async Task InitializeAsync()
+    {
+        var settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
         if (settings is null)
         {
             settings = new Settings();
             settings.Id = Guid.NewGuid();
-            _settings = _settingsRepository
+            _settings = await _settingsRepository
                 .AddElementAsync(settings)
-                .GetAwaiter()
-                .GetResult() ?? settings;
+                .ConfigureAwait(true) ?? settings;
         }
         else
             _settings = settings;
@@ -176,9 +182,9 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
             (_, _) =>
             {
                 bool newValue;
-                if (userService.CurrentUser is not null && userService.CurrentUserRole is not null)
+                if (_userService.CurrentUser is not null && _userService.CurrentUserRole is not null)
                 {
-                    if (RolePermissions.IdentityRoleToRoles(userService.CurrentUserRole.Name) == Roles.Service)
+                    if (RolePermissions.IdentityRoleToRoles(_userService.CurrentUserRole.Name) == Roles.Service)
                         newValue = true;
                     else
                         newValue = false;
@@ -191,8 +197,6 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
             },
             Application.Current.Dispatcher);
         _timer.Start();
-
-        PropertyChanged += SettingsViewModel_PropertyChanged;
     }
 
     void ReadData()

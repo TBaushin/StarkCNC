@@ -11,7 +11,7 @@ namespace StarkCNC.Windows;
 public partial class AuthorizationWindow : Window
 {
     private AuthorizationWindowViewModel ViewModel;
-    private bool isAuthorized = false;
+    private bool isAuthorized;
 
     public AuthorizationWindow(AuthorizationWindowViewModel viewModel)
     {

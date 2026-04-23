@@ -17,6 +17,8 @@ public partial class UserView : Page
         ViewModel = viewModel;
         DataContext = ViewModel;
 
+        Loaded += async (_, _) => await ViewModel.InitializeAsync().ConfigureAwait(true);
+
         InitializeComponent();
 
         ViewModel.PropertyChanged += ViewModel_PropertyChanged;

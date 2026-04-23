@@ -15,6 +15,8 @@ namespace StarkCNC.ViewModels;
 
 public partial class MainWindowViewModel : ViewModelBase
 {
+    private IManualConfigurationService _configurationService;
+
     private readonly Dispatcher _dispatcher = Application.Current.Dispatcher;
     private DispatcherTimer _timer;
     private bool _disposed;
@@ -68,14 +70,12 @@ public partial class MainWindowViewModel : ViewModelBase
         IManualConfigurationService configurationService,
         AdjustmentViewModel adjustmentViewModel) 
     {
-        if (configurationService is null)
-            throw new ArgumentNullException(nameof(configurationService));
-
         _router = router;
         _bendingUnitOfWork = bendingUnitOfWork;
         _adjustmentRepository = adjustmentRepository;
         _adjustmentViewModel = adjustmentViewModel;
         _userService = userService;
+        _configurationService = configurationService;
 
         if (statusService is not null)
         {
@@ -109,11 +109,8 @@ public partial class MainWindowViewModel : ViewModelBase
             };
         }
 
-        Connect(configurationService);
-
         RegisterPages();
         _adjustmentPage = Pages.First(e => e.Title == "Оснастка");
-        AdjustmentUpdateChildElements();
 
         _adjustmentViewModel.SetUpAdjustments.CollectionChanged += SetUpAdjustments_CollectionChanged;
         _router.Navigated += (_, _) =>
@@ -138,10 +135,16 @@ public partial class MainWindowViewModel : ViewModelBase
         _timer.Start();
     }
 
-    private async void Connect(IManualConfigurationService configurationService)
+    public async Task InitializeAsync()
+    {
+        await Connect(_configurationService).ConfigureAwait(true);
+        await AdjustmentUpdateChildElements().ConfigureAwait(true);
+    }
+
+    private static async Task Connect(IManualConfigurationService configurationService)
     {
         if (!configurationService.Connected)
-            await configurationService.ConnectAsync().ConfigureAwait(false);
+            await configurationService.ConnectAsync().ConfigureAwait(true);
     }
 
     [RelayCommand]
@@ -204,7 +207,7 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private async void AdjustmentUpdateChildElements()
+    private async Task AdjustmentUpdateChildElements()
     {
         _adjustmentPage.Items.Clear();
         var withLevel = await _adjustmentRepository.GetAdjustmentsWithLevelAsync().ConfigureAwait(false);
@@ -226,9 +229,9 @@ public partial class MainWindowViewModel : ViewModelBase
         }
     }
 
-    private void SetUpAdjustments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    private async void SetUpAdjustments_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
     {
-        AdjustmentUpdateChildElements();
+        await AdjustmentUpdateChildElements().ConfigureAwait(true);
     }
 
     public void Dispose()
