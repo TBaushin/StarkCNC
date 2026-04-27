@@ -1,4 +1,6 @@
 ﻿using StarkCNC.Models;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -10,6 +12,7 @@ namespace StarkCNC.Controls;
 public partial class FlyoutMenuControl : UserControl
 {
     private ViewData? _selectedItem;
+    private bool _isInternalSelectionChange;
 
     public static readonly DependencyProperty PagesProperty = DependencyProperty.Register(
         nameof(Pages), 
@@ -53,6 +56,7 @@ public partial class FlyoutMenuControl : UserControl
 
     public void UpdateSelected(ViewData? viewData)
     {
+        _isInternalSelectionChange = true;
         if (viewData is null)
         {
             foreach (var item in PagesTreeView.Items)
@@ -83,6 +87,7 @@ public partial class FlyoutMenuControl : UserControl
         }
 
         SetSelectedForPage(_selectedItem);
+        _isInternalSelectionChange = false;
     }
 
     private void SetSelectedForPage(ViewData? data)
@@ -103,6 +108,9 @@ public partial class FlyoutMenuControl : UserControl
 
     private async void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (_isInternalSelectionChange)
+            return;
+
         if (e.AddedItems.Count < 1)
             return;
 
@@ -115,11 +123,15 @@ public partial class FlyoutMenuControl : UserControl
             return;
 
         _selectedItem = navItem;
+
         await ICommandControl.ExecuteCommand(_selectedItem.NavigationCommand).ConfigureAwait(true);
     }
 
     private async void PageList_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {
+        if (_isInternalSelectionChange)
+            return;
+
         if (e.NewValue is bool selected && selected != true)
             return;
 
@@ -132,16 +144,21 @@ public partial class FlyoutMenuControl : UserControl
             return;
 
         _selectedItem = navItem;
+
         await ICommandControl.ExecuteCommand(_selectedItem.NavigationCommand).ConfigureAwait(true);
     }
 
     private void MenuButton_Click(object sender, RoutedEventArgs e)
     {
         if (MenuIsOpen)
+        {
             MenuIsOpen = false;
+            UpdateSelected(null);
+        }
         else
+        {
             MenuIsOpen = true;
-
-        UpdateSelected(null);
+            UpdateSelected(null);
+        }
     }
 }

@@ -40,11 +40,9 @@ public partial class SqueezeParameters : ObservableObject, IDisposable
     public SqueezeParameters(IManualConfigurationService manualConfigurationService, bool autoRunUpdate)
     {
         _manualConfigurationService = manualConfigurationService;
-
-        Subscribe();
     }
 
-    private void Subscribe()
+    public void Subscribe()
     {
         _manualConfigurationService.Subscribe<bool>(RearPositionRequestString, value => RearPosition = value ? Colors.Green : Colors.DarkRed);
         _manualConfigurationService.Subscribe<bool>(RearSecondPositionRequestString, value => RearSecondPosition = value ? Colors.Green : Colors.DarkRed);

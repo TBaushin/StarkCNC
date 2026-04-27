@@ -157,6 +157,8 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
         _manualConfigurationService = manualConfigurationService;
         _userService = userService;
 
+        UpdateCurrentUser();
+
         PropertyChanged += SettingsViewModel_PropertyChanged;
     }
 
@@ -181,19 +183,7 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
             DispatcherPriority.Normal,
             (_, _) =>
             {
-                bool newValue;
-                if (_userService.CurrentUser is not null && _userService.CurrentUserRole is not null)
-                {
-                    if (RolePermissions.IdentityRoleToRoles(_userService.CurrentUserRole.Name) == Roles.Service)
-                        newValue = true;
-                    else
-                        newValue = false;
-                }
-                else
-                    newValue = false;
-
-                if (IsServiceUserRole != newValue)
-                    IsServiceUserRole = newValue;
+                UpdateCurrentUser();
             },
             Application.Current.Dispatcher);
         _timer.Start();
@@ -244,6 +234,23 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
         RotationJerk = _settings.RotationJerk;
         ConsoleJerk = _settings.ConsoleJerk;
         BendJerk = _settings.BendJerk;
+    }
+
+    void UpdateCurrentUser()
+    {
+        bool newValue;
+        if (_userService.CurrentUser is not null && _userService.CurrentUserRole is not null)
+        {
+            if (RolePermissions.IdentityRoleToRoles(_userService.CurrentUserRole.Name) == Roles.Service)
+                newValue = true;
+            else
+                newValue = false;
+        }
+        else
+            newValue = false;
+
+        if (IsServiceUserRole != newValue)
+            IsServiceUserRole = newValue;
     }
 
     async void SettingsViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)

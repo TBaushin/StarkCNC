@@ -29,8 +29,6 @@ public partial class OutputsParametersTwoButtons : ObservableObject, IDisposable
     public OutputsParametersTwoButtons(IManualConfigurationService manualConfigurationService, bool autoRunUpdate) 
     {
         _manualConfigurationService = manualConfigurationService;
-
-        Subscribe();
     }
 
     public void Subscribe()

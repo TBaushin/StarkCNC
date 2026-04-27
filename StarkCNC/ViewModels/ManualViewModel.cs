@@ -5,14 +5,16 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
+using System.Diagnostics;
 
 namespace StarkCNC.ViewModels;
 
-public partial class ManualViewModel : ObservableObject, IDisposable
+public partial class ManualViewModel : ViewModelBase, IDisposable
 {
     private readonly IConfiguration _configuration;
     private readonly IManualConfigurationService _manualService;
-    private readonly Settings? _settings;
+    private readonly ISettingsRepository _settingsRepository;
+    private Settings? _settings;
 
     private bool _disposed;
 
@@ -67,35 +69,64 @@ public partial class ManualViewModel : ObservableObject, IDisposable
 
     public ManualViewModel(IConfiguration configuration, IManualConfigurationService manualService, ISettingsRepository settingsRepository)
     {
+        var watch = Stopwatch.StartNew();
         _configuration = configuration;
         _manualService = manualService;
-        _settings = settingsRepository?.GetAsync().Result;
+        _settingsRepository = settingsRepository;
 
         _manualModeRequestString = _configuration.GetSection("MachineController").GetSection(nameof(_manualModeRequestString)).Get<string>() ?? string.Empty;
-        FeedDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(FeedDrive), true);
-        TurnDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(TurnDrive), true);
-        ConsoleDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), manualService, nameof(ConsoleDrive), true);
+        FeedDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), _manualService, nameof(FeedDrive), true);
+        TurnDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), _manualService, nameof(TurnDrive), true);
+        ConsoleDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), _manualService, nameof(ConsoleDrive), true);
 
-        Clamp = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Clamp), true);
-        Press = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Press), true);
-        FirstSqueeze = SqueezeParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(FirstSqueeze), true);
-        Bend = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Bend), true);
-        Collet = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Collet), true);
-        Dorn = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Dorn), true);
-        Adjustment = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Adjustment), _moreThenOneLevel);
-        Punching = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), manualService, nameof(Punching), _punchingEnabled);
+        Clamp = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), _manualService, nameof(Clamp), true);
+        Press = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), _manualService, nameof(Press), true);
+        FirstSqueeze = SqueezeParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), _manualService, nameof(FirstSqueeze), true);
+        Bend = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), _manualService, nameof(Bend), true);
+        Collet = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), _manualService, nameof(Collet), true);
+        Dorn = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), _manualService, nameof(Dorn), true);
+        Adjustment = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), _manualService, nameof(Adjustment), _moreThenOneLevel);
+        Punching = OutputsParametersTwoButtons.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsFB"), _manualService, nameof(Punching), _punchingEnabled);
 
-        FirstHydraulics = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(FirstHydraulics), _firstHydraulicsEnabled);
-        SecondHydraulics = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(SecondHydraulics), _secondHydraulicsEnabled);
-        Support = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(Support));
-        DornLubricant = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), manualService, nameof(DornLubricant));
+        FirstHydraulics = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), _manualService, nameof(FirstHydraulics), _firstHydraulicsEnabled);
+        SecondHydraulics = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), _manualService, nameof(SecondHydraulics), _secondHydraulicsEnabled);
+        Support = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), _manualService, nameof(Support));
+        DornLubricant = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), _manualService, nameof(DornLubricant));
+        watch.Stop();
+        Debug.WriteLine($"Constructor: {watch.Elapsed.ToString()}");
+    }
+
+    public async Task InitializeAsync()
+    {
+        var watch = Stopwatch.StartNew();
+        _settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
+
+        Subscribe();
 
         DefineFirstHydraulicsStatus();
         DefineSecondHydraulicsStatus();
         DefinePunchingStatus();
         DefineMoreThanOneLevelStatus();
 
-        Subscribe();
+        FeedDrive.Subscribe();
+        TurnDrive.Subscribe();
+        ConsoleDrive.Subscribe();
+
+        Clamp.Subscribe();
+        Press.Subscribe();
+        FirstSqueeze.Subscribe();
+        Bend.Subscribe();
+        Collet.Subscribe();
+        Dorn.Subscribe();
+        // Adjustment.Subscribe(); Подписывается в DefineMoreThanOneLevelStatus
+        // Punching.Subscribe(); Подписывается в DefinePunchingStatus
+
+        // FirstHydraulics.Subscribe(); Подписывается в DefineFirstHydraulicsStatus
+        // SecondHydraulics.Subscribe(); Подписывается в DefineSecondHydraulicsStatus
+        Support.Subscribe();
+        DornLubricant.Subscribe();
+        watch.Stop();
+        Debug.WriteLine($"InitializeAsync: {watch.Elapsed.ToString()}");
     }
 
     private void Subscribe()

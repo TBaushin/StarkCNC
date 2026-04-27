@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace StarkCNC.ViewModels;
 
-public partial class NumberInputViewModel : ObservableObject
+public partial class NumberInputViewModel : ViewModelBase
 {
     private string? _originalValue;
 

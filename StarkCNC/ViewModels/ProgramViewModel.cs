@@ -15,7 +15,7 @@ using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels;
 
-public partial class ProgramViewModel : ObservableObject
+public partial class ProgramViewModel : ViewModelBase
 {
     private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
     private readonly IBendingDataUnitOfWork _unitOfWork;

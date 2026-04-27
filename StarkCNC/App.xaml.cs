@@ -20,6 +20,7 @@ using StarkCNC.Repository;
 using StarkCNC.Services;
 using StarkCNC.UoW;
 using StarkCNC.ViewModels;
+using StarkCNC.Views;
 using StarkCNC.Windows;
 using System.Diagnostics;
 using System.IO;
@@ -38,9 +39,18 @@ public partial class App : Application
 
     public static IConfiguration Configuration { get; private set; } = ConfigureStartup();
 
-    public App()
+    public App() { }
+
+    protected override async void OnStartup(StartupEventArgs e)
     {
-        _host.Start();
+        base.OnStartup(e);
+
+        ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
+        await _host.StartAsync().ConfigureAwait(true);
+
+        await IdentitySeeder.SeedRolesAsync(_host.Services.GetRequiredService<RoleManager<IdentityRole>>()).ConfigureAwait(true);
+        await IdentitySeeder.SeedAdminAsync(_host.Services.GetRequiredService<UserManager<User>>()).ConfigureAwait(true);
 
         LiveCharts.Configure(c =>
         {
@@ -48,28 +58,19 @@ public partial class App : Application
         });
 
         ViewLocator.Initialize(_host.Services);
-
         ConfigureRoutes(_host.Services.GetRequiredService<IRouter>());
-
-        InitializeComponent();
 
 #if !DEBUG
         GlobalExceptionHandler.StartHandling();
 #endif
+        var isAuthorized = await RunAuthorization(_host.Services.GetRequiredService<IUserService>()).ConfigureAwait(true);
+        if (!isAuthorized)
+            Shutdown();
 
         MainWindow = _host.Services.GetRequiredService<MainWindow>();
+        MainWindow.Show();
 
-        RunAuthorization(_host.Services.GetRequiredService<IUserService>());
-
-        MainWindow.Visibility = Visibility.Visible;
-    }
-
-    protected override async void OnStartup(StartupEventArgs e)
-    {
-        base.OnStartup(e);
-
-        await IdentitySeeder.SeedRolesAsync(_host.Services.GetRequiredService<RoleManager<IdentityRole>>()).ConfigureAwait(true);
-        await IdentitySeeder.SeedAdminAsync(_host.Services.GetRequiredService<UserManager<User>>()).ConfigureAwait(true);
+        ShutdownMode = ShutdownMode.OnMainWindowClose;
     }
 
     private static IConfiguration ConfigureStartup() =>
@@ -114,7 +115,18 @@ public partial class App : Application
                 services.AddTransient<AdjustmentParametersConstructor>();
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<MainWindowViewModel>();
+                services.AddTransient<AdjustmentListView>();
+                services.AddTransient<AdjustmentListViewModel>();
+                services.AddTransient<AdjustmentView>();
                 services.AddTransient<AdjustmentViewModel>();
+                services.AddTransient<AutomaticView>();
+                services.AddTransient<AutomaticViewModel>();
+                services.AddTransient<ManualView>();
+                services.AddTransient<ManualViewModel>();
+                services.AddTransient<ProgramView>();
+                services.AddTransient<ProgramViewModel>();
+                services.AddTransient<VisualizationView>();
+                services.AddTransient<VisualizationViewModel>();
                 services.AddTransient<IBendingModelsLoadingService, BendingModelsLoadingService>();
                 services.AddSingleton<IBendingDataUnitOfWork, BendingDataUnitOfWork>();
 #if DEBUG
@@ -146,15 +158,15 @@ public partial class App : Application
             configure.AddRoute("/users", typeof(UserViewModel), "Пользователи", iconGlyph: "\xE77B");
         });
 
-    private async void RunAuthorization(IUserService userService)
+    private static async Task<bool> RunAuthorization(IUserService userService)
     {
         if (userService.CurrentUser is not null)
-            return;
+            return true;
 
         var vm = await AuthorizationWindowViewModel.InitializeAsync(userService, true).ConfigureAwait(true);
         var authorization = new AuthorizationWindow(vm);
         authorization.ShowDialog();
-        if (userService.CurrentUser is null)
-            Shutdown();
+
+        return userService.CurrentUser is not null;
     }
 }

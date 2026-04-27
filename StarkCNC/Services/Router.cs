@@ -34,7 +34,7 @@ public class Router : IRouter, IRouteBuilder
     {
         if (rolesHasAccess is null)
             rolesHasAccess = new Roles[] { Roles.Service, Roles.Administrator, Roles.Operator, Roles.None };
-
+        var viewType = ViewLocator.GetPageType(type);
         if (!_routes.ContainsKey(route))
             _routes.Add(
                 route,
@@ -43,7 +43,8 @@ public class Router : IRouter, IRouteBuilder
                     type,
                     string.IsNullOrEmpty(title) ? string.Empty : title,
                     string.IsNullOrEmpty(iconGlyph) ? string.Empty : iconGlyph,
-                    rolesHasAccess));
+                    rolesHasAccess,
+                    viewType));
     }
 
     public void ConfigureRoutes(Action<IRouteBuilder> configure)
@@ -56,6 +57,9 @@ public class Router : IRouter, IRouteBuilder
 
     public object? Navigate(string path, params object[] parameters)
     {
+        if (_currentRoute is not null && string.Equals(_currentRoute.Path, path, StringComparison.OrdinalIgnoreCase))
+            return _frame.Content;
+
         if(!_routes.TryGetValue(path, out var route))
             throw new InvalidOperationException($"Route '{path}' is not configured.");
 
@@ -103,7 +107,7 @@ public class Router : IRouter, IRouteBuilder
     }
 
     public Type? ResolveType(string path) =>
-        _routes.TryGetValue(path, out var route) ? route.Type : null;
+        _routes.TryGetValue(path, out var route) ? route.ViewModelType : null;
 
     public IEnumerable<KeyValuePair<string, Route>> GetRoutes() => _routes;
 
@@ -125,7 +129,12 @@ public class Router : IRouter, IRouteBuilder
         if (!HasAccessToPage(route))
             page = ViewLocator.NoAccess();
         else
-            page = ViewLocator.Build(route.Type, parameters);
+        {
+            if (route.ViewType is not null)
+                page = ViewLocator.Build(route.ViewModelType, route.ViewType, parameters);
+            else
+                page = ViewLocator.Build(route.ViewModelType, parameters);
+        }
 
         return page;
     }

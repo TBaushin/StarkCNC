@@ -1,5 +1,6 @@
 ﻿using StarkCNC.ViewModels;
 using System.Windows.Controls;
+using System.Windows.Threading;
 
 namespace StarkCNC.Views;
 
@@ -14,6 +15,12 @@ public partial class ManualView : Page
     {
         ViewModel = viewModel;
         DataContext = ViewModel;
+
+        Loaded += async (_, _) =>
+        {
+            await Dispatcher.Yield(DispatcherPriority.Render);
+            await ViewModel.InitializeAsync().ConfigureAwait(true);
+        };
 
         InitializeComponent();
 

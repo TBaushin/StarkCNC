@@ -6,7 +6,7 @@ using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels;
 
-public class VisualizationViewModel : ObservableObject
+public class VisualizationViewModel : ViewModelBase
 {
     private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
 

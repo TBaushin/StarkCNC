@@ -32,7 +32,14 @@ public partial class MainWindow : Window
         ViewModel = viewModel;
         DataContext = ViewModel;
 
-        Loaded += async (_, _) => await ViewModel.InitializeAsync().ConfigureAwait(true);
+        Loaded += async (_, _) =>
+        {
+            await Dispatcher.BeginInvoke(() => router.Navigate("/manual"));
+
+            await Dispatcher.Yield(DispatcherPriority.Render);
+
+            await ViewModel.InitializeAsync().ConfigureAwait(true);
+        };
 
         InitializeComponent();
 
@@ -66,8 +73,6 @@ public partial class MainWindow : Window
                 NonClientFrameEdges = GetPrefferedNonClientFrameEdges()
             }
         );
-
-        router.Navigate("/manual");
 
         MaximizeWindow();
 
@@ -161,7 +166,7 @@ public partial class MainWindow : Window
     {
         Breadcrumbs.Children.Clear();
 
-        RootContentFrame.UpdateLayout();
+        //RootContentFrame.UpdateLayout();
         //PageTitleTextBlock.Text = $"{Localization.Language.Tab}: {e.Title}";
 
         var breadcrumb = ViewModel.Breadcrumb as StackPanel;

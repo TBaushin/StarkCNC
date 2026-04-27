@@ -55,8 +55,6 @@ public partial class DriveParameters : ObservableObject, IDisposable
     {
         _manualConfigurationService = manualConfigurationService;
 
-        Subscribe();
-
         PropertyChanged += DriveParameters_PropertyChanged;
     }
 

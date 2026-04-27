@@ -22,8 +22,6 @@ public partial class OutputsParametersSwitch : ObservableObject, IDisposable
     public OutputsParametersSwitch(IManualConfigurationService manualConfigurationService, bool autoRunUpdate = false)
     {
         _manualConfigurationService = manualConfigurationService;
-
-        Subscribe();
     }
 
     public void Subscribe()

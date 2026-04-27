@@ -144,7 +144,7 @@ public partial class MainWindowViewModel : ViewModelBase
     private static async Task Connect(IManualConfigurationService configurationService)
     {
         if (!configurationService.Connected)
-            await configurationService.ConnectAsync().ConfigureAwait(true);
+            await configurationService.TryConnectAsync().ConfigureAwait(false);
     }
 
     [RelayCommand]

@@ -66,17 +66,47 @@ public class ManualConfigurationService : IManualConfigurationService
 
             _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
 
-            _statusService.CurrentStatus = new Status("Подключение успешно", StatusType.Success);
+            Application.Current.Dispatcher.Invoke(() => _statusService.CurrentStatus = new Status("Подключение успешно", StatusType.Success));
         }
         catch (Opc.Ua.ServiceResultException ex)
         {
 #if DEBUG
             Debug.WriteLine(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})");
 #endif
-            _statusService.CurrentStatus = new Status(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})", StatusType.Error);
+            Application.Current.Dispatcher.Invoke(() => _statusService.CurrentStatus = new Status(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})", StatusType.Error));
         }
 
         RunUpdateTask();
+    }
+
+    public async Task<bool> TryConnectAsync()
+    {
+        bool serverIsRunning = false;
+
+        try
+        {
+            string server = _server;
+            if (server.Contains("localhost", StringComparison.InvariantCultureIgnoreCase))
+                server = "127.0.0.1";
+
+            if (server.StartsWith("opc.tcp://", StringComparison.InvariantCultureIgnoreCase))
+                server = server.Replace("opc.tcp://", "", StringComparison.InvariantCultureIgnoreCase);
+            if (server.EndsWith(":4840", StringComparison.InvariantCultureIgnoreCase))
+                server = server.Replace(":4840", "", StringComparison.InvariantCultureIgnoreCase);
+
+            using var pinger = new Ping();
+            var reply = await pinger.SendPingAsync(server).ConfigureAwait(false);
+            serverIsRunning = reply.Status == IPStatus.Success;
+        }
+        catch (PingException)
+        {
+            // Ignore
+        }
+
+        if (serverIsRunning)
+            await ConnectAsync().ConfigureAwait(false);
+
+        return _client.Connected;
     }
 
     public async Task UpdateConnection(string server)
@@ -85,7 +115,8 @@ public class ManualConfigurationService : IManualConfigurationService
             _client.Disconnect();
 
         _server = server;
-        await ConnectAsync().ConfigureAwait(false);
+
+        await TryConnectAsync().ConfigureAwait(false);
     }
 
     public async Task WriteAsync<T>(T value, string to, StatusPage fromPage = StatusPage.Unknown)
@@ -93,16 +124,19 @@ public class ManualConfigurationService : IManualConfigurationService
         if (!Connected)
             return;
 
+        if (string.IsNullOrEmpty(to))
+            return;
+
         try
         {
             await _client.WriteNodeAsync<T>(_requestString + to, value).ConfigureAwait(false);
         }
-        catch (Exception)
+        catch (Opc.Ua.ServiceResultException)
         {
 #if DEBUG
             Debug.WriteLine(Localization.Language.SendRequestErrorMessage);
 #endif
-            _statusService.CurrentStatus = new Status(Localization.Language.SendRequestErrorMessage, StatusType.Error, fromPage);
+            Application.Current.Dispatcher.Invoke(() => _statusService.CurrentStatus = new Status(Localization.Language.SendRequestErrorMessage, StatusType.Error, fromPage));
         }
     }
 
@@ -111,17 +145,21 @@ public class ManualConfigurationService : IManualConfigurationService
         if (!Connected)
             return default;
 
+        if (string.IsNullOrEmpty(from))
+            return default;
+
         try
         {
             return await _client.ReadNodeAsync<T>(_requestString + from)
                 .ConfigureAwait(false);
         }
-        catch (Exception)
+        catch (Opc.Ua.ServiceResultException)
         {
 #if DEBUG
             Debug.WriteLine(Localization.Language.GetDataRequestErrorMessage + $" {from}");
 #endif
-            _statusService.CurrentStatus = new Status(Localization.Language.GetDataRequestErrorMessage + $" {from}", StatusType.Error, fromPage);
+
+            Application.Current.Dispatcher.Invoke(() => _statusService.CurrentStatus = new Status(Localization.Language.GetDataRequestErrorMessage + $" {from}", StatusType.Error, fromPage));
         }
 
         return default;
@@ -132,19 +170,30 @@ public class ManualConfigurationService : IManualConfigurationService
         if (_client is null || !_client.Connected)
             return;
 
-        _client.AddSubscription(to, _requestString + to, (_, _, args) =>
-        {
-            var notification = args.NotificationValue as MonitoredItemNotification;
-            if (notification is null)
-                return;
+        if (string.IsNullOrEmpty(to))
+            return;
 
-            var raw = notification.Value.WrappedValue.Value;
-            if (raw is T result)
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    setValue(result);
-                });
-        });
+        Debug.WriteLine($"Current subscribtion count: {_client.Session.SubscriptionCount}");
+        try
+        {
+            _client.AddSubscription(to, _requestString + to, (_, _, args) =>
+            {
+                var notification = args.NotificationValue as MonitoredItemNotification;
+                if (notification is null)
+                    return;
+
+                var raw = notification.Value.WrappedValue.Value;
+                if (raw is T result)
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        setValue(result);
+                    });
+            });
+        }
+        catch (Opc.Ua.ServiceResultException ex)
+        {
+            Debug.WriteLine($"Error: {ex.GetType()} {ex.Message}");
+        }
     }
 
     public void Unsubscribe(string from)
@@ -152,7 +201,15 @@ public class ManualConfigurationService : IManualConfigurationService
         if (_client is null || !_client.Connected)
             return;
 
-        _client.RemoveSubscription(from);
+        try
+        {
+            _client.RemoveSubscription(from);
+            Debug.WriteLine($"Unsubscribed {from} with current subscribtion count {_client.Session.SubscriptionCount}");
+        }
+        catch (Opc.Ua.ServiceResultException ex)
+        {
+            Debug.WriteLine($"Error: {ex.GetType()} {ex.Message}");
+        }
     }
 
     private void RunUpdateTask()
@@ -164,29 +221,18 @@ public class ManualConfigurationService : IManualConfigurationService
                 DispatcherPriority.Normal,
                 async (_, _) =>
                 {
-                    if (_client.Connected)
+                    await Task.Run(async () =>
                     {
-                        if (_statusService.CurrentStatus == null || _statusService.CurrentStatus.Text == Localization.Language.ConnectionErrorMessage)
-                            _statusService.CurrentStatus = null;
-                    }
-                    else
-                    {
-                        bool serverIsRunning = false;
-
-                        try
+                        if (_client.Connected)
                         {
-                            using var pinger = new Ping();
-                            var reply = pinger.Send(_server);
-                            serverIsRunning = reply.Status == IPStatus.Success;
+                            if (_statusService.CurrentStatus == null || _statusService.CurrentStatus.Text == Localization.Language.ConnectionErrorMessage)
+                                _statusService.CurrentStatus = null;
                         }
-                        catch (PingException)
+                        else
                         {
-                            // Ignore
+                            await TryConnectAsync().ConfigureAwait(false);
                         }
-
-                        if (serverIsRunning)
-                            await ConnectAsync().ConfigureAwait(false);
-                    }
+                    }).ConfigureAwait(false);
                 },
                 Application.Current.Dispatcher);
             _timer.Start();

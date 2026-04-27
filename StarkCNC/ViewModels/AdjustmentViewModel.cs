@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace StarkCNC.ViewModels;
 
-public partial class AdjustmentViewModel : ObservableObject
+public partial class AdjustmentViewModel : ViewModelBase
 {
     private readonly IRouter _router;
     private readonly IAdjustmentRepository _repository;

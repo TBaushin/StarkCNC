@@ -8,6 +8,8 @@ public interface IManualConfigurationService
 
     public Task ConnectAsync();
 
+    public Task<bool> TryConnectAsync();
+
     public Task UpdateConnection(string server);
 
     public Task WriteAsync<T>(T value, string to, StatusPage fromPage = StatusPage.Unknown);
