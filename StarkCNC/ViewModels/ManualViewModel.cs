@@ -217,7 +217,7 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         if (_settings is null)
             return;
 
-        if (_settings.IsElectricBendingDrive || _settings.IsElectricBendingDrive)
+        if (_settings.IsElectricBendingDrive) // Был ещё IsElectricMachine
         {
             SecondHydraulicsEnabled = false;
             SecondHydraulics.Unsubscribe();
