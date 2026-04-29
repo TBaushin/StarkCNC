@@ -57,24 +57,14 @@ public partial class ManualView : Page
         ViewModel.BendAndSqueezeCancelCommand.Execute(null);
     }
 
-    private void ManualView_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+    private async void ManualView_IsVisibleChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
     {
         if (e.NewValue is not bool value)
             return;
 
         if (value)
-            ViewModel.ManualModeTurnOnCommand.Execute(null);
+            await ViewModel.UpdateManualModeWithValue(true).ConfigureAwait(true);
         else
-            ViewModel.ManualModeTurnOffCommand.Execute(null);
-    }
-
-    private void ManualModeButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        ViewModel.ManualModeTurnOnCommand.Execute(null);
-    }
-
-    private void ManualModeButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
-    {
-        ViewModel.ManualModeTurnOffCommand.Execute(null);
+            await ViewModel.UpdateManualModeWithValue(false).ConfigureAwait(true);
     }
 }

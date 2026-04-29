@@ -44,8 +44,7 @@
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
                 Content="Ручной режим"
-                PreviewMouseDown="ManualModeButton_PreviewMouseDown"
-                PreviewMouseUp="ManualModeButton_PreviewMouseUp"/> <!--TODO: Перевести-->
+                Command="{Binding UpdateManualModeCommand}"/> <!--TODO: Перевести-->
             <Grid
                 Margin="0,5,0,5"
                 Visibility="{Binding FirstHydraulicsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">

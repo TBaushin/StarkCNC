@@ -153,16 +153,20 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
     }
 
     [RelayCommand]
-    private async Task ManualModeTurnOn() =>
+    private async Task UpdateManualMode()
+    {
+        var manualMode = await _manualService.ReadAsync<bool>(ControllerRequestStrings.MANUAL_MODE).ConfigureAwait(true);
         await _manualService
-            .WriteAsync<bool>(true, ControllerRequestStrings.MANUAL_MODE)
+            .WriteAsync<bool>(!manualMode, ControllerRequestStrings.MANUAL_MODE)
             .ConfigureAwait(true);
+    }
 
-    [RelayCommand]
-    private async Task ManualModeTurnOff() =>
+    public async Task UpdateManualModeWithValue(bool value)
+    {
         await _manualService
-            .WriteAsync<bool>(false, ControllerRequestStrings.MANUAL_MODE)
+            .WriteAsync<bool>(value, ControllerRequestStrings.MANUAL_MODE)
             .ConfigureAwait(true);
+    }
 
     [RelayCommand]
     private async Task BendAndSqueezeRun() =>
