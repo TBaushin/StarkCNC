@@ -25,7 +25,7 @@ public static class IdentitySeeder
 
     public static async Task SeedRolesAsync(RoleManager<IdentityRole> roleManager)
     {
-        string[] roles = { "Оператор", "Администратор", "Сервис" };
+        string[] roles = { "Оператор", "Администратор", "Сервис" }; // TODO: Роль администратор переименовать в "Наладчик"
 
         foreach (var role in roles)
         {
