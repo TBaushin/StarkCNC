@@ -58,7 +58,7 @@ public class FakeManualConfigurationService : IManualConfigurationService
         await Task.Delay(100).ConfigureAwait(true);
     }
 
-    public void Subscribe<T>(string to, Action<T> setValue)
+    public bool Subscribe<T>(string to, Action<T> setValue)
     {
         var sub = new DispatcherTimer(
             TimeSpan.FromSeconds(1),
@@ -70,6 +70,7 @@ public class FakeManualConfigurationService : IManualConfigurationService
             },
             Application.Current.Dispatcher);
         _subscribtions.TryAdd(to, sub);
+        return true;
     }
 
     public void Unsubscribe(string from)

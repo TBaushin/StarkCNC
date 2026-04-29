@@ -5,7 +5,9 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
+using StarkCNC.Utilities;
 using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace StarkCNC.ViewModels;
 
@@ -101,95 +103,84 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         var watch = Stopwatch.StartNew();
         _settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
 
-        Subscribe();
+        var connected = _manualService.Connected;
+        await Task.Run(() =>
+        {
+            while (!connected)
+            {
+                connected = _manualService.Connected;
+                Subscribe();
 
-        DefineFirstHydraulicsStatus();
-        DefineSecondHydraulicsStatus();
-        DefinePunchingStatus();
-        DefineMoreThanOneLevelStatus();
+                DefineFirstHydraulicsStatus();
+                DefineSecondHydraulicsStatus();
+                DefinePunchingStatus();
+                DefineMoreThanOneLevelStatus();
 
-        FeedDrive.Subscribe();
-        TurnDrive.Subscribe();
-        ConsoleDrive.Subscribe();
+                FeedDrive.Subscribe();
+                TurnDrive.Subscribe();
+                ConsoleDrive.Subscribe();
 
-        Clamp.Subscribe();
-        Press.Subscribe();
-        FirstSqueeze.Subscribe();
-        Bend.Subscribe();
-        Collet.Subscribe();
-        Dorn.Subscribe();
-        // Adjustment.Subscribe(); Подписывается в DefineMoreThanOneLevelStatus
-        // Punching.Subscribe(); Подписывается в DefinePunchingStatus
+                Clamp.Subscribe();
+                Press.Subscribe();
+                FirstSqueeze.Subscribe();
+                Bend.Subscribe();
+                Collet.Subscribe();
+                Dorn.Subscribe();
+                // Adjustment.Subscribe(); Подписывается в DefineMoreThanOneLevelStatus
+                // Punching.Subscribe(); Подписывается в DefinePunchingStatus
 
-        // FirstHydraulics.Subscribe(); Подписывается в DefineFirstHydraulicsStatus
-        // SecondHydraulics.Subscribe(); Подписывается в DefineSecondHydraulicsStatus
-        Support.Subscribe();
-        DornLubricant.Subscribe();
+                // FirstHydraulics.Subscribe(); Подписывается в DefineFirstHydraulicsStatus
+                // SecondHydraulics.Subscribe(); Подписывается в DefineSecondHydraulicsStatus
+                Support.Subscribe();
+                DornLubricant.Subscribe();
+
+                Task.Delay(250);
+            }
+        }).ConfigureAwait(false);
+        
         watch.Stop();
         Debug.WriteLine($"InitializeAsync: {watch.Elapsed.ToString()}");
     }
 
     private void Subscribe()
     {
-        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
-        var factialSection = automaticTagsSection.GetSection("Factial");
-
-        var stopErrorRequestString = automaticTagsSection
-            .GetSection("StopErrors")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        _manualService.Subscribe<bool>(stopErrorRequestString, value => HasErrors = value);
+        _manualService.Subscribe<bool>(ControllerRequestStrings.ERRORS_HAS_ERRORS, value => HasErrors = value);
     }
 
     private void Unsubscribe()
     {
-        var automaticTagsSection = _configuration.GetSection("AutomaticTags");
-        var factialSection = automaticTagsSection.GetSection("Factial");
-
-        var stopErrorRequestString = automaticTagsSection
-            .GetSection("StopErrors")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
-        _manualService.Unsubscribe(stopErrorRequestString);
+        _manualService.Unsubscribe(ControllerRequestStrings.ERRORS_HAS_ERRORS);
     }
 
     [RelayCommand]
     private async Task ManualModeTurnOn() =>
         await _manualService
-            .WriteAsync<bool>(true, _manualModeRequestString)
+            .WriteAsync<bool>(true, ControllerRequestStrings.MANUAL_MODE)
             .ConfigureAwait(true);
 
     [RelayCommand]
     private async Task ManualModeTurnOff() =>
         await _manualService
-            .WriteAsync<bool>(false, _manualModeRequestString)
+            .WriteAsync<bool>(false, ControllerRequestStrings.MANUAL_MODE)
             .ConfigureAwait(true);
 
     [RelayCommand]
     private async Task BendAndSqueezeRun() =>
         await _manualService
-            .WriteAsync<bool>(true, _bendAndSqueezeRequestString)
+            .WriteAsync<bool>(true, ControllerRequestStrings.BEND_AND_SQUEEZE_VALUE)
             .ConfigureAwait(true);
 
     [RelayCommand]
     private async Task BendAndSqueezeCancel() =>
         await _manualService
-            .WriteAsync<bool>(false, _bendAndSqueezeRequestString)
+            .WriteAsync<bool>(false, ControllerRequestStrings.BEND_AND_SQUEEZE_VALUE)
             .ConfigureAwait(true);
 
     [RelayCommand]
     private async Task ClearActuatorErrors()
     {
-        var machineController = _configuration.GetSection("MachineController");
-        var clearActuatorErrorsRequestString = machineController
-            .GetSection("ClearActuatorErrors")
-            .GetSection("RequestString")
-            .Get<string>() ?? string.Empty;
-
         await _manualService
-            .WriteAsync(true, clearActuatorErrorsRequestString)
+            .WriteAsync(true, ControllerRequestStrings.ERRORS_CLEAR_ACTUATOR_ERRORS)
             .ConfigureAwait(true);
 
         HasErrors = false;

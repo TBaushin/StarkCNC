@@ -67,4 +67,14 @@ public partial class ManualView : Page
         else
             ViewModel.ManualModeTurnOffCommand.Execute(null);
     }
+
+    private void ManualModeButton_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        ViewModel.ManualModeTurnOnCommand.Execute(null);
+    }
+
+    private void ManualModeButton_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        ViewModel.ManualModeTurnOffCommand.Execute(null);
+    }
 }

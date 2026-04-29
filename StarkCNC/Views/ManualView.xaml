@@ -38,11 +38,14 @@
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch">
             <Button
+                x:Name="ManualModeButton"
                 MinHeight="50"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
-                Content="Ручной режим"/> <!--TODO: Перевести-->
+                Content="Ручной режим"
+                PreviewMouseDown="ManualModeButton_PreviewMouseDown"
+                PreviewMouseUp="ManualModeButton_PreviewMouseUp"/> <!--TODO: Перевести-->
             <Grid
                 Margin="0,5,0,5"
                 Visibility="{Binding FirstHydraulicsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
@@ -334,7 +337,8 @@
                 BackwardCommand="{Binding FeedDrive.BackwardStartCommand}"
                 BackwardCancelCommand="{Binding FeedDrive.BackwardCancelCommand}"
                 RelativeDispositionCommand="{Binding FeedDrive.RelativeDispositionCommand}"
-                RelativeDispositionCancelCommand="{Binding FeedDrive.RelativeDispositionCancelCommand}"/>
+                RelativeDispositionCancelCommand="{Binding FeedDrive.RelativeDispositionCancelCommand}"
+                ResetCommand="{Binding FeedDrive.ResetCommand}"/>
             <!--TODO: Перевести-->
             <Separator
                 Grid.Row="1"
@@ -352,7 +356,8 @@
                 BackwardCommand="{Binding TurnDrive.BackwardStartCommand}"
                 BackwardCancelCommand="{Binding TurnDrive.BackwardCancelCommand}"
                 RelativeDispositionCommand="{Binding TurnDrive.RelativeDispositionCommand}"
-                RelativeDispositionCancelCommand="{Binding TurnDrive.RelativeDispositionCancelCommand}"/>
+                RelativeDispositionCancelCommand="{Binding TurnDrive.RelativeDispositionCancelCommand}"
+                ResetCommand="{Binding TurnDrive.ResetCommand}"/>
             <!--TODO: Перевести-->
             <Separator
                 Grid.Row="3"
@@ -369,7 +374,8 @@
                 BackwardCommand="{Binding ConsoleDrive.BackwardStartCommand}"
                 BackwardCancelCommand="{Binding ConsoleDrive.BackwardCancelCommand}"
                 RelativeDispositionCommand="{Binding ConsoleDrive.RelativeDispositionCommand}"
-                RelativeDispositionCancelCommand="{Binding ConsoleDrive.RelativeDispositionCancelCommand}"/>
+                RelativeDispositionCancelCommand="{Binding ConsoleDrive.RelativeDispositionCancelCommand}"
+                ResetCommand="{Binding ConsoleDrive.ResetCommand}"/>
             <!--TODO: Перевести-->
         </Grid>
         <StackPanel

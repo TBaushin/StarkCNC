@@ -14,16 +14,16 @@ public partial class DriveParameters : ObservableObject, IDisposable
     private bool _disposed;
 
     [ObservableProperty]
-    private double? _speed = 0;
+    private float? _speed = 0;
 
     [ObservableProperty]
-    private double? _coordinate = 0;
+    private float? _coordinate = 0;
 
     [ObservableProperty]
-    private double? _relativeDisplacement = 0;
+    private float? _relativeDisplacement = 0;
 
     [ObservableProperty]
-    private double? _torque = 0;
+    private float? _torque = 0;
 
     [ObservableProperty]
     private Color _rearPosition = Colors.DarkRed;
@@ -117,7 +117,7 @@ public partial class DriveParameters : ObservableObject, IDisposable
     [RelayCommand]
     private async Task Reset()
     {
-        // await _manualConfigurationService.WriteAsync<bool>(true, ResetRequestString);
+        await _manualConfigurationService.WriteAsync<bool>(true, ResetRequestString).ConfigureAwait(false);
         Speed = 0;
         Coordinate = 0;
         RelativeDisplacement = 0;
@@ -128,13 +128,9 @@ public partial class DriveParameters : ObservableObject, IDisposable
     {
         try
         {
-            var value = await _manualConfigurationService
+            Speed = await _manualConfigurationService
                 .ReadAsync<float>(SpeedRequestString)
                 .ConfigureAwait(false);
-
-            var culture = CultureInfo.CurrentCulture;
-            double.TryParse(value.ToString(culture), culture, out var result);
-            Speed = result;
         }
         catch (Opc.Ua.ServiceResultException)
         {
@@ -162,13 +158,9 @@ public partial class DriveParameters : ObservableObject, IDisposable
     {
         try
         {
-            var value = await _manualConfigurationService
+            RelativeDisplacement = await _manualConfigurationService
                 .ReadAsync<float>(ActualRelativeDisplacementRequestString)
                 .ConfigureAwait(false);
-
-            var culture = CultureInfo.CurrentCulture;
-            double.TryParse(value.ToString(culture), culture, out var result);
-            RelativeDisplacement = result;
         }
         catch (Opc.Ua.ServiceResultException)
         {
@@ -181,13 +173,9 @@ public partial class DriveParameters : ObservableObject, IDisposable
     {
         try
         {
-            var value = await _manualConfigurationService
+            Torque = await _manualConfigurationService
                 .ReadAsync<float>(TorqueRequestString)
                 .ConfigureAwait(false);
-
-            var culture = CultureInfo.CurrentCulture;
-            double.TryParse(value.ToString(culture), culture, out var result);
-            Torque = result;
         }
         catch (Opc.Ua.ServiceResultException)
         {
@@ -239,9 +227,9 @@ public partial class DriveParameters : ObservableObject, IDisposable
     {
         if (e.PropertyName == nameof(Speed))
         {
-            double value = 0;
+            float value = 0;
             if (Speed is not null)
-                value = (double)Speed;
+                value = (float)Speed;
 
             await _manualConfigurationService
                 .WriteAsync<float>(Convert.ToSingle(value), SpeedRequestString)
@@ -250,9 +238,9 @@ public partial class DriveParameters : ObservableObject, IDisposable
 
         if (e.PropertyName == nameof(RelativeDisplacement))
         {
-            double value = 0;
+            float value = 0;
             if (RelativeDisplacement is not null)
-                value = (double)RelativeDisplacement;
+                value = (float)RelativeDisplacement;
 
             await _manualConfigurationService
                 .WriteAsync<float>(Convert.ToSingle(value), ActualRelativeDisplacementRequestString)

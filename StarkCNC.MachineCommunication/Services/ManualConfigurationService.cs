@@ -22,7 +22,7 @@ public class ManualConfigurationService : IManualConfigurationService
 
     private DispatcherTimer _timer;
 
-    public bool Connected => _client.Connected;
+    public bool Connected => _client.Connected && !string.IsNullOrEmpty(_requestString);
 
     public ManualConfigurationService(IConfiguration configuration, ISettingsRepository settingsRepository, IStatusService statusService)
     {
@@ -165,13 +165,15 @@ public class ManualConfigurationService : IManualConfigurationService
         return default;
     }
 
-    public void Subscribe<T>(string to, Action<T> setValue)
+    public bool Subscribe<T>(string to, Action<T> setValue)
     {
-        if (_client is null || !_client.Connected)
-            return;
+        if (_client is null || !_client.Connected || string.IsNullOrEmpty(_requestString))
+        {
+            return false;
+        }
 
         if (string.IsNullOrEmpty(to))
-            return;
+            return false;
 
         Debug.WriteLine($"Current subscribtion count: {_client.Session.SubscriptionCount}");
         try
@@ -189,11 +191,14 @@ public class ManualConfigurationService : IManualConfigurationService
                         setValue(result);
                     });
             });
+            return true;
         }
         catch (Opc.Ua.ServiceResultException ex)
         {
             Debug.WriteLine($"Error: {ex.GetType()} {ex.Message}");
         }
+
+        return false;
     }
 
     public void Unsubscribe(string from)
