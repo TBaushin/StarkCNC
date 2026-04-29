@@ -17,7 +17,7 @@ public partial class OutputsParametersSwitch : ObservableObject, IDisposable
     public string RequestString { get; private set; } = string.Empty;
 
     [ObservableProperty]
-    private Color _statusColor;
+    private Color _statusColor = Colors.DarkRed;
 
     public OutputsParametersSwitch(IManualConfigurationService manualConfigurationService, bool autoRunUpdate = false)
     {
