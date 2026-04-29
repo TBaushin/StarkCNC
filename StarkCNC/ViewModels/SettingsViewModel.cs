@@ -158,8 +158,6 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
         _userService = userService;
 
         UpdateCurrentUser();
-
-        PropertyChanged += SettingsViewModel_PropertyChanged;
     }
 
     public async Task InitializeAsync()
@@ -177,6 +175,8 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
             _settings = settings;
 
         ReadData();
+
+        PropertyChanged += SettingsViewModel_PropertyChanged;
 
         _timer = new DispatcherTimer(
             TimeSpan.FromMilliseconds(250),
