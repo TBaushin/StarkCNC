@@ -37,14 +37,14 @@
             Grid.Row="0"
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch">
-            <Button
+            <!--<Button
                 x:Name="ManualModeButton"
                 MinHeight="50"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 Margin="0,5,0,5"
                 Content="Ручной режим"
-                Command="{Binding UpdateManualModeCommand}"/> <!--TODO: Перевести-->
+                Command="{Binding UpdateManualModeCommand}"/>--> <!--TODO: Перевести-->
             <Grid
                 Margin="0,5,0,5"
                 Visibility="{Binding FirstHydraulicsEnabled, Converter={StaticResource BoolToVisibilityConverter}}">
