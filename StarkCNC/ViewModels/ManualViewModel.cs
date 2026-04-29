@@ -7,7 +7,6 @@ using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
 using StarkCNC.Utilities;
 using System.Diagnostics;
-using System.Windows.Threading;
 
 namespace StarkCNC.ViewModels;
 
@@ -19,6 +18,7 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
     private Settings? _settings;
 
     private bool _disposed;
+    private bool _subscribed;
 
     private string _manualModeRequestString = string.Empty;
 
@@ -106,9 +106,15 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         var connected = _manualService.Connected;
         await Task.Run(() =>
         {
-            while (!connected)
+            while (connected != true || _subscribed != true)
             {
                 connected = _manualService.Connected;
+                if (!connected)
+                {
+                    Task.Delay(250);
+                    continue;
+                }
+
                 Subscribe();
 
                 DefineFirstHydraulicsStatus();
@@ -135,6 +141,7 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
                 DornLubricant.Subscribe();
 
                 Task.Delay(250);
+                _subscribed = true;
             }
         }).ConfigureAwait(false);
         
@@ -282,6 +289,8 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
             DornLubricant.Dispose();
 
             Unsubscribe();
+
+            _subscribed = false;
         }
 
         _disposed = true;
