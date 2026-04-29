@@ -7,6 +7,7 @@ using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
 using StarkCNC.Utilities;
 using System.Diagnostics;
+using System.Windows.Threading;
 
 namespace StarkCNC.ViewModels;
 
@@ -18,7 +19,6 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
     private Settings? _settings;
 
     private bool _disposed;
-    private bool _subscribed;
 
     private string _manualModeRequestString = string.Empty;
 
@@ -103,47 +103,42 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         var watch = Stopwatch.StartNew();
         _settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
 
-        var connected = _manualService.Connected;
-        await Task.Run(() =>
-        {
-            while (connected != true || _subscribed != true)
+        var timer = new DispatcherTimer(
+            TimeSpan.FromMilliseconds(250),
+            DispatcherPriority.Normal,
+            (sender, args) =>
             {
-                connected = _manualService.Connected;
-                if (!connected)
+                if (_manualService.Connected)
                 {
-                    Task.Delay(250);
-                    continue;
+                    Subscribe();
+
+                    DefineFirstHydraulicsStatus();
+                    DefineSecondHydraulicsStatus();
+                    DefinePunchingStatus();
+                    DefineMoreThanOneLevelStatus();
+
+                    FeedDrive.Subscribe();
+                    TurnDrive.Subscribe();
+                    ConsoleDrive.Subscribe();
+
+                    Clamp.Subscribe();
+                    Press.Subscribe();
+                    FirstSqueeze.Subscribe();
+                    Bend.Subscribe();
+                    Collet.Subscribe();
+                    Dorn.Subscribe();
+                    // Adjustment.Subscribe(); Подписывается в DefineMoreThanOneLevelStatus
+                    // Punching.Subscribe(); Подписывается в DefinePunchingStatus
+
+                    // FirstHydraulics.Subscribe(); Подписывается в DefineFirstHydraulicsStatus
+                    // SecondHydraulics.Subscribe(); Подписывается в DefineSecondHydraulicsStatus
+                    Support.Subscribe();
+                    DornLubricant.Subscribe();
+
+                    if (sender is DispatcherTimer t)
+                        t.Stop();
                 }
-
-                Subscribe();
-
-                DefineFirstHydraulicsStatus();
-                DefineSecondHydraulicsStatus();
-                DefinePunchingStatus();
-                DefineMoreThanOneLevelStatus();
-
-                FeedDrive.Subscribe();
-                TurnDrive.Subscribe();
-                ConsoleDrive.Subscribe();
-
-                Clamp.Subscribe();
-                Press.Subscribe();
-                FirstSqueeze.Subscribe();
-                Bend.Subscribe();
-                Collet.Subscribe();
-                Dorn.Subscribe();
-                // Adjustment.Subscribe(); Подписывается в DefineMoreThanOneLevelStatus
-                // Punching.Subscribe(); Подписывается в DefinePunchingStatus
-
-                // FirstHydraulics.Subscribe(); Подписывается в DefineFirstHydraulicsStatus
-                // SecondHydraulics.Subscribe(); Подписывается в DefineSecondHydraulicsStatus
-                Support.Subscribe();
-                DornLubricant.Subscribe();
-
-                Task.Delay(250);
-                _subscribed = true;
-            }
-        }).ConfigureAwait(false);
+            }, Dispatcher.CurrentDispatcher);
         
         watch.Stop();
         Debug.WriteLine($"InitializeAsync: {watch.Elapsed.ToString()}");
@@ -289,8 +284,6 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
             DornLubricant.Dispose();
 
             Unsubscribe();
-
-            _subscribed = false;
         }
 
         _disposed = true;
