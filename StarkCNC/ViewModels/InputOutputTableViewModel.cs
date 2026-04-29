@@ -250,42 +250,42 @@ public partial class InputOutputTableViewModel : ViewModelBase, IDisposable
         _configurationService.Subscribe<bool>(ControllerRequestStrings.SPEED_TUMBLER_RIGHTWARD_SENSOR, value => SpeedTumblerRightwardSensorStatus = value);
 
         // Выходные сигналы
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.CLAMP_FORWARD_OUTPUT_SIGNAL, value => ClampForwardOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.CLAMP_BACKWARD_OUTPUT_SIGNAL, value => ClampBackwardOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.PRESS_FORWARD_OUTPUT_SIGNAL, value => PressForwardOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.PRESS_BACKWARD_OUTPUT_SIGNAL, value => PressBackwardOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_SQUEEZE_FORWARD_OUTPUT_SIGNAL, value => SqueezeForwardOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_SQUEEZE_BACKWARD_OUTPUT_SIGNAL, value => SqueezeBackwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.CLAMP_FORWARD_OUTPUT_SIGNAL, value => ClampForwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.CLAMP_BACKWARD_OUTPUT_SIGNAL, value => ClampBackwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.PRESS_FORWARD_OUTPUT_SIGNAL, value => PressForwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.PRESS_BACKWARD_OUTPUT_SIGNAL, value => PressBackwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_SQUEEZE_FORWARD_OUTPUT_SIGNAL, value => SqueezeForwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_SQUEEZE_BACKWARD_OUTPUT_SIGNAL, value => SqueezeBackwardOutputSignalStatus = value);
         if (Settings.MultiLeveled)
         {
-            _configurationService.Subscribe<bool>(ControllerRequestStrings.ADJUSTMENT_UP_OUTPUT_SIGNAL, value => AdjustmentUpOutputSignalStatus = value);
-            _configurationService.Subscribe<bool>(ControllerRequestStrings.ADJUSTMENT_DOWN_OUTPUT_SIGNAL, value => AdjustmentDownOutputSignalStatus = value);
+            //_configurationService.Subscribe<bool>(ControllerRequestStrings.ADJUSTMENT_UP_OUTPUT_SIGNAL, value => AdjustmentUpOutputSignalStatus = value);
+            //_configurationService.Subscribe<bool>(ControllerRequestStrings.ADJUSTMENT_DOWN_OUTPUT_SIGNAL, value => AdjustmentDownOutputSignalStatus = value);
         }
         if (Settings.WithPunchingCylinder)
         {
-            _configurationService.Subscribe<bool>(ControllerRequestStrings.PUNCHING_FORWARD_OUTPUT_SIGNAL, value => PunchingForwardOutputSignalStatus = value);
-            _configurationService.Subscribe<bool>(ControllerRequestStrings.PUNCHING_BACKWARD_OUTPUT_SIGNAL, value => PunchingBackwardOutputSignalStatus = value);
+            //_configurationService.Subscribe<bool>(ControllerRequestStrings.PUNCHING_FORWARD_OUTPUT_SIGNAL, value => PunchingForwardOutputSignalStatus = value);
+            //_configurationService.Subscribe<bool>(ControllerRequestStrings.PUNCHING_BACKWARD_OUTPUT_SIGNAL, value => PunchingBackwardOutputSignalStatus = value);
         }
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_HYDRAULICS_OUTPUT_SIGNAL, value => FirstHydraulicsOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_VALVE_OUPUT_SIGNAL, value => FirstValveOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.DORN_FORWARD_OUTPUT_SIGNAL, value => DornForwardOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.DORN_BACKWARD_OUTPUT_SIGNAL, value => DornBackwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_HYDRAULICS_OUTPUT_SIGNAL, value => FirstHydraulicsOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_VALVE_OUPUT_SIGNAL, value => FirstValveOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.DORN_FORWARD_OUTPUT_SIGNAL, value => DornForwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.DORN_BACKWARD_OUTPUT_SIGNAL, value => DornBackwardOutputSignalStatus = value);
         if (!Settings.IsElectricBendingDrive)
         {
-            _configurationService.Subscribe<bool>(ControllerRequestStrings.BEND_FORWARD_OUTPUT_SIGNAL, value => BendForwardOutputSignalStatus = value);
-            _configurationService.Subscribe<bool>(ControllerRequestStrings.BEND_BACKWARD_OUTPUT_SIGNAL, value => BendBackwardOutputSignalStatus = value);
-            _configurationService.Subscribe<bool>(ControllerRequestStrings.SECOND_HYDRAULICS_OUTPUT_SIGNAL, value => SecondHydraulicsOutputSignalStatus = value);
-            _configurationService.Subscribe<bool>(ControllerRequestStrings.SECOND_VALVE_OUTPUT_SIGNAL, value => SecondValveOutputSignalStatus = value);
+            //_configurationService.Subscribe<bool>(ControllerRequestStrings.BEND_FORWARD_OUTPUT_SIGNAL, value => BendForwardOutputSignalStatus = value);
+            //_configurationService.Subscribe<bool>(ControllerRequestStrings.BEND_BACKWARD_OUTPUT_SIGNAL, value => BendBackwardOutputSignalStatus = value);
+            //_configurationService.Subscribe<bool>(ControllerRequestStrings.SECOND_HYDRAULICS_OUTPUT_SIGNAL, value => SecondHydraulicsOutputSignalStatus = value);
+            //_configurationService.Subscribe<bool>(ControllerRequestStrings.SECOND_VALVE_OUTPUT_SIGNAL, value => SecondValveOutputSignalStatus = value);
         }
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.COLLET_FORWARD_OUTPUT_SIGNAL, value => ColletForwardOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.COLLET_BACKWARD_OUTPUT_SIGNAL, value => ColletBackwardOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_SUPPORT_UP_OUTPUT_SIGNAL, value => FirstSupportUpOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.SECOND_SUPPORT_UP_OUTPUT_SIGNAL, value => SecondSupportUpOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.THIRD_SUPPORT_UP_OUTPUT_SIGNAL, value => ThirdSupportUpOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.FOURTH_SUPPORT_UP_OUTPUT_SIGNAL, value => FourthSupportUpOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.ROTATION_BRAKING_OUTPUT_SIGNAL, value => RotationBrakingOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.GUIDE_LUBRICANT_OUTPUT_SIGNAL, value => GuideLubricantOutputSignalStatus = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.DORN_LUBRICANT_OUTPUT_SIGNAL, value => DornLubricantOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.COLLET_FORWARD_OUTPUT_SIGNAL, value => ColletForwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.COLLET_BACKWARD_OUTPUT_SIGNAL, value => ColletBackwardOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.FIRST_SUPPORT_UP_OUTPUT_SIGNAL, value => FirstSupportUpOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.SECOND_SUPPORT_UP_OUTPUT_SIGNAL, value => SecondSupportUpOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.THIRD_SUPPORT_UP_OUTPUT_SIGNAL, value => ThirdSupportUpOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.FOURTH_SUPPORT_UP_OUTPUT_SIGNAL, value => FourthSupportUpOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.ROTATION_BRAKING_OUTPUT_SIGNAL, value => RotationBrakingOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.GUIDE_LUBRICANT_OUTPUT_SIGNAL, value => GuideLubricantOutputSignalStatus = value);
+        //_configurationService.Subscribe<bool>(ControllerRequestStrings.DORN_LUBRICANT_OUTPUT_SIGNAL, value => DornLubricantOutputSignalStatus = value);
     }
 
     public void Unsubscribe()
