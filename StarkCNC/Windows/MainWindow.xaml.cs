@@ -68,7 +68,7 @@ public partial class MainWindow : Window
 
         DispatcherTimer timer = new DispatcherTimer(
             TimeSpan.FromSeconds(1),
-            DispatcherPriority.Normal,
+            DispatcherPriority.Background,
             (_, _) => CurrentTimeLabel.Content = DateTime.Now.ToString("HH:mm", CultureInfo.InvariantCulture),
             Dispatcher);
         timer.Start();

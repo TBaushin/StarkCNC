@@ -105,7 +105,7 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
 
         var timer = new DispatcherTimer(
             TimeSpan.FromMilliseconds(250),
-            DispatcherPriority.Normal,
+            DispatcherPriority.Background,
             (sender, args) =>
             {
                 if (_manualService.Connected)

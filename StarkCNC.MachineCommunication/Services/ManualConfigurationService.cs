@@ -223,7 +223,7 @@ public class ManualConfigurationService : IManualConfigurationService
         {
             _timer = new DispatcherTimer(
                 TimeSpan.FromSeconds(5),
-                DispatcherPriority.Normal,
+                DispatcherPriority.Background,
                 async (_, _) =>
                 {
                     await Task.Run(async () =>
