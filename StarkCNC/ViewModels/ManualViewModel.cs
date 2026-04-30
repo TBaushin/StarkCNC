@@ -93,12 +93,23 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
     {
         _settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
 
+        DefineFirstHydraulicsStatus();
+        DefineSecondHydraulicsStatus();
+        DefinePunchingStatus();
+        DefineMoreThanOneLevelStatus();
+
         var timer = new DispatcherTimer(
             TimeSpan.FromMilliseconds(250),
             DispatcherPriority.Background,
-            (sender, args) =>
+            async (sender, args) =>
             {
-                if (_manualService.Connected)
+                if (!_manualService.Connected)
+                    return;
+
+                if (sender is DispatcherTimer t)
+                    t.Stop();
+
+                await Task.Run(() =>
                 {
                     Subscribe();
 
@@ -117,17 +128,11 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
                     Bend.Subscribe();
                     Collet.Subscribe();
                     Dorn.Subscribe();
-                    // Adjustment.Subscribe(); Подписывается в DefineMoreThanOneLevelStatus
-                    // Punching.Subscribe(); Подписывается в DefinePunchingStatus
 
-                    // FirstHydraulics.Subscribe(); Подписывается в DefineFirstHydraulicsStatus
-                    // SecondHydraulics.Subscribe(); Подписывается в DefineSecondHydraulicsStatus
                     Support.Subscribe();
                     DornLubricant.Subscribe();
-
-                    if (sender is DispatcherTimer t)
-                        t.Stop();
-                }
+                }).ConfigureAwait(true);
+                
             }, Dispatcher.CurrentDispatcher);
     }
 
@@ -187,12 +192,14 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         if (_settings.IsElectricBendingDrive)
         {
             FirstHydraulicsEnabled = false;
-            FirstHydraulics.Unsubscribe();
+            if (_manualService.Connected)
+                FirstHydraulics.Unsubscribe();
         }
         else
         {
             FirstHydraulicsEnabled = true;
-            FirstHydraulics.Subscribe();
+            if (_manualService.Connected)
+                FirstHydraulics.Subscribe();
         }
     }
 
@@ -204,12 +211,14 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         if (_settings.IsElectricBendingDrive) // Был ещё IsElectricMachine
         {
             SecondHydraulicsEnabled = false;
-            SecondHydraulics.Unsubscribe();
+            if (_manualService.Connected)
+                SecondHydraulics.Unsubscribe();
         }
         else
         {
             SecondHydraulicsEnabled = true;
-            SecondHydraulics.Subscribe();
+            if (_manualService.Connected)
+                SecondHydraulics.Subscribe();
         }
     }
 
@@ -221,22 +230,27 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         if (_settings.WithPunchingCylinder)
         {
             PunchingEnabled = false;
-            Punching.Unsubscribe();
+            if (_manualService.Connected)
+                Punching.Unsubscribe();
         }
         else
         {
             PunchingEnabled = true;
-            Punching.Subscribe();
+            if (_manualService.Connected)
+                Punching.Subscribe();
         }
     }
 
     private void DefineMoreThanOneLevelStatus()
     {
         MoreThenOneLevel = _settings?.MultiLeveled ?? false;
-        if (MoreThenOneLevel)
-            Adjustment.Subscribe();
-        else
-            Adjustment.Unsubscribe();
+        if (_manualService.Connected)
+        {
+            if (MoreThenOneLevel)
+                Adjustment.Subscribe();
+            else
+                Adjustment.Unsubscribe();
+        }
     }
 
     public void Dispose()
