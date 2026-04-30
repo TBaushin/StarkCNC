@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration;
 using StarkCNC.Core.Models;
 using System.Globalization;
 using System.IO;
@@ -7,10 +8,18 @@ namespace StarkCNC.Core.Services;
 
 public interface ICSVService
 {
+    private static CsvConfiguration configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+    {
+        ShouldQuote = (args) => args.Field.StartsWith("Param") || new List<string>()
+        {
+            "Type", "Podacha", "Povorot", "Gib", "Speed", "Koef", "Vibeg", "Radius_Gibki", "M", "DlinaTrubi", "Ust_Trubi"
+        }.Contains(args.Field)
+    };
+
     public static async Task Export(string filepath, IEnumerable<BendingData> data)
     {
         using var writer = new StreamWriter(filepath);
-        using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        using var csv = new CsvWriter(writer, configuration);
         var csvData = new List<BendingDataCSV>();
         foreach (var item in data)
         {
@@ -25,7 +34,7 @@ public interface ICSVService
             throw new FileFormatException($"Файл {new FileInfo(filepath).Name} не в формате csv или его не существует");
 
         using var reader = new StreamReader(filepath);
-        using var csvReader = new CsvReader(reader, CultureInfo.InvariantCulture);
+        using var csvReader = new CsvReader(reader, configuration);
         var bdCSV = csvReader.GetRecords<BendingDataCSV>();
         var data = new List<BendingData>();
         foreach (var item in bdCSV)
@@ -45,22 +54,22 @@ public interface ICSVService
     }
 }
 
-internal record struct BendingDataCSV(float type, float podacha, float povorot, float gib, float speed, float koef, float vibeg, float radius_Gibki, int m, float dlinaTrubi, float ust_Trubi, float param3, float param4, float param5, float param6, float param7, float param8, float param9, float param10, float param11, float param12, float param13, float param14, float param15, float param16, float param17, float param18, float param19, float param20, float param21, float param22, float param23, float param24, float param25, float param26, float param27, float param28, float param29, float param30, float param31, float param32, float param33, float param34, float param35, float param36, float param37, float param38, float param39, float param40, float param41, float param42, float param43, float param44, float param45, float param46, float param47, float param48, float param49, float param50)
+internal record struct BendingDataCSV(float Type, float Podacha, float Povorot, float Gib, float Speed, float Koef, float Vibeg, float Radius_Gibki, int M, float DlinaTrubi, float Ust_Trubi, float Param3, float Param4, float Param5, float Param6, float Param7, float Param8, float Param9, float Param10, float Param11, float Param12, float Param13, float Param14, float Param15, float Param16, float Param17, float Param18, float Param19, float Param20, float Param21, float Param22, float Param23, float Param24, float Param25, float Param26, float Param27, float Param28, float Param29, float Param30, float Param31, float Param32, float Param33, float Param34, float Param35, float Param36, float Param37, float Param38, float Param39, float Param40, float Param41, float Param42, float Param43, float Param44, float Param45, float Param46, float Param47, float Param48, float Param49, float Param50)
 {
     public BendingData ToBendingData() =>
         new BendingData
         {
-            PipeLength = dlinaTrubi,
-            YSetup = ust_Trubi,
-            Supply = podacha,
-            SupplySpeed = speed,
-            Offset = povorot,
-            OffsetSpeed = koef,
-            OffsetCoefficient = vibeg,
-            BendingAngle = gib,
+            PipeLength = DlinaTrubi,
+            YSetup = Ust_Trubi,
+            Supply = Podacha,
+            SupplySpeed = Speed,
+            Offset = Povorot,
+            OffsetSpeed = Koef,
+            OffsetCoefficient = Vibeg,
+            BendingAngle = Gib,
             BendingAngleSpeed = 0,
-            BendingAngleCoefficient = type,
-            BendingRadius = radius_Gibki,
+            BendingAngleCoefficient = Type,
+            BendingRadius = Radius_Gibki,
             BendingRadiusMode = "",
             RotationAngle = 0,
             RotationSpeed = 0
