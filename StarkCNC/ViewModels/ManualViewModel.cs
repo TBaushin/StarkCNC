@@ -71,7 +71,6 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
 
     public ManualViewModel(IConfiguration configuration, IManualConfigurationService manualService, ISettingsRepository settingsRepository)
     {
-        var watch = Stopwatch.StartNew();
         _configuration = configuration;
         _manualService = manualService;
         _settingsRepository = settingsRepository;
@@ -94,13 +93,10 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         SecondHydraulics = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), _manualService, nameof(SecondHydraulics), _secondHydraulicsEnabled);
         Support = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), _manualService, nameof(Support));
         DornLubricant = OutputsParametersSwitch.InitializeParameters(_configuration.GetSection("MachineController").GetSection("OutputsTF"), _manualService, nameof(DornLubricant));
-        watch.Stop();
-        Debug.WriteLine($"Constructor: {watch.Elapsed.ToString()}");
     }
 
     public async Task InitializeAsync()
     {
-        var watch = Stopwatch.StartNew();
         _settings = await _settingsRepository.GetAsync().ConfigureAwait(true);
 
         var timer = new DispatcherTimer(
@@ -139,9 +135,6 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
                         t.Stop();
                 }
             }, Dispatcher.CurrentDispatcher);
-        
-        watch.Stop();
-        Debug.WriteLine($"InitializeAsync: {watch.Elapsed.ToString()}");
     }
 
     private void Subscribe()
