@@ -6,7 +6,6 @@ using StarkCNC.Core.Repository;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
 using StarkCNC.Utilities;
-using System.Diagnostics;
 using System.Windows.Threading;
 
 namespace StarkCNC.ViewModels;
@@ -19,10 +18,6 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
     private Settings? _settings;
 
     private bool _disposed;
-
-    private string _manualModeRequestString = string.Empty;
-
-    private string _bendAndSqueezeRequestString = string.Empty;
 
     public DriveParameters FeedDrive { get; set; }
 
@@ -75,7 +70,6 @@ public partial class ManualViewModel : ViewModelBase, IDisposable
         _manualService = manualService;
         _settingsRepository = settingsRepository;
 
-        _manualModeRequestString = _configuration.GetSection("MachineController").GetSection(nameof(_manualModeRequestString)).Get<string>() ?? string.Empty;
         FeedDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), _manualService, nameof(FeedDrive), true);
         TurnDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), _manualService, nameof(TurnDrive), true);
         ConsoleDrive = DriveParameters.InitializeParameters(_configuration.GetSection("MachineController").GetSection("Drive"), _manualService, nameof(ConsoleDrive), true);
