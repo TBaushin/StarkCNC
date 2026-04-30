@@ -195,6 +195,17 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <controls:FlyoutMenu
+                    x:Name="Menu"
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Grid.RowSpan="3"
+                    Pages="{Binding Pages}"
+                    SelectedItem="{Binding SelectedPage, Mode=TwoWay}"
+                    NavigateToSettingsPage="{Binding GoSettingsCommand}"
+                    CallUserWindow="{Binding GoUsersCommand}"
+                    CurrentUsername="{Binding CurrentUserName}"/>
+                
                 <Border
                     Margin="10,16,10,5"
                     Grid.Column="1"

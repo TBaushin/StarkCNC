@@ -9,7 +9,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shell;
 using System.Windows.Threading;
-using System.Windows.Data;
 
 namespace StarkCNC;
 
@@ -20,7 +19,7 @@ public partial class MainWindow : Window
 {
     public MainWindowViewModel ViewModel { get; set; }
 
-    public FlyoutMenuControl FlyoutMenu { get; set; }
+    //public FlyoutMenuControl FlyoutMenu { get; set; }
 
     public MainWindow(IRouter router, MainWindowViewModel viewModel)
     {
@@ -45,20 +44,6 @@ public partial class MainWindow : Window
 
         UpdateWindowBackground();
         UpdateMainWindowVisuals();
-
-        FlyoutMenu = new FlyoutMenuControl();
-        BindingOperations.SetBinding(
-            FlyoutMenu,
-            FlyoutMenuControl.CurrentUserNameProperty,
-            new Binding(nameof(viewModel.CurrentUserName)) { Source = viewModel });
-        BindingOperations.SetBinding(
-            FlyoutMenu,
-            FlyoutMenuControl.PagesProperty,
-            new Binding(nameof(viewModel.Pages)) { Source = viewModel });
-        FlyoutMenu.Pages = ViewModel.Pages;
-        FlyoutMenu.MenuIsOpen = true;
-        Grid.SetRowSpan(FlyoutMenu, 3);
-        PageGrid.Children.Add(FlyoutMenu);
 
         router.SetFrame(RootContentFrame);
 
@@ -178,7 +163,7 @@ public partial class MainWindow : Window
             pageTitle = e.Title;
 
         var page = ViewModel.GetNavigationItem(pageTitle);
-        FlyoutMenu.UpdateSelected(page);
+        Menu.UpdateSelected(page);
     }
 
     private void RootContentFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
@@ -245,7 +230,7 @@ public partial class MainWindow : Window
 
         if (Width < 1200)
         {
-            FlyoutMenu.MenuIsOpen = false;
+            Menu.MenuIsOpen = false;
         }
     }
 

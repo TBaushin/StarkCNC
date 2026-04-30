@@ -1,0 +1,182 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:StarkCNC.Controls"
+                    xmlns:utilities="clr-namespace:StarkCNC.Utilities;assembly=StarkCNC.Utilities"
+                    xmlns:lang="clr-namespace:StarkCNC.Localization">
+    <utilities:EmptyToVisibilityConverter x:Key="EmptyToVisibilityConverter"/>
+
+    <Style TargetType="{x:Type local:FlyoutMenu}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:FlyoutMenu}">
+                    <Grid RowDefinitions="Auto,*,Auto,Auto">
+                        <StackPanel
+                            x:Name="TopMenu"
+                            Grid.Row="0">
+                            <Button
+                                x:Name="MenuButton"
+                                Width="253"
+                                Margin="19,18,18,0">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Name="MenuButtonIcon"
+                                        Margin="0,4,0,0"
+                                        FontSize="15"
+                                        FontFamily="{DynamicResource SymbolThemeFontFamily}"
+                                        Text="&#xE700;"/>
+                                    <TextBlock
+                                        x:Name="MenuButtonText"
+                                        Margin="8,0,0,0"
+                                        Text="Меню"/>
+                                </StackPanel>
+                            </Button>
+                            <TextBox
+                                x:Name="SearchBox"
+                                Width="253"
+                                Margin="10"/>
+                            <Button x:Name="SearchButton" Margin="18,5,18,7">
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    FontSize="15"
+                                    FontFamily="{DynamicResource SymbolThemeFontFamily}"
+                                    Text="&#xE721;"/>
+                            </Button>
+                        </StackPanel>
+                        <TreeView
+                            x:Name="PagesTree"
+                            Grid.Row="1"
+                            Margin="8,8,0,0"
+                            ItemsSource="{Binding Pages, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Items}">
+                                    <StackPanel
+                                        MinHeight="30"
+                                        Orientation="Horizontal">
+                                        <TextBlock
+                                            MaxWidth="16"
+                                            FontSize="16"
+                                            VerticalAlignment="Center"
+                                            FontFamily="{DynamicResource SymbolThemeFontFamily}"
+                                            Text="{Binding IconGlyph}"
+                                            Visibility="{Binding IconGlyph, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                                        <TextBlock
+                                            Margin="12,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Title}"/>
+                                    </StackPanel>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                        <ListView
+                            x:Name="PagesList"
+                            Grid.Row="1"
+                            Margin="7,8,0,0"
+                            ItemsSource="{Binding Pages, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedItem, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        Margin="0,4,0,0"
+                                        FontSize="16"
+                                        FontFamily="{DynamicResource SymbolThemeFontFamily}"
+                                        Text="{Binding IconGlyph}"
+                                        Visibility="{Binding IconGlyph, Converter={StaticResource EmptyToVisibilityConverter}}"/>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <Separator x:Name="BottomMenuSeparator" Grid.Row="2"/>
+                        <StackPanel x:Name="BottomMenu" Grid.Row="3">
+                            <Button
+                                x:Name="NavigateToSettingsPageButton"
+                                Margin="10"
+                                Height="40"
+                                Width="40"
+                                Command="{Binding NavigateToSettingsPage, RelativeSource={RelativeSource TemplatedParent}}">
+                                <TextBlock
+                                    Margin="0,4,0,0"
+                                    FontSize="15"
+                                    FontFamily="{DynamicResource SymbolThemeFontFamily}"
+                                    Text="&#xE713;"/>
+                            </Button>
+                            <Button
+                                x:Name="CallUserWindowButton"
+                                Margin="10"
+                                Height="40"
+                                Width="210"
+                                HorizontalContentAlignment="Left"
+                                Command="{Binding CallUserWindow, RelativeSource={RelativeSource TemplatedParent}}">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        x:Name="CallUserWindowButtonIcon"
+                                        VerticalAlignment="Center"
+                                        FontSize="15"
+                                        FontFamily="{DynamicResource SymbolThemeFontFamily}"
+                                        Text="&#xE77B;"/>
+                                    <TextBlock
+                                        x:Name="CallUserWindowButtonText"
+                                        Margin="8,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="{Binding CurrentUsername, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="MenuIsOpen" Value="True">
+                            <!--TOP MENU-->
+                            <Setter TargetName="TopMenu" Property="Orientation" Value="Vertical"/>
+                            <Setter TargetName="TopMenu" Property="HorizontalAlignment" Value="Left"/>
+                            <Setter TargetName="MenuButton" Property="Margin" Value="19,18,18,0"/>
+                            <Setter TargetName="MenuButton" Property="Width" Value="253"/>
+                            <Setter TargetName="MenuButtonText" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="SearchBox" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="SearchButton" Property="Visibility" Value="Collapsed"/>
+
+                            <!--CONTENT-->
+                            <Setter TargetName="PagesTree" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="PagesList" Property="Visibility" Value="Collapsed"/>
+
+                            <!--BOTTOM MENU-->
+                            <Setter TargetName="BottomMenu" Property="Orientation" Value="Horizontal"/>
+                            <Setter TargetName="BottomMenu" Property="HorizontalAlignment" Value="Left"/>
+                            <!--<Setter TargetName="BottomMenuSeparator" Property="Visibility" Value="Collapsed"/>-->
+                            <Setter TargetName="NavigateToSettingsPageButton" Property="Margin" Value="10"/>
+                            <Setter TargetName="NavigateToSettingsPageButton" Property="Width" Value="40"/>
+                            <Setter TargetName="NavigateToSettingsPageButton" Property="Height" Value="40"/>
+                            <Setter TargetName="CallUserWindowButton" Property="Margin" Value="10"/>
+                            <Setter TargetName="CallUserWindowButton" Property="Width" Value="210"/>
+                            <Setter TargetName="CallUserWindowButton" Property="Height" Value="40"/>
+                            <Setter TargetName="CallUserWindowButtonText" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="MenuIsOpen" Value="False">
+                            <!--TOP MENU-->
+                            <Setter TargetName="TopMenu" Property="Orientation" Value="Vertical"/>
+                            <Setter TargetName="TopMenu" Property="HorizontalAlignment" Value="Center"/>
+                            <Setter TargetName="MenuButton" Property="Margin" Value="18,18,18,6"/>
+                            <Setter TargetName="MenuButton" Property="Width" Value="Auto"/>
+                            <Setter TargetName="MenuButtonText" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="SearchBox" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="SearchButton" Property="Visibility" Value="Visible"/>
+
+                            <!--CONTENT-->
+                            <Setter TargetName="PagesTree" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="PagesList" Property="Visibility" Value="Visible"/>
+
+                            <!--BOTTOM MENU-->
+                            <Setter TargetName="BottomMenu" Property="Orientation" Value="Vertical"/>
+                            <Setter TargetName="BottomMenu" Property="HorizontalAlignment" Value="Center"/>
+                            <!--<Setter TargetName="BottomMenuSeparator" Property="Visibility" Value="Visible"/>-->
+                            <Setter TargetName="NavigateToSettingsPageButton" Property="Margin" Value="18,7,18,5"/>
+                            <Setter TargetName="NavigateToSettingsPageButton" Property="Width" Value="Auto"/>
+                            <Setter TargetName="NavigateToSettingsPageButton" Property="Height" Value="Auto"/>
+                            <Setter TargetName="CallUserWindowButton" Property="Margin" Value="18,5,18,10"/>
+                            <Setter TargetName="CallUserWindowButton" Property="Width" Value="Auto"/>
+                            <Setter TargetName="CallUserWindowButton" Property="Height" Value="Auto"/>
+                            <Setter TargetName="CallUserWindowButtonText" Property="Visibility" Value="Collapsed"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

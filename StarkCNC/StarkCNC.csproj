@@ -159,9 +159,6 @@
     <Compile Update="Controls\FloorControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Controls\FlyoutMenuControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Controls\LabeledTextBoxControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
