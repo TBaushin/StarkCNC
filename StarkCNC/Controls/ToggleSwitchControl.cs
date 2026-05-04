@@ -41,11 +41,19 @@ public class ToggleSwitchControl : Control
     public static readonly DependencyProperty ShowTextProperty = DependencyProperty
         .Register(nameof(ShowText), typeof(bool), typeof(ToggleSwitchControl), new PropertyMetadata(true));
     public static readonly DependencyProperty IsCheckedProperty = DependencyProperty
-        .Register(nameof(IsChecked), typeof(bool), typeof(ToggleSwitchControl), new PropertyMetadata(false));
+        .Register(nameof(IsChecked), typeof(bool), typeof(ToggleSwitchControl), new PropertyMetadata(false, IsCheckedChanged));
     public static readonly DependencyProperty CommandProperty = DependencyProperty
         .Register(nameof(Command), typeof(ICommand), typeof(ToggleSwitchControl), new PropertyMetadata());
     public static readonly RoutedEvent OnCheckedChangedEvent = EventManager
         .RegisterRoutedEvent(nameof(OnCheckedChanged), RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(ToggleSwitchControl));
+
+    private static void IsCheckedChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not ToggleSwitchControl ts)
+            return;
+
+        ts.UpdateText();
+    }
 
     public string Text
     {
