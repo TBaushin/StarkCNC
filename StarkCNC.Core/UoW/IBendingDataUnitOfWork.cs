@@ -16,6 +16,8 @@ public interface IBendingDataUnitOfWork
 
     public float EstimatedRemainingLength { get; set; }
 
+    public float ColletOffsetLength { get; set; }
+
     public bool HasUnsavedData { get; set; }
 
     public Task CreateNewFile();

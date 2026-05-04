@@ -13,6 +13,11 @@ public class BendingData
     public float YSetup { get; set; }
 
     /// <summary>
+    /// Длина уезда цанги
+    /// </summary>
+    public float ColletOffsetLength { get; set; }
+
+    /// <summary>
     /// Подача Y
     /// </summary>
     public float Supply { get; set; }

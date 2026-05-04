@@ -21,6 +21,12 @@ public partial class BendingDataViewModel : ViewModelBase
     private float _ySetup;
 
     /// <summary>
+    /// Длина уезда цанги
+    /// </summary>
+    [ObservableProperty]
+    private float _colletOffsetLength;
+
+    /// <summary>
     /// Подача Y
     /// </summary>
     [ObservableProperty]

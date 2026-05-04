@@ -37,6 +37,9 @@ public partial class ProgramViewModel : ViewModelBase
     private float _estimatedRemainingLength;
 
     [ObservableProperty]
+    private float _colletOffsetLength;
+
+    [ObservableProperty]
     private BendingDataViewModel? _selectedBendingData;
 
     public ObservableCollection<BendingDataViewModel> BendingDatas { get; } = new ObservableCollection<BendingDataViewModel>();
@@ -83,6 +86,7 @@ public partial class ProgramViewModel : ViewModelBase
         EstimatedRemainingLength = _unitOfWork.EstimatedRemainingLength;
         PipeLength = _unitOfWork.PipeLength;
         YSetup = _unitOfWork.SetUpPoint;
+        ColletOffsetLength = _unitOfWork.ColletOffsetLength;
     }
 
     public async Task InitializeAsync()
@@ -143,6 +147,7 @@ public partial class ProgramViewModel : ViewModelBase
 
             PipeLength = _unitOfWork.PipeLength;
             YSetup = _unitOfWork.SetUpPoint;
+            ColletOffsetLength = _unitOfWork.ColletOffsetLength;
         }
         catch (Exception)
         {
@@ -175,9 +180,9 @@ public partial class ProgramViewModel : ViewModelBase
 
         var lastElement = BendingDatas.Last();
         if (lastElement is null)
-            BendingDatas.Add(new BendingDataViewModel() { Id = 1, PipeLength = PipeLength, YSetup = YSetup });
+            BendingDatas.Add(new BendingDataViewModel() { Id = 1, PipeLength = PipeLength, YSetup = YSetup, ColletOffsetLength = ColletOffsetLength });
         else
-            BendingDatas.Add(new BendingDataViewModel() { Id = lastElement.Id + 1, PipeLength = PipeLength, YSetup = YSetup });
+            BendingDatas.Add(new BendingDataViewModel() { Id = lastElement.Id + 1, PipeLength = PipeLength, YSetup = YSetup, ColletOffsetLength = ColletOffsetLength });
         UpdateBend();
         _unitOfWork.HasUnsavedData = true;
     }
@@ -418,6 +423,7 @@ public partial class ProgramViewModel : ViewModelBase
             {
                 PipeLength = data.PipeLength,
                 YSetup = data.YSetup,
+                ColletOffsetLength = data.ColletOffsetLength,
                 Supply = data.Supply,
                 SupplySpeed = data.SupplySpeed,
                 Offset = data.Offset,
@@ -465,6 +471,12 @@ public partial class ProgramViewModel : ViewModelBase
     partial void OnYSetupChanged(float oldValue, float newValue)
     {
         _unitOfWork.SetUpPoint = newValue;
+        _unitOfWork.HasUnsavedData = true;
+    }
+
+    partial void OnColletOffsetLengthChanged(float oldValue, float newValue)
+    {
+        _unitOfWork.ColletOffsetLength = newValue;
         _unitOfWork.HasUnsavedData = true;
     }
 }

@@ -27,6 +27,8 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
 
     public float EstimatedRemainingLength { get; set; }
 
+    public float ColletOffsetLength { get; set; }
+
     public bool HasUnsavedData { get; set; }
 
     public BendingDataUnitOfWork()
@@ -121,6 +123,7 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
         {
             data.PipeLength = PipeLength;
             data.YSetup = SetUpPoint;
+            data.ColletOffsetLength = ColletOffsetLength;
         }
 
         await WriteFileAsync(CurrentFilePath).ConfigureAwait(false);

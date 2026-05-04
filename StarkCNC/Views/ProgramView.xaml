@@ -89,8 +89,13 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
                 <controls:LabeledTextBoxControl
                     Grid.Column="0"
+                    Grid.Row="0"
                     Margin="10,0,10,0"
                     LabelText="Длина трубы"
                     IsNumericOnly="True"
@@ -98,6 +103,7 @@
                     Text="{Binding PipeLength, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="1"
+                    Grid.Row="0"
                     Margin="10,0,10,0"
                     LabelText="Установка Y"
                     IsNumericOnly="True"
@@ -105,11 +111,20 @@
                     Text="{Binding YSetup, Mode=TwoWay}"/>
                 <controls:LabeledTextBoxControl
                     Grid.Column="2"
+                    Grid.Row="0"
                     Margin="10,0,10,0"
                     LabelText="Расчётный остаток"
                     IsNumericOnly="True"
                     NeedCallNumberInput="True"
                     Text="{Binding EstimatedRemainingLength, Mode=TwoWay}"/>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Margin="10,0,10,0"
+                    LabelText="Длина уезда цанги"
+                    IsNumericOnly="True"
+                    NeedCallNumberInput="True"
+                    Text="{Binding ColletOffsetLength, Mode=TwoWay}"/>
             </Grid>
         </StackPanel>
         <StackPanel
