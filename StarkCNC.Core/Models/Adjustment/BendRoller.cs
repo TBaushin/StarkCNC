@@ -6,10 +6,10 @@ public class BendRoller : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double Radius { get; set; }
-    public double OuterRadius { get; set; }
+    public float Radius { get; set; }
+    public float OuterRadius { get; set; }
 
-    public BendRoller(double radius, double outerRadius)
+    public BendRoller(float radius, float outerRadius)
     {
         Radius = radius;
         OuterRadius = outerRadius;

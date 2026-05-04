@@ -18,7 +18,7 @@ public class AdjustmentParametersConstructor
         _settingsRepository = settingsRepository;
     }
 
-    public async Task<AdjustmentParameters> Build(string name, AdjustmentType type, double pipeDiameter, double radius)
+    public async Task<AdjustmentParameters> Build(string name, AdjustmentType type, float pipeDiameter, float radius)
     {
         _settings = await _settingsRepository.GetAsync().ConfigureAwait(false);
         //if (_settings is null)
@@ -28,16 +28,16 @@ public class AdjustmentParametersConstructor
         return BuildAdjustmentFromConfiguration(name, type, pipeDiameter, radius);
     }
 
-    private AdjustmentParameters BuildAdjustmentFromConfiguration(string name, AdjustmentType type, double pipeDiameter, double radius)
+    private AdjustmentParameters BuildAdjustmentFromConfiguration(string name, AdjustmentType type, float pipeDiameter, float radius)
     {
         var adjustmentSection = _configuration.GetSection("Adjustment");
 
         var forwardDangerZoneSection = adjustmentSection.GetSection("ForwardDangerZone");
-        var forwardDangerZoneCoordinate = forwardDangerZoneSection.GetSection("Default").Get<double>();
+        var forwardDangerZoneCoordinate = forwardDangerZoneSection.GetSection("Default").Get<float>();
         var forwardDangerZoneCoordinateRequestString = forwardDangerZoneSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var distanceFromCenterSection = adjustmentSection.GetSection("DistanceFromCenter");
-        var distanceFromCenter = distanceFromCenterSection.GetSection("Default").Get<double>();
+        var distanceFromCenter = distanceFromCenterSection.GetSection("Default").Get<float>();
         var distanceFromCenterRequestString = distanceFromCenterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new AdjustmentParameters(
@@ -68,13 +68,13 @@ public class AdjustmentParametersConstructor
         var bendSection = section.GetSection("Bend");
 
         var forwardPositionLimitationSection = bendSection.GetSection("ForwardPositionLimitation");
-        var forwardPositionLimitationDefault = forwardPositionLimitationSection.GetSection("Default").Get<double>();
+        var forwardPositionLimitationDefault = forwardPositionLimitationSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = bendSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         var slowdownSpeedSection = bendSection.GetSection("SlowdownSpeed");
-        var slowdownSpeedDefault = slowdownSpeedSection.GetSection("Default").Get<double>();
+        var slowdownSpeedDefault = slowdownSpeedSection.GetSection("Default").Get<float>();
 
         return new Bend(forwardPositionLimitationDefault, speedCoefficientDefault, slowdownSpeedDefault);
     }
@@ -84,10 +84,10 @@ public class AdjustmentParametersConstructor
         var bendRollerSection = section.GetSection("BendRoller");
 
         var radiusSection = bendRollerSection.GetSection("Radius");
-        var radiusDefault = radiusSection.GetSection("Default").Get<double>();
+        var radiusDefault = radiusSection.GetSection("Default").Get<float>();
 
         var outerRadiusSection = bendRollerSection.GetSection("OuterRadius");
-        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<double>();
+        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<float>();
 
         return new BendRoller(radiusDefault, outerRadiusDefault);
     }
@@ -97,22 +97,22 @@ public class AdjustmentParametersConstructor
         var clampSection = section.GetSection("Clamp");
 
         var deepSection = clampSection.GetSection("Deep");
-        var deepDefault = deepSection.GetSection("Default").Get<double>();
+        var deepDefault = deepSection.GetSection("Default").Get<float>();
 
         var lengthSection = clampSection.GetSection("Length");
-        var lengthDefault = lengthSection.GetSection("Default").Get<double>();
+        var lengthDefault = lengthSection.GetSection("Default").Get<float>();
 
         var forwardPositionSection = clampSection.GetSection("ForwardPosition");
-        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<double>();
+        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<float>();
 
         var middlePositionSection = clampSection.GetSection("MiddlePosition");
-        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
+        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<float>();
 
         var backwardPositionSection = clampSection.GetSection("BackwardPosition");
-        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<double>();
+        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = clampSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         return new Clamp(
             deepDefault,
@@ -128,10 +128,10 @@ public class AdjustmentParametersConstructor
         var clampRollerSection = section.GetSection("ClampRoller");
 
         var outerRadiusSection = clampRollerSection.GetSection("OuterRadius");
-        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<double>();
+        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<float>();
 
         var innerRadiusSection = clampRollerSection.GetSection("InnerRadius");
-        var innerRadiusDefault = innerRadiusSection.GetSection("Default").Get<double>();
+        var innerRadiusDefault = innerRadiusSection.GetSection("Default").Get<float>();
 
         return new ClampRoller(outerRadiusDefault, innerRadiusDefault);
     }
@@ -141,22 +141,22 @@ public class AdjustmentParametersConstructor
         var consoleSection = section.GetSection("Console");
 
         var bendPositionSection = consoleSection.GetSection("BendPosition");
-        var bendPositionDefault = bendPositionSection.GetSection("Default").Get<double>();
+        var bendPositionDefault = bendPositionSection.GetSection("Default").Get<float>();
 
         var secondFloorPositionSection = consoleSection.GetSection("SecondFloorPosition");
-        var secondFloorPositionDefault = secondFloorPositionSection.GetSection("Default").Get<double>();
+        var secondFloorPositionDefault = secondFloorPositionSection.GetSection("Default").Get<float>();
 
         var secondFloorIntermediatePositionSection = consoleSection.GetSection("SecondFloorIntermediatePosition");
-        var secondFloorIntermediatePositionDefault = secondFloorIntermediatePositionSection.GetSection("Default").Get<double>();
+        var secondFloorIntermediatePositionDefault = secondFloorIntermediatePositionSection.GetSection("Default").Get<float>();
 
         var thirdFloorPositionSection = consoleSection.GetSection("ThirdFloorPosition");
-        var thirdFloorPositionDefault = thirdFloorPositionSection.GetSection("Default").Get<double>();
+        var thirdFloorPositionDefault = thirdFloorPositionSection.GetSection("Default").Get<float>();
 
         var pipeRotationDepartureDistanceSection = consoleSection.GetSection("PipeRotationDepartureDistance");
-        var pipeRotationDepartureDistanceDefault = pipeRotationDepartureDistanceSection.GetSection("Default").Get<double>();
+        var pipeRotationDepartureDistanceDefault = pipeRotationDepartureDistanceSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = consoleSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         return new StarkCNC.Core.Models.Adjustment.Console(
             bendPositionDefault,
@@ -172,16 +172,16 @@ public class AdjustmentParametersConstructor
         var dornSection = section.GetSection("Dorn");
 
         var forwardPositionSection = dornSection.GetSection("ForwardPosition");
-        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<double>();
+        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<float>();
 
         var middlePositionSection = dornSection.GetSection("MiddlePosition");
-        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
+        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<float>();
 
         var backwardPositionSection = dornSection.GetSection("BackwardPosition");
-        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<double>();
+        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = dornSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         return new Dorn(forwardPositionDefault, middlePositionDefault, backwardPositionDefault, speedCoefficientDefault);
     }
@@ -191,16 +191,16 @@ public class AdjustmentParametersConstructor
         var liftSection = section.GetSection("Lift");
 
         var upperPositionSection = liftSection.GetSection("UpperPosition");
-        var upperPositionDefault = upperPositionSection.GetSection("Default").Get<double>();
+        var upperPositionDefault = upperPositionSection.GetSection("Default").Get<float>();
 
         var middlePositionSection = liftSection.GetSection("MiddlePosition");
-        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
+        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<float>();
 
         var lowerPositionSection = liftSection.GetSection("LowerPosition");
-        var lowerPositionDefault = lowerPositionSection.GetSection("Default").Get<double>();
+        var lowerPositionDefault = lowerPositionSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = liftSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         return new Lift(upperPositionDefault, middlePositionDefault, lowerPositionDefault, speedCoefficientDefault);
     }
@@ -210,22 +210,22 @@ public class AdjustmentParametersConstructor
         var pressSection = section.GetSection("Press");
 
         var dangerZoneCoordinateSection = pressSection.GetSection("DangerZoneCoordinate");
-        var dangerZoneCoordinateDefault = dangerZoneCoordinateSection.GetSection("Default").Get<double>();
+        var dangerZoneCoordinateDefault = dangerZoneCoordinateSection.GetSection("Default").Get<float>();
 
         var lengthSection = pressSection.GetSection("Length");
-        var lengthDefault = lengthSection.GetSection("Default").Get<double>();
+        var lengthDefault = lengthSection.GetSection("Default").Get<float>();
 
         var forwardPositionSection = pressSection.GetSection("ForwardPosition");
-        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<double>();
+        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<float>();
 
         var middlePositionSection = pressSection.GetSection("MiddlePosition");
-        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
+        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<float>();
 
         var backwardPositionSection = pressSection.GetSection("BackwardPosition");
-        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<double>();
+        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = pressSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         return new Press(
             dangerZoneCoordinateDefault,
@@ -241,10 +241,10 @@ public class AdjustmentParametersConstructor
         var rotationSection = section.GetSection("Rotation");
 
         var offsetAfterZeroSearchSection = rotationSection.GetSection("OffsetAfterZeroSearch");
-        var offsetAfterZeroSearchDefault = offsetAfterZeroSearchSection.GetSection("Default").Get<double>();
+        var offsetAfterZeroSearchDefault = offsetAfterZeroSearchSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = rotationSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         return new Rotation(offsetAfterZeroSearchDefault, speedCoefficientDefault);
     }
@@ -257,10 +257,10 @@ public class AdjustmentParametersConstructor
         var turnOnDefault = turnOnSection.GetSection("Default").Get<bool>();
 
         var frontPositionLimitationSection = squeezeSection.GetSection("FrontPositionLimitation");
-        var frontPositionLimitationDefault = frontPositionLimitationSection.GetSection("Default").Get<double>();
+        var frontPositionLimitationDefault = frontPositionLimitationSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = squeezeSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         return new Squeeze(turnOnDefault, frontPositionLimitationDefault, speedCoefficientDefault);
     }
@@ -270,16 +270,16 @@ public class AdjustmentParametersConstructor
         var supplySection = section.GetSection("Supply");
 
         var pressZonePositionSection = supplySection.GetSection("PressZonePosition");
-        var pressZonePositionDefault = pressZonePositionSection.GetSection("Default").Get<double>();
+        var pressZonePositionDefault = pressZonePositionSection.GetSection("Default").Get<float>();
 
         var forwardDangerZonePositionSection = supplySection.GetSection("ForwardDangerZonePosition");
-        var forwardDangerZonePositionDefault = forwardDangerZonePositionSection.GetSection("Default").Get<double>();
+        var forwardDangerZonePositionDefault = forwardDangerZonePositionSection.GetSection("Default").Get<float>();
 
         var colletJawsDepthSection = supplySection.GetSection("ColletJawsDepth");
-        var colletJawsDepthDefault = colletJawsDepthSection.GetSection("Default").Get<double>();
+        var colletJawsDepthDefault = colletJawsDepthSection.GetSection("Default").Get<float>();
 
         var speedCoefficientSection = supplySection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
         return new Supply(
             pressZonePositionDefault,

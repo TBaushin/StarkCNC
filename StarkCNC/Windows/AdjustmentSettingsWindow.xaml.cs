@@ -80,8 +80,8 @@ public partial class AdjustmentSettingsWindow : Window
         }
 
         Result?.Name = NameTextBox.Text;
-        Result?.PipeDiameter = Convert.ToDouble(PipeDiameterTextBox.Text, CultureInfo.InvariantCulture);
-        Result?.Radius = Convert.ToDouble(RadiusTextBox.Text, CultureInfo.InvariantCulture);
+        Result?.PipeDiameter = Convert.ToSingle(PipeDiameterTextBox.Text, CultureInfo.InvariantCulture);
+        Result?.Radius = Convert.ToSingle(RadiusTextBox.Text, CultureInfo.InvariantCulture);
         Close();
     }
 

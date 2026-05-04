@@ -22,10 +22,10 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
     private string? _name;
 
     [ObservableProperty]
-    private double _pipeDiameter;
+    private float _pipeDiameter;
 
     [ObservableProperty]
-    private double _radius;
+    private float _radius;
 
     [ObservableProperty]
     private AdjustmentType? _type;
@@ -37,10 +37,10 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
     private bool _isEnabled;
 
     [ObservableProperty]
-    private double _forwardDangerZoneCoordinate;
+    private float _forwardDangerZoneCoordinate;
 
     [ObservableProperty]
-    private double _distanceFromCenter;
+    private float _distanceFromCenter;
 
     [ObservableProperty]
     private Guid _bendId;
@@ -178,15 +178,15 @@ public partial class AdjustmentParametersDto : ObservableObject, ICloneable
         var typeRequestString = adjustmentTypeSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var pipeDiameterSection = adjustmentSection.GetSection("PipeDiameter");
-        var pipeDiameter = pipeDiameterSection.GetSection("Default").Get<double>();
+        var pipeDiameter = pipeDiameterSection.GetSection("Default").Get<float>();
         var pipeDiameterRequestString = pipeDiameterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var forwardDangerZoneSection = adjustmentSection.GetSection("ForwardDangerZone");
-        var forwardDangerZoneCoordinate = forwardDangerZoneSection.GetSection("Default").Get<double>();
+        var forwardDangerZoneCoordinate = forwardDangerZoneSection.GetSection("Default").Get<float>();
         var forwardDangerZoneCoordinateRequestString = forwardDangerZoneSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var distanceFromCenterSection = adjustmentSection.GetSection("DistanceFromCenter");
-        var distanceFromCenter = distanceFromCenterSection.GetSection("Default").Get<double>();
+        var distanceFromCenter = distanceFromCenterSection.GetSection("Default").Get<float>();
         var distanceFromCenterRequestString = distanceFromCenterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var bend = BendDto.CreateFromConfiguration(adjustmentSection);

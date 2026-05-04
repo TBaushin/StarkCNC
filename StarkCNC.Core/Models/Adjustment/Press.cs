@@ -6,20 +6,20 @@ public class Press : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double DangerZoneCoordinate { get; set; }
-    public double Length { get; set; }
-    public double ForwardPosition { get; set; }
-    public double MiddlePosition { get; set; }
-    public double BackwardPosition { get; set; }
-    public double SpeedCoefficient { get; set; }
+    public float DangerZoneCoordinate { get; set; }
+    public float Length { get; set; }
+    public float ForwardPosition { get; set; }
+    public float MiddlePosition { get; set; }
+    public float BackwardPosition { get; set; }
+    public float SpeedCoefficient { get; set; }
 
     public Press(
-        double dangerZoneCoordinate,
-        double length,
-        double forwardPosition,
-        double middlePosition,
-        double backwardPosition,
-        double speedCoefficient)
+        float dangerZoneCoordinate,
+        float length,
+        float forwardPosition,
+        float middlePosition,
+        float backwardPosition,
+        float speedCoefficient)
     {
         DangerZoneCoordinate = dangerZoneCoordinate;
         Length = length;

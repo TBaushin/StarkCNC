@@ -17,10 +17,10 @@ public partial class SqueezeDto : ObservableObject, ICloneable
     private bool _turnOn;
 
     [ObservableProperty]
-    private double _frontPositionLimitation;
+    private float _frontPositionLimitation;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     public SqueezeDto(
         string turnOnRequestString,
@@ -71,11 +71,11 @@ public partial class SqueezeDto : ObservableObject, ICloneable
         var turnOnRequestString = turnOnSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var frontPositionLimitationSection = squeezeSection.GetSection("FrontPositionLimitation");
-        var frontPositionLimitationDefault = frontPositionLimitationSection.GetSection("Default").Get<double>();
+        var frontPositionLimitationDefault = frontPositionLimitationSection.GetSection("Default").Get<float>();
         var frontPositionLimitationRequestString = frontPositionLimitationSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = squeezeSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new SqueezeDto(

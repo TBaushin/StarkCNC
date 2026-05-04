@@ -7,13 +7,13 @@ public class Squeeze : ICloneable
     [Key]
     public Guid Id { get; set; }
     public bool TurnOn { get; set; }
-    public double FrontPositionLimitation { get; set; }
-    public double SpeedCoefficient { get; set; }
+    public float FrontPositionLimitation { get; set; }
+    public float SpeedCoefficient { get; set; }
 
     public Squeeze(
         bool turnOn,
-        double frontPositionLimitation,
-        double speedCoefficient)
+        float frontPositionLimitation,
+        float speedCoefficient)
     {
         TurnOn = turnOn;
         FrontPositionLimitation = frontPositionLimitation;

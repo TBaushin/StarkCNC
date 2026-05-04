@@ -16,22 +16,22 @@ public partial class ConsoleDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _bendPosition;
+    private float _bendPosition;
 
     [ObservableProperty]
-    private double _secondFloorPosition;
+    private float _secondFloorPosition;
 
     [ObservableProperty]
-    private double _secondFloorIntermediatePosition;
+    private float _secondFloorIntermediatePosition;
 
     [ObservableProperty]
-    private double _thirdFloorPosition;
+    private float _thirdFloorPosition;
 
     [ObservableProperty]
-    private double _pipeRotationDepartureDistance;
+    private float _pipeRotationDepartureDistance;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     public ConsoleDto(
         string bendPositionRequestString,
@@ -100,27 +100,27 @@ public partial class ConsoleDto : ObservableObject, ICloneable
         var consoleSection = section.GetSection("Console");
 
         var bendPositionSection = consoleSection.GetSection("BendPosition");
-        var bendPositionDefault = bendPositionSection.GetSection("Default").Get<double>();
+        var bendPositionDefault = bendPositionSection.GetSection("Default").Get<float>();
         var bendPositionRequestString = bendPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var secondFloorPositionSection = consoleSection.GetSection("SecondFloorPosition");
-        var secondFloorPositionDefault = secondFloorPositionSection.GetSection("Default").Get<double>();
+        var secondFloorPositionDefault = secondFloorPositionSection.GetSection("Default").Get<float>();
         var secondFloorPositionRequestString = secondFloorPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var secondFloorIntermediatePositionSection = consoleSection.GetSection("SecondFloorIntermediatePosition");
-        var secondFloorIntermediatePositionDefault = secondFloorIntermediatePositionSection.GetSection("Default").Get<double>();
+        var secondFloorIntermediatePositionDefault = secondFloorIntermediatePositionSection.GetSection("Default").Get<float>();
         var secondFloorIntermediatePositionRequestString = secondFloorIntermediatePositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var thirdFloorPositionSection = consoleSection.GetSection("ThirdFloorPosition");
-        var thirdFloorPositionDefault = thirdFloorPositionSection.GetSection("Default").Get<double>();
+        var thirdFloorPositionDefault = thirdFloorPositionSection.GetSection("Default").Get<float>();
         var thirdFloorPositionRequestString = thirdFloorPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var pipeRotationDepartureDistanceSection = consoleSection.GetSection("PipeRotationDepartureDistance");
-        var pipeRotationDepartureDistanceDefault = pipeRotationDepartureDistanceSection.GetSection("Default").Get<double>();
+        var pipeRotationDepartureDistanceDefault = pipeRotationDepartureDistanceSection.GetSection("Default").Get<float>();
         var pipeRotationDepartureDistanceRequestString = pipeRotationDepartureDistanceSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = consoleSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new ConsoleDto(

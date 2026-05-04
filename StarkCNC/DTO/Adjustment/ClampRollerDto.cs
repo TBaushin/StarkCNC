@@ -13,10 +13,10 @@ public partial class ClampRollerDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _outerRadius;
+    private float _outerRadius;
 
     [ObservableProperty]
-    private double _innerRadius;
+    private float _innerRadius;
 
     public ClampRollerDto(
         string outerRadiusRequestString,
@@ -58,11 +58,11 @@ public partial class ClampRollerDto : ObservableObject, ICloneable
         var clampRollerSection = section.GetSection("ClampRoller");
 
         var outerRadiusSection = clampRollerSection.GetSection("OuterRadius");
-        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<double>();
+        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<float>();
         var outerRadiusRequestString = outerRadiusSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var innerRadiusSection = clampRollerSection.GetSection("InnerRadius");
-        var innerRadiusDefault = innerRadiusSection.GetSection("Default").Get<double>();
+        var innerRadiusDefault = innerRadiusSection.GetSection("Default").Get<float>();
         var innerRadiusRequestString = innerRadiusSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new ClampRollerDto(

@@ -6,20 +6,20 @@ public class Console : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double BendPosition { get; set; }
-    public double SecondFloorPosition { get; set; }
-    public double SecondFloorIntermediatePosition { get; set; }
-    public double ThirdFloorPosition { get; set; }
-    public double PipeRotationDepartureDistance { get; set; }
-    public double SpeedCoefficient { get; set; }
+    public float BendPosition { get; set; }
+    public float SecondFloorPosition { get; set; }
+    public float SecondFloorIntermediatePosition { get; set; }
+    public float ThirdFloorPosition { get; set; }
+    public float PipeRotationDepartureDistance { get; set; }
+    public float SpeedCoefficient { get; set; }
 
     public Console(
-        double bendPosition,
-        double secondFloorPosition,
-        double secondFloorIntermediatePosition,
-        double thirdFloorPosition,
-        double pipeRotationDepartureDistance,
-        double speedCoefficient)
+        float bendPosition,
+        float secondFloorPosition,
+        float secondFloorIntermediatePosition,
+        float thirdFloorPosition,
+        float pipeRotationDepartureDistance,
+        float speedCoefficient)
     {
         BendPosition = bendPosition;
         SecondFloorPosition = secondFloorPosition;

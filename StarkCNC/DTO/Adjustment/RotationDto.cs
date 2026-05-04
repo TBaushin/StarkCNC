@@ -13,10 +13,10 @@ public partial class RotationDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _offsetAfterZeroSearch;
+    private float _offsetAfterZeroSearch;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     public RotationDto(
         string offsetAfterZeroSearchRequestString,
@@ -58,11 +58,11 @@ public partial class RotationDto : ObservableObject, ICloneable
         var rotationSection = section.GetSection("Rotation");
 
         var offsetAfterZeroSearchSection = rotationSection.GetSection("OffsetAfterZeroSearch");
-        var offsetAfterZeroSearchDefault = offsetAfterZeroSearchSection.GetSection("Default").Get<double>();
+        var offsetAfterZeroSearchDefault = offsetAfterZeroSearchSection.GetSection("Default").Get<float>();
         var offsetAfterZeroSearchRequestString = offsetAfterZeroSearchSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = rotationSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new RotationDto(

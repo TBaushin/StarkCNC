@@ -17,22 +17,22 @@ public partial class PressDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _dangerZoneCoordinate;
+    private float _dangerZoneCoordinate;
 
     [ObservableProperty]
-    private double _length;
+    private float _length;
 
     [ObservableProperty]
-    private double _forwardPosition;
+    private float _forwardPosition;
 
     [ObservableProperty]
-    private double _middlePosition;
+    private float _middlePosition;
 
     [ObservableProperty]
-    private double _backwardPosition;
+    private float _backwardPosition;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     public PressDto(
         string dangerZoneCoordinateRequestString,
@@ -95,27 +95,27 @@ public partial class PressDto : ObservableObject, ICloneable
         var pressSection = section.GetSection("Press");
 
         var dangerZoneCoordinateSection = pressSection.GetSection("DangerZoneCoordinate");
-        var dangerZoneCoordinateDefault = dangerZoneCoordinateSection.GetSection("Default").Get<double>();
+        var dangerZoneCoordinateDefault = dangerZoneCoordinateSection.GetSection("Default").Get<float>();
         var dangerZoneCoordinateRequestString = dangerZoneCoordinateSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var lengthSection = pressSection.GetSection("Length");
-        var lengthDefault = lengthSection.GetSection("Default").Get<double>();
+        var lengthDefault = lengthSection.GetSection("Default").Get<float>();
         var lengthRequestString = lengthSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var forwardPositionSection = pressSection.GetSection("ForwardPosition");
-        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<double>();
+        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<float>();
         var forwardPositionRequestString = forwardPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var middlePositionSection = pressSection.GetSection("MiddlePosition");
-        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
+        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<float>();
         var middlePositionRequestString = middlePositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var backwardPositionSection = pressSection.GetSection("BackwardPosition");
-        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<double>();
+        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<float>();
         var backwardPositionRequestString = backwardPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = pressSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new PressDto(

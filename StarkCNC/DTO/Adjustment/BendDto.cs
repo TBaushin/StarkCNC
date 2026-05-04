@@ -14,13 +14,13 @@ public partial class BendDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _forwardPositionLimitation;
+    private float _forwardPositionLimitation;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     [ObservableProperty]
-    private double _slowdownSpeed;
+    private float _slowdownSpeed;
 
     public BendDto(
         string forwardPositionLimitationRequestString,
@@ -67,15 +67,15 @@ public partial class BendDto : ObservableObject, ICloneable
         var bendSection = section.GetSection("Bend");
 
         var forwardPositionLimitationSection = bendSection.GetSection("ForwardPositionLimitation");
-        var forwardPositionLimitationDefault = forwardPositionLimitationSection.GetSection("Default").Get<double>();
+        var forwardPositionLimitationDefault = forwardPositionLimitationSection.GetSection("Default").Get<float>();
         var forwardPositionLimitationRequestString = forwardPositionLimitationSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = bendSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var slowdownSpeedSection = bendSection.GetSection("SlowdownSpeed");
-        var slowdownSpeedDefault = slowdownSpeedSection.GetSection("Default").Get<double>();
+        var slowdownSpeedDefault = slowdownSpeedSection.GetSection("Default").Get<float>();
         var slowndownSpeedRequestString = slowdownSpeedSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new BendDto(

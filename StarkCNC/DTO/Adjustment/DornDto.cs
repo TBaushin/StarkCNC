@@ -15,16 +15,16 @@ public partial class DornDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _forwardPosition;
+    private float _forwardPosition;
 
     [ObservableProperty]
-    private double _middlePosition;
+    private float _middlePosition;
 
     [ObservableProperty]
-    private double _backwardPosition;
+    private float _backwardPosition;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     public DornDto(
         string forwardPositionRequestString,
@@ -77,19 +77,19 @@ public partial class DornDto : ObservableObject, ICloneable
         var dornSection = section.GetSection("Dorn");
 
         var forwardPositionSection = dornSection.GetSection("ForwardPosition");
-        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<double>();
+        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<float>();
         var forwardPositionRequestString = forwardPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var middlePositionSection = dornSection.GetSection("MiddlePosition");
-        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
+        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<float>();
         var middlePositionRequestString = middlePositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var backwardPositionSection = dornSection.GetSection("BackwardPosition");
-        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<double>();
+        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<float>();
         var backwardPositionRequestString = backwardPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = dornSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new DornDto(

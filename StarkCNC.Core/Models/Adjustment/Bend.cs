@@ -6,14 +6,14 @@ public class Bend : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double ForwardPositionLimitation { get; set; }
-    public double SpeedCoefficient { get; set; }
-    public double SlowdownSpeed { get; set; }
+    public float ForwardPositionLimitation { get; set; }
+    public float SpeedCoefficient { get; set; }
+    public float SlowdownSpeed { get; set; }
 
     public Bend(
-        double forwardPositionLimitation,
-        double speedCoefficient,
-        double slowdownSpeed)
+        float forwardPositionLimitation,
+        float speedCoefficient,
+        float slowdownSpeed)
     {
         ForwardPositionLimitation = forwardPositionLimitation;
         SpeedCoefficient = speedCoefficient;

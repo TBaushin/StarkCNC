@@ -15,16 +15,16 @@ public partial class LiftDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _upperPosition;
+    private float _upperPosition;
 
     [ObservableProperty]
-    private double _middlePosition;
+    private float _middlePosition;
 
     [ObservableProperty]
-    private double _lowerPosition;
+    private float _lowerPosition;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     public LiftDto(
         string upperPositionRequestString,
@@ -77,19 +77,19 @@ public partial class LiftDto : ObservableObject, ICloneable
         var liftSection = section.GetSection("Lift");
 
         var upperPositionSection = liftSection.GetSection("UpperPosition");
-        var upperPositionDefault = upperPositionSection.GetSection("Default").Get<double>();
+        var upperPositionDefault = upperPositionSection.GetSection("Default").Get<float>();
         var upperPositionRequestString = upperPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var middlePositionSection = liftSection.GetSection("MiddlePosition");
-        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
+        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<float>();
         var middlePositionRequestString = middlePositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var lowerPositionSection = liftSection.GetSection("LowerPosition");
-        var lowerPositionDefault = lowerPositionSection.GetSection("Default").Get<double>();
+        var lowerPositionDefault = lowerPositionSection.GetSection("Default").Get<float>();
         var lowerPositionRequestString = lowerPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = liftSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new LiftDto(

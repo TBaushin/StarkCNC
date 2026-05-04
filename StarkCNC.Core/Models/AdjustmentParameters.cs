@@ -14,9 +14,9 @@ public class AdjustmentParameters : ICloneable
 
     public string Name { get; set; } = string.Empty;
 
-    public double PipeDiameter { get; set; }
+    public float PipeDiameter { get; set; }
 
-    public double Radius { get; set; }
+    public float Radius { get; set; }
 
     public AdjustmentType Type { get; set; }
 
@@ -45,9 +45,9 @@ public class AdjustmentParameters : ICloneable
         }
     }
 
-    public double ForwardDangerZoneCoordinate { get; set; }
+    public float ForwardDangerZoneCoordinate { get; set; }
 
-    public double DistanceFromCenter { get; set; }
+    public float DistanceFromCenter { get; set; }
 
     public Guid BendId { get; set; }
 
@@ -107,13 +107,13 @@ public class AdjustmentParameters : ICloneable
     public AdjustmentParameters(
         Guid id,
         string name,
-        double pipeDiameter,
-        double radius,
+        float pipeDiameter,
+        float radius,
         AdjustmentType type,
         int installedLevel,
         bool isEnabled,
-        double forwardDangerZoneCoordinate,
-        double distanceFromCenter,
+        float forwardDangerZoneCoordinate,
+        float distanceFromCenter,
         Bend bend,
         BendRoller bendRoller,
         Clamp clamp,

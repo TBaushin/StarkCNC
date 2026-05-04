@@ -6,16 +6,16 @@ public class Supply : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double PressZonePosition { get; set; }
-    public double ForwardDangerZonePosition { get; set; }
-    public double ColletJawsDepth { get; set; }
-    public double SpeedCoefficient { get; set; }
+    public float PressZonePosition { get; set; }
+    public float ForwardDangerZonePosition { get; set; }
+    public float ColletJawsDepth { get; set; }
+    public float SpeedCoefficient { get; set; }
 
     public Supply(
-        double pressZonePosition,
-        double forwardDangerZonePosition,
-        double colletJawsDepth,
-        double speedCoefficient)
+        float pressZonePosition,
+        float forwardDangerZonePosition,
+        float colletJawsDepth,
+        float speedCoefficient)
     {
         PressZonePosition = pressZonePosition;
         ForwardDangerZonePosition = forwardDangerZonePosition;

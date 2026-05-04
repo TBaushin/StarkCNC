@@ -6,20 +6,20 @@ public class Clamp : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double Deep { get; set; }
-    public double Length { get; set; }
-    public double ForwardPosition { get; set; }
-    public double MiddlePosition { get; set; }
-    public double BackwardPosition { get; set; }
-    public double SpeedCoefficient { get; set; }
+    public float Deep { get; set; }
+    public float Length { get; set; }
+    public float ForwardPosition { get; set; }
+    public float MiddlePosition { get; set; }
+    public float BackwardPosition { get; set; }
+    public float SpeedCoefficient { get; set; }
 
     public Clamp(
-        double deep,
-        double length,
-        double forwardPosition,
-        double middlePosition,
-        double backwardPosition,
-        double speedCoefficient)
+        float deep,
+        float length,
+        float forwardPosition,
+        float middlePosition,
+        float backwardPosition,
+        float speedCoefficient)
     {
         Deep = deep;
         Length = length;

@@ -6,12 +6,12 @@ public class Rotation : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double OffsetAfterZeroSearch { get; set; }
-    public double SpeedCoefficient { get; set; }
+    public float OffsetAfterZeroSearch { get; set; }
+    public float SpeedCoefficient { get; set; }
 
     public Rotation(
-        double offsetAfterZeroSearch,
-        double speedCoefficient)
+        float offsetAfterZeroSearch,
+        float speedCoefficient)
     {
         OffsetAfterZeroSearch = offsetAfterZeroSearch;
         SpeedCoefficient = speedCoefficient;

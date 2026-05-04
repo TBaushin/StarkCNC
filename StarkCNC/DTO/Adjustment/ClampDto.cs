@@ -17,22 +17,22 @@ public partial class ClampDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _deep;
+    private float _deep;
 
     [ObservableProperty]
-    private double _length;
+    private float _length;
 
     [ObservableProperty]
-    private double _forwardPosition;
+    private float _forwardPosition;
 
     [ObservableProperty]
-    private double _middlePosition;
+    private float _middlePosition;
 
     [ObservableProperty]
-    private double _backwardPosition;
+    private float _backwardPosition;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     public ClampDto(
         string deepRequestString,
@@ -95,27 +95,27 @@ public partial class ClampDto : ObservableObject, ICloneable
         var clampSection = section.GetSection("Clamp");
 
         var deepSection = clampSection.GetSection("Deep");
-        var deepDefault = deepSection.GetSection("Default").Get<double>();
+        var deepDefault = deepSection.GetSection("Default").Get<float>();
         var deepRequestString = deepSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var lengthSection = clampSection.GetSection("Length");
-        var lengthDefault = lengthSection.GetSection("Default").Get<double>();
+        var lengthDefault = lengthSection.GetSection("Default").Get<float>();
         var lengthRequestString = lengthSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var forwardPositionSection = clampSection.GetSection("ForwardPosition");
-        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<double>();
+        var forwardPositionDefault = forwardPositionSection.GetSection("Default").Get<float>();
         var forwardPositionRequestString = forwardPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var middlePositionSection = clampSection.GetSection("MiddlePosition");
-        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<double>();
+        var middlePositionDefault = middlePositionSection.GetSection("Default").Get<float>();
         var middlePositionRequestString = middlePositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var backwardPositionSection = clampSection.GetSection("BackwardPosition");
-        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<double>();
+        var backwardPositionDefault = backwardPositionSection.GetSection("Default").Get<float>();
         var backwardPositionRequestString = backwardPositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = clampSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new ClampDto(

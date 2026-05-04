@@ -15,16 +15,16 @@ public partial class SupplyDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _pressZonePosition;
+    private float _pressZonePosition;
 
     [ObservableProperty]
-    private double _forwardDangerZonePosition;
+    private float _forwardDangerZonePosition;
 
     [ObservableProperty]
-    private double _colletJawsDepth;
+    private float _colletJawsDepth;
 
     [ObservableProperty]
-    private double _speedCoefficient;
+    private float _speedCoefficient;
 
     public SupplyDto(
         string pressZonePositionRequestString,
@@ -77,19 +77,19 @@ public partial class SupplyDto : ObservableObject, ICloneable
         var supplySection = section.GetSection("Supply");
 
         var pressZonePositionSection = supplySection.GetSection("PressZonePosition");
-        var pressZonePositionDefault = pressZonePositionSection.GetSection("Default").Get<double>();
+        var pressZonePositionDefault = pressZonePositionSection.GetSection("Default").Get<float>();
         var pressZonePositionRequestString = pressZonePositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var forwardDangerZonePositionSection = supplySection.GetSection("ForwardDangerZonePosition");
-        var forwardDangerZonePositionDefault = forwardDangerZonePositionSection.GetSection("Default").Get<double>();
+        var forwardDangerZonePositionDefault = forwardDangerZonePositionSection.GetSection("Default").Get<float>();
         var forwardDangerZonePositionRequestString = forwardDangerZonePositionSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var colletJawsDepthSection = supplySection.GetSection("ColletJawsDepth");
-        var colletJawsDepthDefault = colletJawsDepthSection.GetSection("Default").Get<double>();
+        var colletJawsDepthDefault = colletJawsDepthSection.GetSection("Default").Get<float>();
         var colletJawsDepthRequestString = colletJawsDepthSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var speedCoefficientSection = supplySection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<double>();
+        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new SupplyDto(

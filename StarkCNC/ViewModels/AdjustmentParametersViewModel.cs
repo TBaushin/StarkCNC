@@ -44,28 +44,28 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     private AdjustmentType _adjustmentType = AdjustmentType.Winding;
 
     [ObservableProperty]
-    private double _pipeDiameter;
+    private float _pipeDiameter;
 
     [ObservableProperty]
-    private double _radius;
+    private float _radius;
 
     [ObservableProperty]
-    private double _distanceFromCenter;
+    private float _distanceFromCenter;
 
     [ObservableProperty]
-    private double _clampLength;
+    private float _clampLength;
 
     [ObservableProperty]
-    private double _pressLength;
+    private float _pressLength;
 
     [ObservableProperty]
     private bool _squeezeTurnOn;
 
     [ObservableProperty]
-    private double _clampRollerOuterRadius;
+    private float _clampRollerOuterRadius;
 
     [ObservableProperty]
-    private double _clampRollerInnerRadius;
+    private float _clampRollerInnerRadius;
 
     public AdjustmentParametersViewModel(
         IRouter router,
@@ -200,7 +200,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         }
     }
 
-    async partial void OnPipeDiameterChanged(double oldValue, double newValue)
+    async partial void OnPipeDiameterChanged(float oldValue, float newValue)
     {
         if (_adjustment?.PipeDiameter != newValue)
         {
@@ -211,7 +211,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         }
     }
 
-    async partial void OnRadiusChanged(double oldValue, double newValue)
+    async partial void OnRadiusChanged(float oldValue, float newValue)
     {
         if (_adjustment?.Radius != newValue)
         {
@@ -222,7 +222,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         }
     }
 
-    async partial void OnDistanceFromCenterChanged(double oldValue, double newValue)
+    async partial void OnDistanceFromCenterChanged(float oldValue, float newValue)
     {
         if (_adjustment?.DistanceFromCenter != newValue)
         {
@@ -233,7 +233,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         }
     }
 
-    async partial void OnClampLengthChanged(double oldValue, double newValue)
+    async partial void OnClampLengthChanged(float oldValue, float newValue)
     {
         if (_adjustment?.Clamp.Length != newValue)
         {
@@ -244,7 +244,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         }
     }
 
-    async partial void OnPressLengthChanged(double oldValue, double newValue)
+    async partial void OnPressLengthChanged(float oldValue, float newValue)
     {
         if (_adjustment?.Press.Length != newValue)
         {
@@ -266,7 +266,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         }
     }
 
-    async partial void OnClampRollerOuterRadiusChanged(double oldValue, double newValue)
+    async partial void OnClampRollerOuterRadiusChanged(float oldValue, float newValue)
     {
         if (_adjustment?.ClampRoller.OuterRadius != newValue)
         {
@@ -277,7 +277,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         }
     }
 
-    async partial void OnClampRollerInnerRadiusChanged(double oldValue, double newValue)
+    async partial void OnClampRollerInnerRadiusChanged(float oldValue, float newValue)
     {
         if (_adjustment?.ClampRoller.InnerRadius != newValue)
         {

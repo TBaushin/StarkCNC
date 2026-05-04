@@ -407,7 +407,7 @@ public partial class ProgramViewModel : ViewModelBase
     {
         CastToModel();
         UpdateEstimatedRemainingLengthAndPipeLength();
-        float pipeDiameter = 50;
+        float pipeDiameter = _adjustmentService.FirstLevelAdjustment is null ? 50f : _adjustmentService.FirstLevelAdjustment.PipeDiameter;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
         _bendingModelsLoadingService

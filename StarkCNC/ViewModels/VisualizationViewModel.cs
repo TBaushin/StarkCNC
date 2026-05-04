@@ -1,5 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
+using StarkCNC.Core.Services;
 using StarkCNC.Models;
 using StarkCNC.Services;
 using System.Windows.Media.Media3D;
@@ -9,10 +9,12 @@ namespace StarkCNC.ViewModels;
 public class VisualizationViewModel : ViewModelBase
 {
     private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
+    private readonly IAdjustmentService _adjustmentService;
 
-    public VisualizationViewModel(IBendingModelsLoadingService bendingModelsLoadingService)
+    public VisualizationViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IAdjustmentService adjustmentService)
     {
         _bendingModelsLoadingService = bendingModelsLoadingService;
+        _adjustmentService = adjustmentService;
 
         LoadModels();
     }

@@ -78,10 +78,10 @@ public class AdjustmentRepository : IAdjustmentRepository
         if (local is not null)
         {
             context.Entry(local).CurrentValues.SetValues(adjustment);
-            await UpdateLocalEntry(adjustment, local).ConfigureAwait(false);
+            await UpdateLocalEntry(adjustment, local, context).ConfigureAwait(false);
         }
-        else
-            context.Entry(adjustment).State = EntityState.Modified;
+        
+        context.Entry(adjustment).State = EntityState.Modified;
 
         await SaveChangesAsync(context).ConfigureAwait(false);
     }
@@ -156,9 +156,8 @@ public class AdjustmentRepository : IAdjustmentRepository
             .ConfigureAwait(false);
     }
 
-    private async Task UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local)
+    private async Task UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local, AppJsonContext context)
     {
-        using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
         context.Entry(local.Bend).CurrentValues.SetValues(item.Bend);
         context.Entry(local.BendRoller).CurrentValues.SetValues(item.BendRoller);
         context.Entry(local.Clamp).CurrentValues.SetValues(item.Clamp);

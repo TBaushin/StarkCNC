@@ -6,16 +6,16 @@ public class Lift : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double UpperPosition { get; set; }
-    public double MiddlePosition { get; set; }
-    public double LowerPosition { get; set; }
-    public double SpeedCoefficient { get; set; }
+    public float UpperPosition { get; set; }
+    public float MiddlePosition { get; set; }
+    public float LowerPosition { get; set; }
+    public float SpeedCoefficient { get; set; }
 
     public Lift(
-        double upperPosition,
-        double middlePosition,
-        double lowerPosition,
-        double speedCoefficient)
+        float upperPosition,
+        float middlePosition,
+        float lowerPosition,
+        float speedCoefficient)
     {
         UpperPosition = upperPosition;
         MiddlePosition = middlePosition;

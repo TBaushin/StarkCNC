@@ -6,16 +6,16 @@ public class Dorn : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double ForwardPosition { get; set; }
-    public double MiddlePosition { get; set; }
-    public double BackwardPosition { get; set; }
-    public double SpeedCoefficient { get; set; }
+    public float ForwardPosition { get; set; }
+    public float MiddlePosition { get; set; }
+    public float BackwardPosition { get; set; }
+    public float SpeedCoefficient { get; set; }
 
     public Dorn(
-        double forwardPosition,
-        double middlePosition,
-        double backwardPosition,
-        double speedCoefficient)
+        float forwardPosition,
+        float middlePosition,
+        float backwardPosition,
+        float speedCoefficient)
     {
         ForwardPosition = forwardPosition;
         MiddlePosition = middlePosition;

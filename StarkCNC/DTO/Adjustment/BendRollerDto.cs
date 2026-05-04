@@ -13,10 +13,10 @@ public partial class BendRollerDto : ObservableObject, ICloneable
     private Guid _id;
 
     [ObservableProperty]
-    private double _radius;
+    private float _radius;
 
     [ObservableProperty]
-    private double _outerRadius;
+    private float _outerRadius;
 
     public BendRollerDto(string radiusRequestString, string outerRadiusRequestString)
     {
@@ -56,11 +56,11 @@ public partial class BendRollerDto : ObservableObject, ICloneable
         var bendRollerSection = section.GetSection("BendRoller");
 
         var radiusSection = bendRollerSection.GetSection("Radius");
-        var radiusDefault = radiusSection.GetSection("Default").Get<double>();
+        var radiusDefault = radiusSection.GetSection("Default").Get<float>();
         var radiusRequestString = radiusSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         var outerRadiusSection = bendRollerSection.GetSection("OuterRadius");
-        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<double>();
+        var outerRadiusDefault = outerRadiusSection.GetSection("Default").Get<float>();
         var outerRadiusRequestString = outerRadiusSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new BendRollerDto(radiusRequestString, outerRadiusRequestString)

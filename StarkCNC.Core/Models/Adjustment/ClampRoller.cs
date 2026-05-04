@@ -6,12 +6,12 @@ public class ClampRoller : ICloneable
 {
     [Key]
     public Guid Id { get; set; }
-    public double OuterRadius { get; set; }
-    public double InnerRadius { get; set; }
+    public float OuterRadius { get; set; }
+    public float InnerRadius { get; set; }
 
     public ClampRoller(
-        double outerRadius,
-        double innerRadius)
+        float outerRadius,
+        float innerRadius)
     {
         OuterRadius = outerRadius;
         InnerRadius = innerRadius;
