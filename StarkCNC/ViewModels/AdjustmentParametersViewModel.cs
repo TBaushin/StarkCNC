@@ -154,7 +154,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void EditAdjustment()
+    private async Task EditAdjustment()
     {
         if (_adjustment is null)
             return;
@@ -165,7 +165,11 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         adjustment.PipeDiameter = PipeDiameter;
         adjustment.Radius = Radius;
 
-        var settingsWindow = new AdjustmentSettingsWindow(adjustment, _constructor, "Редактирование оснастки");
+        var settingsWindow = new AdjustmentSettingsWindow(
+            await _repository.GetAllAsync().ConfigureAwait(true),
+            adjustment,
+            _constructor,
+            "Редактирование оснастки");
         settingsWindow.ShowDialog();
 
         var result = settingsWindow.Result;

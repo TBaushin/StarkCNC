@@ -26,6 +26,10 @@
                 x:Name="NotFilledWarningTextBlock"
                 Visibility="Collapsed"
                 Text="Незаполненно поле 'Имя'" Foreground="Red"/>
+            <TextBlock
+                x:Name="AdjustmentNameExsists"
+                Visibility="Collapsed"
+                Text="Оснастка с таким именем уже есть" Foreground="Red"/>
             <controls:LabeledTextBoxControl
                 x:Name="NameTextBox"
                 Margin="0,0,0,16"

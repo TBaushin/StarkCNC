@@ -14,6 +14,7 @@ public partial class AdjustmentSettingsWindow : Window
 {
     private static readonly AdjustmentTypeToStringConverter _converter = new AdjustmentTypeToStringConverter();
     private AdjustmentParameters? _oldParameters;
+    private IEnumerable<AdjustmentParameters> _adjustments;
 
     public AdjustmentParameters? Result { get; set; }
 
@@ -42,10 +43,16 @@ public partial class AdjustmentSettingsWindow : Window
         }
     }
 
-    public AdjustmentSettingsWindow(AdjustmentParameters? adjustment, AdjustmentParametersConstructor constructor, string Title = "Добавление новой оснастки")
+    public AdjustmentSettingsWindow(
+        IEnumerable<AdjustmentParameters> adjustments,
+        AdjustmentParameters? adjustment,
+        AdjustmentParametersConstructor constructor,
+        string Title = "Добавление новой оснастки")
     {
         _oldParameters = adjustment;
         DataContext = this;
+
+        _adjustments = adjustments;
 
         if (adjustment is null)
             Result = constructor.Build(string.Empty, AdjustmentType.Winding, 0, 0).Result;
@@ -73,9 +80,20 @@ public partial class AdjustmentSettingsWindow : Window
 
     private void SaveButton_Click(object sender, RoutedEventArgs e)
     {
-        if (string.IsNullOrEmpty(NameTextBox.Text) || NameTextBox.Text.Length == 0)
+        AdjustmentNameExsists.Visibility = Visibility.Collapsed;
+        NotFilledWarningTextBlock.Visibility = Visibility.Collapsed;
+
+        if (string.IsNullOrEmpty(NameTextBox.Text) ||
+            string.IsNullOrWhiteSpace(NameTextBox.Text) ||
+            NameTextBox.Text.Length == 0)
         {
             NotFilledWarningTextBlock.Visibility = Visibility.Visible;
+            return;
+        }
+
+        if (_adjustments.Select(a => a.Name).ToList().Contains(NameTextBox.Text))
+        {
+            AdjustmentNameExsists.Visibility = Visibility.Visible;
             return;
         }
 
