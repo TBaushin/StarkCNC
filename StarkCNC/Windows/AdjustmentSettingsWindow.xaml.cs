@@ -91,7 +91,8 @@ public partial class AdjustmentSettingsWindow : Window
             return;
         }
 
-        if (_adjustments.Select(a => a.Name).ToList().Contains(NameTextBox.Text))
+        if (_adjustments.Select(a => a.Name).ToList().Contains(NameTextBox.Text) &&
+            TitleTextBlock.Text == "Добавление новой оснастки")
         {
             AdjustmentNameExsists.Visibility = Visibility.Visible;
             return;
@@ -100,6 +101,7 @@ public partial class AdjustmentSettingsWindow : Window
         Result?.Name = NameTextBox.Text;
         Result?.PipeDiameter = Convert.ToSingle(PipeDiameterTextBox.Text, CultureInfo.InvariantCulture);
         Result?.Radius = Convert.ToSingle(RadiusTextBox.Text, CultureInfo.InvariantCulture);
+        Result?.Type = (AdjustmentType)_converter.ConvertBack(SelectedType, typeof(AdjustmentType), new { }, CultureInfo.CurrentCulture);
         Close();
     }
 

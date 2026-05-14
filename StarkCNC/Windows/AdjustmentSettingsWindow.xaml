@@ -35,17 +35,17 @@
                 Margin="0,0,0,16"
                 TextChanged="NameTextBox_TextChanged"
                 LabelText="{x:Static lang:Language.Name}"
-                Text="{Binding Result.Name, Mode=TwoWay}"/>
+                Text="{Binding Result.Name, Mode=OneWay}"/>
             <controls:LabeledTextBoxControl
                 x:Name="PipeDiameterTextBox"
                 Margin="0,0,0,16"
                 LabelText="{x:Static lang:Language.PipeDiameter}"
-                Text="{Binding Result.PipeDiameter, Mode=TwoWay}"/>
+                Text="{Binding Result.PipeDiameter, Mode=OneWay}"/>
             <controls:LabeledTextBoxControl
                 x:Name="RadiusTextBox"
                 Margin="0,0,0,16"
                 LabelText="Радиус оснастки"
-                Text="{Binding Result.Radius, Mode=TwoWay}"/>
+                Text="{Binding Result.Radius, Mode=OneWay}"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -57,7 +57,7 @@
                 <ComboBox
                     Grid.Row="1"
                     ItemsSource="{Binding Types}"
-                    SelectedItem="{Binding SelectedType, Mode=TwoWay}"/>
+                    SelectedItem="{Binding SelectedType, Mode=OneWay}"/>
 
             </Grid>
         </StackPanel>
