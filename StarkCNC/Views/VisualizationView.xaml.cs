@@ -373,14 +373,13 @@ public partial class VisualizationView : Page
     public VisualizationView(VisualizationViewModel viewModel)
     {
         ViewModel = viewModel;
+        DataContext = ViewModel;
 
         InitializeComponent();
         _animator = InitializeAnimation();
         BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
         BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
-        BendingView.Children.Add(ViewModel.GetModels());
-
-        SetDefaultValue();
+        BendingView.Children.Add(ViewModel.GetMachineVizualization());
     }
 
     private TubeBendingAnimator InitializeAnimation()
@@ -402,16 +401,6 @@ public partial class VisualizationView : Page
 
         return animator;
     }
-    private void SetDefaultValue()
-    {
-        Dictionary<string, double> positions = ViewModel.GetDefaults();
-        ConsoleSlider.Value = positions["console"];
-        BendSlider.Value = positions["bend"];
-        SupplySlider.Value = positions["carriage"];
-        HeightSlider.Value = positions["height"];
-        ClampSlider.Value = positions["clamp"];
-        PressSlider.Value = positions["press"];
-    }
 
     private void StartAnimation_Click(object sender, RoutedEventArgs e)
     {
@@ -426,26 +415,6 @@ public partial class VisualizationView : Page
         _animator.ResetToInitialState();
         // StatusTextBlock.Text = "Готов к анимации";
         //StartButton.IsEnabled = true;
-    }
-
-    private void SpeedSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-    {
-        if (_animator is not null)
-        {
-            _animator.AnimationSpeed = e.NewValue;
-        }
-    }
-
-    private void Sliders_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
-    {
-        ViewModel.UpdatePositions(
-            ConsoleSlider.Value,
-            BendSlider.Value,
-            SupplySlider.Value,
-            HeightSlider.Value,
-            ClampSlider.Value,
-            PressSlider.Value
-        );
     }
 
     private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)

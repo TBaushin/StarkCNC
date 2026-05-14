@@ -127,9 +127,10 @@ public partial class App : Application
                 services.AddTransient<ProgramViewModel>();
                 services.AddTransient<VisualizationView>();
                 services.AddTransient<VisualizationViewModel>();
-                services.AddTransient<IBendingModelsLoadingService, BendingModelsLoadingService>();
+                services.AddTransient<PipeViewModel>();
+                services.AddTransient<IMachineLoader, MachineLoader>();
                 services.AddSingleton<IBendingDataUnitOfWork, BendingDataUnitOfWork>();
-#if DEBUG
+#if !DEBUG
                 Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");
                 services.AddSingleton<IManualConfigurationService, FakeManualConfigurationService>();
 #else

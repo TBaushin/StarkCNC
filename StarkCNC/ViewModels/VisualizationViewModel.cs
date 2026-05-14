@@ -1,52 +1,90 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using StarkCNC.Core.Services;
-using StarkCNC.Models;
 using StarkCNC.Services;
 using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels;
 
-public class VisualizationViewModel : ViewModelBase
+public partial class VisualizationViewModel : ViewModelBase
 {
-    private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
+    private readonly IMachineLoader _loader;
     private readonly IAdjustmentService _adjustmentService;
 
-    public VisualizationViewModel(IBendingModelsLoadingService bendingModelsLoadingService, IAdjustmentService adjustmentService)
+    [ObservableProperty]
+    private double _console;
+
+    [ObservableProperty]
+    private double _bend;
+
+    [ObservableProperty]
+    private double _supply;
+
+    [ObservableProperty]
+    private double _height;
+
+    [ObservableProperty]
+    private double _clamp;
+
+    [ObservableProperty]
+    private double _press;
+
+    public VisualizationViewModel(IMachineLoader loader, IAdjustmentService adjustmentService)
     {
-        _bendingModelsLoadingService = bendingModelsLoadingService;
+        _loader = loader;
         _adjustmentService = adjustmentService;
 
-        LoadModels();
+        SetDefaultSlidersValue();
     }
 
-    public ModelVisual3D GetModels()
+    public ModelVisual3D GetMachineVizualization()
     {
-        return _bendingModelsLoadingService.GetModelVisual3D();
+        return new ModelVisual3D() { Content = _loader.Group };
     }
 
-    public ModelVisual3D GetPipe()
+    private void SetDefaultSlidersValue()
     {
-        return _bendingModelsLoadingService.Pipe;
+        Dictionary<string, double> positions = IMachineLoader.GetDefault();
+        Console = positions["console"];
+        Bend = positions["bend"];
+        Supply = positions["carriage"];
+        Height = positions["height"];
+        Clamp = positions["clamp"];
+        Press = positions["press"];
     }
 
-    public void UpdatePositions(double consolePosX, double bendRotationX, double carriagePosY, double height, double clampPosX, double pressPosX)
+    partial void OnConsoleChanged(double value)
     {
-        _bendingModelsLoadingService.UpdatePositions(consolePosX, bendRotationX, carriagePosY, height, clampPosX, pressPosX);
+        _loader.Console.Coordinates.PositionX = value;
+        _loader.Console.UpdateTransform();
     }
 
-    public Dictionary<string, double> GetDefaults()
+    partial void OnBendChanged(double value)
     {
-        return _bendingModelsLoadingService.GetDefault();
+        _loader.Bend.Coordinates.RotationZ = -value;
+        _loader.Bend.UpdateTransform(-value);
     }
 
-    private void LoadModels()
+    partial void OnSupplyChanged(double value)
     {
-        ICollection<LoadingModel>? loadingModels = App.Configuration.GetSection("ModelsPath").Get<ICollection<LoadingModel>>();
-        if (loadingModels is null)
-            return;
-        foreach (var item in loadingModels)
-        {
-            _bendingModelsLoadingService.Load(item.Path, item.Type);
-        }
+        _loader.Carriage.Coordinates.PositionY = value - 3000;
+        _loader.Carriage.UpdateTransform();
+    }
+
+    partial void OnHeightChanged(double value)
+    {
+        _loader.Console.Coordinates.PositionZ = value;
+        _loader.Console.UpdateTransform();
+    }
+
+    partial void OnClampChanged(double value)
+    {
+        _loader.Clamp.Coordinates.PositionX = -180 - value;
+        _loader.Clamp.UpdateTransform();
+    }
+
+    partial void OnPressChanged(double value)
+    {
+        _loader.Press.Coordinates.PositionX = -180 - value;
+        _loader.Press.UpdateTransform();
     }
 }

@@ -17,7 +17,7 @@ namespace StarkCNC.ViewModels;
 
 public partial class ProgramViewModel : ViewModelBase
 {
-    private readonly IBendingModelsLoadingService _bendingModelsLoadingService;
+    private readonly PipeViewModel _pipeViewModel;
     private readonly IBendingDataUnitOfWork _unitOfWork;
     private readonly ISettingsRepository _settingsRepository;
     private readonly IAdjustmentService _adjustmentService;
@@ -52,28 +52,19 @@ public partial class ProgramViewModel : ViewModelBase
     }
 
     public ProgramViewModel(
-        IBendingModelsLoadingService bendingModelsLoadingService,
+        PipeViewModel pipeViewModel,
         IBendingDataUnitOfWork unitOfWork,
         ISettingsRepository settingsRepository,
         IAdjustmentService adjustmentService)
     {
-        _bendingModelsLoadingService = bendingModelsLoadingService;
+        _pipeViewModel = pipeViewModel;
         _unitOfWork = unitOfWork;
         _settingsRepository = settingsRepository;
         _adjustmentService = adjustmentService;
 
         CurrentFilePath = _unitOfWork.CurrentFilePath;
 
-        //App.ServiceProvider.GetRequiredService<AdjustmentViewModel>().PropertyChanging += (sender, args) => UpdateBend();
-        _bendingModelsLoadingService.PropertyChanged += (sender, args) =>
-        {
-            if (args.PropertyName == nameof(IBendingModelsLoadingService.Carriage))
-            {
-                UpdateBend();
-            }
-        };
-
-        _pipe = _bendingModelsLoadingService.Pipe;
+        _pipe = _pipeViewModel.Pipe;
         BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
 
         foreach (var item in _unitOfWork.BendingDatas)
@@ -410,7 +401,7 @@ public partial class ProgramViewModel : ViewModelBase
         float pipeDiameter = _adjustmentService.FirstLevelAdjustment is null ? 50f : _adjustmentService.FirstLevelAdjustment.PipeDiameter;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
-        _bendingModelsLoadingService
+        _pipeViewModel
             .UpdatePipeBend(WireBuilder.BuildWirePath(_unitOfWork.BendingDatas, pipeDiameter), pipeDiameter);
     }
 
