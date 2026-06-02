@@ -1,4 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using HelixToolkit.SharpDX;
+using HelixToolkit.Wpf.SharpDX;
 using StarkCNC.Core.Services;
 using StarkCNC.Services;
 using System.Windows.Media.Media3D;
@@ -9,6 +11,23 @@ public partial class VisualizationViewModel : ViewModelBase
 {
     private readonly IMachineLoader _loader;
     private readonly IAdjustmentService _adjustmentService;
+
+    public TextureModel? EnvironmentMap { get; }
+
+    [ObservableProperty]
+    private SceneNodeGroupModel3D _groupModel;
+
+    [ObservableProperty]
+    private Point3D _modelCentroid = default;
+
+    [ObservableProperty]
+    private bool _renderEnvironmentMap = true;
+
+    [ObservableProperty]
+    private IEffectsManager _effectsManager;
+
+    [ObservableProperty]
+    private HelixToolkit.Wpf.SharpDX.Camera? _camera;
 
     [ObservableProperty]
     private double _console;
@@ -33,12 +52,24 @@ public partial class VisualizationViewModel : ViewModelBase
         _loader = loader;
         _adjustmentService = adjustmentService;
 
-        SetDefaultSlidersValue();
-    }
+        EffectsManager = new DefaultEffectsManager();
 
-    public ModelVisual3D GetMachineVizualization()
-    {
-        return new ModelVisual3D() { Content = _loader.Group };
+        Camera = new HelixToolkit.Wpf.SharpDX.OrthographicCamera()
+        {
+            LookDirection = new Vector3D(0, -10, -10),
+            Position = new Point3D(0, 10, 10),
+            UpDirection = new Vector3D(0, 1, 0),
+            FarPlaneDistance = 50000,
+            NearPlaneDistance = 0.5f
+        };
+
+        _loader.Load(EffectsManager, RenderEnvironmentMap);
+        if (_loader.Carriage.Figure.Root.TryGetCentroid(out var centroid))
+            ModelCentroid = centroid.ToPoint3D();
+
+        GroupModel = _loader.Group;
+
+        SetDefaultSlidersValue();
     }
 
     private void SetDefaultSlidersValue()

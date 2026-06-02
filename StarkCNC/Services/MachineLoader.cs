@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using HelixToolkit.SharpDX;
+using HelixToolkit.Wpf.SharpDX;
+using Microsoft.Extensions.Configuration;
 using StarkCNC.Models;
 using System.IO;
 using System.Windows.Media.Media3D;
@@ -9,16 +11,16 @@ public class MachineLoader : IMachineLoader
 {
     private readonly IConfiguration _configuration;
 
-    public Model3DGroup Group { get; } = new Model3DGroup();
+    public SceneNodeGroupModel3D Group { get; } = new SceneNodeGroupModel3D();
 
     public ModelVisual3D Pipe { get; private set; } = new ModelVisual3D();
 
-    public Model Carriage { get; }
-    public Model Console { get; }
-    public Model Bend { get; }
-    public Model Clamp { get; }
-    public Model Press { get; }
-    public Model Roller { get; }
+    public Model Carriage { get; private set; }
+    public Model Console { get; private set; }
+    public Model Bend { get; private set; }
+    public Model Clamp { get; private set; }
+    public Model Press { get; private set; }
+    public Model Roller { get; private set; }
 
     public MachineLoader(IConfiguration configuration)
     {
@@ -27,25 +29,28 @@ public class MachineLoader : IMachineLoader
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.v2.json", optional: false, reloadOnChange: true)
             .Build();
+    }
 
-        Carriage = new Model(_configuration, nameof(Carriage));
-        Console = new Model(_configuration, nameof(Console));
-        Bend = new Model(_configuration, nameof(Bend), Console, -90);
-        Clamp = new Model(_configuration, nameof(Clamp), Bend);
-        Press = new Model(_configuration, nameof(Press), Console);
-        Roller = new Model(_configuration, nameof(Roller), Bend);
+    public void Load(IEffectsManager effectsManager, bool renderEnvironmentMap)
+    {
+        Carriage = new Model(_configuration, nameof(Carriage), effectsManager, renderEnvironmentMap);
+        Console = new Model(_configuration, nameof(Console), effectsManager, renderEnvironmentMap);
+        Bend = new Model(_configuration, nameof(Bend), effectsManager, renderEnvironmentMap, Console, -90);
+        Clamp = new Model(_configuration, nameof(Clamp), effectsManager, renderEnvironmentMap, Bend);
+        Press = new Model(_configuration, nameof(Press), effectsManager, renderEnvironmentMap, Console);
+        Roller = new Model(_configuration, nameof(Roller), effectsManager, renderEnvironmentMap, Bend);
 
         Bend.Children.Add(Clamp);
         Bend.Children.Add(Roller);
         Console.Children.Add(Bend);
         Console.Children.Add(Press);
 
-        Group.Children.Add(Carriage.Figure);
-        Group.Children.Add(Console.Figure);
-        Group.Children.Add(Bend.Figure);
-        Group.Children.Add(Press.Figure);
-        Group.Children.Add(Roller.Figure);
-        Group.Children.Add(Clamp.Figure);
+        Group.AddNode(Carriage.Figure.Root);
+        Group.AddNode(Console.Figure.Root);
+        Group.AddNode(Bend.Figure.Root);
+        Group.AddNode(Press.Figure.Root);
+        Group.AddNode(Roller.Figure.Root);
+        Group.AddNode(Clamp.Figure.Root);
     }
 
     public void SetForAllModelsDefaultPositions()

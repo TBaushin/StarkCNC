@@ -1,5 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using HelixToolkit.SharpDX;
+using HelixToolkit.Wpf.SharpDX;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
@@ -17,12 +19,26 @@ namespace StarkCNC.ViewModels;
 
 public partial class ProgramViewModel : ViewModelBase
 {
-    private readonly PipeViewModel _pipeViewModel;
     private readonly IBendingDataUnitOfWork _unitOfWork;
     private readonly ISettingsRepository _settingsRepository;
     private readonly IAdjustmentService _adjustmentService;
-   
-    private readonly Visual3D _pipe;
+
+    public TextureModel? EnvironmentMap { get; }
+
+    [ObservableProperty]
+    private Element3D? _pipe;
+
+    [ObservableProperty]
+    private Point3D _modelCentroid = default;
+
+    [ObservableProperty]
+    private bool _renderEnvironmentMap = true;
+
+    [ObservableProperty]
+    private IEffectsManager _effectsManager;
+
+    [ObservableProperty]
+    private HelixToolkit.Wpf.SharpDX.Camera? _camera;
 
     [ObservableProperty]
     private string _currentFilePath = string.Empty;
@@ -46,25 +62,28 @@ public partial class ProgramViewModel : ViewModelBase
 
     public static ICollection<string> BendingModes { get; } = new List<string>();
 
-    public Visual3D Pipe
-    {
-        get => _pipe;
-    }
-
     public ProgramViewModel(
-        PipeViewModel pipeViewModel,
         IBendingDataUnitOfWork unitOfWork,
         ISettingsRepository settingsRepository,
         IAdjustmentService adjustmentService)
     {
-        _pipeViewModel = pipeViewModel;
         _unitOfWork = unitOfWork;
         _settingsRepository = settingsRepository;
         _adjustmentService = adjustmentService;
 
         CurrentFilePath = _unitOfWork.CurrentFilePath;
 
-        _pipe = _pipeViewModel.Pipe;
+        EffectsManager = new DefaultEffectsManager();
+
+        Camera = new HelixToolkit.Wpf.SharpDX.OrthographicCamera()
+        {
+            LookDirection = new Vector3D(0, -10, -10),
+            Position = new Point3D(0, 10, 10),
+            UpDirection = new Vector3D(0, 1, 0),
+            FarPlaneDistance = 50000,
+            NearPlaneDistance = 0.5f
+        };
+
         BendingDatas.CollectionChanged += BendingDatas_CollectionChanged;
 
         foreach (var item in _unitOfWork.BendingDatas)
@@ -401,8 +420,9 @@ public partial class ProgramViewModel : ViewModelBase
         float pipeDiameter = _adjustmentService.FirstLevelAdjustment is null ? 50f : _adjustmentService.FirstLevelAdjustment.PipeDiameter;
         pipeDiameter = BendingDatas.Count > 0 ? pipeDiameter : 5;
 
-        _pipeViewModel
-            .UpdatePipeBend(WireBuilder.BuildWirePath(_unitOfWork.BendingDatas, pipeDiameter), pipeDiameter);
+        Pipe = PipeGenerator.GeneratePipeBend(
+            WireBuilder.BuildWirePath(_unitOfWork.BendingDatas, pipeDiameter),
+            pipeDiameter);
     }
 
     private void CastToModel()

@@ -127,7 +127,6 @@ public partial class App : Application
                 services.AddTransient<ProgramViewModel>();
                 services.AddTransient<VisualizationView>();
                 services.AddTransient<VisualizationViewModel>();
-                services.AddTransient<PipeViewModel>();
                 services.AddTransient<IMachineLoader, MachineLoader>();
                 services.AddSingleton<IBendingDataUnitOfWork, BendingDataUnitOfWork>();
 #if DEBUG

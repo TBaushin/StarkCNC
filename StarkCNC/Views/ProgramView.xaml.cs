@@ -1,4 +1,5 @@
-﻿using StarkCNC.ViewModels;
+﻿using HelixToolkit.Wpf.SharpDX;
+using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -20,21 +21,22 @@ public partial class ProgramView : Page
         Loaded += async (_, _) => await ViewModel.InitializeAsync().ConfigureAwait(true);
 
         InitializeComponent();
-
-        BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
-        BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
-
-        BendingView.Children.Add(ViewModel.Pipe);
     }
 
     private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        BendingView.CameraController.Zoom(-0.1); // Не знаю, но отрицательное число приближает, а положительное отодвигает
+        if (BendingView.Camera is OrthographicCamera camera)
+        {
+            camera.Width *= 0.8;
+        }
     }
 
     private void ZoomOut_Click(object sender, System.Windows.RoutedEventArgs e)
     {
-        BendingView.CameraController.Zoom(0.1);
+        if (BendingView.Camera is OrthographicCamera camera)
+        {
+            camera.Width *= 1.8;
+        }
     }
 
     private void Input_TextChanged(object sender, System.Windows.RoutedEventArgs e)

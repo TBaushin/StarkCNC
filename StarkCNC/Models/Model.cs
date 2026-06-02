@@ -1,7 +1,11 @@
-﻿using HelixToolkit.Wpf;
+﻿using HelixToolkit.Maths;
+using HelixToolkit.SharpDX;
+using HelixToolkit.SharpDX.Assimp;
+using HelixToolkit.SharpDX.Model;
+using HelixToolkit.SharpDX.Model.Scene;
+using HelixToolkit.Wpf.SharpDX;
 using Microsoft.Extensions.Configuration;
 using StarkCNC.Utilities;
-using System.Windows.Media;
 using System.Windows.Media.Media3D;
 
 namespace StarkCNC.Models;
@@ -12,6 +16,7 @@ namespace StarkCNC.Models;
 public class Model
 {
     private readonly IConfiguration _configuration;
+    private bool _renderEnvironmentMap;
     private readonly double _defaultAroundTransformAngle;
     private double _currentAroundTransformAngle;
 
@@ -25,19 +30,34 @@ public class Model
 
     public Vector3D Axis { get; private set; }
 
-    public Model3DGroup? Figure { get; private set; }
+    public HelixToolkitScene? Figure { get; private set; }
 
-    public Model(IConfiguration configuration, string name, Model? aroundTransform = null, double defaultAroundTransformAngle = 0)
+    public Model(
+        IConfiguration configuration,
+        string name,
+        IEffectsManager effectsManager,
+        bool renderEnvironmentMap,
+        Model? aroundTransform = null,
+        double defaultAroundTransformAngle = 0)
     {
         _configuration = configuration;
         _defaultAroundTransformAngle = defaultAroundTransformAngle;
+        _renderEnvironmentMap = renderEnvironmentMap;
         Name = name;
         AroundTransform = aroundTransform;
 
         var path = _configuration.GetValue<string>($"Settings:Models:{Name}:Path") ?? string.Empty;
-        Figure = new ModelImporter().Load(path);
-        SetMaterials();
-        SetDefault();
+        using var loader = new Importer();
+        Figure = loader.Load(path);
+        
+        if (Figure is not null)
+        {
+            Figure.Root.Attach(effectsManager);
+            Figure.Root.UpdateAllTransformMatrix();
+
+            SetMaterials();
+            SetDefault();
+        }
     }
 
     public void SetDefault()
@@ -74,10 +94,15 @@ public class Model
             .CalculateRotation(Coordinates.RotationX, Coordinates.RotationY, Coordinates.RotationZ, Axis, aroundTransformAngle.Value);
 
         if (AroundTransform is not null && AroundTransform.Figure is not null)
-            transformBuilder.SetObjectTransformAround(AroundTransform.Figure.Transform);
+        {
+            AroundTransform.Figure.Root.UpdateAllTransformMatrix();
 
-        if (Figure is not null)
-            Figure.Transform = transformBuilder.Build();
+            transformBuilder.SetObjectTransformAround(
+                TransformGroupBuilder.ToWpfTransform(AroundTransform.Figure.Root.Items[0].TotalModelMatrix));
+        }
+
+        Figure.Root.Items[0].ModelMatrix = transformBuilder.Build().ToMatrix();
+        Figure.Root.UpdateAllTransformMatrix();
 
         foreach (var item in Children)
         {
@@ -87,19 +112,36 @@ public class Model
 
     private void SetMaterials()
     {
-        if (Figure is null)
+        if (Figure is null || Figure.Root is null)
             return;
 
-        var geometry = Figure.Children[0] as GeometryModel3D;
-        if (geometry is null)
-            return;
+        foreach (var node in Figure.Root.Traverse())
+        {
+            if (node is MaterialGeometryNode mgn)
+            {
+                mgn.Material = new PhongMaterialCore()
+                {
+                    AmbientColor = Color4.Black,
+                    DiffuseColor = new Color4(0.5f, 0.5f, 0.5f, 1f),
+                    EmissiveColor = Color4.Black,
+                    SpecularColor = new Color4(0.5f, 0.5f, 0.5f, 1f),
+                    SpecularShininess = 0f,
+                    RenderEnvironmentMap = _renderEnvironmentMap
+                };
+            }
 
-        var materialGroup = new MaterialGroup();
-        materialGroup.Children.Add(new EmissiveMaterial(new SolidColorBrush(Colors.White)));
-        materialGroup.Children.Add(new DiffuseMaterial(new SolidColorBrush(Colors.Gray)));
-        materialGroup.Children.Add(new SpecularMaterial(new SolidColorBrush(Colors.Blue), 200));
-
-        geometry.Material = materialGroup;
-        geometry.BackMaterial = materialGroup;
+            if (node is MeshNode mn)
+            {
+                mn.Material = new PhongMaterialCore()
+                {
+                    AmbientColor = Color4.Black,
+                    DiffuseColor = new Color4(0.5f, 0.5f, 0.5f, 1f),
+                    EmissiveColor = Color4.Black,
+                    SpecularColor = new Color4(0.5f, 0.5f, 0.5f, 1f),
+                    SpecularShininess = 0f,
+                    RenderEnvironmentMap = _renderEnvironmentMap
+                };
+            }
+        }
     }
 }

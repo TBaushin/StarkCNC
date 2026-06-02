@@ -1,4 +1,6 @@
-﻿using StarkCNC.Core.Models;
+﻿using HelixToolkit.SharpDX;
+using HelixToolkit.Wpf.SharpDX;
+using StarkCNC.Core.Models;
 using StarkCNC.Models;
 using System.Windows.Media.Media3D;
 
@@ -6,7 +8,7 @@ namespace StarkCNC.Services;
 
 public interface IMachineLoader
 {
-    Model3DGroup Group { get; }
+    SceneNodeGroupModel3D Group { get; }
 
     ModelVisual3D Pipe { get; }
 
@@ -18,6 +20,8 @@ public interface IMachineLoader
     Model Roller { get; }
 
     void SetForAllModelsDefaultPositions();
+
+    public void Load(IEffectsManager effectsManager, bool renderEnvironmentMap);
 
     static Dictionary<string, double> GetDefault()
     {
