@@ -12,7 +12,7 @@ using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.Database;
 using StarkCNC.Database.Seeders;
-#if! DEBUG
+#if !DEBUG
 using StarkCNC.Exceptions;
 #endif
 using StarkCNC.MachineCommunication.Services;
@@ -60,7 +60,7 @@ public partial class App : Application
         ViewLocator.Initialize(_host.Services);
         ConfigureRoutes(_host.Services.GetRequiredService<IRouter>());
 
-#if DEBUG
+#if !DEBUG
         GlobalExceptionHandler.StartHandling();
 #endif
         var isAuthorized = await RunAuthorization(_host.Services.GetRequiredService<IUserService>()).ConfigureAwait(true);
