@@ -14,5 +14,5 @@ public interface IStatusService : INotifyPropertyChanged
 
     new event PropertyChangedEventHandler? PropertyChanged;
 
-    new event NotifyCollectionChangedEventHandler? NotifyCollectionChanged;
+    event NotifyCollectionChangedEventHandler? NotifyCollectionChanged;
 }

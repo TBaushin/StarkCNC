@@ -45,17 +45,23 @@ public class MachineLoader : IMachineLoader
         Console.Children.Add(Bend);
         Console.Children.Add(Press);
 
-        Group.AddNode(Carriage.Figure.Root);
-        Group.AddNode(Console.Figure.Root);
-        Group.AddNode(Bend.Figure.Root);
-        Group.AddNode(Press.Figure.Root);
-        Group.AddNode(Roller.Figure.Root);
-        Group.AddNode(Clamp.Figure.Root);
+        AddNode(Carriage);
+        AddNode(Console);
+        AddNode(Bend);
+        AddNode(Press);
+        AddNode(Roller);
+        AddNode(Clamp);
     }
 
     public void SetForAllModelsDefaultPositions()
     {
         Carriage.SetDefault();
         Console.SetDefault();
+    }
+
+    private void AddNode(Model model)
+    {
+        if (model.Figure is not null)
+            Group.AddNode(model.Figure.Root);
     }
 }

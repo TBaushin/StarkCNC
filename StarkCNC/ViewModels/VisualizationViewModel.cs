@@ -64,7 +64,7 @@ public partial class VisualizationViewModel : ViewModelBase
         };
 
         _loader.Load(EffectsManager, RenderEnvironmentMap);
-        if (_loader.Carriage.Figure.Root.TryGetCentroid(out var centroid))
+        if (_loader.Carriage.Figure is not null && _loader.Carriage.Figure.Root.TryGetCentroid(out var centroid))
             ModelCentroid = centroid.ToPoint3D();
 
         GroupModel = _loader.Group;

@@ -10,7 +10,7 @@ public class Router : IRouter, IRouteBuilder
     private readonly Dictionary<string, Route> _routes = new(StringComparer.OrdinalIgnoreCase);
     private readonly Stack<KeyValuePair<Route, object[]>> _history = new Stack<KeyValuePair<Route, object[]>>();
 
-    private Frame _frame;
+    private Frame? _frame;
     private Route? _currentRoute;
     private object[] _currentRouteParams;
 
@@ -57,6 +57,9 @@ public class Router : IRouter, IRouteBuilder
 
     public object? Navigate(string path, params object[] parameters)
     {
+        if (_frame is null)
+            return null;
+
         if (_currentRoute is not null && string.Equals(_currentRoute.Path, path, StringComparison.OrdinalIgnoreCase))
             return _frame.Content;
 
@@ -69,9 +72,7 @@ public class Router : IRouter, IRouteBuilder
             return null;
 
         if (_currentRoute is not null)
-        {
             _history.Push(new KeyValuePair<Route, object[]>(_currentRoute, _currentRouteParams));
-        }
 
         _currentRoute = route;
         _currentRouteParams = parameters;
@@ -86,6 +87,9 @@ public class Router : IRouter, IRouteBuilder
 
     public object? GoBack()
     {
+        if (_frame is null)
+            return null;
+
         if (!CanGoBack)
             return null;
 
@@ -165,6 +169,9 @@ public class Router : IRouter, IRouteBuilder
 
     private void ClearMemory()
     {
+        if (_frame is null)
+            return;
+
         var page = _frame.Content as Page;
         if (page is null)
             return;

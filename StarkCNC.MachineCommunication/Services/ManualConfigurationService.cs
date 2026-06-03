@@ -20,7 +20,7 @@ public class ManualConfigurationService : IManualConfigurationService
     private string _requestString;
     private readonly OpcUaClient _client;
 
-    private DispatcherTimer _timer;
+    private DispatcherTimer? _timer;
 
     public bool Connected => _client.Connected && !string.IsNullOrEmpty(_requestString);
 
@@ -168,9 +168,7 @@ public class ManualConfigurationService : IManualConfigurationService
     public bool Subscribe<T>(string to, Action<T> setValue)
     {
         if (_client is null || !_client.Connected || string.IsNullOrEmpty(_requestString))
-        {
             return false;
-        }
 
         if (string.IsNullOrEmpty(to))
             return false;
@@ -219,29 +217,29 @@ public class ManualConfigurationService : IManualConfigurationService
 
     private void RunUpdateTask()
     {
-        if (_timer is null)
-        {
-            _timer = new DispatcherTimer(
-                TimeSpan.FromSeconds(5),
-                DispatcherPriority.Background,
-                async (_, _) =>
+        if (_timer is not null)
+            return;
+
+        _timer = new DispatcherTimer(
+            TimeSpan.FromSeconds(5),
+            DispatcherPriority.Background,
+            async (_, _) =>
+            {
+                await Task.Run(async () =>
                 {
-                    await Task.Run(async () =>
+                    if (_client.Connected)
                     {
-                        if (_client.Connected)
-                        {
-                            if (_statusService.CurrentStatus == null || _statusService.CurrentStatus.Text == Localization.Language.ConnectionErrorMessage)
-                                _statusService.CurrentStatus = null;
-                        }
-                        else
-                        {
-                            await TryConnectAsync().ConfigureAwait(false);
-                        }
-                    }).ConfigureAwait(false);
-                },
-                Application.Current.Dispatcher);
-            _timer.Start();
-        }
+                        if (_statusService.CurrentStatus == null || _statusService.CurrentStatus.Text == Localization.Language.ConnectionErrorMessage)
+                            _statusService.CurrentStatus = null;
+                    }
+                    else
+                    {
+                        await TryConnectAsync().ConfigureAwait(false);
+                    }
+                }).ConfigureAwait(false);
+            },
+            Application.Current.Dispatcher);
+        _timer.Start();
     }
 
     private static string? FindControllerName(ISession session, NodeId nodeId)
