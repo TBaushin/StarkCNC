@@ -24,7 +24,7 @@ public class Model
 
     public Model? AroundTransform { get; private set; }
 
-    public ICollection<Model> Children { get; set; } = new List<Model>();
+    public ICollection<Model> Children { get; } = new List<Model>();
 
     public Coordinate Coordinates { get; } = new Coordinate();
 
@@ -101,8 +101,11 @@ public class Model
                 TransformGroupBuilder.ToWpfTransform(AroundTransform.Figure.Root.Items[0].TotalModelMatrix));
         }
 
-        Figure.Root.Items[0].ModelMatrix = transformBuilder.Build().ToMatrix();
-        Figure.Root.UpdateAllTransformMatrix();
+        if (Figure is not null)
+        {
+            Figure.Root.Items[0].ModelMatrix = transformBuilder.Build().ToMatrix();
+            Figure.Root.UpdateAllTransformMatrix();
+        }
 
         foreach (var item in Children)
         {

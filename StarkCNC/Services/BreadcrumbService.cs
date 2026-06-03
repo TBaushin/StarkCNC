@@ -14,7 +14,7 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
     private readonly List<string> _breadcrumbsTitles = new();
 
     [ObservableProperty]
-    private object _visibleObject;
+    private object? _visibleObject;
 
     public BreadcrumbService(IRouter router)
     {
@@ -42,10 +42,10 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
                 _breadcrumbsTitles.Add(route.Title);
         }
 
-        GenerateVisibleObject();
+        VisibleObject = GenerateVisibleObject();
     }
 
-    private void GenerateVisibleObject()
+    private object GenerateVisibleObject()
     {
         var sp = new StackPanel { Orientation = Orientation.Horizontal };
 
@@ -91,6 +91,6 @@ public partial class BreadcrumbService : ObservableObject, IBreadcrumbService
                     });
         }
 
-        VisibleObject = sp;
+        return sp;
     }
 }
