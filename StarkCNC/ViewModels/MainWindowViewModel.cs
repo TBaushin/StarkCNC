@@ -13,7 +13,7 @@ using System.Windows.Threading;
 
 namespace StarkCNC.ViewModels;
 
-public partial class MainWindowViewModel : ViewModelBase
+public partial class MainWindowViewModel : ViewModelBase, IDisposable
 {
     private IManualConfigurationService _configurationService;
 
@@ -216,12 +216,12 @@ public partial class MainWindowViewModel : ViewModelBase
             var leveledAdjustmentViewData = new ViewData(
                 $"{adjustment.Name} Этаж {adjustment.InstalledLevel}",
                 null,
-                new RelayCommand(() => _router.Navigate("/adjustment/edit", adjustment.Id)));
+                new RelayCommand(() => _router.Navigate("/adjustment/list/edit", adjustment.Id)));
 
             var adjustmentCoordinateSettingsViewData = new ViewData(
                 "Настройка координат",
                 null,
-                new RelayCommand(() => _router.Navigate("/adjustment/edit/coordinates", adjustment.Id)));
+                new RelayCommand(() => _router.Navigate("/adjustment/list/edit/coordinates", adjustment.Id)));
 
             leveledAdjustmentViewData.Items.Add(adjustmentCoordinateSettingsViewData);
 
