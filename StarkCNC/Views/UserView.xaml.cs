@@ -29,29 +29,8 @@ public partial class UserView : Page
 
     private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == nameof(ViewModel.SelectedUser))
-        {
-            var pbs = VisualFinder.FindVisualChildren<PasswordTextBox>(MainGrid);
-            foreach (var item in pbs)
-            {
-                if (item is null)
-                    continue;
-
-                item.Clear();
-            }
-        }
-
-        if (e.PropertyName == nameof(ViewModel.RightBlockShowingStatus))
-        {
-            var pbs = VisualFinder.FindVisualChildren<PasswordTextBox>(MainGrid);
-            foreach (var item in pbs)
-            {
-                if (item is null)
-                    continue;
-
-                item.Clear();
-            }
-        }
+        if (e.PropertyName == nameof(ViewModel.SelectedUser) || e.PropertyName == nameof(ViewModel.RightBlockShowingStatus))
+            ClearPasswordBox();
     }
 
     private async void EditUserGrid_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -76,5 +55,17 @@ public partial class UserView : Page
         //    return;
 
         //await ViewModel.AuthorizationCommand.ExecuteAsync(null).ConfigureAwait(true);
+    }
+
+    private void ClearPasswordBox()
+    {
+        var pbs = VisualFinder.FindVisualChildren<PasswordTextBox>(MainGrid);
+        foreach (var item in pbs)
+        {
+            if (item is null)
+                continue;
+
+            item.Clear();
+        }
     }
 }

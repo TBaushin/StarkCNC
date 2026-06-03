@@ -1,4 +1,5 @@
-﻿using StarkCNC.Core.Models;
+﻿using StarkCNC.Controls;
+using StarkCNC.Core.Models;
 using StarkCNC.Utilities;
 using StarkCNC.ViewModels;
 using System.Globalization;
@@ -168,12 +169,15 @@ public partial class AdjustmentView : Page
     private void ClearFloorControlsSelectedAdjustment(AdjustmentParameters adjustment)
     {
         var adjustmentName = GenerateAdjustmentName(adjustment);
-        if (FirstLevel.AdjustmentName is not null && FirstLevel.AdjustmentName == adjustmentName)
-            FirstLevel.AdjustmentName = string.Empty;
-        if (SecondLevel.AdjustmentName is not null && SecondLevel.AdjustmentName == adjustmentName)
-            SecondLevel.AdjustmentName = string.Empty;
-        if (ThirdLevel.AdjustmentName is not null && ThirdLevel.AdjustmentName == adjustmentName)
-            ThirdLevel.AdjustmentName = string.Empty;
+        ClearFloorControl(FirstLevel, adjustmentName);
+        ClearFloorControl(SecondLevel, adjustmentName);
+        ClearFloorControl(ThirdLevel, adjustmentName);
+    }
+
+    private static void ClearFloorControl(FloorControl control, string adjustmentName)
+    {
+        if (control.AdjustmentName is not null && control.AdjustmentName == adjustmentName)
+            control.AdjustmentName = string.Empty;
     }
 
     private void CollapseButtonsAndClearSelectedItem(object sender)
