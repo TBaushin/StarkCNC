@@ -156,7 +156,7 @@ public class AdjustmentRepository : IAdjustmentRepository
             .ConfigureAwait(false);
     }
 
-    private async Task UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local, AppJsonContext context)
+    private static async Task UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local, AppJsonContext context)
     {
         context.Entry(local.Bend).CurrentValues.SetValues(item.Bend);
         context.Entry(local.BendRoller).CurrentValues.SetValues(item.BendRoller);
