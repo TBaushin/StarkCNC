@@ -97,37 +97,48 @@
                     </Rectangle>
                 </Border>
             </Grid>
-            <Button
-                x:Name="SupportButton"
-                MinHeight="50"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
+            <Grid
                 Margin="0,5,0,5"
-                Content="Поддержка вверх"
-                Command="{Binding Support.RunCommand}"/> <!--TODO: Перевести-->
-            <Button
-                x:Name="DornLubricantButton"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
+                ColumnDefinitions="3*,*">
+                <Button
+                    x:Name="SupportButton"
+                    Grid.Column="0"
+                    MinHeight="50"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Content="Поддержка вверх"
+                    Command="{Binding Support.RunCommand}"/> <!--TODO: Перевести-->
+                <Border Grid.Column="1" Margin="5" CornerRadius="5">
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{Binding SecondHydraulics.StatusColor}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Border>
+            </Grid>
+            <Grid
                 Margin="0,5,0,5"
-                Command="{Binding DornLubricant.RunCommand}">
-                <StackPanel>
-                    <Label HorizontalAlignment="Center" Content="Смазку дорна"/> <!--TODO: Перевести-->
-                    <Label HorizontalAlignment="Center" Content="{x:Static lang:Language.TurnOn}"/>
-                </StackPanel>
-            </Button>
-            <Button
-                x:Name="BendAndSqueezeButton"
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
-                Margin="0,5,0,5"
-                PreviewMouseDown="BendAndSqueezeButton_MouseDown"
-                PreviewMouseUp="BendAndSqueezeButton_MouseUp">
-                <StackPanel>
-                    <Label HorizontalAlignment="Center" Content="Гиб вперёд"/> <!--TODO: Перевести-->
-                    <Label HorizontalAlignment="Center" Content="Дожим вперёд"/> <!--TODO: Перевести-->
-                </StackPanel>
-            </Button>
+                ColumnDefinitions="3*,*">
+                <Button
+                    x:Name="DornLubricantButton"
+                    Grid.Column="0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Command="{Binding DornLubricant.RunCommand}">
+                    <StackPanel>
+                        <Label HorizontalAlignment="Center" Content="Смазку дорна"/>
+                        <!--TODO: Перевести-->
+                        <Label HorizontalAlignment="Center" Content="{x:Static lang:Language.TurnOn}"/>
+                    </StackPanel>
+                </Button>
+                <Border Grid.Column="1" Margin="5" CornerRadius="5">
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <SolidColorBrush Color="{Binding SecondHydraulics.StatusColor}"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Border>
+            </Grid>
             <!--TODO: Добавить кнопки лифта, у которых Grid.RowSpan="2"-->
         </StackPanel>
         <Separator
@@ -196,6 +207,16 @@
                     IndicatorColor="{Binding Bend.RearPosition}"
                     Command="{Binding Bend.BackwardStartCommand}"
                     CommandCancel="{Binding Bend.BackwardCancelCommand}"/> <!--TODO: Перевести-->
+                <Button
+                    x:Name="EmptyButton"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    Visibility="Hidden">
+                    <StackPanel>
+                        <Label HorizontalAlignment="Center" Content="Гиб вперёд"/> <!--TODO: Перевести-->
+                        <Label HorizontalAlignment="Center" Content="Дожим вперёд"/> <!--TODO: Перевести-->
+                    </StackPanel>
+                </Button>
                 <controls:ButtonWithIndicator
                     ButtonContent="Цанга разжим"
                     IndicatorColor="{Binding Collet.RearPosition}"
@@ -274,6 +295,17 @@
                     IndicatorColor="{Binding Bend.FrontPosition}"
                     Command="{Binding Bend.ForwardStartCommand}"
                     CommandCancel="{Binding Bend.ForwardCancelCommand}"/> <!--TODO: Перевести-->
+                <Button
+                    x:Name="BendAndSqueezeButton"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
+                    PreviewMouseDown="BendAndSqueezeButton_MouseDown"
+                    PreviewMouseUp="BendAndSqueezeButton_MouseUp">
+                    <StackPanel>
+                        <Label HorizontalAlignment="Center" Content="Гиб вперёд"/> <!--TODO: Перевести-->
+                        <Label HorizontalAlignment="Center" Content="Дожим вперёд"/> <!--TODO: Перевести-->
+                    </StackPanel>
+                </Button>
                 <controls:ButtonWithIndicator
                     ButtonContent="Цанга зажим"
                     IndicatorColor="{Binding Collet.FrontPosition}"
@@ -307,8 +339,9 @@
             HorizontalAlignment="Center">
             <Label
                 Margin="5,5,5,0"
+                VerticalAlignment="Center"
                 Content="Угол гиба, градусы"/> <!--TODO: Перевести-->
-            <TextBox Margin="5,0,5,0" Text="0.0" IsReadOnly="True"/>
+            <TextBox Margin="5,0,5,0" VerticalAlignment="Center" Text="0.0" IsReadOnly="True"/>
             <Button Margin="5,0,5,0" Content="Обнуление"/> <!--TODO: Перевести-->
         </StackPanel>
         
@@ -381,7 +414,8 @@
             Grid.Column="4"
             Grid.Row="1"
             Margin="0,5,0,5"
-            HorizontalAlignment="Center">
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
             <Button
                 Visibility="{Binding HasErrors, Converter={StaticResource BoolToVisibilityConverter}}"
                 Command="{Binding ClearActuatorErrorsCommand}"
