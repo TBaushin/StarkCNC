@@ -179,6 +179,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         _configurationService.Subscribe<float>(ControllerRequestStrings.ROTATION_FACTICAL_POSITION, value => FacticalRotationAngle = value);
         _configurationService.Subscribe<float>(ControllerRequestStrings.BEND_FACTICAL_POSITION, value => FacticalBendingAngle =  value);
         _configurationService.Subscribe<float>(ControllerRequestStrings.CONSOLE_FACTICAL_POSITION, value => FacticalConsole = value);
+        _configurationService.Subscribe<float>(ControllerRequestStrings.SUPPLY_VALUE, value => CurrentTaskSupply = value);
+        _configurationService.Subscribe<float>(ControllerRequestStrings.ROTATION_VALUE, value => CurrentTaskRotationAngle = value);
+        _configurationService.Subscribe<float>(ControllerRequestStrings.BEND_VALUE, value => CurrentTaskBendingAngle = value);
     }
 
     private void Unsubscribe()
@@ -191,6 +194,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         _configurationService.Unsubscribe(ControllerRequestStrings.ROTATION_FACTICAL_POSITION);
         _configurationService.Unsubscribe(ControllerRequestStrings.BEND_FACTICAL_POSITION);
         _configurationService.Unsubscribe(ControllerRequestStrings.CONSOLE_FACTICAL_POSITION);
+        _configurationService.Unsubscribe(ControllerRequestStrings.SUPPLY_VALUE);
+        _configurationService.Unsubscribe(ControllerRequestStrings.ROTATION_VALUE);
+        _configurationService.Unsubscribe(ControllerRequestStrings.BEND_VALUE);
     }
 
     private void SetSendData(bool value, bool isUpdateTask = false)
