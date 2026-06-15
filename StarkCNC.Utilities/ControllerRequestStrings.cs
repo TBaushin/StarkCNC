@@ -140,9 +140,9 @@ public static class ControllerRequestStrings
     }
     public static readonly string SUPPLY_BACKWARD_SENSOR = GetValue("RequestStrings:Supply:BackwardSensor");
     public static readonly string SUPPLY_RESET_SENSOR = GetValue("RequestStrings:Supply:ResetSensor");
-    public static readonly string SUPPLY_ACCELERATION = GetValue("RequestString:Supply:Acceleration");
-    public static readonly string SUPPLY_BRAKING = GetValue("RequestString:Supply:Braking");
-    public static readonly string SUPPLY_JERK = GetValue("RequestString:Supply:Jerk");
+    public static readonly string SUPPLY_ACCELERATION = GetValue("RequestStrings:Supply:Acceleration");
+    public static readonly string SUPPLY_BRAKING = GetValue("RequestStrings:Supply:Braking");
+    public static readonly string SUPPLY_JERK = GetValue("RequestStrings:Supply:Jerk");
 
     // œŒ¬Œ–Œ“
     public static readonly string ROTATION_OFFSET = GetValue("RequestStrings:Rotation:Offset");
@@ -177,9 +177,9 @@ public static class ControllerRequestStrings
     public static readonly string ROTATION_FACTICAL_POSITION = GetValue("RequestStrings:Rotation:Factical");
     public static readonly string ROTATION_RESET_SENSOR = GetValue("RequestStrings:Rotation:ResetSensor");
     public static readonly string ROTATION_BRAKING_OUTPUT_SIGNAL = GetValue("RequestStrings:Rotation:BrakingOutputSignal");
-    public static readonly string ROTATION_ACCELERATION = GetValue("RequestString:Rotation:Acceleration");
-    public static readonly string ROTATION_BRAKING = GetValue("RequestString:Rotation:Braking");
-    public static readonly string ROTATION_JERK = GetValue("RequestString:Rotation:Jerk");
+    public static readonly string ROTATION_ACCELERATION = GetValue("RequestStrings:Rotation:Acceleration");
+    public static readonly string ROTATION_BRAKING = GetValue("RequestStrings:Rotation:Braking");
+    public static readonly string ROTATION_JERK = GetValue("RequestStrings:Rotation:Jerk");
 
     //  ŒÕ—ŒÀ‹
     public static readonly string CONSOLE_FORWARD = GetValue("RequestStrings:Console:Forward");
@@ -327,9 +327,9 @@ public static class ControllerRequestStrings
     public static readonly string CONSOLE_FORWARD_SENSOR = GetValue("RequestStrings:Console:ForwardSensor");
     public static readonly string CONSOLE_BACKWARD_SENSOR = GetValue("RequestStrings:Console:BackwardSensor");
     public static readonly string CONSOLE_OUTLET_FOR_PIPE_INSTALLING = GetValue("RequestStrings:Console:OutletForPipeInstalling");
-    public static readonly string CONSOLE_ACCELERATION = GetValue("RequestString:Console:Acceleration");
-    public static readonly string CONSOLE_BRAKING = GetValue("RequestString:Console:Braking");
-    public static readonly string CONSOLE_JERK = GetValue("RequestString:Console:Jerk");
+    public static readonly string CONSOLE_ACCELERATION = GetValue("RequestStrings:Console:Acceleration");
+    public static readonly string CONSOLE_BRAKING = GetValue("RequestStrings:Console:Braking");
+    public static readonly string CONSOLE_JERK = GetValue("RequestStrings:Console:Jerk");
 
     // √»¡
     public static readonly string BEND_FORWARD = GetValue("RequestStrings:Bend:Forward");
@@ -392,8 +392,8 @@ public static class ControllerRequestStrings
     public static readonly string BEND_FORWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Bend:ForwardOutputSignal");
     public static readonly string BEND_BACKWARD_OUTPUT_SIGNAL = GetValue("RequestStrings:Bend:BackwardOutputSignal");
     public static readonly string BEND_ACCELERATION = GetValue("RequestString:Bend:Acceleration");
-    public static readonly string BEND_BRAKING = GetValue("RequestString:Bend:Braking");
-    public static readonly string BEND_JERK = GetValue("RequestString:Bend:Jerk");
+    public static readonly string BEND_BRAKING = GetValue("RequestStrings:Bend:Braking");
+    public static readonly string BEND_JERK = GetValue("RequestStrings:Bend:Jerk");
 
     // «¿∆»Ã
     public static readonly string CLAMP_FORWARD = GetValue("RequestStrings:Clamp:Forward");

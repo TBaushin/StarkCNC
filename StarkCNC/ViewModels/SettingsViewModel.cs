@@ -29,7 +29,7 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     bool _dornAutomatic;
 
     [ObservableProperty]
-    double _dornLeadWithdrawalBeforeBend;
+    float _dornLeadWithdrawalBeforeBend;
 
     [ObservableProperty]
     bool _dornLubricantTurnOn;
@@ -38,7 +38,7 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     bool _bendSynchronization;
 
     [ObservableProperty]
-    double _bendSynchronizationCoefficient;
+    float _bendSynchronizationCoefficient;
 
     [ObservableProperty]
     bool _bendAndSupplySynchronization;
@@ -50,7 +50,7 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     bool _consoleOutletForPipeInstalling;
 
     [ObservableProperty]
-    double _pipeOutletCoordinate;
+    float _pipeOutletCoordinate;
 
     [ObservableProperty]
     bool _multiLeveled;
@@ -59,7 +59,7 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     bool _withPunchingCylinder;
 
     [ObservableProperty]
-    double _distanceFromBendingToPunching;
+    float _distanceFromBendingToPunching;
 
     [ObservableProperty]
     bool _isElectricBendingDrive;
@@ -68,28 +68,28 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     bool _absoluteUnitCoordinate;
 
     [ObservableProperty]
-    double _supportFirstLiftBan;
+    float _supportFirstLiftBan;
 
     [ObservableProperty]
-    double _supportSecondLiftBan;
+    float _supportSecondLiftBan;
 
     [ObservableProperty]
-    double _supportThirdLiftBanRear;
+    float _supportThirdLiftBanRear;
 
     [ObservableProperty]
-    double _supportThirdLiftBanFront;
+    float _supportThirdLiftBanFront;
 
     [ObservableProperty]
-    double _supportFourthLiftBan;
+    float _supportFourthLiftBan;
 
     [ObservableProperty]
     bool _banPressWhenSupportIsLifted;
 
     [ObservableProperty]
-    double _squeezeWorkTime;
+    float _squeezeWorkTime;
 
     [ObservableProperty]
-    double _supplyStartRollingSpeed;
+    float _supplyStartRollingSpeed;
 
     [ObservableProperty]
     bool _incompletePressMovement;
@@ -104,52 +104,52 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     bool _invertClampSensors;
 
     [ObservableProperty]
-    double _supplyCoefficient;
+    float _supplyCoefficient;
 
     [ObservableProperty]
-    double _rotationCoefficient;
+    float _rotationCoefficient;
 
     [ObservableProperty]
-    double _consoleCoefficient;
+    float _consoleCoefficient;
 
     [ObservableProperty]
-    double _bendCoefficient;
+    float _bendCoefficient;
 
     [ObservableProperty]
-    double _supplyAcceleration;
+    float _supplyAcceleration;
 
     [ObservableProperty]
-    double _rotationAcceleration;
+    float _rotationAcceleration;
 
     [ObservableProperty]
-    double _consoleAcceleration;
+    float _consoleAcceleration;
 
     [ObservableProperty]
-    double _bendAcceleration;
+    float _bendAcceleration;
 
     [ObservableProperty]
-    double _supplyBraking;
+    float _supplyBraking;
 
     [ObservableProperty]
-    double _rotationBraking;
+    float _rotationBraking;
 
     [ObservableProperty]
-    double _consoleBraking;
+    float _consoleBraking;
 
     [ObservableProperty]
-    double _bendBraking;
+    float _bendBraking;
 
     [ObservableProperty]
-    double _supplyJerk;
+    float _supplyJerk;
 
     [ObservableProperty]
-    double _rotationJerk;
+    float _rotationJerk;
 
     [ObservableProperty]
-    double _consoleJerk;
+    float _consoleJerk;
 
     [ObservableProperty]
-    double _bendJerk;
+    float _bendJerk;
 
     public SettingsViewModel(ISettingsRepository settingsRepository, IManualConfigurationService manualConfigurationService, IUserService userService)
     {
