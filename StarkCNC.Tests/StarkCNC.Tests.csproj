@@ -37,6 +37,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\StarkCNC.MachineCommunication\StarkCNC.MachineCommunication.csproj" />
     <ProjectReference Include="..\StarkCNC\StarkCNC.csproj" />
   </ItemGroup>
 

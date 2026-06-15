@@ -9,12 +9,14 @@ public interface ICommandControl
         ICommand command,
         object? parameter = null)
     {
-        if (command is null || !command.CanExecute(parameter))
+        if (command is null)
             return;
 
-        if (command is IAsyncRelayCommand asyncCommand)
+        if (command is IAsyncRelayCommand asyncCommand && command.CanExecute(parameter))
             await asyncCommand.ExecuteAsync(parameter).ConfigureAwait(true);
-        else
+        else if (command is RelayCommand relayCommand && relayCommand.CanExecute(parameter))
+            command.Execute(parameter);
+        else if (command.CanExecute(parameter))
             command.Execute(parameter);
     }
 }
