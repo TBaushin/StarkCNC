@@ -8,16 +8,19 @@ public class Bend : ICloneable
     public Guid Id { get; set; }
     public float ForwardPositionLimitation { get; set; }
     public float SpeedCoefficient { get; set; }
-    public float SlowdownSpeed { get; set; }
+    public float DeflectionDuringClampClamping { get; set; }
+    public float Deflection { get; set; }
 
     public Bend(
         float forwardPositionLimitation,
         float speedCoefficient,
-        float slowdownSpeed)
+        float deflectionDuringClampClamping,
+        float deflection)
     {
         ForwardPositionLimitation = forwardPositionLimitation;
         SpeedCoefficient = speedCoefficient;
-        SlowdownSpeed = slowdownSpeed;
+        DeflectionDuringClampClamping = deflectionDuringClampClamping;
+        Deflection = deflection;
     }
 
     public object Clone() => MemberwiseClone();
@@ -29,12 +32,14 @@ public class Bend : ICloneable
 
         return other.ForwardPositionLimitation == ForwardPositionLimitation &&
             other.SpeedCoefficient == SpeedCoefficient &&
-            other.SlowdownSpeed == SlowdownSpeed;
+            other.DeflectionDuringClampClamping == DeflectionDuringClampClamping &&
+            other.Deflection == Deflection;
     }
 
     public override int GetHashCode() =>
         HashCode.Combine(
             ForwardPositionLimitation,
             SpeedCoefficient,
-            SlowdownSpeed);
+            DeflectionDuringClampClamping,
+            Deflection);
 }

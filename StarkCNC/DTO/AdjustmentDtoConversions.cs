@@ -49,7 +49,8 @@ internal static class AdjustmentDtoConversions
         bendDto.Id = bend.Id;
         bendDto.ForwardPositionLimitation = bend.ForwardPositionLimitation;
         bendDto.SpeedCoefficient = bend.SpeedCoefficient;
-        bendDto.SlowdownSpeed = bend.SlowdownSpeed;
+        bendDto.DeflectionDuringClampClamping = bend.DeflectionDuringClampClamping;
+        bendDto.Deflection = bend.Deflection;
         return bendDto;
     }
 
@@ -117,7 +118,6 @@ internal static class AdjustmentDtoConversions
         consoleDto.SecondFloorIntermediatePosition = console.SecondFloorIntermediatePosition;
         consoleDto.ThirdFloorPosition = console.ThirdFloorPosition;
         consoleDto.PipeRotationDepartureDistance = console.PipeRotationDepartureDistance;
-        consoleDto.SpeedCoefficient = console.SpeedCoefficient;
         return consoleDto;
     }
 
@@ -185,7 +185,6 @@ internal static class AdjustmentDtoConversions
 
         rotationDto.Id = rotation.Id;
         rotationDto.OffsetAfterZeroSearch = rotation.OffsetAfterZeroSearch;
-        rotationDto.SpeedCoefficient = rotation.SpeedCoefficient;
         return rotationDto;
     }
 
@@ -218,7 +217,6 @@ internal static class AdjustmentDtoConversions
         supplyDto.PressZonePosition = supply.PressZonePosition;
         supplyDto.ForwardDangerZonePosition = supply.ForwardDangerZonePosition;
         supplyDto.ColletJawsDepth = supply.ColletJawsDepth;
-        supplyDto.SpeedCoefficient = supply.SpeedCoefficient;
         return supplyDto;
     }
 }

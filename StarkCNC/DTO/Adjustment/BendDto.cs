@@ -8,7 +8,8 @@ public partial class BendDto : ObservableObject, ICloneable
 {
     private string _forwardPositionLimitationRequestString = string.Empty;
     private string _speedCoefficientRequestString = string.Empty;
-    private string _slowdownSpeedRequestString = string.Empty;
+    private string _deflectionDuringClampClampingRequestString = string.Empty;
+    private string _deflectionRequestString = string.Empty;
 
     [ObservableProperty]
     private Guid _id;
@@ -20,22 +21,27 @@ public partial class BendDto : ObservableObject, ICloneable
     private float _speedCoefficient;
 
     [ObservableProperty]
-    private float _slowdownSpeed;
+    private float _deflectionDuringClampClamping;
+
+    [ObservableProperty]
+    private float _deflection;
 
     public BendDto(
         string forwardPositionLimitationRequestString,
         string speedCoefficientRequestString,
-        string slowdownSpeedRequestString)
+        string deflectionDuringClampClampingRequestString,
+        string deflectionRequestString)
     {
         _forwardPositionLimitationRequestString = forwardPositionLimitationRequestString;
         _speedCoefficientRequestString = speedCoefficientRequestString;
-        _slowdownSpeedRequestString = slowdownSpeedRequestString;
+        _deflectionDuringClampClampingRequestString = deflectionDuringClampClampingRequestString;
+        _deflectionRequestString = deflectionRequestString;
     }
 
     public object Clone() => MemberwiseClone();
 
     public Bend Parse(Guid? id) =>
-        new Bend(ForwardPositionLimitation, SpeedCoefficient, SlowdownSpeed) { Id = DtoParseHelper.GetId(Id, id) };
+        new Bend(ForwardPositionLimitation, SpeedCoefficient, DeflectionDuringClampClamping, Deflection) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {
@@ -46,7 +52,8 @@ public partial class BendDto : ObservableObject, ICloneable
             other.Id == Id &&
             other.ForwardPositionLimitation == ForwardPositionLimitation &&
             other.SpeedCoefficient == SpeedCoefficient &&
-            other.SlowdownSpeed == SlowdownSpeed;
+            other.DeflectionDuringClampClamping == DeflectionDuringClampClamping &&
+            other.Deflection == Deflection;
     }
 
     public override int GetHashCode() =>
@@ -56,8 +63,11 @@ public partial class BendDto : ObservableObject, ICloneable
             _forwardPositionLimitationRequestString,
             SpeedCoefficient,
             _speedCoefficientRequestString,
-            SlowdownSpeed,
-            _slowdownSpeedRequestString);
+            DeflectionDuringClampClamping,
+            _deflectionDuringClampClampingRequestString,
+            HashCode.Combine(
+                Deflection,
+                _deflectionRequestString));
 
     public static BendDto? CreateFromConfiguration(IConfigurationSection section)
     {
@@ -74,18 +84,24 @@ public partial class BendDto : ObservableObject, ICloneable
         var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
         var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
-        var slowdownSpeedSection = bendSection.GetSection("SlowdownSpeed");
-        var slowdownSpeedDefault = slowdownSpeedSection.GetSection("Default").Get<float>();
-        var slowndownSpeedRequestString = slowdownSpeedSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+        var deflectionDuringClampClampingSection = bendSection.GetSection("DeflectionDuringClampClamping");
+        var deflectionDuringClampClampingDefault = deflectionDuringClampClampingSection.GetSection("Default").Get<float>();
+        var deflectionDuringClampClampingRequestString = deflectionDuringClampClampingSection.GetSection("RequestString").Get<string>() ?? string.Empty;
+
+        var deflectionSection = bendSection.GetSection("Deflection");
+        var deflectionDefault = deflectionDuringClampClampingSection.GetSection("Default").Get<float>();
+        var deflectionRequestString = deflectionDuringClampClampingSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
         return new BendDto(
             forwardPositionLimitationRequestString,
             speedCoefficientRequestString,
-            slowndownSpeedRequestString)
+            deflectionDuringClampClampingRequestString,
+            deflectionRequestString)
         {
             ForwardPositionLimitation = forwardPositionLimitationDefault,
             SpeedCoefficient = speedCoefficientDefault,
-            SlowdownSpeed = slowdownSpeedDefault,
+            DeflectionDuringClampClamping = deflectionDuringClampClampingDefault,
+            Deflection = deflectionDefault
         };
     }
 }

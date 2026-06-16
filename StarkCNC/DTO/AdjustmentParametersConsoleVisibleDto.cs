@@ -9,6 +9,4 @@ public class AdjustmentParametersConsoleVisibleDto
     public double ThirdFloorPosition { get; set; }
 
     public double PipeRotationDepartureDistance { get; set; }
-
-    public double SpeedCoefficient { get; set; }
 }

@@ -9,7 +9,6 @@ public partial class SupplyDto : ObservableObject, ICloneable
     private string _pressZonePositionRequestString = string.Empty;
     private string _forwardDangerZonePositionRequestString = string.Empty;
     private string _colletJawsDepthRequestString = string.Empty;
-    private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
     private Guid _id;
@@ -23,25 +22,20 @@ public partial class SupplyDto : ObservableObject, ICloneable
     [ObservableProperty]
     private float _colletJawsDepth;
 
-    [ObservableProperty]
-    private float _speedCoefficient;
-
     public SupplyDto(
         string pressZonePositionRequestString,
         string forwardDangerZonePositionRequestString,
-        string colletJawsDepthRequestString,
-        string speedCoefficientRequestString)
+        string colletJawsDepthRequestString)
     {
         _pressZonePositionRequestString = pressZonePositionRequestString;
         _forwardDangerZonePositionRequestString = forwardDangerZonePositionRequestString;
         _colletJawsDepthRequestString = colletJawsDepthRequestString;
-        _speedCoefficientRequestString = speedCoefficientRequestString;
     }
 
     public object Clone() => MemberwiseClone();
 
     public Supply Parse(Guid? id) =>
-        new Supply(PressZonePosition, ForwardDangerZonePosition, ColletJawsDepth, SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
+        new Supply(PressZonePosition, ForwardDangerZonePosition, ColletJawsDepth) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {
@@ -52,8 +46,7 @@ public partial class SupplyDto : ObservableObject, ICloneable
             other.Id == Id &&
             other.PressZonePosition == PressZonePosition &&
             other.ForwardDangerZonePosition == ForwardDangerZonePosition &&
-            other.ColletJawsDepth == ColletJawsDepth &&
-            other.SpeedCoefficient == SpeedCoefficient;
+            other.ColletJawsDepth == ColletJawsDepth;
     }
 
     public override int GetHashCode() =>
@@ -64,10 +57,7 @@ public partial class SupplyDto : ObservableObject, ICloneable
             ForwardDangerZonePosition,
             _forwardDangerZonePositionRequestString,
             ColletJawsDepth,
-            _colletJawsDepthRequestString,
-            HashCode.Combine(
-                SpeedCoefficient,
-                _speedCoefficientRequestString));
+            _colletJawsDepthRequestString);
 
     public static SupplyDto? CreateFromConfiguration(IConfigurationSection section)
     {
@@ -95,13 +85,11 @@ public partial class SupplyDto : ObservableObject, ICloneable
         return new SupplyDto(
             pressZonePositionRequestString,
             forwardDangerZonePositionRequestString,
-            colletJawsDepthRequestString,
-            speedCoefficientRequestString)
+            colletJawsDepthRequestString)
         {
             PressZonePosition = pressZonePositionDefault,
             ForwardDangerZonePosition = forwardDangerZonePositionDefault,
             ColletJawsDepth = colletJawsDepthDefault,
-            SpeedCoefficient = speedCoefficientDefault
         };
     }
 }

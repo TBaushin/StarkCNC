@@ -11,22 +11,19 @@ public class Console : ICloneable
     public float SecondFloorIntermediatePosition { get; set; }
     public float ThirdFloorPosition { get; set; }
     public float PipeRotationDepartureDistance { get; set; }
-    public float SpeedCoefficient { get; set; }
 
     public Console(
         float bendPosition,
         float secondFloorPosition,
         float secondFloorIntermediatePosition,
         float thirdFloorPosition,
-        float pipeRotationDepartureDistance,
-        float speedCoefficient)
+        float pipeRotationDepartureDistance)
     {
         BendPosition = bendPosition;
         SecondFloorPosition = secondFloorPosition;
         SecondFloorIntermediatePosition = secondFloorIntermediatePosition;
         ThirdFloorPosition = thirdFloorPosition;
         PipeRotationDepartureDistance = pipeRotationDepartureDistance;
-        SpeedCoefficient = speedCoefficient;
     }
 
     public object Clone() => MemberwiseClone();
@@ -41,8 +38,7 @@ public class Console : ICloneable
             SecondFloorPosition == other.SecondFloorPosition &&
             SecondFloorIntermediatePosition == other.SecondFloorIntermediatePosition &&
             ThirdFloorPosition == other.ThirdFloorPosition &&
-            PipeRotationDepartureDistance == other.PipeRotationDepartureDistance &&
-            SpeedCoefficient == other.SpeedCoefficient;
+            PipeRotationDepartureDistance == other.PipeRotationDepartureDistance;
     }
 
     public override int GetHashCode() =>
@@ -51,6 +47,5 @@ public class Console : ICloneable
             SecondFloorPosition,
             SecondFloorIntermediatePosition,
             ThirdFloorPosition,
-            PipeRotationDepartureDistance,
-            SpeedCoefficient);
+            PipeRotationDepartureDistance);
 }

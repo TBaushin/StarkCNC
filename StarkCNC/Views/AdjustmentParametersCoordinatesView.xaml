@@ -63,12 +63,6 @@
                                 <Run Text="{Binding Supply.ColletJawsDepth}"/>
                             </TextBlock>
                         </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Коэффициент скорости:"/>
-                                <Run Text="{Binding Supply.SpeedCoefficient}"/>
-                            </TextBlock>
-                        </Label>
                     </StackPanel>
                     <Button
                         x:Name="SupplyEditButton"
@@ -133,12 +127,6 @@
                                 <Run Text="{Binding Console.PipeRotationDepartureDistance}"/>
                             </TextBlock>
                         </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Коэффициент скорости:"/>
-                                <Run Text="{Binding Console.SpeedCoefficient}"/>
-                            </TextBlock>
-                        </Label>
                     </StackPanel>
                     <Button
                         x:Name="ConsoleEditButton"
@@ -183,12 +171,6 @@
                             <TextBlock>
                                 <Run Text="Смещение поворота после поиска нуля:"/>
                                 <Run Text="{Binding Rotation.OffsetAfterZeroSearch}"/>
-                            </TextBlock>
-                        </Label>
-                        <Label>
-                            <TextBlock>
-                                <Run Text="Коэффициент скорости:"/>
-                                <Run Text="{Binding Rotation.SpeedCoefficient}"/>
                             </TextBlock>
                         </Label>
                     </StackPanel>
@@ -245,8 +227,14 @@
                         </Label>
                         <Label>
                             <TextBlock>
-                                <Run Text="Скорость замедления:"/>
-                                <Run Text="{Binding Bend.SlowdownSpeed}"/>
+                                <Run Text="Отвод гиба при перехвате прижима:"/>
+                                <Run Text="{Binding Bend.DeflectionDuringClampClamping}"/>
+                            </TextBlock>
+                        </Label>
+                        <Label>
+                            <TextBlock>
+                                <Run Text="Отвод гиба:"/>
+                                <Run Text="{Binding Bend.Deflection}"/>
                             </TextBlock>
                         </Label>
                     </StackPanel>

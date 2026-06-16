@@ -73,10 +73,13 @@ public class AdjustmentParametersConstructor
         var speedCoefficientSection = bendSection.GetSection("SpeedCoefficient");
         var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
 
-        var slowdownSpeedSection = bendSection.GetSection("SlowdownSpeed");
-        var slowdownSpeedDefault = slowdownSpeedSection.GetSection("Default").Get<float>();
+        var deflectionDuringClampClampingSection = bendSection.GetSection("DeflectionDuringClampClamping");
+        var deflectionDuringClampClampingDefault = deflectionDuringClampClampingSection.GetSection("Default").Get<float>();
 
-        return new Bend(forwardPositionLimitationDefault, speedCoefficientDefault, slowdownSpeedDefault);
+        var deflectionSection = bendSection.GetSection("Deflection");
+        var deflectionDefault = deflectionSection.GetSection("Default").Get<float>();
+
+        return new Bend(forwardPositionLimitationDefault, speedCoefficientDefault, deflectionDuringClampClampingDefault, deflectionDefault);
     }
 
     private static BendRoller BuildBendRollerFromConfiguration(IConfigurationSection section)
@@ -155,16 +158,12 @@ public class AdjustmentParametersConstructor
         var pipeRotationDepartureDistanceSection = consoleSection.GetSection("PipeRotationDepartureDistance");
         var pipeRotationDepartureDistanceDefault = pipeRotationDepartureDistanceSection.GetSection("Default").Get<float>();
 
-        var speedCoefficientSection = consoleSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
-
         return new StarkCNC.Core.Models.Adjustment.Console(
             bendPositionDefault,
             secondFloorPositionDefault,
             secondFloorIntermediatePositionDefault,
             thirdFloorPositionDefault,
-            pipeRotationDepartureDistanceDefault,
-            speedCoefficientDefault);
+            pipeRotationDepartureDistanceDefault);
     }
 
     private static Dorn BuildDornFromConfiguration(IConfigurationSection section)
@@ -243,10 +242,7 @@ public class AdjustmentParametersConstructor
         var offsetAfterZeroSearchSection = rotationSection.GetSection("OffsetAfterZeroSearch");
         var offsetAfterZeroSearchDefault = offsetAfterZeroSearchSection.GetSection("Default").Get<float>();
 
-        var speedCoefficientSection = rotationSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
-
-        return new Rotation(offsetAfterZeroSearchDefault, speedCoefficientDefault);
+        return new Rotation(offsetAfterZeroSearchDefault);
     }
 
     private static Squeeze BuildSqueezeFromConfiguration(IConfigurationSection section)
@@ -278,14 +274,10 @@ public class AdjustmentParametersConstructor
         var colletJawsDepthSection = supplySection.GetSection("ColletJawsDepth");
         var colletJawsDepthDefault = colletJawsDepthSection.GetSection("Default").Get<float>();
 
-        var speedCoefficientSection = supplySection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
-
         return new Supply(
             pressZonePositionDefault,
             forwardDangerZonePositionDefault,
-            colletJawsDepthDefault,
-            speedCoefficientDefault);
+            colletJawsDepthDefault);
     }
 
     //private AdjustmentParameters BuildFromSettings(string name, AdjustmentType type, double pipeDiameter, double radius)

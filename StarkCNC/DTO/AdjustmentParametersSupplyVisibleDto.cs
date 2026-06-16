@@ -7,6 +7,4 @@ public class AdjustmentParametersSupplyVisibleDto
     public double ForwardDangerZonePosition { get; set; }
 
     public double ColletJawsDepth { get; set; }
-
-    public double SpeedCoefficient { get; set; }
 }

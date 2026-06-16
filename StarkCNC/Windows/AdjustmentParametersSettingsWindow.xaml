@@ -226,7 +226,7 @@
             Visibility="Collapsed">
             <Grid
                 ColumnDefinitions="*,0.6*"
-                RowDefinitions="*,*,*">
+                RowDefinitions="*,*,*,*">
                 <controls:LabeledTextBoxControl
                     x:Name="BendForwardPosition"
                     Grid.Column="0"
@@ -264,11 +264,20 @@
                     Grid.Column="0"
                     Grid.Row="2"
                     Margin="0,0,0,16"
-                    LabelText="Коэффициент замедления"
+                    LabelText="Отвод гиба при перехвате прижима"
                     IsNumericOnly="True"
                     NeedCallNumberInput="True"
                     Direction="LeftToRigth"
-                    Text="{Binding Adjustment.Bend.SlowdownSpeed, Mode=TwoWay, StringFormat=N2}"/>
+                    Text="{Binding Adjustment.Bend.DeflectionDuringClampClamping, Mode=TwoWay, StringFormat=N2}"/>
+                <controls:LabeledTextBoxControl
+                    Grid.Column="0"
+                    Grid.Row="3"
+                    Margin="0,0,0,16"
+                    LabelText="Отвод гиба"
+                    IsNumericOnly="True"
+                    NeedCallNumberInput="True"
+                    Direction="LeftToRigth"
+                    Text="{Binding Adjustment.Bend.Deflection, Mode=TwoWay, StringFormat=N2}"/>
             </Grid>
         </StackPanel>
         <StackPanel

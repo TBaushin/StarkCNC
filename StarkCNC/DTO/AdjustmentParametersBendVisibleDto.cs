@@ -6,5 +6,7 @@ public class AdjustmentParametersBendVisibleDto
 
     public double SpeedCoefficient { get; set; }
 
-    public double SlowdownSpeed { get; set; }
+    public float DeflectionDuringClampClamping { get; set; }
+
+    public float Deflection { get; set; }
 }

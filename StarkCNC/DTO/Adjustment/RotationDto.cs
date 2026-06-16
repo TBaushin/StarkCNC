@@ -7,7 +7,6 @@ namespace StarkCNC.DTO.Adjustment;
 public partial class RotationDto : ObservableObject, ICloneable
 {
     private string _offsetAfterZeroSearchRequestString = string.Empty;
-    private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
     private Guid _id;
@@ -15,21 +14,15 @@ public partial class RotationDto : ObservableObject, ICloneable
     [ObservableProperty]
     private float _offsetAfterZeroSearch;
 
-    [ObservableProperty]
-    private float _speedCoefficient;
-
-    public RotationDto(
-        string offsetAfterZeroSearchRequestString,
-        string speedCoefficientRequestString)
+    public RotationDto(string offsetAfterZeroSearchRequestString)
     {
         _offsetAfterZeroSearchRequestString = offsetAfterZeroSearchRequestString;
-        _speedCoefficientRequestString = speedCoefficientRequestString;
     }
 
     public object Clone() => MemberwiseClone();
 
     public Rotation Parse(Guid? id) =>
-        new Rotation(OffsetAfterZeroSearch, SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
+        new Rotation(OffsetAfterZeroSearch) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {
@@ -38,7 +31,6 @@ public partial class RotationDto : ObservableObject, ICloneable
 
         return
             other.Id == Id &&
-            other.SpeedCoefficient == SpeedCoefficient &&
             other.OffsetAfterZeroSearch == OffsetAfterZeroSearch;
     }
 
@@ -46,9 +38,7 @@ public partial class RotationDto : ObservableObject, ICloneable
         HashCode.Combine(
             Id,
             OffsetAfterZeroSearch,
-            _offsetAfterZeroSearchRequestString,
-            SpeedCoefficient,
-            _speedCoefficientRequestString);
+            _offsetAfterZeroSearchRequestString);
 
     public static RotationDto? CreateFromConfiguration(IConfigurationSection section)
     {
@@ -61,16 +51,9 @@ public partial class RotationDto : ObservableObject, ICloneable
         var offsetAfterZeroSearchDefault = offsetAfterZeroSearchSection.GetSection("Default").Get<float>();
         var offsetAfterZeroSearchRequestString = offsetAfterZeroSearchSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
-        var speedCoefficientSection = rotationSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
-        var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        return new RotationDto(
-            offsetAfterZeroSearchRequestString,
-            speedCoefficientRequestString)
+        return new RotationDto(offsetAfterZeroSearchRequestString)
         {
-            OffsetAfterZeroSearch = offsetAfterZeroSearchDefault,
-            SpeedCoefficient = speedCoefficientDefault
+            OffsetAfterZeroSearch = offsetAfterZeroSearchDefault
         };
     }
 }

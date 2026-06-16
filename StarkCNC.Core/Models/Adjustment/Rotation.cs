@@ -7,14 +7,11 @@ public class Rotation : ICloneable
     [Key]
     public Guid Id { get; set; }
     public float OffsetAfterZeroSearch { get; set; }
-    public float SpeedCoefficient { get; set; }
 
     public Rotation(
-        float offsetAfterZeroSearch,
-        float speedCoefficient)
+        float offsetAfterZeroSearch)
     {
         OffsetAfterZeroSearch = offsetAfterZeroSearch;
-        SpeedCoefficient = speedCoefficient;
     }
 
     public object Clone() => MemberwiseClone();
@@ -24,13 +21,9 @@ public class Rotation : ICloneable
         if (obj is not Rotation other)
             return false;
 
-        return
-            other.SpeedCoefficient == SpeedCoefficient &&
-            other.OffsetAfterZeroSearch == OffsetAfterZeroSearch;
+        return other.OffsetAfterZeroSearch == OffsetAfterZeroSearch;
     }
 
     public override int GetHashCode() =>
-        HashCode.Combine(
-            OffsetAfterZeroSearch,
-            SpeedCoefficient);
+        HashCode.Combine(OffsetAfterZeroSearch);
 }

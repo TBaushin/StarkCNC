@@ -98,7 +98,8 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
         {
             ForwardPositionLimitation = _adjustment.Bend.ForwardPositionLimitation,
             SpeedCoefficient = _adjustment.Bend.SpeedCoefficient,
-            SlowdownSpeed = _adjustment.Bend.SlowdownSpeed
+            DeflectionDuringClampClamping = _adjustment.Bend.DeflectionDuringClampClamping,
+            Deflection = _adjustment.Bend.Deflection
         };
 
         Clamp = new AdjustmentParametersClampVisibleDto()
@@ -114,8 +115,7 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
             BendPosition = _adjustment.Console.BendPosition,
             SecondFloorPosition = _adjustment.Console.SecondFloorPosition,
             ThirdFloorPosition = _adjustment.Console.ThirdFloorPosition,
-            PipeRotationDepartureDistance = _adjustment.Console.PipeRotationDepartureDistance,
-            SpeedCoefficient = _adjustment.Console.SpeedCoefficient
+            PipeRotationDepartureDistance = _adjustment.Console.PipeRotationDepartureDistance
         };
 
         Dorn = new AdjustmentParametersDornVisibleDto()
@@ -144,8 +144,7 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
 
         Rotation = new AdjustmentParametersRotationVisibleDto()
         {
-            OffsetAfterZeroSearch = _adjustment.Rotation.OffsetAfterZeroSearch,
-            SpeedCoefficient = _adjustment.Rotation.SpeedCoefficient
+            OffsetAfterZeroSearch = _adjustment.Rotation.OffsetAfterZeroSearch
         };
 
         Squeeze = new AdjustmentParametersSqueezeVisibleDto()
@@ -159,7 +158,6 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
             PressZonePosition = _adjustment.Supply.PressZonePosition,
             ForwardDangerZonePosition = _adjustment.Supply.ForwardDangerZonePosition,
             ColletJawsDepth = _adjustment.Supply.ColletJawsDepth,
-            SpeedCoefficient = _adjustment.Supply.SpeedCoefficient
         };
     }
 

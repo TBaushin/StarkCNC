@@ -10,7 +10,6 @@ public partial class ConsoleDto : ObservableObject, ICloneable
     private string _secondFloorIntermediatePositionRequestString = string.Empty;
     private string _thirdFloorPositionRequestString = string.Empty;
     private string _pipeRotationDepartureDistanceRequestString = string.Empty;
-    private string _speedCoefficientRequestString = string.Empty;
 
     [ObservableProperty]
     private Guid _id;
@@ -30,23 +29,18 @@ public partial class ConsoleDto : ObservableObject, ICloneable
     [ObservableProperty]
     private float _pipeRotationDepartureDistance;
 
-    [ObservableProperty]
-    private float _speedCoefficient;
-
     public ConsoleDto(
         string bendPositionRequestString,
         string secondFloorPositionRequestString,
         string secondFloorIntermediatePositionRequestString,
         string thirdFloorPositionRequestString,
-        string pipeRotationDepartureDistanceRequestString,
-        string speedCoefficientRequestString)
+        string pipeRotationDepartureDistanceRequestString)
     {
         _bendPositionRequestString = bendPositionRequestString;
         _secondFloorPositionRequestString = secondFloorPositionRequestString;
         _secondFloorIntermediatePositionRequestString = secondFloorIntermediatePositionRequestString;
         _thirdFloorPositionRequestString = thirdFloorPositionRequestString;
         _pipeRotationDepartureDistanceRequestString = pipeRotationDepartureDistanceRequestString;
-        _speedCoefficientRequestString = speedCoefficientRequestString;
     }
 
     public object Clone() => MemberwiseClone();
@@ -57,8 +51,7 @@ public partial class ConsoleDto : ObservableObject, ICloneable
             SecondFloorPosition,
             SecondFloorIntermediatePosition,
             ThirdFloorPosition,
-            PipeRotationDepartureDistance,
-            SpeedCoefficient) { Id = DtoParseHelper.GetId(Id, id) };
+            PipeRotationDepartureDistance) { Id = DtoParseHelper.GetId(Id, id) };
 
     public override bool Equals(object? obj)
     {
@@ -71,8 +64,7 @@ public partial class ConsoleDto : ObservableObject, ICloneable
             SecondFloorPosition == other.SecondFloorPosition &&
             SecondFloorIntermediatePosition == other.SecondFloorIntermediatePosition &&
             ThirdFloorPosition == other.ThirdFloorPosition &&
-            PipeRotationDepartureDistance == other.PipeRotationDepartureDistance &&
-            SpeedCoefficient == other.SpeedCoefficient;
+            PipeRotationDepartureDistance == other.PipeRotationDepartureDistance;
     }
 
     public override int GetHashCode() =>
@@ -88,9 +80,7 @@ public partial class ConsoleDto : ObservableObject, ICloneable
                 ThirdFloorPosition,
                 _thirdFloorPositionRequestString,
                 PipeRotationDepartureDistance,
-                _pipeRotationDepartureDistanceRequestString,
-                SpeedCoefficient,
-                _speedCoefficientRequestString));
+                _pipeRotationDepartureDistanceRequestString));
 
     public static ConsoleDto? CreateFromConfiguration(IConfigurationSection section)
     {
@@ -119,24 +109,18 @@ public partial class ConsoleDto : ObservableObject, ICloneable
         var pipeRotationDepartureDistanceDefault = pipeRotationDepartureDistanceSection.GetSection("Default").Get<float>();
         var pipeRotationDepartureDistanceRequestString = pipeRotationDepartureDistanceSection.GetSection("RequestString").Get<string>() ?? string.Empty;
 
-        var speedCoefficientSection = consoleSection.GetSection("SpeedCoefficient");
-        var speedCoefficientDefault = speedCoefficientSection.GetSection("Default").Get<float>();
-        var speedCoefficientRequestString = speedCoefficientSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
         return new ConsoleDto(
             bendPositionRequestString,
             secondFloorPositionRequestString,
             secondFloorIntermediatePositionRequestString,
             thirdFloorPositionRequestString,
-            pipeRotationDepartureDistanceRequestString,
-            speedCoefficientRequestString)
+            pipeRotationDepartureDistanceRequestString)
         {
             BendPosition = bendPositionDefault,
             SecondFloorPosition = secondFloorPositionDefault,
             SecondFloorIntermediatePosition = secondFloorIntermediatePositionDefault,
             ThirdFloorPosition = thirdFloorPositionDefault,
-            PipeRotationDepartureDistance = pipeRotationDepartureDistanceDefault,
-            SpeedCoefficient = speedCoefficientDefault
+            PipeRotationDepartureDistance = pipeRotationDepartureDistanceDefault
         };
     }
 }

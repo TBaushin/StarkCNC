@@ -9,18 +9,15 @@ public class Supply : ICloneable
     public float PressZonePosition { get; set; }
     public float ForwardDangerZonePosition { get; set; }
     public float ColletJawsDepth { get; set; }
-    public float SpeedCoefficient { get; set; }
 
     public Supply(
         float pressZonePosition,
         float forwardDangerZonePosition,
-        float colletJawsDepth,
-        float speedCoefficient)
+        float colletJawsDepth)
     {
         PressZonePosition = pressZonePosition;
         ForwardDangerZonePosition = forwardDangerZonePosition;
         ColletJawsDepth = colletJawsDepth;
-        SpeedCoefficient = speedCoefficient;
     }
 
     public object Clone() => MemberwiseClone();
@@ -33,14 +30,12 @@ public class Supply : ICloneable
         return
             other.PressZonePosition == PressZonePosition &&
             other.ForwardDangerZonePosition == ForwardDangerZonePosition &&
-            other.ColletJawsDepth == ColletJawsDepth &&
-            other.SpeedCoefficient == SpeedCoefficient;
+            other.ColletJawsDepth == ColletJawsDepth;
     }
 
     public override int GetHashCode() =>
         HashCode.Combine(
             PressZonePosition,
             ForwardDangerZonePosition,
-            ColletJawsDepth,
-            SpeedCoefficient);
+            ColletJawsDepth);
 }

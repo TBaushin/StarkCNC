@@ -50,6 +50,16 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
 
         InitializeComponent();
 
+        this.Initialized += async (object? sender, EventArgs e) =>
+        {
+            await _configurationService
+                .WriteAsync(false, ControllerRequestStrings.AUTOMATIC_TAGS_TURN_ON)
+                .ConfigureAwait(true);
+            await _configurationService
+                .WriteAsync(true, "GVL.Osnastka") // TODO: Вынести в ControllerRequestStrings
+                .ConfigureAwait(true);
+        };
+
         ShowParamatersEdits(parameter);
 
         WindowChrome.SetWindowChrome(this,
@@ -74,8 +84,9 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         {
             case nameof(Adjustment.Supply):
                 SupplyStackPanel.Visibility = Visibility.Visible;
-                SpeedCoefficient.DataContext = Adjustment.Supply;
-                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
+                SpeedCoefficient.Visibility = Visibility.Collapsed;
+                //SpeedCoefficient.DataContext = Adjustment.Supply;
+                //SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Подача";
                 _configurationService.Subscribe<float>(ControllerRequestStrings.GET_SUPPLY_CURRENT_POSITION(_adjustmentService.CurrentLevel), value => CurrentPositionCoordinate = value);
                 _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_SUPPLY_RESET(_adjustmentService.CurrentLevel), value => ResetIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
@@ -84,8 +95,9 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 break;
             case nameof(Adjustment.Console):
                 ConsoleStackPanel.Visibility = Visibility.Visible;
-                SpeedCoefficient.DataContext = Adjustment.Console;
-                SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
+                SpeedCoefficient.Visibility = Visibility.Collapsed;
+                //SpeedCoefficient.DataContext = Adjustment.Console;
+                //SpeedCoefficientGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(0.6, GridUnitType.Star) });
                 TitleTextBlock.Text = "Консоль";
                 _configurationService.Subscribe<float>(ControllerRequestStrings.GET_CONSOLE_CURRENT_POSITION(_adjustmentService.CurrentLevel), value => CurrentPositionCoordinate = value);
                 _configurationService.Subscribe<bool>(ControllerRequestStrings.GET_CONSOLE_RESET(_adjustmentService.CurrentLevel), value => ResetIndicatorColor = value ? Brushes.Green.Color : Brushes.Red.Color);
@@ -94,7 +106,8 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
                 break;
             case nameof(Adjustment.Rotation):
                 RotationStackPanel.Visibility = Visibility.Visible;
-                SpeedCoefficient.DataContext = Adjustment.Rotation;
+                SpeedCoefficient.Visibility = Visibility.Collapsed;
+                //SpeedCoefficient.DataContext = Adjustment.Rotation;
                 TitleTextBlock.Text = "Поворот";
                 break;
             case nameof(Adjustment.Bend):
