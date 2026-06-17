@@ -22,12 +22,8 @@
                 <Grid
                     Grid.Column="0"
                     Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    VerticalAlignment="Center"
+                    ColumnDefinitions="Auto,*,Auto">
                     <svg:SvgViewbox
                         Grid.Column="0"
                         Width="64"
@@ -80,12 +76,8 @@
                 <Grid
                     Grid.Column="0"
                     Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    VerticalAlignment="Center"
+                    ColumnDefinitions="Auto,*,Auto">
                     <svg:SvgViewbox
                         Grid.Column="0"
                         Width="32"
@@ -144,12 +136,8 @@
                 <Grid
                     Grid.Column="0"
                     Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    VerticalAlignment="Center"
+                    ColumnDefinitions="Auto,*,Auto">
                     <svg:SvgViewbox
                         Grid.Column="0"
                         Width="32"
@@ -190,12 +178,8 @@
                 <Grid
                     Grid.Column="0"
                     Margin="10,0,10,0"
-                    VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
+                    VerticalAlignment="Center"
+                    ColumnDefinitions="Auto,*,Auto">
                     <svg:SvgViewbox
                         Grid.Column="0"
                         Width="32"
@@ -256,12 +240,8 @@
                     <Grid
                         Grid.Column="0"
                         Margin="10,0,10,0"
-                        VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        VerticalAlignment="Center"
+                        ColumnDefinitions="Auto,*,Auto">
                         <svg:SvgViewbox
                             Grid.Column="0"
                             Width="32"
@@ -304,12 +284,8 @@
                     <Grid
                         Grid.Column="0"
                         Margin="10,0,10,0"
-                        VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        VerticalAlignment="Center"
+                        ColumnDefinitions="Auto,*,Auto">
                         <svg:SvgViewbox
                             Grid.Column="0"
                             Width="32"
@@ -364,12 +340,8 @@
                     <Grid
                         Grid.Column="0"
                         Margin="10,0,10,0"
-                        VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        VerticalAlignment="Center"
+                        ColumnDefinitions="Auto,*,Auto">
                         <svg:SvgViewbox
                             Grid.Column="0"
                             Width="32"
@@ -424,12 +396,8 @@
                     <Grid
                         Grid.Column="0"
                         Margin="10,0,10,0"
-                        VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        VerticalAlignment="Center"
+                        ColumnDefinitions="Auto,*,Auto">
                         <svg:SvgViewbox
                             Grid.Column="0"
                             Width="32"
@@ -484,12 +452,8 @@
                     <Grid
                         Grid.Column="0"
                         Margin="10,0,10,0"
-                        VerticalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        VerticalAlignment="Center"
+                        ColumnDefinitions="Auto,*,Auto">
                         <svg:SvgViewbox
                             Grid.Column="0"
                             Width="32"
