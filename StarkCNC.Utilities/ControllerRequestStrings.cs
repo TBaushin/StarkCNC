@@ -372,17 +372,30 @@ public static class ControllerRequestStrings
             _ => BEND_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string BEND_SLOWDOWN_SPEED_L1 = GetValue("RequestStrings:Bend:SlowdownSpeedL1");
-    public static readonly string BEND_SLOWDOWN_SPEED_L2 = GetValue("RequestStrings:Bend:SlowdownSpeedL2");
-    public static readonly string BEND_SLOWDOWN_SPEED_L3 = GetValue("RequestStrings:Bend:SlowdownSpeedL3");
-    public static string GET_BEND_SLOWDOWN_SPEED(int level)
+    public static readonly string BEND_DEFLECTION_DURING_CLAMP_CLAMPING_L1 = GetValue("RequestStrings:Bend:DeflectionDuringClampClampingL1");
+    public static readonly string BEND_DEFLECTION_DURING_CLAMP_CLAMPING_L2 = GetValue("RequestStrings:Bend:DeflectionDuringClampClampingL2");
+    public static readonly string BEND_DEFLECTION_DURING_CLAMP_CLAMPING_L3 = GetValue("RequestStrings:Bend:DeflectionDuringClampClampingL3");
+    public static string GET_BEND_DEFLECTION_DURING_CLAMP_CLAMPING(int level)
     {
         return level switch
         {
-            1 => BEND_SLOWDOWN_SPEED_L1,
-            2 => BEND_SLOWDOWN_SPEED_L2,
-            3 => BEND_SLOWDOWN_SPEED_L3,
-            _ => BEND_SLOWDOWN_SPEED_L1
+            1 => BEND_DEFLECTION_DURING_CLAMP_CLAMPING_L1,
+            2 => BEND_DEFLECTION_DURING_CLAMP_CLAMPING_L2,
+            3 => BEND_DEFLECTION_DURING_CLAMP_CLAMPING_L3,
+            _ => BEND_DEFLECTION_DURING_CLAMP_CLAMPING_L1
+        };
+    }
+    public static readonly string BEND_DEFLECTION_L1 = GetValue("RequestStrings:Bend:DeflectionL1");
+    public static readonly string BEND_DEFLECTION_L2 = GetValue("RequestStrings:Bend:DeflectionL2");
+    public static readonly string BEND_DEFLECTION_L3 = GetValue("RequestStrings:Bend:DeflectionL3");
+    public static string GET_BEND_DEFLECTION(int level)
+    {
+        return level switch
+        {
+            1 => BEND_DEFLECTION_L1,
+            2 => BEND_DEFLECTION_L2,
+            3 => BEND_DEFLECTION_L3,
+            _ => BEND_DEFLECTION_L1
         };
     }
     public static readonly string BEND_VALUE = GetValue("RequestStrings:Bend:Value");
@@ -841,6 +854,19 @@ public static class ControllerRequestStrings
             2 => ADJUSTMENT_PIPE_DIAMETER_L2,
             3 => ADJUSTMENT_PIPE_DIAMETER_L3,
             _ => ADJUSTMENT_PIPE_DIAMETER_L1
+        };
+    }
+    public static readonly string ADJUSTMENT_RADIUS_L1 = GetValue("RequestStrings:Adjustment:RadiusL1");
+    public static readonly string ADJUSTMENT_RADIUS_L2 = GetValue("RequestStrings:Adjustment:RadiusL2");
+    public static readonly string ADJUSTMENT_RADIUS_L3 = GetValue("RequestStrings:Adjustment:RadiusL3");
+    public static string GET_ADJUSTMENT_RADIUS(int level)
+    {
+        return level switch
+        {
+            1 => ADJUSTMENT_RADIUS_L1,
+            2 => ADJUSTMENT_RADIUS_L2,
+            3 => ADJUSTMENT_RADIUS_L3,
+            _ => ADJUSTMENT_RADIUS_L1
         };
     }
     public static readonly string ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE_L1 = GetValue("RequestStrings:Adjustment:ForwardDangerZoneCoordinateL1");
