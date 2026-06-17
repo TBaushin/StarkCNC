@@ -24,7 +24,7 @@ public partial class LabeledTextBoxControl : UserControl
     public static readonly DependencyProperty IsNumericOnlyProperty = DependencyProperty
         .Register(nameof(IsNumericOnly), typeof(bool), typeof(LabeledTextBoxControl), new PropertyMetadata(false));
     public static readonly DependencyProperty DirectionProperty = DependencyProperty
-        .Register(nameof(Direction), typeof(DirectionEnum), typeof(LabeledTextBoxControl), new PropertyMetadata(DirectionEnum.TopToBottom));
+        .Register(nameof(Direction), typeof(Direction), typeof(LabeledTextBoxControl), new PropertyMetadata(Direction.TopToBottom));
     public static readonly DependencyProperty CommandProperty = DependencyProperty
         .Register(nameof(Command), typeof(ICommand), typeof(LabeledTextBoxControl), new PropertyMetadata());
     public static readonly RoutedEvent TextChangedEvent = EventManager.
@@ -60,9 +60,9 @@ public partial class LabeledTextBoxControl : UserControl
         set => SetValue(IsNumericOnlyProperty, value);
     }
 
-    public DirectionEnum Direction
+    public Direction Direction
     {
-        get => (DirectionEnum)GetValue(DirectionProperty);
+        get => (Direction)GetValue(DirectionProperty);
         set => SetValue(DirectionProperty, value);
     }
 
@@ -72,8 +72,8 @@ public partial class LabeledTextBoxControl : UserControl
         set => SetValue(CommandProperty, value);
     }
 
-    public bool LeftToRightVisible => Direction == DirectionEnum.LeftToRigth;
-    public bool TopToBottomVisible => Direction == DirectionEnum.TopToBottom;
+    public bool LeftToRightVisible => Direction == Direction.LeftToRigth;
+    public bool TopToBottomVisible => Direction == Direction.TopToBottom;
 
     public event RoutedEventHandler TextChanged
     {

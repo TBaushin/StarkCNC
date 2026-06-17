@@ -27,10 +27,8 @@ public static class Utility
             .GetData("Switch.System.Windows.Appearance.DisableFluentThemeWindowBackdrop");
         bool disableFluentThemeWindowBackdrop = false;
 
-        if (appContextBackdropData != null)
-        {
-            disableFluentThemeWindowBackdrop = bool.Parse(Convert.ToString(appContextBackdropData));
-        }
+        if (appContextBackdropData is not null && Convert.ToString(appContextBackdropData) is string stringAppContext)
+            disableFluentThemeWindowBackdrop = bool.Parse(stringAppContext);
 
         return disableFluentThemeWindowBackdrop;
     }

@@ -1,6 +1,6 @@
 ﻿namespace StarkCNC.Controls;
 
-public enum DirectionEnum
+public enum Direction
 {
     LeftToRigth,
     TopToBottom
