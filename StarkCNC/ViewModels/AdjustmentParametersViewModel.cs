@@ -1,11 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.Configuration;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Services;
+using StarkCNC.Utilities;
 
 namespace StarkCNC.ViewModels;
 
@@ -18,24 +18,6 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     private Guid? _id;
 
     private AdjustmentParameters? _adjustment;
-
-    private string _typeRequestString = string.Empty;
-
-    private string _pipeDiameterRequestString = string.Empty;
-
-    private string _radiusRequestString = string.Empty;
-
-    private string _distanceFromCenterRequestString = string.Empty;
-
-    private string _clampLengthRequestString = string.Empty;
-
-    private string _pressLengthRequestString = string.Empty;
-
-    private string _squeezeTurnOnRequestString = string.Empty;
-
-    private string _clampRollerOuterRadiusRequestString = string.Empty;
-
-    private string _clampRollerInnerRadiusRequestString = string.Empty;
 
     [ObservableProperty]
     private string _name = string.Empty;
@@ -84,7 +66,6 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
     public async Task InitializeAsync()
     {
         await SetSelectedAdjustment(_id).ConfigureAwait(true);
-        ReadRequestsFromConfiguration();
     }
 
     private async Task SetSelectedAdjustment(Guid? id)
@@ -110,41 +91,6 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         }
         
         throw new InvalidOperationException("Не удалось найти оснастку");
-    }
-
-    private void ReadRequestsFromConfiguration()
-    {
-        var adjustmentSection = App.Configuration.GetSection("Adjustment");
-
-        var adjustmentTypeSection = adjustmentSection.GetSection("AdjustmentType");
-        _typeRequestString = adjustmentTypeSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var pipeDiameterSection = adjustmentSection.GetSection("PipeDiameter");
-        _pipeDiameterRequestString = pipeDiameterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        //TODO: var radius 
-
-        var distanceFromCenterSection = adjustmentSection.GetSection("DistanceFromCenter");
-        _distanceFromCenterRequestString = distanceFromCenterSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var clampSection = adjustmentSection.GetSection("Clamp");
-        var clampLengthSection = clampSection.GetSection("Length");
-        _clampLengthRequestString = clampLengthSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var pressSection = adjustmentSection.GetSection("Press");
-        var pressLengthSection = pressSection.GetSection("Length");
-        _pressLengthRequestString = pressLengthSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var squeezeSection = adjustmentSection.GetSection("Squeeze");
-        var squeezeTurnOnSection = squeezeSection.GetSection("TurnOn");
-        _squeezeTurnOnRequestString = squeezeTurnOnSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var clampRollerSection = adjustmentSection.GetSection("ClampRoller");
-        var clampRollerOuterRadiusSection = clampRollerSection.GetSection("OuterRadius");
-        _clampRollerOuterRadiusRequestString = clampRollerOuterRadiusSection.GetSection("RequestString").Get<string>() ?? string.Empty;
-
-        var clampRollerInnerRadiusSection = clampRollerSection.GetSection("InnerRadius");
-        _clampRollerInnerRadiusRequestString = clampRollerInnerRadiusSection.GetSection("RequestString").Get<string>() ?? string.Empty;
     }
 
     [RelayCommand]
@@ -188,8 +134,6 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.Name = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _typeRequestString).ConfigureAwait(true);
         }
     }
 
@@ -199,8 +143,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.Type = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _typeRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_ADJUSTMENT_TYPE(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
@@ -210,8 +156,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.PipeDiameter = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _pipeDiameterRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_ADJUSTMENT_PIPE_DIAMETER(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
@@ -221,8 +169,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.Radius = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _radiusRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_ADJUSTMENT_RADIUS(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
@@ -232,8 +182,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.DistanceFromCenter = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _distanceFromCenterRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_ADJUSTMENT_DISTANCE_FROM_CENTER(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
@@ -243,8 +195,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.Clamp.Length = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _clampLengthRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_CLAMP_LENGTH(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
@@ -254,8 +208,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.Press.Length = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _pressLengthRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_PRESS_LENGTH(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
@@ -265,8 +221,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.Squeeze.TurnOn = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _squeezeTurnOnRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_SQUEEZE_TURN_ON(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
@@ -276,8 +234,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.ClampRoller.OuterRadius = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _clampRollerOuterRadiusRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_CLAMP_ROLLER_OUTER_RADIUS(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
@@ -287,8 +247,10 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
         {
             _adjustment?.ClampRoller.InnerRadius = newValue;
             await UpdateAdjustment().ConfigureAwait(true);
-            // TODO: Обновлять только если выбранная оснастка совпадает с редактируемой
-            await _manualConfigurationService.WriteAsync(newValue, _clampRollerInnerRadiusRequestString).ConfigureAwait(true);
+            if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
+                await _manualConfigurationService
+                    .WriteAsync(newValue, ControllerRequestStrings.GET_CLAMP_ROLLER_INNTER_RADIUS(_adjustment.InstalledLevel))
+                    .ConfigureAwait(true);
         }
     }
 
