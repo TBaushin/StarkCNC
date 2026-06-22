@@ -952,6 +952,28 @@ public static class ControllerRequestStrings
     // Œÿ»¡ »
     public static readonly string ERRORS_CLEAR_ACTUATOR_ERRORS = GetValue("RequestStrings:Errors:ClearActuatorErrors");
     public static readonly string ERRORS_HAS_ERRORS = GetValue("RequestStrings:Errors:StopErrors");
+    public static readonly string ERRORS_EMERGENCY_STOP = GetValue("RequestStrings:Errors:EmergencyStop");
+    public static readonly string ERRORS_CYCLE_START = GetValue("RequestStrings:Errors:CycleStart");
+    public static readonly string ERRORS_POSSIBLE_COLLISION = GetValue("RequestStrings:Errors:PossibleCollision");
+    public static readonly string ERRORS_BEND_TO_ZERO = GetValue("RequestStrings:Errors:BendToZero");
+    public static readonly string ERRORS_SUPPORT_SENSOR_ERROR = GetValue("RequestStrings:Errors:SupportSensorError");
+    public static readonly string ERRORS_PRESS_SENSOR_ERROR = GetValue("RequestStrings:Errors:PressSensorError");
+    public static readonly string ERRORS_CLAMP_SENSOR_ERROR = GetValue("RequestStrings:Errors:ClampSensorError");
+    public static readonly string ERRORS_COLLET_SENSOR_ERROR = GetValue("RequestStrings:Errors:ColletSensorError");
+    public static readonly string ERRORS_DORN_SENSOR_ERROR = GetValue("RequestStrings:Errors:DornSensorError");
+    public static readonly string ERRORS_PENULTIMATE_BEND_NOT_POSIBLE = GetValue("RequestStrings:Errors:PenultimateBendNotPossible");
+    public static readonly string ERRORS_MISSING_ROLLING_ADJUSTMENT = GetValue("RequestStrings:Errors:MissingRollingAdjustment");
+    public static readonly string ERRORS_NO_PIPE_IN_COLLET = GetValue("RequestStrings:Errors:NoPipeInCollet");
+    public static readonly string ERRORS_UNITS_NOT_IN_INITIALS_POSITIONS = GetValue("RequestStrings:Errors:UnitsNotInInitialPositions");
+    public static readonly string ERRORS_PIPE_OFFSET = GetValue("RequestStrings:Errors:PipeOffset");
+    public static readonly string ERRORS_DRAWING_NOT_POSSIBLE = GetValue("RequestStrings:Errors:DrawingNotPossible");
+    public static readonly string ERRORS_SUPPLY_IN_FORWARD_DANGER_ZONE = GetValue("RequestStrings:Errors:SupplyInForwardDangerZone");
+    public static readonly string ERRORS_HYDRAULIC_SAFETY_OFF = GetValue("RequestStrings:Errors:HydraulicSafetyOff");
+    public static readonly string ERRORS_BEND_RETURN = GetValue("RequestStrings:Errors:BendReturn");
+    public static readonly string ERRORS_SUPPLY_DRIVE_ERROR = GetValue("RequestStrings:Errors:SupplyDriveError");
+    public static readonly string ERRORS_CONSOLE_DRIVE_ERROR = GetValue("RequestStrings:Errors:ConsoleDriveError");
+    public static readonly string ERRORS_ROTATION_DRIVE_ERROR = GetValue("RequestStrings:Errors:RotationDriveError");
+    public static readonly string ERRORS_CONFIRMATION_TUBE_INSTALLED = GetValue("RequestStrings:Errors:ConfirmationTubeInstalled");
 
     // “–”¡¿
     public static readonly string PIPE_OUTLET_COORDINATE = GetValue("RequestStrings:Pipe:OutletCoordinate");

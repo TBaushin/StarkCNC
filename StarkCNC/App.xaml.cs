@@ -111,6 +111,7 @@ public partial class App : Application
                 services.AddSingleton<IRouter, Router>();
                 services.AddSingleton<IBreadcrumbService, BreadcrumbService>();
                 services.AddSingleton<IStatusService, StatusService>();
+                services.AddSingleton<IErrorsService, ErrorsService>();
                 services.AddSingleton<ISettingsRepository, SettingsRepository>();
                 services.AddTransient<AdjustmentParametersConstructor>();
                 services.AddSingleton<MainWindow>();

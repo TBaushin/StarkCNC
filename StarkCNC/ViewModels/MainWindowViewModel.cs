@@ -35,6 +35,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private readonly IUserService _userService;
 
+    private readonly IErrorsService _errorsService;
+
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
     [ObservableProperty]
@@ -64,6 +66,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         IRouter router,
         IBreadcrumbService breadcrumbService,
         IStatusService statusService,
+        IErrorsService errorsService,
         IBendingDataUnitOfWork bendingUnitOfWork,
         IAdjustmentRepository adjustmentRepository,
         IUserService userService,
@@ -76,6 +79,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _adjustmentViewModel = adjustmentViewModel;
         _userService = userService;
         _configurationService = configurationService;
+        _errorsService = errorsService;
 
         if (statusService is not null)
         {
@@ -139,6 +143,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         await Connect(_configurationService).ConfigureAwait(true);
         await AdjustmentUpdateChildElements().ConfigureAwait(true);
+        _errorsService.Subscribe();
     }
 
     private static async Task Connect(IManualConfigurationService configurationService)
@@ -248,6 +253,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         if (disposing)
         {
             _timer.Stop();
+            _errorsService.Unsubscribe();
         }
 
         _disposed = true;
