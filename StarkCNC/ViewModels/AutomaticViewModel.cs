@@ -199,11 +199,9 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         _configurationService.Unsubscribe(ControllerRequestStrings.BEND_VALUE);
     }
 
-    private void SetSendData(bool value, bool isUpdateTask = false)
+    private void SetSendData(bool value)
     {
         SendData = value;
-        if (!isUpdateTask)
-            return;
 
         if (SendData == true)
         {
