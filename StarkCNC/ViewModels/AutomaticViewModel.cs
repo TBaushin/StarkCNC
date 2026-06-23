@@ -217,37 +217,37 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
             .WriteAsync<int>(BendingDatas.Count, ControllerRequestStrings.AUTOMATIC_TAGS_ALL_BEND)
             .ConfigureAwait(true);
 
-        int step = 1;
-        foreach (var data in BendingDatas)
+        _configurationService.Subscribe<int>(ControllerRequestStrings.AUTOMATIC_TAGS_STEP_NUMBER, async (value) =>
         {
-            CurrentTaskSupply = data.Supply;
-            CurrentTaskRotationAngle = data.RotationAngle;
-            CurrentTaskBendingAngle = data.BendingAngle;
+            if (value >= 0 && value <= BendingDatas.Count - 1)
+            {
+                var current = BendingDatas[value];
+                await _configurationService
+                    .WriteAsync<float>(current.Supply, ControllerRequestStrings.SUPPLY_VALUE)
+                    .ConfigureAwait(true);
+                await _configurationService
+                    .WriteAsync<float>(current.RotationAngle, ControllerRequestStrings.ROTATION_VALUE)
+                    .ConfigureAwait(true);
+                await _configurationService
+                    .WriteAsync<float>(current.BendingAngle, ControllerRequestStrings.BEND_VALUE)
+                    .ConfigureAwait(true);
 
-            await _configurationService
-                .WriteAsync<int>(step, ControllerRequestStrings.AUTOMATIC_TAGS_STEP_NUMBER)
-                .ConfigureAwait(true);
+                await _configurationService
+                    .WriteAsync<bool>(false, ControllerRequestStrings.AUTOMATIC_TAGS_END_PROGRAM)
+                    .ConfigureAwait(true);
+            }
 
-            await _configurationService
-               .WriteAsync<float>(data.Supply, ControllerRequestStrings.SUPPLY_VALUE)
-               .ConfigureAwait(true);
-            await _configurationService
-                .WriteAsync<float>(data.RotationAngle, ControllerRequestStrings.ROTATION_VALUE)
-                .ConfigureAwait(true);
-            await _configurationService
-                .WriteAsync<float>(data.BendingAngle, ControllerRequestStrings.BEND_VALUE)
-                .ConfigureAwait(true);
-            step += 1;
-        }
+            if (value == BendingDatas.Count)
+            {
+                await _configurationService
+                    .WriteAsync<bool>(true, ControllerRequestStrings.AUTOMATIC_TAGS_END_PROGRAM)
+                    .ConfigureAwait(true);
 
-        // Finish
-        await _configurationService
-            .WriteAsync<bool>(true, ControllerRequestStrings.AUTOMATIC_TAGS_END_PROGRAM)
-            .ConfigureAwait(true);
-
-        await _configurationService
-            .WriteAsync<bool>(false, ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA)
-            .ConfigureAwait(true);
+                await _configurationService
+                    .WriteAsync<bool>(false, ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA)
+                    .ConfigureAwait(true);
+            }
+        });
         SetSendData(false);
     }
 
