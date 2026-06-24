@@ -6,6 +6,7 @@ using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Models;
+using StarkCNC.Services;
 using StarkCNC.Windows;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -36,6 +37,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly IUserService _userService;
 
     private readonly IErrorsService _errorsService;
+
+    private readonly IStartupSendService _startupSendService;
 
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
@@ -71,6 +74,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         IAdjustmentRepository adjustmentRepository,
         IUserService userService,
         IManualConfigurationService configurationService,
+        IStartupSendService startupSendService,
         AdjustmentViewModel adjustmentViewModel) 
     {
         _router = router;
@@ -80,6 +84,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _userService = userService;
         _configurationService = configurationService;
         _errorsService = errorsService;
+        _startupSendService = startupSendService;
 
         if (statusService is not null)
         {
@@ -142,6 +147,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     public async Task InitializeAsync()
     {
         await Connect(_configurationService).ConfigureAwait(true);
+        await _startupSendService.SendAllAsync().ConfigureAwait(true);
         await AdjustmentUpdateChildElements().ConfigureAwait(true);
         _errorsService.Subscribe();
     }

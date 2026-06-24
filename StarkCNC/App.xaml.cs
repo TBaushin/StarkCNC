@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StarkCNC.Core.Models;
+using StarkCNC.Core.Providers;
 using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.Core.UoW;
@@ -16,6 +17,7 @@ using StarkCNC.Database.Seeders;
 using StarkCNC.Exceptions;
 #endif
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Providers;
 using StarkCNC.Repository;
 using StarkCNC.Services;
 using StarkCNC.UoW;
@@ -140,6 +142,22 @@ public partial class App : Application
                 services.AddSingleton<IAdjustmentRepository, AdjustmentRepository>();
                 services.AddSingleton<IAdjustmentService, AdjustmentService>();
                 services.AddSingleton<IUserService, UserService>();
+
+                services.AddSingleton<IMachineCommandProvider<Settings>, SettingsCommandProvider>();
+                services.AddSingleton<IMachineCommandProvider<AdjustmentParameters>, AdjustmentParametersCommandProvider>();
+
+                services.AddSingleton<IMachineStartupSender>(sp =>
+                    new ModelStartupSender<Settings>(
+                        loadModel: () => Task.FromResult(sp.GetRequiredService<ISettingsRepository>().Get()),
+                        manualService: sp.GetRequiredService<IManualConfigurationService>(),
+                        provider: sp.GetRequiredService<IMachineCommandProvider<Settings>>()));
+                services.AddSingleton<IMachineStartupSender>(sp =>
+                    new CollectionStartupSender<AdjustmentParameters>(
+                        loadModels: () => sp.GetRequiredService<IAdjustmentRepository>().GetAllAsync(),
+                        manualService: sp.GetRequiredService<IManualConfigurationService>(),
+                        provider: sp.GetRequiredService<IMachineCommandProvider<AdjustmentParameters>>()));
+
+                services.AddSingleton<IStartupSendService, StartupSendService>();
             })
             .Build();
     }
