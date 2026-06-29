@@ -173,7 +173,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
     {
         _configurationService.Subscribe<bool>(ControllerRequestStrings.ERRORS_HAS_ERRORS, value => HasErrors = value);
         _configurationService.Subscribe<float>(ControllerRequestStrings.AUTOMATIC_TAGS_CYCLE_TIME, value => CycleTime = value);
-        _configurationService.Subscribe<bool>(ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA, value => SetSendData(value));
+        _configurationService.Subscribe<bool>(ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA, async (value) => await SetSendData(value).ConfigureAwait(true));
         _configurationService.Subscribe<int>(ControllerRequestStrings.AUTOMATIC_TAGS_COUNT_COMPLETED_DETAILS, value => CountCompletedDetails = value);
         _configurationService.Subscribe<float>(ControllerRequestStrings.SUPPLY_FACTICAL_POSITION, value => FacticalSupply = value);
         _configurationService.Subscribe<float>(ControllerRequestStrings.ROTATION_FACTICAL_POSITION, value => FacticalRotationAngle = value);
@@ -199,14 +199,14 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         _configurationService.Unsubscribe(ControllerRequestStrings.BEND_VALUE);
     }
 
-    private void SetSendData(bool value)
+    private async Task SetSendData(bool value)
     {
         SendData = value;
 
         if (SendData == true)
         {
             CanChangeCountDetails = false;
-            RunProgram();
+            await RunProgram().ConfigureAwait(true);
         }
         else
         {
@@ -214,7 +214,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
         }
     }
 
-    private async void RunProgram()
+    private async Task RunProgram()
     {
         // Send data
         await _configurationService
@@ -251,7 +251,7 @@ public partial class AutomaticViewModel : ViewModelBase, IDisposable
                     .WriteAsync<bool>(false, ControllerRequestStrings.AUTOMATIC_TAGS_SEND_DATA)
                     .ConfigureAwait(true);
 
-                SetSendData(false);
+                await SetSendData(false).ConfigureAwait(true);
             }
         });
     }
