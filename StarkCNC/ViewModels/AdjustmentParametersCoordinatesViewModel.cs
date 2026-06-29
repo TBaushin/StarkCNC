@@ -6,6 +6,7 @@ using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using StarkCNC.DTO;
 using StarkCNC.MachineCommunication.Services;
+using StarkCNC.Utilities;
 
 namespace StarkCNC.ViewModels;
 
@@ -172,6 +173,234 @@ public partial class AdjustmentParametersCoordinatesViewModel : ViewModelBase
         {
             await _adjustmentService.UpdateElementAsync(adjustment).ConfigureAwait(true);
             await UpdateAdjustment().ConfigureAwait(true);
+
+            // Отсылка на контроллер
+            var level = _adjustment.InstalledLevel;
+            switch (parameter)
+            {
+                case nameof(adjustment.Bend):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Bend.ForwardPositionLimitation,
+                            ControllerRequestStrings.GET_BEND_FORWARD_POSITION_LIMITATION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Bend.DeflectionDuringClampClamping,
+                            ControllerRequestStrings.GET_BEND_DEFLECTION_DURING_CLAMP_CLAMPING(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Bend.Deflection, ControllerRequestStrings.GET_BEND_DEFLECTION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Bend.SpeedCoefficient,
+                            ControllerRequestStrings.GET_BEND_SPEED_COEFFICIENT(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.BendRoller):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.BendRoller.Radius,
+                            ControllerRequestStrings.GET_BEND_ROLLER_RADIUS(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.BendRoller.OuterRadius,
+                            ControllerRequestStrings.GET_BEND_ROLLER_OUTER_RADIUS(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.Clamp):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Clamp.Length,
+                            ControllerRequestStrings.GET_CLAMP_LENGTH(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Clamp.Deep,
+                            ControllerRequestStrings.GET_CLAMP_DEEP(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Clamp.ForwardPosition,
+                            ControllerRequestStrings.GET_CLAMP_FORWARD_POSITION(level))
+                        .ConfigureAwait(true); // TODO: Проверить
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Clamp.MiddlePosition,
+                            ControllerRequestStrings.GET_CLAMP_MIDDLE_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Clamp.BackwardPosition,
+                            ControllerRequestStrings.GET_CLAMP_BACKWARD_POSITION(level))
+                        .ConfigureAwait(true); // TODO: Проверить
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Clamp.SpeedCoefficient,
+                            ControllerRequestStrings.GET_CLAMP_SPEED_COEFFICIENT(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.ClampRoller):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.ClampRoller.InnerRadius,
+                            ControllerRequestStrings.GET_CLAMP_ROLLER_INNTER_RADIUS(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.ClampRoller.OuterRadius,
+                            ControllerRequestStrings.GET_CLAMP_ROLLER_OUTER_RADIUS(level))
+                        .ConfigureAwait(true);
+                    break;
+
+                case nameof(adjustment.Console):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Console.BendPosition,
+                            ControllerRequestStrings.GET_CONSOLE_BEND_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Console.PipeRotationDepartureDistance,
+                            ControllerRequestStrings.GET_CONSOLE_PIPE_ROTATION_DEPARTURE_DISTANCE(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Console.SecondFloorPosition,
+                            ControllerRequestStrings.GET_CONSOLE_SECOND_FLOOR_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Console.SecondFloorIntermediatePosition,
+                            ControllerRequestStrings.GET_CONSOLE_SECOND_FLOOR_INTERMEDIATE_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Console.ThirdFloorPosition,
+                            ControllerRequestStrings.GET_CONSOLE_THIRD_FLOOR_POSITION(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.Dorn):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Dorn.ForwardPosition,
+                            ControllerRequestStrings.GET_DORN_FORWARD_POSITION(level))
+                        .ConfigureAwait(true); // TODO: Проверить
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Dorn.MiddlePosition,
+                            ControllerRequestStrings.GET_DORN_MIDDLE_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Dorn.BackwardPosition,
+                            ControllerRequestStrings.GET_DORN_BACKWARD_POSITION(level))
+                        .ConfigureAwait(true); // TODO: Проверить
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Dorn.SpeedCoefficient,
+                            ControllerRequestStrings.GET_DORN_SPEED_COEFFICIENT(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.Lift):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Lift.UpperPosition,
+                            ControllerRequestStrings.GET_LIFT_UPPER_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Lift.MiddlePosition,
+                            ControllerRequestStrings.GET_LIFT_MIDDLE_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Lift.LowerPosition,
+                            ControllerRequestStrings.GET_LIFT_LOWER_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Lift.SpeedCoefficient,
+                            ControllerRequestStrings.GET_LIFT_SPEED_COEFFICIENT(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.Press):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Press.Length,
+                            ControllerRequestStrings.GET_PRESS_LENGTH(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Press.DangerZoneCoordinate,
+                            ControllerRequestStrings.GET_PRESS_DANGER_ZONE_COORDINATE(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Press.ForwardPosition,
+                            ControllerRequestStrings.GET_PRESS_FORWARD_POSITION(level))
+                        .ConfigureAwait(true); // TODO: Проверить
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Press.MiddlePosition,
+                            ControllerRequestStrings.GET_PRESS_MIDDLE_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Press.BackwardPosition,
+                            ControllerRequestStrings.GET_PRESS_BACKWARD_POSITION(level))
+                        .ConfigureAwait(true); // TODO: Проверить
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Press.SpeedCoefficient,
+                            ControllerRequestStrings.GET_PRESS_SPEED_COEFFICIENT(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.Rotation):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Rotation.OffsetAfterZeroSearch,
+                            ControllerRequestStrings.GET_ROTATION_OFFSET_AFTER_ZERO_SEARCH(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.Squeeze):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Squeeze.TurnOn,
+                            ControllerRequestStrings.GET_SQUEEZE_TURN_ON(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Squeeze.FrontPositionLimitation,
+                            ControllerRequestStrings.GET_SQUEEZE_FRONT_POSITION_LIMITATION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Squeeze.SpeedCoefficient,
+                            ControllerRequestStrings.GET_SQUEEZE_SPEED_COEFFICIENT(level))
+                        .ConfigureAwait(true);
+                    break;
+                case nameof(adjustment.Supply):
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Supply.PressZonePosition,
+                            ControllerRequestStrings.GET_SUPPLY_PRESS_ZONE_POSITION(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Supply.ColletJawsDepth,
+                            ControllerRequestStrings.GET_SUPPLY_COLLET_JAWS_DEPTH(level))
+                        .ConfigureAwait(true);
+                    await _manualConfigurationService
+                        .WriteAsync(
+                            _adjustment.Supply.ForwardDangerZonePosition,
+                            ControllerRequestStrings.GET_SUPPLY_FORWARD_DANGER_ZONE(level))
+                        .ConfigureAwait(true);
+                    break;
+            }
         }
     }
 }
