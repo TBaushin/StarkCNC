@@ -24,24 +24,7 @@ public partial class AdjustmentSettingsWindow : Window
         (string)_converter.Convert(AdjustmentType.Rolling, typeof(AdjustmentType), new { }, CultureInfo.CurrentCulture)
     };
 
-    public string SelectedType
-    {
-        get
-        {
-            if (Result is not null)
-                return (string)_converter.Convert(Result.Type, typeof(AdjustmentType), new { }, CultureInfo.CurrentCulture);
-
-            if (_oldParameters is not null)
-                return (string)_converter.Convert(_oldParameters.Type, typeof(AdjustmentType), new { }, CultureInfo.CurrentCulture);
-
-            return string.Empty;
-        }
-        set
-        {
-            if (Result is not null)
-                Result.Type = (AdjustmentType)_converter.ConvertBack(value, typeof(AdjustmentType), new { }, CultureInfo.CurrentCulture);
-        }
-    }
+    public string SelectedType { get; set; }
 
     public AdjustmentSettingsWindow(
         IEnumerable<AdjustmentParameters> adjustments,
@@ -58,6 +41,16 @@ public partial class AdjustmentSettingsWindow : Window
             Result = constructor.Build(string.Empty, AdjustmentType.Winding, 0, 0).Result;
         else
             Result = (AdjustmentParameters)adjustment.Clone();
+
+        if (Result is not not null)
+        {
+            SelectedType = (string)_converter.Convert(Result.Type, typeof(AdjustmentType), new { }, CultureInfo.CurrentCulture);
+        }
+        else
+        {
+            if (_oldParameters is not null)
+                SelectedType = (string)_converter.Convert(_oldParameters.Type, typeof(AdjustmentType), new { }, CultureInfo.CurrentCulture);
+        }
 
         InitializeComponent();
 

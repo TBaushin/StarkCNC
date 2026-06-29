@@ -15,7 +15,7 @@ public class AdjustmentParametersCommandProvider : IMachineCommandProvider<Adjus
 
         yield return new(model.PipeDiameter, ControllerRequestStrings.GET_ADJUSTMENT_PIPE_DIAMETER(level));
         yield return new(model.Radius, ControllerRequestStrings.GET_ADJUSTMENT_RADIUS(level));
-        yield return new(model.Type, ControllerRequestStrings.GET_ADJUSTMENT_TYPE(level));
+        yield return new((int)model.Type, ControllerRequestStrings.GET_ADJUSTMENT_TYPE(level));
         yield return new(model.ForwardDangerZoneCoordinate, ControllerRequestStrings.GET_ADJUSTMENT_FORWARD_DANGER_ZONE_COORDINATE(level));
         yield return new(model.DistanceFromCenter, ControllerRequestStrings.GET_ADJUSTMENT_DISTANCE_FROM_CENTER(level));
 

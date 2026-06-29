@@ -145,7 +145,7 @@ public partial class AdjustmentParametersViewModel : ViewModelBase
             await UpdateAdjustment().ConfigureAwait(true);
             if (_adjustment is not null && _adjustment.InstalledLevel > 0 && _adjustment.IsEnabled)
                 await _manualConfigurationService
-                    .WriteAsync(newValue, ControllerRequestStrings.GET_ADJUSTMENT_TYPE(_adjustment.InstalledLevel))
+                    .WriteAsync((int)newValue, ControllerRequestStrings.GET_ADJUSTMENT_TYPE(_adjustment.InstalledLevel))
                     .ConfigureAwait(true);
         }
     }

@@ -831,9 +831,9 @@ public static class ControllerRequestStrings
     public static readonly string ADJUSTMENT_FRONT_POSITION = GetValue("RequestStrings:Adjustment:CenterPosition");
     public static readonly string ADJUSTMENT_CENTER_POSITION = GetValue("RequestStrings:Adjustment:FrontPosition");
     public static readonly string ADJUSTMENT_TURN_ON = GetValue("RequestStrings:Adjustment:TurnOn");
-    public static readonly string ADJUSTMENT_TYPE_L1 = GetValue("RequestStrings:Adjustment:AdjustmentTypeL1");
-    public static readonly string ADJUSTMENT_TYPE_L2 = GetValue("RequestStrings:Adjustment:AdjustmentTypeL2");
-    public static readonly string ADJUSTMENT_TYPE_L3 = GetValue("RequestStrings:Adjustment:AdjustmentTypeL3");
+    public static readonly string ADJUSTMENT_TYPE_L1 = GetValue("RequestStrings:Adjustment:TypeL1");
+    public static readonly string ADJUSTMENT_TYPE_L2 = GetValue("RequestStrings:Adjustment:TypeL2");
+    public static readonly string ADJUSTMENT_TYPE_L3 = GetValue("RequestStrings:Adjustment:TypeL3");
     public static string GET_ADJUSTMENT_TYPE(int level)
     {
         return level switch
