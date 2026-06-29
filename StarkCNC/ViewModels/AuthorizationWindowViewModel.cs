@@ -32,8 +32,7 @@ public partial class AuthorizationWindowViewModel : ViewModelBase
 
     public static async Task<AuthorizationWindowViewModel> InitializeAsync(IUserService userService, bool atStart = false)
     {
-        if (userService is null)
-            throw new ArgumentNullException(nameof(userService));
+        ArgumentNullException.ThrowIfNull(userService);
 
         var authorizedUser = userService.CurrentUser;
         bool canCreateOrDeleteUsers = await CanManageUsers(userService, authorizedUser).ConfigureAwait(false);

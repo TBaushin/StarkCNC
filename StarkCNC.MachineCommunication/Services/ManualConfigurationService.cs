@@ -26,11 +26,8 @@ public class ManualConfigurationService : IManualConfigurationService
 
     public ManualConfigurationService(IConfiguration configuration, ISettingsRepository settingsRepository, IStatusService statusService)
     {
-        if (configuration is null)
-            throw new ArgumentNullException(nameof(configuration));
-
-        if (settingsRepository is null)
-            throw new ArgumentNullException(nameof(settingsRepository));
+        ArgumentNullException.ThrowIfNull(configuration);
+        ArgumentNullException.ThrowIfNull(settingsRepository);
 
         _statusService = statusService;
 

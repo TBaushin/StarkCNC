@@ -15,8 +15,7 @@ public static class ViewLocator
 
     public static Type? GetPageType(Type type)
     {
-        if (type is null)
-            throw new ArgumentNullException(nameof(type));
+        ArgumentNullException.ThrowIfNull(type);
 
         if (!_viewCache.TryGetValue(type, out var pageType))
         {

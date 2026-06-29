@@ -121,8 +121,7 @@ public class UserService : IUserService
 
     public async Task RemoveUser(User user)
     {
-        if (user is null)
-            throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         if (!Authorized())
             throw new InvalidOperationException("Вы не вошли в аккаунт и не можете удалять пользователей");
@@ -202,8 +201,7 @@ public class UserService : IUserService
 
     public async Task UpdateUser(User user)
     {
-        if (user is null)
-            throw new ArgumentNullException(nameof(user));
+        ArgumentNullException.ThrowIfNull(user);
 
         if (!Authorized())
             throw new InvalidOperationException("Вы не вошли в аккаунт и не можете удалять пользователей");

@@ -22,8 +22,7 @@ public partial class RegistrationWindowViewModel : ViewModelBase
 
     public static async Task<RegistrationWindowViewModel> InitializeAsync(IUserService userService)
     {
-        if (userService is null)
-            throw new ArgumentNullException(nameof(userService));
+        ArgumentNullException.ThrowIfNull(userService);
 
         if (userService.CurrentUser is null)
             throw new InvalidOperationException("Нельзя создавать пользователей не авторизовавшись");

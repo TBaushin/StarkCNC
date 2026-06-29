@@ -23,8 +23,7 @@ public partial class MainWindow : Window
 
     public MainWindow(IRouter router, MainWindowViewModel viewModel)
     {
-        if (router is null)
-            throw new ArgumentNullException(nameof(router));
+        ArgumentNullException.ThrowIfNull(router);
 
         router.Navigated += OnNavigation;
 

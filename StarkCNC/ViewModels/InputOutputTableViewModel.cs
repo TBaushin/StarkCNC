@@ -202,8 +202,7 @@ public partial class InputOutputTableViewModel : ViewModelBase, IDisposable
 
     public InputOutputTableViewModel(IManualConfigurationService configurationService, ISettingsRepository settingsRepository)
     {
-        if (settingsRepository is null)
-            throw new ArgumentNullException(nameof(settingsRepository));
+        ArgumentNullException.ThrowIfNull(settingsRepository);
 
         _configurationService = configurationService;
 

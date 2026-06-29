@@ -69,8 +69,7 @@ public class AdjustmentRepository : IAdjustmentRepository
 
     public async Task UpdateElementAsync(AdjustmentParameters adjustment)
     {
-        if (adjustment is null)
-            throw new ArgumentNullException(nameof(adjustment));
+        ArgumentNullException.ThrowIfNull(adjustment);
 
         using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
 

@@ -56,8 +56,7 @@ public class SettingsRepository : ISettingsRepository
 
     public async Task UpdateElementAsync(Settings settings)
     {
-        if (settings is null)
-            throw new ArgumentNullException(nameof(settings));
+        ArgumentNullException.ThrowIfNull(settings);
 
         using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
 
