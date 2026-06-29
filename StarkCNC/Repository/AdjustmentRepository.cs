@@ -4,7 +4,6 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Database;
 using StarkCNC.Database.Helpers;
-using System.Diagnostics;
 
 namespace StarkCNC.Repository;
 
