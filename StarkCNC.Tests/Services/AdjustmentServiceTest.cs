@@ -30,6 +30,28 @@ public class AdjustmentServiceTest
     }
 
     [Fact]
+    public async Task EnabledStatusDisabledWhenOtherAdjustmentSetAtSameLevel()
+    {
+        // Arrange
+        var manualConfigServer = Substitute.For<IManualConfigurationService>();
+        var service = new AdjustmentService(new FakeAdjustmentRepository(), manualConfigServer);
+        var firstAdjustment = new AdjustmentParameters() { Id = Guid.NewGuid(), Name = "First" };
+        var secondAdjustment = new AdjustmentParameters() { Id = Guid.NewGuid(), Name = "Second" };
+
+        // Act
+        var adjustment = await service.AddElementAsync(firstAdjustment);
+        await service.AddElementAsync(secondAdjustment);
+        await service.SetLevelAsync(firstAdjustment.Id, 1);
+        adjustment.IsEnabled = true;
+        await service.UpdateElementAsync(adjustment);
+        await service.SetLevelAsync(secondAdjustment.Id, 1);
+
+        // Assert
+        var element = await service.FindByIdAsync(adjustment.Id);
+        Assert.False(element.IsEnabled);
+    }
+
+    [Fact]
     public void AfterInitHasFirstLevel()
     {
         // Arrange
