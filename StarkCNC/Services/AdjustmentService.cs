@@ -85,8 +85,25 @@ public class AdjustmentService : IAdjustmentService
     public async Task RemoveElementAsync(AdjustmentParameters adjustment) =>
         await _repository.RemoveElementAsync(adjustment).ConfigureAwait(false);
 
-    public async Task SetLevelAsync(Guid id, int level) =>
-        await _repository.SetLevelAsync(id, level).ConfigureAwait(false);
+    public async Task SetLevelAsync(Guid id, int level)
+    {
+        var item = await _repository.FindByIdAsync(id).ConfigureAwait(false);
+        if (item is null)
+            return;
+
+        var adjustments = await _repository.GetAdjustmentsWithLevelAsync().ConfigureAwait(false);
+        foreach (var adjustment in adjustments)
+        {
+            if (adjustment.InstalledLevel == level)
+            {
+                adjustment.InstalledLevel = 0;
+                await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);
+            }
+        }
+
+        item.InstalledLevel = level;
+        await _repository.UpdateElementAsync(item).ConfigureAwait(false);
+    }
 
     public async Task UpdateElementAsync(AdjustmentParameters adjustment) =>
         await _repository.UpdateElementAsync(adjustment).ConfigureAwait(false);

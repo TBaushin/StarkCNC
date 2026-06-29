@@ -20,8 +20,6 @@ public interface IAdjustmentRepository
 
     Task<IEnumerable<AdjustmentParameters>> GetAllAsync();
 
-    Task SetLevelAsync(Guid id, int level);
-
     Task<AdjustmentParameters?> GetAdjustmentWithLevelAsync(int level);
 
     Task<IEnumerable<AdjustmentParameters>> GetAdjustmentsWithLevelAsync();

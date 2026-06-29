@@ -193,8 +193,4 @@
     <None Include="C:\Users\Project 11\source\repos\StarkCNC\StarkCNC\.editorconfig" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mappings\" />
-  </ItemGroup>
-
 </Project>

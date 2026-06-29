@@ -123,18 +123,6 @@ public class AdjustmentRepository : IAdjustmentRepository
             .ConfigureAwait(false);
     }
 
-    public async Task SetLevelAsync(Guid id, int level)
-    {
-        using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
-        var item = await context.Adjustments.FirstOrDefaultAsync(a => a.Id == id).ConfigureAwait(false);
-        if (item is null)
-            return;
-
-        item.InstalledLevel = level;
-        context.Entry(item).State = EntityState.Modified;
-        await SaveChangesAsync(context).ConfigureAwait(false);
-    }
-
     public async Task<AdjustmentParameters?> GetAdjustmentWithLevelAsync(int level)
     {
         using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);

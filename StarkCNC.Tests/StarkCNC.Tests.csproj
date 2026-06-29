@@ -32,7 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Fakes\Repositories\" />
     <Folder Include="Repositories\" />
   </ItemGroup>
 

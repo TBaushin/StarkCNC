@@ -1,12 +1,34 @@
 ﻿using NSubstitute;
+using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.MachineCommunication.Services;
 using StarkCNC.Services;
+using StarkCNC.Tests.Fakes.Repositories;
 
 namespace StarkCNC.Tests.Services;
 
 public class AdjustmentServiceTest
 {
+    [Fact]
+    public async Task OnlyOneElementHasCertainLevel()
+    {
+        // Arrange
+        var manualConfigServer = Substitute.For<IManualConfigurationService>();
+        var service = new AdjustmentService(new FakeAdjustmentRepository(), manualConfigServer);
+        var firstAdjustment = new AdjustmentParameters() { Id = Guid.NewGuid(), Name = "First" };
+        var secondAdjustment = new AdjustmentParameters() { Id = Guid.NewGuid(), Name = "Second" };
+
+        // Act
+        await service.AddElementAsync(firstAdjustment);
+        await service.AddElementAsync(secondAdjustment);
+        await service.SetLevelAsync(firstAdjustment.Id, 1);
+        await service.SetLevelAsync(secondAdjustment.Id, 1);
+
+        // Assert
+        var result = await service.GetAdjustmentsWithLevelAsync();
+        Assert.True(result.Count() == 1);
+    }
+
     [Fact]
     public void AfterInitHasFirstLevel()
     {

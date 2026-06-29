@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using StarkCNC.Core.Models;
-using StarkCNC.Core.Repository;
 using StarkCNC.Core.Services;
 using System.Collections.ObjectModel;
 
@@ -10,7 +9,7 @@ namespace StarkCNC.ViewModels;
 public partial class AdjustmentViewModel : ViewModelBase
 {
     private readonly IRouter _router;
-    private readonly IAdjustmentRepository _repository;
+    private readonly IAdjustmentService _service;
 
     public ObservableCollection<AdjustmentParameters> Adjustments { get; } = new ObservableCollection<AdjustmentParameters>();
 
@@ -28,10 +27,10 @@ public partial class AdjustmentViewModel : ViewModelBase
     [ObservableProperty]
     private bool _thirdFloorEnabled;
 
-    public AdjustmentViewModel(IRouter router, IAdjustmentRepository adjustmentRepository) 
+    public AdjustmentViewModel(IRouter router, IAdjustmentService adjustmentService) 
     {
         _router = router;
-        _repository = adjustmentRepository;
+        _service = adjustmentService;
     }
 
     public async Task InitializeAsync()
@@ -63,7 +62,7 @@ public partial class AdjustmentViewModel : ViewModelBase
     {
         if (SelectedAdjustment is not null && SelectedAdjustment.Id is Guid id)
         {
-            await _repository.SetLevelAsync(id, level).ConfigureAwait(true);
+            await _service.SetLevelAsync(id, level).ConfigureAwait(true);
         }
 
         await GetSetUpAdjustments().ConfigureAwait(true);
@@ -102,7 +101,7 @@ public partial class AdjustmentViewModel : ViewModelBase
     private async Task UpdateAdjustments()
     {
         Adjustments.Clear();
-        var adjustments = await _repository.GetAllAsync().ConfigureAwait(true);
+        var adjustments = await _service.GetAllAsync().ConfigureAwait(true);
         foreach (var item in adjustments)
         {
             Adjustments.Add(item);
@@ -112,7 +111,7 @@ public partial class AdjustmentViewModel : ViewModelBase
     private async Task GetSetUpAdjustments()
     {
         SetUpAdjustments.Clear();
-        var adjustmentsWithLevel = await _repository
+        var adjustmentsWithLevel = await _service
             .GetAdjustmentsWithLevelAsync().ConfigureAwait(true);
         adjustmentsWithLevel.ToList().ForEach(awl =>
         {
@@ -144,7 +143,7 @@ public partial class AdjustmentViewModel : ViewModelBase
             adjustment.IsEnabled = newValue;
             try
             {
-                await _repository.UpdateElementAsync(adjustment).ConfigureAwait(true);
+                await _service.UpdateElementAsync(adjustment).ConfigureAwait(true);
             }
             catch
             {
@@ -161,7 +160,7 @@ public partial class AdjustmentViewModel : ViewModelBase
             adjustment.IsEnabled = newValue;
             try
             {
-                await _repository.UpdateElementAsync(adjustment).ConfigureAwait(true);
+                await _service.UpdateElementAsync(adjustment).ConfigureAwait(true);
             }
             catch
             {
@@ -178,7 +177,7 @@ public partial class AdjustmentViewModel : ViewModelBase
             adjustment.IsEnabled = newValue;
             try
             {
-                await _repository.UpdateElementAsync(adjustment).ConfigureAwait(true);
+                await _service.UpdateElementAsync(adjustment).ConfigureAwait(true);
             }
             catch
             {
