@@ -85,7 +85,7 @@ public static class ControllerRequestStrings
         };
     }
     public static readonly string SUPPLY_VALUE = GetValue("RequestStrings:Supply:Value");
-    public static readonly string SUPPLY_FACTICAL_POSITION = GetValue("RequestStrings:Supply:Factical");
+    public static readonly string SUPPLY_FACTICAL_POSITION = GetValue("RequestStrings:Supply:FacticalPosition");
     public static readonly string SUPPLY_CURRENT_POSITION_L1 = GetValue("RequestStrings:Supply:CurrentPositionL1");
     public static readonly string SUPPLY_CURRENT_POSITION_L2 = GetValue("RequestStrings:Supply:CurrentPositionL2");
     public static readonly string SUPPLY_CURRENT_POSITION_L3 = GetValue("RequestStrings:Supply:CurrentPositionL3");
@@ -174,7 +174,7 @@ public static class ControllerRequestStrings
         };
     }
     public static readonly string ROTATION_VALUE = GetValue("RequestStrings:Rotation:Value");
-    public static readonly string ROTATION_FACTICAL_POSITION = GetValue("RequestStrings:Rotation:Factical");
+    public static readonly string ROTATION_FACTICAL_POSITION = GetValue("RequestStrings:Rotation:FacticalPosition");
     public static readonly string ROTATION_RESET_SENSOR = GetValue("RequestStrings:Rotation:ResetSensor");
     public static readonly string ROTATION_BRAKING_OUTPUT_SIGNAL = GetValue("RequestStrings:Rotation:BrakingOutputSignal");
     public static readonly string ROTATION_ACCELERATION = GetValue("RequestStrings:Rotation:Acceleration");
@@ -271,7 +271,7 @@ public static class ControllerRequestStrings
             _ => CONSOLE_SPEED_COEFFICIENT_L1
         };
     }
-    public static readonly string CONSOLE_FACTICAL_POSITION = GetValue("AutomaticTags:Factical:Console");
+    public static readonly string CONSOLE_FACTICAL_POSITION = GetValue("RequestStrings:Console:FacticalPosition");
     public static readonly string CONSOLE_CURRENT_POSITION_L1 = GetValue("RequestStrings:Console:CurrentPositionL1");
     public static readonly string CONSOLE_CURRENT_POSITION_L2 = GetValue("RequestStrings:Console:CurrentPositionL2");
     public static readonly string CONSOLE_CURRENT_POSITION_L3 = GetValue("RequestStrings:Console:CurrentPositionL3");
