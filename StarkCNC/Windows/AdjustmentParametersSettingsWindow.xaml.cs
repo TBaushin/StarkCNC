@@ -208,16 +208,6 @@ public partial class AdjustmentParametersSettingsWindow : Window, INotifyPropert
         }
     }
 
-    private void SaveButton_Click(object sender, RoutedEventArgs e)
-    {
-        Close();
-    }
-
-    private void CancelButton_Click(object sender, RoutedEventArgs e)
-    {
-        Close();
-    }
-
     private void SupplyPressZoneSetCurrentPositionButton_Click(object sender, RoutedEventArgs e)
     {
         SupplyPressZone.Text = CurrentPositionCoordinate.ToString(CultureInfo.InvariantCulture);
