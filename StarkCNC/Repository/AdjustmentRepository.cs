@@ -4,6 +4,7 @@ using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
 using StarkCNC.Database;
 using StarkCNC.Database.Helpers;
+using System.Diagnostics;
 
 namespace StarkCNC.Repository;
 
@@ -73,14 +74,18 @@ public class AdjustmentRepository : IAdjustmentRepository
 
         using var context = await _contextFactory.CreateDbContextAsync().ConfigureAwait(false);
 
-        var local = await FindByIdAsync(adjustment.Id).ConfigureAwait(false);
-        if (local is not null)
-        {
-            context.Entry(local).CurrentValues.SetValues(adjustment);
-            await UpdateLocalEntry(adjustment, local, context).ConfigureAwait(false);
-        }
-        
-        context.Entry(adjustment).State = EntityState.Modified;
+        var local = await context.Adjustments
+            .IncludeAll(context)
+            .FirstOrDefaultAsync(a => a.Id == adjustment.Id)
+            .ConfigureAwait(false);
+
+        if (local is null)
+            return;
+
+        context.Entry(local).CurrentValues.SetValues(adjustment);
+        UpdateLocalEntry(adjustment, local, context);
+
+        await SaveChangesAsync(context).ConfigureAwait(false);
 
         await SaveChangesAsync(context).ConfigureAwait(false);
     }
@@ -143,7 +148,7 @@ public class AdjustmentRepository : IAdjustmentRepository
             .ConfigureAwait(false);
     }
 
-    private static async Task UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local, AppJsonContext context)
+    private static void UpdateLocalEntry(AdjustmentParameters item, AdjustmentParameters local, AppJsonContext context)
     {
         context.Entry(local.Bend).CurrentValues.SetValues(item.Bend);
         context.Entry(local.BendRoller).CurrentValues.SetValues(item.BendRoller);
