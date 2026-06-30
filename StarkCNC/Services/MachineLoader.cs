@@ -35,7 +35,7 @@ public class MachineLoader : IMachineLoader
     {
         Carriage = new Model(_configuration, nameof(Carriage), effectsManager, renderEnvironmentMap);
         Console = new Model(_configuration, nameof(Console), effectsManager, renderEnvironmentMap);
-        Bend = new Model(_configuration, nameof(Bend), effectsManager, renderEnvironmentMap, Console, -90);
+        Bend = new Model(_configuration, nameof(Bend), effectsManager, renderEnvironmentMap, Console);
         Clamp = new Model(_configuration, nameof(Clamp), effectsManager, renderEnvironmentMap, Bend);
         Press = new Model(_configuration, nameof(Press), effectsManager, renderEnvironmentMap, Console);
         Roller = new Model(_configuration, nameof(Roller), effectsManager, renderEnvironmentMap, Bend);

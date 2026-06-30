@@ -17,8 +17,7 @@ public class Model
 {
     private readonly IConfiguration _configuration;
     private bool _renderEnvironmentMap;
-    private readonly double _defaultAroundTransformAngle;
-    private double _currentAroundTransformAngle;
+    private double? _dynamicAngle;
 
     public string Name { get; private set; }
 
@@ -28,7 +27,7 @@ public class Model
 
     public Coordinate Coordinates { get; } = new Coordinate();
 
-    public Vector3D Axis { get; private set; }
+    public ICollection<Rotation> Rotations { get; } = new List<Rotation>();
 
     public HelixToolkitScene? Figure { get; private set; }
 
@@ -37,11 +36,9 @@ public class Model
         string name,
         IEffectsManager effectsManager,
         bool renderEnvironmentMap,
-        Model? aroundTransform = null,
-        double defaultAroundTransformAngle = 0)
+        Model? aroundTransform = null)
     {
         _configuration = configuration;
-        _defaultAroundTransformAngle = defaultAroundTransformAngle;
         _renderEnvironmentMap = renderEnvironmentMap;
         Name = name;
         AroundTransform = aroundTransform;
@@ -64,7 +61,6 @@ public class Model
     {
         var positions = _configuration.GetSection($"Settings:Models:{Name}:Position").Get<double[]>() ?? new double[] { 0, 0, 0 };
         var rotation = _configuration.GetSection($"Settings:Models:{Name}:Rotation").Get<double[]>() ?? new double[] { 0, 0, 0 };
-        var axis = _configuration.GetSection($"Settings:Models:{Name}:Axis").Get<double[]>() ?? new double[] { 0, 0, 0 };
 
         Coordinates.PositionX = positions[0];
         Coordinates.PositionY = positions[1];
@@ -72,9 +68,9 @@ public class Model
         Coordinates.RotationX = rotation[0];
         Coordinates.RotationY = rotation[1];
         Coordinates.RotationZ = rotation[2];
-        Axis = new Vector3D(axis[0], axis[1], axis[2]);
 
-        UpdateTransform(_defaultAroundTransformAngle);
+        LoadRotations();
+        UpdateTransform();
 
         foreach (var item in Children)
         {
@@ -82,16 +78,28 @@ public class Model
         }
     }
 
-    public void UpdateTransform(double? aroundTransformAngle = null)
+    public void UpdateTransform(double? dynamicAngle = null)
     {
-        if (aroundTransformAngle is null)
-            aroundTransformAngle = _currentAroundTransformAngle;
-        else
-            _currentAroundTransformAngle = (double)aroundTransformAngle;
+        if (dynamicAngle is not null)
+            _dynamicAngle = dynamicAngle;
 
         var transformBuilder = new TransformGroupBuilder()
-            .CalculateTransform(Coordinates.PositionX, Coordinates.PositionY, Coordinates.PositionZ)
-            .CalculateRotation(Coordinates.RotationX, Coordinates.RotationY, Coordinates.RotationZ, Axis, aroundTransformAngle.Value);
+            .CalculateTransform(Coordinates.PositionX, Coordinates.PositionY, Coordinates.PositionZ);
+
+        var rotations = Rotations.ToList();
+        for (var i = 0; i < rotations.Count; i++)
+        {
+            var axis = rotations[i].Axis;
+            var angle = rotations[i].Angle;
+            if (axis.LengthSquared == 0)
+                continue;
+
+            var isLast = i == rotations.Count - 1;
+            var appliedAngle = _dynamicAngle is not null && isLast ? _dynamicAngle.Value : angle;
+
+            transformBuilder
+                .CalculateRotation(Coordinates.RotationX, Coordinates.RotationY, Coordinates.RotationZ, axis, appliedAngle);
+        }
 
         if (AroundTransform is not null && AroundTransform.Figure is not null)
         {
@@ -110,6 +118,18 @@ public class Model
         foreach (var item in Children)
         {
             item.UpdateTransform();
+        }
+    }
+
+    private void LoadRotations()
+    {
+        Rotations.Clear();
+
+        foreach (var item in _configuration.GetSection($"Settings:Models:{Name}:Rotations").GetChildren())
+        {
+            var axis = item.GetSection("Axis").Get<double[]>() ?? [0, 0, 0];
+            var angle = item.GetValue("Angle", 0.0);
+            Rotations.Add(new Rotation() { Axis = new Vector3D(axis[0], axis[1], axis[2]), Angle = angle });
         }
     }
 
