@@ -12,7 +12,7 @@ internal class FakeAdjustmentRepository : IAdjustmentRepository
         if (adjustment.Id == Guid.Empty)
             adjustment.Id = Guid.NewGuid();
         _db.Add(adjustment);
-        return Task.FromResult(adjustment);
+        return Task.FromResult(_db.Find(a => a.Id == adjustment.Id));
     }
 
     public int Count() => _db.Count();
