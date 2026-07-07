@@ -1,9 +1,7 @@
 ﻿using Microsoft.Win32;
-using StarkCNC.Controls;
 using StarkCNC.Core.Services;
 using StarkCNC.Utilities;
 using StarkCNC.ViewModels;
-using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -64,13 +62,6 @@ public partial class MainWindow : Window
         StateChanged += (_, _) => UpdateMainWindowVisuals();
         Activated += (_, _) => UpdateMainWindowVisuals();
         Deactivated += (_, _) => UpdateMainWindowVisuals();
-
-        DispatcherTimer timer = new DispatcherTimer(
-            TimeSpan.FromSeconds(1),
-            DispatcherPriority.Background,
-            (_, _) => CurrentTimeLabel.Content = DateTime.Now.ToString("HH:mm", CultureInfo.InvariantCulture),
-            Dispatcher);
-        timer.Start();
     }
 
     private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -231,13 +222,5 @@ public partial class MainWindow : Window
         {
             Menu.MenuIsOpen = false;
         }
-    }
-
-    private void HistoryButton_Click(object sender, RoutedEventArgs e)
-    {
-        if (StatusHistoryDataGrid.Visibility == Visibility.Collapsed)
-            StatusHistoryDataGrid.Visibility = Visibility.Visible;
-        else
-            StatusHistoryDataGrid.Visibility = Visibility.Collapsed;
     }
 }

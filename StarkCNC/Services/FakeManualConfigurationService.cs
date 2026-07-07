@@ -1,11 +1,11 @@
 ﻿using StarkCNC.Core.Models;
-using StarkCNC.Core.Services;
+using StarkCNC.MachineCommunication.Services;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace StarkCNC.MachineCommunication.Services;
+namespace StarkCNC.Services;
 
 [SuppressMessage("Usage", "CA5394", Justification = "Не нужна безопасность")]
 public class FakeManualConfigurationService : IManualConfigurationService
@@ -24,7 +24,7 @@ public class FakeManualConfigurationService : IManualConfigurationService
     public async Task ConnectAsync()
     {
         await Task.Delay(1000).ConfigureAwait(true);
-        _statusService.CurrentStatus = new Status("Подключение успешно");
+        _statusService.AddStatus(new Status("Подключение успешно"));
     }
 
     public async Task<bool> TryConnectAsync()

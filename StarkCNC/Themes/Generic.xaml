@@ -8,5 +8,6 @@
         <ResourceDictionary Source="/Themes/ToggleSwitchControl.xaml"/>
         <ResourceDictionary Source="/Themes/LabelWithIndicatorControl.xaml"/>
         <ResourceDictionary Source="/Themes/PasswordTextBox.xaml"/>
+        <ResourceDictionary Source="/Themes/StatusBar.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

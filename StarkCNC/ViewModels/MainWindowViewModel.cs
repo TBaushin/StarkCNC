@@ -42,6 +42,8 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
+    private int _statusIndex;
+
     [ObservableProperty]
     private bool _canNavigateBack;
 
@@ -54,7 +56,13 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private string _status = string.Empty;
 
     [ObservableProperty]
+    private int _errorsCount;
+
+    [ObservableProperty]
     private bool _showStatus;
+
+    [ObservableProperty]
+    private bool _showHistory;
 
     [ObservableProperty]
     private ObservableCollection<Status> _history = new ObservableCollection<Status>();
@@ -86,25 +94,29 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _errorsService = errorsService;
         _startupSendService = startupSendService;
 
+        ShowStatus = true;
         if (statusService is not null)
         {
-            ShowStatus = statusService.ShowStatus;
-            statusService.PropertyChanged += (sender, args) =>
-            {
-                Task.Run(() =>
+            var statusTimer = new DispatcherTimer(
+                TimeSpan.FromSeconds(2.5),
+                DispatcherPriority.Background,
+                (sender, args) =>
                 {
-                    Thread.Sleep(1000);
-                    if (statusService.CurrentStatus is null || string.IsNullOrEmpty(statusService.CurrentStatus.Text))
-                        Status = string.Empty;
-                    else
-                        Status = statusService.CurrentStatus.Text;
-                });
+                    var statuses = statusService.CurrentStatuses.ToList();
+                    if (!statuses.Any())
+                        return;
 
-                if (args.PropertyName == nameof(statusService.ShowStatus))
-                    ShowStatus = statusService.ShowStatus;
-            };
+                    if (_statusIndex >= statuses.Count)
+                        _statusIndex = 0;
 
-            statusService.NotifyCollectionChanged += (sender, args) =>
+                    Status = statuses[_statusIndex].Text;
+                    ErrorsCount = statuses.Count;
+                    _statusIndex++;
+                },
+                Application.Current.Dispatcher);
+            statusTimer.Start();
+
+            statusService.History.CollectionChanged += (sender, args) =>
             {
                 if (args.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add &&
                     args.NewItems?.Count > 0)
@@ -125,9 +137,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         _router.Navigated += (_, _) =>
         {
             if (_router.CurrentRoute == _router.GetRoute("/program"))
-                statusService?.ShowStatus = false;
+                ShowStatus = false;
             else
-                statusService?.ShowStatus = true;
+                ShowStatus = true;
             Breadcrumb = breadcrumbService.VisibleObject;
         };
 
@@ -150,6 +162,17 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         await _startupSendService.SendAllAsync().ConfigureAwait(true);
         await AdjustmentUpdateChildElements().ConfigureAwait(true);
         _errorsService.Subscribe();
+        if (_configurationService is ManualConfigurationService mcs)
+        {
+            mcs.PropertyChanged += async (s, e) =>
+            {
+                if (e.PropertyName == nameof(mcs.Connected) && mcs.Connected == true)
+                {
+                    await _startupSendService.SendAllAsync().ConfigureAwait(true);
+                    _errorsService.Subscribe();
+                }
+            };
+        }
     }
 
     private static async Task Connect(IManualConfigurationService configurationService)
@@ -259,7 +282,6 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         if (disposing)
         {
             _timer.Stop();
-            _errorsService.Unsubscribe();
         }
 
         _disposed = true;

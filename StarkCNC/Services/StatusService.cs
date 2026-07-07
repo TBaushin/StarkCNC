@@ -1,54 +1,23 @@
 ﻿using StarkCNC.Core.Models;
-using System.Collections.Specialized;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 
-namespace StarkCNC.Core.Services;
+namespace StarkCNC.Services;
 
 public class StatusService : IStatusService
 {
-    private Status? _status;
+    public ObservableCollection<Status> CurrentStatuses { get; } = new ObservableCollection<Status>();
 
-    private bool _showStatus = true;
+    public ObservableCollection<Status> History { get; } = new ObservableCollection<Status>();
 
-    public List<Status> History { get; } = new List<Status>();
-
-    public Status? CurrentStatus
+    public void AddStatus(Status status)
     {
-        get => _status;
-        set
-        {
-            _status = value;
-            OnPropertyChanged(nameof(CurrentStatus));
-
-            if (value is not null)
-            {
-                History.Add(value);
-                OnCollectionChanged(value);
-            }
-        }
+        CurrentStatuses.Add(status);
     }
 
-    public bool ShowStatus
+    public void RemoveStatus(Status status)
     {
-        get => _showStatus;
-        set
-        {
-            _showStatus = value;
-            OnPropertyChanged(nameof(ShowStatus));
-        }
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    public event NotifyCollectionChangedEventHandler? NotifyCollectionChanged;
-
-    private void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    private void OnCollectionChanged(Status newItem)
-    {
-        NotifyCollectionChanged?.Invoke(History, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, newItem));
+        if (CurrentStatuses.Contains(status))
+            CurrentStatuses.Remove(status);
+        History.Add(status);
     }
 }

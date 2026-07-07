@@ -68,16 +68,22 @@ public class ErrorsService : IErrorsService, IDisposable
         _manualService.Unsubscribe(ControllerRequestStrings.ERRORS_CONFIRMATION_TUBE_INSTALLED);
     }
 
-    private void SetStatusIfTrue(bool sensor, string status)
+    private void SetStatusIfTrue(bool sensor, string statusMessage)
     {
+        var status = new Core.Models.Status(statusMessage, Core.Models.StatusType.Error);
         if (sensor)
-            _statusService.CurrentStatus = new Core.Models.Status(status, Core.Models.StatusType.Error);
+            _statusService.AddStatus(status);
+        else
+            _statusService.RemoveStatus(status);
     }
 
-    private void SetStatusIfFalse(bool sensor, string status)
+    private void SetStatusIfFalse(bool sensor, string statusMessage)
     {
+        var status = new Core.Models.Status(statusMessage, Core.Models.StatusType.Error);
         if (!sensor)
-            _statusService.CurrentStatus = new Core.Models.Status(status, Core.Models.StatusType.Error);
+            _statusService.AddStatus(status);
+        else
+            _statusService.RemoveStatus(status);
     }
 
     public void Dispose()

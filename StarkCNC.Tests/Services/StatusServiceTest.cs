@@ -1,5 +1,5 @@
 ﻿using StarkCNC.Core.Models;
-using StarkCNC.Core.Services;
+using StarkCNC.Services;
 
 namespace StarkCNC.Tests.Services;
 
@@ -13,12 +13,11 @@ public class StatusServiceTest
         bool changed = false;
 
         // Act
-        statusService.PropertyChanged += (sender, args) =>
+        statusService.CurrentStatuses.CollectionChanged += (sender, args) =>
         {
-            if (args.PropertyName == nameof(statusService.CurrentStatus))
-                changed = true;
+            changed = true;
         };
-        statusService.CurrentStatus = new Status("TestMessage");
+        statusService.AddStatus(new Status("TestMessage"));
 
         // Assert
         Assert.True(changed);
@@ -30,9 +29,11 @@ public class StatusServiceTest
         // Arrange
         var statusService = new StatusService();
         var beforeHistoryCountElements = statusService.History.Count;
+        var status = new Status("TestMessage");
 
         // Act
-        statusService.CurrentStatus = new Status("TestMessage");
+        statusService.AddStatus(status);
+        statusService.RemoveStatus(status);
         var currentHistoryCountElements = statusService.History.Count;
 
         // Assert
@@ -45,14 +46,15 @@ public class StatusServiceTest
         // Arrange
         var statusService = new StatusService();
         bool changed = false;
+        var status = new Status("TestMessage");
 
         // Act
-        statusService.NotifyCollectionChanged += (sender, args) =>
+        statusService.History.CollectionChanged += (sender, args) =>
         {
-            if (sender is List<Status> history)
-                changed = true;
+            changed = true;
         };
-        statusService.CurrentStatus = new Status("TestMessage");
+        statusService.AddStatus(status);
+        statusService.RemoveStatus(status);
 
         // Assert
         Assert.True(changed);
@@ -67,7 +69,8 @@ public class StatusServiceTest
         var expected = new Status("TestMessage");
 
         // Act
-        statusService.CurrentStatus = expected;
+        statusService.AddStatus(expected);
+        statusService.RemoveStatus(expected);
         var result = statusService.History;
 
         // Assert

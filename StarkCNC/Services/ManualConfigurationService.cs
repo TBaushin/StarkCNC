@@ -1,18 +1,19 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.Extensions.Configuration;
 using Opc.Ua;
 using Opc.Ua.Client;
 using OpcUaHelper;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
-using StarkCNC.Core.Services;
+using StarkCNC.MachineCommunication.Services;
 using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace StarkCNC.MachineCommunication.Services;
+namespace StarkCNC.Services;
 
-public class ManualConfigurationService : IManualConfigurationService
+public partial class ManualConfigurationService : ObservableObject, IManualConfigurationService
 {
     private readonly IStatusService _statusService;
 
@@ -22,9 +23,13 @@ public class ManualConfigurationService : IManualConfigurationService
 
     private DispatcherTimer? _timer;
 
-    public bool Connected => _client.Connected && !string.IsNullOrEmpty(_requestString);
+    [ObservableProperty]
+    private bool _connected;
 
-    public ManualConfigurationService(IConfiguration configuration, ISettingsRepository settingsRepository, IStatusService statusService)
+    public ManualConfigurationService(
+        IConfiguration configuration,
+        ISettingsRepository settingsRepository,
+        IStatusService statusService)
     {
         ArgumentNullException.ThrowIfNull(configuration);
         ArgumentNullException.ThrowIfNull(settingsRepository);
@@ -63,14 +68,20 @@ public class ManualConfigurationService : IManualConfigurationService
 
             _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
 
-            Application.Current.Dispatcher.Invoke(() => _statusService.CurrentStatus = new Status("Подключение успешно", StatusType.Success));
+            Connected = true;
+            Application.Current.Dispatcher.Invoke(() => _statusService.AddStatus(new Status("Подключение успешно", StatusType.Success)));
         }
         catch (Opc.Ua.ServiceResultException ex)
         {
 #if DEBUG
-            Debug.WriteLine(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})");
+            Debug.WriteLine(MachineCommunication.Localization.Language.ConnectionErrorMessage + $" ({ex.Message})");
 #endif
-            Application.Current.Dispatcher.Invoke(() => _statusService.CurrentStatus = new Status(Localization.Language.ConnectionErrorMessage + $" ({ex.Message})", StatusType.Error));
+            Connected = false;
+            Application.Current.Dispatcher.Invoke(() => 
+                _statusService.AddStatus(
+                    new Status(
+                        MachineCommunication.Localization.Language.ConnectionErrorMessage + $" ({ex.Message})",
+                        StatusType.Error)));
         }
 
         RunUpdateTask();
@@ -109,16 +120,19 @@ public class ManualConfigurationService : IManualConfigurationService
     public async Task UpdateConnection(string server)
     {
         if (_client.Connected)
+        {
             _client.Disconnect();
+            Connected = false;
+        }
 
         _server = server;
 
-        await TryConnectAsync().ConfigureAwait(false);
+        Connected = await TryConnectAsync().ConfigureAwait(false);
     }
 
     public async Task WriteAsync<T>(T value, string to, StatusPage fromPage = StatusPage.Unknown)
     {
-        if (!Connected)
+        if (!_client.Connected)
             return;
 
         if (string.IsNullOrEmpty(to))
@@ -131,15 +145,20 @@ public class ManualConfigurationService : IManualConfigurationService
         catch (Opc.Ua.ServiceResultException)
         {
 #if DEBUG
-            Debug.WriteLine(Localization.Language.SendRequestErrorMessage);
+            Debug.WriteLine(MachineCommunication.Localization.Language.SendRequestErrorMessage);
 #endif
-            Application.Current.Dispatcher.Invoke(() => _statusService.CurrentStatus = new Status(Localization.Language.SendRequestErrorMessage, StatusType.Error, fromPage));
+            Application.Current.Dispatcher.Invoke(() =>
+                _statusService.AddStatus(
+                    new Status(
+                        MachineCommunication.Localization.Language.SendRequestErrorMessage,
+                        StatusType.Error,
+                        fromPage)));
         }
     }
 
     public async Task<T?> ReadAsync<T>(string from, StatusPage fromPage = StatusPage.Unknown)
     {
-        if (!Connected)
+        if (!_client.Connected)
             return default;
 
         if (string.IsNullOrEmpty(from))
@@ -153,10 +172,15 @@ public class ManualConfigurationService : IManualConfigurationService
         catch (Opc.Ua.ServiceResultException)
         {
 #if DEBUG
-            Debug.WriteLine(Localization.Language.GetDataRequestErrorMessage + $" {from}");
+            Debug.WriteLine(MachineCommunication.Localization.Language.GetDataRequestErrorMessage + $" {from}");
 #endif
 
-            Application.Current.Dispatcher.Invoke(() => _statusService.CurrentStatus = new Status(Localization.Language.GetDataRequestErrorMessage + $" {from}", StatusType.Error, fromPage));
+            Application.Current.Dispatcher.Invoke(() =>
+                _statusService.AddStatus(
+                    new Status(
+                        MachineCommunication.Localization.Language.GetDataRequestErrorMessage + $" {from}",
+                        StatusType.Error,
+                        fromPage)));
         }
 
         return default;
@@ -226,11 +250,11 @@ public class ManualConfigurationService : IManualConfigurationService
                 {
                     if (_client.Connected)
                     {
-                        if (_statusService.CurrentStatus == null || _statusService.CurrentStatus.Text == Localization.Language.ConnectionErrorMessage)
-                            _statusService.CurrentStatus = null;
+                        _statusService.RemoveStatus(new Status(MachineCommunication.Localization.Language.ConnectionErrorMessage));
                     }
                     else
                     {
+                        Connected = false;
                         await TryConnectAsync().ConfigureAwait(false);
                     }
                 }).ConfigureAwait(false);

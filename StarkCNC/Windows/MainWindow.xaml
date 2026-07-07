@@ -215,29 +215,10 @@
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     BorderThickness="1"
                     CornerRadius="8">
-                    <Grid ColumnDefinitions="4*,*">
-                        <Grid
-                            Grid.Column="0"
-                            ColumnDefinitions="6*,*">
-                            <Label
-                                Grid.Column="0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Content="{Binding Status}"/>
-                            <Label
-                                x:Name="CurrentTimeLabel"
-                                Grid.Column="1"
-                                Margin="0,0,10,0"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"/>
-                        </Grid>
-                        <Button
-                            x:Name="HistoryButton"
-                            Grid.Column="1"
-                            HorizontalAlignment="Stretch"
-                            Content="История"
-                            Click="HistoryButton_Click"/>
-                    </Grid>
+                    <controls:StatusBar
+                        ErrorsCount="{Binding ErrorsCount}"
+                        Status="{Binding Status}"
+                        ShowHistory="{Binding ShowHistory, Mode=TwoWay}"/>
                 </Border>
 
                 <Border
@@ -276,7 +257,7 @@
                             CanUserAddRows="False"
                             EnableRowVirtualization="True"
                             Background="{DynamicResource LayerOnMicaBaseAltFillColorTertiaryBrush}"
-                            Visibility="Collapsed"
+                            Visibility="{Binding ShowHistory, Converter={StaticResource BoolToVisibilityConverter}}"
                             ItemsSource="{Binding History}">
                             <DataGrid.Effect>
                                 <DropShadowEffect
