@@ -17,6 +17,8 @@ public partial class ManualConfigurationService : ObservableObject, IManualConfi
 {
     private readonly IStatusService _statusService;
 
+    private readonly SemaphoreSlim _connectGate = new SemaphoreSlim(1, 1);
+
     private string _server;
     private string _requestString;
     private readonly OpcUaClient _client;
@@ -55,6 +57,9 @@ public partial class ManualConfigurationService : ObservableObject, IManualConfi
 
     public async Task ConnectAsync()
     {
+        if (!await _connectGate.WaitAsync(0).ConfigureAwait(false))
+            return;
+
         try
         {
             string server = string.Empty;
@@ -69,7 +74,7 @@ public partial class ManualConfigurationService : ObservableObject, IManualConfi
             _requestString = $"ns=4;s=|var|{FindControllerName(_client.Session, ObjectIds.ObjectsFolder)}.Application.";
 
             Connected = true;
-            Application.Current.Dispatcher.Invoke(() => _statusService.AddStatus(new Status("Подключение успешно", StatusType.Success)));
+
         }
         catch (Opc.Ua.ServiceResultException ex)
         {
@@ -77,43 +82,56 @@ public partial class ManualConfigurationService : ObservableObject, IManualConfi
             Debug.WriteLine(MachineCommunication.Localization.Language.ConnectionErrorMessage + $" ({ex.Message})");
 #endif
             Connected = false;
-            Application.Current.Dispatcher.Invoke(() => 
+            Application.Current.Dispatcher.Invoke(() =>
+            {
                 _statusService.AddStatus(
                     new Status(
                         MachineCommunication.Localization.Language.ConnectionErrorMessage + $" ({ex.Message})",
-                        StatusType.Error)));
+                        StatusType.Error));
+                });
+        }
+        finally
+        {
+            _connectGate.Release();
         }
 
         RunUpdateTask();
     }
 
-    public async Task<bool> TryConnectAsync()
+    public async Task<bool> TryConnectAsync(CancellationToken token)
     {
+        if (_connectGate.CurrentCount == 0)
+            return _client.Connected;
+
         bool serverIsRunning = false;
 
-        try
+        while (!token.IsCancellationRequested)
         {
-            string server = _server;
-            if (server.Contains("localhost", StringComparison.InvariantCultureIgnoreCase))
-                server = "127.0.0.1";
+            try
+            {
+                string server = _server;
+                if (server.Contains("localhost", StringComparison.InvariantCultureIgnoreCase))
+                    server = "127.0.0.1";
 
-            if (server.StartsWith("opc.tcp://", StringComparison.InvariantCultureIgnoreCase))
-                server = server.Replace("opc.tcp://", "", StringComparison.InvariantCultureIgnoreCase);
-            if (server.EndsWith(":4840", StringComparison.InvariantCultureIgnoreCase))
-                server = server.Replace(":4840", "", StringComparison.InvariantCultureIgnoreCase);
+                if (server.StartsWith("opc.tcp://", StringComparison.InvariantCultureIgnoreCase))
+                    server = server.Replace("opc.tcp://", "", StringComparison.InvariantCultureIgnoreCase);
+                if (server.EndsWith(":4840", StringComparison.InvariantCultureIgnoreCase))
+                    server = server.Replace(":4840", "", StringComparison.InvariantCultureIgnoreCase);
 
-            using var pinger = new Ping();
-            var reply = await pinger.SendPingAsync(server).ConfigureAwait(false);
-            serverIsRunning = reply.Status == IPStatus.Success;
+                using var pinger = new Ping();
+                var reply = await pinger.SendPingAsync(server).ConfigureAwait(false);
+                serverIsRunning = reply.Status == IPStatus.Success;
+            }
+            catch (PingException)
+            {
+                // Ignore
+            }
+
+            if (serverIsRunning)
+                await ConnectAsync().ConfigureAwait(false);
+
+            return _client.Connected;
         }
-        catch (PingException)
-        {
-            // Ignore
-        }
-
-        if (serverIsRunning)
-            await ConnectAsync().ConfigureAwait(false);
-
         return _client.Connected;
     }
 
@@ -127,7 +145,8 @@ public partial class ManualConfigurationService : ObservableObject, IManualConfi
 
         _server = server;
 
-        Connected = await TryConnectAsync().ConfigureAwait(false);
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+        Connected = await TryConnectAsync(cts.Token).ConfigureAwait(false);
     }
 
     public async Task WriteAsync<T>(T value, string to, StatusPage fromPage = StatusPage.Unknown)
@@ -246,18 +265,18 @@ public partial class ManualConfigurationService : ObservableObject, IManualConfi
             DispatcherPriority.Background,
             async (_, _) =>
             {
-                await Task.Run(async () =>
+                Debug.WriteLine("manual timer works!");
+
+                if (_client.Connected)
                 {
-                    if (_client.Connected)
-                    {
-                        _statusService.RemoveStatus(new Status(MachineCommunication.Localization.Language.ConnectionErrorMessage));
-                    }
-                    else
-                    {
-                        Connected = false;
-                        await TryConnectAsync().ConfigureAwait(false);
-                    }
-                }).ConfigureAwait(false);
+                    _statusService.RemoveStatus(new Status(MachineCommunication.Localization.Language.ConnectionErrorMessage));
+                }
+                else
+                {
+                    Connected = false;
+                    using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                    Connected = await TryConnectAsync(cts.Token).ConfigureAwait(false);
+                }
             },
             Application.Current.Dispatcher);
         _timer.Start();
@@ -303,5 +322,21 @@ public partial class ManualConfigurationService : ObservableObject, IManualConfi
         }
 
         return controllerName;
+    }
+
+    partial void OnConnectedChanged(bool value)
+    {
+        Application.Current.Dispatcher.Invoke(() =>
+        {
+            if (value)
+            {
+                _statusService.RemoveStatusThatsContains(new Status(MachineCommunication.Localization.Language.ConnectionErrorMessage, StatusType.Error));
+                _statusService.AddStatus(new Status("Подключение успешно", StatusType.Success));
+            }
+            else
+            {
+                _statusService.RemoveStatus(new Status("Подключение успешно", StatusType.Success));
+            }
+        });
     }
 }

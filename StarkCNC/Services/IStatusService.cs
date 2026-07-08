@@ -12,4 +12,6 @@ public interface IStatusService
     public void AddStatus(Status status);
 
     public void RemoveStatus(Status status);
+
+    public void RemoveStatusThatsContains(Status status);
 }

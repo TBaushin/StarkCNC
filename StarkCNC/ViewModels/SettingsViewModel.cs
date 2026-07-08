@@ -15,6 +15,7 @@ public partial class SettingsViewModel : ViewModelBase, IDisposable
     ISettingsRepository _settingsRepository;
     IUserService _userService;
     IManualConfigurationService _manualConfigurationService;
+
     Settings _settings;
     private bool _disposed;
     private DispatcherTimer _timer;

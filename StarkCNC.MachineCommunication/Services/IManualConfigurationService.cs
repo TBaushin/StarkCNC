@@ -8,7 +8,7 @@ public interface IManualConfigurationService
 
     public Task ConnectAsync();
 
-    public Task<bool> TryConnectAsync();
+    public Task<bool> TryConnectAsync(CancellationToken token);
 
     public Task UpdateConnection(string server);
 

@@ -27,9 +27,13 @@ public class FakeManualConfigurationService : IManualConfigurationService
         _statusService.AddStatus(new Status("Подключение успешно"));
     }
 
-    public async Task<bool> TryConnectAsync()
+    public async Task<bool> TryConnectAsync(CancellationToken token)
     {
-        await ConnectAsync().ConfigureAwait(true);
+        while (!token.IsCancellationRequested)
+        {
+            await ConnectAsync().ConfigureAwait(true);
+            return true;
+        }
         return true;
     }
 

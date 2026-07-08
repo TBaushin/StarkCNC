@@ -20,4 +20,22 @@ public class StatusService : IStatusService
             CurrentStatuses.Remove(status);
         History.Add(status);
     }
+
+    public void RemoveStatusThatsContains(Status status)
+    {
+        if (status is null)
+            return;
+
+        Status? removeItem = null;
+        foreach (var item in CurrentStatuses)
+        {
+            if (item.Text.Contains(status.Text, StringComparison.CurrentCulture) && item.Type == status.Type)
+                removeItem = item;
+        }
+        if (removeItem is not null)
+        {
+            CurrentStatuses.Remove(removeItem);
+            History.Add(removeItem);
+        }
+    }
 }

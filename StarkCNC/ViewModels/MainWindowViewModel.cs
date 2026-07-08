@@ -96,8 +96,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         {
             statusService.CurrentStatuses.CollectionChanged += (sender, args) =>
             {
-                foreach (var status in statusService.CurrentStatuses)
-                    Statuses.Add(status);
+                Statuses = statusService.CurrentStatuses;
             };
 
             statusService.History.CollectionChanged += (sender, args) =>
@@ -161,8 +160,9 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private static async Task Connect(IManualConfigurationService configurationService)
     {
+        using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
         if (!configurationService.Connected)
-            await configurationService.TryConnectAsync().ConfigureAwait(false);
+            await configurationService.TryConnectAsync(cts.Token).ConfigureAwait(false);
     }
 
     [RelayCommand]
