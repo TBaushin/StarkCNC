@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using StarkCNC.Core.Models;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
@@ -36,10 +37,16 @@ namespace StarkCNC.Controls;
 /// </summary>
 public class StatusBar : Control
 {
-    public static readonly DependencyProperty ErrorsCountProperty = DependencyProperty
-        .Register(nameof(ErrorsCount), typeof(int), typeof(StatusBar), new PropertyMetadata());
-    public static readonly DependencyProperty StatusProperty = DependencyProperty
-        .Register(nameof(Status), typeof(string), typeof(StatusBar), new PropertyMetadata());
+    public static readonly DependencyProperty StatusesCountProperty = DependencyProperty
+        .Register(nameof(StatusesCount), typeof(int), typeof(StatusBar), new PropertyMetadata());
+    public static readonly DependencyProperty CurrentStatusIndexProperty = DependencyProperty
+        .Register(nameof(CurrentStatusIndex), typeof(int), typeof(StatusBar), new PropertyMetadata());
+    public static readonly DependencyProperty StatusesProperty = DependencyProperty
+        .Register(nameof(Statuses), typeof(IEnumerable<Status>), typeof(StatusBar), new PropertyMetadata());
+    public static readonly DependencyProperty CurrentStatusProperty = DependencyProperty
+        .Register(nameof(CurrentStatus), typeof(Status), typeof(StatusBar), new PropertyMetadata());
+    public static readonly DependencyProperty CurrentTimeProperty = DependencyProperty
+        .Register(nameof(CurrentTime), typeof(string), typeof(StatusBar), new PropertyMetadata());
     public static readonly DependencyProperty ShowHistoryProperty = DependencyProperty
         .Register(nameof(ShowHistory), typeof(bool), typeof(StatusBar), new PropertyMetadata());
 
@@ -48,16 +55,47 @@ public class StatusBar : Control
         DefaultStyleKeyProperty.OverrideMetadata(typeof(StatusBar), new FrameworkPropertyMetadata(typeof(StatusBar)));
     }
 
-    public int ErrorsCount
+    private DispatcherTimer? _statusesTimer;
+    private DispatcherTimer? _timeTimer;
+
+    public int StatusesCount
     {
-        get => (int)GetValue(ErrorsCountProperty);
-        set => SetValue(ErrorsCountProperty, value);
+        get => (int)GetValue(StatusesCountProperty);
+        set => SetValue(StatusesCountProperty, value);
     }
 
-    public string Status
+    public int CurrentStatusIndex
     {
-        get => (string)GetValue(StatusProperty);
-        set => SetValue(StatusProperty, value);
+        get => (int)GetValue(CurrentStatusIndexProperty);
+        set => SetValue(CurrentStatusIndexProperty, value);
+    }
+
+    public IEnumerable<Status> Statuses
+    {
+        get => (IEnumerable<Status>)GetValue(StatusesProperty);
+        set
+        {
+            SetValue(StatusesProperty, value);
+
+            if (_statusesTimer is not null)
+            {
+                _statusesTimer.Stop();
+                _statusesTimer.Interval = GetTimeForShowStatus();
+                _statusesTimer.Start();
+            }
+        }
+    }
+
+    public Status CurrentStatus
+    {
+        get => (Status)GetValue(CurrentStatusProperty);
+        set => SetValue(CurrentStatusProperty, value);
+    }
+
+    public string CurrentTime
+    {
+        get => (string)GetValue(CurrentTimeProperty);
+        set => SetValue(CurrentTimeProperty, value);
     }
 
     public bool ShowHistory
@@ -74,15 +112,53 @@ public class StatusBar : Control
         if (showHistory is not null)
             showHistory.Click += (sender, args) => ShowHistory = !ShowHistory;
 
-        var currentTime = GetTemplateChild("CurrentTimeLabel") as Label;
-        if (currentTime is not null)
+        _statusesTimer = GetCurrentStatusUpdater();
+        _statusesTimer.Start();
+
+        _timeTimer = GetTimeUpdater();
+        _timeTimer.Start();
+    }
+
+    private DispatcherTimer GetCurrentStatusUpdater()
+    {
+        return new DispatcherTimer(
+            GetTimeForShowStatus(),
+            DispatcherPriority.Background,
+            (_, _) =>
+            {
+                var statusesList = Statuses.ToList();
+                StatusesCount = statusesList.Count;
+                if (!statusesList.Any())
+                    return;
+
+                if (CurrentStatusIndex >= statusesList.Count)
+                    CurrentStatusIndex = 0;
+
+                CurrentStatus = statusesList[CurrentStatusIndex];
+                StatusesCount = statusesList.Count;
+                CurrentStatusIndex++;
+            },
+            Dispatcher);
+    }
+
+    private TimeSpan GetTimeForShowStatus()
+    {
+        if (Statuses.Any())
         {
-            DispatcherTimer timer = new DispatcherTimer(
-                TimeSpan.FromSeconds(1),
-                DispatcherPriority.Background,
-                (_, _) => currentTime.Content = DateTime.Now.ToString("HH:mm", CultureInfo.InvariantCulture),
-                Dispatcher);
-            timer.Start();
+            return TimeSpan.FromSeconds(Statuses.Count() * 1.5);
         }
+        else
+        {
+            return TimeSpan.FromSeconds(0.5);
+        }
+    }
+
+    private DispatcherTimer GetTimeUpdater()
+    {
+        return new DispatcherTimer(
+            TimeSpan.FromSeconds(1),
+            DispatcherPriority.Background,
+            (_, _) => CurrentTime = DateTime.Now.ToString("HH:mm", CultureInfo.InvariantCulture),
+            Dispatcher);
     }
 }

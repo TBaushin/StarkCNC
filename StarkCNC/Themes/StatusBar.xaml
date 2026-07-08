@@ -8,18 +8,29 @@
                     <Grid ColumnDefinitions="4*,*">
                         <Grid
                             Grid.Column="0"
-                            ColumnDefinitions="6*,*">
+                            ColumnDefinitions="Auto,6*,*">
+                            <Border
+                                Grid.Column="0">
+                                <Label>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding CurrentStatusIndex, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <TextBlock Text="/"/>
+                                        <TextBlock Text="{Binding StatusesCount, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    </StackPanel>
+                                </Label>
+                            </Border>
+                            
                             <Label
-                                Grid.Column="0"
+                                Grid.Column="1"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
-                                Content="{Binding Status, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                Content="{Binding CurrentStatus.Text, RelativeSource={RelativeSource TemplatedParent}}"/>
                             <Label
-                                x:Name="CurrentTimeLabel"
-                                Grid.Column="1"
+                                Grid.Column="2"
                                 Margin="0,0,10,0"
                                 HorizontalAlignment="Right"
-                                VerticalAlignment="Center"/>
+                                VerticalAlignment="Center"
+                                Content="{Binding CurrentTime, RelativeSource={RelativeSource TemplatedParent}}"/>
                         </Grid>
                         <Button
                             x:Name="HistoryButton"

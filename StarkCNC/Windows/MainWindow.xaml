@@ -216,8 +216,7 @@
                     BorderThickness="1"
                     CornerRadius="8">
                     <controls:StatusBar
-                        ErrorsCount="{Binding ErrorsCount}"
-                        Status="{Binding Status}"
+                        Statuses="{Binding Statuses}"
                         ShowHistory="{Binding ShowHistory, Mode=TwoWay}"/>
                 </Border>
 

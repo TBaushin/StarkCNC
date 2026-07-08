@@ -53,10 +53,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     private readonly ViewData _adjustmentPage;
 
     [ObservableProperty]
-    private string _status = string.Empty;
-
-    [ObservableProperty]
-    private int _errorsCount;
+    private ObservableCollection<Status> _statuses = new ObservableCollection<Status>();
 
     [ObservableProperty]
     private bool _showStatus;
@@ -97,24 +94,11 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
         ShowStatus = true;
         if (statusService is not null)
         {
-            var statusTimer = new DispatcherTimer(
-                TimeSpan.FromSeconds(2.5),
-                DispatcherPriority.Background,
-                (sender, args) =>
-                {
-                    var statuses = statusService.CurrentStatuses.ToList();
-                    if (!statuses.Any())
-                        return;
-
-                    if (_statusIndex >= statuses.Count)
-                        _statusIndex = 0;
-
-                    Status = statuses[_statusIndex].Text;
-                    ErrorsCount = statuses.Count;
-                    _statusIndex++;
-                },
-                Application.Current.Dispatcher);
-            statusTimer.Start();
+            statusService.CurrentStatuses.CollectionChanged += (sender, args) =>
+            {
+                foreach (var status in statusService.CurrentStatuses)
+                    Statuses.Add(status);
+            };
 
             statusService.History.CollectionChanged += (sender, args) =>
             {
