@@ -17,6 +17,10 @@ public sealed class EmptyToVisibilityConverter : IValueConverter
         {
             return string.IsNullOrWhiteSpace(str) ? Visibility.Collapsed : Visibility.Visible;
         }
+        if (value is IEnumerable<object> arr)
+        {
+            return arr.Count() > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
         
         return value is null ? Visibility.Collapsed : Visibility.Visible;
     }

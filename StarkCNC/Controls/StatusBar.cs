@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace StarkCNC.Controls;
@@ -112,14 +113,16 @@ public class StatusBar : Control
         if (showHistory is not null)
             showHistory.Click += (sender, args) => ShowHistory = !ShowHistory;
 
-        _statusesTimer = GetCurrentStatusUpdater();
+        var counterBorder = GetTemplateChild("CounterBorder") as Border;
+
+        _statusesTimer = GetCurrentStatusUpdater(counterBorder);
         _statusesTimer.Start();
 
         _timeTimer = GetTimeUpdater();
         _timeTimer.Start();
     }
 
-    private DispatcherTimer GetCurrentStatusUpdater()
+    private DispatcherTimer GetCurrentStatusUpdater(Border? counterBorder)
     {
         return new DispatcherTimer(
             GetTimeForShowStatus(),
@@ -137,6 +140,25 @@ public class StatusBar : Control
                 CurrentStatus = statusesList[CurrentStatusIndex];
                 StatusesCount = statusesList.Count;
                 CurrentStatusIndex++;
+
+                if (counterBorder is not null)
+                {
+                    switch (CurrentStatus.Type)
+                    {
+                        case StatusType.Success:
+                            counterBorder.Background = Brushes.Green;
+                            break;
+                        case StatusType.Information:
+                            counterBorder.Background = Brushes.Transparent;
+                            break;
+                        case StatusType.Warning:
+                            counterBorder.Background = Brushes.Yellow;
+                            break;
+                        case StatusType.Error:
+                            counterBorder.Background = Brushes.Red;
+                            break;
+                    }
+                }
             },
             Dispatcher);
     }
