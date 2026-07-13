@@ -132,7 +132,7 @@ public partial class App : Application
                 services.AddTransient<VisualizationViewModel>();
                 services.AddTransient<IMachineLoader, MachineLoader>();
                 services.AddSingleton<IBendingDataUnitOfWork, BendingDataUnitOfWork>();
-#if !DEBUG
+#if DEBUG
                 Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");
                 services.AddSingleton<IManualConfigurationService, FakeManualConfigurationService>();
 #else
