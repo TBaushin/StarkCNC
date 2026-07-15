@@ -42,8 +42,6 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
 
     private readonly AdjustmentViewModel _adjustmentViewModel;
 
-    private int _statusIndex;
-
     [ObservableProperty]
     private bool _canNavigateBack;
 

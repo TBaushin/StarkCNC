@@ -130,9 +130,10 @@ public partial class App : Application
                 services.AddTransient<ProgramViewModel>();
                 services.AddTransient<VisualizationView>();
                 services.AddTransient<VisualizationViewModel>();
+                services.AddTransient<PreviewFileSectorViewModel>();
                 services.AddTransient<IMachineLoader, MachineLoader>();
                 services.AddSingleton<IBendingDataUnitOfWork, BendingDataUnitOfWork>();
-#if DEBUG
+#if !DEBUG
                 Debug.WriteLine($"Подставился {nameof(FakeManualConfigurationService)}");
                 services.AddSingleton<IManualConfigurationService, FakeManualConfigurationService>();
 #else
@@ -175,6 +176,7 @@ public partial class App : Application
             configure.AddRoute("/adjustment/list/edit/coordinates", typeof(AdjustmentParametersCoordinatesViewModel), "Настройка координат", rolesHasAccess: new Roles[] { Roles.Service }); // \uEC7A \uF73D
             configure.AddRoute("/settings", typeof(SettingsViewModel), "Настройки", "\xE713", new Roles[] { Roles.Service, Roles.Administrator });
             configure.AddRoute("/users", typeof(UserViewModel), "Пользователи", iconGlyph: "\xE77B");
+            configure.AddRoute("/file-selector", typeof(PreviewFileSectorViewModel), "Выбор файла");
         });
 
     private static async Task<bool> RunAuthorization(IUserService userService)

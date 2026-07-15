@@ -103,6 +103,20 @@ public class BendingDataUnitOfWork : IBendingDataUnitOfWork
             return;
     }
 
+    public async Task OpenFile(string filePath)
+    {
+        if (Path.Exists(filePath))
+        {
+            CurrentFilePath = filePath;
+            await ReadFileAsync(CurrentFilePath).ConfigureAwait(false);
+
+            var first = BendingDatas.FirstOrDefault();
+
+            PipeLength = first?.PipeLength ?? 0;
+            SetUpPoint = first?.YSetup ?? 0;
+        }
+    }
+
     public async Task<bool> SaveFile()
     {
         if (string.IsNullOrEmpty(CurrentFilePath))

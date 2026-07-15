@@ -93,6 +93,8 @@ public partial class ProgramViewModel : ViewModelBase
             BendingDatas.Add(bendingDataViewModel);
         }
 
+        _unitOfWork.HasUnsavedData = false;
+
         EstimatedRemainingLength = _unitOfWork.EstimatedRemainingLength;
         PipeLength = _unitOfWork.PipeLength;
         YSetup = _unitOfWork.SetUpPoint;

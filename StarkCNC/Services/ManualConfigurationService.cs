@@ -84,10 +84,11 @@ public partial class ManualConfigurationService : ObservableObject, IManualConfi
             Connected = false;
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _statusService.AddStatus(
-                    new Status(
+                var status = new Status(
                         MachineCommunication.Localization.Language.ConnectionErrorMessage + $" ({ex.Message})",
-                        StatusType.Error));
+                        StatusType.Error);
+                if (!_statusService.CurrentStatuses.Contains(status))
+                    _statusService.AddStatus(status);
                 });
         }
         finally

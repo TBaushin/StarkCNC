@@ -24,6 +24,8 @@ public interface IBendingDataUnitOfWork
 
     public Task OpenFile();
 
+    public Task OpenFile(string filePath);
+
     public Task<bool> SaveFile();
 
     public Task ReadFileAsync(string filePath);
