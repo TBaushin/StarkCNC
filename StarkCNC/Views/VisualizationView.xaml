@@ -31,7 +31,8 @@
                 <helix:Viewport3DX 
                     x:Name="BendingView"
                     Grid.Column="0"
-                    BackgroundColor="#595959"
+                    Background="Transparent"
+                    BackgroundColor="Transparent"
                     Camera="{Binding Camera}"
                     EffectsManager="{Binding EffectsManager}"
                     EnableSwapChainRendering="True"
@@ -49,6 +50,7 @@
                             Command="helix:ViewportCommands.Pan"
                             Gesture="LeftClick"/>
                     </helix:Viewport3DX.InputBindings>
+                    <helix:ScreenQuadModel3D Texture="{Binding TextureModel}" Depth="1"/>
                     <helix:AmbientLight3D Color="#363636"/>
                     <helix:DirectionalLight3D
                         Direction="{Binding Camera.LookDirection}"
