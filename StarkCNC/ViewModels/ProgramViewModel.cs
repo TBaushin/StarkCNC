@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using HelixToolkit.SharpDX;
 using HelixToolkit.Wpf.SharpDX;
+using SharpDX.Mathematics.Interop;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Models;
 using StarkCNC.Core.Repository;
@@ -32,10 +33,13 @@ public partial class ProgramViewModel : ViewModelBase
     private Point3D _modelCentroid = default;
 
     [ObservableProperty]
-    private bool _renderEnvironmentMap = true;
+    private bool _renderEnvironmentMap = false;
 
     [ObservableProperty]
     private IEffectsManager _effectsManager;
+
+    [ObservableProperty]
+    private TextureModel? _textureModel;
 
     [ObservableProperty]
     private HelixToolkit.Wpf.SharpDX.Camera? _camera;
@@ -74,6 +78,22 @@ public partial class ProgramViewModel : ViewModelBase
         CurrentFilePath = _unitOfWork.CurrentFilePath;
 
         EffectsManager = new DefaultEffectsManager();
+
+        var gradientStops = new SharpDX.Direct2D1.GradientStop[]
+        {
+            new SharpDX.Direct2D1.GradientStop { Color = new RawColor4(0, 0, 0, 1), Position = 0f },
+            new SharpDX.Direct2D1.GradientStop { Color = new RawColor4(0, 0, 255, 1), Position = 1f }
+        };
+        var stream = BitmapExtensions.CreateLinearGradientBitmapStream(
+            EffectsManager,
+            256,
+            256,
+            Direct2DImageFormat.Bmp,
+            new System.Numerics.Vector2(0, 0),
+            new System.Numerics.Vector2(0, 256),
+            gradientStops);
+        if (stream is not null)
+            TextureModel = TextureModel.Create(stream);
 
         Camera = new HelixToolkit.Wpf.SharpDX.OrthographicCamera()
         {

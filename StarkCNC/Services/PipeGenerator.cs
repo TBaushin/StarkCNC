@@ -21,7 +21,7 @@ internal static class PipeGenerator
         return new MeshGeometryModel3D()
         {
             Geometry = builder.ToMeshGeometry3D(),
-            Material = PhongMaterials.Blue
+            Material = PhongMaterials.Green
         };
     }
 }
