@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using HelixToolkit.SharpDX;
 using HelixToolkit.Wpf.SharpDX;
+using Microsoft.Win32;
 using SharpDX.Mathematics.Interop;
 using StarkCNC.Core.Calculations;
 using StarkCNC.Core.Services;
@@ -16,6 +17,8 @@ namespace StarkCNC.ViewModels;
 
 public partial class PreviewFileSectorViewModel : ViewModelBase
 {
+    private const string _registryKey = "Software\\StarkCNC";
+
     private readonly IBendingDataUnitOfWork _unitOfWork;
 
     private string _currentPath = string.Empty;
@@ -77,7 +80,11 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
             NearPlaneDistance = 0.5f
         };
 
-        SetDrivers();
+        ReadLastOpenedFolder();
+        if (string.IsNullOrEmpty(_currentPath))
+            SetDrivers();
+        else
+            UpdateFolders();
     }
 
     [RelayCommand]
@@ -97,6 +104,7 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
 
         _currentPath = Path.Combine(_currentPath, SelectedItem.Path);
         UpdateFolders();
+        WriteLastOpenedFolder();
     }
 
     [RelayCommand]
@@ -105,12 +113,15 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
         var parent = Directory.GetParent(_currentPath);
         if (parent is null)
         {
+            _currentPath = string.Empty;
             SetDrivers();
+            WriteLastOpenedFolder();
         }
         else
         {
             _currentPath = parent.FullName;
             UpdateFolders();
+            WriteLastOpenedFolder();
         }
     }
 
@@ -154,6 +165,37 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
         {
             if (file.EndsWith(".csv", StringComparison.InvariantCultureIgnoreCase))
                 CurrentFolderContent.Add(new PathInformation(Path.GetFileName(file), file, "\xE8A5", OpenFolderCommand));
+        }
+    }
+
+    private void ReadLastOpenedFolder()
+    {
+        var registry = Registry.CurrentUser.OpenSubKey(_registryKey, false);
+        if (registry is null)
+            return;
+
+        var directory = registry.GetValue("LastOpenedFolder") as string;
+        if (string.IsNullOrEmpty(directory))
+            return;
+
+        if (Directory.Exists(directory))
+            _currentPath = directory;
+    }
+
+    private void WriteLastOpenedFolder()
+    {
+        var registry = Registry.CurrentUser.OpenSubKey(_registryKey, true);
+        if (registry is null)
+            registry = Registry.CurrentUser.CreateSubKey(_registryKey);
+
+        if (File.Exists(_currentPath))
+        {
+            var directory = Path.GetDirectoryName(_currentPath) ?? string.Empty;
+            registry.SetValue("LastOpenedFolder", directory);
+        }
+        else if (Directory.Exists(_currentPath))
+        {
+            registry.SetValue("LastOpenedFolder", _currentPath);
         }
     }
 
