@@ -132,8 +132,8 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
         var files = Directory.GetFiles(_currentPath);
         foreach (var file in files)
         {
-            CurrentFolderContent.Add(new PathInformation(Path.GetFileName(file), file, "\xE8A5", OpenFolderCommand));
-
+            if (file.EndsWith(".csv", StringComparison.InvariantCultureIgnoreCase))
+                CurrentFolderContent.Add(new PathInformation(Path.GetFileName(file), file, "\xE8A5", OpenFolderCommand));
         }
     }
 
