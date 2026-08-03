@@ -73,8 +73,8 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
 
         Camera = new HelixToolkit.Wpf.SharpDX.OrthographicCamera()
         {
-            LookDirection = new Vector3D(0, -10, -10),
-            Position = new Point3D(0, 10, 10),
+            LookDirection = new Vector3D(-7, -10, -10),
+            Position = new Point3D(0, 0, 10),
             UpDirection = new Vector3D(0, 1, 0),
             FarPlaneDistance = 50000,
             NearPlaneDistance = 0.5f

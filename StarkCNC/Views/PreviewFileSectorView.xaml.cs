@@ -1,7 +1,9 @@
-﻿using StarkCNC.Controls;
+﻿using HelixToolkit.Wpf.SharpDX;
+using StarkCNC.Controls;
 using StarkCNC.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace StarkCNC.Views;
 
@@ -17,7 +19,19 @@ public partial class PreviewFileSectorView : Page
         viewModel = vm;
         DataContext = viewModel;
 
+        viewModel.PropertyChanged += ViewModel_PropertyChanged;
+
         InitializeComponent();
+    }
+
+    private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(viewModel.Pipe))
+        {
+            var camera = BendingView.Camera;
+            if (camera is not null && viewModel.Pipe is not null)
+                camera.ZoomExtents(BendingView, viewModel.Pipe.Bounds);
+        }
     }
 
     private async void ListView_PreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)

@@ -76,7 +76,7 @@ public partial class VisualizationViewModel : ViewModelBase
 
         Camera = new HelixToolkit.Wpf.SharpDX.OrthographicCamera()
         {
-            LookDirection = new Vector3D(0, -10, -10),
+            LookDirection = new Vector3D(-7, -10, -10),
             Position = new Point3D(0, 10, 10),
             UpDirection = new Vector3D(0, 1, 0),
             FarPlaneDistance = 50000,
@@ -84,7 +84,7 @@ public partial class VisualizationViewModel : ViewModelBase
         };
 
         _loader.Load(EffectsManager, RenderEnvironmentMap);
-        if (_loader.Carriage.Figure is not null && _loader.Carriage.Figure.Root.TryGetCentroid(out var centroid))
+        if (_loader.Console.Figure is not null && _loader.Console.Figure.Root.TryGetCentroid(out var centroid))
             ModelCentroid = centroid.ToPoint3D();
 
         GroupModel = _loader.Group;

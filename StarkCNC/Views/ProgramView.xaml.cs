@@ -1,4 +1,5 @@
 ﻿using HelixToolkit.Wpf.SharpDX;
+using Opc.Ua;
 using StarkCNC.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,9 +19,29 @@ public partial class ProgramView : Page
         ViewModel = viewModel;
         DataContext = ViewModel;
 
-        Loaded += async (_, _) => await ViewModel.InitializeAsync().ConfigureAwait(true);
+        Loaded += ProgramView_Loaded;
+        ViewModel.PropertyChanged += ViewModel_PropertyChanged;
 
         InitializeComponent();
+    }
+
+    private async void ProgramView_Loaded(object sender, RoutedEventArgs e)
+    {
+        await ViewModel.InitializeAsync().ConfigureAwait(true);
+
+        var camera = BendingView.Camera;
+        if (camera is not null)
+            camera.ZoomExtents(BendingView);
+    }
+
+    private void ViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(ViewModel.Pipe))
+        {
+            var camera = BendingView.Camera;
+            if (camera is not null && ViewModel.Pipe is not null)
+                camera.ZoomExtents(BendingView, ViewModel.Pipe.Bounds);
+        }
     }
 
     private void ZoomIn_Click(object sender, System.Windows.RoutedEventArgs e)
