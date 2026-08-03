@@ -372,11 +372,21 @@ public partial class VisualizationView : Page
         ViewModel = viewModel;
         DataContext = ViewModel;
 
+        Loaded += VisualizationView_Loaded;
+
         InitializeComponent();
+
         //_animator = InitializeAnimation();
         //BendingView.RotateGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.RightClick);
         //BendingView.PanGesture = new System.Windows.Input.MouseGesture(System.Windows.Input.MouseAction.LeftClick);
         //BendingView.Children.Add(ViewModel.GetMachineVizualization());
+    }
+
+    private void VisualizationView_Loaded(object sender, RoutedEventArgs e)
+    {
+        var camera = BendingView.Camera;
+        if (camera is not null)
+            camera.ZoomExtents(BendingView);
     }
 
     //private TubeBendingAnimator InitializeAnimation()
