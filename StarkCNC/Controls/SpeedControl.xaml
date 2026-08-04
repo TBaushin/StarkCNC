@@ -35,6 +35,7 @@
             <lvc:PieChart
                 x:Name="Gauge"
                 Grid.Column="2"
+                Background="Transparent"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"
                 InitialRotation="-225"
