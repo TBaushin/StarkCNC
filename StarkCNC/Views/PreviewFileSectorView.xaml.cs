@@ -3,7 +3,6 @@ using StarkCNC.Controls;
 using StarkCNC.ViewModels;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Threading;
 
 namespace StarkCNC.Views;
 

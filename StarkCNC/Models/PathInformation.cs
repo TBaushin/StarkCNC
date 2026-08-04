@@ -17,4 +17,18 @@ public class PathInformation
         Icon = icon;
         Command = command;
     }
+
+    public override bool Equals(object? obj)
+    {
+        var other = obj as PathInformation;
+        if (other is null)
+            return false;
+
+        return other.Name == Name && other.Path == Path && other.Icon == Icon;
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Name, Path, Icon);
+    }
 }

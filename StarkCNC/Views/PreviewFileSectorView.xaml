@@ -10,30 +10,62 @@
       Title="PreviewFileSectorView">
 
     <Grid ColumnDefinitions="1.5*,*" RowDefinitions="*,Auto">
-        <ListView
-            Grid.Column="0"
-            Grid.Row="0"
-            ItemsSource="{Binding CurrentFolderContent}"
-            PreviewMouseDoubleClick="ListView_PreviewMouseDoubleClick"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Label
-                            Margin="0,0,5,0"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            FontSize="18"
-                            FontFamily="{DynamicResource SymbolThemeFontFamily}"
-                            Content="{Binding Icon}"/>
-                        <Label
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            Content="{Binding Name}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+        <TabControl Grid.Column="0" Grid.Row="0">
+            <TabItem Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                <TabItem.Header>
+                    <Label Content="Последние"/>
+                </TabItem.Header>
+                <ListView
+                    ItemsSource="{Binding DataContext.LatestFiles, RelativeSource={RelativeSource AncestorType=Page}}"
+                    PreviewMouseDoubleClick="ListView_PreviewMouseDoubleClick"
+                    SelectedItem="{Binding DataContext.SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Page}}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    FontSize="18"
+                                    FontFamily="{DynamicResource SymbolThemeFontFamily}"
+                                    Content="{Binding Icon}"/>
+                                <Label
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Content="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+            <TabItem Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                <TabItem.Header>
+                    <Label Content="Открыть"/>
+                </TabItem.Header>
+                <ListView
+                    ItemsSource="{Binding DataContext.CurrentFolderContent, RelativeSource={RelativeSource AncestorType=Page}}"
+                    PreviewMouseDoubleClick="ListView_PreviewMouseDoubleClick"
+                    SelectedItem="{Binding DataContext.SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource AncestorType=Page}}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Label
+                                    Margin="0,0,5,0"
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    FontSize="18"
+                                    FontFamily="{DynamicResource SymbolThemeFontFamily}"
+                                    Content="{Binding Icon}"/>
+                                <Label
+                                    VerticalAlignment="Center"
+                                    HorizontalAlignment="Center"
+                                    Content="{Binding Name}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </TabItem>
+        </TabControl>
         <Grid
             Grid.Column="0"
             Grid.Row="1"

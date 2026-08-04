@@ -11,6 +11,7 @@ using StarkCNC.Models;
 using StarkCNC.Services;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Text.Json;
 using System.Windows.Media.Media3D;
 
 namespace StarkCNC.ViewModels;
@@ -47,6 +48,9 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
     private ObservableCollection<PathInformation> _currentFolderContent = new ObservableCollection<PathInformation>();
 
     [ObservableProperty]
+    private ObservableCollection<PathInformation> _latestFiles = new ObservableCollection<PathInformation>();
+
+    [ObservableProperty]
     private PathInformation? _selectedItem;
 
     public PreviewFileSectorViewModel(IBendingDataUnitOfWork unitOfWork)
@@ -81,6 +85,7 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
         };
 
         ReadLastOpenedFolder();
+        ReadLatestOpenedFiles();
         if (string.IsNullOrEmpty(_currentPath))
             SetDrivers();
         else
@@ -92,7 +97,12 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
     {
         if (SelectedItem is not null)
         {
-            await _unitOfWork.OpenFile(Path.Combine(_currentPath, SelectedItem.Path)).ConfigureAwait(true);
+            var path = Path.Combine(_currentPath, SelectedItem.Path);
+            var pathInfo = new PathInformation(Path.GetFileName(path), path, "\xE8A5", OpenFolderCommand);
+            if (!LatestFiles.Contains(pathInfo))
+                LatestFiles.Add(pathInfo);
+            await _unitOfWork.OpenFile(path).ConfigureAwait(true);
+            WriteLatestOpenedFiles();
         }
     }
 
@@ -197,6 +207,42 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
         {
             registry.SetValue("LastOpenedFolder", _currentPath);
         }
+    }
+
+    private void WriteLatestOpenedFiles()
+    {
+        var registry = Registry.CurrentUser.OpenSubKey(_registryKey, true);
+        if (registry is null)
+            registry = Registry.CurrentUser.CreateSubKey(_registryKey);
+
+        var latestFiles = new List<string>();
+        foreach (var file in LatestFiles)
+        {
+            latestFiles.Add(file.Path);
+        }
+
+        registry.SetValue("LatestFiles", JsonSerializer.Serialize(latestFiles));
+    }
+
+    private void ReadLatestOpenedFiles()
+    {
+        var registry = Registry.CurrentUser.OpenSubKey(_registryKey, false);
+        if (registry is null)
+            return;
+
+        var json = registry.GetValue("LatestFiles") as string;
+        if (json is null)
+            return;
+
+        var latestFiles = JsonSerializer.Deserialize<List<string>>(json);
+        if (latestFiles is null)
+            return;
+
+        LatestFiles.Clear();
+        latestFiles.ForEach(file =>
+        {
+            LatestFiles.Add(new PathInformation(Path.GetFileName(file), file, "\xE8A5", OpenFolderCommand));
+        });
     }
 
     partial void OnSelectedItemChanged(PathInformation? value)
