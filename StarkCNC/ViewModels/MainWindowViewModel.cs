@@ -213,7 +213,7 @@ public partial class MainWindowViewModel : ViewModelBase, IDisposable
     {
         foreach (var route in _router.GetRoutes())
         {
-            if (route.Key == "/users" || route.Key == "/settings")
+            if (route.Key == "/users" || route.Key == "/settings" || route.Key == "/file-selector")
                 continue;
 
             if (route.Key.Split('/', StringSplitOptions.RemoveEmptyEntries).Length > 1)

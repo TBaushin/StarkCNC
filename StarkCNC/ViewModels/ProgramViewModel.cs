@@ -20,6 +20,7 @@ namespace StarkCNC.ViewModels;
 
 public partial class ProgramViewModel : ViewModelBase
 {
+    private readonly IRouter _router;
     private readonly IBendingDataUnitOfWork _unitOfWork;
     private readonly ISettingsRepository _settingsRepository;
     private readonly IAdjustmentService _adjustmentService;
@@ -67,10 +68,12 @@ public partial class ProgramViewModel : ViewModelBase
     public static ICollection<string> BendingModes { get; } = new List<string>();
 
     public ProgramViewModel(
+        IRouter router,
         IBendingDataUnitOfWork unitOfWork,
         ISettingsRepository settingsRepository,
         IAdjustmentService adjustmentService)
     {
+        _router = router;
         _unitOfWork = unitOfWork;
         _settingsRepository = settingsRepository;
         _adjustmentService = adjustmentService;
@@ -167,26 +170,27 @@ public partial class ProgramViewModel : ViewModelBase
     [RelayCommand]
     private async Task OpenFile()
     {
-        await _unitOfWork.OpenFile().ConfigureAwait(true);
+        _router.Navigate("/file-selector");
+        //await _unitOfWork.OpenFile().ConfigureAwait(true);
 
-        try
-        {
-            BendingDatas.Clear();
-            foreach (var item in _unitOfWork.BendingDatas)
-            {
-                BendingDatas.Add(new BendingDataViewModel(item));
-            }
+        //try
+        //{
+        //    BendingDatas.Clear();
+        //    foreach (var item in _unitOfWork.BendingDatas)
+        //    {
+        //        BendingDatas.Add(new BendingDataViewModel(item));
+        //    }
 
-            PipeLength = _unitOfWork.PipeLength;
-            YSetup = _unitOfWork.SetUpPoint;
-            ColletOffsetLength = _unitOfWork.ColletOffsetLength;
-        }
-        catch (Exception)
-        {
-            // Ignore
-        }
+        //    PipeLength = _unitOfWork.PipeLength;
+        //    YSetup = _unitOfWork.SetUpPoint;
+        //    ColletOffsetLength = _unitOfWork.ColletOffsetLength;
+        //}
+        //catch (Exception)
+        //{
+        //    // Ignore
+        //}
 
-        UpdateBend();
+        //UpdateBend();
     }
 
     [RelayCommand]

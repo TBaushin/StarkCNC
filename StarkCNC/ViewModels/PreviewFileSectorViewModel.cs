@@ -20,6 +20,8 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
 {
     private const string _registryKey = "Software\\StarkCNC";
 
+    private readonly IRouter _router;
+
     private readonly IBendingDataUnitOfWork _unitOfWork;
 
     private string _currentPath = string.Empty;
@@ -53,8 +55,9 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
     [ObservableProperty]
     private PathInformation? _selectedItem;
 
-    public PreviewFileSectorViewModel(IBendingDataUnitOfWork unitOfWork)
+    public PreviewFileSectorViewModel(IRouter router, IBendingDataUnitOfWork unitOfWork)
     {
+        _router = router;
         _unitOfWork = unitOfWork;
 
         EffectsManager = new DefaultEffectsManager();
@@ -103,6 +106,7 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
                 LatestFiles.Add(pathInfo);
             await _unitOfWork.OpenFile(path).ConfigureAwait(true);
             WriteLatestOpenedFiles();
+            _router.Navigate("/program");
         }
     }
 
@@ -231,7 +235,7 @@ public partial class PreviewFileSectorViewModel : ViewModelBase
             return;
 
         var json = registry.GetValue("LatestFiles") as string;
-        if (json is null)
+        if (string.IsNullOrEmpty(json))
             return;
 
         var latestFiles = JsonSerializer.Deserialize<List<string>>(json);
